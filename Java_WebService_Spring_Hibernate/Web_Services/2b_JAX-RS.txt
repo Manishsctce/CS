@@ -1,0 +1,283 @@
+####### JAX-RS #########
+## What is JAX-RS?
+
+> It is Java API for creating RESTful Web Services (JAX-RS)
+-  i.e. according to the Representational State Transfer (REST) architectural pattern.
+> It is packed as javax.ws.rs.jar or jsr311-api.jar
+> JAX-RS annotations is used to define resources and the actions that can be performed on those resources
+
+
+> Root resource classes are POJOs (Plain Old Java Objects) that are annotated with @Path 
+- have at least one method annotated with @Path or a resource method designator 
+
+> Resource methods are methods of a resource class annotated with a resource method designator like ( @GET, @PUT, @POST, @DELETE)
+> A resource in the JAX-RS client API is an instance of the Java class WebTarget. and encapsulates an URI.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+two major implementations of JAX-RS API
+
+1. Jersey: Jersey is the reference implementation provided by Sun.
+- we need to configure its servlet in web.xml and add required dependencies
+- JAX-RS API is part of JDK not Jersey
+
+> Jersey 1.x is based on JAX-RS 1.0
+- Jersey 2.x is based on JAX-RS 2.0
+
+2. RESTEasy: RESTEasy is the JBoss projec
+
+=======================================
+#### KEY FEATURES IN JAX-RS 2.0 ####
+1. Client API
+EXAMPLE - 
+Client client = ClientFactory.newClient(); 
+WebTarget target = client.target("http://example.com/shop"); 
+Form form = new Form().param("customer", "Bill").param("product", "IPhone 5").param("CC", "4444 4444 4444 4444"); 
+Response response = target.request().post(Entity.form(form));
+Order order = response.readEntity(Order.class);
+
+- Client interface manages and configures HTTP connections. It is also a factory for WebTargets. 
+- WebTargets represent a specific URI. You build and execute requests from a WebTarget instance. 
+- Response is the same class defined in JAX-RS 1.0, but it has been expanded to support the client side.
+- MessageBodyReader and MessageBodyWriter content handler interfaces defined in JAX-RS 1.0 are reused on the client side.
+---------------------------------
+2. SERVER-SIDE ASYNCHRONOUS HTTP
+> it supports an asynchronous API and a callback API. 
+- This allows you to execute HTTP requests in the background and either poll for a response or receive a callback when the request finishes.
+
+EXAMPLE of using a asynchronous API
+Future<Customer> future = client.target("http://e.com/customers")
+               .queryParam("name", "Bill Burke")
+               .request().async().get(Customer.class);
+
+try {
+   Customer cust = future.get(1, TimeUnit.MINUTES);
+} catch (TimeoutException ex) {
+  System.err.println("timeout");
+}
+- The above code executes an HTTP request in the background, then blocks for one minute while it waits for a response. 
+- You could also use the Future to poll to see if the request is finished or not.
+----------------
+EXAMPLE of using a callback interface
+InvocationCallback<Response> callback = new InvocationCallback {
+   public void completed(Response res) {
+      System.out.println("Request success!");
+   }
+
+   public void failed(ClientException e) {
+      System.out.println("Request failed!");
+   }
+};
+
+client.target("http://example.com/customers")
+      .queryParam("name", "Bill Burke")
+      .request()
+      .async().get(callback);
+
+	  - here we invoke a GET request in the background and register this callback instance with the request. 
+- The callback interface will output a message on whether the request executed successfully or not
+---------------------------------
+3. Filters and Interceptors
+> JAX-RS 2.0 has an interceptor API that allows framework developers to intercept request and response processing
+
+> JAX-RS 2.0 has two different concepts for interceptions: Filters and Entity Interceptors. 
+1. Filters are mainly used to modify or process incoming and outgoing request headers or response headers. 
+- They execute before and after request and response processing. 
+
+2. Entity Interceptors are concerned with marshaling and unmarshalling of HTTP message bodies. 
+- They wrap around the execution of MessageBodyReader and MessageBodyWriter instances
+
+=======================================
+######### RESOURCE & SUB-RESOURCE #####
+
+> RESOURCE URI SHOULD BE NOUN NOT THE VERB. Resource is noun.
+> Resource name should be plural 
+> Advantage of Resource based URI is not dependent of the framework like .do in struts
+- it allow you to change the framework without changing the Restful WS.
+EXAMPLE: 
+/messages/10 (correct)
+/message/10 (incorrect)
+/getmessage/10 (incorrect) 
+/getMessages.do?id=10(incorrect)
+
+#### RESOURCE RELATIONSHIP #####
+
+=======================================
+######### Restful WS HTTP METHODS #####
+
+## Mention what are the HTTP methods supported by REST?
+[Ref: HTTP_Protocol for more info]
+
+> REST-WS use below http protocol methods for the operation 
+GET, HEAD, PUT, POST, DELETE, OPTIONS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between HTTP POST and PUT requests?
+
+> POST is used to create a new entity.
+- PUT is used to update the entity.
+
+> POST is not repeatable 
+- PUT is repeatable i.e. idempotent
+=======================================
+############# @PATH #############
+- USED TO SPECIFY THE RELATIVE PATH OF CLASS AND METHODS
+- Sets the path to base URL + /your_path. 
+- Java class will be hosted at the URI path /helloworld.
+- The base URL is based on application name, the servlet and the URL pattern from the web.xml configuration file.
+> Variables are denoted by curly braces as @Path("/users/{username}") 
+
+> @Path support complex URI matching with regular expression, via following expression :
+{" variable-name [ ":" regular-expression ] "} 
+
+EXAMPLE:
+@Path("users/{username: [a-zA-Z][a-zA-Z_0-9]*}") 
+Response getUserByUserName(@PathParam("username") String username) {
+  return Response.status(200)
+  .entity("getUserByUserName is called, username : " + username).build();
+}
+URI Pattern : “/users/username/aaa” , failed
+URI Pattern : “/users/username/a9”  , pass
+- If a user name does not match that a 404 (Not Found) response will occur
+
+> use regex [.+] or [.*] to match any characters in @Path (It is also referred as wildcard matching). 
+- That means, it will match all URIs
+EXAMPLE:
+@Path("pathA/{var:.+}/pathZ") 
+URI Pattern : "/pathA/a/b/c/d/pathZ" , pass 
+
+> by default, a @Path value MAY OR MAY NOT END WITH '/', it MAKES NO DIFFERENCE, and thus 
+- request URLs that end or do not end in a '/' will both be matched.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @POST/@GET/@PUT/@DELETE ###
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## @Produces ############
+
+Syntax: @Produces(MediaType.TEXT_PLAIN[, more-types])
+> is used to specify the MIME media types can produce and send back to the client
+
+> it can be applied at both the class and method levels
+- method's @Produces overrides the class-level @Produces setting
+
+> More than one media type may be declared in the same @Produces 
+- 1ST TYPE WILL PREFERED 1ST
+EXAMPLE: 
+@Produces({"application/xml", "application/json"})
+public String doGetAsXmlOrJson() {}
+
+> SERVER CAN SPECIFY THE QUALITY FACTOR FOR INDIVIDUAL MEDIA TYPES. 
+- These are CONSIDERED IF SEVERAL MEDIATYPE ARE EQUALLY ACCEPTABLE by the client
+EXAMPLE: 
+@Produces({"application/xml; qs=0.9", "application/json"})
+public String doGetAsXmlOrJson() {}
+- server always sends "application/json", since "application/xml" has a lower quality factor.
+
+- Other examples would be 
+"application/xml" or "application/json" or "text/plain" or "text/html"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## @Consumes ############
+
+> it defines which MIME type is consumed by this method.
+- resource method returns void and response with status code of 204(No Content)
+------------------------------
+
+
+
+
+=======================================
+##### PARAMETER-BASED ANNOTATIONS #####
+@QueryParam
+- is a type of parameter that you can extract for use in your resource class. 
+- use to extract query parameters from the request URI.
+EXAMPLE:
+baseurl:port/appContext/resources?queryParamKey1=Value1;queryParamKey2=Value2;
+
+public class MyResource{
+  @DefaultValue("Manish") 
+  @QueryParam("queryParamKey1") 
+  private String k1;
+  
+  void resourceMeth(@QueryParam("queryParamKey2") String k2){
+		
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+@MatrixParam 
+- extracts information from URL path segments.
+ 
+@HeaderParam 
+- extracts information from the HTTP headers. 
+
+@CookieParam 
+- extracts information from the cookies declared in cookie related HTTP headers.
+
+@FormParam 
+- is slightly special because it extracts information from a request representation that is of the MIME media type "application/x-www-form-urlencoded" and 
+- conforms to the encoding specified by HTML forms
+=======================================
+############## @Context ###############
+## Obtaining general map of URI path and/or query parameters
+@GET
+public String get(@Context UriInfo ui) {
+  MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+  MultivaluedMap<String, String> pathParams = ui.getPathParameters();
+}
+
+## Obtaining general map of header parameters
+> For header and cookie parameters the following:
+
+@GET
+public String get(@Context HttpHeaders hh) {
+  MultivaluedMap<String, String> headerParams = hh.getRequestHeaders();
+  Map<String, Cookie> pathParams = hh.getCookies();
+}
+In general @Context can be used to obtain contextual Java types related to the request or response.
+
+=======================================
+##### Annotation used in POJO class 
+> These Annotation are part of "javax.xml.bind.annotation" package
+> These are used for marshalling java class object into Xml 
+
+@XmlRootElement
+> it is used to 
+
+@XmlElement
+> it is used to override the default name of properties in class 
+
+https://stackoverflow.com/questions/23601681/how-to-use-xmlelement-and-xmlrootelement-for-marshalling-object-inside-an-obje
+=======================================
+######### EXCEPTION HANDLING ##########
+Four MediaTypes are currently supported when sending ValidationErrors to
+the client:
+• text/plain
+• text/html
+• application/xml
+• application/json
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does Provider in JAX-RS mean?
+> It is an annotation which is used for classes that need to register at JAX-RS runtime such as MessageBodyReader and MessageBodyWriter.
+
+- For HTTP requests, the MessageBodyReader is used to map an HTTP request entity body to method parameters. 
+- On the response side, a return value is mapped to an HTTP response entity body by using a MessageBodyWriter. 
+> For Example- Custom Exception response require Custom ExceptionMapper which need at runtime. 
+- so to register it we need @Provider 
+
+@Provider
+public class CustomExceptionMapper implements ExceptionMapper<Throwable>{
+
+	@Override
+	public Response toResponse(Throwable arg0) {
+		System.out.println("##Exception:"+arg0.getMessage());
+		ErrorMessages msg = new ErrorMessages(500, arg0.getMessage());
+		return Response.status(Status.INTERNAL_SERVER_ERROR)
+				.entity(msg)
+				.build();
+	}	
+}
+@Provider
+The @Provider annotation is used for anything that is of interest to the JAX-RS runtime,  
+
+If the application needs to supply additional metadata, such as HTTP headers or a different status code, a method can return a Response that wraps the entity and that can be built using Response.ResponseBuilder.
+=======================================
+
+http://www.mkyong.com/tutorials/jax-rs-tutorials/
+http://www.benchresources.net/jersey-2-x-web-service-using-jaxb-json-example/
+http://howtodoinjava.com/jersey/jersey-restful-client-examples/

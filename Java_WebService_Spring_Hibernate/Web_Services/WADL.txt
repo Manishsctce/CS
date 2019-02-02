@@ -1,0 +1,72 @@
+#### WADL Structure #####
+> application element is the root element
+
+> Zero or more doc elements 
+> An optional grammars element 
+> Zero or more <resources> elements
+
+	<resource_type> elements <0..*>
+	<method> elements <0..*>
+	<representation> elements <0..*> 
+	<param> elements <0..*>
+
+EXAMPLE - 
+
+==============================================
+##### GRAMMAR <grammars> ########
+> it acts as a container for definitions of the format of data exchanged during execution of the protocol 
+
+==============================================
+<resource> element describes a set of resources, each identified by a URI that follows a common pattern
+
+==============================================
+##### <method> element  #####
+
+> it DESCRIBES THE INPUT TO AND OUTPUT FROM AN HTTP protocol method that may be applied to a resource.
+> A method element can either be a method definition or a reference to a method defined elsewhere.
+> it is child element of a resource or application element
+
+## ATTRIBUTE ##
+name : Indicates the HTTP method used
+id	: An identifier for the method
+
+## CHILD ELEMENT ##
+<request>	: Describes the input to the method as a collection of parameters
+response : Zero or more response elements that describe the possible outputs of the method 
+
+EXAMPLE:
+<wadl:method id="getBookList" name="GET">
+    <wadl:request tibrrc:payload="">
+      <wadl:param name="storename" style="query" type="xsd:string"/>
+    </wadl:request>
+	
+    <wadl:response status="200" tibrrc:name="output" tibrrc:payload="">
+      <wadl:representation element="BookStoreResource_1:getBookListResponse"/>
+    </wadl:response>      
+</wadl:method>
+
+==============================================
+<request> 
+
+## CHILD ELEMENT ##
+<representation>	:	use of representation elements is CONFINED TO HTTP METHODS THAT ACCEPT AN ENTITY BODY IN THE REQUEST (e.g., PUT or POST). 
+
+
+
+#### <param> element ####
+id 	:	optional identifier that may be used to refer to a parameter definition using a URI reference.
+name	:	The name of the parameter as an xsd:NMTOKEN. Required.
+style	:	Indicates the parameter style, 
+
+type	:	Optionally indicates the type of the parameter as an XML qualified name, defaults to xsd:string.
+
+default	:	Optionally provides a value that is considered identical to an unspecified parameter value.
+
+path	:	When the parent element is a representation element, this attribute optionally provides a path to the value of the parameter within the representation. For XML representations, use of XPath 1.0[4] is recommended.
+
+required	:	Optionally indicates whether the parameter is required to be present or not, defaults to false (parameter not required).
+
+repeating	:	Optionally indicates whether the parameter is single valued or may have multiple values, defaults to false (parameter is single valued).
+
+fixed	:	Optionally provides a fixed value for the parameter.
+==============================================

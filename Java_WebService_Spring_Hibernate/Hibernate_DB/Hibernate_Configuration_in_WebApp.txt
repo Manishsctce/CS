@@ -1,0 +1,127 @@
+---------------------------------------
+#### DATASOURCE-JNDI-WITH-TOMCAT ####
+> For web applications, it’s always best to allow servlet container to manage the connection pool. 
+- That’s why we define JNDI resource for "DataSource" and we can use it in the web application. 
+
+> tomcat container initialize DataSource. For this
+- we need to make some changes in tomcat server.xml and context.xml files.
+
+> Add Resource in the "server.xml" of tomcat under GlobalNamingResources element.
+- define DataSource Resource AT GLOBAL LEVEL by defining them in the server.xml GlobalNamingResources element
+-It is the preferred way when you are looking to share a common resource pool across multiple applications running on the server. 
+
+> If there are multiple applications in the server and you want to share DataSource across them define dataSource in "context.xml"
+- SCOPE OF SERVER context.xml file IS APPLICATION
+
+EXAMPLE:
+C:\apache-tomcat-8.5.4\conf\server.xml
+<Resource name="jdbc/MyLocalDB" 
+      global="jdbc/MyLocalDB" 
+      auth="Container" 
+      type="javax.sql.DataSource" 
+      driverClassName="com.mysql.jdbc.Driver" 
+      url="jdbc:mysql://localhost:3306/TestDB" 
+      username="pankaj" 
+      password="pankaj123" 
+      
+      maxActive="100" 
+      maxIdle="20" 
+      minIdle="5" 
+      maxWait="10000"/>
+	  
+C:\apache-tomcat-8.5.4\conf\context.xml 
+<ResourceLink name="jdbc/MyLocalDB"
+              global="jdbc/MyLocalDB"
+              auth="Container"
+              type="javax.sql.DataSource" />
+> it’s required so that applications can access the JNDI resource with name jdbc/MyLocalDB
+
+> need to add MySQL driver jar file is inside the tomcat lib directory			  
+=====================================
+## CONFIGURE DATASOURCE IN SPRING configuration file.
+
+<!-- Create DataSource Bean -->	 
+	<bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<property name="jndiName" value="java:comp/env/jdbc/MyLocalDB"/>
+	</bean>
+- jndiName is a required parameter	
+-----------------------------
+@Controller
+public class EmployeeController {
+	
+	@Autowired
+	@Qualifier("dbDataSource")
+	private DataSource dataSource;
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	@RequestMapping(value = "/rest/emps", method = RequestMethod.GET)
+	public @ResponseBody List<Employee> getAllEmployees() {
+		
+		List<Employee> empList = new ArrayList<Employee>();
+		
+		//JDBC Code - Start
+		String query = "select id, name, role from Employee";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		List<Map<String,Object>> empRows = jdbcTemplate.queryForList(query);
+		
+		for(Map<String,Object> empRow : empRows){
+			Employee emp = new Employee();
+			emp.setId(Integer.parseInt(String.valueOf(empRow.get("id"))));
+			emp.setName(String.valueOf(empRow.get("name")));
+			emp.setRole(String.valueOf(empRow.get("role")));
+			empList.add(emp);
+		}
+		
+		return empList;
+	}
+}
+Important Points about the Controller class are:
+> DataSource will be wired by Spring Bean configuration with name dbDataSource.
+> Using JdbcTemplate to avoid common errors such as resource leak and remove JDBC boiler plate code.
+> URI to retrieve the list of Employee will be http://{host}:{port}/SpringDataSource/rest/emps
+> We are using @ResponseBody to send the list of Employee objects as response, Spring will take care of converting it to JSON.	
+	
+https://www.journaldev.com/2597/spring-datasource-jndi-with-tomcat-example
+=====================================
+## CONFIGURE DATASOURCE IN HIBERNATE CONF FILE
+
+# hibernate.cfg.xml #
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.datasource">java:comp/env/jdbc/MyLocalDB</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        
+        <!-- Mapping with model class containing annotations -->
+	<mapping class="com.journaldev.servlet.hibernate.model.Employee"/>
+    </session-factory>
+</hibernate-configuration>	
+> "hibernate.connection.datasource" property is used in 'hibernate.cfg.xml' to provide the DataSource name that will be used by Hibernate for database operations.
+
+https://www.journaldev.com/2905/hibernate-tomcat-jndi-datasource-example-tutorial
+=====================================
+## CONFIGURE DATASOURCE IN SERVLET
+
+public class JDBCDataSourceExample extends HttpServlet{
+
+	protected void doGet(HttpServletRequest request, 
+		HttpServletResponse response) throws ServletException, IOException {
+		Context ctx = new InitialContext();
+		DataSource ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/MyLocalDB");
+
+		Connection con = ds.getConnection();
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery("select empid, name from Employee");
+		...
+	}
+}	

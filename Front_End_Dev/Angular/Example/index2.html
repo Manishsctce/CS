@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Second Angular Page</title>
+</head>
+<body>
+    <div ng-controller="HWController">
+        {{helloMessage}}
+		name == {{names}}
+    </div>
+
+    
+
+   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+   <script>
+        function HWController($scope,$http) {
+            $scope.helloMessage = "Hello World from Angular Controller 1";
+			
+         $http.get("data1.json").success(
+									function(response) {
+										$scope.names = response;
+									}
+								);
+		 }
+
+       
+    </script>
+</body>
+</html> 	

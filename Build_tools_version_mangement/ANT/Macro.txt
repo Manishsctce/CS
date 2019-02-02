@@ -1,0 +1,38 @@
+################ macrodef ##############
+> sub-element of project and can be sub-element of target
+> it has new nested task as in <sequential>  
+- Any ant task can be put inside the sequential task
+
+> Nested elements <attribute> and <element> are used to specify attributes and elements of the new task
+- These get substituted into the <sequential> task when the new task is run.
+
+> Attribute are the parameters passed to the macro from the calling func with no nested tasks. 
+- atrribute can be use with its name as @{attrName}
+
+
+Example - 
+
+	<macrodef name="mymacrodef">
+		<attribute name = "username" default="Bob"/>
+		<element name="something" optional="yes"/>
+		<sequential>
+			<echo> sequential </echo>
+			<something/>
+		</sequential>
+	</macrodef>
+	
+	<target name="main2" depends="main">
+	<mymacrodef username="Manish Agrawal">
+		<something>
+			<echo>Hi @{username} this is msg </echo>
+		</something>
+	</mymacrodef>
+	</target>
+
+	
+> easy to call in project or target. 
+- just <test />	
+
+
+
+

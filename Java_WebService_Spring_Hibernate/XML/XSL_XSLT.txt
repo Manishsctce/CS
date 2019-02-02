@@ -1,0 +1,149 @@
+##### XSL (EXtensible Stylesheet Language) ##### 
+> it describes how the XML elements should be displayed
+
+=====================================
+#####  XSL consists of four parts #####
+1. XSLT - a language for transforming XML documents
+2. XPath - a language for navigating in XML documents
+3. XSL-FO - a language for formatting XML documents (discontinued in 2013)
+4. XQuery - a language for querying XML documents
+
+
+> XSLT stylesheet can then be loaded into an application called an "XSL Formatter" that provides an end-product (display, printed page) in a uniformly formatted layout.
+=====================================
+################ XSLT ###############
+> It is EXtensible Stylesheet Language Transformation
+> It is a stylesheet that is USED TO DESCRIBE TRANSFORMATION RULES IN XML FORMAT INTO OTHER formats, like HTML,pdf, xml
+> This is read by an application called an "XSLT Processor" 
+- it take xml and xslt as input and give output in html/pdf/xml format.
+> it use XPath to navigate in XML document
+> root element that declares the document to be an XSL style sheet is <xsl:stylesheet> or <xsl:transform>.
+
+> to access the XSLT elements, attributes and features we must declare the XSLT namespace
+
+Ex - 
+
+The tags that are not HTML tags have the prefix xsl, identified by the namespace xmlns:xsl="http://www.w3.org/1999/XSL/Transform":
+
+myXML.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+	<cd>
+		<title>Empire Burlesque</title>
+		<artist>Bob Dylan</artist>
+		<country>USA</country>
+		<company>Columbia</company>
+		<price>10.90</price>
+		<year>1985</year>
+	</cd>
+	<cd>
+		<title>Eros</title>
+		<artist>Eros Ramazzotti</artist>
+		<country>EU</country>
+		<company>BMG</company>
+		<price>9.90</price>
+		<year>1997</year>
+	</cd>
+</catalog>
+------------------------
+myXSL.xsl 
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:template match="/">
+  <html>
+  <body>
+    <h2>My CD Collection</h2>
+    <table border="1">
+      <tr bgcolor="#9acd32">
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Price</th>      
+    </tr>
+    <xsl:for-each select="catalog/cd">
+    <xsl:if test="price>10">
+      <tr>
+        <td><xsl:value-of select="title"/></td>
+        <td><xsl:value-of select="artist"/></td>
+        <td><xsl:value-of select="price"/></td>        
+      </tr>
+    </xsl:if>
+    </xsl:for-each>
+    </table>
+  </body>
+  </html>
+</xsl:template>
+</xsl:stylesheet>
+=====================================
+#### <xsl:template> #####
+> XSL style sheet consists of one or more set of rules that are called templates.
+> match attribute is used to associate a template with an XML element
+> value of the match attribute is an XPath expression
+
+=====================================
+###### <xsl:for-each> Element #######
+
+> we can filter the output from xml file by adding criteria of select attribute
+Example -  <xsl:for-each select="catalog/cd[artist='Bob Dylan']">
+
+> Legal filter operators are:
+=  (equal)
+!= (not equal)
+&lt; less than
+&gt; greater than
+
+=====================================
+######### <xsl:if> Element ##########
+
+Ex - <xsl:if test="price &gt; 10">
+=====================================
+##### XPath Expression ##### 
+/ -> root
+x -> element named "x"
+x/y -> all children of x named "y"
+* -> any element
+ancestor::x -> any ancestor named x
+x[3] -> numbered predicate
+x[@color='red'] - boolean predicate
+
+Example - 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bookstore>
+
+<book category="cooking">
+  <title lang="en">Everyday Italian</title>
+  <author>Giada De Laurentiis</author>
+  <year>2005</year>
+  <price>30.00</price>
+</book>
+
+<book category="children">
+  <title lang="en">Harry Potter</title>
+  <author>J K. Rowling</author>
+  <year>2005</year>
+  <price>29.99</price>
+</book>
+
+<book category="web">
+  <title lang="en">XQuery Kick Start</title>
+  <author>James McGovern</author>
+  <author>Per Bothner</author>
+  <author>Kurt Cagle</author>
+  <author>James Linn</author>
+  <author>Vaidyanathan Nagarajan</author>
+  <year>2003</year>
+  <price>49.99</price>
+</book>
+</bookstore>
+
+/bookstore/book[1]	Selects the first book element that is the child of the bookstore element
+/bookstore/book[last()]	Selects the last book element that is the child of the bookstore element
+/bookstore/book[last()-1]	Selects the last but one book element that is the child of the bookstore element
+/bookstore/book[position()<3]	Selects the first two book elements that are children of the bookstore element
+//title[@lang]	Selects all the title elements that have an attribute named lang
+//title[@lang='en']	Selects all the title elements that have a "lang" attribute with a value of "en"
+/bookstore/book[price>35.00]	Selects all the book elements of the bookstore element that have a price element with a value greater than 35.00
+/bookstore/book[price>35.00]/title	Selects all the title elements of the book elements of the bookstore element that have a price element with a value greater than 35.00
+
+
+http://www.xmlmaster.org/en/article/d01/c07/

@@ -1,0 +1,740 @@
+############## M A P ###############
+##What is Map interface?
+
+> A Map is an object that maps keys to values. Each pair is known as an entry. 
+> A map cannot contain duplicate keys.
+General Map Implementations :
+1. HashTable 2. HashMap 3. LinkedHashMap 4. TreeMap 5. ConcurrentHashMap
+
+> HashTable - No iteration order, no null key or value, synchr, time perfo O(1), buckets implementation 
+> HashMap - No iteration order, 1 null key or many null values, not sychro, time perfo O(1), buckets implementation 
+> LinkedHashMap -Yes iteration order (maintain order of insertion),  subclass of HashMap
+> TreeMap - maintain natural order of key(i.e ascending), no-yes null key-values, NOT synch,  time perfo O(log n), RB tree implementation 
+> ConcurrentHashMap - NO iteration order, NO NULL Key or value, thread safe, 
+############ Map[i] METHODS #########
+
+01. V put(object key,Object val): is used to insert an entry in this map.
+- if no mapping for the key, it put the <K,V> and return null (mean nothing associated with the key)
+- If old val present for the key, the old value is replaced and return old value
+
+02. void putAll(Map map): 
+- is used to insert the specified map in this map.
+
+03. V remove(object key): 
+- delete an entry for specified key and return value. Value will be null if no entry.
+
+04. V get(Object key): 
+- return value for the specified key.
+
+05. boolean containsKey(Object key): to search the specified key from this map.
+06. boolean containsValue(Object value): to search the specified value from this map.
+07. Set keySet(): 
+- returns the Set of all the keys.
+
+08. Set<Map.Entry<k,v>> entrySet(): returns the Set view containing all the keys and values.
+
+09. Collection<V> values() : 
+- return all the values in the map.
+
+10. void clear(); - remove all the mapping of the map
+11. boolean isEmpty();
+12. public int size()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the Similarity and Difference between various impl of Map?
+
+ORDER
+> HashTable & HashMap doesn't provide any ordering 
+- LinkedHashMap maintain insertion order 
+- TreeMap store in sorted order 
+- ConcurrentHashMap doesn't provide any ordering 
+
+NULL KEYS AND VALUES
+> HashTable doesn't allow null key and value
+- HashMap can store 1 null key at index[0] and many null values.
+- LinkedHashMap can also store 1 null key and many null values.
+- TreeMap doesn't allow null keys because compareTo() method throws NullPointerException
+- CHM DOESN'T ALLOW NULL KEY AND VALUE
+
+ITERATOR
+> Iterators returned by all these Map's collection view methods e.g. values() or keySet() is fail-fast iterators, 
+- It will throw ConcurrentModificatoinException if Collection is modified structurally once Iteration begins, except by using remove() method of Iterator.
+> CHM IS FAIL-SAFE. 
+
+PERFORMANCE & SPEED
+> HASHMAP PROVIDES CONSTANT TIME PERFORMANCE O(1) ONLY WHEN NO COLLISION for both get() and put() 
+- Prior to JDK8, while collision in HashMap, it use linked list to store collided elements and thus performance decrease to O(n)
+- JDK 8 has introduced balanced tree instead of linked list in case of frequent collision in HashMap. 
+- It internally switches to balanced tree from linked list if there are more than 8 entries in one bucket
+
+- TreeMap provides O(log(n)) time for the get(), put(), containsKey() and remove()
+- LinkedHashMap is in bet HashMap & TreeMap 
+- CHM  
+
+THREAD-SAFETY
+> All 3 Map implementation are not thread-safe
+> Create Synchronized Map while creating map to prevent accidental non-synch access.
+Ex - Map<Integer, Integer> numbers = Collections.synchronizedMap(new LinkedHashMap<>());
+
+> Use Collections.synchronizedMap() for synchronizing HashMap, LinkedHashMap 
+- Collections[c] use static SynchronizedMap[c] to impl it and return SynchronizedMap
+
+> Collections.synchronizedSortedMap() method for synchronizing TreeMap
+- Collections[c] use static SynchronizedSortedMap[c] to impl it and return SynchronizedSortedMap
+
+> ConcurrentHashMap is thread safe
+
+INTERNAL IMPLEMENTATION
+> HashTable and HashMap use array of Entry<K,V>
+- LinkedHashMap extends HashMap
+> TreeMap is Red-Black tree based NavigableMap impl, it use compareTo(Object) or compare(Object o1,Object o2) for comparision.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When to use HashMap over LinkedList or ArrayList and vice-versa?
+
+>INSERTION ORDER - When we require to maintain the order of insertion then use List as HashMap does not allow insertion order but its subclass LinkedHashMap does.
+>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Map.Entry? How elements are storing in Map?
+> Entry is a subinterface of Map. It can be use as Map.Entry name. 
+> It is used to store the key-value pair in the form of entry object or in other word,
+- MAP ELEMENTS ARE STORED IN FORM OF ENTRY.
+
+> It is also USED TO ITERATE OVER MAP 
+> Its implementation is in HashMap as below.
+
+## METHODS ##
+1. boolean equals(Object o) 
+2. K getKey()
+3. V getValue()
+4. int hashCode() : return hashCode of this map entry
+5. V setValue(Object v) - set the value for this map entry to v and return oldValue
+
+Implementation of Map.Entry interface is define in Entry class as below 
+static class Entry<K ,V> implements Map.Entry<K ,V>
+{
+	final int hash;
+    final K key;
+    V value;
+    Entry<K ,V> next;
+    	
+    ...//More code goes here
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How to iterate over Map?
+EXAMPLE1:
+Set<Map.Entry<String, Double>> set = treemap.entrySet();		
+// Display the elements.
+for(Map.Entry<String, Double> me : set) {
+	System.out.print(me.getKey() + ": ");
+	System.out.println(me.getValue());
+}
+
+##Using foreach and Map.Entry
+for (Map.Entry<String, String> entry : map.entrySet())
+{
+    System.out.println(entry.getKey() + "/" + entry.getValue());
+}
+
+## Using forEach from Java 8
+final long[] i = {0};
+map.forEach((k, v) -> i[0] += k + v);		
+
+##Using iterator and Map.Entry
+Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();
+while (it.hasNext()) {
+    Map.Entry<Integer, Integer> pair = it.next();
+    System.out.println(pair.getKey() + "/" + pair.getValue());
+}
+
+##Using for and Map.Entry
+for (Iterator<Map.Entry<Integer, Integer>> entries = map.entrySet().iterator(); entries.hasNext(); ) {
+    Map.Entry<Integer, Integer> entry = entries.next();
+    System.out.println(entry.getKey() + "/" + entry.getValue());
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## where Iterator interface methods hasNext(), next(), remove() method is define?
+
+> All methods of Collection is define in AbstractCollection class
+> All methods of Set is define in AbstractSet
+=====================================
+########## HASH TABLE ###############
+
+## what is HASH TABLE?
+
+> java.util.Hashtable is a class that extends Dictionary and implements Map. But no more in use now
+> Java has a private static class Entry inside Hashtable
+>> permit no null key and value, no order, synch, 
+
+> we CANNOT USE NULL EITHER AS KEY OR VALUE. It will throw NullPointerException at runtime
+- In any case even to check null key/value, use of null will throw NullPointerException.
+
+> Hashtable has 4 constructors
+1. public Hashtable() 
+2. Hashtable(int initialCapacity)
+3. Hashtable(int initialCapacity, float loadFactor)
+4. public Hashtable(Map<? extends K, ? extends V> t)
+
+> When we have a collision(i.e 2 key have same hashCode), there are multiple methodologies available to resolve it. To name a few hashtable collision resolution technique, ‘separate chaining’, ‘open addressing’, ‘robin hood hashing’, ‘cuckoo hashing’, etc. 
+
+> Java’s hashtable uses ‘separate chaining’ for collision resolution in Hashtable.
+
+> Initial capacity is number of buckets created at the time of Hashtable instantiation. Bucket is a logical space of storage for Hashtable.
+> The number of buckets and probability of collision is inversly proportional.
+>> The default size of initialCapacity is 11 define in default HashTable constructor and loadFactor is .75
+It mean that if the hashTable is 3/4th full then the size of HashTable increase and new capacity will be oldcapacity * 2 +1;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How HashTable get(Object key) works?
+
+public synchronized V get(Object key) 
+{
+        Entry tab[] = table;
+        int hash = key.hashCode();
+        int index = (hash & 0x7FFFFFFF) % tab.length; // hash * max hex value of int i.e 32 bit
+        for (Entry< K,V > e = tab[index] ; e != null ; e = e.next) {
+            if ((e.hash == hash) && e.key.equals(key)) {
+                return e.value;
+            }
+        }
+        return null;
+}
+> There can be at most one key-value mapping
+> get value of null key will throw NullPointerException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bt impl of HashMap.get() and HashTable.get() ?
+
+> In HashMap.get() it will check the null key-values pair to but not in HashTable.get() 
+> single hash value calculation 
+> all other implementation part is same (i.e find index 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How put() of HashTable works?
+
+ public synchronized V put(K key, V value) 
+{
+    // Make sure the value is not null
+    if (value == null) {
+        throw new NullPointerException();
+    }
+    // Makes sure the key is not already in the hashtable.
+    Entry tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash & 0x7FFFFFFF) % tab.length;//bucket index
+    for (Entry< K,V > e = tab[index] ; e != null ; e = e.next) {
+        if ((e.hash == hash) && e.key.equals(key)) {
+            V old = e.value;
+            e.value = value;
+            return old;
+        }
+    }
+    modCount++;
+    if (count  >= threshold) {
+        // Rehash the table if the threshold is exceeded
+        rehash();
+        tab = table;
+        index = (hash & 0x7FFFFFFF) % tab.length;
+    }
+    // Creates the new entry.
+    Entry< K,V > e = tab[index];
+    tab[index] = new Entry<  >(hash, key, value, e);
+    count++;
+    return null;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How hashCode is fit into the table size?
+
+> Actually index is calculate based on (hashCode of key)% tab.length;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is difference between HashMap and Hashtable?
+>> HashMap class is roughly equivalent to Hashtable, except that it is unsynchronized and permits nulls
+
+> HashMap allows null key and values whereas 
+- Hashtable doesn’t allow null key and values.
+
+> Hashtable is synchronized but HashMap is not synchronized. 
+> Initial capacity of HashTable is 11 and HashMap is 16 and loadfactor = 0.75
+> LinkedHashMap was introduced in Java 1.4 as a subclass of HashMap, so incase you want iteration order, you can easily switch from HashMap to LinkedHashMap but that is not the case with Hashtable whose iteration order is unpredictable.
+
+> HashMap provides Set of keys to iterate and hence it’s fail-fast but 
+- Hashtable provides Enumeration of keys that doesn’t support this feature.
+
+> Hashtable is considered to be legacy class and if you are looking for modifications of Map while iterating, you should use ConcurrentHashMap.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to store object in sorted order in HashMap?
+
+> HashMap use hashing principle to store k-v in Entry table.
+> It calculate hashValue of key (actually double hashing) and take it as index of Entry[] 
+> If we assure that the hashValue is in the sorted way then it will store in sorted order.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Hashing?
+
+> Hashing is basically a way to calculate an integer value of an object.
+- It is used to generates an address in the table with given key.
+- In Java, we have hashCode() to calculate it.
+=======================================
+############# HASHMAP[c] ##############
+
+##What is HASHMAP?
+
+> It is based on the principle of Hashing
+> It is HashTable based implementation of the Map Interface.
+>> permit 1 NULL KEY AND MANY NULL VALUE, NO ORDER, NOT SYNCH, 
+>> HashMap class is roughly equivalent to Hashtable, except that it is unsynchronized and permits nulls
+> If the key is already present in the hashmap then it overrides its value
+> It will not contain duplicate key-value pair directly. but we cn insert using 
+addEntry(int hash, K k, V v, int bucketindex)
+
+It have 4 constructor :-
+> public HashMap()
+> public HashMap(int initialCapacity) 
+> HashMap(int initialCapacity, float loadFactor)
+> public HashMap(Map<? extends K, ? extends V> m)
+
+> default size of HashMap is 16. 
+- If a entry is added using addEntry() it check the threshold(capacity*loadFactor) if size >= threshold, it double the size of table
+- here capacity=16 and loadFactor=0.75 and size is number of mapping
+
+764 	void addEntry(int hash, K key, V value, int bucketIndex) {
+765           Entry<K,V> e = table[bucketIndex];
+766           table[bucketIndex] = new Entry<>(hash, key, value, e);
+767           if (size++ >= threshold)
+768               resize(2 * table.length);
+769       }
+
+> HashMap doesnt have any of its own map otherthan Map methods implementation.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How does a HashMap use transient?
+
+> HashMap store key-value pair in form of entry in a table i.e Entry table[].
+> this Entry table array is define as transient as
+ transient Entry[] table;
+> It is because HashMap say it DOESNOT GUARANTEES THE ORDER OF MAP ELEMENTS and while serializing in form of normal Entry table[] we are serializing in a particular order that is the contradiction.
+> so Entry table[] is define as transient and all the related field are mark as transient ( i.e calculated at run time)
+> so while serializing HashMap, writeObject() serializing it as key1-value1,key2-value2 and so on form. Not in table[]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Explain how HashMap works?
+
+> HashMap works on the principle of Hashing .  
+> It use hashCode and equals method in order to put and retrieve element
+> Each  Key-value pair stores in the bucket i.e Entry table[] in the form of Entry Object
+> Entry object hold (hash,key,value,bucketindex) value. Here bucket index is table index
+
+> HASHING technique based on below term
+1. Hash Function - hashCode() function which returns an integer value is the Hash function. object.hashCode()
+2. Hash Value - int value returned by hashCode() 
+3. Bucket - A bucket is used to store key value pairs . A bucket can have multiple key-value pairs . 
+	In hash map, bucket used simple linked list to store objects .
+
+Note: that there can only be one null key in HashMap .  Null keys always map to hash 0, thus index 0.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How put() method works in HashMap?
+
+> PUT() -> the HashMap calculates the hash value of key and stores the pair in the appropriate index inside the collection. 
+> If the key exists, its value is updated with the new value. 
+> HashMap have Entry table to store Map elements in form of entry : transient Entry[] table;
+
+ public V put(K key, V value) {
+   if(key == null)
+     return putForNullKey(value);
+   int hash = hash(key.hashCode());
+   int i = indexFor(hash, table.length);
+   for (Entry<K,V> e = table[i]; e != null; e = e.next) {
+     Object k;
+     if(e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+       V oldValue = e.value;
+       e.value = value;
+       e.recordAccess(this);
+       return oldValue;
+     }
+   }
+   modCount++;
+   addEntry(hash, key, value, i);
+   return null;
+ }
+1. It check the key if it is null then at index 0 value will insert
+2. if key is not null then it CALCULATE DOUBLE HASHVALUE OF KEY to avoid poor hashing(just use byte shifting)
+3. It calculate the bucketIndex i.e combination of hash value of key & length of table i.e bucket for storing Entry object.
+
+4. Now it check the hashvalue of key and content of key using equals()
+ > if key's hashvalue is different and content are null then at the bucketIndex  entry object will store.
+ 
+ > if key's hashvalue is same but content are different then the entry will store in Linked list form and previous entry is the next node.
+ 
+ > if key's hashvalue and content are same then new value replace the old one.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How get(Object key) works in HashMap?
+
+> GET(OBJECT KEY) -> call hashCode() on key object and applies returned hashValue to its own static hash function to find a bucket location(backing array) where keys and values are stored in form of a nested class called Entry (Map.Entry) .
+
+1 public V get(Object key)
+2 {
+3    if (key == null)
+4        return getForNullKey();
+5    int hash = hash(key.hashCode());
+6	 int i = indexFor(hash, table.length);
+7    for (Entry< K,V > e = table[i]; e != null; e = e.next) {
+8        Object k;
+9        if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+10            return e.value;
+11    }
+12   return null;
+13 }
+
+> There can be at most one such mapping
+> At line 5, hash() called with hashvalue of key object to find hash value again to defend poor quality hash functions.
+> A return value of "null" does not necessarily indicate that the map contains no mapping for the key; 
+- it's also possible that the map explicitly maps the key to "null"
+> e.hash at line 6 is the hash value of the entry that is the instance variable of HashMap.Entry class 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Rehashing? Why Rehashing is required? 
+> IT IS THE PROCESS OF RE-CALCULATING THE HASHCODE OF ALREADY STORED ENTRIES (Key-Value pairs), 
+- to move them to another bigger size hashmap WHEN LOAD FACTOR THRESHOLD IS REACHED.
+
+- When the number of items in map, crosses the Load factor limit at that time hashmap doubles its capacity and 
+- hashcode is re-calculated of already stored elements for even distribution of key-value pairs across new buckets
+- which results in either placing the item in same bucket or in different bucket.
+
+> If we keep the existing key-value pairs as it is, then doubling the capacity may not help, 
+- because O(1) complexity will be achieved only if items are evenly distributed across all buckets.
+
+> REHASHING IS DONE TO DISTRIBUTE ITEMS ACROSS THE NEW LENGTH HASHMAP, SO THAT GET AND PUT OPERATION TIME COMPLEXITY REMAINS O(1).
+
+In Rehashing process, 
+- Hashmap creates a New Array(Buckets) of double size first.
+- Hashmap transfers key-value pairs from Old buckets to New buckets.  
+- KEY-VALUE PAIRS WILL BE REVERSED IN NEW BUCKETS because Hashmap will ADD KEY-VALUE PAIRS AT THE START IN THE NEW BUCKET and not at the end to avoid traversing linked list every time and keep constant performance.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why are immutable objects in hashmaps so effective?
+
+> IMMUTABILITY ALSO ALLOWS CACHING THE HASHCODE OF DIFFERENT KEYS WHICH MAKES THE OVERALL RETRIEVAL PROCESS VERY FAST
+- immutable object doesn't change over time, it only needs to perform the calculation of the hash code once. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Java 8
+> HashMap internally switches to balanced tree from linked list if there are more than 8 entries in one bucket
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to avoid collision in HashMap?
+
+> Java HashMap already handles collisions. 
+- To avoid collision we need to override hashCode() and equals() such that it creates the best possible distribution of values throughout the HashMap
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What’s wrong using HashMap in multithreaded environment? When get() method go to infinite loop ?
+
+> HashMap has the concept of rehashing when it reaches to its upper limit of size. 
+- This rehashing is the process of creating a new memory area, and copying all the already present key-value pairs in new memory are. 
+- Lets say Thread A tried to put a key-value pair in map and then rehashing started. 
+- At the same time, thread B came and started manipulating the buckets using put operation.
+
+- Here while rehashing process, there are chances to generate the cyclic dependency where one element in linked list [in any bucket] can point to any previous node in same bucket. 
+- This will result in infinite loop, because rehashing code contains a “while(true) { //get next node; }” block and in cyclic dependency it will run infinite.
+
+http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to synchronized a HashMap?
+> using Collections.synchronizedMap(hashmap)  
+- it returns a thread-safe map backed up by the specified HashMap
+
+> It is also mandatory that the user manually synchronizes on the returned map when iterating over any of its collection views:
+EXAMPLE: 
+  Map<Integer, String> synchronizedHashMaps = Collections.synchronizedMap(new HashMap<>());
+  
+  Set<Integer>  mySet = m.keySet();  // Needn't be in synchronized block
+  
+  synchronized(synchronizedHashMaps ) {  // Synchronizing on map instance, not set
+      Iterator<Integer> i = mySet.iterator(); // Must be in synchronized block
+      while (i.hasNext())
+          foo(i.next());
+  }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between HashTable and Collections.synchronized(HashMap)?
+> Both are blocking in nature i.e. multiple threads will need to wait for getting the lock on instance before putting/getting anything out of it.
+> NO MAJOR DIFFERENCE
+=====================================
+########## LinkedHashMap ############
+- TreeMap and HashMap classes were added in java 1.2 , while 
+- LinkedHashMap was added to jdk in JDK 1.4
+
+> It is the HashMap and linkedlist implementation of the Map interface , with predictable iteration order
+
+
+> LinkedHashMap can be used to create LRU(Least Recently Used) cache in Java. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do we need LinkedHashMap when we already had TreeMap and HashMap ?
+> LinkedHashMap provide insertion order because of double linked list based implementation. As it was not provided by HashMap and TreeMap.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When to use linkedhashmap over hashmap in java?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How LinkedHashMap insertion order is maintained ?
+## What is the implementation of LinkedHashMap?
+
+> LinkedHashMap use static inner class Entry<K,V> extends HashMap.Node<K,V>; to store key-value pair
+- it contain 2 more field i.e Entry<K,V> before, after; it is responsible for maintaining the insertion order. 
+- Entry<K,V> head,tail stores the head,tail of this doubly linked list
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What happens if we insert a key which is already present in the LinkedHashMap ? Does the order change ?
+> No,It didn't change the order. 
+- It first checks containsKey() before invoking put() method . 
+- If containsKey(K) returns true then the value is replace by new value and return old value.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the time complexity of the add , remove and contains operations in LinkedHashMap ?
+> Time complexity of the add, remove and contains operations is constant time i.e O(1) .
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Does LinkedHashMap Iterator behaves  like fail fast iterator or fail-safe iterator ?
+> LinkedHashMap iterator behaves like fail-fast iterator. 
+- it will  throw ConcurrentModificationException. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is similarity & difference bet HashMap & LinkedHashMap?
+
+
+DIFFERENCE
+> HashMap doesn't maintain any order while 
+- LinkedHashMap maintains insertion order of elements in Java.
+
+> LinkedHashMap also requires more memory than HashMap because of this ordering feature. 
+- LinkedHashMap uses doubly LinkedList to keep order of elements.
+
+> LinkedHashMap actually extends HashMap and implements Map interface. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How does Java HashMap or LinkedHahsMap handles collisions?
+
+> Prior to JDK8, while collision in HashMap, it use linked list to store collided elements and thus performance decrease to O(n).
+> From Java 8 onwards, HashMap, ConcurrentHashMap, and LinkedHashMap will use the balanced tree in place of linked list to handle frequently hash collisions. 
+- It internally switches to balanced tree from linked list if there are more than 8 entries in one bucket
+- This will improve the worst case get() method performance from O(n) to O(log n).
+
+> Since HashSet internally uses HashMap and LinkedHashSet internally uses LinkedHashMap they will also benefit from this performance improvement.
+> Hashtable & WeakHashMap will not have this feature
+=====================================
+############## TreeMap ##############
+> Since Java6
+> A Red-Black tree based NavigableMap implementation. 
+
+NavigableMap[i] extends SortedMap[i]
+TreeMap[c] implements NavigableMap[i] 
+
+TreeMap(Comparator<? super K> comparator)
+TreeMap(Map<? extends K, ? extends V> m)
+
+## What is TreeMap?
+> TreeMap stores key- value pairs is sorted order. 
+> It use Red-Black Tree algorithm to store object
+- it does not use hashing for storing keys 
+
+> it is sorted according to the natural ordering of its keys, or by a Comparator provided at map creation time depending on which constructor is used.
+- It store in natural ordering of its keys (i.e in ascending order) 
+
+> it provides guaranteed log(n) time cost for the containsKey, get, put and remove operations
+
+## BEHAVIOUR ##
+> TreeMap is NOT SYNCHRONIZED and hence not thread-safe. 
+> TreeMap ITERATOR IS FAIL-FAST in behaviour, so any concurrent modification will throw ConcurrentModificationException.
+> TreeMap in java DOESN’T ALLOW NULL KEYS, however you can have multiple null values associated with different keys.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How TreeMap works?
+> it sorts the TreeMap object keys using Red-Black tree algorithm.
+
+RED-BLACK TREE PROPERTIES : [chk details in Tree notes of DS] 
+1. Color of every node in the tree is either red or black.
+2. Root node must be Black in color.
+3. Red node can not have a red color neighbor node (but black can have)
+4. ALL PATHS FROM ROOT node to the null should consist the SAME NUMBER OF BLACK NODES 
+
+
+> TreeMap will always STORE all its elements IN sorted ORDER whenever some operation is performed on it.
+- Each node in tree will have three references i.e. its parent, right and left element
+- left element will always be logically less than parent element.
+- The right element will always be logically greater than OR equal to parent element
+
+public V put(K key, V value) {
+    Entry<K,V> t = root;
+    if (t == null) {
+        compare(key, key); // type (and possibly null) check
+
+        root = new Entry<>(key, value, null);
+        size = 1;
+        modCount++;
+        return null;
+    }
+    int cmp;
+    Entry<K,V> parent;
+    // split comparator and comparable paths
+    Comparator<? super K> cpr = comparator;
+    if (cpr != null) {
+        do {
+            parent = t;
+            cmp = cpr.compare(key, t.key);
+            if (cmp < 0)
+                t = t.left;
+            else if (cmp > 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    else {
+        if (key == null)
+            throw new NullPointerException();
+        @SuppressWarnings("unchecked")
+            Comparable<? super K> k = (Comparable<? super K>) key;
+        do {
+            parent = t;
+            cmp = k.compareTo(t.key);
+            if (cmp < 0)
+                t = t.left;
+            else if (cmp > 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    Entry<K,V> e = new Entry<>(key, value, parent);
+    if (cmp < 0)
+        parent.left = e;
+    else
+        parent.right = e;
+    fixAfterInsertion(e);
+    size++;
+    modCount++;
+    return null;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do we need TreeMap when we have sortedMap ?
+
+> sortedMap is a interface and TreeMap is the class implementing it.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which data structure you will prefer in your code : HashMap or TreeMap ?
+> HashMap is faster while TreeMap is sorted .
+
+> If we do not want to sort the elements but just to insert and retrieve the elements then use HashMap .
+
+> But if we want to maintain the order of the elements then TreeMap should be preferred because the result is alphabetically sorted .
+- While iterating HashMap there is no ordering of the elements ,on the other hand , TreeMap iterates in the natural key order.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If we add Enum constants to a sorted collection ( Treemap , TreeSet ), What will be the order in which they will be maintained ?
+> Order in which constants are declared
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get a REVERSE ORDER VIEW of Mapping from TreeMap?
+1. 
+for(Map.Entry<String, Double> me : tm.descendingMap().entrySet()){
+	System.out.println(me.getKey() + ": "+me.getValue());
+}
+
+2. Using Collections.reverseOrder()
+Map<Float,Integer> tree = new TreeMap<Float,Integer>(Collections.reverseOrder());
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What happens if the TreeMap is concurrently modified while iterating the elements ? 
+
+> The ITERATOR FAILS FAST and quickly if structurally modified at any time after the iterator is created (in any way except through the iterator's own remove method ).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get Comparator from TreeMap?
+> If you have created TreeMap in Java by providing an external comparator than you can get that Comparator by comparator() method of TreeMap.
+
+Comparator comparator = assetClassMap.comparator();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which copy technique (deep or shallow ) is used by the TreeMap clone() method ?
+
+> According to docjar , clone() returns the shallow copy of the TreeMap instance . 
+- In shallow copy, object B points to object A location in memory . In other words , both object A and B are sharing the same elements.
+- The keys and values  themselves are not cloned .
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why java's  treemap does not allow an initial size ?
+
+> HashMap reallocates its internals as the new one gets inserted while TreeMap does not reallocate nodes on adding new ones. Thus , the size of the TreeMap  dynamically increases if needed , without shuffling the internals. So it is meaningless to set the initial size of the TreeMap .
+
+=====================================
+
+
+=====================================
+######### ConcurrentHashMap #########
+> Detail in Concurrenct_Collection[4f] 
+
+=====================================
+############ NavigableMap ###########
+> Since Java6
+> NavigableMap may be accessed and traversed in either ascending or descending key order
+
+## Features ##
+> provide ways to create a sub-map from existing Map 
+- Ex - headMap,tailMap from specified key
+
+> lowerKey returns key which is less than specified key
+> floorKey returns key which is less than or equal to specified key
+> ceilingKey returns key which is greater than or equal to specified key
+> higherKey returns key which is greater specified key
+
+> headMap - returns NavigableMap whose key is less than specified
+> tailMap - returns NavigableMap whose key is greater than specified
+> subMap - return NavigableMap from toKey to fromKey
+
+## METHODS ## 
+1. NavigableMap<K,V> descendingMap();
+- Return the reverse order view of the mappings contained in this map
+
+NavigableSet<K> navigableKeySet();
+- returns the keys in ascending order
+
+NavigableSet<K> descendingKeySet();
+- returns the keys in descending order
+
+Map.Entry<K,V> firstEntry();
+- Returns a key-value mapping associated with the map, or null if the map is empty
+
+Map.Entry<K,V> pollFirstEntry();
+Removes and returns a key-value mapping in this map, or null if the map is empty
+
+SortedMap<K,V> subMap(K fromKey, K toKey);
+> returns portion of Map while key range is specified by fromKey to toKey.
+- Here if we give fromKey is of higher order and toKey of lower order then IllegalArgumentException
+- Here toKey will not be included in subMap
+- The returned Map is backed by original TreeMap and any change made in subMap will reflect back in TreeMap and vice-versa
+
+NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive,K toKey,   boolean toInclusive);
+
+## Implementation Classes ##
+> TreeMap[c] & ConcurrentSkipListMap[c] 
+=======================================
+##What is Legacy Classes?
+> Legacy classes are classes which exist to provide compatibility to existing program but for the class there are better alternatives.
+Ex - Vector is Legacy Class whose adv. version is ArrayList
+Hashtable -> HashMap
+-Stack, Dictionary,Properties
+>There is only one legacy interface called Enumeration
+=======================================
+############# QUESTION ################
+
+## How to sort HashMap based on Value?
+
+> Use Comparator to sort EntrySet of map and stored in List (to maintain insertion order) and then store it in LinkedHashMap(to maintain insertion order).
+EXAMPLE:
+Set<Entry<String, String>> entries = sortMap.entrySet();
+
+Comparator<Entry<String, String>> valueComparator = 
+		new Comparator<Entry<String,String>>() { 
+	@Override 
+	public int compare(Entry<String, String> e1, Entry<String, String> e2) { 
+		String v1 = e1.getValue(); 
+		String v2 = e2.getValue(); 
+		return v1.compareTo(v2); 
+	} 
+};
+
+// Sort method needs a List, so let's first convert Set to List in Java 
+List<Entry<String, String>> listOfEntries = new ArrayList<Entry<String, String>>(entries); 
+
+// sorting HashMap by values using comparator 
+Collections.sort(listOfEntries, valueComparator); 
+LinkedHashMap<String, String> sortedByValue = new LinkedHashMap<String, String>(listOfEntries.size()); 
+
+// copying entries from List to Map 
+for(Entry<String, String> entry : listOfEntries){ 
+	sortedByValue.put(entry.getKey(), entry.getValue()); 
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to sort TreeMap based on Value?

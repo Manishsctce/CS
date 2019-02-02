@@ -1,0 +1,112 @@
+###### SED COMMAND (Stream EDitor)#######
+
+##sed s command
+
+Syntax:
+#sed 'ADDRESSs/REGEXP/REPLACEMENT/FLAGS' filename
+#sed 'PATTERNs/REGEXP/REPLACEMENT/FLAGS' filename
+
+- s is substitute command
+- / is a delimiter
+- REGEXP is regular expression to match
+- REPLACEMENT is a value to replace
+- FLAGS can be any of the following
+
+[g] Replace all the instance of REGEXP with REPLACEMENT
+[n] Could be any number,replace nth instance of the REGEXP with REPLACEMENT.
+[p] If substitution was made, then prints the new pattern space.
+[i] match REGEXP in a case-insensitive manner.
+[w] file If substitution was made, write out the result to the given file.
+
+> We can use different delimiters ( one of @ % ; : ) instead of /
+
+#### GNU Specified Options
+# -n, --quiet, --silent: Same as standard -n option.
+# -e script, --expression=script: Same as standard -e option.
+# -f script-file, --file=script-file: Same as standard -f option.
+
+
+Example -
+cat thegeekstuff.txt
+# Instruction Guides
+1. Linux Sysadmin, Linux Scripting etc.
+2. Databases - Oracle, mySQL etc.
+3. Security (Firewall, Network, Online Security etc)
+4. Storage in Linux
+5. Productivity (Too many technologies to explore, not much time available)
+#  Additional FAQS
+6. Windows- Sysadmin, reboot etc.
+
+1> 
+sed 's/Linux/Linux-Unix/' thegeekstuff.txt
+	<<OUTPUT
+	1. Linux-Unix Sysadmin, Linux Scripting etc.
+	4. Storage in Linux-Unix
+	>>
+------------------------
+2. Substitute all Appearances of a Word Using sed s//g
+$ sed 's/Linux/Linux-Unix/g' thegeekstuff.txt
+	<<OUTPUT
+	1. Linux-Unix Sysadmin, Linux-Unix Scripting etc.
+	4. Storage in Linux-Unix
+	>>
+------------------------
+3. Substitute Only 2nd Occurrence of a Word Using sed s//2
+$ sed 's/Linux/Linux-Unix/2' thegeekstuff.txt
+	<<OUTPUT
+	1. Linux Sysadmin, Linux-Unix Scripting etc.
+	4. Storage in Linux
+	>>
+------------------------
+4. Write Changes to a File and Print the Changes Using sed s//gpw
+
+$ sed -n 's/Linux/Linux-Unix/gpw output' thegeekstuff.txt
+1. Linux-Unix Sysadmin, Linux-Unix Scripting etc.
+4. Storage in Linux-Unix
+
+$ cat output
+1. Linux-Unix Sysadmin, Linux-Unix Scripting etc.
+4. Storage in Linux-Unix
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example - $ sed '2,$ d' file.txt
+
+> 'd' parameter basically tells [sed] to delete all the records from display output
+> last line is represented by $ symbol
+------------------------ 
+Example - $ sed -n '$ p' test
+> '$ p' basically prints (p for print) the last line in standard output screen. 
+> '-n' switch takes [sed] to silent mode so that [sed] does not print anything
+ 
+sed –n '4 p' test
+print the 4th line
+------------------------ 
+sed '1 d' file.txt
+delete the first line
+------------------------  
+sed –i '5,7 d' file.txt
+delete line 5 to line 7 from the file file.txt
+------------------------  
+sed –i '96,100 d' file.txt 
+remove all the lines from 96 to 100 like below
+ 
+tt=`wc -l file.txt | cut -f1 -d' '`;sed –i "`expr $tt - 4`,$tt d" test
+first one (before the semi-colon) calculates the total number of lines present in the file and stores it in a variable called “tt”. The second command (after the semi-colon), uses the variable and works in the exact way as shows in the previous example.
+ 
+echo "unix" | rev
+to reverse a string
+==============================================================
+AWK
+Awk is one of the most powerful tools in Unix used for processing the rows and columns in a file. Awk has built in string functions and associative arrays. Awk supports most of the operators, conditional blocks, and loops available in C language
+awk 'BEGIN {start_action} {action} END {stop_action}' filename
+ 
+ 
+awk '{print $1}' input_file
+print the first column in each row
+ 
+ 
+To print the 4th and 6th columns in a file use awk '{print $4,$5}' input_file
+ 
+awk 'BEGIN {sum=0} {sum=sum+$5} END {print sum}' input_file
+sum of the values in the 5th column. This value is printed in the End block.
+ 
+http://www.folkstalk.com/2011/12/good-examples-of-awk-command-in-unix.html

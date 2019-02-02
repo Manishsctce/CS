@@ -1,0 +1,88 @@
+############## @Entity ##############
+> it is used to mark this class as an Entity bean. 
+- the class should atleast have a package scope no-argument constructor.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Table
+> it is used to specify the table to persist the data. 
+- The name attribute refers to the table name. 
+- If @Table annotation is not specified then Hibernate will by default use the class name as the table name.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Column
+> it is used to specify the details of the column to which a field or property will be mapped. 
+- If the @Column annotation is not specified by default the property name will be used as the column name.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Id
+> it is used to specify the identifier property of the entity bean. 
+> The placement of the @Id annotation determines the default access strategy that Hibernate will use for the mapping. 
+- If the @Id annotation is placed over the field, then filed access will be used. 
+- Instead if it placed over the getter method of that field, then property access will be used.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@GeneratedValue
+> Let database generate (auto-increment) the id column.
+> it is used to specify the primary key generation strategy to use. 
+- If the strategy is not specified by default AUTO will be used.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@OrderBy
+Sort your data using @OrderBy annotation. In example below, it will sort all contacts in a company by their firstname in ascending order.
+
+@OrderBy("firstName asc")
+private Set contacts;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Transient
+> Annotate your transient properties with @Transient.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Lob
+> Annotate large objects with @Lob.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@PersistenceContext
+
+EXAMPLE:
+> it indicate dependency injection to an EntityManager. 
+
+@Component
+public class ProductDao {
+
+	@PersistenceContext
+	private EntityManager em;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+@OneToOne
+
+> Use @PrimaryKeyJoinColumn for associated entities SHARING THE SAME PRIMARY KEY.
+> Use @JoinColumn & @OneToOne mappedBy attribute when foreign key is held by one of the entities.
+> Use @JoinTable and mappedBy entities linked through an association table.
+> Persist two entities with shared key using @MapsId
+
+http://www.techferry.com/articles/hibernate-jpa-annotations.html
+
+EXAMPLE:
+> Company and CompanyDetail sharing the same primary key,
+- id property of CompanyDetail is NOT annotated with @GeneratedValue. It will be populated by id value of Company.
+
+@Entity
+@Table(name = "company")
+public class Company implements Serializable {
+   
+  @Id
+  @Column(name = "id")
+  @GeneratedValue
+  private int id;
+   
+  @OneToOne(cascade = CascadeType.MERGE)
+  @PrimaryKeyJoinColumn
+  private CompanyDetail companyDetail;
+   
+  ...
+}
+------------------------ 
+@Entity
+@Table(name = "companyDetail")
+public class CompanyDetail implements Serializable {
+ 
+  @Id
+  @Column(name = "id")
+  private int id;
+   
+  ...
+}
+-------------------------------------

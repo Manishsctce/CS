@@ -1,0 +1,104 @@
+############ JAVA 8 STREAM ############
+> Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
+
+> Prior to Java 8, the approach to do it would be:
+
+private static int sumIterator(List<Integer> list) {
+	Iterator<Integer> it = list.iterator();
+	int sum = 0;
+	while (it.hasNext()) {
+		int num = it.next();
+		if (num > 10) {
+			sum += num;
+		}
+	}
+	return sum;
+}
+There are three major problems with the above approach:
+
+1. We just want to know the sum of integers but we would also have to provide how the iteration will take place, this is also called external iteration because client program is handling the algorithm to iterate over the list.
+2. The program is sequential in nature, there is no way we can do this in parallel easily.
+3. There is a lot of code to do even a simple task.
+
+> To overcome all the above shortcomings, Java 8 Stream API was introduced. 
+- We can use Java Stream API to implement internal iteration, that is better because java framework is in control of the iteration.
+
+> Internal iteration provides several features such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
+==========================================
+############### Objects[c] ################
+> it consists of static utility methods for operating on objects
+> Since Java7
+
+#### METHODS ####
+> Object requireNonNull(Object obj) 
+- Checks that the specified object reference is not null. 
+- throw NullPointerException if obj=null.
+- This method is designed primarily for doing parameter validation in methods and constructors.
+Example:
+ public Foo(Bar bar) {
+     this.bar = Objects.requireNonNull(bar);
+ }
+ 
+> static <T> T requireNonNull(T obj, String msg) : if null throw NPE with given msg otherwise obj
+==========================================
+############ java.util.Properties ########
+public class Properties
+    extends Hashtable<Object,Object>{
+protected Properties defaults;
+}
+
+> properties object contains key and value pair both as a string. It is the subclass of Hashtable.
+> represents a persistent set of properties.
+> Properties can be saved to a stream or loaded from a stream.
+> Each key and its corresponding value in the property list is a string.
+
+> A property list can contain another property list as its 'defaults', this second property list is searched if the property key is not found in the original property list.
+
+> This class is thread-safe; multiple threads can share a single Properties object without the need for external synchronization.
+
+#### Methods of Properties class ####
+1. void load(Reader r) : loads data from the Reader object.
+2. void load(InputStream is)	: loads data from the InputStream object
+3. String getProperty(String key) : returns value based on the key.
+4. void setProperty(String key,String value) : sets the property in the properties object.
+5. void store(Writer w, String comment)	: writers the properties in the writer object.
+6. void store(OutputStream os, String comment) : writes the properties in the OutputStream object.
+7. storeToXML(OutputStream os, String comment) : writers the properties in the writer object for generating xml document.
+public void storeToXML(Writer w, String comment, String encoding)	writers the properties in the writer object for generating xml document with specified encoding.
+---------------------------------------
+## write a sample code ?
+import java.util.*;  
+import java.io.*;  
+public class Test {  
+public static void main(String[] args)throws Exception{  
+    FileReader reader=new FileReader("db.properties");  
+    //new FileInputStream(propsFile);
+	
+    Properties p=new Properties();  
+    p.load(reader);  
+      
+    System.out.println(p.getProperty("user"));  
+    System.out.println(p.getProperty("password"));  
+}  
+}  
+---------------------------------------
+
+1. Locale - represents a specific geographical, political, or cultural region.
+CONSTRUCTOR
+Locale(String language) 
+Locale(String language, String country) 
+Locale(String language, String country, String variant) 
+
+2. UUID class represents an immutable UNIVERSALLY UNIQUE IDENTIFIER (UUID)
+> A UUID represents a 128-bit value.
+> It is used for for creating random file names, session id in web application, transaction id etc.
+> There are four different basic types of UUIDs: time-based, DCE security, name-based, and randomly generated UUIDs.
+
+3.  CALENDAR - class is an abstract class that provides methods for converting between a specific instant in time and a set of calendar fields 
+public abstract class Calendar
+extends Object
+implements Serializable, Cloneable, Comparable<Calendar>
+
+METHODS
+static Calendar getInstance();
+Date getTime() 

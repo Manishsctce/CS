@@ -1,0 +1,32 @@
+## What is MANIFEST.MF file?
+> it is a file MANIFEST.MF that contain information about the files packaged in a JAR file. 
+- using it we can define which package we want to export or import define in another jar.
+- we can define which version of JRE can be use to run the code.
+- By tailoring this "meta" information that the manifest contains, you enable the JAR file to serve a variety of purposes	
+
+- manifest's entries are in the form of "header: value" pairs
+
+DEFAULT ENTRIES
+Manifest-Version: 1.0
+Created-By: 1.7.0_06 (Oracle Corporation)
+
+> we can define application's entry point in MANIFEST.MF as 
+Main-Class: classname
+
+EXAMPLE:
+Main-Class: MyPackage.MyClass
+
+> Create jar as 
+- jar cfm MyJar.jar Manifest.txt MyPackage/*.class
+
+> Use JAR entry point setting ('e') to specify the application entry point without editing or creating the manifest file.
+
+EXAMPLE:
+jar cfe Main.jar foo.Main foo/Main.class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Class-Path
+> By using the Class-Path header in the manifest, you can avoid having to specify a long -classpath flag when invoking Java to run the your application.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+bundle is a jar > package (dir where class file exist)

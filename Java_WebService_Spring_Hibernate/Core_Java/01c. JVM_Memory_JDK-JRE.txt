@@ -1,0 +1,531 @@
+######## JAVA VIRTUAL MACHINE #######
+> Java is platform independent language but JVM is platform dependent tool
+> Java is architectural Neutral bcz it generate an arch. neutral file 
+- file that once compiled code will run on any platform without recompiling or any kind of modification 
+- i.e. “ Write Once run Anywhere” . It make possible by the use of Java Virtual Machine(JVM)
+- JVM needs to translate bytecode into machine language code.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Explain the architecture of java?
+
+> Java source file(.java) --give to--> compiler(javac) --generate--> bytecode(.class)
+> bytecode(.class) --to JVM--> {[class loader + bytecode verifier] ---->[java interpreter + JIT Compiler]} -->[Runtime system] -> O/s hardware
+
+1. CLASS LOADER  
+> loads all classes needed for the execution of a pgm. 
+> add security by separating the namespace for the classes of the local file system from those imported from network sources. 
+> MEMORY LAYOUT of the execution file is determine
+
+2. BYTECODE VERIFIER - It test the format of code fragments , violation of access rights etc. It ensure the system integrity. 
+It make four passes
+	i. There are no ACCESS RESTRICTION violation
+	ii. check for stackflow i.e. no operand in code causse stack overflows or underflow
+	iii. No illegal DATA CONVERSION
+	iv. ensure the SYSTEM INTEGRITY
+
+3. INTERPRETER has two function 
+a> execute byte code 
+b> make appropriate call to the underlying h/w
+> Java interpreter is used for the execution of the source code(i.e converting bytecode into machine lang.)
+
+4. JUST-IN-TIME compiler to enable high performance. 
+> it enhance the performance of JVM by REDUCING THE LINE BY LINE COMPILATION of critical code(i.e compile multiple time) to compile once into machine lang.
+> it remove the compilation for unused code.
+
+=======================================
+######## JAVA MEMORY MANAGEMENT #######
+> OS and C-Runtime store in 1st 1GB space of RAM
+> 1GB is shared by JVM and Native heap 
+> generally 2GB outof 4GB are use by heap mem and we can use "Xms" to set max heap size 
+
+- The local varlables are stored into the stack
+> Local variable also called automatic/stack/temporary variable
+> Memory declaration of Object are in heap and class reference in stack. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What KIND OF MEMORY AREA are there in java?
+
+JVM have following type of memory area
+1. CLASS(METHOD) AREA: 
+- Class(Method) Area stores per-class structures such as the runtime constant pool, field and method data, the code for methods.
+- store static variable
+
+2. HEAP: It is the runtime data area in which objects are allocated.
+- it is used for dynamic memory allocation
+
+3. JAVA STACK: it is composed of stack frames (or frames). 
+> A stack frame contains the state of one Java method invocation
+> It holds LOCAL VARIABLES,parameter AND PARTIAL RESULTS, and plays a part in method invocation and return. 
+
+> Each thread has a private JVM stack, created at the same time as thread. 
+- A new frame is created each time a method is invoked. 
+- A frame is destroyed when its method invocation completes. It means a thread can contain multiple stack frame.
+
+4. PROGRAM COUNTER REGISTER: PC (program counter) register. 
+> It contains the address of the JVM instruction to be execute.
+
+5. NATIVE METHOD STACK: 
+- It contains all the native methods used in the application.
+
+> During execution of a program, the storage of program and data is as follows:
+- The executable code is stored into the code or Text segment
+- The global varlables are stored into data segment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is JAVA HEAP MEMORY?
+
+> Java objects reside in heap, 
+> JVM uses heap which is a MEMORY AREA FOR THE DYNAMIC MEMORY ALLOCATION.
+- Unlike the stack, there's NO ENFORCED PATTERN to the allocation and deallocation of blocks from the heap; 
+- you can allocate a block at any time and free it at any time. 
+- This makes it much more complex to keep track of which parts of the heap are allocated or free at any given time;
+ 
+Heap is divided into three parts(eden,survivor,old) or generations FOR SAKE OF GARBAGE COLLECTION
+1. YOUNG/NEW GENERATION 
+- it stores the objects which are short lived and garbage collect immediately
+- When an object first created in heap its gets created in new generation inside Eden space and after subsequent minor garbage collection if object survives its gets moved to survivor 1 and then survivor 2
+- It divided into 3 parts- 
+	1a. Eden space 
+	1b. Survivour To space(S0) 
+	1c. Survivour from space(S1)
+
+2. OLD GENERATION OR TENURED GENERATION - it stores object that persist longer.
+- After major garbage collection, objects moved to old or tenured generation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Permanent Generation memory or PermGen?
+
+> It is a Non-Heap memory area i.e not part of heap
+- Here the Class Loading happens and the JVM allocates spaces for classes, 
+- USED TO STORE CLASS META DATA, stores class level details, loading and unloading classes (e.g. JSPs), methods, String pool, java methods and the reference Objects.
+
+> it store classes, methods, intern string pool, and similar objects used by the VM and never deallocated (hence the name).
+- filling of PermGen space can cause java.lang.OutOfMemory:PermGen space
+
+> It can be resize using 
+-XX:PermSize=124m 
+=> initial size that will be allocated during startup of the JVM. If necessary, the JVM will allocate up to -XX:MaxPermSize.
+
+-XX:MaxPermSize=192m => set max PermGen size. 
+- This option was deprecated in JDK 8, and superseded by the -XX:MaxMetaspaceSize option.
+
+> It is included in a full garbage collection
+> Method Area is part of space in the Perm Gen and used to store class structure (runtime constants and static variables) and code for methods and constructors.
+
+> Since Java8, Permanent Generation (PERMGEN) SPACE HAS COMPLETELY BEEN REMOVED and is kind of replaced by a new space called Metaspace.
+- Main difference between old PermGen and new MetaSpace is, you don't have to mandatory define upper limit of memory usage.
+- -XX:MaxMetaspaceSize=1024m : allowing you to limit the amount of native memory used for class metadata
+
+http://java-latte.blogspot.in/2014/03/metaspace-in-java-8.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is DIFFERENCE BETWEEN JAVA HEAP SPACE AND STACK?
+> Java Heap space is used by java runtime to allocate memory to Objects and JRE classes
+- objects are always create in Heap. Even with clone(),new , Runtime classes 
+
+> Java Stack memory is used for execution of a thread. It contain reference of obj stored in heap and contains local primitive variables.
+- They contain method specific values that are short-lived and REFERENCES TO OTHER OBJECTS IN THE HEAP that are getting referred from the method.
+
+> Whenever a object is created, it is stored in heap 
+- Whenever a method is invoked, a new block is created in the stack memory for the method
+
+> Heap memory is divided into Young-Generation, Old-Generation, PermGen
+- Memory management in stack is done in LIFO manner
+
+> if heap memory is full, it throws java.lang.OutOfMemoryError
+- When stack memory is full, Java runtime throws java.lang.StackOverFlowError
+
+> We can use -Xms and -Xmx JVM option to define the startup size and maximum size of heap memory. 
+- We can use -Xss to define the stack memory size.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How does Java allocate stack and Heap memory?
+## How the program get executed using Heap and Stack Memory?
+
+public class Memory {
+1	public static void main(String[] args) { // Line 1
+2		int i=1; // store in stack memory of main()
+3		Object obj = new Object(); // new heap memory is allocated
+4		Memory mem = new Memory(); // new heap memory is allocated
+5		mem.foo(obj); // a block in stack is created
+9	} // main stack get freed and thus all memory for Memory class get freed
+
+6	private void foo(Object param) { // param is ref of obj in heap 
+7		String str = param.toString(); //store in heap string pool
+		System.out.println(str);
+8	} // Line 8
+}
+
+> we run the program, it loads all the Runtime classes into the Heap space
+> Java Runtime creates stack memory to be used by main()
+> primitive local variable at line 2, so it’s created and stored in the stack memory of main() method.
+> creating an Object in line 3, it’s created in Heap memory and stack memory contains the reference for it. Similar process occurs when we create Memory object in line 4
+
+> Now when we call foo() method in line 5, a block in the top of the stack is created to be used by foo() method. 
+- Since Java is pass by value, a new reference to Object is created in the foo() stack block in line 6.
+
+> A string is created in line 7, it goes in the String Pool in the heap space and a reference is created in the foo() stack space for it.
+> foo() method is terminated in line 8, at this time memory block allocated for foo() in stack becomes free
+> In line 9, main() method terminates and the stack memory created for main() method is destroyed. Also the program ends at this line, hence Java Runtime frees all the memory and end the execution of the program.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+======================================
+########## MEMORY LEAKAGE ############
+### Can a Java application have memory leak?
+
+> Yes, in some situations, when the object is no longer in use, but some REFERENCES TO THAT OBJECT HAS NOT BEEN REMOVED. 
+> This kind of objs will not be collected by GC. it means there is memory leak. This type of reference is called DANGLING REFERENCE.
+
+##Typical Memory Leaks
+1. Global Collection - global data repository 
+2. Cache - add cache everytime.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the Safety Measure for Preventing Memory Leaks?
+
+1. Static Field Holding On to the Object Reference
+2. Calling String.intern() on Long String 
+- Solution : increase the size of the permanent generation 
+- use Java 8 : it won’t lead to any OutOfMemoryError 
+
+3. Unclosed Streams and connection
+
+4. Adding Objects with no hashCode() and equals() into a HashSet
+
+5. Don't mix primitive with wrapper class when passing parameter . 
+Autobox creates new Object every time.
+
+6. when use custom cache always clear them when elements are not require can use WeakHashMap
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create Memory leak in Java?
+
+EXAMPLE1:
+try{
+  Connection con = DriverManager.getConnection();
+  con.close();
+}
+Catch(exception ex){
+}
+- close the connection resource in the try block, so in case of an exception, the connection will not be closed. 
+- So it creates a memory leak as this connection never return back to the pool.
+- Always put any closing stuff in the finally block.
+
+EXAMPLE2:
+> When we forgot to clear the cache, so although objects in cache are not required anymore by the application, it can’t be GCed, 
+- as map holds a reference to them.
+- initialize cache by WeakHashMap. if keys are not referenced by any other objects, then that entry will be eligible for GC.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How will you detect memory leak in your application?
+## How do you take the HEAP DUMP OF A JAVA PROCESS?
+
+> we can take thread dump via 
+1. JVisualVM 
+- It create "heapdump-1517824332457.hprof" files and we can do analysis on it. 
+- OR do the analysis in eclipse memory analyzer tool.
+
+2. jmap tool 
+- it is simple to use from the command line TO PRODUCE A HEAP DUMP. 
+- it create dustin.bin file which can be analyse by jhat.
+
+jmap -dump:live, file=/location/of/heap_dump.hprof  PID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Thread dump and Heap dump?
+
+> A thread dump is a dump of the stacks of all live threads. 
+- Thus useful for analysing what an app is up to at some point in time, and 
+- if done at intervals handy in DIAGNOSING SOME KINDS OF 'EXECUTION' PROBLEMS (E.G. THREAD DEADLOCK).
+
+> A heap dump is a dump of the state of the Java heap memory. 
+- Thus useful for analysing what use of memory an app is making at some point in time so handy in diagnosing some memory issues, and 
+- if done at intervals handy in DIAGNOSING MEMORY LEAKS.
+=======================================
+##### JAVA COMMAND LINE PROPERTIES ####
+-cp classpath => default classpath and additional classpath
+-Dproperty=value  => Sets a system property value.
+-verbose:class => Displays information about each class loaded.
+-verbose:gc => Reports on each garbage collection event.
+
+-Djava.compiler=NONE => disable the JIT compiler (by default enabled)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Options that begin with -X are non-standard (not guaranteed to be supported on all VM implementations), 
+- these are subject to change without notice in subsequent releases of the JDK.
+
+> Options that are specified with -XX are not stable and are not recommended for casual use. 
+- These options are subject to change without notice.
+--------------------------
+-XX:MaxPermSize=192m => set max PermGen size. 
+=> This option was deprecated in JDK 8, and superseded by the -XX:MaxMetaspaceSize option.
+
+-XX:PermSize=124m 
+=> initial size that will be allocated during startup of the JVM. If necessary, the JVM will allocate up to -XX:MaxPermSize.
+
+-Xms (set initial Java heap size), 
+-Xmx(set maximum Java heap size)
+-Xssn => Sets the thread stack size.
+
+#### -Xms3072M -Xmx3072M -XX:+AggressiveHeap -XX:MaxPermSize=1024M
+When we say MaxPermSize = 1024M does it mean that it is taken from 3072M that I set for Xms/Xmx ?
+
+> No, PermSize is additional to the -Xmx value set by the user on the JVM options. 
+- MaxPermSize allows JVM to be able to grow the PermSize to the amount specified.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+http://javarevisited.blogspot.in/2011/11/hotspot-jvm-options-java-examples.html
+=====================================
+##### REMOTE DEBUGGING #####
+> One need to supply two arguments, -Xdebug and -Xrunjdwp. 
+-Xdebug  
+> tell JVM to run the application in debug mode, while 
+
+-Xrunjdwp (Java Debugger With Parameter)
+> it is used to supply debug parameters (It can also be used in JVM 1.5 or 1.6 as well)
+
+EXAMPLE: 
+-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
+
+Here 
+1. transport=dt_socket 
+=> instructs JVM that the debugger connections will be made through a socket
+
+2. address=8000 
+=> instructs JVM that the socket will be opened on port 8000
+
+3. suspend=n 
+=> If configured as 'y' the JVM starts in suspended mode and stays suspended until a debugger attaches to it. 
+This is helpful if you want to start debugging as soon as the JVM starts.
+
+4. server=y 
+=> If "y", listen for a debugger application to attach; otherwise, attach to the debugger application at the specified address. 
+=====================================
+########## CREATING JARS ############
+> jar cvf <jar_name>.jar source_folder
+-c : Creates a new archive file named jarfile (if f is specified)
+-M : Do not create a manifest file entry (for c and u), 
+or delete a manifest file entry if one exists (for u).
+
+-m : Includes name: value attribute pairs from the specified manifest file manifest in the file at META-INF/MANIFEST.MF. 
+A name: value pair is added unless one already exists with the same name, in which case its value is updated. (existing manifest file must end with a new line character.) 
+-v : Generates verbose output to standard output
+
+-X : stands for extraction 
+-f : would be any options that indicate that the JAR file from which files are to be extracted
+Ex - 
+1. jar cvf log4j-1.2.15-sources.jar log4j-1.2.15-sources
+2. jar cvMf ant.jar org/ META-INF/ images/ 
+
+## To extract only certain files from a jar file, supply their filenames:
+> jar xf myFile.jar foo bar
+=====================================
+############ GARBAGE COLLECTION #####
+
+## What do you mean by Garbage Collection?
+> garbage means unreferenced objects.
+> Garbage Collection is process of reclaiming the runtime unused memory automatically
+- Live objects are tracked and everything else designated garbage
+
+> GC is a dameon thread. JVM controls the Garbage Collector
+> Before removing an object from memory, garbage collection thread invokes finalize() method of that object 
+
+> Cyclic dependencies are not counted as reference so 
+- if object A has reference of object B and object B has reference of Object A and they don't have any other live reference then both Objects A and B will be eligible for Garbage collection
+
+> JVM runs the Garbage Collector when it realizes that the memory is running low.
+
+ADVANTAGE
+> It makes java memory efficient because garbage collector removes the unreferenced objects from HEAP MEMORY.
+> It is automatically done by the garbage collector so we don't need to make extra efforts.
+-------------------------------
+### How Garbage Collector works??
+> "mark and swap" is the algorithm JVM internally uses.
+
+> 1. it perform marking task i.e it mark the object that is referenced(i.e live)
+> 2. Now the unmark ref. are not in use. so it sweep those object/references
+
+> Garbage collected from Young generation heap memory is minor GC.
+> Object are 1st store in eden space and 
+- then after minor GC it moved to suvivor space(S0) and then S1 space gen.
+- aft a particular threshold(i.e age) and then move to tenured space(old gen) space. 
+
+> Garbage collected from Old generation heap memory is major GC.
+
+> we can use Java Visual VM to monitor the JVM process
+-------------------------------
+##
+
+-------------------------------
+##How can an object be unreferenced?
+> By nulling the reference i.e  object = null
+> Object is created inside a block and reference goes out scope once control exit that block.
+
+> By assigning a reference to another  
+Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
+
+> By creating annonymous object etc.  ex - new ClassName(); <--anonymous obj--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is finalize method? (Ref - 1d.)
+
+> it is invoke each time before the object is gc 
+> called by the garbage collector before reclaiming the memory allocated to the object. 
+> A class overrides the finalize() to dispose of system resources or to perform other cleanup. 
+> it is not recommended because the execution of finalize() is not guaranteed and there is a severe impact on performance.
+
+> NO GUARANTEE that an object will be garbage collected 
+- i.e no guarantee finalize() will be called on an object bcz 
+- not guarantee which thread will pick finalize(). 
+- if any thread pick then that hv user visible sync. lock or not.
+
+> finalize() called only ONCE by the gc
+> even once the finalize() is called by the gc, it is still possible to prevent the object from garbage collection
+> it is use to perform clean up activity
+> define in Object class as protected void finalize(){}
+-------------------------------
+## How to enable/disable call of finalize() method of exit of the application?
+
+> Runtime.getRuntime().runFinalizersOnExit(boolean value) . 
+- Passing the boolean value will either disable or enable the finalize() call
+-------------------------------
+##How can the Garbage Collection be requested?
+1. by calling Sytem.gc(). It will request the jvm to perform GC
+
+2. Runtime.getRuntime().gc() 
+- Here Runtime class is the singleton class
+- getRuntime() returns a singleton instance of the Runtime class
+
+> Its not guaranteed that GC will run immediately as result of calling these method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Do static member variables ever get garbage collected?
+> Objects referenced by static variable will be garbage collected at the time of class unloading.
+
+> Class can be unloaded is if the Classloader used is garbage collected.
+> OSGi platform strives to do just this, as each bundle has a different classloader
+-------------------------------
+## When the ClassLoader is eligible for garbage-collection?
+> A class can be garbage-collected when nothing references it. 
+- In most simple setups this never happens, but there are situations where it can occur.
+
+> There are many ways to make a class reachable and thus prevent it from being eligible for GC:
+- objects of that class are still reachable.
+- the Class object representing the class is still reachable
+- the ClassLoader that loaded the class is still reachable
+- other classes loaded by the ClassLoader are still reachable
+
+When none of those are true, then the ClassLoader and all classes it loaded are eligible for GC.
+-------------------------------
+## Which part of the memory is involved in Garbage Collection? Stack or Heap?
+> Heap 
+=======================================
+##### TYPES OF GARBAGE COLLECTOR ######
+
+## What are the different garbage collectors in Java?
+
+The HotSpot JVM contains several garbage collectors. They are:
+
+1. SERIAL GC:
+> It uses just a single thread for garbage collection i.e both minor and major garbage collections are done serially (using a single virtual CPU)
+- The way it works by freezing all the application threads while doing garbage collection 
+- It may not be suitable for a server environment. 
+
+> It is the default for client style machines in Java SE 5 and 6. 
+
+> Turn on the -XX:+UseSerialGC JVM argument to use the serial garbage collector.
+~~~~~~~~~~~~~~~~~~~~~~~~
+2. PARALLEL GC: (Throughput GC) (default)
+> it uses multiple threads to perform the young generation garbage collection. 
+> A single thread is used for major garbage collection and Old Generation compaction
+> By default on a host with N CPUs, the parallel garbage collector uses N garbage collector threads in the collection.
+> It is the default garbage collector of the JVM.
+
+> It also freezes all the application threads while performing garbage collection.
+~~~~~~~~~~~~~~~~~~~~~~~~
+3. CMS Collector: 
+> The Concurrent Mark Sweep (CMS) collector collects the tenured generation. 
+> It attempts to minimize the pauses due to garbage collection by doing most of the garbage collection work concurrently with the application threads.
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+4. G1 Garbage Collector: 
+> The Garbage First or G1 garbage collector is available in Java 7 and is designed to be the long term replacement for the CMS collector. 
+- The G1 collector is a parallel, concurrent, and incrementally compacting low-pause garbage collector that has quite a different layout from the other garbage collectors described above.
+=======================================
+##What happens if an uncaught exception is thrown from during the execution of the finalize() method of an object?
+>  exception will be ignored and the garbage collection (finalization) of that object terminates.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to ensure that instance is never garbage collected?
+
+> you can store a reference somewhere in your finalizer.
+- This will prevent the object from being collected until the collector determines again that there are no more references.
+
+protected void finalize() throws Throwable {
+    MyObjectStore.getInstance().store(this);
+    super.finalize(); // questionable, but you should ensure calling it somewhere.
+}
+> But this is not right way.
+
+=======================================
+## Difference between PATH and CLASSPATH?
+> PATH is an environment variable which is used to locate JDK binaries like "java" or "javac" command
+> PATH = JDK_HOME/bin directory
+> this is set as user variable as: PATH=C:\jdk1.6.0_15\bin;%PATH%
+
+> CLASSPATH environment variable is used by System or Application ClassLoader 
+- to locate and load compile Java bytecodes stored in .class file OR imbibe in jar
+- CLASSPATH - %PATH%;%JAVA_HOMES%\lib\tools.jar
+
+> Using elipse, this path are handle by eclipse, we need not to set classpath explicitly 
+
+
+> PATH can not be overridden by any Java settings but 
+- CLASSPATH can be overridden by providing command line option -classpath or -cp to both "java" and "javac" commands
+
+------------
+##So after installing java, we need to set below variables
+USER VARIABLE:
+PATH=C:\jdk1.6.0_15\bin;%PATH%
+JAVA_HOME=C:\jdk1.6.0_15
+CLASSPATH - %PATH%;%JAVA_HOMES%\lib\tools.jar
+
+SYSTEM VARIABLE :
+Path : C:\jdk1.7\bin;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WHAT IS DIFFERENCE BETWEEN JRE AND JDK?
+
+JRE (Java Run-time Envirn) - 
+> It provides environment to only run(not develop) the java program
+> JRE includes the JVM, core libraries and other additional components to run applications and applets written in Java
+- it include java.exe 
+
+> JRE DOES NOT CONTAIN JAVA COMPILER and other software tools needed to develop Java programs like javah, javap, javadoc
+- JDK contain javac and other development jar
+
+JDK(Java Development kit) - It is software development kit. it include
+1. Java Compiler (javac) - it use to compile the .java pgm into bytecode .class file 
+- located in /bin 
+- it is platform independent
+
+2. Java Interpreter(java.exe) - it interpret .class using java command
+3. Java Disassembler (javap.exe)
+4. Java Header file Generator (javah.exe)
+5. Java documentation (javadoc.exe)
+6. java debugger (jdb.exe) - it is a simple command-line debugger 
+
+> we can use either 1 for running java appl
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is difference between java.exe and javaw.exe?
+
+> jvm.dll is actual JVM implementation in window envirn. 
+> part of JRE and JDK
+> A C pgm can use jvm.dll directly to run the jvm
+
+> java.exe is a Win32 Console appl
+> it is used to execute java classes 
+> it internally call jvm.dll
+
+> javaw.exe is a Win32 GUI appl
+> it work same as java.exe except it is used when need to run window GUI
+> to launch Eclipse this javaw.exe is used.
+
+> javaws.exe is used to launch a java application that is distributed through web
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between JIT and JVM?
+
+> main goal of JVM is to provide platform independence while 
+- objective of JIT is to improve performance of JVM
+- JIT is part of JVM itself and it improve the performance of JVM by directly compiling some hot code (code which executes above a certain threshold) into native instruction (ML) 
+- JIT also offers CACHING OF COMPILED CODE which result in improved performance of JVM.
+
+===================================
+Java virtual machine (Java VM) has built-in instrumentation that enables you to monitor and manage it using the Java Management Extensions (JMX) technology. These built-in management utilities are often referred to as out-of-the-box management tools for the Java VM. You can also monitor any appropriately instrumented applications using the JMX API. 

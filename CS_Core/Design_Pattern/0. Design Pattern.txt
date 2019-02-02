@@ -1,0 +1,157 @@
+## What is Design Pattern?
+> It is an idea to solve specific problem/task in a simple way.
+> By using it make our code more flexible, reusable and maintainable.
+> It is not specific to any lang. 
+
+> We use design pattern during the analysis and requirement phase of SDLC(Software Development Life Cycle).
+
+design patterns are categorized into two parts:
+1. Core java (or JSE) Design Patterns.
+2. JEE Design Patterns.
+---------------------------------------
+> Christopher Alexander was the first person who invented all the above Design Patterns in 1977.
+> But later the Gang of Four - 'Design patterns, elements of reusable object-oriented software' book was written 
+- by a group of 4 persons named as Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides in 1995.
+
+> That's why all the below 23 Design Patterns are known as Gang of Four (GoF) Design Patterns.
+=======================================
+####### 23 Gang of Four(GoF) DP #######
+
+> There are 3 types of design patterns as 
+
+1. CREATIONAL PATTERNS ARE FOLLOW
+> It is concerned with the way of creating objects. 
+- It is used when a decision must be made at the time of instantiation of a class
+- It is used when object can change according to the nature of the program
+
+  a. Singleton,  
+  b. Factory Method, 
+  c. Abstract Factory, 
+  d. Builder, 
+  e. Prototype, 
+  Object Pool
+
+2. STRUCTURAL DESIGN PATTERN
+> It help you guarantee that when one of the parts changes, the entire structure does not need to change. 
+> It serves as a blueprint for how different classes and objects are combined to form larger structures.
+
+  a. Adapter pattern - Adapts one interface for a class into one that a client expects
+  b. Bridge pattern - 
+  c. Composite pattern
+  d. Decorator Pattern
+  e. Facade Pattern
+  f. Flyweight Pattern
+  g. Proxy Pattern
+
+3. BEHAVIORAL PATTERNS
+> This DP is concerned with the interaction and responsibility of objects. 
+- the interaction between the objects should be in such a way that they can easily talk to each other and still should be loosely coupled.
+
+  a. Template Method Pattern 
+  b. Mediator Pattern
+  c. Chain of Responsibility Pattern
+  d. Observer Pattern
+  e. Strategy Pattern
+  f. Command Pattern
+  g. State Pattern
+  h. Visitor Pattern
+  i. Interpreter Pattern
+  j. Iterator Pattern
+  k. Memento Pattern
+
+
+=======================================
+##### SOFTWARE DESIGN PRINCIPLES ######
+## What are Software Design Principles?
+
+
+######## SOLID DESIGN Principal #######
+1. S - SRP – Single Responsibility Principle.
+2. O - OCP – Open/Closed Principle.
+3. L - LSP – Liskov Substitution Principle.
+4. I - ISP – Interface Segregation Principle.
+5. D - DIP – Dependency Inversion Principle.
+
+## Single Responsibility Principle
+> there should not be more than one reason for a class to change, or a class should always handle single functionality.
+Example: JPA
+
+## Open and Close Principal
+> it states that the design and writing of the code should be done in a way that 
+- new functionality should be added with minimum changes in the existing code (by adding new classes & method not changing the existing one)
+
+## Liskov Substitution Principle (LSP):
+> It says derived class or subclass must enhance functionality, but not reduce them.
+- we could replace the existing implement with its subtype which has enhanced features.
+> It represents "L" on the SOLID acronym
+
+## Interface Segregation Principle (ISP)
+> a client should not implement an interface if it doesn't use that
+
+## Dependency Inversion Principle.
+> do not hard code the dependent obj 
+- inject it from outside
+=======================================
+##### Open and Close Principal #####
+> it states that the design and writing of the code should be done in a way that 
+- new functionality should be added with minimum changes in the existing code.
+
+- design should be done in a way to ALLOW ADDING NEW FUNCTIONALITY AS NEW CLASSES, 
+- keeping as much as possible existing code unchanged to avoid tested code.
+
+
+Ex - 
+class Shape{
+	int type
+}
+class Rectangle extends Shape{ 
+  Rectangle(){ super.type=1; }
+}
+
+class Circle extends Shape{ 
+  Circle(){super.type=2}
+}
+--------------
+class GraphicEditor{ 
+	public void drawShape(Shape s){
+		if(s.type==1){ drawRectange(s);}
+		else if(s.type==2){ drawCircle(s);}
+	}
+	drawRectange(Rectangle r){...}
+	drawCircle(Circle c){...}
+} 
+> This is bad example it not allow to extend the further requirement.
+-------------------------------------------
+Ex- But This is best example it allow to extend the further requirement.
+abstract class Shape{
+	public abstract void draw();
+}
+
+class Rectangle extends Shape{ draw().... }
+class Circle extends Shape{ draw().... }
+class Triangle extends Shape{ draw().... }
+
+----------------
+class GraphicEditor{ 
+	public void drawShape(Shape s){
+		s.draw();
+	}
+} 
+> GraphicEditor is not changed when a new shape class is added.
+> Now it can draw any shape obj it pass
+
+> There are many design patterns that help us to extend code without changing it.
+- Decorator pattern help us to follow Open Close principle
+
+=====================================
+###### STRATEGY DESIGN PATTERN ######
+> It is quite useful for implementing set of related algorithms e.g. compression algorithms, filtering strategies etc
+> This pattern follows open closed design principle
+
+One of a good example of Strategy pattern from JDK itself is a Collections.sort() method and Comparator interface.  
+- Here Comparator is a strategy interface and defines a strategy for comparing objects. 
+- Because of this pattern, we don't need to modify sort() method (closed for modification) to compare any object, 
+- at the same time we can implement Comparator interface to define new comparing strategy (open for extension). 
+
+=======================================
+####### DRY (Don't Repeat Yourself)####

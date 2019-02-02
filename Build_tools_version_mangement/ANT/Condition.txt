@@ -1,0 +1,64 @@
+########### CONDITION ###########
+> Sets a property if a certain condition holds true
+> default value is true
+
+# ATTRIBUTE
+> property - name of property to set
+> value - value to set the property. By default is true
+> else - set the property to if condition false. By default prop remain unset
+
+Example - 
+<condition property="manish" value="Hi Manish" >
+	<not>
+		<!--ISSET test whether a given property has been set in this project-->
+		<isset property="manish"/>
+	</not>
+</condition>
+- if isset give false, then with <not>, it bcm true and set manish="Hi Manish" 
+--------------------------------------------------------
+### CONDITIONS
+##ISSET
+> test whether a given property has been set in this project
+<isset property="manish"/>
+- here it test whether property="manish" is set or not and return true/falue.
+
+## TYPEFOUND
+> Test whether a given type is defined, and that its implementation class can be loaded. 
+> Types include tasks, datatypes, scriptdefs, macrodefs and presetdefs.
+
+##ISTRUE
+> Tests whether a string equals any of the ant definitions of true i.e true/yes/on
+value - value to test
+
+##ISREFERENCE
+Test whether a given reference has been defined in this project
+
+##ATTRIBUTE##
+refid - The id of the reference to test.	Yes
+type - Name of the data type or task this reference is expected to be.
+
+##HASMETHOD
+> Tests for a class having a method or field. If the class is not found or fails to load, the build fails. Since Ant 1.7
+
+## ATTRIBUTE ##
+classname[req] - name of the class to load
+field - name of a field to look for	one of field or method
+method - name of a method to look for	one of field or method
+ignoreSystemClasses	- should system classes be ignored?	No -default is false
+classpath - a class path
+classpathref - reference to a class path
+--------------------------------------------------------
+
+<If>
+
+> Perform some tasks based on whether a given condition holds true or not.
+
+<if>
+ <equals arg1="${foo}" arg2="bar" />
+ <then>
+   <echo message="The value of property foo is bar" />
+ </then>
+ <else>
+   <echo message="The value of property foo is not bar" />
+ </else>
+</if>

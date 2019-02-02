@@ -1,0 +1,251 @@
+
+SQL> CREATE OR REPLACE TRIGGER myTrigger
+  2  AFTER INSERT ON company
+  3  FOR EACH ROW
+  4  BEGIN
+  5    UPDATE product_audit
+  6    SET num_rows =num_rows+1
+  7    WHERE product_id =:NEW.product_id;
+  8    IF (SQL%NOTFOUND) THEN
+  9      INSERT INTO product_audit VALUES (:NEW.product_id,1);
+ 10    END IF;
+ 11  END;
+ 12  /
+
+SQL>
+SQL>
+SQL> -- create demo table
+SQL> create table Employee(
+  2    ID                 VARCHAR2(4 BYTE)         NOT NULL primary key,
+  3    First_Name         VARCHAR2(10 BYTE),
+  4    Last_Name          VARCHAR2(10 BYTE),
+  5    Start_Date         DATE,
+  6    End_Date           DATE,
+  7    Salary             Number(8,2),
+  8    City               VARCHAR2(10 BYTE),
+  9    Description        VARCHAR2(15 BYTE)
+ 10  )
+ 11  /
+
+Table created.
+
+SQL>
+SQL> -- prepare data
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary,  City,       Description)
+  2               values ('01','Jason',    'Martin',  to_date('19960725','YYYYMMDD'), to_date('20060725','YYYYMMDD'), 1234.56, 'Toronto',  'Programmer')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary,  City,       Description)
+  2                values('02','Alison',   'Mathews', to_date('19760321','YYYYMMDD'), to_date('19860221','YYYYMMDD'), 6661.78, 'Vancouver','Tester')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary,  City,       Description)
+  2                values('03','James',    'Smith',   to_date('19781212','YYYYMMDD'), to_date('19900315','YYYYMMDD'), 6544.78, 'Vancouver','Tester')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary,  City,       Description)
+  2                values('04','Celia',    'Rice',    to_date('19821024','YYYYMMDD'), to_date('19990421','YYYYMMDD'), 2344.78, 'Vancouver','Manager')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary,  City,       Description)
+  2                values('05','Robert',   'Black',   to_date('19840115','YYYYMMDD'), to_date('19980808','YYYYMMDD'), 2334.78, 'Vancouver','Tester')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary, City,        Description)
+  2                values('06','Linda',    'Green',   to_date('19870730','YYYYMMDD'), to_date('19960104','YYYYMMDD'), 4322.78,'New York',  'Tester')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary, City,        Description)
+  2                values('07','David',    'Larry',   to_date('19901231','YYYYMMDD'), to_date('19980212','YYYYMMDD'), 7897.78,'New York',  'Manager')
+  3  /
+
+1 row created.
+
+SQL> insert into Employee(ID,  First_Name, Last_Name, Start_Date,                     End_Date,                       Salary, City,        Description)
+  2                values('08','James',    'Cat',     to_date('19960917','YYYYMMDD'), to_date('20020415','YYYYMMDD'), 1232.78,'Vancouver', 'Tester')
+  3  /
+
+1 row created.
+
+SQL>
+SQL>
+SQL>
+SQL> -- display data in the table
+SQL> select * from Employee
+  2  /
+
+ID   FIRST_NAME           LAST_NAME            START_DAT END_DATE      SALARY CITY       DESCRIPTION
+---- -------------------- -------------------- --------- --------- ---------- ---------- ---------------
+01   Jason                Martin               25-JUL-96 25-JUL-06    1234.56 Toronto    Programmer
+02   Alison               Mathews              21-MAR-76 21-FEB-86    6661.78 Vancouver  Tester
+03   James                Smith                12-DEC-78 15-MAR-90    6544.78 Vancouver  Tester
+04   Celia                Rice                 24-OCT-82 21-APR-99    2344.78 Vancouver  Manager
+05   Robert               Black                15-JAN-84 08-AUG-98    2334.78 Vancouver  Tester
+06   Linda                Green                30-JUL-87 04-JAN-96    4322.78 New York   Tester
+07   David                Larry                31-DEC-90 12-FEB-98    7897.78 New York   Manager
+08   James                Cat                  17-SEP-96 15-APR-02    1232.78 Vancouver  Tester
+
+8 rows selected.
+
+
+
+
+create or replace trigger emp_bid
+ before insert or delete
+ on employees
+ referencing new as new old as old
+begin
+    if to_char(sysdate,'Dy') in ('Sat','Sun') then
+        raise_application_error(-20999,'No create/delete employees on weekend!');
+    end if;
+end;
+/ 
+ 
+There are four types of database triggers:
+> Table-level triggers can initiate activity before or after an INSERT, UPDATE, or DELETE event.
+> View-level triggers defines what can be done to the view.
+> Database-level triggers can be activated at startup and shutdown of a database.
+> Session-level triggers can be used to store specific information.
+
+
+CREATE OR REPLACE TRIGGER LimitSalary
+  BEFORE INSERT OR UPDATE OF salary ON empl
+  FOR EACH ROW
+DECLARE
+  v_MaxSalary CONSTANT NUMBER := 2000;
+  v_CurrentSalary NUMBER;
+BEGIN
+  SELECT salary
+    INTO v_CurrentSalary
+    FROM empl
+    WHERE id = :new.id;
+
+  IF v_CurrentSalary > v_MaxSalary THEN
+    RAISE_APPLICATION_ERROR(-20000, 'Too high in salary ' || :new.id);
+  END IF;
+END LimitSalary;
+/
+SQL> show errors trigger LimitSalary;
+> Mutating tables are caused when you have a row level trigger referencing(by select, update, delete, insert) the same table that the trigger is on. 
+
+insert into Empl(ID,First_Name,Last_Name,Start_Date,End_Date,Salary,City,Description)
+              values('06','Linda',    'Green',   to_date('19870730','YYYYMMDD'), to_date('19960104','YYYYMMDD'), 4322.78,'New York',  'Tester');
+update empl set salary=1500 where id='08';		
+=================================
+CREATE TABLE EMP(
+    EMPNO NUMBER(4) NOT NULL,
+    ENAME VARCHAR2(10),
+    JOB VARCHAR2(9),
+    MGR NUMBER(4),
+    HIREDATE DATE,
+    SAL NUMBER(7, 2),
+    COMM NUMBER(7, 2),
+    DEPTNO NUMBER(2)
+);
+
+INSERT INTO EMP VALUES(2, 'Jack', 'Tester', 6,TO_DATE('20-FEB-1981', 'DD-MON-YYYY'), 1600, 300, 30);
+INSERT INTO EMP VALUES(3, 'Wil', 'Tester', 6,TO_DATE('22-FEB-1981', 'DD-MON-YYYY'), 1250, 500, 30);
+INSERT INTO EMP VALUES(4, 'Jane', 'Designer', 9,TO_DATE('2-APR-1981', 'DD-MON-YYYY'), 2975, NULL, 20);
+INSERT INTO EMP VALUES(5, 'Mary', 'Tester', 6,TO_DATE('28-SEP-1981', 'DD-MON-YYYY'), 1250, 1400, 30);
+INSERT INTO EMP VALUES(6, 'Black', 'Designer', 9,TO_DATE('1-MAY-1981', 'DD-MON-YYYY'), 2850, NULL, 30);
+INSERT INTO EMP VALUES(7, 'Chris', 'Designer', 9,TO_DATE('9-JUN-1981', 'DD-MON-YYYY'), 2450, NULL, 10);
+INSERT INTO EMP VALUES(8, 'Smart', 'Helper', 4,TO_DATE('09-DEC-1982', 'DD-MON-YYYY'), 3000, NULL, 20);
+INSERT INTO EMP VALUES(9, 'Peter', 'Manager', NULL,TO_DATE('17-NOV-1981', 'DD-MON-YYYY'), 5000, NULL, 10);
+INSERT INTO EMP VALUES(10, 'Take', 'Tester', 6,TO_DATE('8-SEP-1981', 'DD-MON-YYYY'), 1500, 0, 30);
+INSERT INTO EMP VALUES(13, 'Fake', 'Helper', 4,TO_DATE('3-DEC-1981', 'DD-MON-YYYY'), 3000, NULL, 20);
+
+CREATE TABLE DEPT(
+    DEPTNO NUMBER(2),
+    DNAME VARCHAR2(14),
+    LOC VARCHAR2(13)
+);
+
+INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK');
+INSERT INTO DEPT VALUES (20, 'RESEARCH', 'DALLAS');
+INSERT INTO DEPT VALUES (30, 'SALES', 'CHICAGO');
+INSERT INTO DEPT VALUES (40, 'OPERATIONS', 'BOSTON');
+
+CREATE TABLE DEPT$AUDIT (
+    DEPTNO       NUMBER,
+    DNAME        VARCHAR2(14 byte),
+    LOC          VARCHAR2(13 byte),
+    CHANGE_TYPE  VARCHAR2(1 byte),
+    CHANGED_BY   VARCHAR2(30 byte),
+    CHANGED_TIME DATE
+);
+
+
+
+CREATE OR REPLACE TRIGGER auditDEPTAR AFTER
+INSERT OR UPDATE OR DELETE ON DEPT FOR EACH ROW
+declare
+my DEPT$audit%ROWTYPE;
+begin
+    if inserting then my.change_type := 'I';
+    elsif updating then my.change_type :='U';
+    else my.change_type := 'D';
+    end if;
+
+    my.changed_by := user;
+    my.changed_time := sysdate;
+
+    case my.change_type
+    when 'I' then
+       my.DEPTNO := :new.DEPTNO;
+       my.DNAME := :new.DNAME;
+       my.LOC := :new.LOC;
+    else
+       my.DEPTNO := :old.DEPTNO;
+       my.DNAME := :old.DNAME;
+       my.LOC := :old.LOC;
+    end case;
+
+    insert into DEPT$audit values my;
+end;
+/
+
+INSERT INTO DEPT VALUES (50, 'COMPUTATIONAL', 'BOSTON');	  
+======================================
+create table company(
+   product_id        number(4)    not null,
+   company_id          NUMBER(8)    not null,
+   company_short_name  varchar2(30) not null,
+   company_long_name   varchar2(60)
+);
+
+create table product_audit(
+   product_id number(4) not null,
+   num_rows number(8) not null
+);
+
+CREATE OR REPLACE TRIGGER myTrigger
+AFTER INSERT ON company
+REFERENCING NEW AS new_org
+FOR EACH ROW
+BEGIN
+  UPDATE product_audit SET num_rows =num_rows+1
+  WHERE product_id =:new_org.product_id;
+  IF (SQL%NOTFOUND) THEN
+    INSERT INTO product_audit VALUES (:new_org.product_id,1);
+  END IF;
+END;
+/
+
+insert into company values(1,1001,'A Inc.','Long Name A Inc.');
+insert into company values(1,1002,'B Inc.','Long Name B Inc.');
+insert into company values(1,1003,'C Inc.','Long Name C Inc.');
+insert into company values(2,1004,'D Inc.','Long Name D Inc.');
+insert into company values(2,1005,'E Inc.','Long Name E Inc.');
+insert into company values(2,1006,'F Inc.','Long Name F Inc.');

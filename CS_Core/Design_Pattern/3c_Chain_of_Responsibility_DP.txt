@@ -1,0 +1,161 @@
+##### Chain of Responsibility DP ######
+GoF Definition:
+"Gives more than one object an opportunity to handle a request by linking receiving objects together."
+
+> The main objective of this pattern is that it avoids coupling the sender of the request to the receiver, giving more than one object the opportunity to handle the request
+============================================
+### Highlights of Chain of Responsibility ##
+
+> Client doesn’t know which part of the chain will be processing the request
+> Every object in the chain should have reference to the next object 
+
+> Sender will not know which object in the chain will serve its request.
+> Every node in chain will have the responsibility to decide, if they can serve the request.
+> If node decides to forward the request, it should be capable of choosing the next node and forward it.
+> There is a possibility where none of the node may serve the request.
+============================================
+###### USAGE #######
+> It is used when multiple objects can handle a request and the handler doesn’t have to be a specific object.
+=======================================
+############ JAVA EXAMPLES ############
+> multiple try-catch blocks 
+- when any exception occurs in the try block, its send to the first catch block to process. 
+- If the catch block is not able to process it, it forwards the request to next object in chain i.e next catch block. 
+- If even the last catch block is not able to process it, the exception is thrown outside of the chain to the calling program.
+
+java.util.logging.Logger#log()
+- If the logger is currently enabled for the given message level then the given message is forwarded to all the registered output Handler objects.
+
+javax.servlet.Filter#doFilter()
+- doFilter method of the Filter is called by the container each time a request/response pair is passed through the chain due to a client request for a resource at the end of the chain. 
+- The FilterChain passed in to this method allows the Filter to pass on the request and response to the next entity in the chain.
+=======================================
+############# EXAMPLES: ###############
+
+1. Handler : This can be an interface which will primarily recieve the request and dispatches the request to chain of handlers. 
+- It has reference of only first handler in the chain and does not know anything about rest of the handlers.
+
+2. Concrete handlers : These are actual handlers of the request chained in some sequential order.
+
+3. Client : Originator of request and this will access the handler to handle it.
+
+	HANDLER[i].handleRequest()
+		|<----ConcreteHandler1[c].handleRequest()
+		|<----ConcreteHandler2[c].handleRequest()
+----------------------------------------
+##EXAMPLES: ##
+
+### Currency
+public class Currency {
+	private int amount;	
+	public Currency(int amt){
+		this.amount=amt;
+	}
+	public int getAmount(){
+		return this.amount;
+	}
+}
+
+### DispenseChain
+public interface DispenseChain {
+	void setNextChain(DispenseChain nextChain);	
+	void dispense(Currency cur);
+}
+
+
+### Dollar50Dispenser
+public class Dollar50Dispenser implements DispenseChain {
+	private DispenseChain chain;
+	@Override
+	public void setNextChain(DispenseChain nextChain) {
+		this.chain=nextChain;
+	}
+	@Override
+	public void dispense(Currency cur) {
+		if(cur.getAmount() >= 50){
+			int num = cur.getAmount()/50;
+			int remainder = cur.getAmount() % 50;
+			System.out.println("Dispensing "+num+" 50$ note");
+			if(remainder !=0) this.chain.dispense(new Currency(remainder));
+		}else{
+			this.chain.dispense(cur);
+		}
+	}
+}
+
+### Dollar20Dispenser.java
+package com.journaldev.design.chainofresponsibility;
+public class Dollar20Dispenser implements DispenseChain{
+	private DispenseChain chain;
+	@Override
+	public void setNextChain(DispenseChain nextChain) {
+		this.chain=nextChain;
+	}
+	@Override
+	public void dispense(Currency cur) {
+		if(cur.getAmount() >= 20){
+			int num = cur.getAmount()/20;
+			int remainder = cur.getAmount() % 20;
+			System.out.println("Dispensing "+num+" 20$ note");
+			if(remainder !=0) this.chain.dispense(new Currency(remainder));
+		}else{
+			this.chain.dispense(cur);
+		}
+	}
+}
+
+Dollar10Dispenser.java
+package com.journaldev.design.chainofresponsibility;
+public class Dollar10Dispenser implements DispenseChain {
+	private DispenseChain chain;
+	
+	@Override
+	public void setNextChain(DispenseChain nextChain) {
+		this.chain=nextChain;
+	}
+
+	@Override
+	public void dispense(Currency cur) {
+		if(cur.getAmount() >= 10){
+			int num = cur.getAmount()/10;
+			int remainder = cur.getAmount() % 10;
+			System.out.println("Dispensing "+num+" 10$ note");
+			if(remainder !=0) this.chain.dispense(new Currency(remainder));
+		}else{
+			this.chain.dispense(cur);
+		}
+	}
+}
+
+package com.journaldev.design.chainofresponsibility;
+import java.util.Scanner;
+
+public class ATMDispenseChain {
+	private DispenseChain c1;
+	public ATMDispenseChain() {
+		// initialize the chain
+		this.c1 = new Dollar50Dispenser();
+		DispenseChain c2 = new Dollar20Dispenser();
+		DispenseChain c3 = new Dollar10Dispenser();
+
+		// set the chain of responsibility
+		c1.setNextChain(c2);
+		c2.setNextChain(c3);
+	}
+
+	public static void main(String[] args) {
+		ATMDispenseChain atmDispenser = new ATMDispenseChain();
+		while (true) {
+			int amount = 0;
+			System.out.println("Enter amount to dispense");
+			Scanner input = new Scanner(System.in);
+			amount = input.nextInt();
+			if (amount % 10 != 0) {
+				System.out.println("Amount should be in multiple of 10s.");
+				return;
+			}
+			// process the request
+			atmDispenser.c1.dispense(new Currency(amount));
+		}
+	}
+}

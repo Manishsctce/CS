@@ -1,0 +1,55 @@
+############ $q ############
+> It is a service that helps us to run func asynchronously and use their return values (or exceptions) when they are done processing.
+
+- use this object to promise for some result like 
+function add(x,y){
+	var q = $q.defer(); //create promise object 
+	setTimeout(function(){
+		var result = x+y;
+		if(result>=0){q.resolve(x+y);}
+		else{q.reject('negative value: '+result);}
+	},100);
+	return q.promise;
+}
+
+
+----------------------------------------------------------------
+############ CUSTOM SERVICE  ############
+two simple ways:
+1. USING SERVICE METHOD
+var module = angular.module('myapp', []);
+
+module.service('userService', function(){
+	this.users = ['John', 'James', 'Jake'];
+});
+
+2. USING FACTORY METHOD
+module.factory('userService', function(){
+	var fac = {};
+	fac.users = ['John', 'James', 'Jake']; 
+	return fac;
+});
+
+> both these apis defines a singleton service object that can be used within any controller, filter, directive etc.
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+############   ############
+----------------------------------------------------------------
+http://stackoverflow.com/questions/15666048/angularjs-service-vs-provider-vs-factory?rq=1

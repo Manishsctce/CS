@@ -1,0 +1,34 @@
+Procedure & Function examples
+
+create or replace procedure emp_proc
+(v_empid in emp.empno%type, v_job out emp.job%type, v_ename out emp.ename%type)
+is
+v_ename emp.ename%type;
+v_job emp.job%type;
+begin
+  select ename, job into v_ename,v_job from emp where empno = v_empid;
+  dbms_output.put('procedure created successfully');
+end;
+/
+
+--To execute above created procedure
+declare
+v_ename emp.ename%type;
+v_job emp.job%type;
+v_empid emp.empno%type := &emp_id;
+begin
+  emp_proc(v_empid,v_job,v_ename);
+  --select first_name, last_name into v_firstname,v_lastname from employees where employee_id = v_empid;
+  dbms_output.put_line('Emp id '||v_empid||' '||v_firstname||' '||v_lastname);
+end;
+
+CREATE TABLE EMP(
+    EMPNO NUMBER(4) NOT NULL,
+    ENAME VARCHAR2(10),
+    JOB VARCHAR2(9),
+    MGR NUMBER(4),
+    HIREDATE DATE,
+    SAL NUMBER(7, 2),
+    COMM NUMBER(7, 2),
+    DEPTNO NUMBER(2)
+);

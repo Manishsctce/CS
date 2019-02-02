@@ -1,0 +1,144 @@
+> Hudson - it is use to manage build
+> SVN - use to manage version of build
+
+svn <command> --userid <userid> --password <password> 
+
+########## SVN DIFF ###########
+$ svn diff		: show local changes
+
+$ svn diff -c 9115 text1.txt 		: show t
+
+//TAKE diff/patch between two revision number
+$ svn diff --old https://svn.tibco.com/svn/amf/branches/amx330-hf18/releaseUnits/com.tibco.neo.machine.feature@172195 --new  https://svn.tibco.com/svn/amf/branches/amx330-hf18/releaseUnits/com.tibco.neo.machine.feature@172346
+
+$ svn diff EnvServiceImpl.java -r R1:R2   	: diff bet 2 revision num 
+
+######### SVN UPDATE ##########
+> svn up -r <revision_num> : it will go to given revision_num
+> svn up <file_name> : it will update only the specified file, even if the file is deleted from local directory
+
+######### SVN REVERT ##########
+> Reverts any local changes to a file or directory and resolves any conflicted states i.e undo all local edits
+
+> svn revert <file_name>
+> svn revert -R . 						: it will revert all changes recursively in the dir 
+> svn revert . --depth=infinity 		: revert all changes recursively in the dir 
+
+######### SVN COPY ############
+> svn copy SRC[@REV]... DST
+
+######### SVN DELETE #########
+svn delete http://www.yourrepository.com/svn/folder --message "Deleting"
+
+######### SVN LOG ###########
+## to show 10 logs 
+> svn log -l 10 
+
+####### SVN Lock ######
+> To know svn lock using Tortoise -> repo-browser 
+
+$ svn status --show-updates
+
+####### SVN Version #########
+> svn --version 
+
+######### SVN CLEAN #########
+$ svn cleanup 
+$ svn cleanup . --remove-unversioned
+$ svn cleanup . --remove-ignored         : remove ignored items
+$ svn cleanup . --remove-ignored --remove-unversioned 
+
+######### SVN PASSWORD ########
+.subversion directory contain the password store mechanism 
+- we can change here in config or server files
+- it cache all new password but cannot update that password if change so better remove the cache at .subversion/auth/svn.simple 
+
+####### SVN CHECKOUT  #######
+## checkout in a particular dir
+> svn checkout <URL> dir_name 
+
+####### CREATE PATCH  #######
+$ svn diff > <any_name>.diff 
+$ patch -p0 -i <patchName>.diff 
+
+######## Diff bet two revision numb ######3
+svn diff -r 1st_revision_num:2st_revision_num  > <patch_name>.diff
+
+
+######## Create dir in svn #####
+svn mkdir --parents https://svn.tibco.com/svn/thirdparty/branches/amx330-hf15/ -m "making dir for ant and log tpcl for TAP-14353 "
+
+####### SVN Status  #######
+c:\> svn status
+- M - - - -  	index.html
+! - - - - C  	css/style.css
+- - L - - -  	images/sprites.jpg
+A - - - - C 	js/project.js
+In the above output, we see the following status codes for the files.
+
+M in second column indicates that properties of this file has been modified.
+! in first column indicated that the file is missing.
+C in sixth column indicates that this file is in conflicting state.
+L in third column indicates that this file is locked.
+A in first column indicates that the file is scheduled for addition.
+
+-----------------------------------------------------
+####### SVN Info ##########
+> svn info sprites.jpg
+
+####### Svn Lock ###########
+svn lock tgs-logo.jpg
+
+####### SVN UNLOCK ##########
+> svn unlock tgs-logo.jpg : Unlock a File using SVN Unlock
+
+## Others Can’t Commit a Locked File
+c:\>svn commit -m “some modification done” tgs-logo.jpg
+Sending        tgs-logo.jpg
+svn: Commit failed (details follow):
+svn: Server sent unexpected return value (423 Locked)
+
+
+## Force Unlock SVN Locks
+c:\> svn info tgs-logo.jpg | grep URL
+URL: https://thegeekstuff.com/code_base/trunk/tgs-logo.jpg
+
+c:\> svn unlock https://thegeekstuff.com/code_base/trunk/tgs-logo.jpg
+svn: Unlock request failed: 403 Forbidden
+
+c:\> svn unlock --force https://thegeekstuff.com/code_base/trunk/tgs-logo.jpg
+'tgs-logo.jpg' unlocked.
+-----------------------------------------------------
+## After Force Unlock on a File
+c:\> svn status tgs-logo.jpg
+     K  tgs-logo.jpg
+	 
+c:\> svn status -u tgs-logo.jpg
+     B        tgs-logo.jpg
+Status against revision:     5909.
+
+- running an svn update will clear the token of the Broken lock and then running svn status will return blank result.	 
+
+svn update tgs-logo.jpg
+
+---------------------------------------
+########### SWITCH OR RELOCATE ########
+#SYNTAX - svn switch --relocate old_url new_url
+
+------------------------------------------------------
+######## Removing credential cache #########
+On Unix, it's in $HOME/.subversion/auth.
+On Windows, I think it's: %APPDATA%\Subversion\auth.
+
+========================================
+##### Error E155036 
+
+If you attempt to use Subversion 1.7 on a working copy created with an older version of Subversion, you will see an error:
+
+$ svn status
+svn: E155036: Please see the 'svn upgrade' command
+svn: E155036: Working copy '/home/sally/project' is too old (format 10, create
+d by Subversion 1.6)
+$
+Use the 'svn upgrade' command to upgrade the working copy to the most recent metadata format supported by your version of Subversion.
+

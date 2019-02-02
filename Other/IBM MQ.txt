@@ -1,0 +1,23 @@
+IBM MQ ~ WebSphere MQ ~ MQ
+
+> it is Message oriented Middleware(MOM)
+> it help to work multiple appl independently if there are some connection (i.e sharing of data) in appl on network.
+
+> it help to achieve non-time-dependent architecture
+> help to acheive parallel processing appl design
+
+> Messages can be sent from one appl to another, regardless of whether the appl are running at the same time. 
+- If a msg receiver appl is not running, queue manager will hold until the receiver asks for it. 
+- Ordering of all msg is preserved, by default this is in FIFO order of receipt at the local queue within priority of the message
+
+Ex - 
+
+> QUEUE MANAGER(QMr) handles storage, timing issues, triggering, and all other functions not directly related to actual movement of data.
+
+>> Communication bet QMr relies on a channel. 
+- Each QMr uses one or more channels to send and receive data to other QMr. 
+- A channel is uni-directional; a second channel is required to return data
+
+Message Composition = header + appl data
+> MQMD - message descriptor 
+- it contain reply to queue or reply to QMr info

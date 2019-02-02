@@ -1,0 +1,222 @@
+######### mkdir ######
+> Creates a directory. 
+> Does nothing if the directory already exist.
+
+<mkdir dir="${dir}/temp"/>
+--------------------------------------------------------
+######### concat #####
+> concatenates one or more resource to a single file or to the console
+
+## ATTRIBUTE ##
+1. destfile - destination file to append if not specified the it will be console
+2. append - default to "no"
+3. overwrite - default to "yes"
+--------------------------------------------------------
+######### copy #####
+> Copies a file or resource collection to a new file or directory
+
+## ATTRIBUTE ##
+1. file - file to copy.
+2. tofile - name of file to copy to.
+3. todir - directory to copy to.
+4. preservelastmodified - Give the copied files the same last modified time as the original source files.
+5. flatten	- Ignore the directory structure of the source files, and copy all files into the directory specified by the todir attribute. 
+
+EXAMPLE-
+## Copy a directory to another directory
+  <copy todir="../new/dir">
+    <fileset dir="src_dir"/>
+  </copy>
+  
+## Copies some resources to a given directory
+<copy todir="dest" flatten="true">
+    <resources>
+      <file file="src_dir/file1.txt"/>
+      <url url="http://ant.apache.org/index.html"/>
+    </resources>
+</copy>
+- here flatten help to take file1.txt from src to dest.
+--------------------------------------------------------
+######### delete #########
+> it can deletes a single file, a specified directory and all its files and subdirectories
+
+## ATTRIBUTE ##
+1. file - file to delete. simple filename (if the file exists in the current base directory), a relative-path filename, or a full-path filename
+2. dir -  directory to delete, including all its files and subdirectories
+3. verbose - Whether to show the name of each deleted file.
+4. failonerror - Controls whether an error (such as a failure to delete a file) stops the build or is merely reported to the screen.
+
+EXAMPLE-
+  <delete dir="lib"/>
+- deletes the lib directory, including all files and subdirectories of lib.
+
+EXAMPLE-
+<delete>
+    <fileset dir="." includes="**/*.bak"/>
+  </delete>
+- deletes all files with the extension .bak from the current directory and any subdirectories. 
+--------------------------------------------------------
+######### dirname  #####
+> use project name for an absolute path to the ant file through ant.file.name property
+
+Ex - 
+<project name="myProject">
+		<dirname property="mydir" file="${ant.file.myProject}"/>
+- mydir give the current dir where my current ant xml is present
+--------------------------------------------------------
+######### echo #########
+> it is subele of target
+- use to print msg 
+> A level can be specified, which controls at what logging level the message is filtered at.
+
+## ATTRIBUTE ##
+1. message 
+2. file	- the file to write the message to.
+3. level - Control the level at which this message is reported. 
+> One of "error", "warning", "info", "verbose", "debug" (decreasing order)
+
+EXAMPLE-
+<echo message="sleeping for ${artifact.download.port.release.seconds} seconds to get the artifact.download.port free"/>
+--------------------------------------------------------
+######### property Element #########
+> use to set a property by name and value 
+> case sensitive, IMMUTABLE
+
+##### 7 ways to set properties #####
+
+## <property name="foo.dist" value="dist"/>
+- sets the property foo.dist to the value "dist".
+
+## <property name="foo.dist">dist</property>
+- sets the property foo.dist to the value "dist".
+
+## <property file="foo.properties"/>
+- reads a set of properties from a file called "foo.properties".
+
+## <property url="http://www.mysite.com/bla/props/foo.properties"/>
+- reads a set of properties from the address "http://www.mysite.com/bla/props/foo.properties".
+
+## <property resource="foo.properties"/>
+- reads a set of properties from a resource called "foo.properties".
+
+## <property file="${user.home}/.ant-global.properties"/>
+- Here file make use of user.home as dir and then use .ant-global.properties to set name and value
+
+## <property environment="env"/>
+<echo> ${env.JAVA_HOME}</echo>
+- show JAVA_HOME path
+
+##  <property name="foo" location="my/file.txt" relative="true" basedir=".."/>
+- it store the relative path as foo = projectbasedir/my/file.txt 
+
+<property name="foo" location="Users/managraw/soapui-setting.xml" relative="false" basedir=".." />
+- give C:\Users\managraw\soapui-setting.xml
+> env values are overwritten by build.properties  
+--------------------------------------------------------
+######### propertyfile #########
+> use for editing property files
+
+file	Location of the property file to be edited
+--------------------------------------------------------
+######### propertyset #########
+> it is sub-element of ant task
+> specify a set of properties to be copied into the new project 
+
+## NESTED ELEMENT ##
+1. PROPERTYREF - 
+> Selects properties from the current project to be included in the set
+
+A propertyset can be used as the set union of more propertysets.
+--------------------------------------------------------
+######### echoproperties #####
+> Report the current properties to the file "installation.properties"
+
+# ATTRIBUTE
+1. destfile - properties sent to the specified file 
+2. prefix -  filter the properties only those properties starting with this prefix will be echoed
+3. regex - used to filter the properties
+
+EXAMPLE-
+ <echoproperties destfile="${tibco.home}/installation.properties" >
+            <propertyset>
+                <propertyref name="upgrade.to.version" />
+                <propertyref name="amx.pa.version" />
+                <propertyref name="tct.version" />
+                <propertyref name="rcp.version" />
+                <propertyref name="installation.recipe" />
+                <propertyref name="installation.recipe.path" />
+                <propertyref name="team" />
+            </propertyset>
+        </echoproperties>
+--------------------------------------------------------
+##### var #####
+> provide MUTABLE PROPERTY to ant
+
+## ATTRIBUTE ##
+1. unset	= Removes property from the project as if it had never set. by default false
+
+EXAMPLE-
+<var name="myVar" value="${myVarValue}"/>
+--------------------------------------------------------
+######### import Element #####
+> identify the task definition file
+> import file targets we can use in our current project
+Ex - 
+<import file="file_path"/>
+--------------------------------------------------------
+##### REPLACE #####
+>  is a directory based task for replacing the occurrence of a given string with another string in selected file.
+
+ATTRIBUTE
+file - file for which the token should be replaced.	
+dir	-  base directory to use when replacing a token in multiple files.
+token - the token which must be replaced.	
+value - the new value for the token. When omitted, an empty string ("") is used.
+-------------------
+optional nested <replacefilter> elements allow replacement values to be extracted from a property file.
+> The name of this file is specified using the <replace> attribute propertyFile.
+
+--------------------------------------------------------
+##### REPLACEREGEXP #####
+> it is a directory based task for replacing the occurrence of a given regular expression with a substitution pattern in a selected file or set of files.
+
+{} => quantifier
+{0,} => greedy quantifier. match any number
+
+## 12 METACHARACTERS ##
+
+[ => 
+{ => 
+( => 
+) => 
+\ => Specifies the next character as either a special character, a literal, a back reference, or an octal escape.
+^ => Matches the position at the BEGINNING OF THE INPUT STRING
+$ => Matches the position at the END OF THE INPUT STRING
+| => Matches EITHER x or y EXAMPLE - x|y
+? => Matches the preceding subexpression ZERO OR ONE TIME
++ => Matches the preceding subexpression ONE OR MORE TIMES
+. => Matches any single character except "n" i.e line breaks
+* => Matches the preceding subexpression ZERO OR MORE TIMES.
+ 
+- case sensitive
+
+EXAMPLE-
+<!-- Changing the url by using replaceregexp ant task. 
+	It will only modify the ones which are starting from "=" and not affecting others. -->
+	<replaceregexp file="${jmxendpoint.location}"
+               match="^(=).*"
+               replace="=${new_JMX_URL}"
+               byline="true"
+	/> 
+--------------------------------------------------------
+##### sortlist #####
+> Sort a delimited list of items in their natural string order
+
+--------------------------------------------------------
+###tstamp - Time Stamp
+> TSTAMP is in the format hhmm
+> can format 
+--------------------------------------------------------
+### typefound
+> Test whether a given type is defined, and that its implementation class can be loaded. 
+	

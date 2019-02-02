@@ -1,0 +1,58 @@
+> HyperSQL Database is a modern relational database manager
+- HSQLDB is written in Java and runs in JVM. It supports the JDBC interface for database access.
+
+> It can provide database access within the user's application process, within an application server, or as a separate server process.
+
+----------------------------------
+#### Components of HSQLDB ####
+There are three different components in HSQLDB jar package.
+
+1. HyperSQL RDBMS Engine (HSQLDB)
+2. HyperSQL JDBC Driver
+3. Database Manager (GUI database access tool, with Swing and AWT versions)
+----------------------------------
+#### Installation of HSQLDB ##
+> download hsqldb-2.3.4.zip file and extract 
+
+> There is no default database for HSQLDB, therefore, 
+
+> For creating a database for HSQLDB.
+- create a properties file "server.properties" which defines a new DB named demodb. 
+
+server.properties
+server.database.0 = file:hsqldb/demodb
+server.dbname.0 = testdb
+
+> Place "server.properties" file into HSQLDB home directory that is C:\hsqldb- 2.3.4\hsqldb\.
+
+cd C:\hsqldb-2.3.4\hsqldb
+hsqldb> java -classpath lib/hsqldb.jar org.hsqldb.server.Server
+----------------------------------
+## To connect connection between the Java application and the database
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class ConnectDatabase {
+   public static void main(String[] args) {
+      Connection con = null;
+      
+      try {
+         //Registering the HSQLDB JDBC driver
+         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+		 
+         //Creating the connection with HSQLDB
+         con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/testdb", "SA", "");
+         if (con!= null){
+            System.out.println("Connection created successfully");
+            
+         }else{
+            System.out.println("Problem with creating connection");
+         }
+      
+      }  catch (Exception e) {
+         e.printStackTrace(System.out);
+      }
+   }
+}
+----------------------------------

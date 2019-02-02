@@ -1,0 +1,158 @@
+=====================================
+######### HIBERNATE CACHE ###########
+
+## What is hibernate caching? Explain Hibernate first level cache?
+
+> Hibernate caching improves the performance of the application by pooling the object in the cache.
+- to reduce number of queries made to database in a single transaction.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the different caching techniques in hibernate?
+
+> There are mainly three types of caching: first level cache, second level cache 
+
+1. FIRST LEVEL CACHE
+> Hibernate first level cache is associated with the Session object. 
+> It is enabled by default and there is no way to disable it. 
+> However hibernate provides methods through which we can 
+- delete selected objects from the cache : void evict(Object) 
+- clear the cache completely : clear().
+
+2. SECOND LEVEL CACHE 
+> It was introduced in hibernate 3.0
+> It is associated with SessionFactory scope and is available to be used in all sessions
+- It means that once session factory is closed, all cache associated with it die and cache manager also closed down.
+- It also means that if you have two instances of session factory (normally no application does that), 
+- you will have 2 cache managers in your application and while accessing cache stored in physical store (unpridectable result)
+
+3. QUERY CACHE
+> It is used when we need to cache actual query results, rather than just persistent objects. 
+- The query cache should always be used in conjunction with the second-level cache.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## How second level cache works in Hibernate?
+
+> When ever we are loading any object from the database, then 
+- hibernate verify whether that object is available in the local cache memory of that particular session [ means first level cache ], 
+- if not available then hibernate verify whether the object is available in global cache or factory cache [ second level cache ], 
+- if not available then hibernate will hit the database and loads the object from there, 
+- and then first stores in the local cache of the session [ first level ] 
+- then in the global cache [ second level cache ]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+> Second level cache in the hibernate is provide by 4 vendors
+
+1. Easy Hibernate [EHCache] Cache from hibernate framework
+2. Open Symphony [OS] cache from Open Symphony
+3. SwarmCache
+4. TreeCache from JBoss
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to enable second level cache in hibernate?
+
+1. Add "provider class" in hibernate configuration file like…
+
+<property name="hibernate.cache.provider_class">
+	org.hibernate.cache.EhCacheProvider
+</property>
+
+2. Configure cache element for a Entity class in hibernate mapping file to store it in 2nd Level cache otherwise it won't store
+<cache usage="read-only" />
+
+3. create xml file called ehcache.xml and store in at class path location where hibernate.cfg.xml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do I enable Second level Cache using hibernate annotation?
+
+In hibernate first level cache is provided by default. Hibernate do that by session. But second level cache can be enabled explicitly. Second level Caching in Hibernate can be done at three levels.
+
+Enable Hibernate Second Level Cache Globally.
+
+We need to set a property in our persistence configuration file. The property is hibernate.cache. default_cache_concurrency_strategy. By setting this property, all tables can be cached at second level.
+
+Enable Hibernate Second Level Cache at Table Level by Annotation.
+
+In Hibernate Annotation, we use @Cache to set table level cache. We also need to set @Cacheable. The class CacheConcurrencyStrategy of the package org.hibernate.annotations, provides the caching.
+
+Enable Hibernate Second Level Cache at Column Level by Annotation.
+
+In Hibernate Collections to cache the collection at column level @Cache is used and CacheConcurrencyStrategy class provides the caching. We need to set it at property level in our entity.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is QUERY CACHE?
+
+> Hibernate implements a cache region for queries resultset that integrates closely with the hibernate second-level cache.
+> This is an optional feature and requires additional steps in code. 
+> This is only USEFUL FOR QUERIES THAT ARE RUN FREQUENTLY WITH THE SAME PARAMETERS. 
+
+> First of all we need to configure below property in hibernate configuration file.
+<property name="hibernate.cache.use_query_cache">true</property>
+
+> And in code, we need to use setCacheable(true) method of Query
+EXAMPLE:
+Query query = session.createQuery("from Employee");
+query.setCacheable(true);
+query.setCacheRegion("ALL_EMP");
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain shared cache mode in second level cache of Hibernate.
+
+To configure shared cache mode, hibernate provides javax.persistence.sharedCache.mode and it allows four values.
+
+ENABLE_SELECTIVE: Entities will not be cached until entity will be annotated by cacheable.
+DISABLE_SELECTIVE : Those entities are cached which are explicitly not annotated with cacheable.
+ALL : Every entities will be cached.
+NONE: No entity will be cached.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the different CacheMode in second level cache of hibernate?
+
+There are 4 different CacheMode.
+
+CacheMode.NORMAL : This mode allows to read and write data in second level cache.
+CacheMode.GET : In this mode, data will be read but will not be written in second level cache.
+CacheMode.PUT : Data will be written but not will be read from second level cache.
+CacheMode.REFRESH : Data will be written and will not be read from second level cache. The difference between Put and Refresh is that CacheMode.REFRESH will bypass
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain the different cache concurrency strategy of second level cache in hibernate.
+
+> In hibernate, cache concurrency strategy can be set globally using the property "hibernate.cache.default_cache_concurrency_strategy". 
+The allowed values are,
+
+1. read-only : supported by ConcurrentHashMap, EHCache, Infinispan.
+- This caching strategy should be used for persistent objects that will always read but never updated. 
+
+2. read-write : supported by ConcurrentHashMap, EHCache.
+- It’s good for persistent objects that can be updated by the hibernate application. 
+
+3. nonstrict-read-write : supported by ConcurrentHashMap, EHCache.
+4. Transactional : supported by EHCache, Infinispan.
+
+https://www.javapedia.net/Hibernate-Caching#qanda728
+
+=====================================
+## What is Named Query?
+
+> It is way to use any query by some meaningful name. It is like using alias names. 
+> It is provided in Hibernate framework so that application programmer DOES NOT SCATTER QUERIES TO JAVA CODE.
+> We can created named queries for both HQL and Native SQL.
+
+ADVANTAGES
+> Its syntax is checked when the hibernate session factory is created, 
+- thus making the application fail fast in case of any error in the named queries.
+
+> It is global, means once defined it can be used throughout the application
+
+2 ways to define the named query in hibernate:
+> by annotation
+> by mapping file.
+
+########## USING ANNOTATIONS ########
+@NameQueries : used to define the multiple named queries.
+@NameQuery : used to define the single named query.
+
+
+EXAMPLE:
+@NamedQueries(  
+    {  
+        @NamedQuery(name = "findEmployeeByName",  query = "from Employee e where e.name = :name")  
+    }  
+)  
+
+http://www.javatechinfo.com/2013/01/top-50-important-hibernate-interview.html
+https://codingcompiler.com/hibernate-interview-questions-answers/

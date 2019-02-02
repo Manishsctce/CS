@@ -1,0 +1,194 @@
+######### 2. JSP ACTION TAG ###########
+
+> JSP actions are XML tags THAT DIRECT THE SERVER TO USE EXISTING COMPONENTS or control the behavior of the JSP engine. 
+> Each action tag is used to perform some specific task.
+> many used to control the flow between pages and to use javaBean
+> There are many jsp action tags ex <jsp:include/forward/param/useBean/fallback/setProperty/getProperty/plugin>
+
+=======================================
+####### 1. <jsp:include> Action #######
+
+> it enable the current jsp page to include a static or dynamic resources(that cn be response from a servlet) AT RUNTIME
+> In contrast to the include directive, the include action is used for resources that change frequently. 
+> included resource can be a static page in HTML, JSP page or Servlet
+> it can include jsp page along with parameter.
+
+SYNTAX : 
+a. Include along with parameter
+	<jsp:include page="Relative_URL_Of_Page" flush="false"> 
+	<jsp:param name="" value="" /> 
+	...
+	<jsp:param ... /> 
+	</jsp:include>	
+> static resource make use of "request" object to fetch named parameter values	as
+	request.getParameter("paramName") or EL ${param.paramName}
+	
+> flush: Its value is false, which means resource buffer has not been flushed out before including to the current page.
+> here param value pass from calling jsp to included jsp
+> it is use when dynamic content of included jsp depends on different param
+
+b. Include of another resource without sharing parameters.
+<jsp:include page="Relative_URL_of_Page" />
+========================
+##What is the <jsp:include> standard action?
+> The <jsp:include> standard action enables the current JSP page to include a static or a dynamic resource at runtime. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the difference between include directive and include action?
+
+> in case of <%@ include %> directive it has been INCLUDED AT TRANSLATION PHASE.
+- In <jsp:include>action, the file is being INCLUDED DURING REQUEST PROCESSING(I,E RUNTIME) but 
+
+> include directive can use relative or absolute path but 
+- include action use relative path
+
+> The include directive is USED TO STATICALLY INSERT THE CONTENTS of a resource into the current JSP.
+- include standard action enables the current JSP page to INCLUDE A STATIC OR A DYNAMIC RESOURCE AT RUNTIME.
+
+> include directive DOES NOT ALLOW PARAMETER TO BE PASS but 
+- INCLUDE ACTION CAN PASS using <jsp:param>
+
+> In Include directive, we cannot pass control from calling jsp to called jsp. 
+- But in action directive, we can pass control
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Differentiate between pageContext.include and jsp:include?
+
+> The <jsp:include> standard action and the pageContext.include() method are BOTH USED TO INCLUDE RESOURCES AT RUNTIME. 
+> the pageContext.include() method always flushes the output of the current page before including the other components, 
+> <jsp:include> flushes the output of the current page only if the value of flush is explicitly set to true as follows: 
+         <jsp:include page="/index.jsp" flush="true"/> 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How can you pass information form one jsp to included jsp?
+
+> Using < Jsp: param> tag we can pass parameter from main jsp to included jsp page
+Example:
+<jsp:include page="newbid.jsp" flush="true">
+<jsp:param name="price" value="123.7"/>
+<jsp:param name="quantity" value="4"/>
+------------------
+## What are the options in JSP to include files? (R- JSP2)
+=======================================
+####### 2. <jsp:forward> Action #######
+
+> it is equivalent 2 RequestDispatcher forward() method in Servlet
+> used to forward the request to another resource it may be jsp, html 
+> used for redirecting the request. Container handle the control transfer internally. 
+> control gets transferred to the page mentioned in this action.
+> The execution of the current page is stopped and control is transferred to the forwarded page.
+> Request can be forwarded with or without parameter.
+> For passing parameters we are using <jsp:param> action tag.
+> If anything is written to the output stream that is not buffered before <jsp:forward>, an IllegalStateException will be thrown.
+Note: Whenever we intend to use <jsp:forward> or <jsp:include> in a page, buffering should be enabled. By default buffer is enabled.
+> sendRedirect() is handled by browser. 
+
+SYNTAX : 
+a. forward along with parameter
+	<jsp:forward page="Relative_URL_Of_Page"> 
+	<jsp:param name="" value="" /> 
+	...
+	<jsp:param ... /> 
+	</jsp:forward>	
+	
+b. forward of another resource without sharing parameters.
+<jsp:forward page="Relative_URL_of_Page" />
+> this syntax is strict, we cannot use </jsp:forward> for closing tag
+
+> In this content of calling page will not display as the action is forwarded into another page
+=======================================
+######### 2c. <jsp:param> Action ######
+
+> useful for passing the parameters to Other JSP action tags such as JSP include & JSP forward tag.
+> It is used in conjunction with <jsp:forward>;, <jsp:, or plugin>; to add a parameter to a request.
+> These parameters are provided using the name-value pairs.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+##What is the <jsp:param> standard action?
+> The <jsp:param> standard action is used with <jsp:include> or <jsp:forward> to pass parameter names and values to the target resource.
+
+> The syntax of the <jsp:param> standard action is as follows: 
+<jsp:param name="paramName" value="paramValue"/>
+
+=======================================
+######### 2d. <jsp:useBean> Action ####
+> used to locate or instantiate a bean class
+
+SYNTAX : 
+<jsp:useBean id= "instName" 
+ scope= "page|request|session| application" 
+ class= "packageName.className" 
+ type= "packageName.className"  
+ beanName="packageName.className | <%= expression >" >  
+</jsp:useBean> 
+
+> id = identify the bean in specfied scope
+> class:  instantiates the specified bean class but it must have no-arg or no constructor and must not be abstract and should have public constructor
+> type = provides the bean a data type if the bean already exists in the scope. 
+	- It is mainly used with class or beanName attribute. 
+	- If you use it without class or beanName, no bean is instantiated.
+> beanName: instantiates the bean using the java.beans.Beans.instantiate() method.
+	
+> The package and class names you use with both class and type are case sensitive.
+
+2e. <jsp:setProperty>: It sets the properties for a JavaBean.
+2f. <jsp:getProperty>: It gets the value of a property from a JavaBean component and adds it to the response.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the <jsp:useBean> standard action?
+> The <jsp:useBean> standard action is used to locate an existing JavaBean or to create a JavaBean if it does not exist. 
+> It has attributes to identify the object instance, to specify the lifetime of the bean, and to specify the fully qualified classpath and type.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are the scopes available in <jsp:useBean>?
+
+The scopes available in <jsp:useBean> are as follows:
+1. page scope:: obj available for the entire JSP page but not outside the page.
+2. request scope: obj associated with a particular request and exist as long as the request exists.
+3. application scope: obj available throughout the entire Web application but not outside the application.
+4. session scope: obj available throughout the session with a particular client.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##what is Java Bean?
+
+> A Java Bean is a java class that should  have a no-arg constructor.
+> It should be Serializable
+> should provide methods to set and get the values of the properties, known as getter and setter methods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the use type or class properties of <jsp:useBean> tag?
+
+> If you set the type attribute, the JSP will expect an object of that type to be present in the given scope when run.
+
+> If you set the class attribute (and the class specified is a proper bean with a zero argument constructor), the JSP will first look for an instance of that class in the given scope. 
+> If it can't find it, it will instanciate on itself and bind it to the given scope.	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the jsp:setProperty action?
+
+>  jsp:setProperty to give values to properties of beans
+>  can do this in two contexts
+
+1. Inside  jsp:useBean element
+<jsp:useBean id="myName" ... >
+  <jsp:setProperty name="myName" property="someProperty" ... />
+</jsp:useBean>
+>  jsp:setProperty is executed only if a new object was instantiated, not if an existing one was found
+-----------
+2. Outside  jsp:useBean element
+<jsp:useBean id="myName" ... />
+<jsp:setProperty name="myName" property="myProperty" ... />
+
+> jsp:setProperty is executed regardless of whether a new bean was instantiated or an existing bean was found
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the jsp:getProperty action?
+
+> The <jsp:getProperty> action is used to access the properties of a bean that was set using the <jsp:setProperty> action. 
+
+The container converts the property to a String as follows:
+> If it is an object, it uses the toString() method to convert it to a String.
+> If it is a primitive, it converts it directly to a String using the valueOf() method of the corresponding Wrapper class.
+
+> The syntax of the <jsp:getProperty> method is: <jsp:getProperty name="Name" property="Property" />
+	Here, name is the id of the bean from which the property was set. 
+	The property attribute is the property to get. 
+	
+> A user must create or locate a bean using the <jsp:useBean> action before using the <jsp:getProperty> action.
+========================
+2g. <jsp:plugin>: It is used to include a Java applet or a JavaBean in the current JSP page.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the jsp:plugin action ?
+This action lets you insert the browser-specific OBJECT or EMBED element needed to specify that the browser run an applet using the Java plugin.

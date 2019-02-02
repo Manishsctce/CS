@@ -1,0 +1,137 @@
+Complex Queries in SQL ( Oracle )
+
+####### CREATE ########
+## To create a table similar to another table with its data
+> create table table_name as select * from source_table;
+---------------------------------------
+## To create a table similar to another table without its data i.e only structure
+
+> in where clause of source table it should not select any row or it should be false
+> create table table_name as select * from source_table where rownum = 0;
+> Create table emp1 as select * from emp where 1=2;
+
+####### INSERT ########
+## TO INSERT DATA FROM ANY TABLE
+insert into table select < columns> from table
+=======================================
+############### SELECT ################
+
+## To copy sql table data into another table
+
+> select * into <destination_table> from <source_table>
+---------------------------------------
+##To fetch ALTERNATE records from a table. (EVEN NUMBERED)
+$ select * from emp where rowid in (select 
+DECODE( mod(rownum,2),0,rowid, null) from emp);
+------------------
+##To select ALTERNATE records from a table. (ODD NUMBERED)
+select * from emp where rowid in 
+(select decode(mod(rownum,2),0,null ,rowid) from emp);
+---------------------------------------
+##Find the 3rd MAX salary in the emp table.
+select distinct sal from emp e1 where 3 = (select count(distinct sal) from emp e2 where e1.sal <= e2.sal);
+------------------
+##Find the 3rd MIN salary in the emp table.
+select distinct sal from emp e1 where 3 = (select count(distinct sal) from emp e2where e1.sal >= e2.sal);
+---------------------------------------
+##Select FIRST n records from a table.
+> select * from emp where rownum <= &n;
+
+## Select LAST n records from a table
+select * from emp MINUS 
+(select * from emp where rownum <= (select count(*) - &n from emp));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If there are two tables emp1 and emp2, and both have common record. How can I fetch all the recods but common records only once?
+(Select * from emp) Union (Select * from emp1)
+
+## How to fetch only common records from two tables emp and emp1?
+
+(Select * from emp) Intersect (Select * from emp1)
+
+## How can I retrive all records of emp1 those should not present in emp2?
+(Select * from emp1) Minus (Select * from emp2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##List dept no., Dept name for all the departments in which there are no employees in the department.
+
+$ select * from dept where deptno not in (select deptno from emp);  
+$ select * from dept a where not exists (select * from emp b where a.deptno = b.deptno);
+$ select empno,ename,b.deptno,dname from emp a, dept b where a.deptno(+) = b.deptno and empno is null;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How to get 3 Max salaries ?
+select distinct sal from emp a where 3 >= (select count(distinct sal) from emp b where a.sal <= b.sal) order by a.sal desc;
+
+##How to get 3 Min salaries ?
+select distinct sal from emp a  where 3 >= (select count(distinct sal) from emp b  where a.sal >= b.sal);
+
+##How to get nth max salaries ?
+select distinct hiredate from emp a where &n =  (select count(distinct sal) from emp b where a.sal >= b.sal);
+
+## THIS SOLUTION WILL WORK IN ORACLE
+SELECT * FROM (
+SELECT e.*, 
+ROW_NUMBER() OVER (ORDER BY salary DESC) rn 
+FROM Employee e
+)
+WHERE rn = N; /*N is the nth highest salary*/
+
+## For Hibernate
+Query q = session.createQuery("... ORDER BY salary DESC");
+q.setFirstResult(Nth);
+q.setMaxResults(1);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Select DISTINCT RECORDS from emp table.
+select * from emp a where  rowid = (select max(rowid) from emp b where  a.empno=b.empno);
+---------------------------------------
+##Count of number of employees in  department  wise.
+select count(EMPNO), b.deptno, dname from emp a, dept b  where a.deptno(+)=b.deptno  group by b.deptno,dname;
+---------------------------------------
+## In emp table add comm+sal as total sal .
+select ename,(sal+nvl(comm,0)) as totalsal from emp;
+---------------------------------------
+Select all records where dept no of both emp and dept table matches.
+select * from emp where exists (select * from dept where emp.deptno=dept.deptno)
+---------------------------------------
+## Count the total sal  deptno wise where more than 2 employees exist.
+SELECT  deptno, sum(sal) As totalsal
+FROM emp
+GROUP BY deptno
+HAVING COUNT(empno) > 2
+---------------------------------------
+## How to find all Emp report to which manager from employee table? 
+Employees : employee_id, last_name, email, hire_date, job_id, salary,department_id ,manager_id
+
+Select e1.last_name "Employee", e2.last_name "Report to Manager"
+from employees e1 LEFT OUTER JOIN employees e2
+ON/where e1.manager_id = e2.employee_id
+order by e1.employee_id
+
+- Here Left
+=======================================
+############## DELETE #################
+
+##How to delete duplicate rows in a table?
+
+1. USE ROWID WITH GROUP BY CLAUSE
+delete from emp a where ROWID != (select max(rowid) from emp b group by empid);
+
+- In group by clause, you have to add all duplicate field.
+
+2. USE ROWID WITH SELF-JOIN
+delete from Emp a where ROWID != (select max(rowid) from emp b where a.empno=b.empno);
+
+3. USE Row_number()
+Delete from emp where rowid in (select rid from (select rowid RID, row_number() over(partition by empno order by empno) rn from emp where rn>1;
+
+4. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## TO DELETE DUPLICATE ROW
+delete from table where rowid not in ( select min(rowid) from table group by column name)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+=======================================
+############## UPDATE #################
+
+##Swap all F and M values (i.e., change all f values to m and vice versa) with a single update query and no intermediate temp table.
+$ UPDATE SALARIES SET sex = CASE sex WHEN 'm' THEN 'f' ELSE 'm' END;

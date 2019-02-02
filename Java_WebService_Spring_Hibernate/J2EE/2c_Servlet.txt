@@ -1,0 +1,244 @@
+############# SERVLET ############
+> Servlet is a technology i.e. used to create web application.
+- used to generated dynamic web page at server side.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are the Advantage of Servlet over Common Gateway Interface(CGI)?
+> CGI starts a new process for each request. Web server is limited to start processes and it use platform dependent tech. C/C++
+
+> The web container creates threads for handling the multiple requests to the servlet. 
+> Threads have a lot of benefits over the Processes such as they share a common memory area, lightweight, cost of communication between the threads are low. The basic benefits of servlet are as follows:
+
+1. better performance: because it creates a thread for each request not process.
+2. Portability: because it uses java language.
+3. Robust: Servlets are managed by JVM so no need to worry about momory leak, garbage collection etc.
+4. Secure: because it uses java language..
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a Servlet?
+
+> Servlet is an interface defined in javax.servlet package. 
+> Servlet is a web component that is deployed on the server and MANAGED BY SERVER CONTAINER/web container.
+- It is used to CREATE DYNAMIC WEB PAGE and interact with client through request and response.
+> It declares three essential methods for the life cycle of a servlet - init(), service(), and destroy(). 
+
+1. init() : 
+- used to initialization stage of the servlet life cycle. 
+- IT PASS AN ServletConfig OBJECT implementing the javax.servlet.ServletConfig[i], which allows the servlet to access initialization parameters from the web application.
+
+2. service() : 
+- INVOKED FOR EACH REQUEST after its initialization. 
+- EACH REQUEST IS SERVICED IN ITS OWN SEPARATE THREAD. 
+- The web container calls the service() of the servlet for every request. 
+- The service() determines the kind of request being made and dispatches it to an appropriate method to handle the request.
+
+3. destroy() : 
+- invoked when the servlet object should be destroyed. 
+- It releases the resources being held.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why we need Servlet and JSPs?
+
+> To generated dynamic web pages
+> Java Servlet and JSPs are server side technologies to extend the capability of web servers by providing support for dynamic response and data persistence.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the Life Cycle of a Servlet (Servlet Life Cycle)?
+
+> The web container maintains the LIFE CYCLE OF SERVLET instance. 
+
+1. Servlet class is loaded, when first request for the servlet is received by the Web Container.
+2. Servlet instance is created - it create once 
+3. init() is invoked - it invoke once when servlet call 1st time by the web container
+4. service() is invoked by container- invoke for each request
+5. destroy() is invoked by container- invoke once by the container while undeploying the servlet.
+
+> a new thread is created for each request for any servlet and that use servlet instance for processing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we call servlet destory() from service()?
+
+> Yes, we can call destory() from service() 
+- But it wont kill the servlet instance
+
+=====================================
+########## SERVLET CONTAINER ########
+## What is called servlet container?
+
+> Servlet container is a part of a Web server or Application Server that 
+- provides the network services over which requests and responses are sent, decodes MIME-based requests, and formats MIME-based responses. 
+
+> It INTERACTS WITH JAVA SERVLETS and DYNAMICALLY GENERATE WEB PAGES on the server side.
+> A web container is responsible for MANAGING LIFECYCLE OF SERVLETS, 
+- mapping a URL to a particular servlet and ensuring that the URL requester has the correct access-rights
+
+> It can run in a separate process
+
+## SERVLET CONTAINER STATES in three types:
+1. Standalone: 
+> It is typical Java-based servers in which the servlet container and the web servers are the integral part of a single program. 
+- For example:- Tomcat running by itself
+
+2. IN-PROCESS: 
+> It is separated from the web server, because a different program is runs within the address space of the main server as a plug-in. 
+- For example:- Tomcat running inside the JBoss.
+
+3. OUT-OF-PROCESS: 
+> The web server and servlet container are different programs which are run in a different process. 
+- For performing the communications between them, web server uses the plug-in provided by the servlet container.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### LIST OF SERVLET CONTAINERS ####
+
+1. Apache Tomcat (formerly Jakarta Tomcat) (Open Source)
+2. Apache Geronimo is a full Java EE 6 implementation by Apache Software Foundation (Open Source)
+3. Jetty, from the Eclipse Foundation (Open Source)
+4. WebLogic Application Server, from Oracle Corporation  (Commercial)
+5. IBM WebSphere Application Server.(Commercial)
+6. SAP NetWeaver.(Commercial)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Servlet Context? [MORE DETAIL IN 2a_javax.servlet_package.txt]
+
+> object of ServletContext is created by the web container at time of deploying the project
+> Its Scope is web container. 
+> There is only one ServletContext object per web application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How Web/Servlet Container handles the Servlet request?
+
+> Web server receives HTTP request
+> Web server forwards the request to Servlet Container
+> Web container maps the request with the Servlet with the help of web.xml file.
+- In web.xml, we define which <servlet-mapping> with <servlet-name> and <url-pattern>
+
+- ServletConfig obj is created by the web container for each Servlet. 
+- ServletConfig obj is used to pass info from web.xml to a servlet during initialization. 
+
+> Servlet Container creates HttpServletRequest and HttpServletResponse objects for this request
+- The servlet is dynamically retrieved and loaded into the address space of the container, if it is not in the container.
+
+OTHERWISE
+> The container invokes the init() of the servlet for initialization(invoked once when the servlet is loaded first time)[skip in next call] 
+> container invokes the service() of the servlet to process the HTTP request on the thread and pass above created request and response obj.
+- The public service() internally calls the protected service() 
+- The protected service() calls the doGet()/doPost() depending on the type of request.
+- The doGet/doPost method generates the response(i.e HttpServletResponse) and it is passed to the client.
+
+> The servlet remains in the container's address space and can process other HTTP requests.
+> After sending the response, the web container deletes the request and response objects. 
+- The thread is contained in the thread pool or deleted depends on the server implementation.
+
+=====================================
+##### ATTRIBUTE IN SERVLET #####
+> An attribute in servlet is an object that can be set, get or removed from one of the following scopes:
+1. request scope 2. session scope 3. application scope
+
+> It is used to pass informations from one servlet to another
+> There are following 4 attribute specific methods. They are as follows:
+1. public void setAttribute(String name,Object object)
+2. public Object getAttribute(String name)
+3. public Enumeration getInitParameterNames():Returns the names of the context's initialization parameters as an Enumeration of String objects.
+4. public void removeAttribute(String name)
+==========================================
+######## HOW TO CREATE SERVLET ? #########
+
+> servlet can be created by three ways:
+
+1. By implementing Servlet[i],
+2. By inheriting GenericServlet class, (or)
+3. By inheriting HttpServlet class 
+- widely used because it provides methods to handle http requests such as doGet(), doPost, doHead() etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Can we initializing a servlet using constructor in place of init()?
+
+> No, we cannot use constructor to initializing a servlet bcx for initialization we need an object of servletConfig 
+
+> using servletConfig object we get all the parameter define in web.xml for initializing servlet
+> in servlet class we have only default constructor other than parameterize to call config obj
+> That's why we have life cycle method init() to initialize servlet
+
+> java doesnt allow interface to declare constructor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we define Constructor in Servlet?
+## What is Difference between Constructor and init() in Servlet?
+
+> Yes, Servlet implementation classes can have constructor 
+> But they should be using init() method to initialize Servlet 
+
+> init() require because of two reasons, 
+1. we CANNOT DECLARE CONSTRUCTORS IN INTERFACE in Java, 
+- which means we cannot enforce this requirement to any class which implements Servlet interface and 
+
+2. SERVLET REQUIRE ServletConfig OBJECT FOR INITIALIZATION WHICH IS CREATED BY CONTAINER and 
+- it also has reference of ServletContext object, which is also created by container.
+
+> web servers like Tomcat and Jetty uses Java Reflection for creating instance of Servlet i.e call class.newInstance() to create instance of Servlet, which means Servlet class must need a default no argument constructor.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to invoke a servlet from a HTML page?
+
+> We have to map Servlet in web.xml as shown below
+ <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>com.journaldev.servlet.session.LoginServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  
+- we can use @WebServlet at Servlet Class name to avoid do above mapping as 
+Ex - @WebServlet("/LoginServlet") 
+- It is define in Servlet 3.0 javax.servlet.annotation
+==========================================
+## How files are distributed in directory structure of Web Application?
+
+> Directory Structure defines that where to put the different types of files so that web container may get the information and respond to the client.
+
+> Sun Microsystem defines a unique standard
+	WEB-APP(Context-Root)
+	|---------------META-INF
+	|               |--------MANIFEST.MF
+	|
+	|---------------WEB-INF
+	|				|
+	|				|--------classes---class files 
+	|				|--------lib
+	|				|--------web.xml(Deployment descriptor)
+	|				
+	|				
+	|-----HTML
+	|-----static resources(css,images etc) 
+	
+MANIFEST.MF : contain information about the files packaged in a JAR file. (more details in MANIFEST.txt)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we create deadlock condition on our servlet?
+
+> call doPost() method inside doGet() and doGet() method inside doPost()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+======================================
+## What does Dynamic Web Module option in Eclipse mean? 
+
+> It represent which version of Servlet to use 
+> Servlet 3.0 was introduced with Java EE 6	
+> Servlet 3.1 was introduced with Java EE 7
+- It support HTTP/1.1
+
+> Servlet 4.0 was introduced with Java EE 8 and JRE8
+- It support HTTP/2 which has One Request and Multiple Responses. 
+- HTTP/2 Improved Perceived Browser Performance i.e it helps to use TCP/IP efficiently and load the page fast bcz current every html page contains multiple resources and for this need to make multiple request internally.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How multiple requests will be handled by single servlet instance?
+
+> By default web-server creates only one instance per servlet, 
+- if multiple request is going to a servlet then each request will processed in a separate thread, 
+- so container creates a thread per request for the single servlet instance, so SERVLET SHOULD BE THREAD-SAFE.
+
+> But web-server doesn’t create thread per request, there is a pool of threads to process the request.
+
+> For example , If there are 1000 request , and the maximum threads that can be generated by servlet is 100, then there will be performance degradation.
+In order to avoid this problem , we can use load balancer by putting multiple servers behind a load balancer.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to make a servlet ThreadSafe ?
+## What is a RequestDispatcher ?
+
+## Difference between HTTPServlet and GenericServlet?

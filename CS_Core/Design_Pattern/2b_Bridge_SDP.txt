@@ -1,0 +1,105 @@
+######## BRIDGE DESIGN PATTERN ########
+
+## What is Bridge design Pattern?
+> It is a structural design pattern.
+> Decouple the abstraction from its implementation
+> Uses composition over inheritance.
+
+###### USAGE #######
+> it helps two incompatible classes to work together
+
+----------------------------------------
+GoF Definition:
+Decouple the abstraction from its implementation so that the two can vary independently
+
+OR
+> DECOUPLE IMPLENTATION FROM INTERFACE AND HIDING IMPLEMENTATION DETAILS FROM CLIENT is the essense of bridge design pattern.
+----------------------------------------
+#### BRIDGE Design Pattern Important Points ##
+> this pattern decouples implementation class and abstract class by providing a bridge structure between them.
+
+> Creates two different hierarchies. One for abstraction and another for implementation.
+> Avoids permanent binding by removing the dependency between abstraction and implementation.
+> We create a bridge that coordinates between abstraction and implementation.
+> Abstraction and implementation can be extended separately.
+=======================================
+########### JAVA EXAMPLES #############
+
+> new LinkedHashMap(LinkedHashSet<K>, List<V>) which returns an unmodifiable linked map which doesn't clone the items, but uses them. 
+- The java.util.Collections#newSetFromMap() and singletonXXX() methods however comes close.
+=======================================
+### ELEMENTS OF BRIDGE DESIGN PATTERN ###
+
+Abstraction – core of the bridge design pattern and defines the crux. Contains a reference to the implementer.
+Ex - Shape[ac] have DrawAPI[i]
+
+Refined Abstraction – Extends the abstraction takes the finer detail one level below. Hides the finer elements from implemetors.
+Ex - Circle 
+
+Implementer – This interface is the higer level than abstraction. Just defines the basic operations.
+Ex - DrawAPI[i]
+
+Concrete Implementation – Implements the above implementer by providing concrete implementation.
+Ex - RedCircle and GreenCircle
+----------------------------------------
+## What is difference between Adaptor and bridge pattern ?
+The major difference between adapter and bridge is when they are used. 
+> Adapter is used when two incompatible interfaces have to be unified together, ie., adapter is a result of existing incompatibilities. 
+- But bridge is something we use when we actually need to separate interface from implementation.
+
+=========================================
+##EXAMPLES:
+
+> bridge implementer interface
+public interface DrawAPI {
+   public void drawCircle(int radius, int x, int y);
+}
+-----------------------------------------
+public class RedCircle implements DrawAPI {
+   @Override
+   public void drawCircle(int radius, int x, int y) {
+      System.out.println("Drawing Circle[ color: red, radius: " + radius + ", x: " + x + ", " + y + "]");
+   }
+}
+-----------------------------------------
+public class GreenCircle implements DrawAPI {
+   @Override
+   public void drawCircle(int radius, int x, int y) {
+      System.out.println("Drawing Circle[ color: green, radius: " + radius + ", x: " + x + ", " + y + "]");
+   }
+}
+-----------------------------------------
+public abstract class Shape {
+   protected DrawAPI drawAPI;
+   
+   protected Shape(DrawAPI drawAPI){
+      this.drawAPI = drawAPI;
+   }
+   public abstract void draw();	
+}
+-----------------------------------------
+public class Circle extends Shape {
+   private int x, y, radius;
+
+   public Circle(int x, int y, int radius, DrawAPI drawAPI) {
+      super(drawAPI);
+      this.x = x;  
+      this.y = y;  
+      this.radius = radius;
+   }
+
+   public void draw() {
+      drawAPI.drawCircle(radius,x,y);
+   }
+}
+-----------------------------------------
+public class BridgePatternDemo {
+   public static void main(String[] args) {
+      Shape redCircle = new Circle(100,100, 10, new RedCircle());
+      Shape greenCircle = new Circle(100,100, 10, new GreenCircle());
+
+      redCircle.draw();
+      greenCircle.draw();
+   }
+}
+=========================================

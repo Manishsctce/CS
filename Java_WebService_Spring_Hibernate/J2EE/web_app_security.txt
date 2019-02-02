@@ -1,0 +1,51 @@
+> two main concepts of security are authentication and authorization. 
+
+#### AUTHENTICATION ####
+> It is the process by which users' access privileges are verified prior to their entering a Website's protected area. 
+There are two major authentication approaches: 
+1. basic authentication and 
+2. form-based authentication.
+
+
+
+> When specifying SECURITY ROLE NAMES, observe the following conventions and restrictions:
+
+1. Do not use blank spaces, commas, hyphens, or any characters in this comma-separated list: \t, < >, #, |, &, ~, ?, ( ), { }.
+
+2. Security role names are case sensitive.
+
+3. The suggested convention for security role names is that they be singular.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<login-config> tag 
+> it is used to define the type of authentication you want to use and 
+- the security realm to which the security constraints will be applied
+
+EXAMPLE:
+
+<web-app>
+  <welcome-file-list>
+       <welcome-file>welcome.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <security-constraint>
+        <web-resource-collection>
+              <web-resource-name>Success</web-resource-name>
+              <url-pattern>/welcome.jsp</url-pattern>
+             <http-method>GET</http-method>
+             <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>webuser</role-name> 
+        </auth-constraint>
+  </security-constraint>
+  <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>default</realm-name>
+  </login-config>
+  <security-role>
+      <role-name>webuser</role-name>
+  </security-role>
+</web-app>
+
+> we can define one or more security roles and map them to security constraints
+- we can define any number of security roles

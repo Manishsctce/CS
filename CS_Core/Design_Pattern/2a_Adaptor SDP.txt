@@ -1,0 +1,124 @@
+##### ADAPTOR(translator) PATTERN #### 
+> works as a bridge between two incompatible interface
+> involves a single class which is responsible to join functionalities of independent or incompatible interfaces.
+
+Ex - card reader is adaptor for laptop (adaptee) to read memory card(target)
+-----------------------------------------
+## How to implement adapter design pattern?
+> Adapter design pattern can be implemented in two ways. 
+1. using the inheritance method 
+2. using the composition method
+
+=======================================
+########## JAVA EXAMPLES ##############
+
+java.util.Arrays#asList()
+java.util.Collections#list()
+java.util.Collections#enumeration()
+java.io.InputStreamReader(InputStream) (returns a Reader)
+java.io.OutputStreamWriter(OutputStream) (returns a Writer)
+javax.xml.bind.annotation.adapters.XmlAdapter#marshal() and #unmarshal()
+-----------------------------------------
+The visitor pattern is used when:
+> When you have a class(Target) that invokes methods defined in an interface and
+- you have a another class(Adapter) that doesn't implement the interface but 
+- implements the operations that should be invoked from the first class through the interface. 
+- You can change none of the existing code. 
+- The adapter will implement the interface and will be the bridge between the 2 classes.
+
+When you write a class (Target) for a generic use relying on some general interfaces and you have some implemented classes, not implementing the interface, that needs to be invoked by the Target class.
+
+#######################################
+EXAMPLE 1:
+> We have a MediaPlayer[i] and a concrete class AudioPlayer
+- We are having another interface AdvancedMediaPlayer and its concrete classes 
+- We want to make AudioPlayer to play other formats as well
+
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+public interface AdvancedMediaPlayer {	
+   public void playVlc(String fileName);
+   public void playMp4(String fileName);
+}
+----------------------------
+public class VlcPlayer implements AdvancedMediaPlayer{
+   public void playVlc(String fileName) {
+      System.out.println("Playing vlc file. Name: "+ fileName);		
+   }
+
+   public void playMp4(String fileName) { .... }
+}
+----------------------------
+public class Mp4Player implements AdvancedMediaPlayer{
+   public void playVlc(String fileName) {      //do nothing
+   }
+   public void playMp4(String fileName) {
+      System.out.println("Playing mp4 file. Name: "+ fileName);		
+   }
+}
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+public interface MediaPlayer {
+   public void play(String audioType, String fileName);
+}
+-------------------------------
+>> Create adapter class implementing the MediaPlayer interface.
+
+public class MediaAdapter implements MediaPlayer {
+   AdvancedMediaPlayer advancedMusicPlayer;
+   
+   public MediaAdapter(String audioType){
+      if(audioType.equalsIgnoreCase("vlc") ){
+         advancedMusicPlayer = new VlcPlayer();			
+         
+      }else if (audioType.equalsIgnoreCase("mp4")){
+         advancedMusicPlayer = new Mp4Player();
+      }	
+   }
+   
+   public void play(String audioType, String fileName) {
+      if(audioType.equalsIgnoreCase("vlc")){
+         advancedMusicPlayer.playVlc(fileName);
+      }
+      else if(audioType.equalsIgnoreCase("mp4")){
+         advancedMusicPlayer.playMp4(fileName);
+      }
+   }
+}
+----------------------------------
+>> Create concrete class implementing the MediaPlayer interface.
+
+public class AudioPlayer implements MediaPlayer {
+   MediaAdapter mediaAdapter; 
+
+   public void play(String audioType, String fileName) {		
+
+      //inbuilt support to play mp3 music files
+      if(audioType.equalsIgnoreCase("mp3")){
+         System.out.println("Playing mp3 file. Name: " + fileName);			
+      }       
+      //mediaAdapter is providing support to play other file formats
+      else if(audioType.equalsIgnoreCase("vlc") || audioType.equalsIgnoreCase("mp4")){
+         mediaAdapter = new MediaAdapter(audioType);
+         mediaAdapter.play(audioType, fileName);
+      }
+      else{
+         System.out.println("Invalid media. " + audioType + " format not supported");
+      }
+   }   
+}
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+>>Use the AudioPlayer to play different types of audio formats.
+
+public class AdapterPatternDemo {
+   public static void main(String[] args) {
+      AudioPlayer audioPlayer = new AudioPlayer();
+
+      audioPlayer.play("mp3", "beyond the horizon.mp3");
+      audioPlayer.play("mp4", "alone.mp4");
+      audioPlayer.play("vlc", "far far away.vlc");
+      audioPlayer.play("avi", "mind me.avi");
+   }
+}
+
+>>Verify the output.
+
+

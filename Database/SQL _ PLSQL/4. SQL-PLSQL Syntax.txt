@@ -1,0 +1,82 @@
+##
+CREATE TABLE Customer (
+custId varchar2(6) CONSTRAINT cust_pk PRIMARY KEY CONSTRAINT cust_cid CHECK (custId like 'C%'),
+CustName varchar2(30) CONSTRAINT cust_custname_nnull NOT NULL,
+DateofReg date ,
+UserId varchar2(15) CONSTRAINT customer_userid_uq UNIQUE,
+Password varchar2(15) CONSTRAINT customer_passwd NOT NULL);
+------------------------
+ALTER TABLE tbl_name
+[ADD (column_1 column-definition,column_2 column-definition....)] 
+|[MODIFY (column1 column_type,column2 column_type)] 
+|[DROP COLUMN column_name] 
+|[RENAME COLUMN old_name to new_name] 
+|[]
+------------------------
+##PROCEDURE
+CREATE [OR REPLACE] PROCEDURE procedure_name
+[(parameter_name [IN | OUT | IN OUT] type [, ...])]
+{IS | AS}
+BEGIN
+   < procedure_body >
+END [procedure_name];
+
+IN - It is read only parameter. Act like constant. Cannot assign value inside block. It can pass constant,literal, initialized variable or expression or default value.
+> It is default of parameter passing 
+
+OUT - returns a value to the calling pgm
+
+IN OUT - parameter passes the initial value to the pgm.
+> it cannot be a constant or an expression
+------------------------
+ 
+##FUNCTION
+CREATE [OR REPLACE] FUNCTION function_name
+[(parameter_name [IN | OUT | IN OUT] type [, ...])]
+RETURN return_datatype
+{IS | AS}
+BEGIN
+   < function_body >
+END [function_name];
+------------------------
+##VARRAY
+CREATE OR REPLACE TYPE varray_type_name IS 
+VARRAY(n) of <element_type>
+------------------------
+##SWITCH
+CASE selector
+WHEN 'value1' THEN s1;
+WHEN 'value1' THEN s1;
+WHEN 'value1' THEN s1;
+...
+ELSE sn; -- default case
+END CASE;
+
+------------------------
+##RECORD
+TYPE
+type_name IS RECORD
+( field_name1 datatype1 [NOT NULL] [:= DEFAULT EXPRESSION],
+field_name2 datatype2 [NOT NULL] [:= DEFAULT EXPRESSION],
+... 
+field_namen datatypen [NOT NULL] [:= DEFAULT EXPRESSION]
+);
+record_name type_name;
+---------------------------------
+##TRIGGER
+
+CREATE [OR REPLACE] TRIGGER trigger_name
+{BEFORE | AFTER | INSTEAD OF}
+{INSERT [OR] | UPDATE [OR] | DELETE}
+[OF col_name]
+ON table_name
+[REFERENCING OLD AS o NEW AS n]
+[FOR EACH ROW]
+WHEN (condition) 
+DECLARE
+	declare-statements;
+BEGIN
+	executable-statements
+EXCEPTION
+	exception-handling
+END;

@@ -1,0 +1,179 @@
+##### What is Angular.js? #####
+> AngularJS is a javascript framework
+> used for SINGLE PAGE APPLICATIONS (SPAs).
+> It extends HTML with new attributes.
+> AngularJS version 1.0 was released in 2012.. Now Its latest version is 1.4.3.
+> Miško Hevery, a Google employee, started to work with AngularJS in 2009.
+> AngularJS is a structural framework for dynamic web apps.
+
+Module(container) -> Config-> Routes -> controller
+						  -> View(view are control by controller $scope)
+						  -> directive(p)
+						  -> Factory
+-------------------------------------------------------
+## FEATURES 
+> we can write client side appl in a clean MVC(Model View Controller) way
+
+> AngularJS extends HTML attributes with Directives, and binds data to HTML with Expressions.
+> AngularJS is a JavaScript framework. It is a library written in JavaScript.
+
+
+## CORE FEATURES
+Data-binding - It is the automatic synchronization of data between model and view components.
+
+TWO REQUIREMENTS
+> add a <script> tag pointing to angular.js. AngularJS is distributed as a JavaScript file.
+> add  ng-app attribute in html. it is an Angular directive
+
+##What makes Angular.js better?
+> Registering callbacks There is no need to register callbacks
+> Control HTML DOM programmically
+-------------------------------------------------------
+## AngularJS extends HTML with NG-DIRECTIVES.
+> ng is short for Angular
+
+> ng-app directive -> AngularJS application.
+> ng-model directive -> binds the value of HTML controls (input, select, textarea) to appl data.
+> ng-bind directive -> binds application data to the HTML view.
+
+> ng-init directive initialize AngularJS application variables/data.
+
+Example- 
+<div ng-app="" ng-init="firstName='John'">
+	<p>The name is <span ng-bind="firstName"></span></p>
+</div>
+
+--------------------------------------------------------------
+
+####### AngularJS - MVC #########
+
+Model is the data
+
+View is the html page 
+-  pages simply shows the data that we bind to them using two-way data binding
+Controller -  used to add logic to your view
+
+--------------------------------------------------------------
+
+	
+
+######### SCOPES #########
+
+## What are Scopes? 
+> Scope is an object that Glues the View with Controller.
+> it HOLD THE MODEL DATA that we need TO PASS TO VIEW
+> Scope uses Angular’s two-way data binding to bind model data to view
+> we can define functions on $scope and use the same in View
+
+Example-
+<div ng-controller="ContactController">
+     Email:  <input type="text" ng-model="newcontact"/>
+    <button ng-click="add()">Add</button>
+    
+	<h2>Contacts</h2>
+    <ul>
+        <li ng-repeat="contact in contacts"> {{ contact }} </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    function ContactController($scope){
+        $scope.contacts = ["hi@email.com", "hello@email.com"];
+		
+        $scope.add = function(){
+			$scope.contacts.push($scope.newcontact);
+			$scope.newcontact = "";
+        }
+    }
+</script>
+
+Here 
+
+- function add() is bound to Add button using an attribute ng-click
+--------------------------------------------------------
+############ AngularJS Expressions ########
+> it used to bind appl data to html.
+> written inside double braces {{ expression }}
+> it behave as ng-bind directive.
+
+############ AngularJS Filters #############
+> used to modify the data and can be clubbed in expr or directive using pipe character.
+
+Following are filters:-
+1. uppercase - converts a text to uppercase
+2. lowercase - converts a text to lower case text.
+
+3. currency	- formats text in a currency format.
+Example-
+Enter fees: <input type = "text" ng-model = "student.fees">
+fees: {{student.fees | currency}}
+
+4. filter - filter the array to a subset of it based on provided criteria.
+5. orderby - orders the array based on provided criteria.
+
+############ AngularJS Modules #############
+> Modules are used to separate logics say services, controllers, application etc.
+> It keep the code clean
+> We can define modules in separate js files and name them as module.js 
+
+Example-
+=# mainApp.js
+	var mainApp = angular.module("mainApp",[]);
+- Here we've DECLARED AN APPLICATION MAINAPP MODULE using angular.module func.
+- We've passed an empty array to it. This array generally CONTAINS DEPENDENT MODULES.
+
+
+=# studentController.js
+mainApp.controller("studentController", function($scope){
+	$scope.student = {
+		fname="Manish",
+		lname="Agrawal",
+		fees:500,
+		subjects:[
+			{name:'Phy',marks:70},
+			{name:'Che',marks:80},
+			{name:'Math',marks:90},
+			{name:'CS',marks:95}			
+		],
+		
+		fullname: function(){
+			var studentObject;
+			studentObject=$scope.student;
+			return studentObject.fname+" "+studentObject.lname;
+		}		
+	};
+}); 
+
+We can use both files as 
+=# testModules_Ang.html
+<div ng-app="mainApp" ng-controller="studentController">
+	...
+	<script src="mainApp.js"></script>
+	<script src="studentController.js"></script>
+</div>
+############ AngularJS Forms #############
+
+##Events
+ng-click
+ng-dbl-click
+ng-mousedown
+ng-mouseup
+ng-mouseenter
+ng-mouseleave
+ng-mousemove
+ng-mouseover
+ng-keydown
+ng-keyup
+ng-keypress
+ng-change
+
+Validate data
+Following can be used to track error.
+
+> $dirty - states that value has been changed.
+
+> $invalid - states that value entered is invalid.
+
+> $error - states the exact error.
+########################################################
+

@@ -1,0 +1,214 @@
+######## JSP IMPLICIT OBJECTS #########
+> There are 9 JSP IMPLICIT OBJECTS. 
+> These objects are created by the web container while translating jsp page to servlet.
+> It can be use directly in scriptlets that goes in service method 
+> it cannt use in JSP declaration becz code will go at class level
+
+=======================================
+############# 1. OUT	
+- object of class "javax.servlet.jsp.JspWriter"
+> out implicit object is used to write content to the client
+
+METHODS - 
+> void print(), 
+> void println(), 
+> void newLine() 
+> void clear() - It clears the output buffer without even letting it write the buffer content to the client.
+
+> void clearBuffer() -  similar to the clear(). Invoke of out.clear() on an already flushed buffer will throws an exception, however out.clearBuffer() doesnt.
+
+> void flush() - clears the buffer and write the content to the output before flushing it
+
+> int getBufferSize(): This method returns the size of output buffer in bytes.
+=======================================
+############# 2. REQUEST	
+- implicit obj of class javax.servlet.http.HttpServletRequest
+> created for each jsp request by the web container. 
+> used to get the data on a JSP page which has been entered by user
+> It can be used to get request information such as parameter, header information, remote address, server name, server port, content type, character encoding etc.
+
+> getParameter(String name)
+
+##What is the difference between request.getParameter() and request.getAttribute()?
+> we use request.getParameter() to extract request parameters (i.e. data sent by posting a html form ). 
+> it always returns String value and the data come from client.
+
+> we use request.getAttribute() to get an object added to the request scope on the server side i.e. using request.setAttribute().
+> we can add any type of object 
+> it extracts a (serialized) Java object from set attribute name
+
+=======================================
+############# 3. response 
+> It is obj of javax.servlet.http.HttpServletResponse[c]
+> it is created by web container for each jsp request
+> it can be use to add or manipulate response such as redirect response.
+
+> it maintain the static final int value of status code like
+public static final int SC_ACCEPTED = 202;
+public static final int	SC_BAD_REQUEST = 400;
+public static final int	SC_NOT_FOUND = 404;
+public static final int	SC_OK = 200;
+
+METHODS - below few are imp
+> void addCookie(Cookie cookie); 
+> String encodeURL(String url); 
+> String getHeader(String name); 
+> void addHeader(String name, String value);
+> void addIntHeader(String name, int value);
+> boolean containsHeader(String name);
+> int getStatus(); 
+> void setStatus(int sc) -  Sets the status code for this response.
+> response.sendRedirect()
+=========================
+##What are the different ways for browser redirection in JSP? (R-JSP2c)
+Answer:
+There are two ways for browser redirection in JSP:
+1.    Using response.sendRedirect()
+2.    Using <jsp:forward /> element
+ 
+> A redirect is a totally different from a forward. 
+> it creates a new request object which doesn't carry any of old requests. 
+> Browser handle the new request.
+> The request handling JSP page tells the browser to make a new request to the target servlet or JSP page. 
+> The URL shown in the browser therefore changes to the URL of the new page when you redirect.
+ 
+> The <jsp:forward /> standard action is actually a call to HttpServletRequest.forward(String url) which passes the request object within the server to either a servlet or a JSP page. 
+> Container handle internally.
+> The new servlet or JSP page continues to process the same request and the browser is not aware of the fact that more than one servlet or page is involved. 
+> client is not aware that the request is being forwarded anywhere. The URL shown in the browser stays unchanged when you do forward.
+=======================================
+############# 4. CONFIG -	
+>  instance of javax.servlet.ServletConfig implementaion
+> The config object is created by the web container for each jsp page.
+> This object can be used to get initialization parameter in web.xml for a particular JSP page.
+	<init-param>  
+		<param-name>dname</param-name>  
+		<param-value>sun.jdbc.odbc.JdbcOdbcDriver</param-value>  
+	</init-param> 
+
+># String str = config.getInitParameter("param-name")
+=======================================
+############# 5. APPLICATION	
+> instance of javax.servlet.ServletContext interface implementation 
+> instance of ServletContext is created only once by the web container when application or project is deployed on the server.
+> can be used to get initialization parameter from configuaration file (web.xml)
+
+<context-param> 
+	<param-name>parameter_name</param-name> 
+	<param-value>...</param-value> 
+</context-param>
+<% String driver = application.getInitParameter("parameter_name"); %>
+
+> its used to get the context information and attributes in JSP. 
+> use to get the RequestDispatcher object in JSP to forward the request to another resource or to include the response from another resource in the JSP.
+
+METHODS 
+> Object getAttribute(String attributeName);
+> void setAttribute(String attributeName, Object object);
+> void removeAttribute(String objectName);
+> Enumeration getAttributeNames();
+> String getInitParameter(String paramname);
+> Enumeration getInitParameterNames();
+> String getRealPath(String value);
+> void log(String message);
+> URL getResource(String value);
+> InputStream getResourceAsStream(String path)
+> String getServerInfo()
+=======================================
+############# 6. SESSION	
+> instance of javax.servlet.http.HttpSession interface implementation 
+> HTTP is a stateless protocol which means it doesnot remember from one request to other.
+> Session object is created for each client and stored in the server when the client accesses the application for the first time and for the same session same value will return.
+
+METHODS
+> setAttribute(String, object) - used to save an object in session by assigning a unique string to the object. Later, the object can be accessed
+> getAttribute(String name)
+> removeAttribute(String name)
+> Enumeration getAttributeNames() - returns all objects stored in session
+> long getCreationTime() - return time in which session was created
+> String getId() 
+> boolean isNew() - use to track cookies at client side. If cookies are disable then isNew() always return true
+> void invalidate()  It kills a session and breaks the association of session with all the stored objects.
+> int getMaxInactiveInterval  Returns sessions maximum inactivate time interval in seconds and we can set it too.
+> long getLastAccessedTime()  Generally used to know the last accessed time of a session.
+=======================================
+############# 7. pageContext ##########
+
+> It is an instance of the javax.servlet.jsp.PageContext abstract class.
+> abstract PageContext[c] inherit all methods of javax.servlet.jsp.JspContext[c]
+> it is USED TO STORE AND RETRIEVE PAGE-RELATED INFO AND SHARE OBJ within same translation unit
+
+> used as a convenience class that maintain a table of all the other implicit object as below 
+    application = pageContext.getServletContext ();
+    config = pageContext.getServletConfig ();
+    session = pageContext.getSession ();
+    out = pageContext.getOut ();
+
+> get and set meth to retrieve attribute in different scope
+	pageContext.setAttribute("attr1", "value0");  // PAGE_SCOPE is the default
+pageContext.setAttribute("attr2","value1",PageContext.PAGE_SCOPE);
+pageContext.getAttribute("attr1");
+pageContext.getAttribute("attr2", PageContext.PAGE_SCOPE)
+
+> Provides convenience methods for transferring requests to other resources
+void include (String relativeURL); Same as Same as ServletRequest.getRequestDispatcher ().include ();
+
+void forward (String relativeURL);
+
+> it has below 4 scopes
+public static final int	PAGE_SCOPE = 1
+public static final int	REQUEST_SCOPE = 2
+public static final int	SESSION_SCOPE = 3
+public static final int	APPLICATION_SCOPE = 4
+> JSP context hierarchy = Application(highest) <-Session<-Request<-Page (least)
+
+METHODS - 
+> abstract Object findAttribute(String name)
+> abstract Object getAttribute(String name)
+> abstract Object getAttribute(String name, int scope)
+> abstract Enumeration<String> getAttributeNamesInScope(int scope)
+> abstract int getAttributesScope(String name)
+> abstract void setAttribute(String name, Object value) 
+> abstract void setAttribute(String name, Object value, int scope) 
+> abstract void removeAttribute(String name)
+> abstract void removeAttribute(String name, int scope)
+
+Ex - pageContext.setAttribute("name","Manish Agrawal",SESSION_SCOPE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the benefits of PageContext implicit object?
+
+> pageContext USE TO GET AND SET ATTRIBUTES WITH DIFFERENT SCOPES AND TO FORWARD REQUEST TO OTHER RESOURCES. 
+> pageContext object also hold reference to other implicit object
+> This is the only object that is common in both JSP implicit objects and in JSP EL implicit objects.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=======================================
+############# 8. page	
+> object is an actual reference to the instance of the page
+> it is synonym for "this" object
+Ex - 
+<% (HttpServlet)page.log("message"); %> or 
+<% this.log("message"); %>
+
+> It is NOT ADVISABLE TO USE this page implict object often as it CONSUMES LARGE MEMORY.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is difference between page and pageContext in JSP pages?
+
+=======================================
+############# 9. exception
+> it is an implicit object of java.lang.Throwable class
+> object can be used to print the exception. 
+> it can only be used in error pages
+
+Ex - <%@ page isErrorPage="true" %>
+<%= exception %>
+==========================
+##### Exception Handling in JSP #####
+> There are two ways to perform exception handling:
+1. By errorPage and isErrorPage attributes of page directive
+2. By <error-page> element in web.xml file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can we use JSP implicit objects in a method defined in JSP Declaration?
+> No we can’t because JSP implicit objects are local to service method and added by JSP Container while translating JSP page to servlet source code. 
+> JSP Declarations code goes outside the service method and used to create class level variables and methods and hence can’t use JSP implicit objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

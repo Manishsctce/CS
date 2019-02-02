@@ -1,0 +1,243 @@
+############ HTTP PROTOCOL ############
+##What is HTTP Protocol?
+> It is the APPLICATION-LAYER PROTOCOL that allows web servers and browsers to exchange data over the web.
+
+> it runs over TCP/IP. 
+- The IP provides support for routing and addressing (via an unique IP address for machines on the Internet); 
+- while TCP supports multiplexing via 64K ports from port number 0 to 65535. 
+- The default port number assigned to HTTP is TCP port 80.
+
+> HTTP is an ASYNCHRONOUS request-response protocol which is based on client/server based architecture.
+- A client sends a request message to the server in a special format. 
+- The server then returns a response message to the client in a special format.
+
+> It is STATELESS means each request is considered as the new request.
+> It is CONNECTIONLESS means after the http request, client disconnects from server and waits for the response
+- HTTP is a pull protocol, a client pulls a page from the server (instead of server pushes pages to the clients).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference bet HTTP/1.0 and HTTP/1.1?
+
+> HTTP/1.0 uses a new connection for each request/response exchange, where as 
+- HTTP/1.1 connection may be used for one or more request/response exchanges.
+
+=======================================
+########### HTTP REQUEST ##############
+
+##Explain the format of Http Request format?
+
+1. HTTP Method(i.e Verb)  URI  HTTP Version
+
+2. Request Header : Contains metadata for the HTTP Request message as key-value pairs. 
+For example, client (or browser) type, format supported by the client, format of the message body, cache settings, etc.
+
+3. Request Body
+
+EXAMPLE:
+GET http://www.yahoo.com/ HTTP/1.0   
+
+Accept: image/gif, image/x-xbitmap, image/jpeg, */*            |
+Accept-Language: en-us                                         | Request Header
+User-Agent: Mozilla/4.0(compatible; MSIE 6.0; Windows NT 5.1)  |
+Host: www.yahoo.com                                            |
+
+> other than 1st line all are optional header and last blank line indicate end of header
+=======================================
+########### HTTP RESPONSE ##############
+
+1. Response code  Http Version
+2. Response Header: contain metadata like Content-Length, Content-Type, response date, server type, etc.
+3. Response Body : 
+=======================================
+########### HTTP METHODS ##############
+
+> divide HTTP methods into two main categories safe and idempotent. 
+
+1. SAFE METHODS are HTTP methods that do not modify the resource 
+- GET request is safe because it doesn't modify the resource you are requesting e.g. data of a Book. 
+- HEAD request is safe because it doesn't change the resource representation on the Server, 
+- but ALL OTHER HTTP METHODS e.g. POST, PUT, or DELETE ARE NON-SAFE.
+
+2. IDEMPOTENT METHODS: 
+- they are HTTP methods which can be called multiple times and they will PRODUCE THE SAME RESULT.
+- GET, PUT, and PATCH are idempotent HTTP Method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the HTTP request methods?
+
+HTTP request methods are
+1. GET	: Safe , Idempotent
+> Asks to get the resource at the requested URL
+> It should not contain a request body as it will be discarded. 
+> May be it can be cached locally or on the server.
+
+Ex -  GET /RegisterDao.jsp?name1=value1&name2=value2 
+~~~~~~~~~~~~~~~~~~~~~~~~	
+2. HEAD: SAFE, IDEMPOTENT
+- Asks for only the header part of whatever a GET would return. 
+- JUST LIKE GET BUT WITH NO BODY return.
+~~~~~~~~~~~~~~~~~~~~~~~~
+3. POST	: UNSAFE, NON-IDEMPOTENT
+> update the existing resources or create new resource
+> It submits information to the service for processing; 
+- it should typically return the modified or new resource
+
+Ex- 
+POST/RegisterDao.jsp HTTP/1.1  
+Host: www. javatpoint.com  
+name1=value1&name2=value2  
+~~~~~~~~~~~~~~~~~~~~~~~~
+4. PUT: Unsafe, Idempotent
+> At the request URL it update the resource
+> it puts a file or resource at a particular URI.  
+- If there is already a file or resource at that URI, PUT changes that file or resource, otherwise create a new one.
+- Says to put the enclosed info (the body) at the requested URL.
+~~~~~~~~~~~~~~~~~~~~~~~~
+5. TRACE: 
+- Asks for the loopback of the request message, for testing or troubleshooting.
+
+6. DELETE: Unsafe, Idempotent
+- Says to delete the resource at the requested URL.
+
+7. OPTIONS: Safe, Idempotent
+- Asks for a list of the HTTP methods to which the thing at the request URL can respond
+
+8. PATCH: Unsafe, Non-Idempotent
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the DIFFERENCE BETWEEN GET AND POST?
+
+> In Get, only LIMITED amount of data can be sent because data is SENT IN HEADER
+- In POST, large amount of data can be sent bcz data is SENT IN BODY
+
+> GET request is NOT SECURED because data is exposed in URL bar and CAN BE BOOKMARKED
+- POST request is secure because data is sent in body and cannot bookmarked
+
+> GET request is idempotent. It means that each request will give same result.
+- POST doesn't
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the DIFFERENCE BETWEEN PUT AND POST?
+
+SIMILARITY
+> PUT and POST methods can be used to perform create and update operation
+> BOTH ARE UNSAFE METHODS.
+
+DIFFERENCE
+> PUT request is idempotent in HTTP, which means it will produce the same results if executed once more multiple times. 
+
+> POST is often used to create a new entity, and 
+- PUT is often used to update an existing entity.
+
+> If we replace an existing entity using PUT than you should be aware that if only a subset of data elements is passed then the rest will be replaced by empty or null.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can I use GET request instead of PUT to create resources?
+
+> No, you are not supposed to use POST or PUT.  
+> GET operations should only have view rights 
+=====================================
+########## HTTP RESPONSE CODE #######
+
+100 – Continue (Request received, continuing process)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### 2xx Success code #########
+200 – Ok (Success)
+
+201 - CREATED 
+− when a resource is successfully created using POST or PUT request. Returns link to the newly created resource using the location header.
+
+202 Accepted
+> The request has been accepted for processing, but the processing has not been completed
+
+204 (No Content) 
+- server send 204 response to say no content is return but it process successfully. For example, a DELETE request.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 3xx URL Redirection #######
+
+301 – Moved Permanently (Redirection)
+302 - Found
+304 NOT MODIFIED
+- used to reduce network bandwidth usage in case of conditional GET requests. Response body should be empty. Headers should have date, location, etc
+
+307 - Temporary redirect
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+######## 4xx HTTP Error ##########
+
+400 – Bad Request (Client Error)
+− states that an invalid input is provided. For example, validation error, missing data.
+
+401 – Unauthorized
+− states that user is using invalid or wrong authentication token.
+
+403 – Forbidden
+- − states that the user is not having access to the method being used. For example, Delete access without admin rights.
+
+404 – Not Found
+− states that the method is not available.
+
+405 : Method not allowed
+> HTTP protocol defines methods to indicate the action to be performed on the Web server for the particular URL resource identified by the client
+
+406 : Not Acceptable 
+408 Request Timeout
+
+409 CONFLICT 
+− states conflict situation while executing the method. 
+- For example, adding duplicate entry.
+
+415 Unsupported media type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### Server Error #########
+
+500 – Internal Server Error (Server Error)
+
+503 Service Unavailable
+- The server is currently unavailable (because it is overloaded or down for maintenance). 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Explain the format of Http Response?
+> The first line of the Response is called the status line
+> The status line should contain the HTTP version, Status Code and a Status Description
+
+> After the status line comes the Response header
+> The software used by the server, content type of the response etc will be communicated to the browser using these headers
+> There should be a blank line to show that the header information is over
+> After the header, the server sends the data on success or an error description on failure
+=======================================
+######## Content-Disposition ##########
+
+> It is a response header for indicating if the CONTENT IS EXPECTED TO BE DISPLAYED INLINE IN THE BROWSER i.e as a Web page or as part of a Web page, or 
+- as an attachment, that is downloaded and saved locally.
+
+EXAMPLE:
+Content-Disposition: inline
+Content-Disposition: attachment
+Content-Disposition: attachment; filename="filename.jpg"
+
+=====================================
+######## ACCEPT & CONTENT TYPES ######
+##Content-Type : 
+> used to tell server what is the FORMAT OF DATA BEING SENT IN THE REQUEST
+- It is also known as MIME (Multipurpose Internet Mail Extension) Type.
+> MIME is an Internet standard that extends the format of email.
+
+## Accept : 
+> it tells web service what KIND OF RESPONSE CLIENT IS ACCEPTING.
+
+There are many Content-Type & Accept :-
+
+- text/html, text/plain, application/msword
+- application/vnd.ms-excel
+- application/xml
+- application/json
+- application/jar
+- application/pdf
+- application/octet-stream
+- application/x-zip
+- images/jpeg
+- images/png
+- images/gif
+- audio/mp3
+- video/mp4
+- video/quicktime etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

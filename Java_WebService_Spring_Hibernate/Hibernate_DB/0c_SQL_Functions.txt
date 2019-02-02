@@ -1,0 +1,99 @@
+### INSTR FUNCTION ###
+> it returns the location of a substring in a string.
+##SYNTAX
+INSTR (string, substr [,start_position [,nth_appearance]] )
+
+Ex - INSTR('Tech on the net', 'e', 1, 2)
+Result: 11  (the 2nd occurrence of 'e')
+---------------------------------------
+### LPAD FUNCTION ###
+> pads the left-side of a string with a specific set of characters (when string1 is not null)
+##SYNTAX
+LPAD( string1, padded_length [, pad_string])
+Ex - 
+$ LPAD('tech', 8, '0'); //Result: '0000tech'
+$ LPAD('tech', 7);//Result: '   tech'
+---------------------------------------
+### NVL FUNCTION ###
+> it lets you substitute a value when a null value is encountered
+##SYNTAX
+NVL( string1, replace_with )
+Ex- SELECT NVL(supplier_city, 'n/a') FROM suppliers;
+---------------------------------------
+### SUBSTR FUNCTION ###
+> allows us to extract a substring from a string.
+##SYNTAX
+SUBSTR( string, start_position [, length ] )
+Here start is the start index and length is no. of character after start.
+> starting position where 1 is the first character. (if you pass 0, this will be substituted by 1
+> If length is left out, then substr will return the substring from position start till the end of the input-string.
+
+Ex - Input - Hi Manish
+select SUBSTR(input,4,3); //Man
+Note:-
+> If start_position is 0, then the SUBSTR function treats start_position as 1 (ie: the first position in the string).
+If start_position is a positive number, then the SUBSTR function starts from the beginning of the string.
+If start_position is a negative number, then the SUBSTR function starts from the end of the string and counts backwards.
+If length is a negative number, then the SUBSTR function will return a NULL value.
+---------------------------------------
+4. ASCII() - Returns numeric value of left-most character
+---------------------------------------
+### LISTAGG ####
+##SYNTAX
+LISTAGG(GAM.FORACID,',') WITHIN GROUP (ORDER BY FORACID)
+> LISTAGG function concatenates the data based on the Order by clause.
+> Delimiter is an option argument in this function
+> If we don’t want output in any specific order, we can remove the ordering concept. We can give ORDER BY NULL in the function input
+> LISTAGG are constrained to the maximum size of VARCHAR2 in SQL (i.e. 4000)
+
+---------------------------------------
+### CASE STATEMENT ###
+> Oracle/PLSQL CASE statement has the functionality of an IF-THEN-ELSE statement.
+##SYNTAX
+CASE [expression]
+   WHEN condition_1 THEN result_1
+   WHEN condition_2 THEN result_2
+   ...
+   WHEN condition_n THEN result_n
+   ELSE result
+END
+
+Ex - SELECT supplier_id,
+CASE
+  WHEN supplier_name = 'IBM' and supplier_type = 'Hardware' THEN 'North office'
+  WHEN supplier_name = 'IBM' and supplier_type = 'Software' THEN 'South office'
+END
+FROM suppliers;
+---------------
+$ UPDATE SALARIES SET sex = CASE sex WHEN 'm' THEN 'f' ELSE 'm' END;
+
+---------------------------------------
+### DECODE function ###
+> it has the functionality of an IF-THEN-ELSE statement.
+##SYNTAX
+DECODE( expression , search , result [, search , result]... [, default])
+
+Ex - 
+IF supplier_id = 10000 THEN
+   result := 'IBM';
+ELSIF supplier_id = 10001 THEN
+   result := 'Microsoft';
+ELSIF supplier_id = 10002 THEN
+   result := 'Hewlett Packard';
+ELSE
+   result := 'Gateway';
+END IF;
+---------------------------------------
+### TRANSLATE FUNCTION ###
+> replaces a sequence of characters in a string with another set of characters
+
+##SYNTAX
+TRANSLATE( string1, string_to_replace, replacement_string )
+
+Ex- 
+TRANSLATE('1tech23', '123', '456')
+Result: '4tech56'
+
+TRANSLATE('222tech', '2ec', '3it')
+Result: '333tith'
+---------------------------------------

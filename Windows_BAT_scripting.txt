@@ -1,0 +1,55 @@
+############## FOR LOOP ###########
+FOR - Loop commands
+FOR - Loop through a set of files in one folder
+FOR /R - Loop through files (recurse subfolders) 
+FOR /D - Loop through several folders 
+FOR /F - Loop through items in a text file
+FOR /F - Loop through the output of a command
+
+> loop variable in the FOR command takes one percent sign if you are executing it directly from the command prompt, but two percent signs if you are executing it from a batch file.
+
+##### FOR /L ####
+> Conditionally perform a command for a range of numbers.
+Syntax   
+      FOR /L %%parameter IN (start,step,end) DO command 
+
+Examples
+
+1. For Count from 1 up to 5
+FOR /L %%G IN (1,1,5) DO echo %%G
+
+2. Non-numeric lists can use a standard FOR command:
+FOR %%G IN (Sun Mon Tue Wed Thur Fri Sat) DO echo %%G
+-------------------------------------
+
+###### FOR /F ######
+> Loop command: against a set of files - conditionally perform a command against each item.
+
+Syntax
+        FOR /F ["options"] %%parameter IN (filenameset) DO command 
+		
+--------------------------------
+x=`somecommand`
+The Windows command processor does not have direct backquoting, but you can fake it by abusing the FOR command. Here's the evolution:
+
+The /F flag to the FOR command says that it should open the file you pass in parentheses and set the loop variable to the contents of each line.
+
+for /f %%i in (words.txt) do echo [%%i]
+
+############## WHILE LOOP ###########		
+Examples: 
+
+@echo off
+:while1
+for /F "delims=" %%i in ('netstat -a -n ^| find /c "7222"') do (
+	 echo %time%, %%i >> "test.txt"
+)
+goto :while1
+
+########################################
+#### Conditional Execution Using the Return Code
+> To execute a follow-on command after sucess, we use the && operator:
+SomeCommand.exe && ECHO SomeCommand.exe succeeded!
+
+> To execute a follow-on command after failure, we use the || operator:
+SomeCommand.exe || ECHO SomeCommand.exe failed with return code %ERRORLEVEL%

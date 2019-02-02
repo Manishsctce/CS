@@ -1,0 +1,274 @@
+# #What is testing?
+> Testing is the process of checking the functionality of the application whether it is working as per requirements and to ensure that at developer level, unit testing comes into picture. 
+----------------------------
+## What is unit testing?
+> Unit testing is the testing of single entity (class or method). 
+> It ensure to give a quality product to their customers. 
+
+Unit testing can be done in two ways:-
+1. Manual testing
+2. Automated testing
+----------------------------
+## What is JUnit?
+> JUnit is a unit testing framework for the Java Programming Language. 
+> It is an Open Source Software maintained by the JUnit.org community.
+
+> Here we can create test cases and test our code.
+> Current version is junit 4.
+> Unit test case is a code which ensures that the program logic works as expected
+> org.junit package contains many interfaces and classes for junit testing such as Assert, Test, Before, After etc
+
+> We need to load junit4.jar and hamcrest-core.jar files.
+----------------------------
+## What are important features of JUnit?
+> Import features of JUnit are:
+
+> It is an open source framework.
+> Provides ANNOTATION to identify the test methods.
+> Provides ASSERTIONS for testing expected results.
+> Provides TEST RUNNERS for running tests.
+> JUnit tests can be run automatically and they check their own results and provide immediate feedback.
+> JUnit tests can be organized into test suites containing test cases and even other test suites.
+> JUnit shows test progress in a bar that is green if test is going fine and it turns red when a test fails.
+
+----------------------------
+##Why do we use JUnit?
+> Unit can be test early (i.e. have test case before development)
+> It is fully automated
+> the test case code can be reuseable
+> Regression testing can be done easily 
+----------------------------
+##When are Unit Tests written in Development Cycle?
+Tests are written before the code during development in order to help coders write the best code.
+----------------------------  
+##Why not just use System.out.println() for testing?
+
+> Debugging the code using system.out.println() will lead to manual scanning of the whole output every time the program is run to ensure the code is doing the expected operations. Moreover, in the long run, it takes lesser time to code JUnit methods and test them on class files.
+----------------------------  
+## What are JUnit classes? List some of them.
+JUnit classes are important classes which are used in writing and testing JUnits. Some of the important classes are:
+
+Assert - A set of assert methods.
+TestCase - It defines the fixture to run multiple tests.
+TestResult - It collects the results of executing a test case.
+TestSuite - It is a Composite of Tests.
+
+Test suite means bundle a few unit test cases and run it together. In JUnit, both @RunWith and @Suite annotation are used to run the suite test. 
+----------------------------
+##### Assert Class #####
+> The org.junit.Assert class provides methods to assert the program logic.
+
+## Methods of Assert class ##
+
+The common methods of Assert class are as follows:
+
+1. void assertEquals(boolean expected,boolean actual): checks that two primitives/objects are equal. It is overloaded.
+2. void assertTrue(boolean condition): checks that a condition is true.
+3. void assertFalse(boolean condition): checks that a condition is false.
+4. void assertNull(Object obj): checks that object is null.
+5. void assertNotNull(Object obj): checks that object is not null.
+----------------------------------------
+## What Is a JUnit Test Fixture?
+> A test fixture is a fixed state of a set of objects used as a baseline for running tests. 
+- The purpose of a test fixture is to ensure that there is a well known and fixed environment in which tests are run so that results are repeatable. Examples of fixtures:
+
+* Loading a database with a specific, known set of data
+* Copying a specific known set of files
+* Preparation of input data and setup/creation of fake or mock objects
+
+In other word, creating a test fixture is to create a set of objects initialized to certain states.
+
+If a group of tests requires diferent test fixtures, you can write code inside the test method to create its own test fixture.
+
+If a group of tests shares the same fixtures, you should write a separate setup code to create the common test fixture.	
+
+----------------------------
+It have different testing Features like
+> FIXTURES - Fixtures is a fixed state of a set of objects used as a baseline for running tests. 
+> The purpose of a test fixture is to ensure that there is a well known and fixed environment in which tests are run so that results are repeatable. 
+> It includes
+setUp() method which runs before every test invocation.
+tearDown() method which runs after every test method.
+
+> TEST SUITE means bundle a few unit test cases and run it together. 
+> both @RunWith and @Suite annotation are used to run the suite test
+
+> TEST RUNNER is used for executing the test cases .
+
+> JUNIT CLASSES are important classes which is used in writing and testing JUnits. Some of the important classes are
+
+ASSERT which contain a set of assert methods.
+TESTCASE which contain a test case defines the fixture to run multiple tests.
+TESTRESULT which contain methods to collect the results of executing a test case.
+----------------------------
+##What Is Junit TestSuite?
+> JUnit TestSuite is a container class under package junit.framework.TestSuite. 
+> It allows us to group multiple test cases into a collection and run them together. 
+> In JUnit, both @RunWith and @Suite annotation are used to run the suite test. 
+(JUnit 4.4 does not support TestSuite class now).
+---------------------------
+##What Is Junit TestCase?
+> JUnit TestCase is the base class, junit.framework.TestCase, that allows you to create a test case. 
+(Although, TestCase class is no longer supported in JUnit 4.4.)
+
+> A test case defines the fixture to run multiple tests. To define a test case
+
+-Implement a subclass of TestCase
+-Define instance variables that store the state of the fixture
+-Initialize the fixture state by overriding setUp
+-Clean-up after a test by overriding tearDown
+Each test runs in its own fixture so there can be no side effects among test runs.
+------------------------------
+##What happens if a Junit test method is declared as “private”?
+If a Junit test method is declared as “private”, the compilation will pass ok. 
+But the execution will fail. This is because Junit requires that all test methods must be declared as “public”.
+> we can use different approach to test private method:-
+ Don't test private methods.
+Give the methods package access.
+Use a nested test class.
+Use reflection.
+------------------------------
+##How do you test a “protected” method?
+> protected method can only be accessed within the same package where the class is defined. 
+> So, testing a protected method of a target class means we need to define your test class in the same package as the target class
+------------------------------
+##What happens If a Junit test method Is declared to return “String”?
+But the execution will fail. This is because Junit requires that all test methods must be declared to return “void”.
+------------------------------
+##Do you need to write a main () method compulsorily in a Junit test case class?
+No. But still developers write the main() method in a JUnit test case class to call a JUnit test runner to run all tests defined in this class 
+------------------------------
+##methods Get () and Set () should be tested for which conditions?
+Genera
+set() and get() methods on complex data types are vulnerable to break
+------------------------------
+##What is the @SuitClasses Annotation?
+> It is a class annotation define in JUnit 4.4 in org.junit.runners.Suite.SuiteClasses.
+> Using Suite as a runner allows you to manually build a suite containing tests from many classes. 
+------------------------------
+##Why not just use debugger for unit testing?
+> A debugger is designed for manual debugging and manual unit testing, not for automated unit testing.
+> Automated unit testing requires extra time to setup initially. But it will save time, if code requires changes many times in future.
+
+> Debugger are used to step through code and inspect that the variables along the way contain the expected values (i.e. manual process
+
+------------------------------
+##Why not just write a main() method for unit testing?
+------------------------------
+##How Often Should You Run Your JUnit Tests?
+Run all your unit tests as often as possible, ideally every time the code is changed. 
+Make sure all your unit tests always run at 100%. 
+Frequent testing gives you confidence that your changes didn't break anything and generally lowers the stress of programming in the dark.
+------------------------------
+##Can You Explain the Life Cycle of a JUnit 4.4 Test Class?
+> A JUnit 4.4 test class contains a @Before method, an @After method and multiple @test methods. 
+- When calling a test runner to run this test class, the runner will execute those methods in a specific order giving the test class an execution life cycle like this:
+
+@Before
+@Test XXX1
+@After
+
+@Before
+@Test XXX2
+@After
+
+@Before
+@Test XXX3
+@After	
+------------------------------
+##Can You Explain the Life Cycle of a JUnit 3.8 Test Case Class? 
+A JUnit 3.8 test case class contains a setUp() method, a tearDown() method and multiple testXXX() methods. When calling a test runner to run this test class, the runner will execute those methods in a specific order giving the test case class an execution life cycle like this:
+
+setUp()
+testXXX1()
+tearDown()
+
+setUp()
+testXXX2()
+tearDown()
+
+setUp()
+testXXX3()
+tearDown()	
+
+------------------------------
+##How Many Test Runners Are Supported in JUnit 3.8?
+JUnit 3.8 supports 3 test runners:
+
+junit.textui.TestRunner 
+- A command line based tool to run tests. 
+- TestRunner expects the name of a TestCase class as argument. 
+- If this class defines a static suite method it will be invoked and the returned test is run. 
+- Otherwise all the methods starting with "test" having no arguments are run.
+
+junit.awtgui.TestRunner - An AWT based user interface to run tests. Enter the name of a class which either provides a static suite method or is a subclass of TestCase. TestRunner takes as an optional argument the name of the testcase class to be run.
+
+junit.swingui.TestRunner - A Swing based user interface to run tests. Enter the name of a class which either provides a static suite method or is a subclass of TestCase. TestRunner takes as an optional argument the name of the testcase class to be run.
+
+All 3 runners can be executed directly by JVM with a class name as an argument	
+------------------------------
+##Do You Have To Write a Test for Everything?
+No, just test everything that could reasonably break.
+ investments in testing are equal investments in design. If defects aren't being reported and your design responds well to change, then you're probably testing enough. If you're spending a lot of time fixing defects and your design is difficult to grow, you should write more tests.
+------------------------------
+## How to test a method that does not return anything?
+You need to follow the logic below to answer this question:
+
+> If a method is not returning anything through the "return" statement (void method), it may return data through its arguments. 
+- In this case, you can test the data returned in any argument.
+
+> Else if a method is not returning any data through its arguments, it may change values of its instance variables. 
+- In this case, you can test changes of any instance variables.
+> Else if a method is not changing any instance variable, it may change values of its class variables. In this case, you can test changes of any class variables.
+> Else if a method is not changing any class variable, it may change external resources. In this case, you can test changes of any external resources.
+> Else if a method is not changing any external resources, it may just doing nothing but holding the thread in a waiting status. In this case, you can test this waiting condition.
+> Else if a method is not holding the thread in waiting status, then this method is really doing nothing. In this case, there is no need to test this method. :-)	
+------------------------------
+##How to launch debugger when a test fails?
+
+> configure the debugger to catch the java.lang.AssertionError exception and suspend the execution
+> call the TestRunner to run the test under the debugger
+> When test fails again, the dubugger will suspend the execution and start the debug mode.
+> now we can use debugger commands to find the code issue.
+------------------------------
+##What happens if a test method throws an exception?
+------------------------------
+
+JUnitCore is an inbuilt class in Junit package. It is based on Facade design pattern. This class is used to run only specified test classes.
+=========================================
+######## Annotation #########
+
+#### Annotations for Junit testing 
+> The Junit 4.x framework is annotation based, so let's see the annotations that can be used while writing the test cases.
+
+1. @Test : it specifies that method is the test method.
+
+2. @Test(timeout=1000) : it specifies that method will be failed if it takes longer than 1000 milliseconds (1 second).
+
+3. @BeforeClass : it specifies that method will be invoked only once, before starting all the tests.
+
+4. @Before : it specifies that method will be invoked before each test.
+>  It cannot use with static method
+> It can be use with any number of methods
+
+5. @After : it specifies that method will be invoked after each test.
+
+6. @AfterClass : it specifies that method will be invoked only once, after finishing all the tests.
+7.	@Ignore
+The Ignore annotation is used to ignore the test and that test will not be executed.
+
+http://www.artima.com/suiterunner/privateP.html
+---------------------------------------
+## What Are JUnit 3.8 Naming Conventions?
+JUnit 3.8 suggests the following naming conventions:
+
+> Test Case Class: Named as [classname]Test.java, where "classname" is the name of the class that is being tested. 
+- A test case class define the fixture to run multiple tests. 
+- A test case class must be subclass of junit.framework.TestCase.
+
+> Test Method: Named test[XXX], where "XXX" is any unique name for this test. 
+- A test method name should be prefixed with "test" to allow the TestSuite class to extract it automatically. 
+- A test method must be declared as "public".
+
+> Test Suite: Can be named any way you want to. But Eclipse uses AllTests.java as the name. 
+- A test suite is a collection of test cases.	

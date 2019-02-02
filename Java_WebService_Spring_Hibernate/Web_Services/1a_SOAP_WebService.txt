@@ -1,0 +1,364 @@
+###### SOAP Web Services ######
+> The web service which use SOAP message to communicate over network is called SOAP-WS.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What are the Components of SOAP Web Services?
+1. SOAP (Simple Object Access Protocol)
+
+2. WSDL (Web Services Description Language)
+
+3. UDDI (Universal Description, Discovery and Integration)
+- it is a standard for describing, publishing, and discovering the web services that is provided by a particular service provider
+- it provides a repository on which WSDL files can be hosted
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is SOAP or SOAP protocol(Simple Object Access Protocol)?
+
+> It is a XML based messaging protocol for exchanging information bet apps. 
+- it helps to describe the transport method and message format in a web service
+- SOAP is analogous to Remote Procedure Calls (RPC)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is WSDL (Web Services description language)?
+
+> It is XML-based file which basically tells the client application what the web service does and where web services is located.
+> It describe how incoming/outgoing msg should be structured to understand by web-server/client app respectively.
+
+> It describes:
+- Origin of the web service
+- Header information
+- Port type
+- Input and output messages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the advantages of SOAP-WS?
+
+> WSDL document provides contract and technical details of the web services for client applications without exposing the underlying implementation technologies.
+> SOAP-WS uses XML data for payload(message in transmitted data) as well as contract, so it can be easily read by any technology.
+- Thus, it is Language and platform-independent
+
+> SOAP protocol is universally accepted, so it’s an industry standard approach.
+> It define its own security called WS Security
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are the disadvantages of Soap Web Services?
+
+> If any changes in the server side contract then client stub classes need to be generated AGAIN.
+
+> WSDL dependent: SOAP is based on the contract
+- there is a tight coupling between client and server applications
+- it doesn't have any other mechanism to discover the service.
+
+> Can’t be tested easily in browser
+
+> SOAP-WS is SLOW because only XML format is used. 
+- For a simple string, SOAP message will be large i.e of 4-5lines that must be parsed. 
+- It defines many standards that must be followed while developing the SOAP applications. 
+- So it is slow and consumes more bandwidth and resource.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Name some frameworks in Java to implement SOAP web services?
+> Apache Axis and Apache CXF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+### SERVICE ENDPOINT INTERFACE(SEI) ###
+
+## How to create Service Endpoint Interface (SEI)?
+
+> Implementing class must be annotated with either the javax.jws.WebService
+- implementing class may explicitly reference an SEI through the endpointInterface element but is not required to do so. 
+EXAMPLE - 
+@WebService(endpointInterface = "com.journaldev.jaxws.service.PersonService")  
+public class PersonServiceImpl implements PersonService {
+  
+  @WebMethod
+  public String sayHello(String name) {
+      return message + name + ".";
+  }
+}
+
+- If no endpointInterface is specified in @WebService, an SEI is implicitly defined for the implementing class.
+
+> business methods of the implementing class must be public and must not be declared static or final.
+
+> WS exposed method to clients must be annotated with javax.jws.WebMethod.
+
+> Business methods that are exposed to WS clients must have JAXB-compatible parameters and return types. 
+
+> The implementing class must not be declared final and must not be abstract.
+> The implementing class must have a default public constructor.
+> The implementing class must not define the finalize method.
+> The implementing class may use the javax.annotation.PostConstruct or 
+- the javax.annotation.PreDestroy annotations on its methods for lifecycle event callbacks.
+=======================================
+############ CLIENT ###############
+
+public class HelloAppClient {
+
+	//Uses the generated HelloService class, which represents the service at the URI of the deployed service’s WSDL file
+    @WebServiceRef(wsdlLocation = 
+      "META-INF/wsdl/localhost_8080/helloservice/HelloService.wsdl")
+    private static HelloService service;
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+       System.out.println(sayHello("world"));
+    }
+
+    private static String sayHello(java.lang.String arg0) {	
+		//Retrieves a proxy to the service, also known as a port, by invoking getHelloPort on the service
+        helloservice.endpoint.Hello port = service.getHelloPort();
+        return port.sayHello(arg0);
+    }
+}
+=======================================
+################ SOAP #################
+##What is SOAP?
+> It Stand for Simple Object Access Protocol
+> It is an XML-based messaging protocol for exchanging information i.e for sending and receiving requests and responses for accessing web services. 
+- SOAP can extend HTTP for XML messaging
+- SOAP is platform- and language-independent.
+
+- It can be used on top of transport protocols such as HTTP, SMTP, UDP, etc.
+- WS Security: SOAP defines its own security known as WS Security.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What SOAP version are you using?
+> We use SOAP 1.2 with WSDL 1.1, UDDI 2.0,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do you handle errors in SOAP Web Service call ?
+
+> SOAP specification defines a standard, platform-independent way of describing the error within the SOAP message using a SOAP fault. 
+- a SOAP fault is analogous to an application exception. 
+- SOAP faults are generated by receivers to report business logic errors or unexpected conditions.
+
+> In JAX-WS, Java exceptions thrown by Java Web service are mapped to a SOAP fault and returned to the client to communicate the reason for failure. 
+
+> SOAP faults can be one of the following types
+1. Modeled fault : it is mapped to an exception that is thrown explicitly from the business logic of the Java code and 
+- It is mapped to wsdl:fault definitions in the WSDL file, when the Web service is deployed. 
+- In this case, the SOAP faults are predefined.
+
+2. Unmodeled fault : It is Mapped to an exception (for example, java.lang.RuntimeException) that is generated at run-time when no business logic fault is defined in the WSDL. 
+- In this case, Java exceptions are represented as generic SOAP fault exceptions, javax.xml.ws.soap.SOAPFaultException.
+=====================================
+########## SOAP MESSAGE #############
+> A SOAP message is an ordinary XML document containing the following elements −
+Envelope
+	Header
+	Body
+		Message Data
+		Fault (optional)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+## What Are The Syntax Rules For Soap Message?
+> SOAP message must use encoded XML:
+
+- A SOAP envelope namespace must be used.
+- A SOAP encoding namespace must be used.
+- A SOAP message must not consist of a DTD reference.
+- A SOAP message must not have XML processing instruction.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### SYNTAX:
+<?xml version = "1.0"?>
+<SOAP-ENV:Envelope 
+	xmlns:SOAP-ENV = "http://www.w3.org/2001/12/soap-envelope" 
+    SOAP-ENV:encodingStyle = "http://www.w3.org/2001/12/soap-encoding">
+
+   <SOAP-ENV:Header>...</SOAP-ENV:Header>
+   <SOAP-ENV:Body>
+		...
+		<SOAP-ENV:Fault>...</SOAP-ENV:Fault>
+		...
+   </SOAP-ENV:Body>
+</SOAP_ENV:Envelope>
+
+EXAMPLE:-
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope 
+	xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+	xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<SOAP-ENV:Body>
+		<jsx1:getExtensions xmlns:jsx1="http://plugin.amx.api.admin.amf.tibco.com">
+			<jsx1:extensionPoints>tibco.admin.adminconfiguration.menuItem</jsx1:extensionPoints>
+		</jsx1:getExtensions>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>		
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. ENVELOPE 
+> Defines the start and the end of the message (MANDATORY ele).
+- Envelope is a mandatory part of SOAP message
+- it changes when SOAP version change
+- Every Envelope element must contain exactly one Body element
+> Header is optional, but if exist then only 1 element is allowed and it should be 1st child element.
+
+> A v1.1-compliant SOAP processor generates a fault upon receiving a message containing the v1.2 envelope namespace.
+- A v1.2-compliant SOAP processor generates a VersionMismatch fault if it receives a message that does not include the v1.2 envelope namespace.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. HEADER 
+− Contains any optional attributes of the message used in processing the message, either at an intermediary point or at the ultimate end-point. 
+- It is an optional element.
+- specifying additional application-level requirements. Ex- the Header element can be used to specify a digital signature for password-protected services
+- It can occur multiple times.
+- When multiple headers are defined, all immediate child elements of the SOAP header are interpreted as SOAP header blocks.
+- header is encoded as the first immediate child element of the SOAP envelope.
+
+> It has two attributes 
+1. Actor - use to specify addr of receiver of this soap msg.
+2. mustUnderstand - It indicates whether a Header element is optional or mandatory. 
+- If true, the recipient MUST UNDERSTAND AND PROCESS THE HEADER attribute according to its defined semantics, or return a fault.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. Header 
+− contains any optional attributes of the message used in processing the message, either at an intermediary point or at the ultimate end-point. 
+- It is an optional element.
+- It can be used to specify a digital signature for password-protected services
+- Header elements can occur multiple times.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Body 
+− Contains the XML data comprising the message being sent. 
+> It is a mandatory element.
+> it is child element of the envelope
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Fault 
+− An optional Fault element is used to transmit INFORMATION ABOUT ERRORS that occur while processing the request msg.
+- A SOAP message can carry ONLY ONE FAULT BLOCK.
+- For HTTP binding, a successful response is linked to the 200 to 299 range of status codes.
+- SOAP Fault is linked to the 500 to 599 range of status codes.
+
+Sub-element
+1. <env:Code>
+2. <env:Reason>
+3. <env:detail>
+=====================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+## What Is The Message Format Used In Soap?
+> Message format is written by using the XML language. 
+- The message format is standard, and it is widely used. The message format is like
+
+POST/In Stock HTTP/1.1
+Host: local host (www.xyz.org)
+Content Type: application/soap+xml; char set=utf-8
+Content length: 300
+SOAPAction: http://www.guru99.org/2003/05/soap-envelop>
+
+<? xml version= “1.0”?>
+<soap: Envelop xmlns:soap= http://www.guru99.org/2003/05/soap-envelop>
+	<soap: Header>
+	</soap: Header>
+	<soap: Body>
+		<m:CareerName>Guru99</m:CareerName>
+	</soap: Body>
+</soap: Envelope>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What Is The Response Format For Soap Response?
+> SOAP response would be like
+
+HTTP/1.0 200 OK
+Content Type: text/xml; char set=utf-8
+Content-Length: nnn
+<? xml version= “1.0”?>
+<SOAP-ENV: Envelop
+xmlns: SOAP-ENV= http://www.guru99.org/2003/05/soap-envelope”
+SOAP-ENV: encoding style= http://www.guru99.org/2003/05/soap-encoding>
+
+	<SOAP-ENV: Body xmlns=http://www.xyz.org/quotation”>
+		<m:GetQuotationResponse>
+			<m:Quotation > Here is the Quotation</m:Quotation>
+		</m:QuotationRequest>
+	</SOAP-ENV: Body>
+</SOAP-ENV: Envelope>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> SOAP is not tied to any transport protocol. 
+- SOAP can be transported via SMTP, FTP, IBM's MQSeries, or Microsoft Message Queuing (MSMQ).
+- While SOAP requests can be sent via an HTTP GET, the specification includes details on HTTP POST only.
+
+> SOAP specification mandates that the client must provide a SOAPAction header, 
+- but the actual value of the SOAPAction header is dependent on the SOAP server implementation.
+- Even if the server does not require a full SOAPAction header, the client must specify an empty string ("") or a null value. 
+For example −
+SOAPAction: ""
+SOAPAction:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+SoapUI
+Client -- HTTP (POST)--> Web service
+input - wsdl
+output - xml
+
+EXAMPLE- 
+###### SOAP request #######
+
+POST /Quotation HTTP/1.0
+Host: www.xyz.org
+Content-Type: text/xml; charset=utf-8
+Content-Length: nnn
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://www.w3.org/2001/12/soap-envelope" SOAP-ENV:encodingStyle="http://www.w3.org/2001/12/soap-encoding" >
+
+   <SOAP-ENV:Body xmlns:m="http://www.xyz.org/quotations" >
+	
+      <m:GetQuotation>
+         <m:QuotationsName>MiscroSoft</m:QuotationsName>
+      </m:GetQuotation>
+		
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### SOAP response #######
+HTTP/1.0 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: nnn
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://www.w3.org/2001/12/soap-envelope" SOAP-ENV:encodingStyle="http://www.w3.org/2001/12/soap-encoding" >
+
+   <SOAP-ENV:Body xmlns:m="http://www.xyz.org/quotation" >
+	
+      <m:GetQuotationResponse>
+         <m:Quotation>Here is the quotation</m:Quotation>
+      </m:GetQuotationResponse>
+		
+   </SOAP-ENV:Body>	
+</SOAP-ENV:Envelope>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### SOAP Fault response ####
+<?xml version='1.0' encoding='UTF-8'?>
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+   
+   <SOAP-ENV:Body>
+      <SOAP-ENV:Fault>
+         <faultcode xsi:type="xsd:string">SOAP-ENV:Client</faultcode>
+		 
+         <faultstring xsi:type="xsd:string">
+            Failed to locate method (ValidateCreditCard) in class (examplesCreditCard) at /usr/local/ActivePerl-5.6/lib/site_perl/5.6.0/SOAP/Lite.pm line 1555.
+         </faultstring>
+		 
+      </SOAP-ENV:Fault>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+=====================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get WSDL file of a SOAP web service?
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is wsimport ?
+> wsimport tool is used to parse an existing Web Services Description Language (WSDL) file and generate required files (JAX-WS portable artifacts) for web service client to access the published web services. 
+- This wsimport tool is available in the $JDK/bin folder.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Service Endpoint Interface (SEI)
+Service
+Exception class mapped from wsdl:fault (if any)
+Async Reponse Bean derived from response wsdl:message (if any)
+JAXB generated value types (mapped java classes from schema types)

@@ -1,0 +1,247 @@
+######### INVERSION OF CONTROL ######
+
+## What is IOC (or Dependency Injection)? 
+
+> IT IS THE PRINCIPLE WHERE THE CONTROL FLOW OF A PROGRAM IS INVERTED AND IT IS TRANSFERRED TO A CONTAINER OR FRAMEWORK
+- instead the programmer controls the flow of a program, the external sources (framework, services, other components) take control of it. 
+- So we can that we can control our application without imbibing our code to it.
+- we do not create our objects but describe how they should be created.
+
+> There are many type of IOC like Service Locator, Events, Delegated, IOC
+
+Ex - We don't directly connect our components and services together in code but describe which services are needed by which components in a configuration file. 
+- In case of spring, IOC container is responsible for hooking it all up.
+=======================================
+####### DEPENDENCY INJECTION ########
+## What is Dependency Injection?
+
+> It is a technique where one object suppies the dependencies of another object.
+- Here Dependency is of an object that can be used and Injection mean passing the dependency.
+
+> Here we do not create our objects manually but instead describe how they should be created.
+
+> It allows us to remove the hard-coded dependencies and make our application loosely coupled, extendable and maintainable. 
+- We can implement dependency injection pattern to move the dependency resolution FROM COMPILE-TIME TO RUNTIME.
+
+> BENEFITS OF DI ARE: 
+- Separation of Concerns, 
+- Configurable components  
+- easy unit testing.
+- Boilerplate Code reduction,  
+--------------------------------
+## How do we implement DI in Spring Framework?
+> We can use Spring XML based as well as Annotation based configuration to implement DI 
+--------------------------------
+
+=======================================
+############ TYPES OF DI ############
+
+## What are the different types of Dependency injection ? 
+> There are three types of dependency injection:
+
+1. CONSTRUCTOR INJECTION 
+> Dependencies are provided as constructor parameters.
+> e.g. Pico container, Spring etc
+ 
+2. SETTER INJECTION (e.g. Spring): 
+> Dependencies are assigned through JavaBeans properties (ex: setter methods).
+
+3. Field-Based Dependency Injection
+Ex-
+public class Store {
+    @Autowired
+    private Item item; 
+}
+
+3. INTERFACE INJECTION (e.g. Avalon): 
+> Injection is done through an interface.
+
+Note: Spring supports only Constructor and Setter Injection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which DI would you suggest Constructor-based or setter-based DI?
+> Constructor arguments is used for mandatory dependencies and 
+- setters for optional dependencies.
+=====================================
+######### SETTER INJECTION ##########
+
+Example : 
+<bean id="exampleBean" class="examples.ExampleBean">
+  <!-- setter injection using the nested <ref/> element -->
+  <property name="beanOne"><ref bean="anotherExampleBean"/></property>
+
+  <!-- setter injection using the neater 'ref' attribute -->
+  <property name="beanTwo" ref="yetAnotherBean"/>
+  <property name="integerProperty" value="1"/>
+</bean>
+<bean id="anotherExampleBean" class="examples.AnotherBean"/>
+
+public class ExampleBean {
+
+    private AnotherBean beanOne;
+    private YetAnotherBean beanTwo;
+    private int i;
+
+    public void setBeanOne(AnotherBean beanOne) {
+        this.beanOne = beanOne;
+    }
+
+    public void setBeanTwo(YetAnotherBean beanTwo) {
+        this.beanTwo = beanTwo;
+    }
+
+    public void setIntegerProperty(int i) {
+        this.i = i;
+    }    
+}
+=====================================
+####### CONSTRUCTOR INJECTION #######
+
+
+EXAMPLE: 
+<bean id="exampleBean" class="examples.ExampleBean">
+  <!-- constructor injection using the nested <ref/> element -->
+  <constructor-arg><ref bean="anotherExampleBean"/></constructor-arg>
+  
+  <!-- constructor injection using the neater 'ref' attribute -->
+  <constructor-arg ref="yetAnotherBean"/>
+  <constructor-arg type="int" value="1"/>
+</bean>
+<bean id="anotherExampleBean" class="examples.AnotherBean"/>
+<bean id="yetAnotherBean" class="examples.YetAnotherBean"/>
+
+public class ExampleBean {
+    private AnotherBean beanOne;
+    private YetAnotherBean beanTwo;
+    private int i;
+    public ExampleBean(
+        AnotherBean anotherBean, YetAnotherBean yetAnotherBean, int i) {
+        this.beanOne = anotherBean;
+        this.beanTwo = yetAnotherBean;
+        this.i = i;
+    }
+}
+-----------------------------
+### CONSTRUCTOR ARGUMENT INDEX ###
+> Constructor arguments can have their index specified explicitly by use of the index attribute. 
+
+EXAMPLE:
+<bean id="exampleBean" class="examples.ExampleBean">
+  <constructor-arg index="0" value="7500000"/>
+  <constructor-arg index="1" value="42"/>
+</bean>
+
+> solve the ambiguity problem of multiple simple values
+- solves the problem of ambiguity where a constructor may have two arguments of the same type. 
+- Note that the index is 0 based.
+-------------------------------------
+## Differentiate between constructor injection and setter injection.
+> In CI, There is no partial injection.
+- In SI, There can be partial injection
+
+> In CI, It doesn’t override the setter property
+- In SI, It overrides the constructor property
+
+> In CI, It will create a new instance if any modification is done.
+- In SI, It will not create new instance if any modification is done.
+=====================================
+######### METHOD INJECTION ##########
+
+## Lookup method injection ##
+> It is the ability of the container to override methods on container managed beans, to return the lookup result for another named bean in the container.
+- lookup typically involves a prototype bean 
+
+> method to be injected requires a signature of the following form:
+<public|protected> [abstract] <return-type> theMethodName(no-arguments);
+
+EXAMPLE:
+public abstract class CommandManager {
+  public Object process(Object commandState){
+  	Command command = createCommand();
+  	command.setState(commandState);
+  	return command.execute();
+  }
+ 
+  protected abstract Command createCommand();
+}
+
+<bean id="command" class="fiona.apple.AsyncCommand" scope="prototype"/>
+
+<bean id="commandManager" class="fiona.apple.CommandManager">
+	<lookup-method name="createCommand" bean="command"/>
+</bean>
+=====================================
+## STATIC FACTORY METHOD INJECTION ##
+> Autowiring does not apply to factory methods. 
+> It is used when client doesn't know the creation detail. Just give required input and it will give output.
+
+2 ATTRIBUTE FOR INJECTING BEAN
+> factory-method - it represent factory method in factory-bean class AND invoked while injecting the bean. 
+- It is used when the factory method is static
+
+> factory-bean : it represent bean of factory class by which factory method will be invoked. 
+- IT IS USED IF FACTORY METHOD IS NON-STATIC
+
+EXAMPLE:
+public class EmployeeFactory{
+    private EmployeeFactory(){}
+	
+    public static Employee createEmployee(String designation){
+        Employee emp = new Employee();
+        
+        if ("manager".equals(designation)){
+            emp.setName("Manager JavaInterviewPoint");
+            emp.setAge("111");
+            emp.setDesignation(designation);
+        }
+        else if("seniormanager".equals(designation)){
+            emp.setName("SeniorManager JavaInterviewPoint");
+            emp.setAge("222");
+            emp.setDesignation(designation);
+        }else{
+            throw new RuntimeException();
+        }
+        return emp;
+    }
+}
+
+<bean id="employee" class="com.EmployeeFactory" factory-method="createEmployee">
+	<constructor-arg value="seniormanager"/>
+</bean>
+
+------------------------------------------
+### NON-STATIC FACTORY METHOD INJECTION ##
+> A non-static factory method returns the instance of another class. 
+- It is USED WHEN INSTANCE IS NOT KNOWN AND DECIDED AT RUNTIME.
+
+EXAMPLE:
+public class EmployeeFactory{
+    private EmployeeFactory(){}
+	
+    public static EmployeeFactory createEmployee(){
+        return new EmployeeFactory();
+    }
+    
+    public Employee getManager(){
+        Employee emp = new Employee();
+        emp.setName("Manager JavaInterviewPoint");
+        emp.setDesignation("Manager");
+        return emp;
+    }
+    
+    public Employee getSeniorManager(){
+        Employee emp = new Employee();
+        emp.setName("SeniorManager JavaInterviewPoint");
+        emp.setDesignation("SeniorManager");
+        return emp;
+    }
+}  
+
+<bean id="employee" class="com.EmployeeFactory" factory-method="createEmployee" /> 
+<bean id="manager" class="com.Employee" factory-bean ="employee" factory-method="getManager"/>
+
+<bean id="seniormanager" factory-bean ="employee" factory-method="getSeniorManager"/>
+ 
+> we DON’T HAVE TO SPECIFY THE IMPLEMENTATION CLASS WHILE USING STATIC FACTORY or instance factory. 
+- Spring IoC container will take the class name from the return type of the factory method. 
+=====================================
+

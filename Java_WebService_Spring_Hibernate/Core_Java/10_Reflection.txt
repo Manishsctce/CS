@@ -1,0 +1,176 @@
+###### JAVA REFLECTION API
+> it is a process of examining or modifying the run time behavior of a class at run time.
+> The java.lang.Class class provides many methods that can be used to get metadata, examine and change the run time behavior of a class.
+> The java.lang and java.lang.reflect packages provide classes for java reflection.
+
+
+
+> The Reflection API is mainly used in: IDE (Integrated Development Environment) e.g. Eclipse, MyEclipse, NetBeans etc; Debugger; Test Tools etc.
+Do You Know ?
+How many ways we can get the instance of Class class ?
+How to create the javap tool ?
+How to create the appletviewer tool ?
+=======================================
+######### java.lang.Class[c] ##########
+> java.lang.Class is the entry point for all the reflection operations. 
+- For every type of object, JVM instantiates an immutable instance of java.lang.Class 
+- Class provides methods to examine the runtime properties of the object and create new objects, invoke its method and get/set object fields.
+
+The java.lang.Class class performs mainly two tasks:
+
+> provides methods to get the metadata of a class at run time.
+> provides methods to examine and change the run time behavior of a class.
+
+## Commonly used METHODS of Class class:
+1. public String getName()	
+- returns the class name
+
+2. public static Class forName(String className) throws ClassNotFoundException
+- loads the class and returns the reference of Class class.
+
+3. public Object newInstance() throws InstantiationException,IllegalAccessException	
+- creates new instance.
+
+4. public boolean isInterface()	
+- checks if it is interface.
+
+5. public boolean isArray()	checks if it is array.
+
+6. public boolean isPrimitive()	
+- checks if it is primitive.
+
+7. public Class getSuperclass()	
+- returns the superclass class reference.
+
+8. public Field[] getDeclaredFields()throws SecurityException	
+- returns the total number of fields of this class.
+
+9. public Method[] getDeclaredMethods()throws SecurityException	
+- returns the total number of methods of this class.
+
+10. public Constructor[] getDeclaredConstructors()throws SecurityException	
+- returns the total number of constructors of this class.
+
+11. public Method getDeclaredMethod(String name,Class[] parameterTypes) throws NoSuchMethodException,SecurityException	
+- returns the method class instance.
+=======================================
+########### GET CLASS OBJECT ##########
+
+## How to get the object of Class class?
+
+> There are 3 ways to get the instance of Class class:
+
+1. using static variable "class"
+> If a type is available but there is no instance then it is possible to obtain a Class by appending ".class"
+EXAMPLE: 
+Class c = boolean.class;   
+
+2. getClass() of Object[c]
+- it can be used with primitives.
+
+3. forName(String fullyClassifiedClassName) of Class[c]
+- This cannot be used for primitive types.
+
+EXAMPLE:
+Class c=Class.forName("com.Simple");  
+
+> For primitive types and arrays, we can use static variable "class". 
+> Wrapper classes provide another static variable TYPE to get the class.
+
+=======================================
+########### GET SUPER CLASS ###########
+
+> getSuperclass() on a Class object returns the super class of the class. 
+EXAMPLE: 
+- Object.class.getSuperclass();// null
+- ChildClass.class.getSuperclass();//ParentClass 
+- String[][].class.getSuperclass();// "class java.lang.Object"
+
+> If this Class represents either the Object class, an interface, a primitive type, or void, then null is returned. 
+- If this object represents an array class then the Class object representing the Object class is returned.
+=======================================
+####### GET PUBLIC MEMBER CLASSES #####
+
+> getClasses() of a Class representation of object RETURNS an array containing Class objects representing ALL THE PUBLIC CLASSES, INTERFACES AND ENUMS THAT ARE MEMBERS OF THE CLASS represented by this Class object. 
+
+EXAMPLE:
+class com.A{
+	public class InnerClassA{}
+	public enum APublicEnum{}
+}
+class com.B extends com.A{
+  public interface BPublicInterface{}
+}
+
+Class<?> classes[] = B.class.getClasses();
+- com.InnerClassA, com.APublicEnum, com.BPublicInterface
+=======================================
+######### GET DECLARED CLASSES ########
+> getDeclaredClasses() method RETURNS AN ARRAY OF CLASS objects reflecting all the classes and interfaces declared AS MEMBERS OF THE CLASS
+- The returned array doesn’t include classes declared in inherited classes and interfaces.
+
+EXAMPLE:
+class com.A{
+	public class InnerClassA{}
+	public enum APublicEnum{}
+}
+class com.B extends com.A{
+  public interface BPublicInterface{}
+  public enum APublicEnum{}
+  class BDefaultClass{}
+  private class BPrivateClass{}
+  interface BDefaultInterface{}
+  
+}
+Class<?> classes[] = B.class.getDeclaredClasses();
+- return BPublicInterface, APublicEnum, BDefaultClass, BPrivateClass, BDefaultInterface
+=======================================
+Following methods of Class class is used to determine the class object:
+
+1) public boolean isInterface(): determines if the specified Class object represents an interface type.
+2) public boolean isArray(): determines if this Class object represents an array class.
+3) public boolean isPrimitive(): determines if the specified Class object represents a primitive type.
+Let's see the simple example of reflection api to determine the object type.
+
+class Simple{}  
+interface My{}  
+  
+class Test{  
+ public static void main(String args[]){  
+  try{  
+   Class c=Class.forName("Simple");  
+   System.out.println(c.isInterface());  
+     
+   Class c2=Class.forName("My");  
+   System.out.println(c2.isInterface());  
+    
+  }catch(Exception e){System.out.println(e);}  
+  
+ }  
+}  
+##How to access the private method from outside the class ?
+> We can use Class class to examine and change the runtime behaviour of any class.
+> Below methods of Method class are used to access private method from outside the class:-
+1) public void setAccessible(boolean status) throws SecurityException 
+> sets the accessibility of the method.
+
+2) public Object invoke(Object method, Object... args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException 
+> is used to invoke the method.
+
+Required method of Class class
+1) public Method getDeclaredMethod(String name,Class[] parameterTypes)throws NoSuchMethodException,SecurityException
+> returns a Method object that reflects the specified declared method of the class or interface represented by this Class object.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## InvocationHandler interface
+
+InvocationHandler is an interface in java.lang.reflect package. 
+> InvocationHandler is implemented by a user class to invoke method of dynamic proxy class. 
+
+syntax of invoke method is as below.
+> Object  invoke(Object proxy,   Method m,    Object[] args)
+
+Object : This is the proxy instance on which method is invoked. 
+Method: This corresponds to interface method which is invoked on proxy instance. 
+Object[]: It contains an array of arguments passed in method invocation.
+
+http://www.concretepage.com/java/dynamic-proxy-with-proxy-and-invocationhandler-in-java

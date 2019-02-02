@@ -1,0 +1,23 @@
+## What is Droplets?
+> It is app images that can be redeployed quickly in case of instance failure or in response of scaling up.
+Source Code + Buildpack = Droplet
+
+> A buildpack containing all languages, libraries, dependencies, and runtime services
+the app uses.
+---------------------------------------
+Cloud Foundry performs the following tasks for "cf push":
+• Uploads and stores application files
+• Examines and stores application metadata
+• Stages the application by using a buildpack to create a droplet
+• Selects an appropriate execution environment in which to run the droplet
+• Starts the AI and streams logs to the Loggregator
+
+Cloud Foundry will stage the application on a machine or
+Using cf push Command to Deploy | 11
+VM known as a Cell, using everything required to compile and run the apps locally,
+including the following:
+• The OS stack on which the application runs
+• A buildpack containing all languages, libraries, dependencies, and runtime services
+the app uses
+
+> The same droplet runs the same app instances over multiple Cells without incurring the cost of staging every time a new instance is run

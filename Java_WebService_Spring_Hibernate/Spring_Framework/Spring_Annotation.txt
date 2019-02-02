@@ -1,0 +1,294 @@
+> Spring 2.5 introduce the use of annotations for dependency injection. 
+> Annotation injection is performed before XML injection. 
+- Thus, the latter configuration will override the former for properties wired through both approaches.
+
+> Annotation wiring is not enable in the Spring container by default. 
+> Need to add <context:annotation-config/> Once in the WebApplicationContext file then We can use annotation 
+
+<beans>
+   <context:annotation-config/>
+   <!-- bean definitions go here -->
+</beans>
+
+- it only looks for annotations on beans in the same application context it is defined in. 
+- This means that, if we put <context:annotation-config/> in a WebApplicationContext for a DispatcherServlet, 
+- it only checks for @Autowired beans in your controllers, and not in services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between <context:annotation-config> vs <context:component-scan>?
+
+<context:annotation-config> 
+- It is used to activate applied annotations in already registered beans in application context
+
+<context:component-scan> 
+- does what <context:annotation-config> does, but additionally it scan the packages and register the beans in application context.
+- it require base-package details Ex - <context:component-scan base-package="com.newjava4world"/>
+~~~~~~~~~~~~~~~~~~~
+#### @ComponentScan: 
+> it is used with @Configuration classes. 
+> it is used to specify the base packages to scan for spring components.
+
+> It is equivalent to <context:component-scan base-package="com.newjava4world.spring"/>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to filter components in auto scanning?
+
+> it can be done by enabling auto component scanning level as 
+
+EXAMPLE1: use of "include-filter" tag. 
+<context:component-scan base-package="com.java2novice">
+  <context:include-filter type="regex"      expression="com.java2novice.service.*Service.*" />   
+  <context:include-filter type="annotation" expression="org.springframework.stereotype.Component" /> 
+</context:component-scan>
+- these filtering components are based on regular expression, and annotation. 
+- This xml configuration including all Components annotated with @Component annotation and any class containing "Service" String.
+
+EXAMPLE2: use of "exclude-filter" tag. 
+<context:component-scan base-package="com.java2novice">
+  <context:exclude-filter type="regex"      expression="com.java2novice.service.*Service.*" />   
+  <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Component" /> 
+</context:component-scan>
+- This xml configuration excluding all Components annotated with @Component annotation and any class containing "Service" String.
+=====================================
+######### @Configuration ############
+- More details in JAVA CONFIGURATION OF IOC_Container.txt 
+> Used to indicate that a class declares one or more @Bean methods. 
+> These classes are processed by the Spring container to generate bean definitions and service requests for those beans at runtime.
+-------------------------------------
+############### @Bean ###############
+> It is used at method that produces a bean to be managed by the Spring container. 
+- It is used to explicitly declare a single bean in a configuration class.
+
+-------------------------------------
+@PropertySource: provides a simple declarative mechanism for adding a property source to Spring’s Environment. 
+=======================================
+## CONTEXT CONFIGURATION ANNOTATIONS ##
+
+######### @Autowired ########
+## What does @Autowired annotation mean?
+
+> It indicates that the spring IOC container will inject the dependent bean based on the data type
+> Declares a constructor, field, setter method, or configuration method to be autowired by type. 
+> Items annotated with @Autowired do not have to be public.
+> By default, Autowired indicating required dependencies but this can be changed as @Autowired(required=false) 
+
+> Spring beans can be wired by name or by type.
+
+> @Autowire BY DEFAULT IS A TYPE DRIVEN INJECTION. 
+- @Qualifier spring annotation can be used to autowire by name.
+- @Resource (javax.annotation.Resource) annotation can be used for wiring by name.
+
+> it require AutowiredAnnotationBeanPostProcessor to be configured in spring.xml 
+- otherwise use <context:annotation-config/>, it will avoid the use of other AnnotationBeanPostProcessor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## @Qualifier ########
+## What is the Role of the @Qualifier Annotation?
+
+> It guides autowiring to be perform autowire 'by name' other than 'by type'.
+> It is used simultaneously with the @Autowired annotation to avoid confusion when multiple instances of a bean type are present.
+
+EXAMPLE:
+<bean id="person1" class="com.baeldung.Person" >
+    <property name="name" value="Joe" />
+</bean>
+<bean id="person2" class="com.baeldung.Person" >
+    <property name="name" value="Doe" />
+</bean>
+
+> When we try to wire the bean, we’ll get an org.springframework.beans.factory.NoSuchBeanDefinitionException. 
+- To fix it, we need to use @Qualifier to tell Spring about which bean should be wired:
+
+@Autowired
+@Qualifier("person1")
+private Person person;
+-------------------------------------
+## What is difference bet @Qualifier and @Resource?
+> @Autowired and @Qualifier are the spring annotation while 
+- @Resource is the standard java annotation (from JSR-250) . 
+
+> @Resource only supports for fields and setter injection while 
+- @Autowired supports fields , setter ,constructors and multi-argument methods injection.
+=====================================
+############## @Required ############
+
+> It MAKE SURE THAT ALL THE REQUIRED DEPENDENCIES ARE SET AT CONFIGURATION TIME: 
+- either through an explicit property value in a bean definition or through autowiring.
+> If not set then, Spring will throw a BeanInitializationException and context creation will fail.
+
+> For using this, it require to configure RequiredAnnotationBeanPostProcessor 
+- otherwise use <context:annotation-config/>
+- after intialization of all bean, it execute a method that check @Required annotation and it found 
+
+EXAMPLE:
+import org.springframework.beans.factory.annotation.Required;
+ 
+public class PaymentGateway { 
+ private Order order;
+  
+ @Required
+ public void setOrder(Order ord){
+     this.order = ord;
+ }
+}
+
+<beans>
+	<context:annotation-config />
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>     
+    <bean id="paymentGateway" class="com.java2novice.beans.PaymentGateway" />
+</beans>
+
+public class SpringDemo {
+ public static void main(String a[]){
+   String confFile = "applicationContext.xml";
+   ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(confFile);
+   PaymentGateway myEmp = (PaymentGateway) context.getBean("paymentGateway");
+   System.out.println(myEmp.toString());
+ }
+}
+
+- Error creating bean with name 'paymentGateway' defined in class path resource [applicationContext.xml]: 
+- Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanInitializationException: 
+- Property 'order' is required for bean 'paymentGateway
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @Order #####
+> Defines ordering, as an alternative to implementing the org. springframework.core.Ordered interface.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @Scope #####
+> Specifies the scope of a bean, either singleton, prototype, request, session, or some custom scope.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @Configurable #####
+> Used with <context:springconfigured> to declare types whose properties should be injected, even if they are not instantiated by Spring. 
+- Typically used to inject the properties of domain objects.
+=======================================
+###### STEREOTYPING ANNOTATIONS #######
+
+> Since Spring2.5 under package "org.springframework.stereotype"
+> If we want to define name of the bean with which they will be registered in DI container, 
+- we can pass the name in annotation itself e.g. @Service (“employeeManager”).
+
+> To enable this scanning, we need to use “context:component-scan” tag in applicationContext.xml i.e *-servlet.xml (WebApplicationContext)
+- it requires a base-package attribute, which specify a starting point for a recursive component search
+
+======================================
+########### @Component ###############
+
+> it MARKS A JAVA CLASS AS A BEAN so the component-scanning mechanism of spring can pick it. 
+> It is a generic stereotype for any Spring-managed component.
+
+@Component
+public class EmployeeDAOImpl implements EmployeeDAO {
+    ...
+}
+> By default, the bean instances name will be same as the class name with a lowercase initial
+- can define different name using the optional value argument of this annotation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @Repository #####
+
+> @Repository annotation provides additional benefits specifically for DAOs
+- same as @Component for bean creation and dependency injection but it has special characteristic 
+- it catch Platform specific exceptions and re-throw them(translate) as one of Spring’s unified unchecked exception i.e DataAccessException
+
+- DataAccessException is a runtime exception whereas SQLException is a checked exception. So that the lower implementation would throw error at runtime not a compile time.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @Service #####
+> It doesn’t provide any additional behavior over the @Component annotation.
+> @Service annotation is also a specialization of the component annotation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### @Controller #####
+> @Controller annotation marks a class as a Spring Web MVC controller. 
+- It too is a @Component specialization, 
+
+- @Component and @Controller are same with respect to bean creation and dependency injection but it may not work with respect to request mapping.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to use @Component, @Repository, @Service and @Controller Annotations?
+> Always use these annotations over concrete classes; not over interfaces.
+
+## How does Component Scanning work in Spring?
+@Service, @Repository, @Controller are scanned because they themselves are annotated with @Component annotation
+
+  
+=====================================
+########### @ModelAttribute #########
+> can be used either as a method parameter or at the method level.
+
+An @ModelAttribute on a method argument indicates the argument should be retrieved from the model. 
+- If not present in the model, the argument should be instantiated first and then added to the model. 
+- Once present in the model, the argument's fields should be populated from all request parameters that have matching names. 
+- This is known as data binding in Spring MVC, a very useful mechanism that saves you from having to parse each form field individually.
+
+http://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation
+
+@SessionAttributes spring annotation declares session attributes. This will typically list the names of model attributes which should be transparently stored in the session, serving as form-backing beans between subsequent requests.
+
+https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
+=====================================
+#### @EnableWebMvc ####
+> Adding this annotation to a @Configuration class imports the Spring MVC configuration from WebMvcConfigurationSupport 
+
+> If you are using XML based configuration then use <mvc:annotation-driven/> as an alternative to @EnableWebMvc
+
+####### @ResponseBody #######
+
+> traditional workflow the ModelAndView object is forwarded from the controller to the client
+> Spring lets you return data directly from the controller, without looking for a view, using the @ResponseBody annotation on a method.
+> While using @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically.
+
+> When we use the @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically. 
+- Each method in the Controller class must be annotated with @ResponseBody.
+
+> Behind the scene, Spring has a list of HttpMessageConverters registered in the background. 
+- The responsibility of the HTTPMessageConverter is to convert the request body to a specific class and back to the response body again, depending on a predefined mime type.
+
+EXAMPLE:
+
+@Controller
+@RequestMapping("employees")
+public class EmployeeController {
+    Employee employee = new Employee();
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Employee getEmployeeInJSON(@PathVariable String name) {
+       employee.setName(name);
+       employee.setEmail("employee1@genuitec.com");
+    return employee; 
+    }
+	
+    @RequestMapping(value = "/{name}.xml", method = RequestMethod.GET, produces = "application/xml")
+    public @ResponseBody Employee getEmployeeInXML(@PathVariable String name) {
+       employee.setName(name);
+     employee.setEmail("employee1@genuitec.com");
+       return employee; 
+    }
+}
+> @ResponseBody added to each of the @RequestMapping methods in the return value. 
+===============================
+####### @RestController #######
+> Spring 4.0 introduced @RestController, a specialized version of the controller
+> @RestController = @Controller + @ResponseBody
+
+> it add the @Controller and @ResponseBody annotations. 
+> By annotating the controller class with @RestController annotation, you no longer need to add @ResponseBody to all the request mapping methods. 
+- The @ResponseBody annotation is active by default.
+
+## Difference between RestController and Controller?
+> traditional MVC controller relies on the View technology, 
+- the RESTful web service controller simply returns the object and the object data is written directly to the HTTP response as JSON/XML.
+
+
+EXAMPLE:
+@RestController
+@RequestMapping("employees")
+public class EmployeeController {
+    Employee employee = new Employee();
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
+    public Employee getEmployeeInJSON(@PathVariable String name) {
+       employee.setName(name);
+       employee.setEmail("employee1@genuitec.com");
+       return employee;
+    }
+    @RequestMapping(value = "/{name}.xml", method = RequestMethod.GET, produces = "application/xml")
+    public Employee getEmployeeInXML(@PathVariable String name) {
+       employee.setName(name);
+       employee.setEmail("employee1@genuitec.com");
+    return employee; 
+    } 
+}

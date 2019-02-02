@@ -1,0 +1,94 @@
+######### taskdef #########
+> Adds a task definition to the current project, such that this new task can be used in the current project.
+
+> This task is a form of "Typedef" with the attr "adapter" and "adaptto" and all other definition of taskdef is same as typedef
+
+######### typedef #########
+> Adds a task or a data type definition to the current project such that this new type or task can be used in the current project.
+
+> A Task is any class that extends org.apache.tools.ant.Task or can be adapted as a Task using an adapter class.
+
+## ATTRIBUTE ##
+1. classpathref - a ref to a classpath to use when looking up classname.	
+2. loaderRef - the name of loader used to load the class, constructed from the specified classpath. 
+- Use this to allow multiple tasks/types to be loaded with the same loader, so they can call each other.
+
+3. name [Req]- the name of the data type
+4. classname - the full class name implementing the data type
+5. resource - it contain Name of the resource to load definitions from
+6. file - name of the file to load defn
+7. onerror	: The action to take if there was a failure in defining the type. The values are 
+				fail: cause a build exception; 
+				report: output a warning, but continue; 
+				ignore: do nothing. 
+				failall: cause all behavior of fail (since Ant 1.6), as well as a build exception for the resource or file attribute if the resource or file is not found. 
+				since Ant 1.7 The default is fail.
+
+EXAMPLE 1- 
+<taskdef name="myjavadoc" classname="com.mydomain.JavadocTask"/>
+- makes a task called myjavadoc available to Apache Ant. 
+- The class com.mydomain.JavadocTask implements the task.
+
+EXAMPLE 2- 
+<taskdef resource="net/sf/antcontrib/antlib.xml"> 
+            <classpath>
+                <fileset dir="${lib.dir}" includes="${antcontrib.jar}"/>
+            </classpath>
+ </taskdef>
+- here taskdef load antlib.xml that itself define ant taskdef and these antlib.xml is in antcontrib.jar		
+--------------------------------------------------------
+######### CUSTOM TASK  #########
+> Create a Java class that extends org.apache.tools.ant.Task 
+> For each attribute, write a setter method. The setter method must be a public void method that takes a single argument
+> If your task shall contain other tasks as nested elements (like parallel), your class must implement the interface org.apache.tools.ant.TaskContainer
+> For each nested element, write a create, add or addConfigured method. A create method must be a public method that takes no arguments and returns an Object type
+> Write a public void execute method, with no arguments, that throws a BuildException. This method implements the task itself
+
+## Life-cycle of a Task ##
+1. The xml element that contains the tag corresponding to the task gets converted to an UnknownElement at parser time. This UnknownElement gets placed in a list within a target object, or recursively within another UnknownElement.
+2. When the target is executed, each UnknownElement is invoked using an perform() method. This instantiates the task. This means that tasks only gets instantiated at run time.
+3. The task gets references to its project and location inside the buildfile via its inherited project and location variables.
+4. If the user specified an id attribute to this task, the project registers a reference to this newly created task, at run time.
+5. The task gets a reference to the target it belongs to via its inherited target variable.
+6. init() is called at run time.
+7. All child elements of the XML element corresponding to this task are created via this task's createXXX() methods or instantiated and added to this task via its addXXX() methods, at run time. Child elements corresponding to addConfiguredXXX() are created at this point but the actual addCondifgired method is not called.
+8. All attributes of this task get set via their corresponding setXXX methods, at runtime.
+9. The content character data sections inside the XML element corresponding to this task is added to the task via its addText method, at runtime.
+10. All attributes of all child elements get set via their corresponding setXXX methods, at runtime.
+11. If child elements of the XML element corresponding to this task have been created for addConfiguredXXX() methods, those methods get invoked now.
+12 execute() is called at runtime. If target1 and target2 both depend on target3, then running 'ant target1 target2' will run all tasks in target3 twice.
+--------------------------------------------------------
+########### TASK Life-cycle ##
+1. When Ant parses the build file, it creates an instance of the task's implementation class for every declaration of the task in the file.
+
+2. Ant then calls methods on the task to tell it about its hosting project and target, as well as which line of the build file contains it.
+
+3 Ant calls the init() method of the Task class. Most tasks don’t override this method.
+
+4. Ant executes the targets in the order it chooses.
+5. The tasks inside a target are executed one by one. For each task
+	a. Ant configures it with the attribute and element values in the build file, using reflection.
+	b. Ant calls the task’s execute() method.
+	c. If any method called throws a BuildException, the task has failed. Unless it’s somehow caught, that failure halts the build.
+	d. Instantiated tasks remain around after they’re executed; they may be executed more than once in some circumstances
+--------------------------------------------------------
+######### java task #########
+> Executes a Java class within the running (Apache Ant) VM or forks another VM if specified.
+
+> If odd things go wrong when you run this task, set fork="true" to use a new JVM
+> we can interact with a forked VM, as well as sending input to it via the input and inputstring attributes.
+
+
+## Attribute ##
+classname		: the Java class to execute.	Either jar, classname or module
+jar				: the location of the jar file to execute (must have a Main-Class entry in the manifest). 
+				- Fork must be set to true if this option is selected. Either jar, classname or module
+args			: the arguments for the class that is executed. DEPRECATED, use nested <arg> elements instead.	No
+classpathref	:	the classpath to use, given as reference to a PATH defined elsewhere.	No
+classpath		: the classpath to use.	No
+fork			: if enabled triggers the class execution in another VM (disabled by default)	No
+spawn			: if enabled allows to start a process which will outlive ant.
+				 - Requires fork=true, and not compatible with timeout, input, output, error, result attributes.(disabled by default)	No
+jvm				: the command used to invoke the Java Virtual Machine, default is 'java'. The command is resolved by java.lang.Runtime.exec(). Ignored if fork is disabled.	No
+jvmargs			: the arguments to pass to the forked VM (ignored if fork is disabled). deprecated, use nested <jvmarg> elements instead.	No
+maxmemory		: Max amount of memory to allocate to the forked VM (ignored if fork is disabled)

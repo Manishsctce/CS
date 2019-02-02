@@ -1,0 +1,647 @@
+public final class String extends Object
+implements Serializable, Comparable<String>, CharSequence{
+}
+
+## STRING METHODS ##
+1. int length()
+
+2. boolean equals(Object anObject)
+- return true if the value is true of string Ex - "Manish".equals("Manish") return true
+
+03. boolean equalsIgnoreCase(String anotherString)
+
+04. boolean isEmpty()
+- "".isEmpty();/*true*/  " ".isEmpty();/*false*/
+
+05. char charAt(int index)
+06. int codePointAt(int index) - return the ASCII code of index point
+
+07. byte[] getBytes() 
+- return array of ascii value
+
+08. boolean contentEquals(StringBuffer sb) 
+- Compares this string to the specified StringBuffer 
+
+09. String substring(int beginIndex) 
+- Ex: "unhappy".substring(2); /* "happy" */
+
+10. String substring(int beginIndex,int endIndex)
+- "0123456789".subString(3,6);/*345*/
+
+11. boolean contains(CharSequence s)
+12. String replace(char oldChar,char newChar)
+13. String concat(String str)
+14. static String valueOf(Object obj)
+15. String intern()
+16. char[] toCharArray()
+- Converts this string to a new character array.
+==========================================
+## What is String?
+> It is a sequence of characters.
+Ex - String greeting = "Hello world!";// "Hello world!" is a string literal
+
+> String is a final class with all the fields as final except private int hash. This field contains the hashCode() function value 
+
+> string is represented using the UTF-16 format in Java
+
+
+>up-to Java 1.6 String pool is located in permgen area of heap, but in Java 1.7 updates its moved to main heap area. 
+- Earlier since it was in PermGen space, it was always a risk to create too many String object, 
+- because its a very limited space, default size 64 MB and used to store class metadata e.g. .class files. 
+- Creating too many String literals can cause java.lang.OutOfMemory: permgen space. 
+
+- Inside the heap memory, JVM reserves some part of the heap memory to store string objects created using string literals. 
+---------------------------
+##Why String is final in Java?
+> String class is final so that no other class can override the methods of String class
+> it provide the feature of immutability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WHY STRING IS IMMUTABLE?
+String class is immutable because 
+1. Java use the concept string interning concept to store string literal in a special area called String Intern pool.
+- It state only one copy of distinct string value which must be immutable can store.
+- strings Interning makes string processing task MORE TIME OR SPACE-EFFICIENT. 
+- if it would have been mutable then changing 1 str would have been reflected to other string too.
+
+
+2. Since String is immutable, it is safe for multi-threading and a single String instance can be shared across different threads.
+
+3. Strings are used in java classloader and immutability provides security that correct class is getting loaded by Classloader. 
+---------------------------
+## what is difference between String literal and String object in Java?
+##How many object will create with String str = new String("hello"); ??
+
+> String literals will create 1 obj in String const pool in heap. It automatically call intern()
+
+> String obj will create 2 objects.
+1. first object "hello" will be placed in String Const pool as like String str = "hello"; because we are passing string object in constructor.
+Which is reference by non.
+2. New operator will create a new object in heap area(nonpool) as "hello" on which str will point.
+
+To make reference of str here to "hello" in string const pool we need to call String.intern() explicitly
+
+Note : Each time an object will be created with "new" operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+## Why character array is better than String for Storing password in Java?
+> Strings are immutable in java. So while storing in string may cause SECURITY RISK as password will be in string const pool which can be read by sb.
+> With String there is always a RISK OF PRINTING PLAIN TEXT IN LOG FILE or console but if use Array you won't print contents of array instead its memory location get printed. though not a real reason but still make sense
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is special about string objects as compared to objects of other derived types?
+
+3 Special thing about string objects:
+1. we can CREATE STRING OBJECTS WITHOUT USING NEW OPERATOR i.e using string literals. 
+- This is not possible with other derived types (except wrapper classes). 
+
+2. WE CAN CONCATENATE TWO STRING OBJECTS USING ‘+’. Internally it use StringBuffer to concat.
+- Its bcz used most of the time while coding. 
+
+3. use string constant pool to store the string objects.
+==========================================
+##### STRINGBUFFER AND STRINGBUILDER #####
+public final class StringBuffer
+extends Object
+implements Serializable, CharSequence
+
+STRINGBUFFER 
+> A thread-safe, mutable sequence of characters. 
+- A string buffer is like a String, but can be modified.
+
+## METHOD ##
+StringBuffer append(value of any type) ;
+StringBuffer insert();
+StringBuffer reverse();
+public StringBuffer(int capacity); throw NegativeArraySizeException - if the capacity argument is less than 0.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+STRINGBUILDER
+>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> String literal are store in string intern pool but string obj store in heap
+- StringBuffer and StringBuilder store in heap 
+
+> String, StringBuffer and StringBuilder all are final class
+> we cannot cast StringBuilder to StirngBuffer or StringBuilder to String
+EXAMPLE - StirngBuffer strBuff = new StringBuffer();
+StringBuilder strBuilder = new String("Manish");//ClassCastException
+
+> strBuff += "Manish";//Compiler error String cannot covert to StringBuffer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between StringBuffer and StringBuilder?
+> there is only 1 difference between StringBuffer and StringBuilder. Both contain same methods
+>> StringBuffer and its method is synchronized but StringBuilder and its method is not synchronized. 
+- So we can say StringBuffer is thread safe but StringBuilder is not.
+
+> ALL 3 CLASSES ARE FINAL.
+> Relative performance of StringBuffer is low but other one is high
+> StringBuffer is introduce in jdk1.0 but StringBuilder is introduce in 1.5v
+==========================================
+######### STRING TOKENIZER ###########
+
+##What is meant by STRING TOKENIZER?
+> java.util.StringTokenizer class allows you to break a string into tokens. It is simple way to break string.
+ 
+Below are constructor:-
+> StringTokenizer(String str) - creates StringTokenizer with specified string.
+> StringTokenizer(String str, String delim)	- creates StringTokenizer with specified string and delimeter.
+> StringTokenizer(String str, String delim, boolean returnValue) - 	creates StringTokenizer with specified string, delimeter and returnValue. 
+	># If return value is true, delimiter characters are considered to be tokens. 
+	># If it is false, delimiter characters serve to separate tokens.
+
+StringTokenizer st = new StringTokenizer("my name is khan"," ");
+  while (st.hasMoreTokens()) {  
+         System.out.println(st.nextToken());  
+     }  
+##METHODS	 
+hasMoreTokens()
+tok.nextToken()
+
+> StringTokenizer class is DEPRECATED now. It is recommended to use split() method of String class or regex (Regular Expression).	 
+---------------------------
+##What is difference bet split and StringTokenizer?
+> in StringTokenizer, we can use more than 1 exp to split the string but in split we cannot.
+
+Ex - 
+<< 
+String str = "Hello World, This is manish Agrawal. Regards, Manish".
+StringTokenizer token = new StringTokenizer(str,", .");// exp is comma, space, dot
+
+Output - 
+Hello 
+World
+This 
+is 
+manish 
+Agrawal
+Regards
+Manish
+
+But split take this exp as 1 expression
+>>
+=========================================
+##### STRING METHODS ######
+
+##How to check if the String is null or not?
+> Empty String mean string which is not null. But it can be "" or " "
+
+1. boolean public isEmpty() - of String class 
+- but it will throw NullPointerException if String is null.
+
+4. using Apache commons then you can also use isEmpty() method to check if String is empty or not.
+---------------------------
+##How to remove white space in String line?
+> Use replaceAll("\\s", "") - here \s represent white space that will replace by empty string.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+public String[] split(String regex, int limit);
+public String[] split(String regex);
+Here 
+regex -- the delimiting regular expression.
+limit -- the result threshold which means how many strings to be returned.
+
+Example - 
+str = "Welcome-to-Tutorialspoint.com"
+str.split("-",2) => give 2 string array i.e Welcome , to-Tutorialspoint.com
+
+str.split("-",3) => give 3 string array i.e Welcome , to, Tutorialspoint.com
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How does substring() inside String works?
+
+public String substring(int beginIndex) Ex: "unhappy".substring(2) returns "happy"
+public String substring(int beginIndex,int endIndex)
+Examples:
+ "hamburger".substring(4, 8) returns "urge"
+ "smiles".substring(1, 5) returns "mile"
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How substring() method of String class create memory leaks in jdk1.6 and below?
+> substring() would build a new String object keeping a reference to the whole char array, to avoid copying it. 
+- it calls String (int offset, int count, char value []) constructor to create new String object. 
+- Here char array actually hold the complete string character and cause memory leak. 
+
+> This is improved in JDK 7. In JDK 7, the substring() method actually create a new array in the heap.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## How to resolve the memory leak problem of substring() method in JDK 1.6?
+subString = string.substring(3, 10) + "";
+string.substring(3, 10) will return the substring which point to original string array and the substring will not allow the garbage collection for old string (char value[])
+- But when we add the empty string to offset, new string will form in constant pool with new char value[] array and we can overcome the problem of garbage collection of old string array.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## TO Primitive datatype or WrapperClass
+> WrapperClass.parseXXXX(string); //convert string into primitive datatype. Here XXXX - primitive data type
+> WrapperClass.valueOf(String); //conver String into wrapper class datatype or primitive type.
+
+## To String
+> WrapperClass.toString(primitive datatype); //convert primitive datatype into String
+> String.valueOf(<primitive_datatype>);//convert primitive datatype into String
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to convert String to Integer in Java?
+1> int a = Integer.parseInt("123");//return Integer upto 10digit
+2> int a = Integer.valueOf("1234");//return Integer upto 10digit after that NumberFormatException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Convert Date to String ?
+> In Date, small case “m” represent minutes while “M” represent Month
+- “d” represent date in month while “D” represent Day of week.
+Example:
+String myDate = "20-12-1987";
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+System.out.println(dateFormat.parse(myDate));//Sun Dec 20 00:00:00 IST 1987
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## String getBytes
+##byte getBytes()
+> Encodes this String into a sequence of bytes using the platform's default charset, storing the result into a new byte array.
+- here charset is "UTF-8"
+
+##byte[] getBytes(String charsetName) 
+> Encodes this String into a sequence of bytes using the named charset, storing the result into a new byte array.
+
+##to convert Byte array into String format
+String s = new String(bytes);
+==========================================
+######## IMMUTABLE OBJECT/CLASS ##########
+> Immutable objects(like string) are those object whose state will not change once created.
+- any change will lead to new object.
+- it is always thread safe
+
+##What is an immutable class?
+
+> Immutable class is a class which once created, its contents can not be changed. 
+> IMMUTABLE OBJECTS are the objects whose state can not be changed once constructed. e.g. String class
+> all the wrapper classes  in "java.lang" and String class is immutable 
+- Ex - String, Integer, Boolean, Character, Byte, Short, Long, Float, Double, BigDecimal, BigInteger
+
+> State of immutable object can not be modified after construction, any modification should result in new immutable object.
+> create immutable class by creating final class that have final data members
+
+
+> The instance variable of the class is final i.e. we cannot change the value of it after creating an object.
+> The class is final so we cannot create the subclass.
+> There is NO SETTER METHODS i.e. we have no option to change the value of the instance variable.
+> Immutable objects are BY DEFAULT THREAD SAFE, can be shared without synchronization in concurrent environmen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+##Does all property of immutable object needs to be final?
+> It's not necessary but non-final variable should be private and not modify them except in constructor
+> 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How to create an immutable class?
+> To create an immutable class following steps should be followed:
+	 
+1. DO NOT PROVIDE ANY SETTERS for any properties.
+- Set the values of properties using constructor only.
+
+2. MAKE PROPERTIES OF THE CLASS FINAL AND PRIVATE
+3. Don't allow subclasses to override methods. The simplest way to do this is to declare the class as final. 
+- A more sophisticated approach is to MAKE THE CONSTRUCTOR PRIVATE AND CONSTRUCT INSTANCES IN FACTORY METHODS.
+
+4. If the instance fields include references to mutable objects, don't allow those objects to be changed:
+   a> DON'T PROVIDE METHODS THAT MODIFY THE MUTABLE OBJECTS.
+   b> Don't share references to the mutable objects. 
+   - Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and store references to the copies. 
+   - Similarly, create copies of your internal mutable objects when necessary to avoid returning the originals in your methods.
+
+class Address{
+	private String buildingName;
+	private String city;
+	private long pincode;
+	
+	Address(String buildingName, String city, long pincode) {
+		this.buildingName = buildingName;
+		this.city = city;
+		this.pincode = pincode;
+	}
+	// getter and setter 
+}
+
+final class Employee{
+	final private int id;
+	final private String name;
+	final private String designation;
+	private Address address;
+	
+	Employee(int id, String name, String designation, Address address) {
+		this.id = id;
+		this.name = name;
+		this.designation = designation;
+		//this.address = address;
+		this.address = new Address(address.getBuildingName(), address.getCity(),address.getPincode());
+	}
+	
+	// ONLY GETTER METHOD
+	
+	/* We should not return the reference of original instance variable.
+	 * Instead, RETURN NEW OBJECT with content copied to it/cloned */
+	
+	public Address getAddress() {
+		return new Address(address.getBuildingName(),address.getCity(),address.getPincode());
+	}
+}   
+===================================
+## Create immutable classes using Builder pattern. 
+> It is used when the number of arguments in the Constructor is more that can cause confusion in their ordering. 
+
+package com.journaldev.design.builder;
+import java.util.HashMap;
+public class ImmutableClass {
+     
+    //required fields
+    private int id;
+    private String name;
+     
+    //optional fields
+    private HashMap<String, String> properties;
+    private String company;
+	
+	//	ONLY GETTER METHOD
+ 
+    public HashMap<String, String> getProperties() {
+        //return cloned object to avoid changing it by the client application
+        return (HashMap<String, String>) properties.clone();
+    }
+ 
+    private ImmutableClass(ImmutableClassBuilder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.properties = builder.properties;
+        this.company = builder.company;
+    }
+     
+    //BUILDER CLASS
+    public static class ImmutableClassBuilder{
+        //required fields
+        private int id;
+        private String name;
+         
+        //optional fields
+        private HashMap<String, String> properties;
+        private String company;
+         
+        public ImmutableClassBuilder(int i, String nm){
+            this.id=i;
+            this.name=nm;
+        }
+         
+        public ImmutableClassBuilder setProperties(HashMap<String,String> hm){
+            this.properties = (HashMap<String, String>) hm.clone();
+            return this;
+        }
+         
+        public ImmutableClassBuilder setCompany(String comp){
+            this.company = comp;
+            return this;
+        }
+         
+        public ImmutableClass build(){
+            return new ImmutableClass(this);
+        }
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+package com.journaldev.design.test;
+import java.util.HashMap;
+import com.journaldev.design.builder.ImmutableClass;
+public class ImmutableBuilderTest {
+    public static void main(String[] args) {
+         
+        // Getting immutable class only with required parameters
+        ImmutableClass immutableClass = new ImmutableClass.ImmutableClassBuilder(1, "Pankaj").build();
+         
+        HashMap<String,String> hm = new HashMap<String, String>();
+        hm.put("Name", "Pankaj");
+        hm.put("City", "San Jose");
+        // Getting immutable class with optional parameters
+        ImmutableClass immutableClass1 = new ImmutableClass.ImmutableClassBuilder(1, "Pankaj")
+                                                     .setCompany("Apple").setProperties(hm).build();
+        //Testing immutability
+        HashMap<String,String> hm1 = immutableClass1.getProperties();
+         
+        //lets modify the Object passed as argument or get from the Object
+        hm1.put("test", "test");
+        hm.put("test", "test");
+         
+        //check that immutable class properties are not changed
+        System.out.println(immutableClass1.getProperties());
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##are all final class is immutable?
+No
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the advantages of immutability?
+
+> IMMUTABLE OBJECTS ARE THREAD-SAFE, 
+- thus the overhead caused due to use of synchronisation is avoided.
+
+> Once created the STATE OF THE IMMUTABLE OBJECT CAN NOT BE CHANGED 
+- so there is no possibility of them getting into an inconsistent state.
+
+> The references to the immutable objects can be easily shared or cached without having to copy or clone them as there state can not be changed ever after construction.
+The best use of the immutable objects is as the keys of a map.   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==========================================
+######## CODING INTERVIEW QUESTION #######
+SYM ASCI HEX  
+NUL 0    0    
+@   64   40   
+A   65   41   
+Z   90   5A   
+a   97   61   
+z   122  7A   
+0   48   30   
+9   57   39    
+=======================================
+## ## Assume you have a method isSubstring which checks if one word is a substring of another. Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (i.e., “waterbottle” is a rotation of “erbottlewat”).
+		
+## Print duplicate char from string?
+
+> convert string into charArray as str.toCharArray()
+- foreach distinct char insert it into Hashmap<Character,Interger> 
+- and for duplicate char increase Integer count 
+- Now iterate over map and entry.getValue() > 1 print that key,value
+========================================
+## How to check if two string are anagrams of each other? Ex- Army and Mary are anagram
+
+public static boolean iAnagram(String word, String anagram){
+    char[] charWord = word.toCharArray();
+    char[] charAnagram = anagram.toCharArray();       
+    Arrays.sort(charWord);
+    Arrays.sort(charAnagram);    
+    return Arrays.equals(charWord, charAnagram);
+}
+--------------------
+> use StringBuilder for anagram and delete each char of anagram foreach word char.
+- check length at last = 0 then true
+========================================
+## Write a Java program to reverse String in Java without using any API? 
+> use tocharArray() and append StringBuilder str foreach char in charArray reversely
+========================================
+## Write a method which will remove any given character from a String?
+========================================
+## How to check if a String contains only digits?
+Pattern pattern = Pattern.compile(".*\\D.*");
+
+// Regular expression in Java to check if String is number or not
+Pattern pattern = Pattern.compile(".*[^0-9].*");
+      
+//Pattern pattern = Pattern.compile(".*\\D.*");
+String [] inputs = {"123", "-123" , "123.12", "abcd123"};
+
+for(String input: inputs){
+    System.out.println( "does " + input + " is number : "
+                         + !pattern.matcher(input).matches());
+}
+
+========================================
+## Print all permutation of String both iterative and Recursive way?
+
+ALGORITHM
+> First take out the first char from String and permute the remaining chars
+- If String = “123”
+- First char = 1 and remaining chars permutations are 23 and 32.
+- Now we can insert first char in the available positions in the permutations.
+23 -> 123, 213, 231
+32 -> 132, 312, 321
+
+public static Set<String> permutation(String str) {
+	Set<String> result = new HashSet<String>();
+	if (str == null) {
+		return null;
+	} else if (str.length() == 0) {
+		strResult.add("");
+		return strResult;
+	}
+	char firstChar = str.charAt(0);
+	String rem = str.substring(1);
+	Set<String> words = permutation(rem);
+	for (String newString : words) {
+		for (int i = 0; i <= newString.length(); i++) {
+			strResult.add(strCharAdd(newString, firstChar, i));
+		}
+	}
+	return crunchifyResult;
+}
+public static String strCharAdd(String str, char c, int j) {
+	String first = str.substring(0, j);
+	String last = str.substring(j);
+	return first + c + last;
+}
+========================================
+## Write a function to find out longest palindrome in a given string?
+Palindrome mean a word, phrase, or sequence that reads the same backwards as forwards
+
+> from the mid of any palindrome, if we go to right and left by 1 place, it’s always same character
+> if the palindrome length is even, the mid size is also even
+- For ex- 12333321, here mid is 33
+
+//it return the palindrome str
+// at the mid it compare each char at left & right to get palindrome
+String intermediatePalindrome(String s, int left, int right) {
+    if (left > right) return null;
+    while (left >= 0 && right < s.length()
+            && s.charAt(left) == s.charAt(right)) {
+        left--;
+        right++;
+    }
+    return s.substring(left + 1, right);
+}
+ 
+// O(n^2)
+public static String longestPalindromeString(String s) {
+    if (s == null) return null;
+    String longest = s.substring(0, 1);
+    for (int i = 0; i < s.length() - 1; i++) {
+        //odd cases like 121
+        String palindrome = intermediatePalindrome(s, i, i);
+        if (palindrome.length() > longest.length()) {
+            longest = palindrome;
+        }
+        //even cases like 1221
+        palindrome = intermediatePalindrome(s, i, i + 1);
+        if (palindrome.length() > longest.length()) {
+            longest = palindrome;
+        }
+    }
+    return longest;
+}
+========================================
+##Write code to find the First non repeated character in the String  ?
+1st Solution
+> uses LinkedHashMap to store character count since LinkedHashMap maintains insertion order 
+- inserting character in the order they appear in String, after that need to iterate through LinkedHashMap and choose the entry with value 1
+
+public static char getFirstNonRepeatedChar(String str) { 
+	Map<Character,Integer> counts = new LinkedHashMap<>(str.length()); 
+	for (char c : str.toCharArray()) { 
+		counts.put(c, counts.containsKey(c) ? counts.get(c) + 1 : 1); 
+	} 
+	for (Entry<Character,Integer> entry : counts.entrySet()) { 
+		if (entry.getValue() == 1) { 
+			return entry.getKey(); 
+		} 
+	} 
+	throw new RuntimeException("didn't find any non repeated Character"); 
+}
+
+/* * Finds first non repeated character in a String in just one pass. 
+* It uses two storage to cut down one iteration, standard space vs time 
+* trade-off .Since we store repeated and non-repeated character separately, 
+* at the end of iteration, first element from List is our first nonrepeated character from String. */ 
+
+public static char firstNonRepeatingChar(String word) { 
+	Set<Character> repeating = new HashSet<>(); 
+	List<Character> nonRepeating = new ArrayList<>(); 
+	for (int i = 0; i < word.length(); i++) { 
+		char letter = word.charAt(i); 
+		if (repeating.contains(letter)) { 
+			continue; 
+		} 
+		if (nonRepeating.contains(letter)) { 
+			nonRepeating.remove((Character) letter); 
+			repeating.add(letter); 
+		} else { 
+			nonRepeating.add(letter); 
+		} 
+	} 
+	return nonRepeating.get(0); 
+}
+
+========================================
+##How to sort String on their length in Java?
+> store strings in array
+> use bubble sort to sort str arrays according to length
+========================================
+##How  to return highest occurred character in a String?
+========================================
+## Balanced pair bracket in string
+> use stack 
+> push for storing  open bracket only
+> pop for closing bracket  
+========================================
+## How to reverse words in a sentence without using library method?
+
+
+========================================
+## How to check if a String is valid shuffle of two String?
+given first = "abc" and second = "def",  third = "dabecf"  is a valid shuffle since it preserves the character ordering of the two strings.
+
+
+========================================
+## Check Whether One String Is Rotation Of Another?
+Detail :
+If “JavaJ2eeStrutsHibernate” is a string then below are some rotated versions of this string.
+“StrutsHibernateJavaJ2ee”, “J2eeStrutsHibernateJava”, “HibernateJavaJ2eeStruts”.
+
+Solution :
+Step 1 : Check whether s1 and s2 are of same length. If they are not of same length then s2 is not rotated version of s1.
+Step 2 : s3 = s1 + s1;
+If s1 = “JavaJ2eeStrutsHibernate” then s3 = “JavaJ2eeStrutsHibernateJavaJ2eeStrutsHibernate”.
+
+Step 3 : Check whether s3 contains s2 using contains() method of String class. If it contains then s2 is rotated version of s1.
+========================================
+## 
+========================================
+## 
+========================================
+## 
+========================================
+## 
+========================================
+## 

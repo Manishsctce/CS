@@ -1,0 +1,557 @@
+##### REST (REpresentational State Transfer) ########
+
+## What is REST?
+> it is an architectural style, brought by Roy feilding in 2000
+> In REST arch, EVERYTHING IS CONSIDERED AS A RESOURCE. 
+- EACH RESOURCE IDENTIFICATION BY LOGICAL URLS
+- it allow different types of resources like json, xml, plain text, png etc
+
+> it is STATELESS CLIENT-SERVER ARCH. where 
+- every request is an independent request. 
+
+> It use uniform interfaces 
+- Resources are manipulated using a fixed set of 4 operation i.e create, read, update, delete : PUT, GET, POST, and DELETE respectively.
+
+> Each request from client to server must contain all the information necessary to understand the request
+
+> It has 2 component
+1. REST Server - provide access to the resources
+2. REST Client - used resource or modify those resources
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is RESTFul Web Service?
+> Web services developed using REST style is known as RESTful web services.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### FEATURES OF RESTFUL WEB SERVICES:
+
+1. STATELESS: 
+- each request must contain all information necessary to understand the request, 
+- it cannot take advantage of any stored context on the server.
+
+2. CACHE: 
+- to improve network efficiency responses must be capable of being labeled as cacheable or non-cacheable.
+
+3. Named resources 
+- the system is comprised of resources which are named using a URL.
+
+Interconnected resource representations - the representations of the resources are interconnected using URLs, thereby enabling a client to progress from one state to another.
+
+> LAYERED COMPONENTS - intermediaries, such as proxy servers, cache servers, gateways, etc, can be inserted between clients and resources to support performance, security, etc.
+
+Self-descriptive messages: Resources are decoupled from their representation so that their content can be accessed in a variety of formats, such as HTML, XML, plain text, PDF, JPEG, JSON, and others.  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Resources?
+
+> REST architecture TREATS EVERY CONTENT AS A RESOURCE. 
+- These resources can be Text Files, Html Pages, Images, Videos or Dynamic Business Data. 
+- REST Server simply provides access to resources and REST client accesses and modifies the resources. 
+- Here each resource is identified by URIs/ Global IDs. 
+- REST uses various representations to represent a resource where Text, JSON, XML
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which API can be used to develop RESTFul web service in Java?
+
+> There are many framework and libraries like:
+- JERSEY is one of the popular implementation of JAX-RS
+- Other are RESTEasy, RESTlet and Apache CFX. 
+- Using Scala language, we can use Play framework to develop RESTful web services.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+## What is JAX-RS? 
+> It is Java API for RESTful Web Services (JAX-RS) 
+> it is a Java API spec that provides support in creating RESTful web services.
+> It is packed as javax.ws.rs.jar or jsr311-api.jar
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+## What is Jersey?
+
+> Jersey framework is more than the JAX-RS Reference Implementation. 
+> Jersey provides its own API that extend the JAX-RS toolkit with additional features and utilities to further simplify RESTful service and client development.
+> Jersey is the reference implementation for the JSR 311 specification.
+- IT PROVIDE LIBRARY TO IMPLEMENT REST WS IN JAVA SERVLET CONTAINER.
+- It use "org.glassfish.jersey.servlet.ServletContainer" to impl Rest WS.
+- It also provide client library to communicate with RESTful WS.
+
+- JAX-RS uses annotations to define the REST relevance of Java classes
+
+
+http://your_domain:port/display-name/url-pattern/path_from_rest_class
+
+> servlet analyzes the incoming HTTP request and selects the correct class and method to respond to this request. 
+ - This selection is based on annotations in the class and methods.
+
+> Java defines REST support via the Java Specification Request (JSR) 311 and called JAX-RS .
+Example-
+http://localhost:8080/RestfulWS/rest/UserInfoService/name/manish
+
+Here 
+RestfulWS : Display-name in web.xml 
+rest : URL pattern under servlet-mapping in web.xml 
+UserInfoService : classlevel path annotation 
+name : methodlevel path annotation
+manish : path param annotation to inject value to method 
+
+
+Example-
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>RestfulWS</display-name>   
+ <servlet>
+    <servlet-name>Jersey REST Service</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+     <!-- Register resources and providers under com.eviac.blog.restws package. -->
+      <init-param>
+        <param-name>com.sun.jersey.config.property.packages</param-name>
+        <param-value>com.eviac.blog.restws</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Jersey REST Service</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+> The parameter "jersey.config.server.provider.packages"(jersey2+) or "com.sun.jersey.config.property.packages"(jersey1.7) defines in which package Jersey will look for the web service classes. 
+- This property must point to our resources classes.
+- The URL pattern defines the part of the base URL our application will be placed.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you understand by payload in RESTFul?
+
+> “payload” is the data you are interested in transporting
+> Payload means data which passed inside request body also payload is not request parameters. 
+- So only you can do payload in POST  and not in GET and DELTE method
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How much maximum pay load you could do in POST method?
+
+> GET which passes data on URL and thus limited by maximum URL length
+> POST has no such limit. So, theoretically you can pass unlimited data as payload to POST method but you need to take practical things into account e.g. sending POST with large payload will consume more bandwidth, take more time and present performance challenge to your server.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention what tools are required to test your web api?
+> SOAPUI tool for SOAP WS and Firefox “poster” or "postman" plugin for RESTFUL services.
+
+#### BEAN CLASS ####
+> For sending XML response, the beans should be annotated with @XmlRootElement
+=======================================
+
+
+=======================================
+#### WEB.XML ####
+> "com.sun.jersey.config.property.packages" 
+- it is use to provide package that will be scanned for web service resources and methods
+
+
+=======================================
+## What is WADL in RESTFul?
+
+> WADL is a XML description of a deployed RESTful web application. 
+- It contains model of the deployed resources, their structure, supported media types, HTTP methods and so on
+> It is similar to WSDL which describe SOAP web services.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Richardson Maturity Model?
+
+> IT DEFINES THE MATURITY LEVEL OF A RESTFUL WEB SERVICE. 
+Following are the different levels and their characteristics.
+
+Level 0 : Expose SOAP web services in REST style. 
+- Expose action based services (http://server/getPosts, http://server/deletePosts, http://server/doThis, http://server/doThat etc) using REST.
+
+Level 1 : Expose Resources with proper URI’s (using nouns).
+- However, HTTP Methods are not used. 
+- Example-: http://server/accounts, http://server/accounts/10. 
+
+Level 2 : 
+> Resources use proper URI's + HTTP Methods. 
+- For example, to update an account, you do a PUT to . The create an account, you do a POST to . Uri’s look like posts/1/comments/5 and accounts/1/friends/1.
+
+Level 3 : HATEOAS (Hypermedia as the engine of application state). 
+- You will tell not only about the information being requested but also about the next possible actions that the service consumer can do. 
+- When requesting information about a facebook user, a REST service can return user details along with information about how to get his recent posts, how to get his recent comments and how to retrieve his friend’s list.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between a RESTful web service (on HTTP) and a HTTP Servlet both of which perform the same function?
+
+> RESTful is more an architecture style than a different technology. 
+- In server perspective, it is designed to be entirely stateless and self-contained on a per-request basis (i.e. there are no sessions). 
+- In client perspective, it's more a way of getting information in different formats via URLs with (self-documenting) path parameters instead of request parameters.
+
+> HttpServlet is a natural, convenient way to implement RESTful web services for two main reasons. 
+1. such servlets are close to the HTTP metal
+2. servlet execute in a servlet container, which is middleware that mediates between the application code of the servlet and the web server 
+- that provides the usual types of support: 
+- wire-level security in the form of HTTPS transport, 
+- user authentication and authorization, 
+- logging and troubleshooting support, 
+- server configuration, 
+- local or remote database access, 
+- naming services, 
+- application deployment and administration, and so on. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How will you migrate from SOAP web service to RESTfull web service?
+a
+======================================
+########### CACHING ##################
+> Caching refers to storing the server response in the client itself, so that a client need not make a server request for the same resource again and again
+
+####### CACHING IN HTTP 1.1 ##########
+
+### CACHE-CONTROL HEADER
+Following are the details of a Cache-Control header :
+1. Public
+- Indicates that resource is cacheable by any component.
+
+2. Private
+- Indicates that resource is cacheable only by the client and the server, no intermediary can cache the resource.
+
+3. no-cache/no-store
+- Indicates that a resource is not cacheable.
+~~~~~~~~~~~~~~~~~~~~~~~~
+4. max-age
+- Indicates the caching is valid up to max-age in seconds. After this, client has to make another request.
+EXAMPLE: HTTP Response
+<<
+  HTTP/1.1 200 OK
+  Date: Sun, 18 Oct 2015 03:47:18 GMT
+  Cache-Control: max-age=10
+  Content-Type: text/plain
+  Content-Length: 9
+  Server: Jetty(9.2.6.v20141205)
+  
+  Some Data
+>>  
+- Cache-Control header is saying that the data is only good in the cache for 10 second, after which a supporting client should get new data.
+
+CONTROLLER:
+  @GET
+  @Produces("text/plain")
+  public Response get() {
+    CacheControl cc = new CacheControl();
+    cc.setMaxAge(10);
+    return Response.ok("Some Data").cacheControl(cc).build();
+  }
+~~~~~~~~~~~~~~~~~~~~~~~~
+5. must-revalidate
+- Indication to server to revalidate resource if max-age has passed.
+
+
+> two client request headers that could be involved in the revalidation process. 
+1. If-Modified-Since: [date] header : On 1st request it is blank. In Next call, request will have it with date same as Last-Modified
+- if data is not modified then server send "304 Not Modified"
+2. Last-Modified: [date] server send response header with Last-Modified along with the data
+
+ @GET
+ @Produces("text/plain")
+ public Response get(@Context Request request) {
+     ResponseBuilder builder = request.evaluatePreconditions(lastModified);
+     if (builder != null) {
+         return builder.build();
+     }
+     return Response.ok(data).lastModified(lastModified).build();
+ }
+
+## BEST PRACTICES
+> Always keep static contents like images, CSS, JavaScript cacheable, with expiration date of 2 to 3 days.
+> Never keep expiry date too high.
+> Dynamic content should be cached for a few hours only
+======================================
+## What all kind of output formats can one generate using RESTful web service?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What all tools have you used to write RESTful web service?
+## Can my web browser be a client to RESTful web service? If yes then how will you generate DELETE request from web browser?
+## What is meant by JAX-WS and JAX-RS?
+## How is JAXB related to RESTful web services?
+## How will you handle synchronization issues when multiple clients try to consume web service simultaneously?
+## Can you describe any one RESTful web service you have written?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to display custom error pages using RestFull web services ?
+## How will you handle application error scenarios in RESTful web service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is it mandatory to use HTTP protocol for performing CRUD operations by a REST based web service?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the pros and cons of using the RESTLET framework than CXF for writing RESTful web service?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can one RESTful web service be a client to another RESTful web service for performing business operations? Describe with example?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can you generate HTML output from a RESTful web service? How?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can a RESTful web service generate output in various formats based on some parameter received from the client.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## With a RESTful web service, whose state is getting transferred and how?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Who owns the specification for REST web services and how does it get updated to newer versions?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What happens if RestFull resources are accessed by multiple clients ? do you need to make it thread-safe?
+
+> Since a new Resource instance is created for every incoming Request there is no need to make it thread-safe or add synchronization. 
+- multiple client can safely access RestFull resources concurrently.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What are those comma separated directives of Cache-Control header?
+## What are the differences between no-cache, and no-store directives used along with Cache-Control header?
+If any intermediary proxy is not used to server any response to client's request, is there any difference between private and public directives of Cache-Control?
+How to inject Web container related values and configurations to the JAX-RS service implementation instance
+Can you write-down an example of MatrixParam expression?
+Are you aware of @BeanParam annotation?
+
+## What is WADL(Web Application Description Language)? 
+> purpose of WADL is to define a contract. Contract specifies how one party can call another
+
+> With version 2.0, WSDL supports all HTTP verbs and it is now considered to be an acceptable method of documenting REST services because REST often use HTTP Verbs like PUT, DELETE 
+
+---------------------------------
+## Basic Auth - Client Side
+
+username:password --Base64 encoding--> dXNlcm5hbWUadfnadfukcQ=
+
+Header - Authorization: Basic dXNlcm5hbWUadfnadfukcQ=        
+Body   - ... 	
+---------------------------------
+## Basic Auth - server side
+
+Header - Authorization: Basic dXNlcm5hbWUadfnadfukcQ=        
+Body   - ... 	
+
+> Server found Basic authentication and decode using Base64 Decoding and get username:password 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does a @Path annotation do? 
+
+> @Path annotation binds URI pattern to a Java method.
+
+EXAMPLE-
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+
+@Path("/persons")
+public class PersonRestService {
+	@GET
+	public Response getPerson() {
+		return Response.status(200).entity("getPerson is called").build();
+	} 
+	
+	@GET
+	@Path("/vip")
+	public Response getPersonVIP() {
+		return Response.status(200).entity("getPersonVIP is called").build();
+	}
+}
+
+> On calling URI: “/persons” result:  getPerson is called
+> On calling URI: “/persons/vip” result:  getPersonVIP is called
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does a @PathParam do?
+
+> @PathParam annotation injects the value of URI parameter that defined in @Path expression.
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
+
+@Path("/persons")
+public class PersonRestService {
+
+	@GET
+	@Path("{id}")
+	public Response getPersonById(@PathParam("id") String id) {
+		return Response.status(200).entity("getPersonById is called, id : " + id).build();
+	}
+}
+
+
+On calling URI: “/persons/1” result:  getPersonById is called, id : 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does a @QueryParam do?
+
+> @QueryParam annotation injects URI query parameter into Java method.
+
+EXAMPLE-
+import java.util.List;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+@Path("/persons")
+public class PersonService {
+
+	@GET
+	@Path("/query")
+	public Response getPersons(
+	@QueryParam("from") int from,
+	@QueryParam("to") int to,
+	@QueryParam("orderBy") List&lt;String&gt; orderBy) {
+		return Response.status(200)
+		.entity("getPersons is called, from : " + from + ", to : " + to
+		+ ", orderBy" + orderBy.toString()).build();	
+	}
+}
+
+On calling URI: “/persons/query?from=10&to=20&orderBy=age&orderBy=name” result: getPersons is called, from : 10, to : 20, orderBy[age, name]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  What does a @MatrixParam do?
+
+> @MatrixParam are a set of “name=value” in URI path.
+
+EXAMPLE-
+import javax.ws.rs.GET;
+import javax.ws.rs.MatrixParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
+
+@Path("/books")
+public class BookService {
+	@GET
+	@Path("{year}")
+	public Response getBooks(@PathParam("year") String year,
+	@MatrixParam("author") String author,
+	@MatrixParam("country") String country) {
+		return Response.status(200)
+		.entity("getBooks is called, year : " + year
+		+ ", author : " + author + ", country : " + country)
+		.build();
+	}
+}
+
+On calling URI: “/books/2015” result: getBooks is called, year : 2015, author : null, country : null
+On calling URI: “/books/2015;author= doyle;country=scotland” result: getBooks is called, year : 2015, author : doyle, country : scotland
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does a @FormParam do?
+
+> @FormParam bind HTML form parameters value to a Java method.
+
+EXAMPLE-
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+
+@Path("/persons")
+public class PersonService {
+
+	@POST
+	@Path("/add")
+	public Response addPerson(
+	@FormParam("name") String name,
+	@FormParam("age") int age) {
+		return Response.status(200)
+		.entity("addPerson is called, name : " + name + ", age : " + age)
+		.build();
+	}
+}
+
+HTML form:
+<html>
+<body>
+	<form action="/persons/add" method="post">
+		<p>Name : <input type="text" name="name" /></p>
+		<p>Age : <input type="text" name="age" /></p>
+		<input type="submit" value="Add Person" />
+	</form>
+</body>
+</html>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get HTTP request header in JAX-RS (2 ways)?
+
+> inject directly with @HeaderParam;
+
+EXAMPLE-
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.core.Response;
+
+@Path("/persons")
+public class PersonService {
+
+	@GET
+	@Path("/get")
+	public Response getPerson(
+	@HeaderParam("person-agent") String personAgent) {
+		return Response.status(200)
+		.entity("getPerson is called, personAgent : " + personAgent)
+		.build();
+	}
+}
+
+> On calling URI: “/persons/get” result: getPerson is called, personAgent : Mozilla/5.0 (Windows NT 6.1; rv:5.0) Gecko/20100101 Firefox/5.0
+=======================================
+########## Context ###################
+> pragmatically via @Context.
+
+EXAMPLE-
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+
+@Path("/persons")
+public class PersonService {
+	@GET
+	@Path("/get")
+	public Response getPerson(@Context HttpHeaders headers) {
+		String personAgent = headers.getRequestHeader("person-agent").get(0);
+		
+		return Response.status(200)
+		.entity("getPerson is called, personAgent : " + personAgent)
+		.build();
+	}
+}
+
+On calling URI: “/persons/get” result: getPerson is called, personAgent : Mozilla/5.0 (Windows NT 6.1; rv:5.0) Gecko/20100101 Firefox/5.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to download file in JAX-RS?
+
+> put @Produces(“?”) on service method, with a Response return type. Instead “?” write a type text/plain, image/png, etc. 
+> set “Content-Disposition” in Response header to tell browser pop up a download box for user to download.
+
+EXAMPLE-
+import java.io.File;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+@Path("/image")
+public class ImageService {
+
+private static final String FILE_PATH = "c:\\my.png";
+
+	@GET
+	@Path("/get")
+	@Produces("image/png")
+	public Response getFile() {
+		File file = new File(FILE_PATH);
+		
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition", "attachment; filename=image_from_server.png");
+		
+		return response.build();
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to declare default value of resource method parameter?
+
+> @Default annotation is used to declare default value of resource method parameter.
+
+@Path("/test")
+@GET
+public Response getName(@DefaultValue("1") @QueryParam("id") int id){
+	...
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Review the following resource method. If query parameter is not present in the request, what will be the value of resource method parameter 'id'?
+@Path("/test")
+@GET
+public Response getName(@QueryParam("id") int id){
+...
+}
+
+> JAVA primitive types get JAVA-defined default values if not present in the query parameter. In the given scenario, id will be 0.

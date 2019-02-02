@@ -1,0 +1,78 @@
+--------------------------------------------------------
+######### target Element ######### 
+
+> actions performed for an execution
+> it is collection of tasks that we want to run as 1 unit
+> it can have dependeny on other targets. 
+
+Ex - 
+<target name="deploy" depends="package">....</target>
+<target name="package" depends="clean,compile">....</target>
+
+<target name="D" depends="C,B,A"/>
+> Here C will run 1st -> B -> A -> D
+
+<target name="a" depends="b">
+<target name="b" depends="c">
+<target name="c" >
+> here c will exec 1st -> b -> a 
+
+> Target name cannot be use with comma and dash(-) bcz its use as separator
+- Best option is use dot(.)
+
+## ATTRIBUTE ##
+1. name - The name of the target (Required)
+
+2. depends - Comma separated targets. our current target exec after list (Opt)
+3. description	- A short description of the target. (opt)
+
+4. if - Allows the execution of a target based on the trueness of a conditional attribute. (opt)
+EXAMPLE - 
+<target name="build-module-A" if="module-A-present"/>
+- if the module-A-present property is set (to any value, e.g. false), the target will be run
+
+5. unless - Adds the target to the dependency list of the specified Extension Point. An Extension Point is similar to a target, but it does not have any tasks. (Opt)
+EXAMPLE - 
+<target name="build-own-fake-module-A" unless="module-A-present"/>
+- if the module-A-present property is set (to any value), the target will not run.
+--------------------------------------------------------
+######### antcall #########
+> Call another target within the same buildfile through another target i.e call target inside target
+> This task must not be used outside of a target.
+> By default, all of the properties of the current project will be available in the new project alternatively we can set the inheritAll attribute to false 
+> When a target is invoked by antcall, all of its dependent targets will also be called within the context of any new parameters
+> The called target(s) are run in a new project; be aware that this means properties, references, etc. set by called targets will not persist back to the calling project.
+
+## ATTRIBUTE ##
+1. target [Req] - The target to execute.	Yes
+2. inheritAll [opt]	- If true, pass all properties to the new Apache Ant project. Default is true.
+3. inheritRefs [opt] - If true, pass all references to the new Ant project. Defaults to false. 
+- It will not override the existing reference
+
+## NESTED ELEMENT ##
+1. <param> - Specifies the properties to set before running the specified target
+- These properties become equivalent to properties define on the command line(CL) i.e CL param can not be overridden by nested <param> elements.
+- These are special properties and they will always get passed down
+
+There are five ways to set properties:
+
+- By supplying both the name and value attribute.
+- By supplying both the name and refid attribute.
+- By setting the file attribute with the filename of the property file to load. This property file has the format as defined by the file used in the class java.util.Properties.
+- By setting the resource attribute with the resource name of the property file to load. This property file has the format as defined by the file used in the class java.util.Properties.
+- By setting the environment attribute with a prefix to use. Properties will be defined for every environment variable by prefixing the supplied name and a period to the name of the variable.
+
+EXAMPLE - 
+<target name="default">
+  <antcall target="doSomethingElse">
+    <param name="param1" value="value"/>
+  </antcall>
+</target>
+------------------------
+2. <reference> - elements can be used to copy references from the calling project to the new project
+- nested elements will override existing references that have been defined outside of targets 
+
+<antcall ... >
+  <reference refid="path1" torefid="path2"/>
+</antcall>
+------------------------

@@ -1,0 +1,266 @@
+##### JAXB (Java Architecture for XML Binding) #####
+
+> It is API to convert object into XML and XML into object.
+Unmarshal: xml -> objects
+Marshal: objects -> xml
+
+> No roundtrip guarantees
+Marshal( Unmarshal(xml) )  ≠ xml
+- But usually roundtrip holds
+
+> Unlike SAX, DOM parsers, to use JAXB the developer need not be aware of XML parsing techniques
+-------------------------------------
+####### FEATURES OF JAXB 2.0 ########
+
+> JAXB 2.0 includes several features that were not present in JAXB 1.x. They are as follows:
+
+1. ANNOTATION SUPPORT: required less coding for JAXB application. 
+> The "javax.xml.bind.annotation" package provides classes and interfaces for JAXB 2.0.
+
+2. Support for all W3C XML Schema features 
+- it supports all the W3C schema unlike JAXB 1.0. Ex- 
+- While using JAXB XML schema is not a mandatory requirement
+- But it can adhere schema into its specifications
+
+3. Additional Validation Capabilities: it provides ADDITIONAL VALIDATION support by JAXP 1.3 validation API.
+
+4. Small Runtime Library: it required small runtime library that JAXB 1.0.
+
+5. Reduction of generated schema-derived classes: it reduces a lot of generated schema-derived classes.
+---------------------------------
+###### Steps to convert java object into XML document.
+
+1. Create POJO or bind the schema and generate the classes
+2. Create the JAXBContext object
+3. Create the Marshaller objects
+4. Create the content tree by using set methods
+5. Call the marshal method
+-------------------------------------
+## How to add property in root element as schemaLocation or xmlns:abc?
+> we can set it in marshaller object as below 
+
+EXAMPLE: if it is setting schemaLocation
+marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.mysite.com/abc.xsd");
+
+OUTPUT
+<RootElement xmlns="http://www.mysite.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.mysite.com/abc.xsd"/>
+-------------------------------------
+## What is package-info.java?
+> it is a Java file that can be added to any Java source package.  
+> Its purpose is to PROVIDE A HOME FOR PACKAGE LEVEL DOCUMENTATION AND PACKAGE LEVEL ANNOTATIONS.
+- it must contain the package declaration
+
+> It is introduce in Java5, Prior to Java5, package level documentation was placed in package.html.
+
+-------------------------------------
+## Mention the JAXB binding framework?
+
+> JAXB binding framework is available in three Java Packages
+
+xml.bind: 
+- This package defines abstract classes and interfaces that are used directly with content classes
+
+xml.bind.util: 
+- This package contains utility classes that may be availed by client applications to manage marshalling, unmarshalling and validation events
+
+xml.bind.helper: 
+- This helper package gives partial implementations for some of the javax.xml.bind interfaces. These APIs are not to be directly used by applications using JAXB architecture
+-------------------------------------
+## Explain what does Marshaller do if jaxb.encoding property is not declared?
+By default, the Marshaller will use “UTF-8” if jaxb.encoding property is not declared.
+
+Mention what are the types of validation can a JAXB client can perform?
+There are two types of JAXB client validation that a JAXB can perform
+Unmarshal Time Validation
+On-Demand Validation
+
+
+Mention what are the three ways to handle the event encountered during the marshal, unmarshal and validate operations?
+
+Using the default event handler
+Register and Implement a custom event handler
+Use the ValidationEventCollector utility
+-------------------------------------
+## Explain where does JAXB compiler is located?
+
+> JAXB schema binding compiler is placed in the <JWSDP_Home>/jaxb/bin directory.  
+- In this directory, there are two scripts, xjc.sh (Solaris/Linux) and xjc.bat (Windows).
+-------------------------------------
+## In what cases do you need to customize the default binding?
+
+In some cases, you are required to customize the default binding like
+
+Creating API documentation for the schema derived JAXB packages, classes, methods and constants
+Giving semantically meaningful customized names for cases that the default XML name-to-Java identifier mapping cannot handle automatically
+Overriding default binding- like specifying that a model group should be attached to a class rather than a list
+=====================================
+###########  ANNOTATION #############
+> These annotation define in "javax.xml.bind.annotation"
+
+1. @XmlRootElement 
+SYNTAX - @XmlRootElement(namespace = "namespace")
+> specifies the root element for the xml document.
+
+2. @XmlAttribute 
+> specifies the attribute for the root element.
+
+3. @XmlElement 
+SYNTAX - @XmlElement(name = "neuName")
+> specifies the sub element for the root element.
+> used to override the default element names
+> We can also set namespace for the element getter method as Ex- @XmlElement(namespace="http://www.example.com/OTHER") String getB()
+- in xml file, it will appear as <ns2:b>B</ns2:b>. Here namespace will be define in root element
+- we can define the prefix of the namespace using NamespacePrefixMapper[c] define below
+
+
+4. @XmlType
+SYNTAX - @XmlType(propOrder = { "field2", "field1",.. })
+
+> Allows to define the order in which the fields are written in the XML file
+- propOrder property on the @XmlType to control the ordering of XML elements
+
+5. @XmlAccessorType(XmlAccessType.FIELD)
+>  the element names are now based on the field names
+- but @XmlElement can override it
+
+6. @XmlTransient
+> Annotate fields that we do not want to be included in XML
+
+7. @XmlSeeAlso 
+> when we want another Entity bean included in the XML output
+
+EXAMPLE:
+@XmlRootElement(name = "List")
+@XmlSeeAlso(Company.class)
+public class CompanyList {
+ 
+  @XmlElement(name = "companyList")
+  public List<Company> getList() {
+    return list;
+  }
+...
+}
+-------------------------------------
+## What is difference between @XmlElement and @XmlAttribute?
+> Xml Elements is <element> and attribute define inside element  
+
+> Elements can be defined to be in a certain order (i..e sequence), while 
+- attributes can appear in any order
+===================================== 
+ 
+EXAMPLE:-
+Employee.java
+import javax.xml.bind.annotation.XmlAttribute;  
+import javax.xml.bind.annotation.XmlElement;  
+import javax.xml.bind.annotation.XmlRootElement;  
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlSeeAlso;  
+
+@XmlRootElement (name="employee")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = { "id", "name", "salary"}) 
+public class Employee {  
+	private int id;  
+	private String name;  
+	private float salary;  
+	
+	public Employee() {}  
+	public Employee(int id, String name, float salary) {  
+		super();  
+		this.id = id;  
+		this.name = name;  
+		this.salary = salary;  
+	} 
+	
+	@XmlAttribute  
+	public int getId() {  
+		return id;  
+	}  
+	public void setId(int id) {  
+		this.id = id;  
+	}
+	
+	@XmlElement  
+	public String getName() {  
+		return name;  
+	}  
+	public void setName(String name) {  
+		this.name = name;  
+	}  
+
+	@XmlElement  
+	public float getSalary() {  
+		return salary;  
+	}  
+	public void setSalary(float salary) {  
+		this.salary = salary;  
+	}  
+}  
+
+ObjectToXml.java
+============
+import java.io.FileOutputStream;    
+import javax.xml.bind.JAXBContext;  
+import javax.xml.bind.Marshaller;  
+  
+public class ObjectToXml {  
+public static void main(String[] args) throws Exception{  
+	
+    JAXBContext contextObj = JAXBContext.newInstance(Employee.class);  
+    Marshaller marshallerObj = contextObj.createMarshaller();  
+	
+	//Create the content tree 
+    marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);  
+
+    Employee emp1=new Employee(1,"Vimal Jaiswal",50000);        
+    marshallerObj.marshal(emp1, new FileOutputStream("employee.xml"));  
+       
+ }  
+}  
+
+
+=====================================
+employee.xml
+============
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<employee id="1">  
+    <name>Vimal Jaiswal</name>  
+    <salary>50000.0</salary>  
+</employee>  
+
+XMLToObject.java
+================
+import java.io.File;  
+import javax.xml.bind.JAXBContext;  
+import javax.xml.bind.JAXBException;  
+import javax.xml.bind.Unmarshaller;  
+  
+public class XMLToObject {  
+public static void main(String[] args) {  
+     try{    
+            File file = new File("employee.xml");    
+            JAXBContext jaxbContext = JAXBContext.newInstance(Employee.class);    
+         
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();    
+            Employee e=(Employee) jaxbUnmarshaller.unmarshal(file);    
+            System.out.println(e.getId()+" "+e.getName()+" "+e.getSalary());  
+              
+          } catch (JAXBException e) {e.printStackTrace(); }    
+         
+ }  
+}  
+=======================================================
+## What is XML Binding?
+> Maps XML to in-memory objects according to a schema.
+> Generates classes to represent XML elements , "binding compiler"  does this.
+– so developers don't have to write them
+- the classes follow JavaBeans property access conventions
+
+> Support 3 primary operations 
+– 1. marshalling a tree of objects into an XML document
+– 2. unmarshalling an XML document into a tree of objects
+- 3. includes validation of the XML against the schema
+	used to generate the classes of the objects
+– validation of object trees against the schema used to generate their classes

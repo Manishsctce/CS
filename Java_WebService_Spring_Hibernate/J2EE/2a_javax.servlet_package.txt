@@ -1,0 +1,338 @@
+#### SERVLET
+> 'javax.servlet' and 'javax.servlet.http' packages represent interfaces and classes for servlet api.
+
+#### #### javax.servlet #### ####
+package contain many interface, in that below 5 r imp
+> These are not specific to any protocol.
+
+There are many interfaces in javax.servlet package. Few imp are 
+01. Servlet interface
+02. ServletConfig interface
+03. ServletContext interface
+04. ServletRequest interface
+05. ServletResponse interface
+06. RequestDispatcher
+07. SingleThreadModel
+08. Filter
+09. FilterConfig
+10. FilterChain
+11. ServletRequestListener
+12. ServletRequestAttributeListener
+13. ServletContextListener
+14. ServletContextAttributeListener
+=======================================
+###### 1.1i. Servlet interface ########
+> It has Only 5 method
+
+1a. void init(ServletConfig config); 
+1b. void service(ServletRequest req, ServletResponse res); 
+1c. void destroy(); 
+1d. ServletConfig getServletConfig(); 
+1e. String getServletInfo(); 
+=======================================
+####### 1.2i. ServletConfig[i] ########
+> object of ServletConfig is created by the web container for each servlet
+> its object USE BY CONTAINER TO PASS INFO FROM WEB.XML TO A SERVLET DURING INITIALIZATION. 
+> Example is implicit config object
+
+METHODS - Only 4 method
+> String getServletName(); 
+> ServletContext getServletContext(); 
+> String getInitParameter(java.lang.String name)
+> Enumeration<java.lang.String> getInitParameterNames()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get the object of ServletConfig?
+> Every servlet class either implements Servlet or extends GenericServlet/HttpServlet, so 
+- getServletConfig() of Servlet interface returns the object of ServletConfig
+Ex- 
+this.getServletConfig().getInitParameter("sname"));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain about ServletConfig and its uses?
+
+> An object of ServletConfig is created by the web container for each servlet. Its scope is JSP
+- This object can be used to get configuration information from web.xml file.
+
+> configuration information can be  modified from the web.xml file, we don't need to change the servlet.
+> This is USE TO CONFIGURE CONNECTION FOR THE SERVLET like db, JDBC etc
+
+EXAMPLE:- 
+web.xml 
+<web-app>
+  <servlet>
+  	<servlet-name>GenericServletDemo1</servlet-name>
+  	<servlet-class>com.sample.servlets.GenericServletDemo1</servlet-class>
+  	
+  	<init-param>
+  		<param-name>ServletConfigParam</param-name>
+  		<param-value>Value1</param-value>
+  	</init-param>
+  </servlet>
+</web-app>
+
+In Servlet class 
+public void service(ServletRequest resquest, ServletResponse response) throws ServletException, IOException {
+  ServletConfig servletConfig = this.getServletConfig();
+  String ServletConfigParam = servletConfig.getInitParameter("ServletConfigParam");
+  PrintWriter writer = response.getWriter();
+  writer.append("Hi, Manish! this value is define in web.xml and it get by using servletConfig: "+ServletConfigParam);
+}
+
+=========================================
+#### 1.3i. ServletContext interface ####
+> object of ServletContext is created by the web container at time of deploying the project
+> Its Scope is web container. 
+> There is only one ServletContext object per web application
+
+## USES ##
+> use to communicate with servlet container
+> use to share attributes and its value accross application i.e inter-application communication
+> ServletContext object can be used to SET, GET or REMOVE ATTRIBUTE from the web.xml file.
+
+## METHODS ##- Only 13 method
+> Object getAttribute(String name)
+> void setAttribute(String attributeName, Object object)
+> void removeAttribute(String objectName)
+> Enumeration getAttributeNames()
+> String getInitParameter(String paramname)
+> Enumeration getInitParameterNames()
+> String getRealPath(String value)
+> void log(String message)
+> URL getResource(String value)
+> InputStream getResourceAsStream(String path)
+> String getServerInfo()
+> String getMajorVersion()
+> String getMinorVersion()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get the object of ServletContext interface?
+
+> Every servlet class either implements Servlet or extends GenericServlet/HttpServlet, so 
+- getServletConfig() of Servlet interface returns the object of ServletConfig
+> We can get the ServletContext object from ServletConfig object  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+> context-param element, subelement of web-app, is used to define the initialization parameter in the application scope.
+EXAMPLE: 
+<web-app>
+ ......        
+  <context-param>  
+    <param-name>parametername</param-name>  
+    <param-value>parametervalue</param-value>  
+  </context-param>  
+ ......  
+</web-app>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is difference between ServletConfig and ServletContext?
+> ServletConfig is a unique object per servlet whereas 
+- ServletContext is a unique object for complete application.
+
+> ServletConfig is used to provide init parameters to the servlet whereas 
+- ServletContext is used to provide application level init parameters that all other servlets can use.
+
+> We can’t set attributes in ServletConfig object whereas 
+- we can set attributes in ServletContext that other servlets can use in their implementation.
+	
+=======================================
+###### 1.4i. ServletRequest[i] ########
+> it define an object to PROVIDE CLIENT REQUEST INFO TO A SERVLET such as 
+- content type, content length, parameter names and values, header informations, attributes etc.
+
+METHODS - many methods few are imp
+> Object getAttribute(java.lang.String name);
+> Enumeration getAttributeNames() 
+> int getContentLength() 
+> String getParameter(String name) 
+> String getServerName()
+> int getServerPort()
+> String[] getParameterValues(java.lang.String name)
+
+> ServletInputStream getInputStream() :
+Returns an input stream for reading binary data in the request body.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference in using request.getRequestDispatcher() and context.getRequestDispatcher()?
+
+> request.getRequestDispatcher(“url”) 
+- it means the dispatch is relative to the current HTTP request.
+
+Example:
+RequestDispatcher reqDispObj = request.getRequestDispatcher("/home.jsp");
+
+> getServletContext().getRequestDispatcher(“url”) 
+- it means the dispatch is relative to the root of the ServletContext.
+
+Example:
+RequestDispatcher reqDispObj = getServletContext().getRequestDispatcher("/ContextRoot/home.jsp");
+=======================================
+####### 1.5i. ServletResponse[i] ######
+> an object to assist a servlet in sending a response to the client 
+
+METHODS - many methods few are imp
+> void flushBuffer()
+> int getBufferSize()
+> void setBufferSize()
+> PrintWriter getWriter(), 
+> void setContentType(String type), 
+> void setContentLength(int len)
+=======================================
+###### 1.6i RequestDispatcher[i] ######
+
+##What is RequestDispathcer?
+> RequestDispatcher interface provides the facility of DISPATCHING THE REQUEST TO ANOTHER RESOURCE
+> it can also be used to INCLUDE THE CONTENT OF ANOTHER RESOURCE also.
+
+>There are two methods defined in the RequestDispatcher interface:- 
+
+1. public void forward(ServletRequest request,ServletResponse response) throws ServletException,java.io.IOException -
+ 
+- Forwards a request from a servlet to another resource (servlet, JSP file, or HTML file) on the SAME server.
+- response is generated by server/servlet and sent to browser directly.
+
+2. public void include(ServletRequest request,ServletResponse response) throws ServletException,java.io.IOException -
+- Forwards a request from a servlet to another resource (servlet, JSP file, or HTML file) on the SAME server.
+- response is generated by server/servlet and sent back to servlet1, so that include the content of resource
+- Includes the content of a resource (servlet, JSP page, or HTML file) in the response.
+
+EXAMPLE: 
+response.setContentType("text/html");
+
+//To read the response and include in another response
+CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
+			
+//Here same resquest obj is used to include the content of another resource without authorizing it again 
+RequestDispatcher rd = request.getRequestDispatcher("viewactionforentity.jsp?noOfUserActions=All&sendAsFile=true&applName="+applName+"&envName="+envName);
+rd.include(request, customResponse);						
+									
+File viewActionFile = new File(pathFile,"viewaction.html");
+FileOutputStream fout = new FileOutputStream(viewActionFile);				
+
+fout.write(customResponse.getOutput().getBytes());	
+fout.flush();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to get the object of RequestDispatcher?
+> getRequestDispatcher() of ServletRequest[i] returns the object of RequestDispatcher.
+EXAMPLE: 
+RequestDispatcher rd=request.getRequestDispatcher("servlet2");  //request obj of servlet1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is difference between forward() and sendRedirect()?
+SEND REDIRECT
+> void sendRedirect(String url) is declared in HttpServletResponse[i]
+> this method used to REDIRECT CLIENT REQUEST TO SOME OTHER LOCATION that can be OTHER SERVER/different context
+> this request is VISIBLE AS NEW REQUEST and OLD REQUEST/RESPONSE IS LOST
+> This is also called CLIENT SIDE REDIRECT because it uses the url bar of the browser to make another request.
+> if need to send same data then use session object to pass with the URL
+> sendRedirect() always sends a new Request
+> It accepts relative as well as absolute URL
+
+RequestDispatcher.forward()
+> forward(ServletRequest request, ServletResponse response) declared in RequestDispatcher[i].
+> used to pass the request to another resource(jsp,file) for further processing WITHIN THE SAME SERVER
+> this is done  WITHOUT THE CLIENT BEING INFORMED (i.e not visible on browser)
+> This is also called SERVER SIDE REDIRECT.
+> same data is forwarded in request object
+> requestDispatcher object can get by 2 ways either using ServletContext or Request. 
+
+Example:
+RequestDispatcher rd = request.getRequestDispatcher("pathToResource");
+rd.forward(request, response);
+=======================================
+########### 1.8i. Filter[i] ###########
+## What is Filter?
+> A filter is an object that is invoked at the preprocessing and postprocessing of a request.
+> The servlet filter is pluggable, i.e. its entry is defined in the web.xml file, 
+- if we remove the entry of filter from the web.xml file, filter will be removed automatically and we don't need to change the servlet.
+- So maintenance cost will be less
+
+> One filter doesn't have dependency on another filter.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the usages of Filter?
+> recording all incoming requests
+> logs the IP addresses of the computers from which the requests originate
+> conversion
+> data compression
+> encryption and decryption
+> input validation etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Advantage of Filter
+> Filter is pluggable.
+> One filter don't have dependency onto another resource.
+> Less Maintenance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create Filter and what its Life Cycle?
+> For creating any filter implement the Filter interface. 
+> Filter interface provides the life cycle methods for a filter.
+
+##Method Description
+1. public void init(FilterConfig config) 
+- init() method is invoked only once. It is used to initialize the filter.
+
+2. public void doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain) 
+- it is invoked every time when user request to any resource, to which the filter is mapped.
+- It is used to perform filtering tasks.
+
+3. public void destroy()	
+> This is invoked only once when filter is taken out of the service.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to define Filter?
+> We can define filter same as servlet. Let's see the elements of filter and filter-mapping.
+
+<web-app>  
+<filter>  
+<filter-name>...</filter-name>  
+<filter-class>...</filter-class>  
+</filter>  
+   
+<filter-mapping>  
+<filter-name>...</filter-name>  
+<url-pattern>...</url-pattern>  
+</filter-mapping>  
+  
+</web-app>  
+> For mapping filter we can use, either url-pattern or servlet-name. 
+> The url-pattern elements has an advantage over servlet-name element i.e. it can be applied on servlet, JSP or HTML.
+=====================================
+#### 1.9i. FilterConfig[i] ####
+> An object of FilterConfig is created by the web container. 
+- This object can be used to get the configuration information from the web.xml file.
+
+void init(FilterConfig config): init() method is invoked only once it is used to initialize the filter.
+String getInitParameter(String parameterName): Returns the parameter value for the specified parameter name.
+java.util.Enumeration getInitParameterNames(): Returns an enumeration containing all the parameter names.
+ServletContext getServletContext(): Returns the ServletContext object.
+=====================================
+#### 1.10i. FilterChain[i] ####
+> The object of FilterChain is responsible to invoke the next filter or resource in the chain.
+> This object is passed in the doFilter method of Filter interface.
+
+> The FilterChain interface contains only one method:
+public void doFilter(HttpServletRequest request, HttpServletResponse response): 
+- it passes the control to the next filter or resource.
+
+=====================================
+#### #### HTTP.SERVLET CLASSES #### ####
+
+> There are many classes in javax.servlet package. They are as follows:
+GenericServlet
+ServletInputStream
+ServletOutputStream
+ServletRequestWrapper
+ServletResponseWrapper
+ServletRequestEvent
+ServletContextEvent
+ServletRequestAttributeEvent
+ServletContextAttributeEvent
+ServletException
+UnavailableException
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.1 public abstract class GenericServlet
+	extends java.lang.Object
+	implements Servlet, ServletConfig, java.io.Serializable {
+	
+abstract void service(ServletRequest req, ServletResponse res);
+and other inherit mrthod
+}
+> GenericServlet class can handle any type of request so it is protocol-independent
+> It is abstract class with abstract service() 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

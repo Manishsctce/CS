@@ -1,0 +1,66 @@
+######## Delete Files Older Than x Days on Linux #####
+
+find /path/to/files* -mtime +5 -exec rm {} \;
+
+-mtime, is used to specify the number of days old that the file is. If you enter +5, it will find files older than 5 days.
+The third argument, -exec, allows you to pass in a command such as rm. The {} \; at the end is required to end the command.
+===========================================
+
+######### set properties #########
+. file_name.properties
+
+
+Ex- echo "Name=Manish" > test.properties
+    . test.properties
+	echo $Name
+===========================================
+######### stat #########
+
+Q: How do I find out all the available file attributes. i.e I would like to know more about a file or directory than what the ls -l command displays.
+
+A: Everything in Unix is treated as files. This includes devices, directories and sockets. Stat command displays file or filesystem status.
+
+Blocks: Total number of blocks used by this file.
+IO Block: 4096 – IO block size for this file
+regular file – Indicates the file type. This indicates that this is a regular file. 
+
+Following are available file types.
+1. regular file. ( ex: all normal files ).
+2. directory. ( ex: directories ).
+3. socket. ( ex: sockets ).
+4. symbolic link. ( ex: symbolic links. )
+5. block special file ( ex: hard disk ).
+6. character special file. ( ex: terminal device file ).
+
+Inode number : It is a unique number for each file which is used for the internal maintenance by the file system
+
+EXAMPLE- stat examples.desktop
+ramanuj@AMXSG1-Gen8-vm6-ubnt-64w:~$ stat examples.desktop
+  File: ‘examples.desktop’
+  Size: 8980            Blocks: 24         IO Block: 4096   regular file
+Device: fc00h/64512d    Inode: 2228454     Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1002/ ramanuj)   Gid: ( 1002/ ramanuj)
+Access: 2015-12-17 14:03:11.043750609 +0530
+Modify: 2013-10-04 15:10:40.000000000 +0530
+Change: 2015-01-22 13:09:39.345600057 +0530
+ Birth: -
+
+===========================================
+######### top #########
+> displays the top  30  processes  on  the  system  and  periodically updates  this information
+- press "e" to switch in MB,GB,TB
+## OPTION ##
+
+1. -c, --color : Turn off the use of color in the display.
+2. -I, --idle-procs :  Do  not  display  idle processes.  By default, top displays both active and idle processes.
+
+
+### free ##
+> it also show memory in use 
+##OPTION 
+-m : for megabyte
+-h : human readable form
+===========================================
+##### reboot remote Linux server ######  
+/sbin/shutdown -r now
+reboot 

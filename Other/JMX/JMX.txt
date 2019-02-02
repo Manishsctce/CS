@@ -1,0 +1,257 @@
+######## Java Management Extension (JMX) #####
+
+## What is JMX?
+> it is java technology that is use to make tools for managing and monitoring appl. , system objects and devices and service oriented network.
+- These resources are represented by object called MBean.
+------------------------------------------------
+JMX2.0. - 2006
+------------------------------------------------
+## What is JMX Agent?
+
+- JMX Agent consist of an MBean Server, in which MBeans are registered, and a set of services for handling the MBeans.
+------------------------------------------------
+## JMX Connector 
+
+- JMX technology defines standard connectors (known as JMX connectors) that enable you to access JMX agents from remote management applications. 
+- JMX connectors using different protocols provide the same management interface.
+------------------------------------------------
+## What is the use of JMX?
+> It provides an architecture to manage resources dynamically at runtime
+> we can use the JMX technology to monitor and manage the Java Virtual Machine 
+
+- Here java object is known as Managed Beans or MBeans. 
+- These MBeans are registered in core-managed object server called MBean Server. It acts as a management agent or JMX agents
+------------------------------------------------
+## How many types of MBean can be defined in JMX?
+> JMX specification defines five types of MBean:
+- Standard MBeans
+- Dynamic MBeans
+- Open MBeans
+- Model MBeans
+- MXBeans
+------------------------------------------------
+## What is the architecture of JMX? 
+> it use 3 Level Arch.
+1. Probe Level also called Instrumentation level- Standard MBean1 
+2. Agent Level - MBeanServer :  It acts as an intermediary between the MBean and the applications.
+3. Remote management Level - RMI Connector, HTTP/SOAP Connector, Adaptor, 
+=================================================
+> Any monitoring of Java appl can be done by JMX.
+
+> All services can be MBean leading to a highly modular, pluggable 
+Ex - a MBean service of hibernate can remove and replace with any other service.
+
+###### Comparision of JMX with other tech. #############
+> For Remote machine monitoring we use RMI, CORBA, SOAP, or other IPC tech.
+
+###### Comparision of JMX and SNMP #############
+
+> SNMP is the de facto standard for network management  of switch, routers and the like.
+> For network management and appl management JMX is best
+
+> SNMP exposes the management interface through a static MIB(Management Information Base) while JMX relies on MBean 
+=================================================
+###### MBean (Managed Bean) #####
+> MBean is a managed Java object, It is like Java Bean which is managed by JMX.
+> An MBean can represent a device, an application, or any resource that needs to be managed. MBeans expose a management interface that consists of the following:
+
+A set of readable or writable attributes, or both.
+A set of invokable operations.
+A self-description.
+
+> management interface does not change throughout the life of an MBean instance
+> Create interface which name must end with MBean like SystemConfigMBean
+> Create class with same name as interface name but without MBean like SystemConfig
+> Now register MBean implementation to MBean server. MBean server acts as a management agent. 
+
+> An MXBean is an MBean that references only a pre-defined set of data types. 
+- special type of MBean
+
+
+There are several kinds of MBean - Standard, MXBean, Dynamic, Model, Open 
+####### Benefits of JMX ##########
+> it allow us to manage appl at runtime 
+> Using JMX is easy and reduces effort and investment for creating any management tool for our applications.
+
+
+
+=================================================
+########### Spring  and JMX #########
+> first create the interface that defines the attributes and operations that we want to expose. The interface name must end with MBean. If you just want to allow read-only, you can leave setter methods.
+
+SystemConfigMBean.java
+======================
+
+package com.journaldev.jmx;
+ 
+public interface SystemConfigMBean {
+ 
+    public void setThreadCount(int noOfThreads);
+    public int getThreadCount();
+     
+    public void setSchemaName(String schemaName);
+    public String getSchemaName();
+     
+    // any method starting with get and set are considered
+    // as attributes getter and setter methods, so I am 
+    // using do* for operation.
+    public String doConfig();
+}
+
+2. JMX Naming convention is to keep the implementation class name as interface name – MBean
+SystemConfig.java
+==================
+package com.journaldev.jmx;
+ 
+public class SystemConfig implements SystemConfigMBean {
+ 
+    private int threadCount;
+    private String schemaName;
+     
+    public SystemConfig(int numThreads, String schema){
+        this.threadCount=numThreads;
+        this.schemaName=schema;
+    }
+     
+    @Override
+    public void setThreadCount(int noOfThreads) {
+        this.threadCount=noOfThreads;
+    }
+ 
+ 
+    @Override
+    public int getThreadCount() {
+        return this.threadCount;
+    }
+ 
+ 
+    @Override
+    public void setSchemaName(String schemaName) {
+        this.schemaName=schemaName;
+    }
+ 
+ 
+    @Override
+    public String getSchemaName() {
+        return this.schemaName;
+    }
+     
+    @Override
+    public String doConfig(){
+        return "No of Threads="+this.threadCount+" and DB Schema Name="+this.schemaName;
+    }
+}
+3. Now we need to register our MBean implementation to the MBean server
+SystemConfigManagement.java
+===========================
+package com.journaldev.jmx;
+ 
+import java.lang.management.ManagementFactory;
+ 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.ObjectName;
+ 
+public class SystemConfigManagement {
+    private static final int DEFAULT_NO_THREADS=10;
+    private static final String DEFAULT_SCHEMA="default";
+ 
+    public static void main(String[] args) throws MalformedObjectNameException, InterruptedException, InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException {
+        //Get the MBean server
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        //register the MBean
+        SystemConfig mBean = new SystemConfig(DEFAULT_NO_THREADS, DEFAULT_SCHEMA);
+        ObjectName name = new ObjectName("com.journaldev.jmx:type=SystemConfig");
+        mbs.registerMBean(mBean, name);
+        do{
+            Thread.sleep(3000);
+            System.out.println("Thread Count="+mBean.getThreadCount()+":::Schema Name="+mBean.getSchemaName());
+        }while(mBean.getThreadCount() !=0);
+         
+    }
+}
+
+> Here JMX agent SystemConfigManagement begin by obtaining MBean server that has been created and initialized by the platform, by calling the getPlatformMBeanServer() method of the java.lang.management.ManagementFactory class. 
+- If no MBean server has been created by the platform already, then getPlatformMBeanServer() creates an MBean server automatically by calling the JMX method MBeanServerFactory.createMBeanServer(). 
+
+- Every JMX MBean must have an object name. 
+- The object name is an instance of the JMX class ObjectName and must conform to the syntax defined by the JMX specification. 
+- Namely, the object name must contain a domain and a list of key-properties. 
+- here the domain is "com.journaldev.jmx" (the package in which the example MBean is contained). 
+- In addition, the key-property declares that this object is of the type SystemConfig.
+
+-----------------------------------
+###### JMX URL #############
+> For client application to get the MBean proxy, first we need to create JMXServiceURL by passing the RMI host and port.
+ JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + HOST + ":" + PORT + "/jmxrmi");
+ 
+> After that we have to get the JMXConnector instance using it’s factory class.
+	JMXConnector jmxConnector = JMXConnectorFactory.connect(url);
+> After that we get MBeanServerConnection from the JMXConnector instance.
+	MBeanServerConnection mbeanServerConnection = jmxConnector.getMBeanServerConnection();
+> After that we get MBean proxy instance using MBeanServerInvocationHandler.
+
+//ObjectName should be same as your MBean name
+ObjectName mbeanName = new ObjectName("com.journaldev.jmx:type=SystemConfig");
+
+//Get MBean proxy instance that will be used to make calls to registered MBean
+SystemConfigMBean mbeanProxy =
+    (SystemConfigMBean) MBeanServerInvocationHandler.newProxyInstance(
+        mbeanServerConnection, mbeanName, SystemConfigMBean.class, true);
+		
+> Once we get the proxy instance, we can invoke any operation exposed by the MBean.
+
+
+
+package com.journaldev.jmx;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.management.MBeanServerConnection;
+import javax.management.MBeanServerInvocationHandler;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+
+public class SystemConfigClient {
+
+    public static final String HOST = "localhost";
+    public static final String PORT = "1234";
+
+    public static void main(String[] args) throws IOException, MalformedObjectNameException {
+        JMXServiceURL url =
+            new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + HOST + ":" + PORT + "/jmxrmi");
+        
+        JMXConnector jmxConnector = JMXConnectorFactory.connect(url);
+        MBeanServerConnection mbeanServerConnection = jmxConnector.getMBeanServerConnection();
+        //ObjectName should be same as your MBean name
+        ObjectName mbeanName = new ObjectName("com.journaldev.jmx:type=SystemConfig");
+
+        //Get MBean proxy instance that will be used to make calls to registered MBean
+        SystemConfigMBean mbeanProxy =
+            (SystemConfigMBean) MBeanServerInvocationHandler.newProxyInstance(
+                mbeanServerConnection, mbeanName, SystemConfigMBean.class, true);
+
+        //let's make some calls to mbean through proxy and see the results.
+        System.out.println("Current SystemConfig::" + mbeanProxy.doConfig());
+        
+        mbeanProxy.setSchemaName("NewSchema");
+        mbeanProxy.setThreadCount(5);
+        
+        System.out.println("New SystemConfig::" + mbeanProxy.doConfig());
+        
+        //let's terminate the mbean by making thread count as 0
+        mbeanProxy.setThreadCount(0);
+
+        //close the connection
+        jmxConnector.close();
+    }
+}
+

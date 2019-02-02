@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="regex_ex" name="Manish">   
+<dirname property="current_dir" file="${ant.file.regex_ex}"/>
+	<target name="regex_ex">
+	<echo message="here"/>
+	   <loadfile property="SystemNode.node.type.id" srcfile="describeNode.txt" >
+			
+            <filterchain>
+                <linecontains>
+                    <contains value="Node type:"/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern='[ \t]*Node type: (.+)' replace="\1" />
+                    <trim/>
+                </tokenfilter>
+                <striplinebreaks/>
+            </filterchain>		
+        </loadfile>
+		<echo> ${current_dir}/describeNode.txt 
+			${SystemNode.node.type.id}</echo>
+        <loadfile srcfile="${current_dir}\describeNode.txt" property="SystemNode.node.type.version" >
+            <filterchain>
+                <linecontains>
+                    <contains value="Node type version"/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern='[ \t]*Node type version: ([^\.]+\.[^\.]+\.[^\.]+)' replace="\1" />
+                    <trim/>
+                </tokenfilter>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+	</target>
+</project>				

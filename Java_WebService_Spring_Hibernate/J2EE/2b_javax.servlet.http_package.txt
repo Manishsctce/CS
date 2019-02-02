@@ -1,0 +1,188 @@
+#### SERVLET
+> 'javax.servlet' and 'javax.servlet.http' packages represent interfaces and classes for servlet ap
+
+#### #### 2. javax.servlet.http package #### #### 
+> it contain below 
+> These are RESPONSIBLE FOR HTTP REQUESTs only not for any other protocol
+> INTERFACE - total 9 interface only 3 r useful
+
+> Below are INTERFACE 
+HttpServletRequest 
+HttpServletResponse
+HttpSession
+HttpSessionListener
+HttpSessionAttributeListener
+HttpSessionBindingListener
+HttpSessionActivationListener
+HttpSessionContext (deprecated now)
+=======================================
+###### 2.1 HttpServletRequest[i] ######
+> it extends the javax.servlet.ServletRequest interface
+
+METHODS - many method only few in my knowledge
+> Cookie[] getCookies() 
+> String getHeader(String name) 
+> Enumeration<String> getHeaderNames() 
+> Enumeration<String> getHeaders(String name) 
+> int getIntHeader(String name)
+> String getMethod() - return the name of HTTP method like GET,POST, PUT
+> HttpSession getSession() 
+=======================================
+###### 2.2 HttpServletResponse[i] #####
+> it extends the javax.servlet.ServletResponse interface
+> response implicit object is an example of HttpServletResponse interface
+
+> it maintain the static final int value of status code like
+public static final int SC_ACCEPTED = 202;
+public static final int	SC_BAD_REQUEST = 400;
+public static final int	SC_NOT_FOUND = 404;
+public static final int	SC_OK = 200;
+
+100  Continue; 
+301  Moved Permanently (Redirection)
+401  Unauthorized
+403  Forbidden
+500  Internal Server Error (Server Error)
+
+## METHODS - below few are imp
+> void addCookie(Cookie cookie); 
+> String encodeURL(String url); 
+> String getHeader(String name); 
+> void addHeader(String name, String value);
+> void addIntHeader(String name, int value);
+> boolean containsHeader(String name);
+> int getStatus(); 
+> void setStatus(int sc) -  Sets the status code for this response.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Difference between encodeURL and encodeRedirectURL?
+
+encodeURL() 
+- it is used for all URLs in a servlet's output. 
+- IT HELPS SESSION IDS TO BE ENCODED WITH THE URL.
+- it will not encode session id while redirecting.
+
+encodeRedirectURL() 
+- it is used with res.sendRedirect only. 
+- It is USED FOR ENCODING SESSION IDS WITH URL BUT ONLY WHILE REDIRECTING.
+=======================================
+########## 2.3 HttpSession[i] #########
+> javax.servlet.http.HttpSession[i]
+> Provides a way to identify a user across more than one page request
+
+## METHODS ##
+1. setAttribute(String, object) 
+- used to save an object in session by assigning a unique string to the object. Later, the object can be accessed
+
+2. getAttribute(String name)
+3. removeAttribute(String name)
+4. Enumeration getAttributeNames() - returns all objects stored in session
+5. long getCreationTime() - return time in which session was created
+6. String getId() 
+
+7. boolean isNew() 
+- use to track cookies at client side. If cookies are disable then isNew() always return true
+
+8. void invalidate()  
+- It kills a session and breaks the association of session with all the stored objects.
+
+9. int getMaxInactiveInterval()  
+- Returns sessions maximum inactivate time interval in seconds.
+
+10 setMaxInactiveInterval(int interval) 
+– Specifies the time, in seconds, between client requests before the servlet container will invalidate this session. 
+
+11 long getLastAccessedTime()  
+- Generally used to know the last accessed time of a session.
+==========================================
+#### #### CLASS #### #### 
+- only 2 are useful
+> There are many classes in javax.servlet.http package. They are as follows:
+
+HttpServlet
+Cookie
+HttpServletRequestWrapper
+HttpServletResponseWrapper
+HttpSessionEvent
+HttpSessionBindingEvent
+HttpUtils (deprecated now)
+
+==========================================
+#### 2.1 HttpServlet Class #### 
+public abstract class HttpServlet
+	extends javax.servlet.GenericServlet
+	implements java.io.Serializable
+	
+> object to provide client request information to a servlet
+
+## METHODS ##
+> protected void service(HttpServletRequest req, HttpServletResponse resp) 
+- receive request from service() and dispatch request to doXXX() depending on incoming type request
+
+> protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+- call by web container
+
+> protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+- Called by the server (via the service method) to allow a servlet to handle a POST request
+
+> protected void doPut(HttpServletRequest req, HttpServletResponse resp) 
+
+> protected long getLastModified(HttpServletRequest req) 
+
+> protected void doDelete(HttpServletRequest req, HttpServletResponse resp) 
+> protected void doHead(HttpServletRequest req, HttpServletResponse resp) 
+> protected void doOptions(HttpServletRequest req, HttpServletResponse resp) 
+> protected void doTrace(HttpServletRequest req, HttpServletResponse resp)
+ 
+ 
+> HttpServlet class is used to aid the processing HTTP-based requests 
+==========================================
+#### 2.2 Cookie class ####
+public class 
+extends java.lang.Object
+implements java.lang.Cloneable, java.io.Serializable
+
+> a small amount of information sent by a servlet to a Web browser, saved by the browser, and later sent back to the server
+> A cookie's value can uniquely identify a client, so cookies are commonly used for session management.
+
+METHODS
+> String getDomain()  > void setDomain()
+> int getMaxAge()     > void setMaxage(int expiry)
+> String getName()
+> String getPath()
+> boolean getSecure() - return true if browser send cookies over a secure protocol
+> String getValue()
+> void setComment(String purpose)
+> void 
+
+
+==========================================
+
+## How to write the http response into a file?
+
+> Create a wrapper class 
+	private class CharArrayWriterResponse extends javax.servlet.http.HttpServletResponseWrapper{
+
+		private final CharArrayWriter charArray = new CharArrayWriter();
+
+		public CharArrayWriterResponse(HttpServletResponse response) {
+			super(response);
+		}
+
+		public PrintWriter getWriter() throws IOException {
+			return new PrintWriter(charArray);
+		}
+
+		public String getOutput() {
+			return charArray.toString();
+		}
+	}
+> Pass the HttpServletResponse into it and create a wrapper object
+	CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(httpServletResponse);
+	
+> Now invoke RequestDispatcher include the response into above created customResponse object as 
+	RequestDispatcher rd = request.getRequestDispatcher("viewactionforentity.jsp?noOfUserActions=All&sendAsFile=true&applName="+applName+"&envName="+envName);
+	rd.include(request, customResponse);
+	
+> FileOutputStream fout = new FileOutputStream(viewActionFile);
+fout.write(customResponse.getOutput().getBytes());	
+fout.flush();

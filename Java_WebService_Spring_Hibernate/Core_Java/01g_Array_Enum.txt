@@ -1,0 +1,456 @@
+############## ARRAY #################
+> An array is a data-type in Java, 
+- it is a dynamically-created object that serves as a container to HOLD CONSTANT NUMBER OF VALUES OF THE SAME TYPE. 
+
+> it have CONTIGUOUS memory location.
+> By declaring an array, memory space is allocated for values of a particular type. 
+- At the time of creation, the length of the array must be specified and remains constant.
+
+> Size of array cannot change after its creation.
+> Multidimensional arrays are array of arrays. 
+
+ADVANTAGE
+> Code Optimization: It makes the code optimized, we can retrieve or sort the data easily.
+> Random access: We can get any data located at any index position.
+
+
+EXAMPLE:
+int[6] myScores;// is wrong 
+- size is only needed when the array is actually instantiated 
+-(at that time JVM needs to know how much space need to allocate for array, based on type of array and size) 
+
+int arr[] = new int[4]; //Right
+~~~~~~~~~~~~~~~~~~~~~~~~
+Ex - 
+1. int [][]x = new int[3][4]; 
+- x.length will be 3; x[2].length will be 4
+
+2. int score[][] = {{2,3,4},{4,5,6}}
+3. int[] num[] = new int[5][2];
+4. int a[]={33,3,4,5};//declaration, instantiation and initialization 
+
+dataType[] arrayRefVar; // preferred way.
+dataType arrayRefVar[]; //works but not preferred way.
+
+=======================================
+######## ARRAY INITIALIZATION #########
+3 Ways to initialize an array:-
+
+1. dataType[] arrayRefVar = new dataType[arraySize]; //
+2. dataType[] arrayRefVar = {value0, value1, ..., valuek}; // Array Literals
+3. dataType[] arrayRefVar = new dataType[]{value0, value1, ..., valuek}; 
+- 2,3 are similar
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can you use Generics with array?
+
+> No, we cannot use Generic with array, that's why sometime List is better choice over array
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can we return array like {3,4,5} directly??
+No
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between a[] and []a in Java?
+> we can declare an array in Java by either prefixing or suffixing[] with variable. There is NOT MUCH DIFFERENCE between them 
+- But if we are creating more than one variable in one line, then it creates different types of variables.
+EXAMPLE :
+int a[], b; // first is int array, second is just int variable
+int[] c, d; // both c and d are integer array
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is class name of java array?
+
+> In java, ARRAY IS AN OBJECT. 
+> For array object, an proxy class is created whose name can be obtained by getClass().getName() method on the object
+> It is of [I
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can you store String in an array of Integer in Java? compile time error or runtime exception?
+
+int[] primes = new int[10]; 
+primes[0] = "a"; //compile time error 
+
+Object[] names = new String[3]; 
+names[0] = new Integer(0); // ArrayStoreException at runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can you make array volatile in Java?
+http://jeremymanson.blogspot.in/2009/06/volatile-arrays-in-java.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we copy array to another array?
+
+> We can copy an array to another by the arraycopy method of System class.
+> public static void System.arraycopy(Object src, int srcPos,Object dest, int destPos, int length) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we join two array?
+
+> Here we have 2 array i.e nodeIdentifiersForAppId, nodeIdentifierForAdminNodes
+ int length = nodeIdentifiersForAppId.length + nodeIdentifierForAdminNodes.length;
+ NodeIdentifier[] nodeIdentifiers = new NodeIdentifier[length];
+ 
+ System.arraycopy(nodeIdentifiersForAppId, 0, nodeIdentifiers, 0, nodeIdentifiersForAppId.length);
+ System.arraycopy(nodeIdentifierForAdminNodes, 0, nodeIdentifiers, nodeIdentifiersForAppId.length, nodeIdentifierForAdminNodes.length);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20. Resize an Array in Java
+/**
+* Reallocates an array with a new size, and copies the contents
+* of the old array to the new array.
+* @param oldArray  the old array, to be reallocated.
+* @param newSize   the new array size.
+* @return          A new array with the same contents.
+*/
+private static Object resizeArray (Object oldArray, int newSize) {
+   int oldSize = java.lang.reflect.Array.getLength(oldArray);
+   Class elementType = oldArray.getClass().getComponentType();
+   Object newArray = java.lang.reflect.Array.newInstance(
+         elementType,newSize);
+   int preserveLength = Math.min(oldSize,newSize);
+   if (preserveLength > 0)
+      System.arraycopy (oldArray,0,newArray,0,preserveLength);
+   return newArray; 
+}
+ 
+// Test routine for resizeArray().
+public static void main (String[] args) {
+   int[] a = {1,2,3};
+   a = (int[])resizeArray(a,5);
+   a[3] = 4;
+   a[4] = 5;
+   for (int i=0; i<a.length; i++)
+      System.out.println (a[i]); 
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Convert Array to Map in Java?
+
+String[][] countries = { { "United States", "New York" }, { "United Kingdom", "London" },
+        { "Netherland", "Amsterdam" }, { "Japan", "Tokyo" }, { "France", "Paris" } };
+ 
+Map countryCapitals = ArrayUtils.toMap(countries);
+
+=======================================
+################### ENUM ##############
+> Since Java5
+> java.lang.Enum class is the common base class 
+
+public abstract class Enum <E extends Enum<E>>
+- extends Object
+- implements Comparable<E>, Serializable {
+
+
+  //This guarantees that enums are never cloned and thus preserve their "singleton"
+  protected final Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+  }
+  
+  // prevent default deserialization
+  private void readObject(ObjectInputStream in) throws IOException,
+    ClassNotFoundException {
+      throw new InvalidObjectException("can't deserialize enum");
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Enum is require?
+public class CurrencyDenom {
+   public static final int PENNY = 1;
+   public static final int NICKLE = 5;
+   public static final int DIME = 10;
+   public static final int QUARTER = 25;
+}
+
+public class Currency {
+   private int currency; //CurrencyDenom.PENNY,CurrencyDenom.NICKLE,
+                         // CurrencyDenom.DIME,CurrencyDenom.QUARTER
+}
+
+Though this can serve our purpose it has some serious limitations:
+1) NO TYPE-SAFETY: you can assign any valid int value to currency 
+Ex- 99 though there is no coin to represent that value.
+
+2) NO MEANINGFUL PRINTING: printing value of any of these constant will print its numeric value instead of meaningful name of coin 
+Ex- when you print NICKLE it will print "5" instead of "NICKLE"
+
+3) NO NAMESPACE: to access the currencyDenom constant we need to prefix class name 
+Ex- CurrencyDenom.PENNY instead of just using PENNY though this can also be achieved by using static import in JDK 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Enum?
+> Enum is a DATA TYPE THAT CONTAINS FIXED SET OF INSTANCES
+> IT IS A TYPE LIKE CLASS AND INTERFACE
+> enum constants are static and final implicitly
+> Java Enums can be thought of as classes that have fixed set of constants
+
+> It is suitable to represent well known fixed set of things and state Ex- state of Order as NEW, PARTIAL FILL, FILL or CLOSED.
+
+> ENUM DOESN'T HAVE ANY PUBLIC/PROTECTED CONSTRUCTOR
+- It can have private/package private access specifier
+
+IMPORTANCE OF ENUM
+> it provide TYPE SAFETY 
+> it has its OWN NAME-SPACE - can use directly
+> it can be USE IN SWITCH like int or char primitive data type
+> adding new constant on enum is easy 
+> it can be traversed
+> it can have fields, constructors and methods
+>> enum may implement many interfaces but cannot extend any class because it internally extends Enum class
+
+> Java compiler automatically generates static values() method for every enum in java. 
+- values() returns array of Enum constants in same order they have listed in Enum
+
+> Java compiler automatically generates static valueOf(String str) method of enum
+- it convert the given string to enum
+- throw IllegalArgumentException: No enum const class" if you supply any string other than enum values.
+
+>> Enum HAVE PRIVATE CONSTRUCTOR so we can not create instance of enums by using new operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can Enum implement interface in Java? If yes, How?
+
+> Yes, Enum can implement interface in Java. 
+- Since enum is a type, similar to class and interface, it can implement interface.
+
+Ex - 
+enum Currency implements Runnable{ 
+	PENNY("Pen"), NICKLE("Nick"), DIME("Dime"), QUARTER("qua");
+	private String value;
+	private Currency(String str){
+		this.value = str;
+	}	
+	public void run() {
+		  System.out.println("Enum in Java implement interfaces "+this);
+	}
+};
+
+new Thread(Currency.DIME).start();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can Enum extends class in Java?
+> No, Enum can not extend class in Java. 
+- Since all Enum by default extend abstract base class java.lang.Enum, it can not extend another class,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do you create Enum without any instance? Is it possible without compile time error?
+
+> Since Enum is viewed as a collection of well defined fixed number of instances 
+- e.g. Days of Week, Month in a Year, having an Enum without any instance, may seems awkward
+
+EXAMPLE:
+public enum MessageUtil{ 
+	; // required to avoid compiler error, also signifies no instance 
+	
+	public static boolean isValid() { 
+		throw new UnsupportedOperationException("Not supported yet."); 
+	} 
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we create instance of Enum outside of Enum itself? If Not, Why?
+
+> NO, WE CAN NOT CREATE ENUM INSTANCES OUTSIDE OF ENUM BOUNDRY, 
+- because ENUM DOESN'T HAVE ANY PUBLIC/PROTECTED CONSTRUCTOR, and compiler doesn't allow you to provide any public constructor in Enum. 
+- Since compiler generates lot of code in response to enum type declaration, it doesn’t allow public constructors inside Enum, which enforces declaring enum instances inside Enum itself.
+
+- default access specifier for constructor is allow but stil we cannot create an enum instance outside enum
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by enum type-safety? How enums in java are type-safe?
+
+> Enum type-safety means we CAN'T ASSIGN ANY VALUE TO THE ENUM CONSTANT. 
+- it hold its own type
+
+Example
+- public enum Currency {PENNY, NICKLE, DIME, QUARTER};
+- Currency coin = Currency.PENNY;
+- coin = 1; //compilation error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do you specify values to enum constant?
+> We can specify values of enum constants at the creation time
+Ex - we can define enum with value like this  
+
+public enum Currency {
+	PENNY(1), NICKLE(5), DIME(10), QUARTER(25);
+	private int value;
+	private Currency(int value){
+		this.value = value;
+	}
+};
+> Constructor of enum must be private any other access modifier will result in compilation error. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to use enum in Switch?
+> it can be used as argument on switch statement and with case constant like int or char.
+
+Ex - 
+switch(cur){
+	case(PENNY): ...
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do I compare two enum in Java? Should I use == operator or equals() method? What is difference between comparing enum with == and equals()?
+
+> for Enum using == is better than using equals
+
+> == operator checks if both enum object are from same enum type or not at compile time itself, while 
+- equals() method will also return false but at runtime.
+
+> == for comparing Enum can prevent NullPointerException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How does enum implements abstract method?
+enum Currency {
+    PENNY(1) {
+        public String color() {
+          return "copper";
+        }
+    },NICKLE(5) {
+        public String color() {
+                return "bronze";
+        }
+    },DIME(10) {
+        public String color() {
+                return "silver";
+        }
+    },QUARTER(25) {
+        public String color() {
+                return "silver";
+        }
+    };
+    private int value;
+    public abstract String color();
+    private Currency(int value) {
+            this.value = value;
+    }
+    ........
+}  
+System.out.println("Color: " + Currency.DIME.color());
+--------------------------------------
+## What does ordinal() method do in Enum?
+> Ordinal method RETURNS THE ORDER in which Enum instance are declared inside Enum
+> Currency.PENNY.ordinal() return 0
+--------------------------------------
+## What is difference between ordinal() and compareTo() in Enum?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we use Enum with TreeSet or TreeMap in Java?
+> By default Enum implements Comparable[i] 
+- we can use it in TreeSet or TreeMap
+
+--------------------------------------
+## How to convert an String to Enum in Java?
+
+> Curreny.valueOf(String str) return enum 
+> Enum.valueOf(Currency.class, string) return enum
+
+
+prior to jdk1.5
+public class PARAMETER_STYLE {
+	private final String name;
+
+	private PARAMETER_STYLE(String name){
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String toString() {
+
+		return super.toString();
+	}
+	public static final PARAMETER_STYLE QUERY = new PARAMETER_STYLE("QUERY");
+	public static final PARAMETER_STYLE PATH = new PARAMETER_STYLE("PATH");
+	public static final PARAMETER_STYLE HEADER = new PARAMETER_STYLE("HEADER");
+
+	private static final PARAMETER_STYLE[] VALUES_ARRAY =
+			new PARAMETER_STYLE[] {
+					QUERY,
+					PATH,
+					HEADER,
+	};
+
+	public static final List<PARAMETER_STYLE> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+
+	public static PARAMETER_STYLE get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PARAMETER_STYLE result = VALUES_ARRAY[i];
+			if (result.toString().equals(literal)) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static PARAMETER_STYLE getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PARAMETER_STYLE result = VALUES_ARRAY[i];
+			if (result.getName().equals(name)) {
+				return result;
+			}
+		}
+		return null;
+	}
+} //PARAMETER_STYLE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+ENUM 
+
+public enum PARAMETER_STYLE {
+	QUERY(0, "QUERY", "QUERY"),
+	PATH(0, "PATH", "PATH"),
+	HEADER(0, "HEADER", "HEADER");
+
+	public static final int QUERY_VALUE = 0;
+
+	public static final int PATH_VALUE = 0;
+
+	public static final int HEADER_VALUE = 0;
+
+	private static final PARAMETER_STYLE[] VALUES_ARRAY =
+		new PARAMETER_STYLE[] {
+			QUERY,
+			PATH,
+			HEADER,
+		};
+
+	public static final List<PARAMETER_STYLE> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+
+	public static PARAMETER_STYLE get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PARAMETER_STYLE result = VALUES_ARRAY[i];
+			if (result.toString().equals(literal)) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static PARAMETER_STYLE getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PARAMETER_STYLE result = VALUES_ARRAY[i];
+			if (result.getName().equals(name)) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static PARAMETER_STYLE get(int value) {
+		switch (value) {
+			case QUERY_VALUE: return QUERY;
+		}
+		return null;
+	}
+
+	private final int value;
+	private final String name;
+	private final String literal;
+
+	private PARAMETER_STYLE(int value, String name, String literal) {
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
+	}
+
+	public int getValue() {
+	  return value;
+	}
+
+	public String getName() {
+	  return name;
+	}
+
+	public String getLiteral() {
+	  return literal;
+	}
+
+	@Override
+	public String toString() {
+		return literal;
+	}
+	
+} //PARAMETER_STYLE

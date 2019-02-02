@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="a6" name="Manish">
+
+<!-- 
+ut <- -ut
+-ut <- -cp,-cut
+-cut <- -cp
+-cp <- -dist <- -dhct <- -dhtt 
+
+-dist <- -dat
+-dat <- -sisp
+-sisp 
+
+-->
+<target name="ut" depends="-ut">
+	<echo>upgrade-tibcohost</echo>
+</target>	
+
+<target name="-ut" depends="-cp, -cut">
+	<echo>-upgrade-tibcohost</echo>
+</target>
+
+<target name="-cut" depends="-cp">
+	<echo>-confirm-upgrade-tibcohost</echo>
+</target>
+
+<target name="-cp" depends="-dist,-dhct,-dhtt">
+	<echo>-common-preconditions</echo>
+</target>
+
+<target name="-dhct">
+<echo>-define-hpa-client-tasks</echo>
+</target>
+
+<target name="-dhtt">
+<echo>-define-hpa-tibcohost-tasks</echo>
+</target>
+
+<target name="-dist" depends="-dat">
+	<echo>-define-install-support-tasks</echo>
+</target>
+
+<target name="-dat" depends="-sisp">
+	<echo>-define-antcontrib-tasks</echo>
+</target>
+
+<target name="-sisp" >
+	<echo>-set-install-support-properties</echo>
+</target>
+
+</project>

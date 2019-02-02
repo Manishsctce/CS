@@ -1,0 +1,51 @@
+########## FUNCTIONAL INTERFACE ##########
+> It is added in Java8
+
+
+##Describe some of the functional interfaces in the standard library.?
+
+> There are a lot of functional interfaces in the java.util.function package, some are:
+FUNCTION – it takes one argument and returns a result
+CONSUMER – it takes one argument and returns no result (represents a side effect)
+SUPPLIER – it takes not argument and returns a result
+PREDICATE – it takes one argument and returns a boolean
+BIFUNCTION – it takes two arguments and returns a result
+BINARYOPERATOR – it is similar to a BiFunction, taking two arguments and returning a result. The two arguments and the result are all of the same types
+UNARYOPERATOR – it is similar to a Function, taking two arguments and returning a result. The argument and the result are all of the same types
+========================================
+
+##### Function[i] ######
+##What is java.util.function.Function<T,R>?
+> it is an in-built functional interface introduced in Java 8
+> It is USED FOR MAPPING SCENARIOS i.e when an object of a type is taken as input and it is converted(or mapped) to another type.
+
+> Function Descriptor is T -> R. 
+- This means an object of type T is input to the lambda and an object of type R is obtained as return value
+
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+ 
+	default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
+    }
+    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> after.apply(apply(t));
+    }
+    static <T> Function<T, T> identity() {
+        return t -> t;
+    }
+}
+andThen() 
+- which combines the function on which it is applied(current function) with another function, named after
+
+==========================================
+Arrays 
+
+
+##### METHODS #####
+## static <T> T[] copyOf(T[] orginal, int newLength) -
+copies the specified array and pad with null if newLength is greater than specified array.
+

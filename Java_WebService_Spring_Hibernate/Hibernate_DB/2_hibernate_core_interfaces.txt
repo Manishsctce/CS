@@ -1,0 +1,524 @@
+
+## What are the Core Interface in Hibernate?
+
+> There are FIVE CORE INTERFACES used in every Hibernate application. 
+> Using these interfaces, we can store and retrieve persistent objects and control transactions.
+
+1. Configuration interface
+2. SessionFactory interface
+3. Session interface
+4. Transaction interface
+5. Query and Criteria interfaces
+=====================================
+######### 1. Configuration[i] #######
+
+> Configuration object is the first Hibernate object we create in any Hibernate application 
+> It is CREATED ONLY ONCE DURING APPLICATION INITIALIZATION. 
+
+> It is represents by a configuration(hibernate.cfg.xml) file or "hibernate.properties" file. 
+- If both files are present in the classpath then hibernate.cfg.xml file overrides the settings found in hibernate.properties file.
+
+> Configuration object is created as 
+Configuration cfg = new Configuration().configure("hibernate.cfg.xml"); 
+
+> The Configuration object provides two keys components:
+1. Database Connection: 
+- This is handled through one or more configuration files supported by Hibernate. 
+- These files are hibernate.properties and hibernate.cfg.xml.
+
+2. Class Mapping Setup
+- This component creates the connection between the Java classes and database tables
+
+> Most of the properties take their default values 
+
+##### CONFIGURATION PROPERTIES ######
+> list of important hibernate properties require to configure
+
+1. hibernate.dialect - This property makes Hibernate generate the appropriate SQL for the chosen database.
+2. hibernate.connection.driver_class - The JDBC driver class.
+3. hibernate.connection.url - The JDBC URL to the database instance. 
+"jdbc:hsqldb:mem:testdb" : this is used for in-memory db connection.
+"jdbc:hsqldb:hsql://localhost" : this is used for server db connection
+
+4. hibernate.connection.username - The database username.
+5. hibernate.connection.password - The database password.
+
+6. hibernate.connection.pool_size - Limits the number of connections waiting in the Hibernate database connection pool.
+
+7. hibernate.connection.autocommit- Allows autocommit mode to be used for the JDBC connection.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+## If we are using a DB along with an appl server and JNDI then we would have to configure the following properties:
+
+1. hibernate.connection.datasource
+- The JNDI name defined in the application server context you are using for the application.
+
+2. hibernate.jndi.class - The InitialContext class for JNDI.
+3. hibernate.jndi.<JNDIpropertyname> - Passes any JNDI property you like to the JNDI InitialContext.
+4. hibernate.jndi.url - Provides the URL for JNDI.
+5. hibernate.connection.username - The database username.
+6. hibernate.connection.password - The database password.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is dialect class in Hibernate?
+> To connect to any database with hibernate, we need to specify the SQL dialect class in hibernate.cfg.xml
+- Dialect is used to convert HQL statements to data base specific statements.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How to create the table dynamically in hibernate?
+hibernate.hbm2ddl.auto=update
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the use of "hibernate.hbm2ddl.auto" in configuration file??
+> it automatically validates or exports DDL schema(table structure) to the database when the SessionFactory is created. 
+- can execute the DDL commands (CREATE, ALTER, DROP AND TRUNCATE) from the hibernate framework, while creating the SessionFactory itself.
+
+VALUES: validate | update | create | create-drop
+
+VALIDATE: validate the schema, makes no changes to the database.
+UPDATE: update the schema.
+CREATE: creates the schema, destroying previous data.
+CREATE-DROP: drop the schema when the SessionFactory is closed explicitly, typically when the application is stopped.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+## Is it safe to use "hbm2ddl.auto=update" in production?
+No
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+## How to log hibernate generated sql queries in log files?
+
+> We can set below property for hibernate configuration to log SQL queries.
+ <property name="hibernate.show_sql">true</property>
+
+=======================================
+########## 2. SessionFactory[i] #######
+> org.hibernate.SessionFactory
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is SessionFactory in Hibernate? is SessionFactory thread-safe?
+
+> it is USED TO GET THE SESSION OBJECTS.
+- It is responsible to read the hibernate configuration parameters and connect to the database and provide Session objects
+
+> SessionFactory instances are NOT LIGHTWEIGHT AND TYPICALLY ONE INSTANCE IS CREATED for the whole application. 
+- If the application accesses multiple databases, it needs one per database. 
+
+> internal state of a SessionFactory is IMMUTABLE, so it is a THREAD-SAFE OBJECT, many threads can access it simultaneously.
+
+> It also provide methods to get the Class metadata 
+> It can HOLD AN OPTIONAL (SECOND-LEVEL) CACHE OF DATA that is reusable between transactions at a process, or cluster, level. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create session Object from SessionFactory?
+
+> SessionFactory[i] provides factory method to get the object of Session.
+Configuration cfg = new Configuration().configure("hibernate.cfg.xml"); 
+SessionFactory sessionFactory =cfg.buildSessionFactory();
+
+> SessionFactory provides 3 METHODS through which we can get Session object 
+– getCurrentSession(), 
+- openSession() and 
+- openStatelessSession().
+
+> openStatelessSession() returns instance of StatelessSession
+- StatelessSession  does not implement first-level cache. It is stateless.
+
+> it doesn’t implement transactional write-behind or 
+- automatic dirty checking or 
+- do cascading operations to associated entities.
+
+> It is used where we are loading bulk data into database and we don’t want hibernate session to hold huge data in first-level cache memory.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between openSession() and getCurrentSession()?
+
+> SessionFactory getCurrentSession() RETURNS THE SESSION BOUND TO THE CONTEXT. 
+- Since this SESSION OBJECT BELONGS TO THE HIBERNATE CONTEXT, WE DON’T CLOSE IT. 
+- Once the session factory is closed, this session object gets closed.
+
+> For this, we need to configure it in hibernate configuration file otherwise HibernateException
+<property name="hibernate.current_session_context_class">thread</property>
+
+> SessionFactory openSession(): ALWAYS OPENS A NEW SESSION. 
+- We should close this session object once we are done with all the database operations. 
+- We should OPEN A NEW SESSION FOR EACH REQUEST in multi-threaded environment.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================
+########### 3. Session[i] ###########
+> Session is USED TO GET A PHYSICAL CONNECTION WITH A DATABASE. 
+> The Session object is lightweight and designed to be INSTANTIATED EACH TIME an interaction is needed with the database. 
+> It PROVIDE METHODS TO PERFORM CREATE, READ, UPDATE AND DELETE operations for a persistent object. .
+> session objects should not be kept open for a long time because 
+- they are NOT THREAD SAFE and they should be created and destroyed them as needed.
+
+> It is a factory of Query, Criteria and Transaction i.e. it provides factory methods to return these instances
+
+> A Session instance is serializable if its persistent classes are serializable
+
+####### Session METHODS #######
+
+1. Transaction beginTransaction()
+- Begin a unit of work and return the associated Transaction object.
+
+2. void cancelQuery() - Cancel the execution of the current query.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. void clear() - Completely clear the session.
+- used to remove all cached objects associated with session. 
+
+void evict() - is used to remove a particular object from cache associated with session
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Connection close() - End the session by releasing the JDBC connection and cleaning up.
+
+5. Criteria createCriteria(Class persistentClass)
+- Create a new Criteria instance, for the given entity class, or a superclass of an entity class.
+
+6. Criteria createCriteria(String entityName)
+- Create a new Criteria instance, for the given entity name.
+
+7. Serializable getIdentifier(Object object)
+- Return the identifier value of the given entity as associated with this session.
+
+8. Query createFilter(Object collection, String queryString)
+- Create a new instance of Query for the given collection and filter string.
+
+9	Query createQuery(String queryString)
+Create a new instance of Query for the given HQL query string.
+
+10	SQLQuery createSQLQuery(String queryString)
+Create a new instance of SQLQuery for the given SQL query string.
+
+11	SessionFactory getSessionFactory()
+Get the session factory which created this session.
+
+12	void refresh(Object object)
+Re-read the state of the given instance from the underlying database.
+
+13	Transaction getTransaction()
+Get the Transaction instance associated with this session.
+
+14	boolean isConnected()
+Check if the session is currently connected.
+
+15	boolean isDirty()
+Does this session contain any changes which must be synchronized with the database?
+
+16	boolean isOpen()
+Check if the session is still open.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+17	void delete(Object object)
+- Remove a persistent instance from the datastore.
+
+18	void delete(String entityName, Object object)
+Remove a persistent instance from the datastore.
+-------------------------------
+19	Session get(String entityName, Serializable id)
+- Return the persistent instance of the given named entity with the given identifier, or null if there is no such persistent instance.
+-------------------------------
+20	Serializable save(Object object)
+- Persist the given transient instance, first assigning a generated identifier.
+
+21	void saveOrUpdate(Object object)
+- Either save(Object) or update(Object) the given instance.
+
+22 void persist(Object o)
+- it persist the object 
+-------------------------------
+22	void update(Object object)
+- Update the persistent instance with the identifier of the given detached instance.
+
+23	void update(String entityName, Object object)
+Update the persistent instance with the identifier of the given detached instance.
+=======================================
+######### HIBERNATE OBJECT STATE ######
+
+## What are different states of an entity bean?
+
+> An Instances may exist in one of the following three states at a given point in time:
+1. TRANSIENT: 
+- A new instance of a persistent class which is not associated with a Session 
+- New instance has no representation in the database and no identifier value. It is considered transient by Hibernate.
+- Transient instances may be made persistent by calling save(), persist() or saveOrUpdate()
+
+2. PERSISTENT
+- When an object is associated with a unique session, it’s in persistent state. 
+- Instance can be returned by a session.get()/ session.load() / Query.uniqueResult() / Query.iterate() / Query.scroll() are in persistent state.
+
+3. DETACHED: 
+> if we close the Hibernate Session, the persistent instance will become a detached instance: 
+- it isn't attached to a Session anymore (but can still be modified and reattached to a new Session later though)
+
+> Detached instances may be made persistent by calling update(), saveOrUpdate(), lock() or replicate(). 
+- The state of a transient or detached instance may also be made persistent as a new persistent instance by calling merge().
+
+
+new Object Create --> TRANSIENT STATE
+TRANSIENT STATE --session.save() or session.saveOrUpdate()-->PERSISTENT STATE 
+PERSISTENT STATE --session.evict()/clear()/close()--> DETACH STATE
+DETACH STATE --session.saveOrUpdate/merge/update--> PERSISTENT STATE
+PERSISTENT STATE --session.delete()--> Object Removed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Difference between Transient and Detached States?
+> Transient objects do not have association with the databases and session objects. 
+- They are simple objects and not persisted to the database.
+
+> The detached object have corresponding entries in the database. 
+- These are persistent and not connected to the Session object.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is difference between session.save() and session.saveOrUpdate() ?
+
+> save() generates a new identifier and INSERT record into database while 
+- saveOrUpdate() can either INSERT or UPDATE based upon existence of record. 
+- it is more flexible in terms of use but it INVOLVES AN EXTRA PROCESSING to find out record exist or not.
+
+EXAMPLE:
+Person person = new Person();
+person.setName("John");
+Long id1 = (Long) session.save(person);
+ 
+session.evict(person);
+Long id2 = (Long) session.save(person);//create a new entry
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is the difference between session.save() and session.persist()?
+> Hibernate persist() is similar to save (with transaction)
+
+> session.save(Object o):Serializable - returns the identifier of the instance.
+- session.persist(Object o):void - return nothing 
+- persist() doesn't guarantee that the identifier value will be assigned to the persistent instance immediately, the assignment might happen at flush time
+
+> persist() : guarantees that it will not execute INSERT stmt, if it is called outside of transaction boundaries.
+- we can use persist() method only within the boundary of a transaction
+- save() : does not guarantee the same, it can be called inside or outside of a transaction 
+- save() returns an identifier, and if an INSERT has to be executed to get the identifier (e.g. "identity" generator, not "sequence"), this INSERT happens immediately, no matter if you are inside or outside of a transaction
+
+> session.persist() for a detached object will throw PersistentObjectException as it is not allowed.
+- Session.save() for a detached object will create a new row in the table
+
+> session.persist() useful in long-running conversations with an extended Session context. 
+- session.save() is not good in a long-running conversation with an extended Session context.
+
+> sesssion.save() : If there are other objects mapped from the primary object (like Employee having Addr)
+- here Addr will not save with save(employee)
+- they gets saved at the time of committing transaction or when we flush the session.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between session.get() and session.load()?
+
+> get() : involves database hit if object doesn't exists in Session Cache and 
+- it RETURNS A FULLY INITIALIZED OBJECT which may involve several database call 
+
+> load() : can RETURN PROXY IN PLACE AND ONLY INITIALIZE THE OBJECT or hit the database if any method other than getId() is called on persistent or entity object. 
+- This lazy initialization can save couple of database round-trip which result in BETTER PERFORMANCE. 
+- return a proxy which can be initialized on demand (lazy initialization) when a non identifier method is accessed. 
+- PROXY OBJECT WILL THROW ObjectNotFoundException LATER if corresponding row doesn’t exists in database
+
+> get() - Returns null if object is not found  in cache as well as in db.
+- load - Throws ObjectNotFoundException if object is not found  in cache as well as in db.
+
+> get should be used if you are not sure about the existence of instance.
+- load should be used if you are sure that instance exists.
+
+> get()  always hit the database.
+- load() may not hit the database.
+
+> get() : It returns real object not proxy.
+- load() : It returns proxy object.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between session.update() and session.merge()?
+
+> BOTH ARE USED TO CONVERT DETACHED STATE OBJ INTO PERSISTENCE STATE.
+
+> update() is used : if you are sure that the session does not contain an already persistent instance with the same identifier,
+-  merge() is used : if you want to merge your modifications at any time without consideration of the state of the session.
+
+> if session already has persistent object with the same primary key then 
+- if we call update() : hibernate throws an Exception as it is called to reattach a detached object with a session. 
+- if we call merge() : it will not throw exception
+
+> update() USED IF SESSION DOESN'T CONTAIN AN ALREADY PERSISTENT STATE with same id. 
+- It means update should be used inside the session only. 
+- After closing the session it will throw error.
+
+> merge() should be used if you don't know the state of the session, means you want to make modification at any time.
+
+
+EXAMPLE:
+Employee emp1 = new Employee();
+emp1.setEmpId(100);
+emp1.setEmpName("Dinesh");
+
+//create session
+Session session1 = createNewHibernateSession();
+session1.saveOrUpdate(emp1);
+session1.close();
+//emp1 object in detached state now
+
+emp1.setEmpName("Dinesh Rajput");//Updated Name
+
+//Create session again
+Session session2 = createNewHibernateSession();
+Employee emp2 =(Employee)session2.get(Employee.class, 100);
+
+//emp2 object in persistent state with id 100
+//below we try to make on detached object with id 100 to persistent state by using update method of hibernate
+session2.update(emp1);//It occurs the exception NonUniqueObjectException because emp2 object is having employee with same empid as 100. 
+
+//to avoid this exception we are using merge like given below instead of session.update(emp1);
+session2.merge(emp1); //it merge the object state with emp2
+session2.update(emp1); //Now it will work with exception
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between clear() and evict()?
+
+> session.evict(Object obj) : 
+- it is used to remove a particular object from cache associated with session, and 
+- it make a persistent object as a detached object.
+
+> session.clear():  
+- it is used to remove all cached objects associated with session.
+- it will internally call evict() for all the objects from the session.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+> session.flush ():- It tells Hibernate to execute the SQL statements needed to synchronize the JDBC connection's state with the state of objects held in the session-level cache. 
+- it will save the object instances to the database.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between Hibernate createCriteria, createQuery, createSQLQuery.
+> createSQLQuery - used to create native sql query.
+> createCriteria - used to create criteria 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What’s the use of session.lock() in hibernate?
+> It can be used to ASSOCIATE A DETACHED OBJECT TO A SESSION and put the object back into a persistence context.  
+- it does this without forcing an update of the database 
+- This method of reattaching doesn’t check for any data synchronization in database while reattaching the object and 
+- hence may lead to lack of synchronization in data.
+
+> Hibernate does not actually ‘lock’ objects in memory.  
+> Locks are requested to the database by Hibernate operations like the following:
+
+- session.get(classType, objectId, lockOptions)
+- session.load(classType, objectId, lockOptions)
+- session.refresh(objectReference, lockOptions)
+- session.buildLockRequest(lockOptions).lock(objectRef)
+  this replaces the now deprecated session.lock(objectRef, lockMode) operations
+  
+> With LockOptions.NONE, it doesn’t get a database lock and it doesn’t even do a version check against the database
+
+EXAMPLE:
+SessionFactory sf = new Configuration().configure()
+        .buildSessionFactory();
+Session sess = sf.openSession();
+Transaction trx = sess.beginTransaction();
+Vehicle v = (Vehicle) sess.get(Vehicle.class, 1L);
+trx.commit();
+sess.close();
+System.out.println("vehicle now detached: " + v);
+
+//update the vehichle outside of session when detached.
+v.setVin(123);
+
+//reattach and update
+sess = sf.openSession();
+trx = sess.beginTransaction();
+sess.update(v);
+System.out.println("completed the update call");
+trx.commit();
+sess.close();
+System.out.println("vehicle synchronized again: " + v);
+
+v.setVin(678);
+
+//reattach using lock
+sess = sf.openSession();
+trx = sess.beginTransaction();
+sess.buildLockRequest(LockOptions.NONE).lock(v);//NO UPDATE SQL CALL 
+System.out.println("completed the update call");
+trx.commit();
+sess.close();
+System.out.println("vehicle synchronized again: " + v);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is hibernate proxy and when proxy is generated ?
+
+> In hibernate,  proxies are placeholder that are generated at runtime to help lazy loading.
+- Hibernate creates a proxy instead of querying the database directly and the proxy will load the 'real' object whenever one of its method is invoked. 
+- Whenever hibernate returns an instance of any entity class, it checks whether it returns a proxy object to avoid the database hit.
+
+> Mapping of classes can be made into a proxy instead of a table.
+=========================================
+########### Transaction[i] ############
+> A transaction represents a unit of work. 
+- Application uses transactions to do some operations on DB. 
+- Within one transaction we can do several operations and can commit transaction once after successfully completed all operations. 
+- The advantage here is we can rollback all previous operations if one operation is fail in the operation batch. 
+
+- The Transaction does not get committed when session gets flushed. 
+- The Transaction interface is an optional API. 
+- Hibernate applications may choose not to use this interface, instead managing transactions in their own infrastructure code. 
+
+> A Transaction abstracts application code from the underlying transaction implementation-which might be a JDBC transaction, a JTA UserTransaction, or even a Common Object Request Broker Architecture (CORBA) transaction-allowing the application to control transaction boundaries via a consistent API. 
+- This helps to keep Hibernate applications portable between different kinds of execution environments and containers.
+
+> A transaction is associated with Session and instantiated as below 
+Transaction transaction = session.beginTransaction();
+
+## METHODS ##
+1. void begin() 
+- starts a new transaction.
+
+2. void commit() 
+- ends the unit of work unless we are in FlushMode.NEVER.
+
+3. void rollback() 
+- forces this transaction to rollback.
+
+4. void setTimeout(int seconds) 
+- it sets a transaction timeout for any transaction started by a subsequent call to begin on this instance.
+
+5. boolean isAlive() 
+- checks if the transaction is still alive.
+
+6. void registerSynchronization(Synchronization s) 
+- registers a user synchronization callback for this transaction.
+
+boolean wasCommited() checks if the transaction is commited successfully.
+boolean wasRolledBack() checks if the transaction is rolledback successfully.
+=========================================
+######## 5. Query and Criteria[i] #######
+The Query interface allows you to perform queries against the database and control how the query is executed. Queries are written in HQL or in the native SQL dialect of your database. A Query instance is used to bind query parameters, limit the number of results returned by the query, and finally to execute the query. 
+The Criteria interface is very similar; it allows you to create and execute object-oriented criteria queries. 
+To help make application code less verbose, Hibernate provides some shortcut methods on the Session interface that let you invoke a query in one line of code. We won't use these shortcuts; instead, we'll always use the Query interface. 
+A Query instance is lightweight and can't be used outside the Session that created it.
+
+=========================================
+############### Query[i] ##############
+> It is an object oriented representation of Hibernate Query. 
+> The object of Query can be obtained by calling the createQuery() method Session interface.
+
+EXAMPLE:
+Query q=session.createQuery("select sum(salary) from Emp");  
+List<Integer> list=q.list();  
+System.out.println(list.get(0));
+
+#### METHODS ####
+01. public int executeUpdate() 
+> it is used to execute the update or delete query.
+
+02. public List list() 
+> it returns the result of the relation as a list.
+
+03. public Query setFirstResult(int rowno) 
+> it specifies the row number from where record will be retrieved.
+
+04. public Query setMaxResult(int rowno) 
+> specifies the no. of records to be retrieved from the relation (table).
+
+05. public Query setParameter(int position, Object value) 
+> it sets the value to the JDBC style query parameter.
+
+06. public Query setParameter(String name, Object value) 
+> it sets the value to a named query parameter.
+
+> call avg(), min(), max() etc. aggregate functions by HQL
+
+
+=====================================
+########## HibernateTemplate ########
+> it is a helper class that is used to simplify the data access code. 
+- This class supports automatically converts HibernateExceptions which is a checked exception into DataAccessExceptions which is an unchecked exception. 
+> it is typically used to implement data access or business logic services. 
+
+> central method is execute(), that supports the Hibernate code that implements HibernateCallback interface
+

@@ -1,0 +1,98 @@
+########  COMPOSITE DESIGN PATTERN #########
+GoF Definition:
+> Compose objects into tree structure to represent part-whole hierarchies.
+> Composite lets client treat individual objects and compositions of objects uniformly
+----------------------------------------
+#### Design Pattern Important Points ##
+
+> Composite design pattern treats each node in two ways-Composite or leaf.
+1. COMPOSITE means it can have other objects below it.
+2. LEAF means it has no objects below it.
+
+#### Elements #####
+BASE COMPONENT [interface] 
+> It is the interface for all objects in the composition, 
+- client program uses base component to work with the objects in the composition. 
+- It can be an interface or an abstract class with some methods common to all the objects.
+
+LEAF
+> represents leaf objects in the composition. A leaf has no children.
+> defines behaviour for primitive objects in the composition.
+
+COMPOSITE
+> It consists of leaf elements and implements the operations in base component
+
+CLIENT
+> manipulates objects in the composition through the component interface.
+
+#### WORKFLOW #####
+> Client use the component interface to interact with objects in the composition structure.
+- if recipient is a leaf then request is handled directly.
+- If recipient is a composite,then it usually forwards request to its child components,possibly performing additional operations before and after forwarding.
+=======================================
+########## JAVA EXAMPLES ##############
+
+java.util.Map#putAll(Map)
+java.util.List#addAll(Collection)
+java.util.Set#addAll(Collection)
+java.nio.ByteBuffer#put(ByteBuffer) (also on CharBuffer, ShortBuffer, IntBuffer, LongBuffer, FloatBuffer and DoubleBuffer)
+java.awt.Container#add(Component)
+----------------------------------------
+###### USAGE #######
+> you want client to be able to ignore difference between compositions of objects and individual objects.Clients will treat all objects in the composite structure uniformly.
+=======================================
+#### EXAMPLES:1 ####
+
+Shape[i] <-- Triangle[c], Circle[c]
+Shape[i] <-- Drawing[c]:List<Shape>, basic operations on shape.
+
+## BASE COMPONENT
+public interface Shape {	
+  public void draw(String fillColor);
+}
+
+## LEAF
+public class Triangle implements Shape {
+  @Override
+  public void draw(String fillColor) {
+  	System.out.println("Drawing Triangle with color "+fillColor);
+  }
+}
+
+## LEAF
+public class Circle implements Shape {
+  @Override
+  public void draw(String fillColor) {
+  	System.out.println("Drawing Circle with color "+fillColor);
+  }
+}
+
+## COMPOSITE OBJECT
+public class Drawing implements Shape{
+  //collection of Shapes
+  private List<Shape> shapes = new ArrayList<Shape>();
+  
+  @Override
+  public void draw(String fillColor) {
+    for(Shape sh : shapes){
+      sh.draw(fillColor);
+    }
+  }
+  
+  //adding shape to drawing
+  public void add(Shape s){
+    this.shapes.add(s);
+  }
+  
+  //removing shape from drawing
+  public void remove(Shape s){
+    shapes.remove(s);
+  }
+  
+  //removing all the shapes
+  public void clear(){
+    System.out.println("Clearing all the shapes from drawing");
+    this.shapes.clear();
+  }
+}
+

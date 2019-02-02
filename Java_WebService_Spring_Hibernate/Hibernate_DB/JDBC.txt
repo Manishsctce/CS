@@ -1,0 +1,322 @@
+## What is JDBC(Java Database Connectivity)?
+> It provides a set of Java API for accessing the wide range of relational databases from Java program. 
+- These Java APIs enables Java programs to EXECUTE SQL statements and INTERACT with any SQL compliant database.
+
+> JDBC provides a flexible architecture to write a database independent application 
+- that can run on different platforms and interact with different DBMS without any modification.
+
+> Before JDBC, ODBC API was the database API to connect and execute query with the database. 
+- But, ODBC API uses ODBC driver which is written in C language
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### JDBC Architecture ########
+
+Java Application -> JDBC API -> JDBC Driver Manager -> JDBC Driver -> Database
+
+> JDBC API uses a driver manager and database-specific drivers to provide transparent connectivity to heterogeneous databases.
+- JDBC API uses jdbc drivers to connect with the database.
+
+DriverManager: This class manages various database drivers. Matches connection requests from the java app with the proper database driver
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EXAMPLE:
+
+static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   static final String DB_URL = "jdbc:mysql://localhost/EMP";
+Class.forName("com.mysql.jdbc.Driver");
+
+//STEP 3: Open a connection
+System.out.println("Connecting to database...");
+conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+//STEP 4: Execute a query
+stmt = conn.createStatement();
+
+String sql = "SELECT id, first, last, age FROM Employees";
+ResultSet rs = stmt.executeQuery(sql);
+
+//STEP 5: Extract data from result set
+while(rs.next()){
+   //Retrieve by column name
+   int id  = rs.getInt("id");
+   int age = rs.getInt("age");
+   String first = rs.getString("first");
+   String last = rs.getString("last");
+
+}
+//STEP 6: Clean-up environment
+rs.close();
+stmt.close();
+conn.close();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is JDBC Driver?
+
+> JDBC drivers implement the defined interfaces in the JDBC API, for interacting with your database server.
+JDBC Drivers Types
+
+Type-1: JDBC-ODBC bridge driver
+
+Type-2: Native-API driver (partially java driver)
+Type-3: Network Protocol driver (fully java driver)
+Type-4: Thin driver (fully java driver)
+
+=======================================
+######### DriverManager[c] ##########
+> It acts as an interface between user and drivers.
+
+> public static Connection getConnection(String url):	
+- is used to establish the connection with the specified url.
+
+> public static Connection getConnection(String url,String userName,String password):	
+- is used to establish the connection with the specified url, username and password.
+
+=======================================
+########### Connection[i] ############
+> A Connection is the session between java application and database. 
+> It is a factory of Statement, PreparedStatement, and DatabaseMetaData i.e. object of Connection can be used to get the object of Statement and DatabaseMetaData. 
+> It provide many methods for transaction management like commit(), rollback() etc.
+
+=======================================
+########### Statement[i] ############
+> It provide methods to execute queries with the database
+
+##METHODS##
+> public ResultSet executeQuery(String sql): 
+- is used to execute SELECT query. It returns the object of ResultSet.
+
+> public int executeUpdate(String sql): 
+- is used to execute specified query, it may be create, drop, insert, update, delete etc.
+
+> public boolean execute(String sql): 
+- is used to execute queries that may return multiple results.
+
+> public int[] executeBatch()
+- is used to execute batch of commands.
+
+=======================================
+########### ResultSet[i] ############
+
+> object of ResultSet maintains a cursor pointing to a row of a table. 
+- Initially, cursor points to the first row.
+- By default, ResultSet object can be moved forward only and it is not updatable.
+
+- But we can make this object to move forward and backward direction by passing either TYPE_SCROLL_INSENSITIVE or TYPE_SCROLL_SENSITIVE in createStatement(int,int) method as well as we can make this object as updatable by:
+
+Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+ResultSet.CONCUR_UPDATABLE);  
+
+## METHOD ##
+1. public boolean next()
+2. public boolean previous()
+3. public boolean first()
+4. public boolean last()
+5. public boolean absolute(int row):	
+- is used to move the cursor to the specified row number in the ResultSet object.
+
+6. public boolean relative(int row):	
+- is used to move the cursor to the relative row number in the ResultSet object, it may be positive or negative.
+
+7. public int getInt(int columnIndex):	
+- is used to return the data of specified column index of the current row as int.
+
+8. public int getInt(String columnName):	is used to return the data of specified column name of the current row as int.
+9. public String getString(int columnIndex):	is used to return the data of specified column index of the current row as String.
+10) public String getString(String columnName):	is used to return the data of specified column name of the current row as String.
+
+=======================================
+###### PreparedStatement ##########
+> It is used to execute parameterized query.
+> It improve performance bcz work on filter set of data.
+
+## METHOD ##
+> public void setInt(int paramIndex, int value)	
+- sets the integer value to the given parameter index.
+
+> public void setString(int paramIndex, String value)	
+- sets the String value to the given parameter index.
+
+> public void setFloat(int paramIndex, float value)	
+- sets the float value to the given parameter index.
+public void setDouble(int paramIndex, double value)	sets the double value to the given parameter index.
+
+> public int executeUpdate()	
+- executes the query. It is used for create, drop, insert, update, delete etc.
+
+> public ResultSet executeQuery()	
+- executes the select query. It returns an instance of ResultSet.
+
+=======================================
+########## ResultSetMetaData[i] #######
+> it provides methods to get metadata from the ResultSet object.
+
+## METHOD ##
+> public int getColumnCount()throws SQLException	
+- it returns the total number of columns in the ResultSet object.
+
+> public String getColumnName(int index)throws SQLException	
+- it returns the column name of the specified column index.
+
+> public String getColumnTypeName(int index)throws SQLException	
+- it returns the column type name for the specified index.
+
+> public String getTableName(int index)throws SQLException	
+- it returns the table name for the specified column index.
+
+EXAMPLE:
+PreparedStatement ps=con.prepareStatement("select * from emp");  
+ResultSet rs=ps.executeQuery();  
+ResultSetMetaData rsmd=rs.getMetaData();  
+  
+System.out.println("Total columns: "+rsmd.getColumnCount());  
+
+=======================================
+########## CallableStatement[i] #######
+> It is used to call the stored procedures and functions.
+
+=======================================
+######## CONNECTION POOLING ###########
+> It is a process where we maintain a cache of database connections 
+- it has become the standard for middleware database drivers. 
+
+- The process of creating a connection, always an expensive, time-consuming operation, is multiplied in these environments where a large number of users are accessing the database in short, unconnected operations. 
+- Creating connections over and over in these environments is simply too expensive.
+
+
+> A connection pool operates by performing the work of creating connections ahead of time. 
+- In the case of a JDBC connection pool, a POOL OF CONNECTION OBJECTS ARE CREATED AT THE TIME THE APPLICATION SERVER STARTS. 
+- These objects are then managed by a pool manager that disperses connections as they are requested by clients and returns them to the pool when it determines the client is finished with the Connection object. 
+- A great deal of housekeeping is involved in managing these connections.
+
+EXAMPLE:
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.sql.DataSource;
+import org.apache.commons.dbcp.ConnectionFactory;
+import org.apache.commons.dbcp.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp.PoolableConnectionFactory;
+import org.apache.commons.dbcp.PoolingDataSource;
+import org.apache.commons.pool.impl.GenericObjectPool;
+
+public class ConnectionPool {
+  // JDBC Driver Name & Database URL
+  static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+  static final String JDBC_DB_URL = "jdbc:mysql://localhost:3306/tutorialDb";
+
+  // JDBC Database Credentials
+  static final String JDBC_USER = "root";
+  static final String JDBC_PASS = "admin@123";
+  
+  private static GenericObjectPool gPool = null;
+
+  @SuppressWarnings("unused")
+  public DataSource setUpPool() throws Exception {
+      Class.forName(JDBC_DRIVER);
+	  
+      // Creates an Instance of GenericObjectPool That Holds Our Pool of Connections Object!
+      gPool = new GenericObjectPool();
+      gPool.setMaxActive(5);
+
+      // Creates a ConnectionFactory Object Which Will Be Use by the Pool to Create the Connection Object!
+      ConnectionFactory cf = new DriverManagerConnectionFactory(JDBC_DB_URL, JDBC_USER, JDBC_PASS);
+
+      // Creates a PoolableConnectionFactory That Will Wraps the Connection Object Created by the ConnectionFactory to Add Object Pooling Functionality!
+      PoolableConnectionFactory pcf = new PoolableConnectionFactory(cf, gPool, null, null, false, true);
+
+      return new PoolingDataSource(gPool);
+  }
+
+
+
+  public GenericObjectPool getConnectionPool() {
+      return gPool;
+  }
+
+  // This Method Is Used To Print The Connection Pool Status
+  private void printDbStatus() {
+      System.out.println("Max.: " + getConnectionPool().getMaxActive() + "; Active: " + getConnectionPool().getNumActive() + "; Idle: " + getConnectionPool().getNumIdle());
+  }
+
+  public static void main(String[] args) {
+      ResultSet rsObj = null;
+      Connection connObj = null;
+      PreparedStatement pstmtObj = null;
+      ConnectionPool jdbcObj = new ConnectionPool();
+
+      try {   
+          DataSource dataSource = jdbcObj.setUpPool();
+          jdbcObj.printDbStatus();
+
+          // Performing Database Operation!
+          System.out.println("\n=====Making A New Connection Object For Db Transaction=====\n");
+          connObj = dataSource.getConnection();
+          jdbcObj.printDbStatus(); 
+
+          pstmtObj = connObj.prepareStatement("SELECT * FROM technical_editors");
+          rsObj = pstmtObj.executeQuery();
+          while (rsObj.next()) {
+              System.out.println("Username: " + rsObj.getString("tech_username"));
+          }
+
+          System.out.println("\n=====Releasing Connection Object To Pool=====\n");            
+      } catch(Exception sqlException) {
+          sqlException.printStackTrace();
+      } finally {
+          try {
+              // Closing ResultSet Object
+              if(rsObj != null) {
+                  rsObj.close();
+              }
+
+              // Closing PreparedStatement Object
+              if(pstmtObj != null) {
+                  pstmtObj.close();
+              }
+
+              // Closing Connection Object
+              if(connObj != null) {
+                  connObj.close();
+              }
+          } catch(Exception sqlException) {
+              sqlException.printStackTrace();
+          }
+
+      }
+      jdbcObj.printDbStatus();
+  }
+}
+https://www.youtube.com/watch?v=s5WvPcoi2lI&list=PLkcic9ioQcFcaW38hgAjoIBjdP411nurV&index=4
+
+=======================================
+## Java Naming and Directory Interface(JNDI) ##
+
+## What is the difference between JDBC and JNDI?
+
+JDBC : It provides a set of Java API for accessing the wide range of relational databases from Java program. 
+JNDI : It provides a logical structure for retrieving resources e.g. database, messaging queues, EJB without knowing their physical place e.g. host or port. 
+- we can register a resource with JNDI and then rest of your application component can access them using JNDI name.
+
+=======================================
+Apache Tomcat provide three ways to configure DataSource in JNDI context.
+
+#### Application context.xml 
+– context.xml file is in META-INF directory. 
+- define Resource element in the context file and container will take care of loading and configuring it. 
+
+## DRAWBACKS
+- Since the context file is bundled with the WAR file, we need to build and deploy new WAR for every small configuration change. 
+- Same issue comes if your application works in distributed environment or your application needs to be deployed in different testing environments such as QA, IT, PROD etc.
+- The datasource is created by container for the application usage only, so it can’t be used globally. 
+- We can’t share the datasource across multiple applications.
+- If there is a global datasource (server.xml) defined with same name, the application datasource is ignored.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Server context.xml 
+– If there are multiple applications in the server and we want to share DataSource across them, we can define that in the server context.xml file. 
+- This file is located in apache-tomcat/conf directory. 
+- The SCOPE OF server context.xml FILE IS APPLICATION 
+- If we define a DataSource connection pool of 100 connections and there are 20 applications then the datasource will be created for each of the application. This will result in 2000 connections that will obviously consume all the database server resources and hurt application performance.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## server.xml and context.xml 
+– We can define DataSource at global level by defining them in the server.xml GlobalNamingResources element. 
+- If we use this approach, then we need to define a ResourceLink from context.xml file of server or application specific. 
+- This is the preferred way when you are looking to share a common resource pool across multiple applications running on the server. 
+- Regarding resource link, whether to define it at server level context xml file or application level depends on your requirement.

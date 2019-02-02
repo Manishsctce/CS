@@ -1,0 +1,54 @@
+##In Pure JSP project
+------------------
+WebContent -> /WEB-INF -> web.xml 
+              -> contain all the pages i.e home page or other detail page	
+
+1. Project run on Tomcat Server(i.e Web-app server)
+2. it complete life cycle detail is mapped in web.xml 
+
+		
+-----------
+##In hibernate
+1. Persistence class - pojo class having setter and getter
+2. Hibernate mapping - contain detail for creating table and relation between persistence class. It can be more than one depend on no. of persistence class and their relationship. It doesn't require if we use annotation. mapping xml is widely used bcz of loose coupling.
+
+3. Hibernate configuration - contain config detail of the database
+4. Class to store and fetch data
+
+--------------
+##In Spring 
+1. Spring bean(Persistence class) - pojo class having setter and getter other than this it can have the implementation method of spring interface and other utility methods.
+
+2. Spring Configuration file - can be of any name and contain spring bean life cycle and their dependency relation
+
+3. Client Application class contain main method to initiate container and load meta data(i.e. config file)		
+
+------------------------------
+##In Spring and Hibernate Web project
+
+1. Persistence Class - Like Employee with setter and getter
+
+2. DAO(Data Access Object) interface - for db interaction like EmployeeDAO contain implementation methods template
+
+3. DAOImpl class
+4. Controller class - it return ModelAndView class object. It can be one or many.
+5. web.xml - contain the DispactcherServlet which is sole handler of any request and web.xml contain web page mapping.(more detail in springMVC.ppt)
+
+6. ApplicationConfig.xml(name as servletname-servlet.xml) - It contain the viewResolver, jdbc properties, sessionFactory, HibernateTemplate(to run query), bean file initiation and life cycle
+
+7. Web pages
+
+Note: don't need to create the hibernate.cfg.xml file. We can provide all the information in the applicationContext.xml file.
+src -> all java resources
+webapp	-> /WEB-INF	-> web.xml
+					-> all jsp pages
+					-> ApplicationConfig.xml (can be of any name in our case employee-servlet.xml.)
+					
+					
+The org.springframework.web.servlet.view.InternalResourceViewResolver is defined as a bean, and is used as internal resource views resolver, meaning that it will find the jsp and html files in the /WEB-INF/ folder. We can set properties such as prefix or suffix to the view name to generate the final view page URL, as shown below:					
+		
+		
+Technically, at least the both JSF JARs, the JSTL JAR and the PrimeFaces JAR should be in /WEB-INF/lib. 		
+		
+		
+		

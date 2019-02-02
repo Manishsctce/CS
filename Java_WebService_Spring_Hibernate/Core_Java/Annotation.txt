@@ -1,0 +1,155 @@
+######### Annotations ##########
+> Java Annotation is a tag that REPRESENTS THE METADATA to indicate some additional information which can be used by java compiler and JVM.
+-  It is POSSIBLE, however, to define our own annotations that are AVAILABLE AT RUNTIME. 
+- These annotations can then be accessed via Java Reflection, and used to give instructions to program
+
+- it provide information about the code and they have NO DIRECT EFFECT on the code
+- it is an alternative option for XML and java marker interfaces.
+- before it program metadata was available through java comments or by javadoc
+
+- it was introduce in jdk1.5
+> Annotations can be use for 
+- packages
+- Types (classes, interfaces, enums, annotation types)
+- variables (class, instance and local var)
+
+#### Built-in Java Annotations ###
+> Java comes with three built-in annotations which are used to give the Java compiler instructions. These annotations are:
+
+1. @Deprecated
+2. @Override
+3. @SuppressWarnings
+
+# Explained in last
+==================================
+> Annotation methods can’t have parameters.
+> Annotation methods return types are limited to primitives, String, Enums, Annotation or array of these.
+> Annotation methods can have default values.
+> Annotations can have meta annotations attached to them. 
+- Meta annotations are used to provide information about the annotation.
+
+-------------------------------------
+#### EXAMPLE OF CUSTOM ANNOTATION ####
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Documented
+@Target(ElementType.METHOD)
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MethodInfo{
+	String author() default "Pankaj";
+	String date();
+	int revision() default 1;
+	String comments();
+}
+
+@MethodInfo(author = "Pankaj", comments = "Main method", date = "Nov 17 2012", revision = 1)
+public String toString() {}
+
+--------------------------------------
+###### CUSTOM ANNOTATION #########
+> In custom annotation, we can use these four meta annotations: @Documented, @Target, @Inherited & @Retention. 
+
+1. @Documented 
+- it used to signal to the JavaDoc tool that our custom annotation should be visible in the JavaDoc for classes using our custom annotation. 
+
+Ex - import java.lang.annotation.Documented;
+
+@Documented
+public @interface MyAnnotation {
+}
+
+@MyAnnotation
+public class MySuperClass { ... }
+- When generating JavaDoc for the MySuperClass class, the @MyAnnotation is now included in the JavaDoc
+-------------------------------
+2. @Target 
+- it SPECIFY WHERE OUR CUSTOM ANNOTATION CAN BE USED ie. on which Java elements it can annotate
+- Some possible values are TYPE, METHOD, CONSTRUCTOR, FIELD, PARAMETER, PACKAGE, LOCAL_VARIABLE, ANNOTATION_TYPE. 
+- If Target meta-annotation is not present, then annotation can be used on any program element.
+
+> ANNOTATION_TYPE target : it means Java annotation definitions. 
+- Thus, the annotation can only be used to annotate other annotations. Like the @Target and @Retention annotations.
+
+> TYPE target : it means any type. 
+- A type is either a class, interface, enum or annotation
+
+
+-------------------------------
+3. @Inherited – indicates that an annotation type is automatically inherited by subclasses. 
+- If user queries the annotation type on a class declaration, and the class declaration has no annotation for this type, then the class’s superclass will automatically be queried for the annotation type. This process will be repeated until an annotation for this type is found, or the top of the class hierarchy (Object) is reached.
+
+EXAMPLE - 
+java.lang.annotation.Inherited
+
+@Inherited
+public @interface MyAnnotation {
+}
+
+@MyAnnotation
+public class MySuperClass { ... }
+
+public class MySubClass extends MySuperClass { ... }
+- MySubClass inherits the annotation @MyAnnotation because MySubClass inherits from MySuperClass, and MySuperClass has a @MyAnnotation annotation.
+
+-------------------------------
+4. @Retention – indicates how long annotations with the annotated type are to be retained. 
+- It takes RetentionPolicy argument whose Possible values are SOURCE, CLASS and RUNTIME
+
+- RetentionPolicy.RUNTIME : This signals to the Java compiler and JVM that the annotation will be available via reflection at runtime
+- RetentionPolicy.CLASS : it mean the annotation is stored in the .class file, but not available at runtime. This is the default retention policy
+- RetentionPolicy.SOURCE means that the annotation is only available in the source code, and not in the .class files and not a runtime.
+
+--------------------------------------
+#### USAGE OF ANNOTATION ####
+> It can be used just as a 'marker'
+Example - @NonNull String email;
+
+> It may contain name-value pairs 
+Example - @Author(name = "Manish", created="14/05/2016", revision=2, reviewers ={"Abhishek","Samir"})
+
+> Create an Annotation Types
+
+A special type of interfaces
+public @interface Author {
+	String name();
+	String created();
+	int revision() default 1;
+	String[] reviewers() default {};
+}
+
+
+Class.getAnnotations()
+Class.getAnnotationsByType(Class<A>)
+Class.getDeclaredAnnotations()
+Class.getDeclaredAnnotationsByType(Class<A>)
+
+> Annotation Processing API distributed in javax.lang.model packages
+
+=========================================================
+####### Deprecate ####
+>  A deprecated class or method is like that. It is no longer important. 
+- It is so unimportant, in fact, that you should no longer use it, since it has been superseded and may cease to exist in the future.
+
+> The ability to deprecate a class, method, or member field solves the problem. 
+> Java supports two mechanisms for deprecation: 
+	1. an annotation, (supported starting with J2SE 5.0) and 
+	2. a Javadoc tag (supported since 1.1). 
+- Existing calls to the old API continue to work, but 
+- the annotation causes the compiler to issue a warning when it finds references to deprecated program elements. 
+- The Javadoc tag and associated comments warn users against using the deprecated item and tell them what to use instead.
+
+#### Using the @deprecated Javadoc Tag
+You can use the @deprecated tag to make Javadoc show a program element as deprecated. 
+- The @deprecated tag must be followed by a space or newline. 
+- In the paragraph following the @deprecated tag, explain why the item has been deprecated and suggest what to use instead.
+
+
+> Java provide a tool for annotation processing i.e APT
+- it is CLI utility. It will generate class file for annotation processing.

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="main" name="Manish">
+<dirname property="current_dir" file="${ant.file.Manish}"/>
+
+<target name="main" depends="a,b,c,d">
+	<echo>upgrade-tibcohost</echo>
+</target>	
+
+<target name="a" >
+	<echo>A</echo>
+</target>
+
+<target name="b" >
+	<echo>B</echo>
+	<echo>Importing target xml</echo>
+	<import file="target.xml"/>
+</target>
+
+<target name="c" depends="reinstall">
+	<echo>C</echo>	
+</target>
+
+<target name="d" depends="sub">
+	<echo>D</echo>
+	<property name="myProp" value="${current_dir}/MyPropertyFile.properties"/>
+	<echo>${myProp}</echo>
+</target>
+
+<target name="sub" depends="a1">
+	<echo>sub A</echo>
+</target>
+
+<target name="a1" depends="a2">
+	<echo>A1</echo>
+</target>
+
+<target name="a2" depends="a3">
+	<echo>A2</echo>
+</target>
+
+<target name="a3" depends="a4">
+	<echo>A3</echo>
+</target>
+
+<target name="a4" depends="myFun">
+	<echo>A4</echo>
+</target>
+
+<target name="myFun">
+		<script language="javascript"> <![CDATA[
+			for (i=1; i<=10; i++) {
+				echo = main.createTask("echo");
+				echo.setMessage(i*i);
+				echo.perform();
+			}
+			]]> 
+		</script>
+</target>
+</project>

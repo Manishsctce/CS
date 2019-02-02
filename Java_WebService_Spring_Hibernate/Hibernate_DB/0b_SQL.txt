@@ -1,0 +1,486 @@
+=======================================
+######### DDL SQL STATEMENTS ##########
+
+##What is data definition language? (CADT)
+Data Definition Language (DDL) statements are used to define the database structure or schema. Some examples:
+
+CREATE - to create objects in the database
+ALTER - alters the structure of the database
+DROP - delete objects from the database
+TRUNCATE - remove all records from a table, including all spaces allocated for the records are removed
+COMMENT - add comments to the data dictionary
+RENAME - rename an object
+
+########### ALTER ###############
+ALTER TABLE statement is used to add, modify or delete columns in an existing table. It is also used to rename a table.
+
+># SYNTAX:
+ALTER TABLE tbl_name
+[ADD (column_1 column-definition,column_2 column-definition....)] 
+|[MODIFY (column1 column_type,column2 column_type)] 
+|[DROP COLUMN column_name] 
+|[RENAME COLUMN old_name to new_name] 
+|[]
+=================================
+########### DROP ################
+DROP - it delete the table structure and its relationship
+
+=================================
+########### TRUNCATE ############
+> it is used to DELETE ALL ROWS from the table and free the containing space but does not delete table structure.
+> NO WHERE clause
+> ROLLBACK IS NOT POSSIBLE after truncate table statement
+
+># SYNTAX: TRUNCATE TABLE students;  
+
+=======================================
+######### DML SQL STATEMENTS ##########
+
+##What is data manipulation language? (SIDU)
+
+> Data Manipulation Language (DML) statements are used for managing data within schema objects. Some examples:
+SELECT - retrieve data from the a database
+INSERT - insert data into a table
+DELETE - deletes all records from a table, the space for the records remain
+UPDATE - updates existing data within a table
+MERGE - UPSERT operation (insert or update)
+
+=================================
+########### INSERT ##############
+># SYNTAX:
+
+> It is possible that we do not provide the column names while inserting the record but in this case we would 
+- pass values for all the COLUMNS IN EXACTLY THE SAME ORDER as they appear in the table.
+=================================
+########### DELETE ##############
+> it is used to delete rows from a table
+> it does not free the space containing by the table
+
+># SYNTAX:  DELETE FROM table_name [WHERE condition];  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is the difference between DELETE and TRUNCATE statement in SQL?
+
+> DELETE is a DML command.
+- TRUNCATE is a DDL command.
+
+> We can use WHERE clause in DELETE command.	
+- We cannot use WHERE clause with TRUNCATE
+
+> DELETE statement is used to delete a row from a table	
+- TRUNCATE statement is used to remove all the rows from a table.
+
+> DELETE is slower than TRUNCATE statement.	
+- TRUNCATE statement is faster than DELETE statement.
+
+> You can rollback data after using DELETE statement.	
+- It is not possible to rollback after using TRUNCATE statement.
+=================================
+########## OPERATORS ############
+
+##What are the type of operators available in SQL?
+> Arithmetic operators => +,-,*,/,%
+> Logical operators => >,<,=,!=,<>, 
+> Comparison operator => AND,OR,BETWEEN,IN,NOT, EXISTS, LIKE, ALL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### IS NULL or IS NOT NULL #####
+
+> It is not possible to test for NULL values with comparison operators, such as =, <, or <>.
+- We can also use the IS NULL and IS NOT NULL operators instead.
+
+SELECT column_names FROM table_name
+WHERE column_name IS NULL;
+
+SELECT column_names FROM table_name
+WHERE column_name IS NOT NULL;
+---------------------------------
+## Explain 3 different rules that apply to NULLs when doing comparison?
+
+1. For all operators except for concatenation(||), if a value of expr. is null then expres evaluate to NULL.
+2. NULL is never equal or not equal to another value.
+3. NULL is never TRUE or FALSE.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############# LIKE ##############
+> it is used in a WHERE clause to search for a specified pattern in a column.
+
+% - The percent sign represents zero, one, or multiple characters
+_ - The underscore represents a single character
+
+Example:
+WHERE CustomerName LIKE 'a%'	: Finds any values that start with "a"
+WHERE CustomerName LIKE '%a'	: Finds any values that end with "a"
+WHERE CustomerName LIKE '%or%'	: Finds any values that have "or" in any position
+=================================
+> sub-queries can be used in SELECT, FROM, WHERE, HAVING clause
+---------------------
+## What is CORRELATED SUBQUERY?
+> it is the inner query that refer to outer query tables.
+> inner query is executed iteratively for each row of outer query
+
+############ CLAUSES ###########
+> BETWEEN operator is used to test a range. 
+> BETWEEN A AND B evaluates to TRUE if the value is greater than or equal to A and less than or equal to B.
+> If NOT BETWEEN is used, the result is the reverse.
+-----------------
+DISTINCT
+> The output of the query using distinct will be always be in sorted order
+> The sorting will be based on entire row of the output.
+-----------------
+ORDER BY - [asc|desc]
+> it help to sort the data in either ascending or descending order
+> by default it asc order.
+> Column alias names can be used in the ORDER BY clause. 
+> the position of the column in the SELECT clause can be used in the ORDER BY clause. 
+
+Ex - select name,age,sal from emp order by age desc,sal;
+> give desc order of age with sal in any order 
+> if age,sal both are desc, then it give in any order. ??
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GROUP BY
+> Related rows can be grouped together by GROUP BY clause by specifying a column as a grouping column.
+> GROUP BY is associated with an aggregate function
+
+>> whatever appear in GROUP BY clause is not necessary to appear in SELECT 
+>> whatever appear in SELECT clause should appear in GROUP BY
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HAVING
+
+> Having condition has to be based on some column that appears in the group by list
+> “HAVING” clause is used to specify filtering criteria for “GROUP BY”
+
+Syntax:
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+
+Ex- 
+SELECT Orders.orderid, Orders.CustomerID
+FROM Orders Group by Orders.CustomerID having count(Orders.CustomerID)>2 ;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between WHERE clause and HAVING clause?
+> WHERE and HAVING both filters out records based on one or more conditions. 
+
+> WHERE filters data before grouping; HAVING filters data after grouping
+
+> The difference is, 
+- WHERE clause can only be applied on a static non-aggregated column whereas
+- we will need to use HAVING for aggregated columns.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INTO
+> SELECT INTO statement is used mostly to create backups.
+ 
+Ex - to take backup of employee in employeeBackup
+> SELECT * INTO EmployeeBackup FROM Employee;
+> the structure of EmployeeBackup and Employee table should be same. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EXISTS and NOT EXISTS
+> it used to check whether sub-query return any row 
+> EXISTS return true. 
+> outer query will show result only if inner query return atleast 1 row.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ALL
+> it is used to compare condition as it compare a value to a list or subquery
+> if the value is true then main query will run accordingly.
+> Here CONDITION SHOULD MATCH FOR ALL VALUES IN LIST
+
+Ex- Select empNo, sal from emp where sal > ALL(2000,3000,4000);
+- Here selection will be of the emp whose sal is greater than all values in list i.e it should be sal > 2000 AND sal> 3000 AND sal>4000;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ANY and SOME
+> it is used to compare condition as it compare a value to a list or subquery
+> Here CONDITION SHOULD MATCH FOR ANY VALUES IN LIST
+> SOME is similar to ANY and it is interchangable
+
+Ex- Select empNo, sal from emp where sal > ANY(2000,3000,4000);
+- Here selection will be of the emp whose sal is greater than any values in list i.e it should be sal > 2000 or sal> 3000 or sal>4000;
+
+=======================================
+##### AGGREGATE & SCALAR FUNCTION #####
+
+> Aggregate and Scalar functions are in built function for counting and calculations.
+> AGGREGATE FUNCTIONS operate against a group of values but returns only one value.
+The aggregate functions in sql are :
+SUM( ) , AVG( ) , MAX( ) , MIN( ), COUNT( )
+------------------
+> scalar function operate against a single value and return value on basis of the single value.
+UCASE(c) :- Converts a field to upper case
+LCASE(c) :- converts a field to lower case
+MID(c,start[,end]) :- extract characters from a text field
+LEN(c) :- returns length of a text
+------------------
+> The COUNT function returns the number of rows in the query. 
+> The asterisk (*) is a special quantity – it counts all rows in the result set, regardless of NULLs.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the highest no. of nesting is possible in aggregate function inside select?
+
+
+=======================================
+################ JOIN #################
+> it is used to extract information from more than one table based on the related column/coloums
+=================================
+########## INNER JOIN ###########
+> Returns records that have matching values in both tables (i.e common in both the table).
+
+Ex: https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_join
+Orders : OrderID, CustomerID, EmployeeID, OrderDate, ShipperID
+Customers : CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country
+
+SELECT o.OrderID, c.CustomerName, o.OrderDate
+FROM Orders o
+INNER JOIN Customers c
+ON o.CustomerID=c.CustomerID;
+- it will result all order that that match with customer id in order and customer.
+
+##Which types of join is used in SQL widely?
+> INNER JOIN is the most common type of Join which is used to combine the rows from two tables and 
+> create a result set containing only such records that are PRESENT IN BOTH THE TABLES based on the joining condition (predicate).
+
+SELECT dept.name DEPARTMENT, emp.name EMPLOYEE 
+FROM DEPT dept, EMPLOYEE emp
+WHERE emp.dept_id = dept.id;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can Inner join happens between two table without where condition?
+Yes, it can happens
+=================================
+########## OUTER JOIN ###########
+> it will return matching rows from both tables as well as any unmatched rows from one or both the tables 
+> (based on whether it is single outer or full outer join respectively)
+
+=================================
+####### LEFT OUTER JOIN #########
+
+> it RETURNS ALL THE ROWS FROM THE LEFT TABLE WITH THE MATCHING ROWS FROM THE RIGHT TABLE. 
+> If there are no field matching in the right table then it returns NULL values
+
+**2 way to write left outer join
+SELECT dept.name DEPARTMENT, emp.name EMPLOYEE 
+FROM DEPT dept, EMPLOYEE emp
+WHERE dept.id = emp.dept_id (+);
+
+SELECT dept.name DEPARTMENT, emp.name EMPLOYEE 
+FROM DEPT dept LEFT OUTER JOIN EMPLOYEE emp
+ON dept.id = emp.dept_id ;
+=================================
+####### RIGHT OUTER JOIN ########
+
+> returns all the rows from the right table with the matching rows from the left table. 
+> If there are no field matching in the left table then it returns NULL values
+
+=================================
+####### FULL OUTER JOIN ########
+> it merge left outer join and right outer join.  
+> this returns row from either table when the conditions are met and returns null value when there is no match
+
+=================================
+########### SELF JOIN ###########
+> Joining a table to itself 
+- it can be useful when you want to compare values in same table with different column.
+
+Example: 
+Employee : empId, empName, managerId
+
+> Now to see who all the employees who have a manager 
+
+SELECT e1.Name EmployeeName, e2.name AS ManagerName
+FROM Employee e1 INNER JOIN Employee e2
+ON e1.ManagerID = e2.EmployeeID
+~~~~~~~~~~~~~~~~~~~~~~~~
+> Now to see who all have manager and who doesn't 
+
+SELECT e1.Name EmployeeName, ISNULL(e2.name, 'Top Manager') AS ManagerName
+FROM Employee e1 LEFT JOIN Employee e2
+ON e1.ManagerID = e2.EmployeeID
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+## Is Self Join is Inner Join or Outer Join?
+
+> A self-join can be an inner join OR an outer join OR even a cross join. 
+- A table is joined to itself based upon a column that have duplicate data in different rows.
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+=================================
+##What is CROSS JOIN? or Cartesian Product?
+> it combines all rows from both the tables.
+> In permutation and combination we can use cartesian product.
+
+Cartesian product
+> No. of row = (m table row * n table row) 
+> No. of column = (m col + n col)
+=======================================
+## What are SET OPERATORS in SQL?
+> Union, intersect or minus operators are called set operators.
+=======================================
+############### UNION #################
+> It merges the contents of TWO STRUCTURALLY-COMPATIBLE TABLES into a single combined table.
+- it uniquely combines the results of two or more queries into a single result set. 
+
+> But no. of columns must match in both/all the queries (and also the order) which are used for union. 
+
+> UNION -- returns with no duplicate rows
+> UNION ALL -- returns with duplicate rows (No. of rows returned = No. of rows in Query1 + No. of rows in Query 2)
+
+> Union is a set operator.
+> You cannot use the union operator within a create view statement. 
+> You cannot use the union operator on text and image columns.
+> You cannot use the for browse clause in statements involving the union operator. 
+
+> Each SELECT statement within UNION must have the same number of columns
+> The columns must also have similar data types
+> The columns in each SELECT statement must also be in the same order
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between UNION and UNION ALL?
+
+> UNION merges the contents of TWO STRUCTURALLY-COMPATIBLE TABLES into a single combined table. 
+- The difference between UNION and UNION ALL is that UNION will omit duplicate records whereas UNION ALL will include duplicate records.
+
+> UNION and UNION ALL both unify for add two structurally similar data sets, but 
+> UNION operation returns only the unique records from the resulting data set 
+> UNION ALL will return all the rows, even if one or more rows are duplicated to each other.
+
+Example:
+SELECT * FROM EMPLOYEE WHERE ID = 5
+UNION ALL
+SELECT * FROM EMPLOYEE WHERE ID = 5
+- it will return multiple duplicate row.
+- but using UNION it will return unique row.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Customers : CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country
+Suppliers : SupplierID, SupplierName, ContactName, Address, City, PostalCode, Country
+
+select City, Country from Suppliers
+UNION 
+select City, Country from Customers
+- if we run incompatible number of column then 
+~~~~~~~~~~~~~~~~~~~
+select SupplierID,SupplierName, City, Country, PostalCode from Suppliers
+UNION 
+select CustomerID,CustomerName, City, Country, PostalCode from Customers
+- it will execute and return data but it will be difficult to find which is supplier and customer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is the difference between JOIN and UNION?
+
+> Union : it uniquely combines the results of two or more queries into a single result set. 
+- But no. of columns must match in both/all the queries (and also the order) which are used for union. 
+
+> UNION -- returns with no duplicate rows
+> UNION ALL -- retruns with duplicate rows (No. of rows returned = No. of rows in Query1 + No. of rows in Query 2)
+
+> Union is a set operator.
+> You cannot use the union operator within a create view statement. 
+> You cannot use the union operator on text and image columns.
+> You cannot use the for browse clause in statements involving the union operator. 
+
+JOINS: it is used to extract information from more than one table based on the related column/coloums (PK and RFK) 
+- any no. of rows can be retrived based on matching matching colums. 
+
+Different types of joins are 
+> Inner join=equi join= join, 
+> outer join(Right outer join/right join, Left outer join/ left join), Cross join, and full outer join/outer join 
+
+=======================================
+###### INTERSECT ########
+> An intersection is an AND operation. It retrieves those tuples which are present in both relation
+- returns us only the matching or common rows between 2 result sets.
+
+Example:
+SELECT * FROM EMPLOYEE WHERE ID IN (2, 3, 5)
+INTERSECT
+SELECT * FROM EMPLOYEE WHERE ID IN (1, 2, 4, 5)
+
+Result: id - 2,5
+
+###### MINUS ########
+MINUS operator when used between 2 tables, gives us all the rows from the first table except the rows which are present in the second table.
+
+=======================================
+###### ROWID, ROWNUM, ROW_NUMBER ######
+
+## What is ROWID and ROWNUM in SQL? | Difference Between ROWID & ROWNUM?
+
+> ROWID is the physical memory location on which that data/row is stored.
+- ROWNUM is pseudocolumn in Oracle which assigns the sequence number to the rows retreives in the table.
+
+> using ROWNUM we can limit the number of row fetch 
+- Ex - select * from employee where rownum <2;
+
+> ROWID is permanant to that row which identifies the address of that row.
+- ROWNUM is tempararily allocated sequence to the rows.
+
+
+> ROW_NUMBER is an analytic function that assign a number to each row according to its ordering 
+- ROW_NUMBER is useful when you have to generate a sequence of number after sorting the data fetch on specified column
+
+EXAMPLE: 
+select * from (
+select e.*, 
+ROW_NUMBER() OVER (ORDER BY salary DESC) rn 
+from Employee e
+)
+WHERE rn = N; /*N is the nth highest salary*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+############ TABLESPACE ###############
+
+> An Oracle database consists of one or more LOGICAL STORAGE UNITS called tablespaces, 
+- It collectively store all of the database's data. 
+- EACH TABLESPACE in an Oracle database CONSISTS OF ONE OR MORE FILES CALLED DATAFILES(i.e a tablespace can be combination of multiple datafile), 
+- DATAFILES ARE PHYSICAL STRUCTURES that conform to the operating system in which Oracle is running
+
+> size of a tablespace is the size of the datafiles that constitute the tablespace. 
+> The size of a database is the COLLECTIVE SIZE OF THE TABLESPACES that constitute the database.
+
+
+
+## to see all data files details
+select tablespace_name, FILE_NAME from  dba_data_files;
+
+## To drop table space 
+DROP TABLESPACE BPM_TABLESPACE_123 INCLUDING CONTENTS CASCADE CONSTRAINTS;
+
+
+## Query to check database free space
+
+select df.tablespace_name "Tablespace",
+totalusedspace "Used MB",
+(df.totalspace - tu.totalusedspace) "Free MB",
+df.totalspace "Total MB",
+round(100 * ( (df.totalspace - tu.totalusedspace)/ df.totalspace))
+"Pct. Free"
+from
+(select tablespace_name,
+round(sum(bytes) / 1048576) TotalSpace
+from dba_data_files 
+group by tablespace_name) df,
+(select round(sum(bytes)/(1024*1024)) totalusedspace, tablespace_name
+from dba_segments 
+group by tablespace_name) tu
+where df.tablespace_name = tu.tablespace_name ;
+
+======================================
+################ INDEX ###############
+##What are the different index configurations a table can have?
+
+A table can have one of the following index configurations:
+
+> No indexes
+> A clustered index
+> A clustered index and many nonclustered indexes
+> A nonclustered index
+> Many nonclustered indexes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the difference between clustered and non clustered index in SQL?
+
+There are mainly two type of indexes in SQL, Clustered index and non clustered index. 
+The differences between these two indexes is very important from SQL performance perspective.
+
+> One table can have only one clustered index but it can have many non clustered index. (approximately 250).
+> clustered index determines how data is stored physically in table. 
+- Actually clustered index stores data in cluster, related data is stored together so it makes simple to retrieve data.
+
+> reading from a clustered index is much faster than reading from non clustered index from the same table.
+> clustered index sort and store data rows in the table or view based on their key value, while non cluster have a structure separate from the data row.

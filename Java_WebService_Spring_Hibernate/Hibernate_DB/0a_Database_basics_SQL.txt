@@ -1,0 +1,358 @@
+##What is SQL?
+> SQL stands for structured query language. 
+- It appeared in 1974.
+
+> It is a database language USED TO PERFORM OPERATION ON THE DATA stored in database like database creation, deletion, fetching rows and modifying rows etc. 
+> SQL depends on relational algebra and tuple relational calculus.
+> It is not case sensitive
+> SQL is supported by almost all database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is database?
+> It is an organized collection of data
+- main purpose of database is to operate large amount of information by storing, retrieving and managing.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is RDBMS?
+> It is Relational Database Management Systems introduce by E.F. Codd in 1972
+> It is use to manage database which is based on relational model.
+> It uses tables to store data. A table is a collection of related data entries and contains rows and columns to store data.
+
+Features - 
+> RDBMS defines the integrity constraint for the purpose of ACID (Atomocity, Consistency, Isolation and Durability) property.
+> Normalization is present in RDBMS.
+RDBMS is management system to manage tables and provide Service like
+logging, locking, optimization, security, recovery, data integrity
+which work using Sql.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between DBMS and RDBMS?
+
+> DBMS applications store data as file.
+- RDBMS applications store data in a tabular form
+
+> Normalization is not present in DBMS.
+- Normalization is present in RDBMS.
+
+> DBMS does not apply any security with regards to data manipulation.
+- RDBMS defines the integrity constraint for the purpose of ACID (Atomocity, Consistency, Isolation and Durability) property.
+
+> DBMS uses file system to store data, so there will be no relation between the tables.	
+- in RDBMS, data values are stored in the form of tables, so a relationship between these data values will be stored in the form of a table as well.
+
+> Examples of DBMS are file systems, xml etc.
+- Example of RDBMS are mysql, postgre, sql server, oracle etc.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is Normalization? 
+> It is the process of restructuring a relational database in accordance with a series of so-called normal forms in order 
+- TO REDUCE DATA REDUNDANCY AND IMPROVE DATA INTEGRITY
+
+> 1NF - all row must have same no of column
+> 2 NF - all column should have only one primary key
+> 3 NF - eliminate column that not depend on primary key
+> 4NF - isolate independent multiple relation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Does SQL support programming?
+> No, SQL doesn't have loop or Conditional statement. It is used like commanding language to access databases.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain the SQL Architecture?
+SQL query -> Query Language Processor <-(Parser + Optimizer) ->
+DBMS Engine <-(File Management + Transaction Management) -> Physical DB
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which TCP/IP port does SQL Server run on? How can it be changed?
+> SQL Server runs on port 1433. 
+> It can be changed from the Network Utility TCP/IP properties.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What do u mean by Data Integrity?
+Data Integrity:
+The following categories of the data integrity exist with each RDBMS:
+
+1. Entity Integrity: 
+- There are NO DUPLICATE ROWS in a table.
+
+2. Domain Integrity: 
+- Enforces VALID ENTRIES for a given column by restricting the TYPE, the FORMAT, or the RANGE OF VALUES.
+
+3. Referential integrity: 
+- ROWS CANNOT BE DELETED, which are used by other records.
+
+4. User-Defined Integrity: Enforces some specific business rules that do not fall into entity, domain or referential integrity.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are defaults? Is there a column to which a default can’t be bound?
+
+> A default is a value which will be used by a column, if no value is supplied to that column while inserting data.
+> Yes, IDENTITY and TIMESTAMP columns are free from the bounds of default.
+
+Example: My SQL / SQL Server / Oracle / MS Access: 
+CREATE TABLE Persons (
+    ID int NOT NULL,
+		LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255) DEFAULT 'Sandnes'
+);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is bit data-type and what’s the information that can be stored inside a bit column?
+
+> Bit data-type is used to store Boolean information in SQL- 1 or 0 (signifying true or false)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are constraints? Mention the different types of constraints?
+
+> Constraints enable the RDBMS to enforce the integrity of the database automatically, without the need to create triggers, rule or defaults.
+> Types of Constraints: NOT NULL, CHEQUE, UNIQUE, PRIMARY KEY, FOREIGN KEY
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Primary Key?
+
+> we can have only one primary key, but that can consist of as many columns as you need to uniquely identify your rows.
+
+Example:
+CONSTRAINT pk_PersonID PRIMARY KEY (P_Id,LastName) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is FOREIGN KEY?
+
+> It is a field (or collection of fields) in one table that refers to the PRIMARY KEY in another table.
+> table containing the foreign key is called the child table, and the table containing the candidate key is called the referenced or parent table.
+
+> It is used to prevent actions that would destroy links between tables
+> also PREVENTS INVALID DATA from being inserted into the foreign key column, because it has to be one of the values contained in the table it points to.
+
+CREATE TABLE Orders (
+    OrderID int NOT NULL PRIMARY KEY,
+    OrderNumber int NOT NULL,
+    PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
+);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are the subsets of SQL?
+
+> Data definition language (DDL)
+> Data manipulation language (DML)
+> Data control language (DCL)
+
+> DML statements can be rollbacked where DDL are autocommit.
+> DML commands can't be rollback when a DDL command is executed immediately after a DML.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is data definition language? (CADT)
+Data Definition Language (DDL) statements are used to define the database structure or schema. Some examples:
+
+CREATE - to create objects in the database
+ALTER - alters the structure of the database
+DROP - delete objects from the database
+TRUNCATE - remove all records from a table, including all spaces allocated for the records are removed
+COMMENT - add comments to the data dictionary
+RENAME - rename an object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is data manipulation language? (SIDU)
+
+> Data Manipulation Language (DML) statements are used for managing data within schema objects. Some examples:
+SELECT - retrieve data from the a database
+INSERT - insert data into a table
+DELETE - deletes all records from a table, the space for the records remain
+UPDATE - updates existing data within a table
+MERGE - UPSERT operation (insert or update)
+CALL - call a PL/SQL or Java subprogram
+EXPLAIN PLAN - explain access path to data
+LOCK TABLE - control concurrency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is data control language(DCL)?
+
+> Data control language allows you to control access to the database. 
+> It includes two commands GRANT and REVOKE.
+
+GRANT: to grant specific user to perform specific task.
+REVOKE: to cancel previously denied or granted permissions.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is Transaction control(TCL)?
+> Transaction Control (TCL) statements are used to manage the changes made by DML statements. 
+- It allows statements to be grouped together into logical transactions.
+
+COMMIT - save work done
+SAVEPOINT - identify a point in a transaction to which you can later roll back
+ROLLBACK - restore database to original since the last COMMIT
+SET TRANSACTION - Change transaction options like isolation level and what rollback segment to use
+=====================================
+######## SPECIAL CHARACTERS #########
+##How does one escape SPECIAL CHARACTERS use when writing SQL queries?
+
+> Escape quotes - Use two quotes for every one displayed. Ex:
+$ SELECT 'Frank''s Oracle site' AS text FROM DUAL; --Franks's Oracle site
+
+Escape wildcard characters
+> LIKE keyword allows for string searches. 
+> '_' wild card character is used to MATCH EXACTLY ONE CHARACTER
+> '%' is used to match ZERO OR MORE OCCURRENCES of any characters. 
+------------
+These characters can be escaped in SQL. Ex:
+$ SELECT name FROM emp WHERE id LIKE '%/_%' ESCAPE '/';
+$ SELECT name FROM emp WHERE id LIKE '%\%%' ESCAPE '\';
+----------------------------
+> When using SQL*Plus, the DEFINE setting can be changed to allow "&" (ampersands) to be used in text:
+$ SET DEFINE ~
+$ SELECT 'Lorel & Hardy' FROM dual;--
+--------------
+> Define an escape character:
+$ SET ESCAPE '\'
+$ SELECT '\&abc' FROM dual;
+--------------
+> Don't scan for substitution variables:
+$ SET SCAN OFF
+$ SELECT '&ABC' x FROM dual;
+=======================================
+####################################
+##What is "TRIGGER" in SQL?
+> Trigger allows you to execute a batch of SQL code when an insert, update or delete command is executed against a specific table.
+
+Actually triggers are special type of stored procedures that are defined to execute automatically in place or after data modifications.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a constraint? Tell me about its various levels.
+> Constraints are representators of a column to enforce data entity and consistency. There are two levels :
+column level constraint
+table level constraint
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is ACID property in database?
+
+> ACID property is used to ensure that the data transactions are processed reliably in a database system.
+A single logical operation of a data is called transaction.
+
+ACID is an acronym for Atomicity, Consistency, Isolation, Durability.
+
+1. ATOMICITY: 
+> It ensure that each transaction be "all or nothing": if one part of the txn fails, then the entire txn fails, and the database state is left unchanged. 
+
+2. CONSISTENCY: 
+- It ensure that the data must meet all validation rules. 
+- transaction never leaves your database without completing its state.
+- integrity constraints must be maintained so that the database is consistent before and after the transaction. It refers to correctness of a database
+
+3. ISOLATION: 
+- It ensure that multiple transactions can occur concurrently without leading to inconsistency of database state. 
+- Transactions occur independently without interference. 
+- Changes occurring in a particular transaction will not be visible to any other transaction
+
+4. DURABILITY: 
+- It means that ONCE A TRANSACTION HAS BEEN COMMITTED, IT WILL REMAIN so, come what may even power loss, crashes or errors.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a view?
+
+> View is a virtual table which is created on the basis of the result set returned by the select statement.
+> ORDER BY clause cannot be use while creating a view.
+> CREATE VIEW [MyView] AS SELECT * from employee;
+
+CREATE VIEW <viewname> as
+SELECT <columnname1>, <columnnmc2>
+FROM <tablename> 
+WHERE <columnname> = < expressionlist>
+GROUP BY <grouping criteria> 
+HAVING <predicate>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is ETL process in Data warehousing? What are the different stages in “Data warehousing”?
+
+> ETL (Extraction, Transformation and Loading) are different stages in Data warehousing. Like when we do software development we follow different stages like requirement gathering, designing, coding and testing. In the similar fashion we have for data warehousing.
+
+1. EXTRACTION:-
+> extract data from the source. 
+> source cn be EXCEL, ACCESS, Delimited text, CSV (Comma Separated Files) etc. 
+> extraction process handle’s the complexity of understanding the data source and loading it in a structure of data warehouse.
+
+2. Transformation:- also called as cleaning up process. 
+> It’s not necessary that after the extraction process data is clean and valid. 
+> Need when for instance all the financial figures have NULL values but you want it to be ZERO for better analysis. 
+> So you can have some kind of stored procedure which runs through all extracted records and sets the value to zero.
+
+3. Loading:-
+After transformation you are ready to load the information in to your final data warehouse
+----------------------------
+## Compare Data mining and Data warehousing??
+
+> Data Warehousing” is technical process where we are making our data centralized while “Data mining” is more of business activity which will analyze how good your business is doing or
+predict how it will do in the future coming times using the current data. As said before “Data
+Warehousing” is not a need for “Data mining”. It’s good if you are doing “Data mining” on a
+“Data Warehouse” rather than on an actual production database. “Data Warehousing” is
+essential when we want to consolidate data from different sources, so it’s like a cleaner and
+matured data which sits in between the various data sources and brings then in to one format.
+“Data Warehouses” are normally physical entities which are meant to improve accuracy of “Data
+mining” process. For example you have 10 companies sending data in different format, so you
+create one physical database for consolidating all the data from different company sources,
+while “Data mining” can be a physical model or logical model. You can create a database in
+“Data mining” which gives you reports of net sales for this year for all companies. This need not
+be a physical database as such but a simple query.
+
+****************************************
+### GRANT STATEMENT ###
+GRANT < object privilege>
+ON < object ref i.e. table name>
+TO < user name>
+WITH GRANT OPTION
+
+> here object privilege can be ALL or SELECT, INSERT, UPDATE, DELETE, INDEX
+-----------------------
+SQL> GRANT CREATE SYNONYM, CREATE VIEW, CREATE DATABASE LINK,
+  2     CREATE PUBLIC SYNONYM, DROP PUBLIC SYNONYM TO RESOURCE;
+
+> GRANT SELECT, INSERT ON emp_table TO Alice_user WITH GRANT OPTION;
+> REVOKE INSERT ON emp FROM Alice;
+  
+> CREATE USER user1 IDENTIFIED BY pass1;
+> GRANT CREATE SESSION TO user1; 
+===============================
+## What is the difference between oracle 10g and 11g?
+
+1. Simplified and improved automatic memory management 
+2.Invisible Indexes 
+3.Virtual columns 
+
+New Feature of 11g
+> PL/SQL "continue" keyword  
+
+uid - give currently logged user id
+user - give currently logged user name
+select uid from dual
+
+======================
+select tablespace_name from user_tablespaces;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is database driver and dialect? What is difference bet them?
+
+DATABASE DRIVER is a program for which implements a protocol (ODBC, JDBC) for connecting to a database. 
+- It is an Adaptor which connects a generic interface to a specific vendors implementation, just like printer drivers etc.
+
+DATABASE DIALECT is a configuration setting for platform independent software (JPA, Hibernate, etc) which allows such software to translate its generic SQL statements into vendor specific DDL, DML.
+
+"Dialect" english meaning is variant of language like British English and American English.
+=======================================
+######### SQL INJECTION ###############
+## What is SQL Injection?
+> It is a code injection technique that might destroy our database.
+> It is one of the most common web hacking techniques.
+
+> It is the placement of malicious code in SQL statements, via web page input.
+
+EXAMPLE:
+txtUserId = getRequestString("UserId");
+txtSQL = "SELECT * FROM Users WHERE UserId = " + txtUserId;
+
+> Now user can give smart input like "105 OR 1=1". So the sql query will return all users as because 
+txtSQL = "SELECT * FROM Users WHERE UserId = 105 OR 1=1";//Here 1=1 is always true 
+
+EXAMPLE:
+## Based on Batched SQL Statements
+> A batch of SQL statements is a group of two or more SQL statements, separated by semicolons.
+
+Example
+txtUserId = getRequestString("UserId");
+txtSQL = "SELECT * FROM Users WHERE UserId = " + txtUserId;
+
+> Now user input "105; DROP TABLE Suppliers"
+
+Result
+SELECT * FROM Users WHERE UserId = 105; DROP TABLE Suppliers;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which feature of JDBC can we use to prevent SQL Injection
+
+http://javabypatel.blogspot.com/2015/09/how-prepared-statement-in-java-prevents-sql-injection.html
+=======================================

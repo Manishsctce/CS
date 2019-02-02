@@ -1,0 +1,64 @@
+## What are Aware interfaces in Spring? And why it is required?
+> Sometimes it is required that our beans needs to get some information about Spring container and its resources.
+- sometime bean need to know the current Application Context using which it can perform some operations like loading specific bean from the container in a programmatic way.
+
+> So TO MAKE THE BEANS AWARE about this, spring provides lot of Aware interfaces.
+> our bean implements these Aware interface and implement the setter method of it.
+=======================================
+######## ApplicationContextAware[i] ###
+> provide our beans with access to the ApplicationContext object by implementing the ApplicationContextAware 
+void setApplicationContext(ApplicationContext applicationContext) throws BeansException;	
+
+##ApplicationEventPublisherAware	
+void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher);	
+> Set the ApplicationEventPublisher that this object runs in.
+
+##BeanClassLoaderAware	
+void setBeanClassLoader(ClassLoader classLoader);	
+> Callback that supplies the bean class loader to a bean instance.
+
+##BeanFactoryAware	
+void setBeanFactory(BeanFactory beanFactory) throws BeansException;	
+Callback that supplies the owning factory to a bean instance.
+
+## BeanNameAware	
+void setBeanName(String name);	
+> Set the name of the bean in the bean factory that created this bean.
+
+BootstrapContextAware	void setBootstrapContext(BootstrapContext bootstrapContext);	Set the BootstrapContext that this object runs in.
+LoadTimeWeaverAware	void setLoadTimeWeaver(LoadTimeWeaver loadTimeWeaver);	Set the LoadTimeWeaver of this object’s containing ApplicationContext.
+MessageSourceAware	void setMessageSource(MessageSource messageSource);	Set the MessageSource that this object runs in.
+NotificationPublisherAware	void setNotificationPublisher(NotificationPublisher notificationPublisher);	Set the NotificationPublisher instance for the current managed resource instance.
+PortletConfigAware	void setPortletConfig(PortletConfig portletConfig);	Set the PortletConfig this object runs in.
+PortletContextAware	void setPortletContext(PortletContext portletContext);	Set the PortletContext that this object runs in.
+
+##ResourceLoaderAware	
+void setResourceLoader(ResourceLoader resourceLoader);	Set the ResourceLoader that this object runs in.
+
+##ServletConfigAware	
+void setServletConfig(ServletConfig servletConfig);	Set the ServletConfig that this object runs in.
+
+##ServletContextAware	
+void setServletContext(ServletContext servletContext);	
+> Set the ServletContext that this object runs in.
+=======================================
+## ServletContextAttributeExporter ##
+> ServletContextAttributeExporter takes Spring-defined objects and exposes them as ServletContext attributes. 
+- Usually, bean references will be used to export Spring-defined beans as ServletContext attributes.
+
+EXAMPLE : 
+<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+        <property name="attributes">
+            <map>
+                <entry key="pluginService" value-ref="pluginService"/>
+                <entry key="endpointService" value-ref="endpointService"/>
+                <entry key="scmExtensionPoint" value-ref="scmExtensionPoint"/>
+				<entry key="applicationService" value-ref="applicationService"/>
+                <entry key="taskService" value-ref="taskService"/>
+                <entry key="envService" value-ref="envService"/>
+                <entry key="hostService" value-ref="hostService"/>
+                <entry key="nodeService" value-ref="nodeService"/>
+                <entry key="daaService" value-ref="daaService"/>
+            </map>
+        </property>
+    </bean>

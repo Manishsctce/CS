@@ -1,0 +1,82 @@
+##Use of <context-param> tag
+
+  <context-param>
+    <param-name>name</param-name>
+    <param-value>Joe</param-value>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value>password</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>ParameterServlet</servlet-name>
+    <servlet-class>ParameterServlet</servlet-class>
+    <init-param>
+      <param-name>name</param-name>
+      <param-value>Joe</param-value>
+    </init-param>
+    <init-param>
+      <param-name>password</param-name>
+      <param-value>password</param-value>
+    </init-param>
+  </servlet>
+  
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    ServletContext context = getServletContext();
+    dbName = context.getInitParameter("name");
+    dbPassword = context.getInitParameter("password");
+
+  }  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------  
+##Using Abstract Classes
+<HTML>
+    <HEAD>
+        <TITLE>Using Abstract Classes</TITLE>
+    </HEAD>
+
+    <BODY>
+        <H1>Using Abstract Classes</H1>
+
+        <%!
+            javax.servlet.jsp.JspWriter localOut;
+
+            abstract class a
+            {
+                abstract String getText() throws java.io.IOException;
+
+                public void printem() throws java.io.IOException 
+                {
+                    localOut.println(getText());
+                }
+            }
+
+            class b extends a
+            {
+                String getText() throws java.io.IOException 
+                {
+                    return "Hello from JSP!";
+                }
+            }
+        %>     
+        <%
+            localOut = out;     
+
+            b bObject = new b();
+
+            bObject.printem();
+        %>
+    </BODY>
+</HTML>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------  
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------  
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------  
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------  
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------  
+##

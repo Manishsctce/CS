@@ -1,0 +1,52 @@
+## XML Schema Definition(XSD) 
+
+> it check the validity of structure and vocabulary of an XML document against the grammatical rules of the appropriate XML language.
+
+> Schema is the root element of XSD and it is always required.
+
+
+<xs:schema xmlns:xs = "http://www.w3.org/2001/XMLSchema">
+The above fragment specifies that elements and datatypes used in the schema are defined in http://www.w3.org/2001/XMLSchema namespace and these elements/data types should be prefixed with xs. It is always required.
+
+targetNamespace = "http://www.tutorialspoint.com"
+The above fragment specifies that elements used in this schema are defined in http://www.tutorialspoint.com namespace. It is optional.
+
+xmlns = "http://www.tutorialspoint.com"
+The above fragment specifies that default namespace is http://www.tutorialspoint.com.
+========================================
+############ Complex Element ###########
+> it is an XML element which can contain other elements and/or attributes
+
+## <sequence> 
+- It is used to maintain the order in which the elements are to be present in the XML. 
+- If order is not maintained, then XML will not be validated.
+
+## <choice>
+- it allows only one of the elements contained in the <choice> declaration to be present within the containing element.
+
+## <complexContent> element 
+- it defines extensions or restrictions on a complex type that contains mixed content or elements only.
+
+EXAMPLE :
+
+<xs:element name="employee" type="fullpersoninfo"/>
+
+<xs:complexType name="personinfo">
+  <xs:sequence>
+    <xs:element name="firstname" type="xs:string"/>
+    <xs:element name="lastname" type="xs:string"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="fullpersoninfo">
+  <xs:complexContent>
+    <xs:extension base="personinfo">
+      <xs:sequence>
+        <xs:element name="address" type="xs:string"/>
+        <xs:element name="city" type="xs:string"/>
+        <xs:element name="country" type="xs:string"/>
+      </xs:sequence>
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+----------------------------------------------------------

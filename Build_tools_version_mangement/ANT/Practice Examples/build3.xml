@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="a6" name="Manish">
+	<property environment="env"/>
+	<property name="foo" location="Users/managraw/soapui-setting.xml" relative="false" basedir=".." />
+	
+	<!-- TARGET -->
+	<target name="a1">
+		
+		<echo>Manish Agrawal ${ant.file} ${basedir}</echo>
+		<echo>Ant Project Name: ${ant.project.name}</echo>
+		<echo>User Name: ${user.name}</echo>
+		<echo> ${env.JAVA_HOME}</echo>
+		<echo> ${foo}</echo>
+		<echo> myVarValue:: ${myVar}</echo>
+		<echo>${ant.file.Manish}</echo>
+	</target>
+	
+	
+	<!-- DIR -->
+	<dirname property="current.dir" file="${ant.file.Manish}" />
+	<property name="myResource" location="${current.dir}/../.." />
+	
+	<!-- IMPORT -->
+	<import file="${current.dir}/backup-tibcohost.xml" />
+	
+	
+	<!-- MACRODEF -->
+	<macrodef name="mymacrodef">
+		<attribute name = "username" default="Bob"/>
+		<element name="something" optional="yes"/>
+		
+		<sequential>
+			<echo> sequential ${myVar}</echo>
+			<something/>
+		</sequential>
+	</macrodef>
+	
+	<target name="a2" depends="a1">
+	<mymacrodef username="Manish Agrawal">
+		<something>
+			<echo>Hi @{username} this is msg </echo>
+			<echo>${current.dir}</echo>
+			<echo>dir/../.. :: ${myResource}</echo>
+		</something>
+	</mymacrodef>
+	</target>
+	
+	
+	<!--<property name="manish" value="Manish Agrawal"/>-->
+	
+	<target name="a3" depends="a2">	
+		<!-- CONDITION -->
+		<condition property="manish" value="Hi Manish" >
+			
+			<not>
+				<!--ISSET test whether a given property has been set in this project-->
+				<isset property="manish"/>
+			</not>
+		</condition>
+	
+		<echo message="${manish}"/>
+		<delete file="${myResource}/hello.xml" />
+	</target>
+	
+	<target name="a4" depends="a3" unless="manish">
+				<!-- VAR -->			
+		<!-- <var name="x" value="6"/>
+		<if>
+			<equals arg1="${x}" arg2="6" />
+			<then>
+				<var name="x" value="12"/>
+			</then>
+		</if> -->
+		<echo>nothing is her</echo>
+	</target>
+	<!--<property name="var1" value="chk"/>-->
+	
+	<target name="a5" depends="a4">
+		<fail if="var1" >
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   Do not chain multiple targets in one ant invocation.  These targets are designed
+   to run one at a time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        </fail>
+		<echo> target a5 not failed </echo>
+	</target>
+	
+	<macrodef name="normalize.version">
+            <attribute name="version" />
+            <attribute name="property" />
+            <sequential>
+            	<echo>-----> </echo>
+                <loadresource property="@{property}" >
+                    <string value="@{version}" />
+                    <filterchain>
+                        <tokenfilter>
+                            <replaceregex pattern='^([1-9]+)\.([1-9]+)\.([0-9])(\..*)?$' replace="\1.\2.00\3\4" />
+                            <replaceregex pattern='^([1-9]+)\.([1-9]+)\.([0-9][0-9])(\..*)?$' replace="\1.\2.0\3\4" />
+                        </tokenfilter>
+                    </filterchain>
+                </loadresource>
+				<echo>After REGEX - @{version} </echo>
+				<echo>After REGEX - ${.normalized.current.version} </echo>
+            </sequential>
+        </macrodef>
+	
+	<target name="a6" depends="a5">
+		<echo> target a6 </echo>
+		<normalize.version version="3.2.5.HF2" property=".normalized.current.version" />
+		<echo>After REGEX - @{version} </echo>
+		
+	</target>
+	
+	
+</project>

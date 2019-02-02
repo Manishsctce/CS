@@ -1,0 +1,85 @@
+## Name the types of transaction management that Spring supports.
+> Two types of transaction management are supported by Spring. They are:
+
+1. Programmatic transaction management: 
+- the transaction is managed with the help of programming. 
+- It provides you extreme flexibility, but it is very difficult to maintain.
+
+2. Declarative transaction management: 
+-  the transaction management is separated from the business code. 
+- Only annotations or XML based configurations are used to manage the transactions.
+
+
+<tx:annotation-driven/> is hard-wired to look for a bean named "transactionManager" by default, 
+- however @EnableTransactionManagement is more flexible; 
+- it will fall back to a by-type lookup for any PlatformTransactionManager bean in the container. 
+- Thus the name can be "txManager", "transactionManager", or "tm": it simply does not matter.
+
+
+> Spring Framework by default, only mark a transaction for rollback in the case of runtime, unchecked exceptions; 
+- that is, when the thrown exception is an instance or subclass of RuntimeException. (Errors will also – by default – result in a rollback.) 
+- Checked exceptions that are thrown from a transactional method will not result in the transaction being rolled back.
+
+> We can configure which Exception types can be mark a transaction for rollback
+EXAMPLE:
+
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+  <tx:attributes>
+    <tx:method name="create" read-only="false" rollback-for="NoProductInStockException"></tx:method>
+    <tx:method name="*"></tx:method>
+  </tx:attributes>
+</tx:advice>
+- Here transaction will be rollback-for NoProductInStockException 
+
+=====================================
+####### TRANSACTION MANAGEMENT ######
+Spring Framework provides a consistent abstraction for transaction management that delivers the following benefits:
+> Consistent programming model across different transaction APIs 
+- such as Java Transaction API (JTA), JDBC, Hibernate, Java Persistence API (JPA), and Java Data Objects (JDO).
+
+> Support for declarative transaction management
+=======================================
+######### TRANSACTION ATTRIBUTES ######
+TransactionDefinition interface specifies:
+
+1. ISOLATION: 
+> The degree to which this transaction is isolated from the work of other transactions. 
+FOR EXAMPLE, 
+- can this transaction see uncommitted writes from other transactions?
+
+2. PROPAGATION: Typically, all code executed within a transaction scope will run in that transaction. 
+- However, you have the option of specifying the behavior in the event that a transactional method is executed when a transaction context already exists. 
+- For example, code can continue running in the existing transaction (the common case); or the existing transaction can be suspended and a new transaction created. Spring offers all of the transaction propagation options familiar from EJB CMT. To read about the semantics of transaction propagation in Spring, see Section 16.5.7, “Transaction propagation”.
+
+3. TIMEOUT: 
+> How long this transaction runs before timing out and being rolled back automatically by the underlying transaction infrastructure.
+
+4. READ-ONLY STATUS: 
+> A read-only transaction can be used when your code reads but does not modify data. Read-only transactions can be a useful optimization in some cases, such as when you are using Hibernate.
+
+########## @Transactional ###########
+> To activate processing of Spring's @Transactional annotation, use the <tx:annotation-driven/> element in your spring's configuration file.
+
+> It can be applied to class and method 
+- If the annotation is applied at both the class and the method level, the method value overrides if the two disagree.
+
+> default @Transactional settings are as follows:
+- Propagation setting is PROPAGATION_REQUIRED.
+- Isolation level is ISOLATION_DEFAULT.
+- Transaction is read/write.
+- Transaction timeout defaults to the default timeout of the underlying transaction system, or to none if timeouts are not supported.
+- Any RuntimeException triggers rollback, and any checked Exception does not.
+
+FLOW OF TRANSACTION
+-------------------------------------
+@Transactional annotation only to methods with public visibility.
+Java annotations are not inherited from interfaces
+-------------------------------------
+beforeTransactionInitData() is a @BeforeTransaction method 
+- We create the schema here and then add a default 'admin' row to employee table
+
+In @Before test method printTestName() – Prints test name
+rollbackDataByDefault() – This is a test method, annotated with @Transactional. In this case, we add a new employee. By default a test transaction is flagged for rollback so whatever operations we perform in test will automatically get rolled back during the end transaction phase
+afterTransactionVerifyRows is an @AfterTransaction method where we assert the rows expected based on the test case
+In commitData() test, we explicitly mark the transaction for commit overriding the default rollback behavior.
+rollbackFalse() is same as commitData() except that we use @Rollback(false) to indicate that the transaction is marked for commit

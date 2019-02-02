@@ -1,0 +1,123 @@
+## What is AOP?
+> It is a way of programming where program logic break into distinct parts (called concerns). 
+- It is used to increase modularity by separating cross-cutting concerns.
+> Key unit of modularity in AOP is aspect.
+> AOP provides interceptors to intercept an application
+- we can add extra functionality before or after the method execution.
+
+> AOP takes out the direct dependency of crosscutting tasks from classes 
+- we can’t achieve through normal OOP model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is CROSS-CUTTING CONCERN ?
+> It is a concern(part of prgm) that can affect the whole application and should be centralized in one location 
+- such as transaction management, authentication, logging, security etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Aspect?
+
+>It is a class that implements enterprise application concerns like transaction management, authentication, logging, security etc.
+> we can use Spring AspectJ integration to define a class as Aspect using @Aspect annotation.
+
+> aspect is declared using the <aop:aspect> element, and the backing bean is referenced using the ref attribute
+<aop:config>
+   <aop:aspect id="loggingAspect" ref="loggingAspectBean">
+   ...
+   </aop:aspect>
+</aop:config>
+ 
+<bean id="loggingAspectBean" class="com.howtodoinjava.demo.aop.EmployeeCRUDLoggingAspect" />
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Where use AOP?
+AOP is mostly used in following cases:
+
+> to provide declarative enterprise services such as declarative transaction management.
+> It allows users to implement custom aspects.
+
+=======================================
+#### AOP CONCEPTS AND TERMINOLOGIES ###
+
+1. JOIN POINT (point at begining/end of method)
+> It is a point during the execution of a program, such as the execution of a method or the handling of an exception. 
+- In Spring AOP, a join point always represents a method execution.
+> It is where advice is applied.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. ADVICE (ACTION)
+> It is the action taken by an aspect at a particular joinpoint. 
+> There are five types of advice in spring AOP.
+
+1. BEFORE ADVICE: Advice that executes before a join point
+- it does not have the ability to prevent execution flow proceeding to the join point (unless it throws an exception).
+
+2. AFTER RETURNING ADVICE: Advice to be executed after a join point completes normally: 
+
+3. AFTER THROWING ADVICE: Advice to be executed if a method exits by throwing an exception.
+
+4. AFTER ADVICE: Advice to be executed regardless of the means by which a join point exits (normal or exceptional return).
+
+5. AROUND ADVICE: Advice that surrounds a join point such as a method invocation. 
+- This is the most powerful kind of advice. 
+- Around advice can perform custom behavior before and after the method invocation. 
+- It is also responsible for choosing whether to proceed to the join point or to shortcut the advised method execution by returning its own return value or throwing an exception.
+
+Advice [i] <-- BeforeAdvice[i] , AfterAdvice[i], Interceptor
+BeforeAdvice[i] <---MethodBeforeAdvice[i] 
+AfterAdvice[i] <---- AfterReturningAdvice[i] , ThrowsAdvice[i] 
+Interceptor[i] <-----MethodInterceptor[i](It is used in around advice.)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Pointcut - it is combination of different joinpoints where the advice need to be applied.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Introduction
+5. Target Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6. Aspect - It is applying the advice at the pointcuts
+> A MODULE THAT ENCAPSULATE POINTCUTS AND ADVICE.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+7. Interceptor
+8. AOP Proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+9. WEAVING
+A. Compile time weaving 
+- inject the byte code of the advice at jointpoint during compile-time  
+
+B. Class Load time weaving 
+- inject the bytecode of the advice at jointpoint during class-loading time
+
+C. Runtime-(Spring way) 
+- target method is covered by proxy bean(created by spring framework) 
+- when caller call target, spring framework invoke the proxy then understand what advices need to be applied and apply advice before/after target execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between Spring AOP and AspectJ AOP?
+> AspectJ is the industry-standard implementation for AOP whereas 
+- Spring implements AOP for some cases. 
+
+Main differences between Spring AOP and AspectJ are:
+
+> Spring AOP is simpler to use than AspectJ because we don’t need to worry about the weaving process.
+> Spring AOP supports AspectJ annotations, so if you are familiar with AspectJ then working with Spring AOP is easier.
+> Spring AOP supports only proxy-based AOP, so it can be applied only to method execution join points. 
+- AspectJ support all kinds of pointcuts.
+
+> One of the shortcoming of Spring AOP is that it can be applied only to the beans created through Spring Context.
+-------------------------------------
+JdkRegexpMethodPointcut 
+
+## REFERENCE ##
+http://www.journaldev.com/2583/spring-aop-example-tutorial-aspect-advice-pointcut-joinpoint-annotations
+-------------------------------------
+##What is difference between jdk proxy and cglib proxy?
+
+> Spring AOP is proxy-based. 
+> Spring provides 2 different option to create proxy. 
+
+1. JDK Dynamic proxy : it can only proxy by interface 
+- we needs to implements an interface which will be implemented by proxy class too.
+Ex - IUploader[i] <---- FileUploader[c] 
+IUploader[i]	<------ ProxyClass
+
+
+2. CGLIB(and Javaasist) : it can be create a proxy by subclassing. 
+> No need of interface.
+> It class needs to provide a default constructor otherwise IllegalArgumentException 
+> It won't work with final methods 
+
+Ex - FileUploader <-------- ProxyClass

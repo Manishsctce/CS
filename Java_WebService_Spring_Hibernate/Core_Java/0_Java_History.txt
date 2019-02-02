@@ -1,0 +1,279 @@
+==========================================
+############ Java SE 9(jdk1.9) ############
+JAVA SE 9 
+> new command line tool called jshell that will add native support and popularize a Java way to REPL (Read-Eval-Print-Loop)
+
+> it is introducing the StackWalker and Stack-Walking API
+
+1. Private Interface Methods
+2. Improve in Try with Resources feature of Java7
+3. underscore keyword : 01a_Java_Basics
+=======================================
+########### Java SE 8(jdk1.8) #########
+> Released on 18 March 2014
+> code name culture is dropped
+New Features - Lambda Expressions, Pipelines and Streams, Date and Time API, Default methods, Type annotation, Parallel Operations
+
+1. LAMBDA EXPRESSION
+2. DEFAULT METHODS (formerly called  or defender methods)
+> define methods in Interface; DEFAULT METHOD OR DEFENDER METHOD [02b]
+
+3. FUNCTIONAL INTERFACE : more details in 02c_Interfaces_-_Serialization_Externalizable_Clonable.txt
+4. METHOD REFERENCE
+5. Optional Class
+6. Stream update : 04g_java.util_Utility_classes.txt
+
+=======================================
+########## METHOD REFERENCE ###########
+
+> Method references help to point to methods by their names. 
+> A method reference is described using :: (double colon) symbol. 
+> A method reference can be used to point the following types of methods -
+- Static methods
+- Instance methods
+- Constructors using new operator (TreeSet::new)
+
+
+
+========================================================
+################### OPTIONAL CLASS ###################
+Optional is a container object which is used to contain not-null objects. Optional object is used to represent null with absent value. This class has various utility methods to facilitate code to handle values as ‘available’ or ‘not available’ instead of checking null values. It is introduced in Java 8 and is similar to what Optional is in Guava.
+
+
+MORE DETAIL :  	http://www.journaldev.com/2774/java-8-stream
+
+http://winterbe.com/posts/2014/03/16/java-8-tutorial/
+
+#### COLLECTION #####
+##What are Collection related features in Java 8?
+A: Java 8 has brought major changes in the Collection API. Some of the changes are:
+
+1. Java Stream API for collection classes for supporting sequential as well as parallel processing
+2. Iterable interface is extended with forEach() default method that we can use to iterate over a collection. 
+- It is very helpful when used with lambda expressions because it’s argument Consumer is a function interface.
+
+3. Miscellaneous Collection API improvements such as forEachRemaining(Consumer action) method in Iterator interface, Map replaceAll(), compute(), merge() methods.
+=======================================
+########### Java SE 7(jdk1.7) #########
+> code name dolphin and release on July 28, 2011
+
+> NEW FEATURES - 
+1. Strings in switch statement
+2. Type Inference for Generic Instance Creation
+3. Multiple Exception Handling
+4. Support for Dynamic Languages
+5. Try with Resources (03a)
+6. Java nio packages
+7. Binary Literals, underscore in literals Ex - 0_0000_
+8. Diamond Syntax
+9. Automatic null handling
+10. Numeric can be represent in byte format
+
+=> In jdk1.7, string store in main Heap area bcz of OutOfMemory risk in storing permgen area previously(jdk1.6)
+
+-----------------------
+##Explain with example usage of underscore in numeric literals introduced in Java SE 7.
+
+> Any number of underscore characters (_) can appear anywhere between digits in a numerical literal. 
+> use to improve the readability 
+
+> Some examples are:
+float pi =  3.14_15F;
+long creditCardNumber = 1234_5678_9012_3456L;
+ 
+You can place underscores only between digits; you cannot place underscores in the following places:
+· At the beginning or end of a number // Invalid - int x1 = _52;
+· Adjacent to a decimal point in a floating point literal // Invalid - float pi = 3_.1415F;
+· Prior to an F or L suffix // Invalid -  float pi=3.1415_F
+ 
+public class Underscore {
+    public static void main(String[] args) {
+        int million_ = 1_000_000; // New in Java SE 7
+        int million = 1000000;
+        if (million_ == million) {
+            System.out.println("Equal - "+million_);
+        } else {
+            System.out.println("Not Equal - "+million_);
+        }
+    }
+}	
+---------------------------------
+##Explain Binary literals introduced in Java SE 7.
+
+> In Java SE 7, the integral types (byte, short, int, and long) can also be expressed using the binary number system. 
+> To specify a binary literal, add the prefix 0b or 0B to the number. The following examples show binary literals:
+ 
+// An 8-bit 'byte' value:
+byte aByte = (byte)0b00100001;
+ 
+// A 16-bit 'short' value:
+short aShort = (short)0b1010000101000101;
+ 
+// Prior to Java SE 7
+int number = 10;
+    if (10 == number) {
+            System.out.println(true);
+    } else {
+		System.out.println(false);
+    }
+ 
+// From Java SE 7, with the help of Binary Literals
+int number = 0b1010;
+    if (10 == number) {
+        System.out.println(true);
+    }else {
+        System.out.println(false);
+	}
+---------------------------------
+## Explain Strings in switch statements introduced in Java SE 7.
+
+> a String object can be used in the expression of a switch statement. 
+> The switch statement compares the String object in its expression with the expressions associated with each case label 
+as if it were using the String.equals method; 
+> consequently, the comparison of String objects in switch statements is case sensitive.
+
+public class StringsInSwitch {
+    // Prior to Java SE 7
+    public static void main(String[] args) {      
+        String dayOfWeek=args[0];
+        String message ="";
+        if(dayOfWeek.equals("Monday")) {
+            message = "Start of the work week";
+        }
+        else if(dayOfWeek.equals("Tuesday")) {
+            message = "Start of the work week";
+        }
+        else if(dayOfWeek.equals("Friday")) {
+            message = "End of work week";
+        }
+    }
+}
+The above code can be simplified using switch with Strings as shown below:
+public class StringsInSwitch {
+    public static void main(String[] args) {
+     String dayOfWeek=args[0];
+        String message ="";
+        switch (dayOfWeek) {
+            case "Monday":
+                message = "Start of the work week";
+                break;
+            case "Tuesday":
+                message = "Start of the work week";
+                break;
+            case "Friday":
+                message = "End of work week";
+                break;
+        }
+    }
+}
+The Java compiler generates generally more efficient bytecode from switch statements that use String objects than from chained if-then-else statements.
+---------------------------------
+## What are the enhancements made to Java language in Java SE 7?
+
+Answer:
+Java SE 7 introduced several enhancements to the Java language. Following are some of the important features:
+ 
+·         Binary Literals
+·         Underscore in Numeric Literals
+·         Strings in Switch statements
+·         Type Inference for Generic instance creation
+·         try-with-resources statement
+·         Multi-catch statements
+==========================================
+############ Java SE 6 ############ 
+> Code named Mustang and released on December 11, 2006.
+NEW FEATURES IN JAVA SE 6
+> Scripting Language Support
+> JDBC 4.0 API
+> Java Compiler API
+> Pluggable Annotations
+> Native PKI, Java GSS, Kerberos and LDAP support.
+> Integrated Web Services.
+> Lot more enhancements.
+==========================================
+############ J2SE Version 5.0 ############
+> Code named Tiger and released on September 30, 2004.
+New features in J2SE 5.0
+1. Generics (1d.)
+2. Enhanced for Loop
+3. Autoboxing/Unboxing
+4. Typesafe Enums (1a)
+5. Varargs - (1b)
+6. Static Import(2a)
+7. Metadata (Annotations)
+8. CO-VARIANT METHOD OVERRIDING [2a]
+9. Scanner API
+> it provide a robust mechanism for reading in data types rather than simply parsing strings from buffered System.in calls
+> no more wrapping with InputStreamReader and BufferedReader around System.in
+
+// C style printf. System.out.printf(String arg0, Object ...arg1).
+// this feature is possible due to var-args feature.
+ System.out.printf("num is: %1s, list size: %2s \n", num, numList.size());
+//"%" symbol means we are using the format specifier, "1" means first arg
+. // Refer java.util.Formatter class API for the format specification details.
+==========================================
+############ J2SE Version 1.4 ############
+>Code named Merlin and released on February 6, 2002 (first release under JCP)
+New features in J2SE 1.4
+
+XML Processing
+Java Print Service
+Logging API
+Java Web Start
+JDBC 3.0 API
+Assertions
+Preferences API
+Chained Exception
+IPv6 Support
+Regular Expressions
+Image I/O API
+==========================================
+############ J2SE Version 1.3 ############
+> Code named Kestrel and released on May 8, 2000
+NEW FEATURES IN J2SE 1.3
+Java Sound
+Jar Indexing
+A huge list of enhancements in almost all the java area.
+==========================================
+J2SE version 1.2
+> Code named playground and released on 8 Dec 1998
+> New Features - 
+> Collection framework, 
+> JIT compiler, JAR files,
+JFC(Java foundation classes), java plug-in, 
+audio support in applets
+java string memory map for const
+==========================================
+JDK Version 1.1
+> New features like JDBC, 
+- Inner Classes, 
+- Java Beans, 
+- RMI(Remote Method invocation), 
+- Reflection
+> Released on 19 Feb, 1997
+
+---------------------------------
+JDK Version 1.0
+> Code name Oak and release on 23 Jan, 1996
+
+==========================================
+##### Unsupported major.minor version 52.0 ####
+> double check the compiler and JRE version there would be mismatch. After correcting it clean the project and run it. it will solve 
+
+>class compiled using Java 7 cannot run into Java 5, because higher version usually have features which are not supported by lower version.
+- Even though we don't use any feature of java 7 it won't run in java 5 because
+- every class file has a major or minor version, which is populated by Java compiler, which is closely related to Java version.
+
+Java SE 8 = 52, 
+Java SE 7 = 51, 
+Java SE 6.0 = 50, 
+Java SE 5.0 = 49, 
+JDK 1.4 = 48, 
+JDK 1.3 = 47, 
+JDK 1.2 = 46, 
+JDK 1.1 = 45
+
+
+
+
+-----------------------------

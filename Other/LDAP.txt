@@ -1,0 +1,131 @@
+LDAP authentication
+
+###### Lightweight Directory Access Protocol (LDAP) ######
+
+> It traces its roots to the X.500 protocol, was developed in the early 1990s as a standard directories protocol
+> LDAP defines how clients should access data on the server
+--------------------------------------
+
+> LDAP's basic structure is based on a simple information tree metaphor called a directory information tree (DIT). 
+> Each leaf in the tree is an entry; 
+> the first or top-level entry is the root entry. 
+> An entry includes a Distinguished Name (DN) and any number of attribute/value pairs. 
+- The DN, which is the name of an entry, must be unique.
+
+
+> path to a file reads left to right, a DN, in contrast, reads from right to left.
+Here is an example of an DN:
+uid=styagi,ou=people,o=myserver.com
+
+- leftmost part of the DN, called a Relative Distinguished Name (RDN), is made up of an attribute/value pair Ex-  this pair would be uid=styagi
+
+- Any attribute can have one or more values, depending on how it is defined the schema
+--------------------------------------
+## Where does JNDI fit into this LDAP?
+> it provides a standard API for interacting with naming and directory services using a service provider interface (SPI)
+- JNDI gives Java applications and objects a powerful and transparent interface to access directory services like LDAP.
+
+Operation 	What it does JNDI methods
+1. Search : Search directory for matching directory entries	
+- DirContext.search()
+
+2. Compare : Compare directory entry to a set of attributes	
+- DirContext.search()
+
+3. Add	: Add a new directory entry	
+- DirContext.bind(), 
+- DirContext.createSubcontext()
+
+4. Modify : Modify a particular directory entry	
+- DirContext.modifyAttributes()
+
+5. Delete : Delete a particular directory entry	
+- Context.unbind(), 
+- Context.destroySubcontext()
+
+6. Rename : Rename or modify the DN	
+- Context.rename()
+
+7. Bind	: Start a session with an LDAP server	
+- new InitialDirContext()
+
+8. Unbind : End a session with an LDAP server	
+- Context.close()
+
+9. Abandon	: Abandon an operation previously sent to the server	
+- Context.close(), 
+- NamingEnumneration.close()
+
+10. Extended : Extended operations command	
+- LdapContext.extendedOperation()
+--------------------------------------
+Ex - 
+String url = "ldap://localhost:10389";
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, url);
+env.put(Context.SECURITY_AUTHENTICATION, "simple");
+env.put(Context.SECURITY_PRINCIPAL, "uid=admin,ou=system");
+env.put(Context.SECURITY_CREDENTIALS, "secret");
+ 
+try {
+    DirContext ctx = new InitialDirContext(env);
+    System.out.println("connected");
+    System.out.println(ctx.getEnvironment());
+     
+    // do something useful with the context...
+ 
+    ctx.close();
+ 
+} catch (AuthenticationNotSupportedException ex) {
+    System.out.println("The authentication is not supported by the server");
+} catch (AuthenticationException ex) {
+    System.out.println("incorrect password or username");
+} catch (NamingException ex) {
+    System.out.println("error when trying to create the context");
+}
+
+- when attempting to connect to a LDAP server, three exceptions might be thrown:
+1. AuthenticationNotSupportedException: if the specified authentication mechanism is not supported by the server.
+2. AuthenticationException: if either the username or password is incorrect.
+3. NamingException: if a naming exception is encountered.
+--------------------------------------
+five environment properties are:
+1. INITIAL_CONTEXT_FACTORY: specifies the fully qualified class name of the factory class that will create an initial context, 
+- default is com.sun.jndi.ldap.LdapCtxFactory.
+
+2. PROVIDER_URL: specifies URL of the service provider to use, 
+- e.g. “ldap://hostname:389”.
+
+3. SECURITY_AUTHENTICATION: specifies the authentication mechanism to use, which is one of the following strings:
+> “none”: use no authentication (anonymous).
+> “simple”: use weak authentication (password in clear text).
+> sasl_mech: use strong authentication with SASL (Simple Authentication and Security Layer).
+
+4. SECURITY_PRINCIPAL: specifies username of the principal for the authentication, in the form of a LDAP distinguished name, 
+- e.g. “uid=admin,ou=system”.
+
+5. SECURITY_CREDENTIALS: specifies password of the principal for the authentication.
+--------------------------------------
+#### LDAP TERM'S ########
+> Dn (Distinguished name) - a unique name which is used to find the user in LDAP server e.g. Microsoft Active Directory.
+
+> Ou (Organization Unit)
+
+> Bind - LDAP Bind is an operation in which LDAP clients sends bindRequest to LDAP user including username and password and if LDAP server able to find user and password correct, it allows access to the ldap server.
+
+> Search - LDAP search is an operation which is performed to retrieve Dn of the user by using some user credential.
+
+> Root - LDAP directory's top element, like Root of a tree.
+
+> BaseDn - a branch in LDAP tree which can be used as base for LDAP search operation e.g. dc=Microsoft,dc=org"
+
+
+> o	(Organization)
+
+> cn (Common name)
+> sn (Surname)
+> givenname (First name)
+> uid (Userid)
+> mail (Email address)
+--------------------------------------

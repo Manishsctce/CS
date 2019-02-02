@@ -1,0 +1,203 @@
+########### S E T ############
+public interface Set<E> extends Collection<E> {}
+ 
+##What is Set? Which all classes implement Set interface?
+> Set is a collection that CANNOT CONTAIN DUPLICATE ELEMENT that mean the element of e1.equals(e2).
+> At most it CAN CONTAIN 1 NULL ELEMENT.
+> Set has containsAll, equals, hashCode, removeAll, retainAll, toArray, toArray methods
+
+## Iterable(I) <- Collection(I) <- Set(I) 
+## Set(I) <- SortedSet(I) <- NavigableSet(I) <- TreeSet(C)
+## Set(I) <- HashSet(C) <- LinkedHashSet(C)
+
+> Below classes that commonly use:-
+1. HASHSET - no iteration order, allow 1 null element, not synchr., constant time performance for basic operation
+
+2. TREESET - impl of SortedSet i.e sorted order, no null element, not sycho
+- provides guaranteed O(log(n)) time for common operations like add, remove and contains
+- TreeSet is backed by a  Navigable  TreeMap.
+- TreeSet uses Red-Black tree algo to sort.
+
+3. LinkedHashSet - inserted order, 1 null ele, different datatype and doubly linked list maintain
+
+INTERFACE - 
+1. SortedSet - sorted, inserted element must implement Comparable or Comparator interface.
+
+-------------------------------------
+## What are the Similarity and Difference between various impl of Set?
+### SIMILARITY
+> Iterator returned by TreeSet, LinkedHashSet and HashSet are fail-fast Iterator
+
+#### DIFFERENCE
+> HashSet and LinkedHashSet offer constant time performance e.g. O(1) for add, contains and remove
+- TreeSet provides guaranteed O(log(n)) time for common operations like add, remove and contains
+
+ORDERING : 
+- HashSet does not maintain any order while 
+- LinkedHashSet maintains insertion order of elements much like List interface and 
+- TreeSet maintains sorting order or elements.
+
+INTERNAL IMPLEMENTATION : 
+- HashSet is backed by an HashMap instance, 
+- LinkedHashSet is implemented using HashSet and LinkedList while 
+- TreeSet is backed up by NavigableMap in Java and by default it uses TreeMap
+
+NULL : Both HashSet and LinkedHashSet allows null but TreeSet doesn't allow null 
+- TreeSet not allow bcz it use compareTo() 
+
+COMPARISON : 
+- HashSet and LinkedHashSet uses equals() method in Java for comparison but 
+- TreeSet uses compareTo() method for maintaining ordering.
+
+-----------------------------------------
+##What is difference between List and a Set?
+> List can contain DUPLICATE VALUE but set cannot
+> List maintain INSERTION ORDER but in set retrival is not sure according to insertion.
+=====================================
+############# HASHSET ###############
+> no iteration order, allow 1 null element, not synchr., constant time performance for basic operation
+-----------------------------------------
+###How Hashset  works internally in Java or how HashSet works in java?
+> HashSet internally use HashMap to acheive it uniqueness.
+> it use the put() of map to add ele in set as 
+ - if map.put(elem,PRESENT) put element successfully return null i.e. equal to null and thus return true.
+ - if map.put(elem,PRESENT) return old value (bcz of duplication) then value != null and thus return false.
+ 
+public class HashSet<E> extends AbstractSet<E>
+implements Set, Cloneable, Serializable{
+	private transient HashMap<E, Object> map;
+	
+	//Dummy value to associate with an object in the backing map
+	private static final Object PRESENT = new Object();
+	public HashSet(){
+		map = new HashMap<>();
+	}
+	//SOME Code i.e other methods of hashSet
+	public boolean add(E e){
+		return map.put(e, PRESENT) == null;
+	}
+}
+> here PRESENT is dummy object of map's value
+-----------------------------------------
+##Why does HashSet implementation in Sun Java use HashMap as its backing?
+> for code reuse and memry effiency
+-----------------------------------------
+##What is the default initial capacity and initial load factor of HashSet object?
+> Default Initial Capacity of HashSet Object : 16
+> Initial Load Factor of HashSet Object : 0.75
+-----------------------------------------
+## Why HashSet does not have get(Object o) method ?
+
+> get(Object o) is useful when we hv 1 info linked to other info just like key-value pair in HashMap.
+> HashSet have unique value feature
+> So only we can find element is present in HashSet using contains()
+
+> In ArrayList, get(int) is used to get the given index.
+-----------------------------------------
+## Does addAll(Collection c) of set can add list object?
+> Yes it can add list object.
+-----------------------------------------
+## How can we convert a set into a list?
+1> Make a new List object and pass set object into it as List list = new ArrayList(set);
+
+2> if we already have a list then use list.addAll(set) 
+-----------------------------------------
+##How to remove repeated elements and maintain order from ArrayList?
+
+> Copy all the elements of ArrayList in LinkedHashSet (as it maintain insertion order, not contain duplicate element) - arrayList.addAll(linkedHashSet)
+> empty the ArrayList as arrayList.clear()
+> copy LinkedHashSet into ArrayList - linkedHashSet.addAll(arrayList)
+=====================================
+######## LinkedHashSet[c] ###########
+
+## How LinkedHashSet Works Internally In Java?
+> It use LinkedHashMap object internally to store and process it’s elements.
+> elements are stored as keys in LinkedHashMap object and values of these keys will be “PRESENT“ as same as HashSet.
+> Each key, value pair in the LinkedHashMap are instances of it’s static inner class called Entry<K, V>
+- it contain 2 more field i.e Entry<K,V> before, after; it is responsible for maintaining the insertion order. 
+- header field of LinkedHashMap stores the head of this doubly linked list
+=====================================
+############## TREESET ##############
+> It is a NavigableSet implementation based on a TreeMap. 
+> its implem is based on RB tree
+
+> implementation provides guaranted log(n) time cost for the basic operations (add, remove and contains).
+> impl is not synchr.
+
+> Adding null to an empty TreeSet will throw NullPointerException but after 1 ele it will not.
+
+####### METHODS #######
+E first() - 1st ele
+- NoSuchElementException if this set is empty
+
+E last() - last ele
+- NoSuchElementException if this set is empty
+
+SortedSet<E> tailSet(fromEle) 
+- fromElement low endpoint (inclusive) of the returned set
+
+SortedSet<E> headSet(toEle)
+- toElement high endpoint (exclusive) of the returned set
+
+E pollFirst();
+- null if the set is empty
+
+E floor() 
+Returns the greatest element in this set less than or equal to the given element, or null if there is no such element.
+-----------------------------------------
+## How TreeSet works internally in java ?
+> it is based on TreeMap with store just like HashMap 
+- but it make comparision between existing entry using compare()
+- it use RB tree property to store entry in 
+-----------------------------------------
+## What is RB Tree and what its property?
+- RB Tree is a binary search tree(BST) and 
+- its operation like search, max, min, insert, delete.. etc take O(h) time where h is the height of the BST
+
+Red Black tree properties :
+1. color of every node in the tree is either red or black.
+2. Root node must be Black in color.
+3. Red node cannot have a red color neighbor node.
+4. All paths from root node to the null should consist the same number of black nodes 
+
+Comparison with AVL Tree
+The AVL trees are more balanced compared to Red Black Trees, but they may cause more rotations during insertion and deletion. 
+-----------------------------------------
+### What is the Difference and Similarity between HashSet and TreeSet ?
+SIMILARITY
+> Unique element, not thread safe
+> Both HashSet and TreeSet uses shallow copy technique to create a clone of  their objects .
+
+DIFFERENCE
+> HashSet doesnt maintain is SORTED ORDER but TreeSet does.
+> HashSet can contain 1 NULL ELEMENT but TreeSet cannot.
+> HashSet can contain different TYPE OF OBJECT but TreeSet can contain only 1 type otherwise throw ClassCastException
+
+> TreeSet is NAVIGABLE SET i.e it can navigate in acs/desc order in sorted set using func like pollFirst(),pollLast(),first(),last(),ceiling(),lower() etc.
+- HashSet doesn't have feature of navigation.
+
+> TreeSet guarantees log(n) time cost for basic operation 
+- HashSet constant time
+> HashSet uses equals() for comparison in java while TreeSet uses compareTo() method for maintaining ordering .
+
+When to prefer TreeSet over HashSet
+> TreeSet is used when require sorted set
+> TreeSet has greater locality than HashSet. becz near by data take less latency time 
+>> Use TreeSet when need to perform read/write operations frequently.
+
+-----------------------------------------
+## If my class doesn't impl comparable but we need to store it in TreeSet. How?
+> make Comparator class impl compare() 
+> pass this comparator to TreeSet constructor 
+
+
+-----------------------------------------
+##What is and when to use Collections.emptySet()? 
+- What is the advantage of having emptySet in Collections class ?
+
+> Collections.emptySet() returns the empty immutable Set that not containing null 
+
+Advantages of using emptySet() method over creating object using constructor are :
+1. Immutability - so it can access by multiple thread
+2. Concise - doesnt need to write generic 
+3. Efficient - emptySet() does nt create new object so can be reuse

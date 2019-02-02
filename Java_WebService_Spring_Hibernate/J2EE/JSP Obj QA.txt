@@ -1,0 +1,439 @@
+##Which of the following is legal JSP syntax to print the value of i. Select the one correct answer
+A. <%int i = 1;%>
+<%= i; %>
+
+B. <%int i = 1;
+i; %>
+
+C. <%int i = 1%>
+<%= i %>
+
+D. <%int i = 1;%>
+<%= i %>
+
+E. <%int i = 1%>
+<%= i; %>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+## A JSP page called test.jsp is passed a parameter name in the URL using http://localhost/test.jsp?name="John". The test.jsp contains the following code.
+
+<%! String myName=request.getParameter();%>
+<% String test= "welcome" + myName; %>
+<%= test%>
+
+The program prints "Welcome John"
+The program gives a syntax error because of the statement
+<%! String myName=request.getParameter();%>
+The program gives a syntax error because of the statement
+<% String test= "welcome" + myName; %>
+The program gives a syntax error because of the statement
+<%= test%>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+Which of the following correctly represents the following JSP statement. Select the one correct answer.
+<%=x%>
+<jsp:expression=x/>
+<jsp:expression>x</jsp:expression>
+<jsp:statement>x</jsp:statement>
+<jsp:declaration>x</jsp:declaration>
+<jsp:scriptlet>x</jsp:scriptlet>
+
+Which of the following correctly represents the following JSP statement. Select the one correct answer.
+<%x=1;%>
+<jsp:expression x=1;/>
+<jsp:expression>x=1;</jsp:expression>
+<jsp:statement>x=1;</jsp:statement>
+<jsp:declaration>x=1;</jsp:declaration>
+<jsp:scriptlet>x=1;</jsp:scriptlet>
+
+What gets printed when the following JSP code is invoked in a browser. Select the one correct answer.
+<%= if(Math.random() < 0.5) %>
+  hello
+<%= } else { %>
+  hi
+<%= } %>
+
+The browser will print either hello or hi based upon the return value of random.
+The string hello will always get printed.
+The string hi will always get printed.
+The JSP file will not compile.
+
+Which of the following are correct. Select the one correct answer.
+JSP scriptlets and declarations result in code that is inserted inside the _jspService method.
+The JSP statement <%! int x; %> is equivalent to the statement <jsp:scriptlet>int x;</jsp:scriptlet%>.
+The following are some of the predefined variables that maybe used in JSP expression - httpSession, context.
+To use the character %> inside a scriptlet, you may use %\> instead.
+
+What gets printed when the following is compiled. Select the one correct answer.
+<% int y = 0; %> 
+<% int z = 0; %> 
+
+<% for(int x=0;x<3;x++) { %> 
+<% z++;++y;%> 
+<% }%> 
+
+<% if(z<y) {%> 
+<%= z%> 
+<% } else {%> 
+<%= z - 1%> 
+<% }%> 
+
+0
+1
+2
+3
+The program generates compilation error.
+
+Which of the following JSP variables are not available within a JSP expression. Select the one correct answer.
+out
+session
+request
+response
+httpsession
+page
+
+A bean with a property color is loaded using the following statement
+<jsp:usebean id="fruit" class="Fruit"/> 
+Which of the following statements may be used to print the value of color property of the bean. Select the one correct answer. 
+<jsp:getColor bean="fruit"/>
+<jsp:getProperty id="fruit" property="color"/>
+<jsp:getProperty bean="fruit" property="color"/>
+<jsp:getProperty name="fruit" property="color"/>
+<jsp:getProperty class="Fruit" property="color"/>
+
+A bean with a property color is loaded using the following statement
+<jsp:usebean id="fruit" class="Fruit"/> 
+Which of the following statements may be used to set the of color property of the bean. Select the one correct answer. 
+<jsp:setColor id="fruit" property="color" value="white"/>
+<jsp:setColor name="fruit" property="color" value="white"/>
+<jsp:setValue name="fruit" property="color" value="white"/>
+<jsp:setProperty name="fruit" property="color" value="white">
+<jsp:setProperty name="fruit" property="color" value="white"/>
+<jsp:setProperty id="fruit" property="color" value="white">
+
+A bean with a property color is loaded using the following statement
+<jsp:usebean id="fruit" class="Fruit"/> 
+What happens when the following statement is executed. Select the one correct answer.
+<jsp:setProperty name="fruit" property="*"/>
+This is incorrect syntax of <jsp:setProperty/> and will generate a compilation error. Either value or param must be defined.
+All the properties of the fruit bean are initialized to a value of null.
+All the properties of the fruit bean are assigned the values of input parameters of the JSP page that have the same name.
+All the properties of the fruit bean are initialized to a value of *.
+
+Is the following statement true or false. If the isThreadSafe attribute of the page directive is false, then the generated servlet implements the SingleThreadModel interface.
+
+
+Which of the following represents a correct syntax for usebean. Select the two correct answers.
+<jsp:usebean id="fruit scope ="page"/>
+<jsp:usebean id="fruit type ="String"/>
+<jsp:usebean id="fruit type ="String" beanName="Fruit"/>
+<jsp:usebean id="fruit class="Fruit" beanName="Fruit"/>
+
+Name the default value of the scope atribute of <jsp:usebean>.
+page
+application
+session
+request
+
+
+
+Which of the following statements are true for <jsp:usebean>. Select the two correct answers.
+
+The id attribute must be defined for <jsp:usebean>.
+The scope attribute must be defined for <jsp:usebean>.
+The class attribute must be defined for <jsp:usebean>.
+The <jsp:usebean> must include either type or class attribute or both.
+
+Which of these are legal attributes of page directive. Select the two correct answers.
+include
+scope
+errorPage
+session
+debug
+
+Which of the following represents the XML equivalent of this statement <%@ include file="a.jsp"%> . Select the one correct statement
+<jsp:include file="a.jsp"/>
+<jsp:include page="a.jsp"/>
+<jsp:directive.include file="a.jsp"/>
+There is no XML equivalent of include directive.
+
+Assume that you need to write a JSP page that adds numbers from one to ten, and then print the output.
+<% int sum = 0;
+for(j = 0; j < 10; j++) { %>
+// XXX --- Add j to sum
+<% } %>
+// YYY --- Display ths sum
+
+Which statement when placed at the location XXX can be used to compute the sum. Select the one correct statement
+
+<% sum = sum + j %>
+<% sum = sum + j; %>
+<%= sum = sum + j %>
+<%= sum = sum + j; %>
+
+Now consider the same JSP example as last question. What must be added at the location YYY to print the sum of ten numbers. Select the one correct statement
+<% sum %>
+<% sum; %>
+<%= sum %>
+<%= sum; %>
+
+JSP pages have access to implicit objects that are exposed automatically. One such object that is available is request. The request object is an instance of which class?
+
+
+HttpRequest
+ServletRequest
+Request
+HttpServletRequest
+
+JSP pages have access to implicit objects that are exposed automatically. Name the implicit object that is of type HttpSession.
+
+session
+application
+httpSession
+httpsession
+
+A Java bean with a property color is loaded using the following statement
+<jsp:usebean id="fruit" class="Fruit"/> 
+What is the effect of the following statement. 
+<jsp:setproperty name="fruit" property="color"/> 
+Select the one correct answer. 
+An error gets generated because the value attribute of setAttribute is not defined.
+The color attribute is assigned a value null.
+The color attribute is assigned a value "".
+If there is a non-null request parameter with name color, then its value gets assigned to color property of Java Bean fruit.
+
+The page directive is used to convey information about the page to JSP container. Which of these are legal syntax of page directive. Select the two correct statement
+<% page info="test page" %>
+<%@ page info="test page" session="false"%>
+<%@ page session="true" %>
+<%@ page isErrorPage="errorPage.jsp" %>
+<%@ page isThreadSafe=true %>
+
+Is the following JSP code legal? Select the one correct statement.
+<%@page info="test page" session="false"%> 
+<%@page session="false"%> 
+
+Yes. This is legal JSP syntax.
+No. This code will generate syntax errors.
+
+A JSP page needs to generate an XML file. Which attribute of page directive may be used to specify that the JSP page is generating an XML file.
+
+
+contentType
+generateXML
+type
+outputXML
+
+A JSP page uses the java.util.ArrayList class many times. Instead of referring the class by its complete package name each time, we want to just use ArrayList. Which attribute of page directive must be specified to achieve this. Select the one correct answer.
+
+extends
+import
+include
+package
+classpath
+
+Which of these are true. Select the two correct answers.
+
+The default value of isThreadSafe attribute of page directive is true.
+If isThreadSafe attribute of page directive is set to true, then JSP container dispatches request for the page sequentially.
+When isThreadSafe attribute of page directive is set to true, a thread is created for each request for the page.
+Setting isThreadSage attribute to true for JSP pages, can lead to poor performance.
+
+Which of the following are examples of JSP directive. Select the two correct answers.
+include
+exclude
+import
+taglibrary
+servlet
+page
+
+Which of these is true about include directive. Select the one correct answer.
+The included file must have jspf extension.
+The XML syntax of include directive in <jsp:include file="fileName"/> .
+The content of file included using include directive, cannot refer to variables local to the original page.
+When using the include directive, the JSP container treats the file to be included as if it was part of the original file.
+
+Name the implicit variable available to JSP pages that may be used to access all the other implicit objects.
+page
+pageContext
+context
+object
+jspPave
+
+
+
+Answers to questions on JSP 
+d. When using scriptlets (that is code included within <% %>), the included code must have legal Java syntax. So the first statement must end with a semi-colon. The second statement on the other hand is a JSP expression. So it must not end with a semi colon.
+b. JSP declarations do not have access to automatically defined variables like request, response etc.
+b. The XML syntax for JSP expression is <jsp:expression>Java expression</jsp:expression>
+e. The XML syntax for JSP scriptlets is <jsp:scriptlet>Java code</jsp:scriptlet>
+d. The if statement, else statement and closing parenthesis are JSP scriptlets and not JSP expressions. So these should be included within <% } %>
+d. JSP declarations are inserted outside of _jspService method. Hence a is incorrect. The JSP statement <%!int a;%> is equivalent to <jsp:declaration>int x;</jsp:declaration>. Hence b is incorrect. The predefined variables that are available within the JSP expression are session and pageContext, and not httpSession and context. Hence c is incorrect.
+c. After the for loop z and y are both set to 3. The else satement gets evaluated, and 2 gets printed in the browser.
+e. There is no such variable as httpsession.
+jsp:getProperty takes two attributes - name and property. The name attribute must match the id attribute of jsp:usebean.
+e. The jsp:setProperty takes three attributes - name, property and value. Also the jsp:setProperty must end with />.
+c. Using * for property is legal syntax. Bean properties are associated with identically named input parameters.
+true. The page directive is defined as <%@page isThreadSafe="false"%>
+b,c.
+a. The default scope of the declared bean is page.
+a,d. The scope and class attributes are not required. But either class or type must be defined.
+c,d. The following are legal attributes of page directive - import, isThreadSafe, session, contentType, autoFlush, extends, info, errorPage, isErrorPage, language.
+c. <jsp:directive.include> is the XML equivalent of include directive.
+b. As this is a a Java statement it needs to be included with <% and %>, and it needs to end in semi-colon.
+c. As this is a a Java expression it needs to be included with <%= and %>, and it should not end in semi-colon.
+d. request is an instance of HttpServletRequest
+a. Implicit object session is of type HttpSession.
+d. This is a legal syntax to set a property of JavaBean. The value attribute of setProperty is optional.
+b,c. The option a is incorrect because page directive must be included within <%@ . d is incorrect because the value of isErrorPage attribute must be boolean. e is incorrect because, the value true is not within quotes.
+b. Except the import attribute of page directive, all the other attributes of page directive cannot be specified more than once. In this example session attribute is specified twice.
+a. contentType attribute is used to generate XML. The syntax will look like - 
+<%@page contentType="text/xml"/>
+B. The syntax will look like -
+<%@page import="java.util.ArrayList"/>
+a,c. The default value of isThreadSafe attribute is true. So a is correct. If isThreadSafe is set to false, then JSP container processes request sequentially, and this leads to poor performance. Hence b and d are incorrect.
+a,f. include, taglib and page are examples of JSP directives. The JSP directives have this syntax - 
+<%@directive attribute="value" %>
+d. It is not required that the included file has jspf extension. Hence a is incorrect. The XML syntax of include directive is <jsp:directive.include>
+b. This pageContext object is an instance of type javax.servlet.jsp.PageContext, and provides methods like getPage(), getRequest(), etc. to access other input variables.
+
+-------------------
+Q 1. How many JDBC driver types does Sun define?
+A   One
+B   Two
+C   Three
+D   Four --
+
+Q 2. Where is metadata stored in MySQL?
+
+A   In the MySQL database metadata
+B   In the MySQL database metasql
+C   In the MySQL database mysql --
+D   None of the above is correct.
+
+Q 3. Who invented Java?
+
+A   Netscape
+B   Microsoft
+C   Sun --
+D   None of the above is correct.
+
+Q 4. To run a compiled Java program, the machine must have what loaded and running?
+
+A   Java virtual machine --
+B   Java compiler
+C   Java bytecode
+D   A Web browser
+
+Q 5. Which JDBC driver Type(s) can be used in either applet or servlet code?
+
+A   Both Type 1 and Type 2
+B   Both Type 1 and Type 3
+C   Both Type 3 and Type 4 --
+D   Type 4 only
+
+Q 6. ________ is an open source DBMS product that runs on UNIX, Linux and Windows.
+A   MySQL --
+B   JSP/SQL
+C   JDBC/SQL
+D   Sun ACCESS
+
+Q 7. What is sent to the user via HTTP, invoked using the HTTP protocol on the user's computer, and run on the user's computer as an application?
+
+A   A Java application
+B   A Java applet --
+C   A Java servlet
+D   None of the above is correct.
+
+Q 8. What MySQL property is used to create a surrogate key in MySQL?
+
+A   UNIQUE
+B   SEQUENCE
+C   AUTO_INCREMENT --
+D   None of the above -- Surrogate keys are not implemented in MySQL.
+
+#Q 9. What is not true of a Java bean?
+
+A   There are no public instance variables.
+B   All persistent values are accessed using getxxx and setxxx methods.
+C   It may have many constructors as necessary. --
+D   All of the above are true of a Java bean.
+
+Q 10. A JSP is transformed into a(n):
+
+A   Java applet.
+B   Java servlet. --
+C   Either 1 or 2 above.
+D   Neither 1 nor 2 above.
+
+Q 11. Which JDBC driver Type(s) can you use in a three-tier architecture and if the Web server and the DBMS are running on the same machine?
+
+A   Type 1 only
+
+B   Type 2 only
+
+C   Both Type 3 and Type 4
+
+D   All of Type 1, Type 2, Type 3 and Type 4 --
+
+Q 12. What programming language(s) or scripting language(s) does Java Server Pages (JSP) support?
+
+A   VBScript only
+B   Jscript only
+C   Java only --
+D   All of the above are supported
+
+Q 13. What servlet processor was developed by Apache Foundation and Sun?
+
+A   Apache Tomcat --
+B   Apache Web server
+C   Sun servlet processor
+D   None of the above is correct.
+
+Q 14. What is bytecode?
+
+A   Machine-specific code
+B   Java code
+C   Machine-independent code --
+D   None of the above is correct.
+
+Q 15. What is invoked via HTTP on the Web server computer when it responds to requests from a user's Web browser?
+
+A   A Java application
+B   A Java applet
+C   A Java servlet --
+D   None of the above is correct.
+
+Q 16. Which JDBC driver Type(s) is(are) the JDBC-ODBC bridge?
+
+A   Type 1 --
+B   Type 2
+C   Type 3
+D   Type 4
+
+Q 17. How many copies of a JSP page can be in memory at a time?
+
+A   One --
+B   Two
+C   Three
+D   Unlimited
+
+Q 18. Which JDBC driver Types are for use over communications networks?
+
+A   Type 3 only
+B   Type 4 only
+C   Both Type 3 and Type 4 --
+D   Neither Type 3 nor Type 4
+
+Q 19. JDBC stands for:
+
+A   Java Database Connectivity --
+B   Java Database Components
+C   Java Database Control
+D   None of the above is correct.
+
+Q 20. How does Tomcat execute a JSP?
+
+A   As a CGI script
+B   As an independent process 
+C   By one of Tomcat's threads --
+D   None of the above is correct.
+

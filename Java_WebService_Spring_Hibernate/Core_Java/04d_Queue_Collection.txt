@@ -1,0 +1,239 @@
+############# Queue[i] ##############
+
+interface Queue<E> extends Collection<E> {
+ E element(); //ret head but doesn't remove, excep if que is empty
+ E peek();    //ret head but doesn't remove, ret null if queue is empty
+ 
+ E poll();    //ret head and remove, ret null if queue is empty
+ E remove();  //ret head and remove, exception if queue is empty
+ 
+ boolean offer(Object); //add elem but dnt throw excep if oper fail for limit exceed case 
+}
+
+> Since Java5
+
+> Queue follows First-In-First-Out(FIFO) model
+-------------------------------------
+PriorityQueue
+ConcurrentLinkedQueue
+=====================================
+######### PriorityQueue[c] ##########
+> Since Java5
+> it is packed in "java.util"
+class PriorityQueue extends AbstractQueue
+
+> An unbounded priority queue based on a PRIORITY HEAP. 
+- but we can specify the initial capacity at the time of it’s creation. it’s capacity grows automatically.
+
+> It represented as a balanced binary heap: the 2 children of queue[n] are queue[2*n+1] and queue[2*(n+1)]
+
+> it DOES NOT PERMIT NULL elements. 
+	 
+> ELEMENTS ARE IN NATURAL ORDER or 
+- we can provide a Comparator for ordering at the time of instantiation of priority queue.
+- DOES NOT PERMIT insertion of NON-COMPARABLE OBJECTS
+
+> Iterator doesn't guarantee to traverse in particular order. 
+- For order traverse use Arrays.sort(pq.toArray());
+- It doesn't keep all elements in that order though, ONLY HEAD BEING LEAST VALUE ELEMENT IS GUARANTEED. 
+- This is in fact main difference between TreeSet and PriorityQueue in Java
+
+> HEAD IS THE LEAST ELE based on the natural ordering or comparator based ordering, 
+- if there are multiple objects with same ordering, then it can poll any one of them randomly. 
+
+> it is NOT THREAD-SAFE 
+- PriorityBlockingQueue[c] is thread-safe and BlockingQueue based implementation
+
+> it requires O(log(n)) time for its enqueing and dequeing operations e.g. offer(), poll() and add(), but 
+- constant time for retrieval methods e.g. peek() and element().
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Difference between PriorityQueue and TreeSet?
+> TreeSet is a Set and doesn't allow a duplicate element, while 
+- PriorityQueue is a queue and doesn't have such restriction. 
+- It can contain multiple elements with equal values and in that case head of the queue will be arbitrarily chosen from them.
+
+> Only guarantee PriorityQueue gives that head will always be smallest or largest element. 
+- TreeSet keeps all elements in sorted order and iterator returned by TreeSet will allow you to access all elements in that sorted order.
+
+=======================================
+########### BlockingQueue[i] ##########
+> Since Java5
+> it is in "java.util.concurrent" package
+
+interface BlockingQueue<E> extends Queue<E>{
+  //insertion
+  boolean add(E);
+  boolean offer(E);
+  void put(E);  
+  boolean offer(E e, long timeout, TimeUnit unit);
+  
+  //removal
+  boolean remove(Obj); 
+  E poll(long timeout, TimeUnit unit);
+  E take();
+  
+  int remainingCapacity();
+  boolean contains(Object);
+  
+  int drainTo(Collection<? super E> c);
+  int drainTo(Collection<? super E> c, int maxElements);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is BlockingQueue[i]?
+
+> It is a Queue which is introduce in jdk1.5 in "java.util.concurrent" package
+> It is used in multi-threading and producer-consumer scenerios.
+
+> While adding an element to a a BlockingQueue, if there is no space it can wait till it becomes available. 
+- Similarly while retrieving, it will wait till an element is available if it is empty.
+
+> it doesn’t accept null values and can throw NullPointerException.
+> Its implementations are thread-safe
+> BlockingQueue can be bounded or unbounded
+> It can contain duplicate element
+
+> BOUNDED BlockingQueue 
+- it is initialized with initial capacity 
+- put() will be blocked if BlockingQueue is full 
+- it ideal to use a shared queue between multiple threads
+
+> UNBOUNDED Queue 
+- it is initialized without capacity, actually by default it initialized with Integer.MAX_VALUE.
+
+## FOUR TYPES OF METHODS available for each operations like insert, remove and examine
+1. THROWS EXCEPTION 
+– when an insert is performed if there is no space an exception is thrown.
+
+2. RETURNS VALUE – returns a value like true or false. 
+- false means insufficient space and true means successful insertion
+
+3. BLOCKS – blocks the thread till the space is available
+4. TIMED – waits for the specified amount of time
+
+            Excep     special     block    block_with_time
+INSERTION - add(e),    offer(e), put(e), offer(e,time,unit)
+REMOVAL   - remove(),  poll(),   take(), poll(time,unit)
+EXAMINE   - element(), peek()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### METHODS #####
+1. int remainingCapacity();
+- ret number remaining space in BQ, which can be filled without blocking 
+
+2 void put(Obj) throws InterruptedException: 
+- insert ele into this que, wait if space unavailable
+
+3. boolean offer(E e, long timeout, TimeUnit unit);
+- insert object into queue if possible and return true if success and false if fail 
+- unlike add() method which throws IllegalStateException if it fails to insert object into BlockingQueue.
+
+4. int drainTo(Collection<? super E> c);
+- removes all available elements from this queue and adds them to the given coll.
+- return number of elements transferred
+
+5. int drainTo(Collection<? super E> c, int maxElements);
+- maxElements - the maximum number of elements to transfer
+
+6. boolean remove(Obj) : remove the specified object
+
+7. E take(): 
+- retrieve and remove the head of the que, waiting if necessary until an element become available
+
+8. E poll(long timeout, TimeUnit unit): 
+- Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element to become available.
+- null if the specified waiting time elapses 
+
+9. add();
+an IllegalStateException if no space is currently available
+=====================================
+##### BLOCKINGQUEUE IMPLEMENTION #### 
+- ArrayBlockingQueue - 
+- LinkedBlockingQueue -
+- PriorityBlockingQueue - 
+- SynchronousQueue - 
+- DelayQueue[c]
+- all impl. are thread-safe
+=====================================
+###### ArrayBlockingQueue[c] ########
+
+> it is in "java.util.concurrent" package
+> it is backed by array  and Queue impose orders as FIFO
+> it is also fixed size bounded
+=====================================
+####### LinkedBlockingQueue[c] ######
+class LinkedBlockingQueue<E> extends AbstractQueue<E>
+implements BlockingQueue<E>, java.io.Serializable {...}
+
+> it is in "java.util.concurrent" package
+
+> it is an optionally bounded queue built on top of Linked nodes. 
+> it provides higher throughput than ArrayBlockingQueue .
+=====================================
+##### PriorityBlockingQueue[c] ######
+class PriorityBlockingQueue<E> extends AbstractQueue<E>
+implements BlockingQueue<E>, java.io.Serializable {
+
+> it is  thread-safe and can be use in place of PriorityQueue[c]
+- cannot insert null into this queue
+
+> All elements inserted into it must impl Comparable[i].
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When should we use BlockingQueue?
+> It will be use when a thread(consumer) depends on output of other thread(producer).
+> The producer thread depend on the consumption of Consumer thread.
+> it provide various method to avoid OutOfMemoryError or 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet ArrayBlockingQueue Vs LinkedBlockingQueue?
+> ArrayBlockingQueue is always bounded,
+- LinkedBlockingQueue can be unbounded.
+
+
+=====================================
+###### ConcurrentLinkedQueue #####
+
+class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<E>, java.io.Serializable {
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###What is difference between poll() and remove() method of Queue interface?
+
+> poll() and remove() from Queue, BOTH ARE USED TO REMOVE OBJECT and RETURNS HEAD of the queue, there is subtle difference between them. 
+
+>> If Queue is empty() then a call to remove() method will THROW EXCEPTION, while a call to poll() method returns null. 
+=======================================
+############## DEQUE[i] ###############
+> Since Java6
+
+> It is Double-Ended-QUEue
+> java.util.DEQUE
+
+interface Deque<E> extends Queue {
+ void addFirst(e);void addLast(e); //throw excep while adding if oper fail(like capacity exceed)
+ boolean offerFirst(e);offerLast(e);
+ E removeFirst();E removeLast(); //throw excep if oper fail
+ E pollFirst();E pollLast();
+ E getFirst();E getLast(); //throw excep if oper fail
+ E peekFirst();E peekLast();
+ boolean removeFirstOccurence(Obj);
+ boolean removeLastOccurence(Obj);
+ Iterator descendingIterator();
+}
+
+> It is a linear collection of elements that supports the insertion and removal of elements at both end points
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### java.util.ArrayDeque ######
+class ArrayDeque implements Deque
+
+> It has NO CAPACITY RESTRICTIONS. 
+> It will perform FASTER than stack when used as stack and faster than linked list when used as queue. 
+> ArrayDeque is NOT THREAD SAFE
+>> Null elements are prohibited in the array deques
+> They are faster than Stack and LinkedList.
+=====================================
+######## BlockingDeque[i] ###########
+> java.util.concurrent.BlockingDeque[i]
+interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
+
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### java.util.concurrent.LinkedBlockingDeque 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

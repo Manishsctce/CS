@@ -1,0 +1,246 @@
+######## Shell programming ###########
+*****************
+> Shell is interface to run command and pgm. 
+
+## Different flavor of shell
+1. /bin/sh		Bourne-Again shell is standard for Linux
+2. /bin/bash	Bourne-Again shell
+3. /bin/csh		C shell (or tcsh)
+4. /bin/tcsh	tcsh
+
+> "#!/bin/bash" on the first line, meaning that the script should always be run with bash, rather than another shell.
+> shebang because the # symbol is called a hash, and the ! symbol is called a bang.
+
+> Three main types of variables are present:
+Local Variables: 
+Environment Variables: 
+Shell Variables: 
+---------------------------------
+####### Standard Unix Stream #######
+1. STDIN - standard input and its file discriptor is 0
+2. STDout - standard output and its file discriptor is 1
+3. STDerr - standard error and its file discriptor is 2
+
+> 0 indicate success
+> 1 indicate failure
+> 2 indicate error
+
+=># 2 > /dev/null means all error will stream to null
+
+dev/null
+> is a file
+> has write permission for all
+> is a unix built-in dustbin
+
+=> $0,$1,$2.... indicate arguments passed
+=> $@ is all arguments passed
+=> $!	The process number of the last background command.
+=> $? gives whether last command executed successfully? 0 - success, 1-failure
+
+=> '>>' to append stdout to a file at EOF
+=> redirect stderr to a file by using 2 >
+
+
+=> New variables can be instantiated like this: name=value
+=> with no spaces either side of the equals sign, 
+=> the name must only be made up of alphabetic characters, numeric characters and underscores, it cannot begin with a numeric character.
+
+
+=> Variables are referenced like this: $name
+=> string enclosed in double quotes(") but still we can include variable using "$name"
+
+=> The command line arguments are enumerated in the following manner $0, $1, $2, $3, $4, $5, $6, $7, $8 and $9.
+
+=> $0 is special in that it corresponds to the name of the script itself. $1 is the first argument
+
+=> after the ninth argument you must enclose the number in brackets like this ${nn}
+
+commandline arguments there are some special builtin variables: 
+=> $# represents the parameter count. Useful for controlling loop constructs that need to process each parameter.
+
+=> $@ expands to all the parameters separated by spaces. Useful for passing all the parameters to some other function or program.
+
+=> $- expands to the flags(options) the shell was invoked with. Useful for controlling program flow based on the flags set.
+
+=> $$ expands to the process id of the shell innovated to run the script. Useful for creating unique temporary filenames relative to this instantiation of the script. 	
+
+Command substitution allows the output of a command to be substituted in place of the command name itself
+
+=> 1st way - $(command)
+=> 2nd way - `command`
+
+=> Arithmetic expansion is also allowed and comes in the form:
+$((expression))
+=============================================================================
+############## ARITHMETIC OPERATION ##############
+> Shell script variables are by default treated as strings, not numbers
+
+EXAMPLE - 
+	z=5
+	$ z=`expr $z + 1`   ---- Need spaces around + sign.
+
+> With the BASH shell, whole arithmetic expressions may be placed inside double parenthesis. This form is more forgiving about spaces.	
+	$ ((e=5))
+	$ echo $e
+	$ (( e = e + 3 ))
+	$ echo $e
+	$ (( e=e+4 ))  # -- spaces or no spaces, it doesn't matter
+	$ echo $e
+	
+> the "bc" command returns 1 for logical true expressions and 0 for false expressions
+EXAMPLE - 
+if [ $( echo "$t < 3.4" | bc ) -eq 1 ]; then
+    statements
+fi
+
+=============================================================================
+############## FLOW OF CONTROL  ######################
+1. if.. then.. elif..else
+2. Do..while
+3. For
+4. CASE 
+---------------------------------
+##### Exit status #####
+A properly written Unix application will tell the operating system if it was successful or not. It does this by means of an exit status. The exit status is a numeric value in the range of 0 to 255. A "0" indicates success; any other value indicates failure
+
+#### test ####
+
+> The test command is used most often with the if command to perform true/false decisions. 
+- The command is unusual in that it has two different syntactic forms:
+
+# First form
+test expression
+
+# Second form
+[ expression ]
+
+## list of the conditions that test can evaluate ##
+-d file 			 :	True if file is a directory.
+-e file				 :	True if file exists.
+-f file				 :	True if file exists and is a regular file.
+-L file				 :	True if file is a symbolic link.
+-r file				 :	True if file is a file readable by you.
+-w file				 :	True if file is a file writable by you.
+-x file				 :	True if file is a file executable by you.
+file1 -nt file2:True :	if file1 is newer than (according to modification time) file2
+file1 -ot file2:True :	if file1 is older than file2
+-z string			 :	True if string is empty.
+-n string			 :	True if string is not empty.
+string1 = string2 	 :	True if string1 equals string2.
+string1 != string2	 :	True if string1 does not equal string2.
+
+> Note:  that the spaces between the "[" and the beginning of the expression are required. Likewise, the space between the end of the expression and the trailing "]"
+######## if.. then.. elif..else ########
+Ex - 
+
+#!/bin/sh
+if [ "$1" = "1" ] ; then
+   echo "The first choice is nice"
+elif [ "$1" = "2" ]; then
+   echo "The second choice is just as nice"
+elif [ "$1" = "3" ] ; then
+   echo "The third choice is excellent"
+else
+   echo "I see you were wise enough not to choose"
+   echo "You win"
+fi
+-------------------------
+Ex 2: - for multiple conditions
+
+if [ ! -z $VBUILD ] && [ $VBUILD!=" " ] ; then
+    echo "VBUILD: $VBUILD"
+else
+    cd /home/torch/properties/
+    VBUILD=$(date +"%d%M")
+    echo "VBUILD=$VBUILD" > vbuild.properties
+
+    echo "##############################"
+    echo "NEW VBUILD : $VBUILD "
+    echo "##############################"
+fi;
+-------------------------
+Note :- take care of spacing otherwise compiler will complain
+
+---------------------
+######## Do..while ########
+
+#!/bin/sh
+count=$1                                   # Initialise count to first parameter 
+while [ $count -gt 0 ]                     # while count is greater than 10 do
+do
+   echo $count seconds till supper time!
+   count=$(expr $count -1)                 # decrement count by 1
+   sleep 1                                 # sleep for a second using the Unix sleep command
+done
+echo Supper time!!, YEAH!!                 # were finished
+---------------------
+
+######## For ########
+
+#!/bin/sh
+fruitlist="Apple Pear Tomato Peach Grape"
+for fruit in $fruitlist
+do
+   if [ "$fruit" = "Tomato" ] || [ "$fruit" = "Peach" ]
+   then
+      echo "I like ${fruit}es"
+   else 
+      echo "I like ${fruit}s"
+   fi
+done
+-------------------------------------------------------
+
+######### 4. CASE ######### 
+ase word in
+pattern) list ;;
+...
+
+esac
+
+Ex - 
+!#/bin/sh
+case $1
+in
+1) echo 'First Choice';;
+2) echo 'Second Choice';;
+*) echo 'Other Choice';;
+esac
+===================================================================
+####### SPECIAL VARIABLE ##########
+****************
+POSITION PARAMETER
+$0 	: The filename of the current script. 
+$1  : first parameter
+$2  : 2nd parameter
+
+$n These variables correspond to the arguments with which a script was invoked. Here n is a positive decimal number corresponding to the position of an argument (the first argument is $1, the second argument is $2, and so on). 
+
+$# 	: number of arguments supplied to a script. 
+$*  : All the arguments are double quoted as string. If a script receives two arguments, $* is equivalent to $1 $2. 
+$@  : All the arguments are individually double quoted. If a script receives two arguments, $@ is equivalent to $1 $2. 
+$?  : The exit status of the last command executed. 
+$$  : The process number of the current shell. For shell scripts, this is the process ID under which they are executing. 
+$! The process number of the last background command.
+
+Example - test.sh
+
+#!/bin/sh 
+echo "File Name: $0" 
+echo "First Parameter : $1" 
+echo "First Parameter : $2" 
+echo "Quoted Values: $@" 
+echo "Quoted Values: $*" 
+echo "Total Number of Parameters : $#"
+
+Run as - $./test.sh Zara Ali
+
+Output
+File Name : ./test.sh 
+First Parameter : Zara 
+First Parameter : Ali 
+Quoted Values: Zara Ali 
+Quoted Values: Zara Ali 
+Total Number of Parameters : 2
+
+ $ character represents the process ID number, or PID, of the current shell
+=================================================================== 

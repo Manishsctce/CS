@@ -1,0 +1,410 @@
+######### COLLECTION ###########
+
+public interface Iterable<T> {
+  Iterator<T> iterator();
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+public interface Collection<E>
+extends Iterable<E>{
+  1 boolean add(Object element);
+  2 boolean addAll(collection c)	- to insert the specified collection elements in the invoking collection.
+  3 boolean remove(Object element);
+  4 boolean removeAll(Collection c);
+  5 boolean retainAll(Collection c)	- is used to delete all the elements of invoking collection except the specified collection.
+  6 int size() ; 
+  7 void clear()	- removes the total no of element from the collection.
+  8 boolean contains(object element)	is used to search an element.
+  9 boolean containsAll(Collection c) - is used to search the specified collection in this collection.
+  10 Iterator iterator() - returns an iterator.
+  11 Object[] toArray() - converts collection into array.
+  12 boolean isEmpty() - checks if collection is empty.
+  
+  default Stream<E> stream() {
+		return StreamSupport.stream(this.spliterator(), false);
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+public interface Iterator<E> {
+	boolean hasNext();
+	E next();
+	void remove();
+}
+
+> Here Collection extends java.lang.Iterable[i] which has iterator() only. 
+> iterator() return Iterator[i] ref which is used to iterate over collection
+> to iterate over collection we need Iterator[i] which have hasNext(), next(), remove()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is collection framework?
+
+> Collection in java is a framework that is use for its unified arch. 
+> It represent GROUP OF OBJECT AS AN ELEMENT
+> It is used to store,retrieve and manipulate group of objects
+>> Collection framework contains group of interface, implementation(classess) & algorithm(predefine action). 
+> It is define in java.util package.
+
+Ex - poker hand (a collection of cards), a mail folder (a collection of letters), 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## List out some benefits of Collections framework?
+
+Some of the BENEFITS of collections framework are;
+1. REDUCED DEVELOPMENT EFFORT by using core collection classes rather than implementing our own collection classes.
+2. INCREASES PROGRAM SPEED AND QUALITY:  provides high-performance, high-quality implementations of useful data structures and algorithms. 
+	- By which we can USE OUR COLLECTION IN DIFFERENT WAY i.e it provide interchangeability
+3. APIs naturally take collections on input and furnish them as output
+4. Reusability and Interoperability
+
+> Jdk1.1 - Vector, Stack, Hashtable, Array. 
+> Java 1.2 came up with Collections Framework that group all the collections interfaces, implementations and algorithms.
+> Jdk1.5 came up with concurrency utility i.e new collection related classes.
+
+> Java Collections uses Generics and Concurrent Collection classes for thread-safe operations. 
+> It also includes blocking interfaces and their implementations in java concurrent package.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the basic interfaces of Java Collection Framework?
+
+1. SET is a collection that CANNOT contain duplicate elements. Ex - such as the deck of cards.
+> Set <- HashSet, TreeSet, LinkedHashSet
+
+2. List is an ordered collection and CAN CONTAIN DUPLICATE ELEMENTS. 
+	- You can access any element from its index. 
+	- List is more like array with dynamic length.
+> List <- ArrayList, Vector, LinkedList,CopyOnWriteArrayList
+
+3. Queue 
+> The Java platform doesnt provide any direct implementations of this interface.
+
+> A Map is an object that maps keys to values. 
+> A map cannot contain duplicate keys: Each key can map to at most one value.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the classes implementation of List interface?
+
+1. ArrayList - dynamic array, not synch, insertion order, can contain duplicate element, random access
+2. Vector - synch, insertion order, can contain duplicate element, random access
+3. LinkedList - double linked list, not synch, insertion order, can contain duplicate element, no random access,used for better manipulation
+4. CopyOnWriteArrayList - 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the benefit of Generics in Collections Framework?
+> Java 1.5 came with Generics.
+> Generics allow us to provide the type of Object that a collection can contain.
+> ClassCastException at Runtime 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Map[i] doesnt extend Collection[i]??
+
+> Map contains key-value pairs and it provides methods to retrieve list of Keys or values as Collection 
+> it doesnt fit into the group of elements paradigm.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is an Iterable interface? 
+
+> Iterable[i] is extended by Collection[i]. It mean all type of collection can be iterate using iterator()
+> The class which need to iterate must implements Iterable[i] which have iterator() that return Iterator 
+
+public interface java.lang.Iterable{
+	java.util.Iterator iterator();
+	
+	//Added in Java8
+	default void forEach(Consumer<? super T> arg0) {
+		Objects.requireNonNull(arg0);
+		Iterator arg1 = this.iterator();
+
+		while (arg1.hasNext()) {
+			Object arg2 = arg1.next();
+			arg0.accept(arg2);
+		}
+
+	}
+
+	//Added in Java8
+	default Spliterator<T> spliterator() {
+		return Spliterators.spliteratorUnknownSize(this.iterator(), 0);
+	}
+}
+> Since Java8, a default method forEach() is introduce in interable interface
+Ex- empList.forEach(e -> System.out.println(e.getName))
+empList.forEach(System.out::println);//print all employee
+
+> Spliterator stands for Splitable Iterator
+> We can use Spliterator to iterate Streams in Parallel and Sequential order.
+=========================================
+############### ITERATOR ################
+public iterface Iterator {
+	boolean hasNext();
+	E next();
+	void remove();
+}
+
+## What is an Iterator?
+> Iterator is an interface that is used to iterate over collection i.e. step by step movement in collection.
+> We can iterate only in 1 DIRECTION
+
+> Iterator makes NO GUARANTEES about the order of iteration that's why it doesn't hv add(). like in set
+- It's just iterate over collection. It all depends on what you're iterating over, and the particular implementation.
+
+> Iteration can be done ONLY ONCE. If you reach the end of series its done. 
+- If we need to iterate again we should get a new Iterator.
+
+> Iterator can be used as 
+1. obtain iterator: Iterator i = collection.iterator();
+2. set up loop with i.hasNext() and obtain each element by next()
+
+> Using iterator is more THREAD-SAFE because it makes sure that if underlying list elements are modified, it will throw ConcurrentModificationException.
+
+> Iterator TAKE PLACE of Enumeration bcz many advantages [check below] 
+> Iterators ALLOW the caller TO REMOVE ELEMENTS from the underlying collection during the iteration. 
+
+> Java Collection iterator provides a GENERIC WAY FOR TRAVERSAL through the elements of a collection and implements Iterator Design Pattern.
+
+> ListIterator does provide an add operation, as it does guarantee the order of the iteration.
+---------------
+> next() - NoSuchElementException - if the iteration has no more elements
+> remove() - UnsupportedOperationException - if the remove operation is not supported by this iterator
+> IllegalStateException - for any illegal steps 
+> If the objects in the collection have been modified since the last visited object, an IllegalStateException is thrown by the method.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are advantages of iterating a collection using iterator?
+
+> For loop DOES NOT ALLOW UPDATION the collection(remove operation) inside the loop whereas Iterator does. 
+
+> Iterator can be USED WHERE THERE IS NO CLUE what type of collections will be used because all collections have iterator.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is different between Iterator and ListIterator?
+
+>> Iterator cn be used to traverse Set and List collections 
+- ListIterator can be used with Lists only. It is return by List concrete implementations.
+
+>> Iterator can traverse in FORWARD DIRECTION ONLY 
+- ListIterator can be used to traverse in BOTH DIRECTIONS.
+
+> ListIterator inherits from Iterator[i] and comes with EXTRA FUNCTIONALITIES 
+- like adding an element, replacing an element, getting index position for previous and next elements.
+
+> Iterator makes no guarantees about order of iteration that's why it doesn't hv add()
+- ListIterator does provide an add operation, as it does guarantee the order of the iteration.
+
+>> ListIterator have 9 methods including Iterotor methods - 
+- boolean hasNext(),E next(),void remove(),
+- boolean hasPrevious(), E previous()
+- int nextIndex(),int previousIndex() 
+- void set(Obj), void add(Obj)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is FAIL-FAST ITERATOR?
+> Fail fast is behavior of an iterator 
+> while iterating through the collection, it throws ConcurrentModificationException if there is structural modification  of the col. 
+
+1. Single Threaded Environment - After the creation of the iterator , structure is modified at any time by any method other than iterator's own remove method.   
+2. Multiple Threaded Environment- If one thread is modifying the structure of the collection while other thread is iterating over it .
+
+EXAMPLE: 
+Iterator iterator = arrayList.iterator();
+while(iterator.hasNext()){
+	Object obj = iterator.next();			
+	if(obj.equals(1)){
+		iterator.remove();
+		arrayList.add("new");//throw ConcurrentModificationException
+	}
+	else
+		System.out.println(obj);			
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is FAIL-SAFE ITERATOR?
+
+> it makes copy of internal data structure(object array) and ITERATES OVER THE COPIED DATA STRUCT.
+> Any structure modification done to the iterator affects the copied data structure.
+- original data structure remains  structurally unchanged .
+- Hence , no ConcurrentModificationException throws by fail safe iterator.
+
+Two  issues associated with Fail Safe Iterator are :
+1. Overhead of maintaining the copied data structure i.e memory.
+2. Fail safe iterator does not guarantee that the data being read is the data currently in the original data structure. 
+
+> Iterator return by CopyOnWriteArrayList, ConcurrentHashMap are fail safe.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the nature of iterator? is it fail-fast or fail-safe?
+
+> ArrayList iterator is fail-fast by design. 
+- it means once the iterator is created, if the ArrayList is modified, it throws ConcurrentModificationException.
+- next() of iterator throws exception because it check for modification count, if doesn't match then throw exception.
+> iterator throws ConcurrentModificationException if list size is changed.
+
+final void checkForComodification() {
+    if (modCount != expectedModCount)
+        throw new ConcurrentModificationException();
+}
+
+- here 'modCount' holds the modification count and every time we use add, remove or trimToSize method, it increments. 
+- 'expectedModCount' is the iterator variable that is initialized when we create iterator with same value as modCount. 
+- This explains why we don’t get exception if we use set method to replace any existing element.
+=====================================
+############ ENUMERATION ############
+##What is Enumeration interface?
+> it defines the methods by which we can enumerate the elements in the collection 
+> Vector has a method that return Enumeration . 
+- it is internally implementing Enumeration in elements(). 
+
+> Collections class also has a enumeration(), which can enumerate over any collection
+- it internally use iterator methods 
+- Enumeration e = Collections.enumeration(Collection);
+
+> Enumeration interface has 2 methods
+- boolean hasMoreElements( )
+- Object nextElement( )
+
+Vector<E> v;
+for (Enumeration<E> e = v.elements(); e.hasMoreElements();)
+    System.out.println(e.nextElement());
+------------------------------------
+### What is difference between Enumeration[i] and Iterator[i]?
+> Iterator is MORE SECURE AND SAFE as compared to Enumeration because 
+- it does not allow other thread to modify the collection object while some thread is iterating over it and throws ConcurrentModificationException.
+
+> Enumeration is older and its there from JDK1.0
+>> Iterator has a remove() method while Enumeration doesn't.
+
+>> Enumeration acts as READ-ONLY INTERFACE, bcz it has the methods only to traverse and fetch the objects, 
+- but in Iterator we can manipulate the objects like adding and removing the objects from collection e.g. Arraylist.
+
+> Enumeration - boolean hasMoreElement(); Object nextElement(), N/A
+> Iterator - boolean hasNext(), E next(), void remove()
+
+=====================================
+###### COMPARABLE & COMPARATOR ######
+##What is Comparable interface?
+> java.lang.Comparable interface is used TO ORDER the objects of user-defined class and 
+- has only 1 method public int compareTo(Object).
+
+> It provide sorting for only one sequence that for only single datamember.
+> list that impl Comparable can be sorted by Collections and Arrays class as
+- Collections.sort(List);
+- Arrays.sort(array);
+
+> Objects which impl Comparable in java can be used as keys in a SortedMap like TreeMap or SortedSet like TreeSet without implementing any other interface.
+------------------------------------
+## What is Comparator[i]?
+
+> Comparator interface is used to order the objects of user-defined class.
+> Comparator has 2method: 
+- int compare(Object obj1,Object obj2) & 
+- boolean equals(Object element)
+Note: that it is always safe not to override Object.equals(Object).
+
+>> It is used when a class cannot be modifyable
+> It provides multiple sorting sequence
+> The list that implement Comparator interface can be sorted by Collections and Arrays class as
+- Collections.sort(List list, Comparator c);
+
+EXAMPLE:
+------------------------------------
+### What is DIFFERENCE between Comparable[i] and Comparator[i]?
+
+> In Comparable, sorting logic must be in same class that obj to be sorted and must implement Comparable interface 
+- in Comparator, sorting logic can be in different class and implement Comparator interface
+
+> Comparable provides only one sort of sequence.
+> Comparator provides multiple sort of sequences.
+
+> Comparable has 1 method: int compareTo() and 
+- Comparator has 2methods: compare(Object obj1,Object obj2) & equals(Object ele)
+
+> Comparable define in  java.lang package
+- Comparator in java.util
+
+> If we implement Comparable interface, actual class is modified. but not in Comparator.
+
+> compareTo() : 0 for equal, -1 for smaller, 1 for greater
+=====================================
+######### COLLECTIONS CLASS #########
+##What is COLLECTIONS CLASS?
+> it is introduce in jdk1.2
+> java.util.Collections class is a utility class that is use to operate on collection. 
+> hving private constructor so not initialize
+> Operation can be of sorting, synchronization, binary search, shuffling etc.
+
+Collections methods:-
+1. public static <T extends Comparable<? super T>> void sort(List<T> list)
+	- Here list must implement Comparable interface
+
+2. public static <T> void sort(List<T> list,Comparator<? super T> c)
+3. static Collection unmodifiableCollection(Collection col1)
+4. static Collection synchronizedCollection(Collection col1) 
+5. static void reverse(List list1)
+6. static void shuffle(List list1)
+7. static void swap(List list1, int index1, int index2)
+
+8. static void copy(List dest1, List source1): 
+	-Copies all the ele of List source1 into the dest1 list 
+9. static void fill(List list1, Object obj1): 
+	-Replaces all the elements of list1 with obj1. 
+	-Earlier elements are lost. 
+
+10. static int binarySearch(List list1, Object obj1): 
+	- Searches the obj1 in the list list1. Returns the index number of the element obj1. 
+	- elements must be sorted earlier with sort() method; else unexpected results with execu
+--------------------------------
+##What is the difference between Collection and Collections?
+
+> java.util.Collection is an interface whereas java.util.Collections is a class. 
+> Collections class is use to sort and synchronize collection elements as 
+- public void sort(List list); list ele must be comparable type
+
+> for user-define class obj it should implement Comparable interface otherwise throw ClassCastException
+> All wrapper class implements comparable
+------------------------------------
+##How to make a collection read only?
+> Collections class provide 6 methods 1 for each of Collection, List, Map, Set, SortedMap, and SortedSet. As below :
+
+- Collections.unmodifiableList(list); return List
+- Collections.unmodifiableSet(set); return Set
+- Collections.unmodifiableMap(map);
+
+> After collection = Collections.unmodifiableXXX(collection);
+collection.add("String"); // throw UnsupportedOperationException
+
+------------------------------------
+##What is UnsupportedOperationException?
+> This exception is thrown on invoked methods which are not supported by actual collection type.
+
+> For ex, 
+- take READ-ONLY LIST using Collections.unmodifiableList(list) 
+- then call add() or remove() -> throw UnsupportedOperationException.
+
+--------------------------------
+##What is the difference between Collections.sort() and Arrays.sort()?
+>Collections.sort() internally call Arrays.sort() so algorithm wise both are same.
+> Only difference is the input 
+> Merge sort algo is used
+--------------------------------
+## What is Arrays class?
+> utility class hving private constructor so not initialize
+> contains various method like binarySearch(), sort(), fill(), hashCode(), toString() etc to enhance the spead
+--------------------------------
+##### EMPTY COLLECTION #####
+> returning an instance of list/set is adding an extra cost without any elements. Its better to return EMPTY_LIST/EMPTY_SET/EMPTY_MAP 
+
+> EMPTY_LIST/EMPTY_SET/EMPTY_MAP return the empty list/set/map
+> it return the unmodifiable collection
+> emptyXxx() methods actually returns the EMPTY_XXX fields.
+> List immutableEmptyList=Collections.unmodifiableList(new ArrayList()); 
+>> The field gives you a non type-safe empty immutable object where are the method return type-safe empty immutable object of collection 
+
+=============================
+##Why Collection doesnt extend Cloneable and Serializable interfaces?
+
+> Collection is an ABSTRACT REPRESENTATION of some objects. 
+- What matters is the implementation.
+
+> The semantics and the implications of either cloning or serializing come into play when dealing with the actual implementation; 
+so concrete implementation should decide how it should be cloned or serialized, or even if it can be cloned or serialized.
+
+> So MANDATING cloning and serialization in all implementations is actually LESS FLEXIBLE AND MORE RESTRICTIVE. 
+The specific implementation should make the decision as to whether it can be cloned or serialized.
+
+> It is not mandatory that every collection concrete implementation should be clonable or serialized that's why we don't hv it in collection  
+- concrete implementation should decide how/whether it should be cloned or serialized,
+- So mandating cloning and serialization in all implementations is actually less flexible and more restrictive.
+ 
+> A lot of the Collection implementations have a public clone method.  
+
+## What are Collection related features in Java 8?
+> 

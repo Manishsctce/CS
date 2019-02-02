@@ -1,0 +1,471 @@
+JAVA 
+http://www.cloudsopedia.com/interviewquestions/corejava/java-fundamentals-3.php
+http://www.cnblogs.com/JoannaQ/articles/2620885.html
+> High-level language developed by James Gosling in Sun Microsystems, 1996
+> It is Architectural neutral lang.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##what are the features of java?
+> OBJECT ORIENTED
+> PLATFORM INDEPENDENT - get by JVM
+> ROBUST(strong/reliable) - by implement gc and exception handling which doesnt cause appl of memory leakage and exception.
+> MULTI-THREADING - built in thread 
+> MEMORY MANAGEMENT - auto gc
+> SECURE - It is secure because No explicit pointer and programs run inside JVM which provide security using class loader,bytecode verfier and Security manager(what resource a class can access)
+> Dynamic - using package avoid name conflict which associate packagename dynamically
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is OOP ?
+##What is OOP?
+> Object Oriented concept state everything in real world can be represent as an object.
+>  It emphasis on data, where object can interact with other object
+> Object itself contain attributes(data) and behaviour(method)
+> In OOP, object implies state + operations. 
+	-State is its property i.e data member or attribute 
+	-operation is its behaviour i.e method of class
+> It is based 4 imp concept i.e Encapsulation, inheritance,polymorphism, abstraction.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. ENCAPSULATION - It is the Process of binding the attributes(data) and  behaviours of object together in class.
+> It also describe the process of hiding the members from the external world i.e. it prevents a user from accessing the data illegally
+> encapsulation is also referred to as data hiding.
+
+2. ABSTRACTION - The process of exposing the relevant details and hiding the irrelevant details
+> it helps the user to use a class with out knowing the implementation details
+
+3. POLYMORPHISM 
+> it is a concept which state an object/reference/method can behave differently in different context.
+
+> One interface can be used for a general class actions
+> An operation may exhibit different behavior in different instance.
+> The behavior depends on the types of data used in the operation
+
+4. INHERITANCE -It is the concept of OOp by which child class can inherit all the propertly of its parent class.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is difference Between Encapsulation and Abstraction?
+
+> Encapsulation is Information hiding.
+- Abstraction is Implementation hiding.
+
+> ENCAPSULATION restricting the access of irrelevant details of an object like data and method
+- abstraction makes only the relevant details of an object visible like object behaviour not its implementation. 
+
+> ENCAPSULATION hide the irrelevant detail from inside the class i.e. at behavioral level of an object.
+- ABSTRACTION hide the irrelevant detail at class level i.e. outside the object
+
+> Implementation diff - 
+- ENCAPSULATION is implemented using private and protected access modifier.
+- ABSTRACTION is implemented using interface and abstract class while 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is POLYMORPHISM? (poly - many)+(morphism-behaivour)
+
+> it is a concept which state an object/reference/method can behave differently in different context.
+
+> An operation may exhibit different behavior for different instance.
+> The behavior depends on the types of data used in the operation
+
+> 2 type of polymorphism :
+1. COMPILE-TIME POLYMORPHISM 
+> It is also called Static binding/static polymorphism/Early binding
+
+> It behavior is define at compile time.
+- Compiler know Which method is to be called is decided at compile-time only.
+
+> It is implemented by method overloading, method overriding using static methods; method overriding using private or final methods  
+~~~~~~~~~~~~~~~~~~~~~~~~
+2. RUN-TIME POLYMORPHISM  
+> same method in parent-child class also called method overriding and using interface
+
+Ex - In Inheritence, Base class reference can be use differently as for childs class.
+> In method overloading, same method name use differently.
+
+ Method overloading
+ Method overriding through inheritance
+ Method overriding through the Java interface
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why multiple inheritance is not supported in Java ?
+> Because it leads to diamond problem i.e 
+- if 2 class having same method and extended to 1 class then compiler will not able to decide which method
+> multiple inheritances does complicate the design and creates problem during casting, constructor chaining etc
+
+## What if two interface have a default method with same name and a class implements both interfaces?
+- in this case, there will be compiler error i.e "Duplicate default method" for class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How does System.out.println() works?
+> System class have static instance variable "out" of PrintStream. 
+- PrintStream consist println() method. Therefore define as:-
+
+public class System{
+	public static final PrintStream out;
+	. . . 
+}
+class PrintStream{
+	public void println(){
+	...}
+}
+######### MAIN METHOD ############
+## What if I do not provide the String array as the argument to the method?
+> Program compiles but throws a runtime error "NoSuchMethodError".
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can an application have multiple classes having main method?
+> Yes it is possible. While starting the application we mention the class name to be run. 
+- The JVM will look for the Main method only in the class whose name you have mentioned. Hence there is not conflict amongst the multiple classes having main method.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What if the main method is declared as private/protected?
+> The program compiles properly but at runtime it will give "Main method not public." message.
+=======================================
+############## IMPORT #################
+
+> In same package, we don't need to import class, we can directly instanciate it (if not abstract).
+Ex - mypackage.Person , mypackage.Home ; create instance of Person in Home without importing it. 
+
+> In different package, we need to import class, we cann't directly instanciate it
+Ex - mypackage.Person , mypackage.mh.Home ; create instance of Person in Home after importing it.
+- here Person class should be public
+- we cann't see Person class if it having default access specifier 
+
+> importing with * doesnt mean that all the subpackages are imported. it only import class and interface.
+=======================================
+############# PACKAGE #################
+> Packages are declared using keyword ‘package’. They should be declared in the first statement in a java file. If you try to declare packages at any other statements, you will get compile time error
+> Only alphabets, numbers and an underscore are allowed in naming the packages.
+- Package name should start with a alphabets or underscore but not with a number.
+
+=====================================
+########## ACCESS SPECIFIER #########
+(most restrictive)Private ->default-> Protected ->Public (least restrictive)
+
+> PRIVATE- accessed within the same class to which it belong. 
+- it not visible within subclasses and are not inherited by subclasses.
+
+> DEFAULT(NO SPECIFIER)(package private or package scope)
+- accessible inside the SAME PACKAGE ONLY, but not from outside this package.
+- Subclass can access it within the package but can't access it outside the package 
+
+> PROTECTED - accessed within the same class to which it belong, 
+- within classes of the same package.
+- within its subclasses of same package, and 
+- within its subclasses of outside package
+- it cann't be access in different package, even using instance 
+- it is inherited in its subclass
+
+> protected can be accessible outside package in the subclass class only but default cannot.
+
+>> Except private all other access specifier can be use in the other class INSIDE SAME PACKAGE WITH obj instance
+
+>> except public all other access specifier CANNOT ACCESS OUTSIDE PACKAGE even if we import that package
+
+>> local variable cannot be public, protected or private. Only final modifier can be define on local variables
+>> Class and interfaces CANNOT be private, protected.
+- a constructor can be private 
+
+## How many types of modifiers are there in Java.?
+> Two types of modifiers are there in java. They are,
+a) Access Modifiers - private, public, protected, default or no-access specified
+b) Non-access Modifiers - static, final, abstract, synchronized, 
+=====================================
+## What is Autoboxing and unboxing?
+> Autoboxing: The Java compiler brings about an automatic transformation of primitive type (int, float, double etc.) into their object equivalents or wrapper type (Integer, Float, Double,etc) for the ease of compilation.
+
+> Unboxing: The automatic transformation of wrapper types into their primitive equivalent is known as Unboxing.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Does Java pass by reference or by value?
+##What are pass by reference and pass by value ? 
+
+> Java PASSES EVERYTHING BY VALUE, and not by reference
+- even if we pass object to another method, the OBJECT GET COPIED and even if we manipulate object in method, originally it DOESN'T manipulate by reference(i.e object).
+
+> Pass by value - here we pass value as argument to other method
+> Pass by reference - pass reference of original so that if any change occur in orginial can be reflect in other one also.
+
+-------------------------------
+##What is Annotation in Java?
+> Annotation is a syntactic metadata that is attached to the source code at classes,methods,variable,parameter,package while programming. 
+> It compile by the java compiler and metadata transform into instruction for the processor by the JIT of JVM. 
+> Basically it used to perform some basic compile-time checking.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Write Java program to create deadlock in Java and fix it ?
+
+=====================================
+####### BASIC PROGRAMMING CONCEPT ###
+
+#### 8 PRIMITIVE DATA TYPE & Default Value ###
+- boolean - false, 
+- char - \u0000, 
+- byte - 0, short - 0,int - 0, long - 0L, 
+- float - 0.0f, double - 0.0d
+
+> primitive datatype(byte,short,int,long,float,double,char,boolean) doesnot contain null value
+> All numeric primitive data type are signed datatype mean it can contain negative values also
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Size of data types ####
+- byte 8 bit (-128 to 127), 
+- short : signed 16 bit (-32768 to -32767), 
+- int 	: signed 32 bit (–2,147,483,648 to 2,147,483,647) i.e 2^32 
+- long 	: signed 64 bit 
+
+- char 16 bit
+- boolean 8 bit
+
+- float 32 bit
+- double 64 bit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Integer literals can be specified in decimal, hexadecimal, or octal notation
+> a hexadecimal value, use 0x followed by the digits and letters
+> An octal value is identified by a leading 0 symbol. 
+
+Ex - 
+char c1 = 064770; is an octal representation of the integer value 27128, which is legal because it fits into an unsigned 16-bit integer. 
+char c3 = 0xbeef; is a hexadecimal representation of the integer value 48879, which fits into an unsigned 16-bit integer. 
+char c6 = '\uface'; is a Unicode representation of a character.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+## Will size of primitive data type change with change in processor bit(i.e 32 or 64 bit)??
+
+> No, size of primitive data type will not change but size of object will change with processor bit.
+> As because it increase the size of flag, lock,..etc by double.
+> Object size in 32bit OS will be 32bit and in 64bit OS will be 64bit.
+=======================================
+########## NAMING CONVENTION ##########
+
+> Class name Pascal casing 
+> Method/variable name Camel casing
+
+## Naming Convension of Variables and Literals ##
+> A variable name must begin with a letter, an underscore (_), or the dollar symbol ($), which can be followed by a sequence of letters or digits (0 to 9), $, or _ .
+> name can contain only letter, underscore, dollar nothing else. 
+Ex double Pi% = 3.14;//compilation syntax err
+
+
+
+> In Java9, underscore is keyword and can't be used as an identifier or variable name.
+
+EXAMPLE - 
+Before Java9
+int _ = 10; // creating variable  
+System.out.println(_);//print 10
+
+- In Java9, it throw Compile time error
+
+=======================================
+############# OPERATORS ###############
+> Arithmetic operator, bitwise, relational , boolean logical , ternary operator
+
+1. Arithmetic operator - +, -, *, /, %, +=, -= etc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 2. BITWISE OPERATOR ####
+
+~ Bitwise unary NOT => ~101 = 010
+& Bitwise AND => 101 & 011 = 001
+| Bitwise OR => 101 | 011 = 111 
+^ Bitwise exclusive OR => 101 ^ 011 = 110
+>> Shift right based on sign => 0011 >> 2 = 0000
+>>> Shift right zero fill => 11110 >>> 2 = 00111
+<< Shift left filled with zero => 11100 << 2 = 10000
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 3. RELATIONAL OPERATORS ####
+
+== Equal to
+!= Not equal to
+> Greater than
+< Less than
+>= Greater than or equal to
+<= Less than or equal to
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 4. BOOLEAN LOGICAL #######
+Logical AND (&) => true & false = false
+Logical OR (|) 
+Logical XOR (exclusive OR) '^'  - true & false = true
+|| Short-circuit OR => if A || B if A is true then true, no matter what B is.
+&& Short-circuit AND => if A && B if A is false then false, no matter what B is.
+! Logical unary NOT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5. TERNARY (THREE-WAY) OPERATOR
+
+result = testCondition ? value1 : value2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between (null != obj) or (obj != null) ?
+> There is no difference in either semantics or performance
+> Obj != null is more readable. so 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between ++i and i++?
+
+> ++i will increment the value of i, and then return the incremented value.
+> i++ will increment the value of i, but return the original value that i held before being incremented.
+=====================================
+###### CONDITIONAL BLOCK AND LOOP ###
+> 3 type of loop : for loop, while loop, do...while loop
+> we can use break and continue to iterate over loop
+> continue statement can only occur in a looping construct like for, while 
+- but it cannot be use with if..else 
+
+> Label: for a block and break should continue to be in block only.
+
+#### FOR LOOP ####
+> for(;;) - will be infinite loop
+
+#### WHILE LOOP ####
+> it continue while condition is true 
+
+=======================================
+######## DECISION MAKING LOOP #######
+- 1. if..else and 2. switch
+
+############## SWITCH ###############
+> Before Java7, Switch statements are based on char,int expressions and since both bytes and chars can IMPLICITLY BE WIDENED TO AN INTEGER 
+> case statement takes only a single argument. Ex - case 0,1 (wrong)
+> it support auto-unboxing
+> two cases could not have same value. case 1: and case 1: Not Possible
+> case values should be constant expression
+> after default without break, it display all the statement
+
+Ex - 
+case (user <= 18): [Not Allowed]
+case 1: case 2: case 3: case 4:  [Allowed]
+
+> Unicode is a universal international standard character encoding that is capable of representing most of the world's written languages.
+> Math.round() method add 0.5 to the argument and then perform a floor() operation
+
+> Since Java7, a String object can be used in the expression of a switch statement
+- switch statement compares the String object in its expression with the expressions associated with each case label 
+
+Example
+public class StringsInSwitch {
+    public static void main(String[] args) {
+     String dayOfWeek=args[0];
+        String message ="";
+        switch (dayOfWeek) {
+            case "Monday":
+                message = "Start of the work week";
+                break;
+            case "Tuesday":
+                message = "Start of the work week";
+                break;
+            case "Friday":
+                message = "End of work week";
+                break;
+        }
+    }
+}
+=========================================
+########### KEYWORDS OF JAVA ########
+> goto, strictfp, continue, instanceof, transient, native(reserved)
+> assert, exit, main, null, next, delete, then is NOT A KEYWORD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+> Strictfp is known for strict floating point calculation 
+> By modifying class and method with strictfp. float variable pericision will not change at different OS
+========================================
+## TRANSIENT(last for very short time)##
+> Java transient keyword is used in serialization. 
+- If you define any data member as transient, IT WILL NOT BE SERIALIZED.
+> Applying it to method or local variable is compilation error
+> value of transient variable after deserialization is null i.e default value
+-------------------------
+## When should we use transient keyword in java?
+> 1. when a fields values are DERIVED/calculated FROM OTHER FIELDS 
+Ex- age of a person using time difference (dob - current date)
+
+> 2. Any info which NEED TO BE SECURE
+
+> 3. Any Containing-class having un-serializable class instance and it is serializing, then it will throw java.io.NotSerializationException while serialization, 
+- it can be solve by making un-serializable class instance as transient
+
+> 4. field which doesn't mean any sense to serialize make as transient
+For example, In any class if you have added a logger reference, then whats use of serializing that logger instance. 
+
+========================================
+############# VOLATILE ############
+> it mean liable to change rapidly
+
+##What is volatile variable ?
+> VOLATILE keyword actually guaranteed that any thread that reads the field will see the MOST RECENTLY WRITTEN VALUE.
+> it WILL NOT PERFORM ANY MUTUAL EXCLUSIVE LOCK
+> Volatile keyword can ONLY BE APPLIED TO VARIABLEs. 
+> Using volatile keyword along with class and method is compiler error.
+> volatile variable can hold null 
+> Volatile variable can be primitive or object refrence
+
+Use volatile variable:
+1. used when a variable is shared between multiple threads.
+2. value of volatile variable WILL NEVER BE CACHED THREAD-LOCALLY: all reads and writes will go straight to "main memory".
+3. it can be used as an alternative of synchronization. As it guaranted that all reader thread will see updated value and it never lock the variable 
+========================================
+##### INSTANCEOF #####
+=> it is use to test if an object is an instance of a class, an instance of a subclass, or an instance of a class that implements a particular interface.
+
+=>  null is not an instance of anything.
+Ex -  (employer instanceof Employee)?true:false; //return false bcz employer is parent of employee and it is not instance of employee
+
+========================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+public static void main(String args[]) throws Exception{
+	new Thread(new Runnable(){
+		public void run(){
+			//1st loop
+			while(!running){}
+			System.out.println("Strarted");
+			
+			//2nd loop
+			while(running){}
+			System.out.println("Stop");
+		}
+	}).start();
+	
+	Thread.sleep(1000);
+	System.out.println("Starting");
+	running = true;
+	
+	Thread.sleep(1000);
+	System.out.println("Stop");
+	running = false;
+}	
+
+>For dual core processor, 1st loop may be run in 1st core that has its own cache memory
+2nd loop run on 2nd core and 2nd cache. 
+So while running code, 1st cache changes is not reflected to other cache. So it give different op.
+
+Now to avoif this prblm?
+=======================================
+##Comparison between C, C++ and Java?
+
+1. Java is more powerful with GUI but C doesn't
+2. Java handle error but C and C++ doesnt, we can make erroneous pgm with C like convert string to int but java does not allow 
+3. In Java all primitive data types are completely define but in C/C++ doesnt 
+> Ex - length of int in C might be 16 bits on PC, 32 bits on workstation, and 60 bits on old supercomputer but in Java its 32 bits and 
+	- in java 16 bit char data type allowed portability with Unicode char which include all spoken lang and 
+	- java string are not array of char its an object.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between C++ and Java?
+> In Java all primitive data types are completely define but in C/C++ doesnt 
+> As the length of an int in C might be 16 bits on a PC, 32 bits on a workstation, and 60 bits on an old supercomputer but in Java its 32 bits and 
+> in java 16 bit char data type allowed portability with Unicode char which include all spoken lang and java string are not array of char its an object.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Java does not support operator overloading ?
+> Operator Overloading mean a single operator can behave different with different parameter 
+Ex - + behave different for int,float,String.
+> Here we can change the behavior of operator too. Ex- + operator can internally doing subtraction. This make the behaivour more complex thats why avoid in Java.
+
+> This is not supported in java because It was making Java complex.
+- It was making Java error prone. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=========================================
+############# JAVA TOOLS ################
+
+############ Java VisualVM  ###########
+> It is java monitoring tool that give complete details of the java appl running and the process/thread/memory used
+
+> It can be used to manage custom MBeans
+
+> It integrate the features of other tools like jinfo, jmap, jstack, jstat, and jconsole
+
+> It doesn't have the MBeans tab (where we can view all the MBean registered with our JVM) but we can add MBean plugins to enable it.
+
+> It can be used to monitor performance, memory usage/leaks, thread deadlocks.
+=========================================
+############### JConsole  ###############
+> It is similar to VisualVM but not that powerful 
+
+=========================================
+################# PMD ###################
+- Checks code for errors. 
+- Can run standalone or as a plugin for NetBeans, Eclipse. 
+- Improving Code Quality with PMD and Eclipse. 	

@@ -1,0 +1,382 @@
+##### WSDL (Web Services Description Language) ######
+## What is difference between WSDL 1.1 and 2.0?
+> WSDL 2.0 was designed to solve the interoperability occur in WSDL 1.0/1.1
+
+> In WSDL 1.1, fault message are declared in operation element 
+- In WSDL 2.0 permits fault messages to be declared within the interface element in order to facilitate reuse of faults across operations. 
+
+> Message constructs are specified using the XML schema type system in the types element in WSDL 2.0
+
+> No support for operator overloading in WSDL 2.0
+
+> PortTypes renamed to interfaces. 
+- Support for interface inheritance is achieved by using the extends attribute in the interface element.
+
+> Ports renamed to endpoints
+
+WSDL 1.1 STRUCTURE
+Definitions			|
+  -types			| Abstract section 
+  -message			|
+  -portType			|
+	  -Operation	|
+		  -input	|
+		  -output	|
+		  
+  -binding			|
+  -service			| CONCRETE section
+      -port			|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+WSDL 2.0 STRUCTURE
+Definitions
+  -types  			|
+  -interface		|
+	  -Operation	| Abstract section
+		  -input	|
+		  -output	|
+		  
+  -binding			|
+  -service			| CONCRETE section
+      -endpoint		|
+=====================================
+########### WSDL ELEMENTS ###########
+
+##### DEFINITION : <definitions> ####
+- It is the ROOT ELEMENT OF ALL WSDL DOCUMENTS. 
+- "targetNamespace" attribute is a convention of XML Schema that enables the WSDL document to refer to itself.
+- "xmlns" specifies a default namespace. 
+- All elements without a namespace prefix, such as message or portType, are therefore assumed to be a part of the default WSDL namespace
+
+Example:
+<definitions name="HelloService"
+   targetNamespace="http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns="http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+###### 1. DATA TYPES : <types>  #####
+
+> web service may have various input, output, fault type.
+- it DESCRIBES THE DATA TYPES USED IN WEB SERVICES 
+
+> Data types are often specified using XML Schema
+> In XML Schema we define all kinds of ELEMENTS AND TYPES	
+> Type element is not required if the service uses only simple XML schema types like integers and strings
+
+> For array element, maxOccurs will be "unbounded" and minOccurs will be "0"
+> for single elemennt, maxOccurs="1"
+
+EXAMPLE :- 
+######## In WSDL 2.0 ########
+<types>
+    <xs:schema xmlns:xs= "http://www.w3.org/2001/XMLSchema"
+        targetNamespace= "http://jenkov.com/MyService/schema"
+        xmlns:tns=       "http://jenkov.com/MyService/schema">
+		
+        <xs:element name="latestTutorialRequest" type="typeLatestTutorialRequest"/>
+
+        <xs:complexType name="typeLatestTutorialRequest">
+          <xs:sequence>
+            <xs:element  name="date"   type="xs:date"/>
+          </xs:sequence>
+        </xs:complexType>
+		
+        <xs:element name="latestTutorialResponse" type="xs:string"/>
+        <xs:element name="invalidDateError" type="xs:string"/>
+    </xs:schema>
+</types>
+
+> In wsdl2.0, top level elements not nested inside other elements,
+- it can be referred to by the WSDL 2.0 interface and operation elements
+- that's why we don't have <message> in WSDL 2.0. <element> define in <types> are used as message in <interface> 
+- Ex- here 'AddAccountRequest' can be used in operation but we cannot use accountType
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+######## PORTTYPE / INTERFACE #######
+
+3. PORT TYPE : <portType> [WSDL 1.1] 
+INTERFACE : <interface> [WSDL 2.0] 
+
+> It DESCRIBES THE OPERATIONS SUPPORTED BY THE WEB SERVICE. 
+> It is an ABSTRACT SET OF OPERATIONS mapped to one or more end-points, 
+- Each operation represents an interaction between the client and the service. 
+- the client can only call one operation per request. 
+
+> Operations are thus very similar to methods / procedures in a programming language.
+> it defining the collection of operations for a binding; 
+- the collection of operations can be mapped to multiple transports through various bindings.
+
+####### In WSDL 2.0 #########
+> we can have more than one interface element in a WSDL 2.0 file, each interface must be given an unique name.
+> <fault> element defines a fault which can be sent back to the client. 
+- The same fault can be used by multiple operations. That is why it is defined outside the following operation element.
+- operation name must be unique within the interface element. The operation name is used later, when describing bindings for the operation
+
+<interface  name = "latestTutorialInterface" >
+  <fault name = "invalidDateFault"  element = "stns:invalidDateError"/>
+
+  <operation name="latestTutorialOperation"
+          pattern="http://www.w3.org/ns/wsdl/in-out"
+          style="http://www.w3.org/ns/wsdl/style/iri"
+          wsdlx:safe = "true">
+		  
+		<input    messageLabel="In"  element="stns:latestTutorialRequest" />
+		<output   messageLabel="Out" element="stns:latestTutorialResponse" />
+		<outfault messageLabel="Out" ref    ="tns:invalidDateFault" />
+  </operation>
+</interface>
+
+##### OPERATION : #####
+> It describes an operation or can say method or procedure
+
+#### ATTRIBUTES #### Refer above example
+pattern : describes what message exchange pattern the operation uses. 
+- These can be either in, out or in-out, meaning data in, data out, data in-out. Or, request-only, response-only, request-response. 
+- In-out is the most common pattern to use.
+
+wsdlx:safe : indicates that the operation is safe to call, meaning the customer does not agree to buy anything, or order anything.
+-----------------------------
+#### SUB-ELEMENTS #### Refer above example
+<input> : describes the expected input data for the operation. 
+- It references an XML element DEFINED IN THE TYPES ELEMENT of the WSDL file.
+
+<output> : describes the data returned by the operation. 
+- It references an XML element DEFINED IN THE TYPES ELEMENT of the WSDL file.
+
+<outfault> : a possible output fault which can be sent to the client, if the operation fails. 
+- The ref attribute references the fault DEFINED IN THE INTERFACE ELEMENT.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention the operation types response used in WSDL?
+## Message Exchange Pattern (MEP)
+
+> WSDL supports FOUR BASIC PATTERNS OF OPERATION:
+A. ONE-WAY  i.e only 1 input
+> service receives a message. The operation therefore has a single input element.
+
+B. REQUEST-RESPONSE i.e input-output
+> service receives a message and sends a response. The operation therefore has 1 input element, followed by 1 output element
+
+C. SOLICIT-RESPONSE  i.e output-input-fault
+> service sends a message and receives a response.  Operation therefore has one output element, followed by one input element, followed by one fault
+> With input and output, an optional fault element can also be specified
+
+D. NOTIFICATION i.e 1 output
+> service sends a message. The operation therefore has a single outputelement
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+######## 4. <binding> element  ######
+
+- it PROVIDEs specific DETAILS on how a PORTTYPE operation will actually be TRANSMITTED over the wire.
+- provide CONCRETE INFORMATION ON WHAT PROTOCOL is being used to transfer portType operations
+- provide information where the service is located
+- we CAN SPECIFY MULTIPLE BINDINGs for a single portType.
+
+
+EXAMPLE:
+<wsdl:binding name="ApplicationServiceSoap11Binding" type="ns:ApplicationServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<wsdl:operation name="setApplicationsToNodes">
+            <soap:operation soapAction="urn:setApplicationsToNodes" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AdminException">
+                <soap:fault use="literal" name="AdminException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+</wsdl:binding>	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<wsdl:binding name="ApplicationServiceSoap12Binding" type="ns:ApplicationServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<wsdl:operation name="setApplicationsToNodes">
+            <soap12:operation soapAction="urn:setApplicationsToNodes" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="AdminException">
+                <soap12:fault use="literal" name="AdminException"/>
+            </wsdl:fault>
+        </wsdl:operation>	
+</wsdl:binding>	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<wsdl:binding name="ApplicationServiceHttpBinding" type="ns:ApplicationServicePortType">
+        <http:binding verb="POST"/>
+		<wsdl:operation name="setApplicationsToNodes">
+            <http:operation location="ApplicationService/setApplicationsToNodes"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="setApplicationsToNodes"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="setApplicationsToNodes"/>
+            </wsdl:output>
+        </wsdl:operation>
+		
+</wsdl:binding>		
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<wsdl:binding name="SOAPService_Binding1" type="tns:BankPT">
+        <soap:binding style="document" transport="http://www.tibco.com/namespaces/ws/2004/soap/binding/JMS"/>
+        <jms:binding messageFormat="text"/>
+        <wsdl:operation name="AddAccount">
+            <wsdl:documentation/>
+            <soap:operation style="document" soapAction="AddAccount"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="AddAccountRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="AddAccountResponse"/>
+            </wsdl:output>
+            <wsdl:fault name="addAccountFaultID">
+                <soap:fault use="literal" name="addAccountFaultID"/>
+            </wsdl:fault>
+            <wsdl:fault name="addAccountFaultName">
+                <soap:fault use="literal" name="addAccountFaultName"/>
+            </wsdl:fault>
+        </wsdl:operation>        
+</wsdl:binding>
+- Here BankPT is the portType name
+-------------------------------------
+## What is the difference between binding and portType in WSDL?
+
+> WSDL PortType: it defines a group of operations known as an interface in most environments. 
+- Each operation consist of a combination of input and output elements. 
+- The order of these elements determine the message exchange pattern (MEP) i.e (one-way,Req-Res,Solicit,notification)
+
+> WSDL Binding: it DESCRIBES THE CONCRETE DETAILS OF USING SPECIFIC 'portType' WITH A GIVEN PROTOCOL
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+####### 5. Service : <service> ######
+> DEFINES ONE OR MORE PORTS supported by the Web service
+- the SERVICES MAP THE BINDING TO THE PORT and include any extensibility definitions.
+- For each of the supported protocols, there is one port element. 
+- The service element is a collection of ports.
+
+#### PORT / ENDPOINT ####
+## PORT : <port> [WSDL 1.1]
+## ENDPOINT : <endpoint> [WSDL 2.0] 
+
+> It is a COMBINATION OF BINDINGs AND NETWORK ADDRESS, providing the target address of the service communication.
+- The port element has two attributes: name and binding .
+
+## ATTRIBUTES ##
+> name : it provides a UNIQUE NAME among all ports defined within the enclosing WSDL document.
+> binding : it refers to the BINDING USING the linking rules defined by WSDL.
+- Binding extensibility elements are used to specify the address information for the port.
+
+## RULES ##
+- A port MUST NOT specify more than one address.
+- A port MUST NOT specify any binding information other than address information.
+------------------------
+## In WSDL 2.0 ##
+<service name="latestTutorialService" interface="tns:latestTutorialInterface">
+   <endpoint name ="latestTutorialEndpoint" binding ="tns:latestTutorialSOAPBinding" address ="http://jenkov.com/latestTutorial"/>
+</service>
+
+-------------------------------------
+## Explain how endpoints are defined in WSDL?
+
+> Endpoints represent an instantiated service; 
+- they are determined by combining A BINDING AND THE NETWORKING DETAILS(i.e address) USED TO EXPOSE THE ENDPOINT. 
+- Endpoints are defined in a contract using a combination of the WSDL port element and WSDL service element. 
+- The port elements define the actual endpoints in WSDL 1.1
+
+=====================================
+In addition to these major elements, the WSDL specification also defines the following utility elements:
+> Documentation: This element is used to provide human-readable documentation and can be included inside any other WSDL element.
+> Import : This element is used to import other WSDL documents or XML Schemas.
+
+NOTE: WSDL parts are usually generated automatically using web services-aware tools.
+=====================================
+####### WSDL Document Example #######
+
+<definitions name="HelloService"
+   targetNamespace="http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns="http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ 
+   <message name="SayHelloRequest">
+      <part name="firstName" type="xsd:string"/>
+   </message>
+	
+   <message name="SayHelloResponse">
+      <part name="greeting" type="xsd:string"/>
+   </message>
+
+   <!-- ABSTRACT SET OF OPERATIONS mapped to one or more end-points i.e consists of a request and a response service. -->
+   <portType name="Hello_PortType">
+      <operation name="sayHello">
+         <input message="tns:SayHelloRequest"/>
+         <output message="tns:SayHelloResponse"/>
+      </operation>
+   </portType>
+
+   <!-- CONCRETE PROTOCOL AND DATA FORMATS FOR THE OPERATIONS AND MESSAGES. DIRECTION TO USE THE SOAP HTTP TRANSPORT PROTOCOL. -->
+   <binding name="Hello_Binding" type="tns:Hello_PortType">
+      <soap:binding style="rpc"
+         transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="sayHello">
+         <soap:operation soapAction="sayHello"/>
+         <input>
+            <soap:body
+               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:examples:helloservice"
+               use="encoded"/>
+         </input>
+		
+         <output>
+            <soap:body
+               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:examples:helloservice"
+               use="encoded"/>
+         </output>
+      </operation>
+   </binding>
+
+   <service name="Hello_Service">
+      <documentation>WSDL File for HelloService</documentation>
+	  <!-- COMBINATION OF A BINDING AND A NETWORK ADDRESS -->
+      <port binding="tns:Hello_Binding" name="Hello_Port">
+         <soap:address
+            location="http://www.examples.com/SayHello/" />
+      </port>
+   </service>
+</definitions>
+----------------------------------------
+> Definitions : HelloService
+> Type : Using built-in data types and they are defined in XMLSchema.
+> Message :
+- sayHelloRequest : firstName parameter
+- sayHelloresponse: greeting return value
+
+> Port Type : sayHello operation that consists of a request and a response service.
+
+> Service : Service available at http://www.examples.com/SayHello/
+
+> Port : Associates the binding with the URI http://www.examples.com/SayHello/ where the running service can be accessed.
+
+---------------------------------------
+## What is the meaning of semantic annotations?
+> A semantic annotation is ADDITIONAL INFORMATION IN A WSDL DOCUMENT that defines the semantics of a part of that document. 
+- They define semantics by referring to a part of a semantic model that describes the semantics of the part of the document being annotated.
+
+The WSDL document forms the anchor point for Web services description. 
+Building on the descriptive capability of WSDL, a mechanism is provided to annotate the capabilities and requirements of Web services with semantic concepts referenced from a semantic model. To do this, mechanisms are provided annotate the service and its inputs, outputs and operations. Additionally, we provide mechanisms to specify and annotate preconditions and effects of Web Services.These preconditions and effects together with the semantic annotations of inputs and outputs can enable automation of the process of service discovery.
+
+===========================
+## What is XML schema (XSD)?
+> XML schema, commonly known as an XML Schema Definition (XSD)
+> it describes what a XML document can contain
+> it defines the shape, or structure, of an XML document, 
+- along with rules for data content and semantics(relation bet sign and meaning) such as what fields an element can contain, which sub elements it can contain and how many items can be present. 
+- It can also describe the type and values that can be placed into each element or attribute. 
+- The XML data constraints are called facets and include rules such as min and max length.
+
+> it is used to validate the wsdl file 
+
+> "org.apache.xmlbeans.impl.tool.XMLBean" it is ant taskdef for converting xsd to wsdl. 

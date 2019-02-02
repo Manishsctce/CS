@@ -1,0 +1,57 @@
+############ MOCKITO ################
+
+> create mock objects using either @Mock annotation or mock() static method.
+
+> MockitoAnnotations.initMocks(this); to initialize objects annotated with @Mock, @Spy, @Captor, or @InjectMocks.
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+public class CalcService2Test {
+	CalcService calcService;
+
+	@Mock
+	AddService addService;
+
+	@BeforeEach
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+	}
+
+	@Test
+	public void testCalc() {
+		System.out.println("**--- Test testCalc executed ---**");
+		calcService = new CalcService(addService);
+
+		int num1 = 11, num2 = 12, expected = 23;
+
+		when(addService.add(num1, num2)).thenReturn(expected);
+
+		int actual = calcService.calc(num1, num2);
+		assertEquals(expected, actual);
+	}
+}
+-------------------------------------
+####### Mockito Spy ##########
+> When you call the method of a spied object, the real method will be called, unless a predefined behavior was defined. 
+
+===============================
+###### Void Return Type #######
+
+@Test(expected = IllegalStateException.class)
+public void whenConfigVoidRetunMethodToThrowEx_thenExIsThrown() {
+    MyDictionary dictMock = mock(MyDictionary.class);
+	
+    doThrow(IllegalStateException.class)
+      .when(dictMock)
+      .add(anyString(), anyString());
+ 
+    dictMock.add("word", "meaning");
+}
+-------------------------------

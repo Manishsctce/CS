@@ -1,0 +1,328 @@
+> It was started in 2001 by Gavin King as an alternative to EJB2 style entity bean
+
+## What is Hibernate?
+> Hibernate is an open source, lightweight, ORM (Object Relational Mapping) tool.
+> It simplifies the development of java application to interact with the database
+
+> An ORM tool simplifies the data creation, data manipulation and data access. 
+> It is a programming technique that maps the object to the data stored in the database.
+> ORM tool internally uses the JDBC API to interact with the database.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the Advantages of Hibernate Framework?
+
+> Opensource and Lightweight
+
+> Database Independent query: 
+- HQL (Hibernate Query Language) is the object-oriented version of SQL. 
+- It generates the database independent queries. So you don't need to write database specific queries.
+
+> Automatic table creation
+- Hibernate framework provides the facility to create the tables of the database automatically
+
+> Hibernate framework provides support for XML as well as JPA annotations
+> Hibernate cache helps us in getting better performance.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is hibernate better than JDBC?
+> JDBC give better performance as compared to Hibernate for most of the database vendors.
+- The choice of hibernate over jdbc and sql queries is not because of the performance but because of reasons mainly object persistence and database independence queries.
+
+DISADVANTAGE OF HIBERNATE OVER JDBC
+1. Hibernate Slower than JDBC
+2. Hibernate Not suitable for Batch processing: It advisable to use pure JDBC for batch processing.
+3. Hibernate does not allow multiple inserts 
+4. Debugging: Sometimes debugging and performance tuning becomes difficult.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the advantages of Hibernate over JDBC?
+
+> Hibernate supports inheritance, associations and collections. 
+- These features are not present with JDBC API.
+
+> In JDBC all exceptions are checked exceptions(i.e SQLException), it must be written into try-catch and throws, but 
+- hibernate wrap the checked exp into Un-checked exceptions (i.e HibernateException)
+
+> JDBC support native SQL only
+- In Hibernate has its own query language, i.e HQL which is database independent
+
+> JDBC doesn't supports caching itself. 
+- Hibernate supports caching mechanism by this, the number of round trips between an application and the database will be reduced,
+
+> Hibernate supports JPA annotations, so code is independent of implementation and easily replaceable with other ORM tools. 
+- JDBC code is very tightly coupled with the application.
+
+http://www.java-samples.com/showtutorial.php?tutorialid=813
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between JPA and Hibernate?
+
+> JPA is just a specification, meaning there is no implementation. 
+- Hibernate is the implementation of JPA
+- Hibernate is a JPA provider.
+- we can swap out Hibernate's implementation of JPA for another implementation of the JPA specification.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are all JPA Provider?
+Hibernate, EclipseLink, OpenJPA are some JPA Provider.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain Hibernate Application Architecture?
+4 layers in hibernate Application architecture 
+
+1. Java Application Layer
+2. Hibernate Framework layer
+- Elements of Hibernate Architecture : Configuration, SessionFactory, Session, Transaction, Query, Criteria
+
+3. backend API Layer
+4. Database Layer
+
+> Hibernate uses various existing Java APIs, like JDBC, Java Transaction API(JTA), and Java Naming and Directory Interface (JNDI)
+- JNDI and JTA allow Hibernate to be integrated with J2EE application servers.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which design patterns are used in Hibernate framework?
+> Data Mapper 
+– A layer of Mappers(*.hbm.xml) that moves data between objects and a database while keeping them independent of each other and the mapper itself.
+
+> Proxy Pattern : for lazy loading
+> Factory pattern : in SessionFactory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the different levels of ORM quality?
+> There are 4 levels define for ORM quality
+1. Pure relational
+2. Light Object mapping
+3. Medium Object mapping
+4. Full Object mapping
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a pure relational ORM?
+> At this level entire application is designed around the relational model. 
+- All the operations are SQL based at this level.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a meant by light object mapping?
+
+> The entities are represented as classes that are mapped manually to the relational tables.
+- The code is hidden from the business logic using specific design patterns. 
+- This approach is successful for applications with a less number of entities, or applications with common, metadata-driven data models. This approach is most known to all.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a meant by medium object mapping?
+
+> The application is designed around an object model. 
+- The SQL code is generated at build time. 
+- And the associations between objects are supported by the persistence mechanism, and queries are specified using an object-oriented expression language. 
+- This is best suited for medium-sized applications with some complex transactions.
+- Used when the mapping exceeds 25 different database products at a time.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is meant by full object mapping?
+
+> Full object mapping supports sophisticated object modeling: composition, inheritance, polymorphism and persistence. 
+- The persistence layer implements transparent persistence; 
+- persistent classes do not inherit any special base class or have to implement a special interface. 
+- Efficient fetching strategies and caching strategies are implemented transparently to the application.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hibernate 4 
+- support for initial multi-tenancy, 
+- ServiceRegistry Introduction, 
+- SessionFactory session clean up, 
+- Improvement in Integration through org.hibernate.integrator.spi.Integrator 
+- auto discovery
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How will you configure Hibernate?
+
+> The CONFIGURATION FILES "hibernate.cfg.xml" (or hibernate.properties) and MAPPING FILES *.hbm.xml ARE USED BY THE CONFIGURATION CLASS 
+- to create (i.e. configure and bootstrap hibernate) the SessionFactory, which in turn creates the Session instances. 
+- Session instances are the primary interface for the persistence service.
+
+> " hibernate.cfg.xml (alternatively can use hibernate.properties): 
+- These two files are used to configure the hibernate sevice (connection driver class, connection URL, connection username, connection password, dialect etc). 
+- If both files are present in the classpath then hibernate.cfg.xml file overrides the settings found in the hibernate.properties file.
+
+> " Mapping files (*.hbm.xml): These files are used to map persistent objects to a relational database. 
+> It is the best practice to store each object in an individual mapping file (i.e mapping file per class) 
+- because storing large number of persistent classes into one mapping file can be difficult to manage and maintain. 
+> The naming convention is to use the same name as the persistent (POJO) class name. 
+- For example Account.class will have a mapping file named Account.hbm.xml. 
+- Alternatively hibernate annotations can be used as part of your persistent class code instead of the *.hbm.xml files.
+=====================================
+######### PERSISTENT CLASSES ########
+
+> Java classes whose objects or instances will be stored in database tables are called persistent classes in Hibernate
+
+RULES OF PERSISTENT CLASSES
+1. DEFAULT CONSTRUCTOR : All Java classes that will be persisted should have default constructor .
+
+2. ID Property : All classes should contain an ID for easy identification of objects within Hibernate and the database. 
+- This property maps to the primary key column of a database table.
+
+3. PRIVATE ATTRIBUTES : All attributes that will be persisted should be declared private and have getXXX and setXXX methods defined in the JavaBean style.
+
+4. A central feature of Hibernate, proxies, depends upon the PERSISTENT CLASS BEING EITHER NON-FINAL, OR THE IMPLEMENTATION OF AN INTERFACE THAT DECLARES ALL PUBLIC METHODS.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What will happen if we don’t have no-args constructor in Entity bean?
+
+> Hibernate uses Reflection API to create instance of Entity beans using Class.newInstance() and it requires no-args constructor. 
+- If we don’t have no-args constructor in entity beans, HIBERNATE WILL FAIL TO INSTANTIATE IT and we will get HibernateException.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why we should not make Entity Class final?
+
+> Hibernate use proxy classes for lazy loading of data, only when it’s needed. 
+- This is done by extending the entity bean, if the entity bean will be final then lazy loading will not be possible, hence low performance.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is it necessary to implement Serializable for Entity Bean?
+
+> No, it is not necessary to implement Serializable for Entity bean 
+- It is because hibernate do the conversion for us. 
+- but it will be good to implement Serializable if we are transfering the bean to remote machine or vice-versa because as per JSR220
+- the entity class must implement the Serializable if it is transfer from remote machine
+=====================================
+## Explain the general flow of Hibernate communication with RDBMS? 
+
+> general flow of Hibernate communication with RDBMS is :
+1. The Hibernate configuration is to be loaded and creation of configuration object is done. The mapping of all hbm files will be performed automatically.
+2. Creation of session factory from the configuration object.
+3. Obtain a session from the session factory.
+4. Creation of HQL Query
+5. Execution of the query in order to get the list of containing java objects.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to insert and retrieve an image in db?
+> inserting and fetching BLOB data such as images requires two steps: 
+- define database column type as “BLOB” and 
+- have a field in entity of type “byte array”.
+
+EXAMPLE:- 
+@Entity
+@Table(name = "TBL_IMAGES")
+public class ImageWrapper implements Serializable {    
+    private static final long serialVersionUID = 1L;
+ 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)
+    private Integer id;
+     
+    @Column(name = "IMAGE_NAME")
+    private String imageName;
+     
+    @Column(name = "DATA")
+    private byte[] data;     
+    //Getters and Setters
+}
+-------------------
+File file = new File("C:\test.png");
+byte[] imageData = new byte[(int) file.length()];
+
+    FileInputStream fileInputStream = new FileInputStream(file);
+    fileInputStream.read(imageData);fileInputStream.close();
+ 
+ImageWrapper image = new ImageWrapper().setImageName("test.jpeg");
+image.setData(imageData);
+ 
+session.save(image);
+=====================================
+## How to implement Joins in Hibernate?
+
+There are various ways to implement joins in hibernate.
+
+> Using associations such as one-to-one, one-to-many etc.
+> Using JOIN in the HQL query. There is another form “join fetch” to load associated data simultaneously, no lazy loading.
+> We can fire native sql query and use join keyword.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+http://howtodoinjava.com/hibernate/lazy-loading-in-hibernate/
+
+Example : 
+FROM UserAction action where ( action.userActionStatus = 'FAILURE' or 1=1)
+- it will fetch all record
+ 
+FROM UserAction action where ( action.userActionStatus = 'FAILURE' or 1=2)
+- it will fetch all record whose userActionStatus is failure 
+
+=====================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is AUTOMATIC DIRTY CHECKING in hibernate?
+> it is a feature of hibernate which CALLS UPDATE STATEMENT AUTOMATICALLY ON THE OBJECTS THAT ARE MODIFIED IN A TRANSACTION.
+EXAMPLE : 
+SessionFactory factory = cfg.buildSessionFactory();  
+Session session1 = factory.openSession();  
+Transaction tx=session2.beginTransaction();  
+   
+Employee e1 = (Employee) session1.get(Employee.class, Integer.valueOf(101));  
+e1.setSalary(70000);  
+ 
+tx.commit();  
+session1.close();  
+> After changing the state, we are committing the transaction. In such case, state will be updated automatically. This is known as dirty checking in hibernate.
+
+=====================================
+## What is N+1 SELECT problem in Hibernate?
+
+> it is a RESULT OF LAZY LOADING AND LOAD ON DEMAND FETCHING STRATEGY. 
+- In this case, HIBERNATE ENDS UP EXECUTING N+1 SQL QUERIES to populate a collection of N elements. 
+
+EXAMPLE:
+@Entity
+public class Department {
+ 
+    private Long id;
+     
+    @OneToMany
+    private Employee[] Employees;
+}	
+> Department table with a one-to-many relationship with Employee i.e One Department may have many Employees.
+- to print out all the details of Employee(N) for each department(1)
+- query would be 
+-- To Get all Departments
+SELECT * FROM Department;
+ 
+-- To get each Employee, get Employee details. hibernate will fire this
+SELECT * FROM Employee WHERE Employee.departmentId = ?
+
+> N+1 problem can happen if the first query populates the primary object and the second query populates all the child objects for each of the unique primary objects returned.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## SOLUTION FOR HIBERNATE N+1 PROBLEM
+
+## Using HQL fetch join
+- from Department d join fetch d.employees Employee
+
+> Hibernate Generated SQL would be similer as –
+  SELECT * FROM Department d LEFT OUTER JOIN Employee e ON d.id = d.department_id
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the concurrency strategies in hibernate?
+## What is optimistic locking? How can you use it with Hibernate?
+
+n applications which have long running transactions, optimistic locking might provide required scalability. Without optimistic locking, the tables might be locked avoiding concurrent access.
+
+Hibernate provides two approaches to optimistic locking: version number or timestamp. Using a version number is preferred approach. It is implemented using @Version annotation. Entity manager would use the LOCKING_COLUMN to detect conflicting updates.
+
+    @Version
+    @Column(name="LOCKING_COLUMN")
+    public Integer getVersion() { ... }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+## How do you implement pagination with Hibernate?
+
+Query q = sess.createQuery("Some HQL Query");
+q.setFirstResult(50); //50th row would be the first result returned
+q.setMaxResults(100); //100 is the maximum number of rows returned
+List cats = q.list();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Using Criteria query
+  Criteria criteria = session.createCriteria(Department.class);
+  criteria.setFetchMode("employees", FetchMode.EAGER);
+  
+> In both above cases, the query returns a list of Department objects with the Employee initialized, and only one query needs to be run to return all the Department and Employee information required.  
+=====================================
+## What is Hibernate Validator Framework?
+
+> It is used for validating a bean by using annotations. 
+> It provides the reference implementation of both these bean validation specification.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What are different environments to configure hibernate?
+There are mainly two types of environments in which the configuration of hibernate application differs.
+
+i. Managed environment – In this kind of environment everything from database connections, transaction boundaries, security levels and all are defined. An example of this kind of environment is environment provided by application servers such as JBoss, Weblogic and WebSphere.
+
+ii. Non-managed environment – This kind of environment provides a basic configuration template. Tomcat is one of the best examples that provide this kind of environment.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+http://www.javatechinfo.com/2013/01/top-50-important-hibernate-interview.html
+https://codingcompiler.com/hibernate-interview-questions-answers/

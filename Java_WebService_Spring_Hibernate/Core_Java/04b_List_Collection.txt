@@ -1,0 +1,300 @@
+public interface List<E> extends Collection<E> {}
+------------------------------------
+##List some important method of List?
+#### METHODS ####
+1. void add(int index, E obj) 
+- Inserts obj and preexisting elements shifted up
+
+2. boolean addAll(int index, Collection<? extends E> c)
+- Inserts all ele of col. and preexisting elements shifted up
+
+3. E get(int index) 
+- Returns object stored at the specified index 
+
+4. int indexOf(Object obj) 
+- Returns index of 1st instance of obj; 
+- return -1 if not found
+
+5. int lastIndexOf(Object obj) 
+- Returns index of last instance of obj; 
+- return -1 if not found
+
+6. ListIterator<E> listIterator() - ret list iterator to the start of the invoking list.
+7. ListIterator<E> listIterator(int index) 
+- ret an iterator that begins at the specified index.
+
+8. E remove(int index) 
+- Removes ele of index and returns the deleted ele. 
+-indexes of subsequent elements are decremented by one.
+
+9. E set(int index, E obj) - Assigns obj to the location specified by index within the invoking list.
+10. List<E> subList(int start, int end)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between length of array and size() of ArrayList in Java?
+
+> length : return how many element array can store
+- also known as CAPACITY, 
+- array doesn't  have size()
+
+> size() : return total NO. OF ELEMENTS currently stored in ArrayList
+- length is not in arrayList
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are the classes implementation of List interface?
+
+1. ArrayList - dynamic array, not synch, insertion order, can contain duplicate element, random access
+2. Vector - synch, insertion order, can contain duplicate element, random access
+3. LinkedList - double linked list, not synch, insertion order, can contain duplicate element, NO RANDOM ACCESS,used for better manipulation
+
+4. CopyOnWriteArrayList - 
+=====================================
+## How to convert Array to Set?
+Set<Integer> set = new HashSet<Integer>(Arrays.asList(numArray));
+-------------------------------------
+## How to convert map into List?
+List<Entry> entryList = new ArrayList<Entry>(companyDetails.entrySet());
+=======================================
+########## TRANVERSE OVER LIST ########
+
+## In how many way we can iterate to a list?
+
+> Using for loop till length of list, use get(int index) 
+> using foreach loop
+> using iterator 
+> using for with iterator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we iterate in reverse order without using list Iterator?
+
+> we can make use of for loop 
+	for(int i = list.size()-1; i>=0; i--){
+			System.out.println(list.get(i));
+		}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet iterating using foreach and iterator ?
+
+> we cann't modify our list using foreach loop it will throw ConcurrentModificationException
+- but using iterator remove() we can.
+Example:
+Iterator iterator = arrayList.iterator();
+while(iterator.hasNext()){
+	Object obj = iterator.next();
+	if(obj.equals(1))
+		iterator.remove();
+	else
+		System.out.println(obj);			
+}
+=======================================
+############# ArrayList ###############
+
+### What is difference between Array and ArrayList ?
+
+> Array are of fix size whereas 
+- ArrayList is dynamic in nature
+
+>> Array can contain ONLY SINGLE DATATYPE whereas 
+- ArrayList can contain different data object.
+
+> ArrayList provides more methods and features like addAll, removeAll etc
+> ArrayList is one dimensional but Array can be multi-dimensional
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is difference between ArrayList and vector?
+
+## DIFFERENCE ##
+1) SYNCHRONIZATION 
+- ArrayList is not thread-safe whereas Vector is thread-safe. 
+- In Vector class, each method like add(), get(int i) is surrounded with a synchronized block and thus making Vector class thread-safe.
+
+2) DATA GROWTH 
+- A Vector defaults to DOUBLING THE SIZE of its array, while 
+- the ArrayList INCREASES ITS ARRAY SIZE BY 50 PERCENT.
+- Internally, both the ArrayList and Vector hold onto their contents using an Array. 
+- When an element is inserted into an ArrayList or a Vector, the object will need to expand its internal array if it runs out of room. 
+
+3> Other than Hashtable ,VECTOR is the only other class which USES BOTH Enumeration and Iterator. 
+- While ArrayList can only use Iterator for traversing an ArrayList .
+
+4> ArrayList does not define the increment size . Vector defines the increment size as
+public Vector(int initialCapacity, int capacityIncrement){ //some code  } 
+
+5> Vector has setSize() 
+Sets the size of this vector. If the new size is greater than the current size, new null items are added to the end of the vector.
+If the new size is less than the current size, all components at index newSize and greater are discarded.
+
+5> after adding element we change set size in vector as public synchronized void setSize(int i) { //some code  } 
+
+> Vector in Jdk1.0 but ArrayList in jdb1.2 onward
+-------------------
+## SIMILARITY ##
+> By default Vector size is 10 and 
+- ArrayList has 10 as default size.  
+- public ArrayList() { this(10); }
+
+> initially size() give 0 bcz it give no. of element present in class
+- even when we assign size of ArrayList/Vector, size() count no. of of element present in class
+
+> both maintain a counter of element added
+
+------------------------------------
+## If an Employee class is present and its objects are added in an arrayList. 
+- Now I want the list to be sorted on the basis of the emp age of Employee class. What are the steps?
+
+1. Impl Comparable[i] for the Employee class and override the compareTo(Object obj) in which compare the emp age
+
+2. Now call Collections.sort() method and pass list as an argument.
+
+Ex - Sort employee on basis of age 
+public int compareTo(Object o) {
+		Employee emp = (Employee)o;
+		if(this.age == emp.age){
+			if(this.empId > emp.empId)
+				return 1;
+			else if(this.empId < emp.empId)
+				return -1;
+			else 
+				return 0;
+		}
+		else if(this.age > emp.age)
+			return 1;
+		else
+			return -1;
+	}
+----------------------------------------
+##How about when Employee class is a jar file and you do not have access to its source code?
+
+> Since Comparable interface cannot be impl, create Comparator class and override the compare(Object obj, Object obj1) method .
+
+> Call Collections.sort() on the list and pass Comparator as an argument as 
+	Collections.sort(studentList, new StudentAgeComparator());
+Ex - 	
+class StudentAgeComparator implements Comparator<Student>{
+	public int compare(Student o1, Student o2) {
+		if(o1.age > o2.age)
+			return 1;
+		else if (o1.age < o2.age)
+			return -1;
+		else 
+			return 0;
+	}
+}
+------------------------------------
+##How can list/Arraylist be synchronized without using Vector?
+
+> Arraylist can be synchronized using:
+- Collection.synchronizedList(List list)
+
+Other collections can be synchronized:
+- Collection.synchronizedMap(Map map)
+- Collection.synchronizedCollection(Collection c)
+=====================================
+############# LINKEDLIST ############
+
+public class LinkedList<E>
+	extends AbstractSequentialList<E>
+	implements List<E>, Deque<E>, Cloneable, java.io.Serializable
+
+> can be use as stack, que, deque
+
+#### METHODS ####
+> poll() :  It returns and removes the first item of the list.
+> pollFirst() :  same as poll() method. Removes the first item of the list.
+> pollLast() : It returns and removes the last element of the list.
+> implementation is not synchronized
+
+> peek() - Retrieves, but does not remove, the head (first element) of this list.
+
+> boolean add(Object item): It adds the item at the end of the list.
+> void add(int index, Object item): It adds an item at the given index of the the list.
+> boolean addAll(Collection c): It adds all the elements of the specified collection c to the list. 
+- It throws NullPointerException if the specified collection is null.
+
+> boolean addAll(int index, Collection c): It adds all the elements of collection c to the list starting from a give index in the list.
+> void addFirst(Object item): It adds the item (or element) at the first position in the list.
+> void addLast(Object item): It inserts the specified item at the end of the list.
+> void clear(): It removes all the elements of a list
+> Object get(int index): It returns the item of the specified index from the list.
+> Object getFirst(): It fetches the first item from the list.
+> Object getLast(): It fetches the last item from the list
+------------------------------------
+## How LinkedList Works?
+> It works based on Linked 
+------------------------------------
+###What is difference between ArrayList and LinkedList?
+> ArrayList is based on Array data structure but 
+- LinkedList is based on DOUBLY LINKED LIST DATA STRUCTURE.
+
+>> ArrayList has feature of list only 
+- LinkedList has feature of que and deque also as it implements deque
+
+> LinkedList has more MEMORY OVERHEAD than ArrayList because 
+-in ArrayList each index only holds actual object (data) but 
+-in LinkedList each node holds both data and address of next and previous node.	
+
+> INSERTION OPERATION -
+ - LinkedList - O(1) as it doesnt require navigation, ele add at the end
+ - ArrayList - O(n) -worst case , O(1) - best case
+
+> REMOVAL OPERATION - 
+ - ArrayList - performance vary O(n) worst case, O(1) best case - it REQUIRE SHIFTING TO FILL EMPTY SPACE created
+ - LinkedList  - O(1) performance as it maintain two pointer, removal only require change in pointer
+
+> SEARCH OPERATION :  get(index)
+  - ArrayList - O(1) 
+  - LinkedList - O(n) as it needs to traverse till that entry.
+  
+> ArrayList, if array is full i.e worst case,  
+- there is EXTRA COST OF RESIZING ARRAY and copying elements to the new array , which makes runtime of add operation in ArrayList O(n) , otherwise it is O(1) 
+- LinkedList adding or insertion is O(1) operation 
+
+> ArrayList creates an empty list of initial capacity 10  
+- LinkedList  only constructs the empty list without any initial capacity.
+
+http://www.geeksforgeeks.org/top-20-linked-list-interview-question/
+------------------------------------
+## When to Use ArrayList and LinkedList ?
+
+> ArrayList is preferred for get(int) or SEARCH OPERATIONS bcz O(1) order.
+
+> LinkedList is preferred for insert(int) , delete(int) operations then the get(int) operations
+- as they do not need to maintain back and forth like arraylist to preserve continues indices
+=====================================
+########## CopyOnWriteArrayList #####
+## What is CopyOnWriteArrayList?
+
+> Since Java5
+> it implements List interface and it is THREAD-SAFE
+> it creates copy of underlying ArrayList with every mutation operation like add or set.
+> Its EXPENSIVE BCZ OF ARRAY COPY. It use when frequent modification is not in arrayList
+> Iterator of CopyOnWriteArrayList class is FAIL-SAFE and DOEN'T THROW ConcurrentModificationException and DOESN'T SUPPORT remove operation remove().
+}
+
+> CopyOnWriteArrayList is fail-safe and doesn't throw ConcurrentModificationException even if it is modified.
+- Its because Iterator is operating on separate copy of ArrayList.
+- Consequently any updates made on CopyOnWriteArrayList is not available to Iterator.
+
+> remove() doesn't supported in CopyOnWriteArrayList
+----------------------------------------
+## How CopyOnWriteArrayList is different with Vector?
+> CopyOnWriteArrayList creates copy of underlying ArrayList with every mutation operation e.g. add or set.
+----------------------------------------
+## Difference between ArrayList and CopyOnWriteArrayList
+> ArrayList is not thread-safe 
+- CopyOnWriteArrayList is thread safe 
+
+> ArrayList is fail-fast
+- CopyOnWriteArrayList is fail-safe
+
+> ArrayList support remove()
+- CopyOnWriteArrayList doesn't 
+
+> ArrayList class is present in java.util package , 
+- CopyOnWriteArrayList class is present in java.util.concurrent package
+=========================================
+######### PROBLEM STATEMENT #########
+## How to remove duplicates from ArrayList in Java?
+> Use Set to insert value from list and back to arrayList.
+----------------------------------------
+##How to remove repeated elements and maintain order from ArrayList?
+
+> Copy all the elements of ArrayList in LinkedHashSet (as it maintain insertion order, not contain duplicate element) - arrayList.addAll(linkedHashSet)
+> empty the ArrayList as arrayList.clear()
+> copy LinkedHashSet into ArrayList - linkedHashSet.addAll(arrayList)
+=========================================

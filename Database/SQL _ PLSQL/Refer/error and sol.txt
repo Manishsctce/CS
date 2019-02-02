@@ -1,0 +1,42 @@
+ORA-01756 - quoted string not properly terminated
+ORA-00001 - unique constraint violated
+
+SQLPLUS CREDENTIAL
+==================
+username : system
+password : krsna(which you have set while installing)
+
+ENVIRONMENT VARIABLE
+TNS_ADMIN
+C:\Oracle11g\Oracle11gHome\NETWORK\ADMIN
+connection name: HR_ORCL
+username & password: hr
+role: default
+connection type: basic
+hostname: localhost
+port: 1521
+service name: ORCL
+
+jdbc:oracle:thin:@localhost:1521:orcl     //correct one
+Driver class: oracle.jdbc.OracleDriver //
+--------------------------
+##ORA-12560: TNS:protocol adaptor error
+
+Go to the windows machine that hosts the Oracle database server
+Go to Start -> Run -> Services.msc in windows. Locate OracleService (here OracleServiceORCL) and click on "Start" to start the oracle database service (if not already running)
+Once it is up and running, from the command prompt run the following:
+
+tnsping < tnsalias >
+
+(tnsalias entry you can find it in tnsnames.ora file)
+-------------------------
+## Network Adapter error
+The Network Adapter exception is caused because:
+
+The database host name or port number is wrong (OR)
+The database TNSListener has not been started. The TNSListener may be started with the lsnrctl utility.
+Try to start the listener using the command prompt:
+
+Click Start, type cmd in the search field, and when cmd shows up in the list of options, right click it and select ‘Run as Administrator’.
+At the Command Prompt window, type lsnrctl start without the quotes and press Enter.
+Type Exit and press Enter.

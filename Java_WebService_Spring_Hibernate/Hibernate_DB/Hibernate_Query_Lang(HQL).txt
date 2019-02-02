@@ -1,0 +1,115 @@
+## What is HQL?
+> Hibernate created a new language named Hibernate Query Language (HQL), the syntax is quite similar to database SQL 
+> it is an object-oriented query language
+> It is a superset of the JPQL(Java Persistence Query Language); 
+- a JPQL query is a valid HQL query, but not all HQL queries are valid JPQL queries
+
+> HQL queries are translated by Hibernate into conventional SQL queries
+
+> The main difference between is HQL uses class name instead of table name, and property names instead of column name.
+> Hibernator’s query facilities do not allow you to alter the database structure. You can alter only data inside tables.
+
+EXAMPLE:
+Query query = session.createQuery("from Stock where stockCode = :code ");
+query.setParameter("code", "7277");
+List list = query.list();
+-----------------------------------------
+#### select Clause and Projection ####
+> select clause provides more control over the result set than the from clause. 
+- If we want to obtain the properties of objects in the result set, use the select clause
+
+EXAMPLE:
+select product.name, product.price from Product product
+=====================================
+#### Using Named Parameters ####
+> Hibernate supports named parameters in its HQL queries. This makes writing queries that accept input from the user easy
+
+EXAMPLE:
+String hql = "from Product where price > :price";
+Query query = session.createQuery(hql);
+query.setDouble("price",25.0);
+List results = query.list();
+-----------------------------------------
+
+Query queryNodes =
+        factory.getCurrentSession().createQuery(
+            "SELECT DISTINCT frag.node.id FROM AmfApplication app INNER JOIN app.appFragments frag where app.id IN (:list)");
+queryNodes.setParameterList("list", appIds);
+List<Long> appNodes = queryNodes.list();
+-----------------------------------------
+## What is the difference between transient, a persistent and detached object in Hibernate?
+> In Hibernate, Object can remain in three state transient, persistent or detached.  
+
+TRANSIENT : 
+- Transient objects have newly created an instance of persistence class, which is never associated with any Hibernate Session
+
+PERSISTENT OBJECT
+> An object which is associated with Hibernate session is called persistent object. 
+- Any change in this object will reflect in the database based on your flush strategy i.e. automatic flush whenever any property of object change or explicit flushing by calling Session.flush() method. 
+
+DETACHED OBJECT
+> if an object which is earlier associated with Session, but currently not associated with it are called detached object. 
+> we can reattach detached object to any other session by calling either update() or saveOrUpdate() method on that session
+=====================================
+############ NATIVE QUERY ###########
+> Hibernate provide option to execute native SQL queries through the use of SQLQuery object. 
+- using it we can execute database vendor specific queries that are not supported by Hibernate API.
+
+> it is not the recommended approach because we loose benefits related to hibernate association and hibernate first level cache
+
+> Session.createSQLQuery(String query) 
+- to create native SQLQuery 
+
+> If we have Employee table containing Address and we create native query selecting from Employee will not returning Address data, whereas 
+- if we use HQL query "from Employee", it returns the associated table data too.
+
+=====================================
+EXAMPLE : 
+> use addEntity() and addJoin() methods to fetch the data from associated table using tables join. 
+> {[aliasname].*} is used to return all properties of an entity
+
+//Join example with addEntity and addJoin
+query = session.createSQLQuery("select {e.*}, {a.*} from Employee e join Address a ON e.emp_id=a.emp_id")
+		.addEntity("e",Employee.class)
+		.addJoin("a","e.address");
+rows = query.list();
+for (Object[] row : rows) {
+    for(Object obj : row) {
+    	System.out.print(obj + "::");
+    }
+    System.out.println("\n");
+}
+
+//Above join returns both Employee and Address Objects in the array
+for (Object[] row : rows) {
+	Employee e = (Employee) row[0];
+	System.out.println("Employee Info::"+e);
+	Address a = (Address) row[1];
+	System.out.println("Address Info::"+a);
+}
+=====================================
+## To insert value in database
+employeeID = (Integer) session.save(emp);//Here emp is object Employee
+tx.commit();
+-------------------------
+## To get all the record of a class 
+session.createQuery("FROM Employee").list();
+tx.commit();
+-------------------------
+## To update salary
+Session session = factory.openSession();
+Transaction tx = session.beginTransaction();
+Employee employee = (Employee)session.get(Employee.class, EmployeeID); 
+employee.setSalary( salary );
+session.update(employee);
+tx.commit();
+-------------------------
+## To delete any record
+Employee employee = (Employee)session.get(Employee.class, EmployeeID); 
+session.delete(employee); 
+tx.commit();
+-------------------------
+## Create a new Object of Employee 
+"SELECT new "+Employee.class.getName()+"(e.getId(),e.getName()) FROM Employee e where e.id=7";
+
+=========================================

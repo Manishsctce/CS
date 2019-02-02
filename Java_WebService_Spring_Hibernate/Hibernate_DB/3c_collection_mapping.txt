@@ -1,0 +1,381 @@
+=======================================
+=======================================
+######## Collections Mappings #########
+
+## What are the Collection types in Hibernate ?
+1. Bag
+- it is an unordered collection, which can contain duplicated elements
+
+2. Set
+- <set> is similar to <bag> except that it can only store unique objects.
+
+3. List
+- it store object with index 
+- it is an unordered collection, which can contain duplicated elements
+
+4. Array
+5. Map
+
+EXAMPLE:
+<map name="certificates" cascade="all" sort="MyClass">
+    <key column="employee_id"/>
+    <index column="certificate_type" type="string"/>
+    <one-to-many class="Certificate"/>
+</map>
+
+- <map> element is used to set the relationship between Certificate and Employee classes. 
+
+###### ATTRIBUTES ######
+CASCADE 
+- used TO PERSIST the Certificate objects AT THE SAME TIME as the Employee objects. 
+ 
+NAME 
+> used to set as SortedMap variable in the parent class
+
+SORT 
+> it can be set to natural to have natural sorting or 
+- it can be set to a custom class implementing java.util.Comparator. 
+- We have used a class MyClass which implements java.util.Comparator to reverse the sorting order implemented in Certificate class.
+- if we use sort="natural" , then no need to implemented any class 
+
+<index> element 
+- it is used to represents the key parts of the key/value map pair. 
+- The key will be stored in the column certificate_type using a type of string.
+- List and Map are indexed collection.
+
+<key> element 
+> it is used to holds the foreign key to the parent object ie. table EMPLOYEE
+
+<element> element
+- is used to define the element of the collection.
+- if collection stores entity reference (another class objects), we need to define <one-to-many> or <many-to-many> element.
+
+<one-to-many> element 
+> it indicates that one Employee object relates to many Certificate objects and, as such, 
+- the Certificate object must have a Employee parent associated with it. 
+- we can either use <one-to-one>, <many-to-one> or <many-to-many> elements based on requirement
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## CASCADE ##############
+## Define cascade option in mapping relationship?
+
+> cascade attribute TRANSFERS OPERATIONS DONE ON ONE OBJECT ONTO ITS RELATED CHILD OBJECTS
+cascase="none"
+
+Cascade having the values
+1. none (default)
+- it means no operations will be transfers to the child class
+
+2. save
+- it mean it save child object if parent is saved. 
+
+3. update
+- it mean it update child object if parent is update.
+
+4. save-update
+5. delete
+6. all
+
+7. all-delete-orphan : 
+- it means breaking relation between objects not deleting the objects from the database
+
+## what is orphan record?
+> it is a record in child table but it doesn’t have association with its parent in the application.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is “inverse” ?
+
+> “inverse” keyword is always declare in one-to-many and many-to-many relationship (many-to-one doesn’t has inverse keyword), 
+- it means which side is responsible to take care of the relationship.
+
+> By default, inverse="false" : it mean it will update the relationship
+> inverse="true" : it mean it will not update the relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How many type of relationship exist in hibernate?
+
+> 4 types of relationships
+1. Many-To-One
+2. One-To-One
+3. One-To-Many
+4. Many-To-Many
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is it possible to perform collection mapping with One-to-One and Many-to-One?
+
+> No, collection mapping can only be performed with One-to-Many and Many-to-Many.
+- because in @OneToMany : parent will hold all child object like Employee hold addresses/vehicles/certificates
+
+=======================================
+########### LAZY LOADING ##############
+> Hibernate 2 (mapping files), where all references (including collections) are loaded eagerly by default.
+
+> @OneToMany and @ManyToMany associations are defaulted to LAZY loading; and 
+- @OneToOne and @ManyToOne are defaulted to EAGER loading.
+
+> To enable lazy loading explicitly you must use "fetch = FetchType.LAZY" on a association which you want to lazy load when you are using hibernate annotations
+
+Example:
+@OneToMany( mappedBy = "category", fetch = FetchType.LAZY )
+private Set<ProductEntity> products;
+
+> Hibernate represents database joins in the form of associations like One-to-One, One-to-Many and Many-to-One.
+> Fetch Type decides on whether or not to load all the data belongs to associations as soon as you fetch data from parent table.
+- Fetch type supports two types of loading: Lazy and Eager.
+
+FetchType.LAZY: 
+> It fetches the child entities lazily, that is, at the time of fetching parent entity it just fetches proxy (created by cglib or any other utility) of the child entities and when you access any property of child entity then it is actually fetched by hibernate.
+
+FetchType.EAGER: it fetches the child entities along with parent.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the ways to avoid LazyInitializationException ?
+
+1. Set lazy=false in the hibernate config file.
+
+2. Set @Basic(fetch=FetchType.EAGER) at the mapping.
+
+3. Make sure that we are accessing the dependent objects before closing the session.
+
+4. Using Fetch Join in HQL.
+
+5. Adding a filter for session management and keep the session open till request completion.
+=======================================
+########## ONE-TO-ONE MAPPING #########
+> A "one-to-one" association is similar to "many-to-one" association with a difference that the column will be set as unique.
+
+EXAMPLE - the same address can be associated with single employee.
+Employee[c] : address
+Address[c] : define its property
+
+<class name = "Employee" table = "EMPLOYEE">
+  ...
+  <many-to-one name="address" unique="true" column="address" class="Address" not-null="true"/>
+</class>
+~~~~~~~~~~~~~~~~~~~~~~~~
+EXAMPLE: a user have vehicle
+Vehicle : id ,name
+User : id,name, Vehicle
+
+class User{
+  @Id @GeneratedValue(strategy=GenerationType.AUTO)
+  int id;
+  String name;
+  
+  @OneToOne(cascade=CascadeType.ALL)
+  @PrimaryKeyJoinColumn //specifies primary key col is used as a foreign key to join
+  Vehicle vehicle;
+  
+  setter-getter
+}
+=======================================
+######### ONE-TO-MANY MAPPING #########
+> 
+> With a One-to-Many relationship, the child table is the one that houses the foreign key 
+- foreign key is always in the “Many” side of the relationship.
+
+> One-to-Many mapping can be implemented using a Set java collection that does not contain any duplicate element.
+
+EXAMPLE1 - EMPLOYEE table and having a collection of certificates
+Employee[c] : id, Set<certificates>
+Certificate[c] : id
+
+<class name = "Employee" table = "EMPLOYEE">
+  <id name = "id" type = "int" column = "id">
+    <generator class="native"/>
+  </id>
+  
+  <set name = "certificates" cascade="all">
+    <key column = "employee_id"/>
+    <one-to-many class="Certificate"/>
+  </set>
+</class>
+
+<key>: it holds the foreign key to the parent object i.e. table EMPLOYEE.
+- it can have different name
+
+cascade : to tell Hibernate to persist the Certificate objects at the same time as the Employee objects
+~~~~~~~~~~~~~~~~~~~~~~~~
+EXAMPLE2: Uni-directional- a user have many vehicle 
+Parent: User : id,name, List<Vehicle>
+Child: Vehicle : id ,name
+
+class User{
+  @Id @GeneratedValue(strategy=GenerationType.AUTO)
+  int id;
+  String name;
+  
+  @OneToMany(cascade=CascadeType.ALL)
+  @PrimaryKeyJoinColumn
+  private List<Vehicle> vehicles = new ArrayList<Vehicle>();
+  
+  setter-getter
+}
+- Here another table(join table) will be created User_Vehicle
+~~~~~~~~~~~~~~~~~~~~~~~~
+EXAMPLE3:  Bi-directional- a user have many vehicle 
+Parent: User : id,name, List<Vehicle>
+Child: Vehicle : id ,name, user
+
+public class UserDetails {
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
+  private int userId;
+  private String userName;
+  
+  @OneToMany(cascade=CascadeType.ALL)
+  private List<Vehicle> vehicles = new ArrayList<Vehicle>();
+  
+  setter-getter
+}
+
+public class Vehicle {
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Column(name="VEHICLE_ID")
+  private int vehicleId;
+  private String vehicleName;
+  
+  @ManyToOne(fetch=FetchType.LAZY)
+  @JoinColumn
+  private UserDetails user;
+}	
+=======================================
+######### MANY-TO-ONE MAPPING #########
+- foreign key is always in the “Many” side of the relationship.
+
+EXAMPLE - the same address can be associated with multiple employee.
+Employee[c] : address
+Address[c] : define its property
+
+<class name = "Employee" table = "EMPLOYEE">
+  ...
+  <many-to-one name="address" column="address" class="Address" not-null="true"/>
+</class>
+
+> It will create another table for joining called MEDIATOR TABLE
+- to avoid mediator table use "mapped by" as 
+
+//it mapped userId in Vehicle table and doesn't create Mediator table.
+@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+@PrimaryKeyJoinColumn
+private List<Vehicle> vehicles = new ArrayList<Vehicle>();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do we have 2 different annotation @OneToMany & @ManyToOne?
+
+> 2 different annotations is needed because using this we can tell Hibernate which object is the child/many part of the relationship and 
+- which object is the parent/one side of the relationship.
+
+> object is the parent object by assigning the @OneToMany to the appropriate getter method and 
+- object is the child object by assigning the @ManyToOne to the appropriate getter method.
+=======================================
+######## MANY-TO-MANY MAPPING #########
+> While applying Many-to-many relationship bet classes, A MEDIATOR TABLE(Join Table) IS MANDATORY IN THE DATABASE, to store primary key as foreign key both sides.
+- In many to many relationship join table contain foreign keys only
+
+> cascade="save-update" to tell Hibernate to persist the Certificate objects for SAVE i.e. CREATE and UPDATE operations at the same time as the Employee objects.
+
+EXAMPLE: Bidirectional Many-To-Many Mapping
+@Entity
+@Table(name = "Employee")
+public class Employee { 
+    // ...
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "Employee_Project", 
+        joinColumns = { @JoinColumn(name = "employee_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "project_id") }
+    )
+    Set<Project> projects = new HashSet<>();    
+    // standard constructor/getters/setters
+}
+~~~~~~~~~~~~~~~~~~~
+@Entity
+@Table(name = "Project")
+public class Project {    
+    @ManyToMany(mappedBy = "projects")
+    private Set<Employee> employees = new HashSet<>();   
+    // standard constructors/getters/setters   
+}
+
+> The @ManyToMany is used in both classes to create the Bidirectional many-to-many relationship between the entities.
+- This association has two sides i.e. the owning side and the inverse side. 
+- In our example, the owning side is Employee so the join table is specified on the owning side by using the @JoinTable
+
+> In the Project[c], the "mappedBy" attribute is used in the @ManyToMany to indicate that the employees collection is mapped by the projects collection of the owner side.
+~~~~~~~~~~~~~~~~~~~
+> If @ManyToMany is used in only 1 class then it will create Uni-directional Many-To-Many relationship.
+
+## The @JoinTable is used to define the join/link table. In this case, it is Employee_Project.
+- Use to specify the join table name
+
+## The @JoinColumn is used to specify the join/linking column with the main table. 
+- It can have only primary key. No other column can be mapped (throw Exception 
+- Here, the join column is employee_id and project_id is the inverse join column since Project is on the inverse side of the relationship.
+
+
+=========================================
+## What is the difference between sorted and ordered collection in hibernate?
+
+> A sorted collection is sorted in memory by using Java Comparator while 
+- an ordered collection uses database's order by clause for ordering. 
+
+> For large data set it's BETTER TO USE ORDERED COLLECTION to avoid any OutOfMemoryError in Java, by trying to sort them in memory.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## difference between @JoinColumn and @PrimaryKeyJoinColumn?
+
+@JoinColumn : Specifies a column for joining an entity association
+- also used to change the name of column while joining.
+
+@PrimaryKeyJoinColumn : specifies a primary key column is used as a foreign key to join to another table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## How do you specify a one to many unidirectional relationship with Hiberate?
+## How do you specify a one-to-many bidirectional relationship with Hibernate?
+=======================================
+######### Component Mapping ###########
+## What is Component Mapping?
+
+> An component is an object that is stored as an value rather than entity reference. 
+- It is mainly used if the dependent object doen't have primary key. 
+- It is used in case of composition (HAS-A relation), that is why it is termed as component
+- Required to define an empty constructor
+- Shared references not supported
+
+COMPONENT MAPPING: mapping the dependent object as a component. 
+
+EXAMPLE :
+<class name="com.javatpoint.Employee">
+  ..
+  <component name="address" class="com.javatpoint.Address">  
+    <property name="city" />
+    <property name="country" />
+    <property name="pincode" />
+  </component> 
+  ..
+</class>
+=======================================
+######## FETCHING STRATEGY ############
+> Fetch strategies can be declared in the O/R mapping metadata, OR
+- over-ridden by a particular HQL or Criteria query.
+
+There are four fetching strategies
+1. fetch-“join” 
+- Disable the lazy loading, always load all the collections and entities.
+- Hibernate retrieves the associated instance or collection in the same SELECT, using an OUTER JOIN.
+
+2. fetch-“select” (default) = Lazy load all the collections and entities.
+3. batch-size=”N” = Fetching up to ‘N’ collections or entities, *Not record*.
+4. FetchMode.SUBSELECT = Group its collection into a sub select statement.
+fetching strategy is enable all its related collection in a sub select statement.
+
+=======================================
+######## FetchMode.SELECT #############
+
+@Entity
+@Table(name = "stock", catalog = "mkyong")
+public class Stock implements Serializable{
+...
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
+	@Cascade(CascadeType.ALL)
+	@Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
+	public Set<StockDailyRecord> getStockDailyRecords() {
+		return this.stockDailyRecords;
+	}

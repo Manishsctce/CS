@@ -1,0 +1,50 @@
+=====================================
+########### XML Parser ##############
+
+## What is XML Parser?
+> it provides a way to access or modify data in an XML document. 
+> Java provides multiple options to parse XML documents. 
+
+TYPES OF PARSERS
+
+1. DOM PARSER 
+> Parses an XML document by loading the complete contents of the document and creating its COMPLETE HIERARCHICAL TREE IN MEMORY.
+
+2. SAX Parser 
+> Parses an XML document on event-based triggers. 
+- DOES NOT LOAD THE COMPLETE DOCUMENT INTO THE MEMORY.
+
+3. JDOM Parser − Parses an XML document in a similar fashion to DOM parser but in an easier way.
+
+4. StAX Parser 
+> Parses an XML document in a SIMILAR TO SAX PARSER but in a MORE EFFICIENT WAY.
+
+5. XPath Parser 
+> Parses an XML document based on expression and is used extensively in conjunction with XSLT.
+
+6. DOM4J Parser 
+> A java library to parse XML, XPath, and XSLT using Java Collections Framework. It provides support for DOM, SAX, and JAXP.
+=====================================
+> javax.xml.Parsers.DocumentBuilder class 
+- defines the API to OBTAIN DOM DOCUMENT INSTANCES from an XML document
+
+> javax.xml.Parsers.DocumentBuilderFactory class 
+- defines a factory API that ENABLES APPLICATIONS TO OBTAIN A PARSER THAT PRODUCES DOM object trees from XML documents.
+
+EXAMPLE:
+DocumentBuilderFactory documentBuilderFactory =DocumentBuilderFactory.newInstance();
+documentBuilderFactory.setValidating(true);
+
+DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+documentBuilder.setEntityResolver(new Log4jEntityResolver());
+documentBuilder.setErrorHandler(errorHandler);
+
+fis = new FileInputStream("xml_FILE_PATH");
+Document document = documentBuilder.parse(fis);
+fis.close();
+
+// get the first element
+Element element = doc.getDocumentElement();
+
+// get all child nodes
+NodeList nodes = element.getChildNodes();

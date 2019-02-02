@@ -1,0 +1,87 @@
+----------------------------------------------------
+##################### Array ##################
+> Arrays with named indexes are called Associative arrays(or hashes)
+> JavaScript does NOT support array with named index, it use numbered index
+
+> In JavaScript, OBJECTS USE NAMED INDEXES.
+EXAMPLE :
+	var person = [];
+	person["firstName"] = "John";
+	person["lastName"] = "Doe";
+	person["age"] = 46;
+	var x = person.length;         // person.length will return 0
+	var y = person[0];             // person[0] will return undefined
+	var z = person["age"];			//46
+	
+There are 3 ways to construct array in JavaScript
+
+1. By array literal
+var arrayname=[value1,value2.....valueN];  
+
+2. By creating instance of Array directly (using new keyword)
+var arrayname = new Array();
+arrayname[0]=assignValue;
+
+3. By using an Array constructor (using new keyword)
+var emp=new Array("Jai","Vijay","Smith");  
+---------------------------------------
+FUNCTION ON ARRAY 
+1. forEach
+
+SYNTAX - arr.forEach(callback[, thisArg])
+> Here callback is function to exec for each elem and taking 3 argument 
+	- currentValue
+	- index
+	- array : the array that forEach is being applied to.
+> thisArg : (Optional) value to use as this when executing callback
+
+EXAMPLE: 
+var fruits = ["Apple", "Banana"];
+fruits.forEach(function (item, index, array) {
+  console.log(item, index);
+});
+------------------------------
+2. arr.push(element) : add element to end of Array
+3. arr.pop() : remove from the end of an Array
+4. arr.shift(): remove from the front of an Array
+5. arr.unshift(element) : add element to front of Array
+6. arr.splice(pos,index) : remove an item by index position
+7. arr.slice() : copy an array
+------------------------------
+8. arr.filter(callback[, thisArg])
+> it creates a new array with all elem that pass test impl by provided func.
+
+callback func - it is used to test each elem of arr. invoked with arg(ele,i,arr) return true to keep elem.
+
+Example:
+function isBigEnough(value) {
+  return value >= 10;
+}
+var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+// filtered is [12, 130, 44]
+-------------------
+EXAMPLE : Filtering invalid entries from JSON
+var arr = [
+  { id: 15 },
+  { id: -1 },
+  { id: 0 },
+  { id: 3 },
+  { id: 12.2 },
+  { },
+  { id: null },
+  { id: NaN },
+  { id: 'undefined' }
+];
+
+var invalidEntries = 0;
+
+function filterByID(obj) {
+  if ('id' in obj && typeof(obj.id) === 'number' && !isNaN(obj.id)) {
+    return true;
+  } else {
+    invalidEntries++;
+    return false;
+  }
+}
+
+var arrByID = arr.filter(filterByID);

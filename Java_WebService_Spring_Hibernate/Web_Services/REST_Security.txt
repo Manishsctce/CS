@@ -1,0 +1,25 @@
+multiple ways to secure a RESTful API
+
+1. BASIC Authentication
+- It’s simplest techniques and use login/password forms. 
+- When user submit the form to server, and application identify you as a user – you are allowed to use the system – else you get error.
+
+- here credentials are propagated in a plain way from the client to the server. 
+- Credentials are merely encoded with Base64 in transit, but not encrypted or hashed in any way. 
+- This way, any sniffer could read the sent packages over the network.
+
+- HTTPS can be used in conjunction with Basic Authentication which makes the conversation with the web server entirely encrypted.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. DIGEST Authentication
+> This authentication method MAKES USE OF A HASHING ALGORITHMS TO ENCRYPT THE PASSWORD (called password hash) entered by the user before sending it to the server.
+- Hashing Algorithms: MD5, SHA, BCrypt, SCrypt
+
+- Each time user login into application, you have to regenerate password hash again, and match with hash stored in database. 
+- So, if user forgot his/her password, you will have to send him a temporary password and ask him to change it with his new password
+
+=======================================
+
+> Security information of a request is available by injecting a JAX-RS SecurityContext instance using @Context annotation. 
+- The injected security context instance provides the equivalent of the functionality available on HttpServletRequest API. 
+- The injected security context depends on the actual Jersey application deployment. 
+- For example, for a Jersey application deployed in a Servlet container, the Jersey SecurityContext will encapsulate information from a security context retrieved from the Servlet request

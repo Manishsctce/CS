@@ -1,0 +1,78 @@
+1. fileset 
+> it represent collection of files 
+> used as a filter to include or exclude files that match a particular pattern
+
+Ex - here src : source folder of project
+<fileset dir="${src}" casesensitive="yes">
+   <include name="**/*.java"/>
+   <exclude name="**/*Stub*"/>
+</fileset>
+- it will group all *.java file and exclude *stub* type file in given dir
+--------------------------
+2. Pattern set
+> use to filter files and folder 
+> ? = matches 1 char onlu
+> * = matches 0 or many char
+> ** = matches 0 or many dir recursively
+
+Example-
+<patternset id="java.files.without.stubs">
+   <include name="src/**/*.java"/>
+   <exclude name="src/**/*Stub*"/>
+</patternset>
+
+<fileset dir="${src}" casesensitive="yes">
+   <patternset refid="java.files.without.stubs"/>
+</fileset>
+--------------------------
+3. File list
+> filelist data type is similar to the file set except the following differences:
+
+- it contains explicitly named lists of files and DOES NOT SUPPORT WILD CARDS.
+- it can be applied for existing or NON-EXISTing FILEs.
+
+Ex - here dir point to webapp src folder
+<filelist id="config.files" dir="${webapp.src.folder}">
+   <file name="applicationConfig.xml"/>
+   <file name="faces-config.xml"/>
+   <file name="web.xml"/>
+   <file name="portlet.xml"/>
+</filelist>
+--------------------------
+4. Filter set
+> 
+
+<copy todir="${output.dir}">
+   <fileset dir="${releasenotes.dir}" includes="**/*.txt"/>
+   <filterset>
+      <filter token="VERSION" value="${current.version}"/>
+   </filterset>
+</copy>
+--------------------------
+5a. classpath 
+> it is use to represent grp of classfiles,jars
+> it has  path and location attributes of its own
+Example - 
+  <classpath>
+      <pathelement path="${classpath}"/>
+      <fileset dir="lib">
+        <include name="**/*.jar"/>
+      </fileset>
+      <pathelement location="classes"/>
+      <dirset dir="${build.dir}">
+        <include name="apps/**/classes"/>
+        <exclude name="apps/**/*Test*"/>
+      </dirset>
+      <filelist refid="third-party_jars"/>
+    </classpath>
+
+5b. Path
+> used to represent classpath. it can be used at the same level as targets and reference them via "id" attribute
+> entries in path are separated using ; or : these char are replace at runtime 
+
+   <path id="base.path">
+      <pathelement path="${classpath}"/>
+    </path>
+		OR
+	<path id="base.path" path="${classpath}"/>
+--------------------------------------------------------

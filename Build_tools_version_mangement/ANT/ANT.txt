@@ -1,0 +1,251 @@
+Apache ANT(Another Neat tool)
+
+> it is a Java based build tool from Apache Software Foundation. 
+> it build files are written in XML
+> generally consist of a project and a set of interdependent targets. 
+- These targets contain one or more tasks that can perform all kinds of functions, 
+
+> there should be no blank line(s) or whitespace(s) before the xml declaration.
+
+> All build files require the project element and at least one target element.
+
+> Refer tib_amx_administration.pdf
+
+########### ANT VERSION ###############
+Ant Version									Minimum Java Version
+1.1 										up to 1.5.4	1.1
+1.6.0 										up to 1.6.5	1.2
+1.7.0 										up to 1.7.1	1.3
+1.8.0 										up to 1.8.3	1.4
+Any 1.9.x release and the git branch 1.9.x		1.5
+
+####### COMMAND LINE OPTIONS ########
+ant -D<property>=<value>  	-> use value for given property
+-debug, -d					-> print debugging info
+-lib <path> 				-> specifies path to search jars and classes
+
+-buildfile <file>      		-> use given buildfile
+-file <file> 	    	    ->     ''
+-f <file>    		 	    ->     ''
+
+-silent, -S       			-> print nothing but task outputs and build failures
+-verbose, -v      			-> be extra verbose
+--------------------------------------------------------
+By default, Ant provide PRE-DEFINE PROPERTIES that can be used in the build file 
+
+1. ant.file - full location of the build file.
+2. ant.version	- The version of the Apache Ant installation.
+3. basedir	- The basedir of the build, as specified in the basedir attribute of the project element.
+4. ant.java.version	The version of the JDK that is used by Ant.
+5. ant.project.name - name of the project, as specified in the name atrribute of the project element.
+6. ant.project.default-target - default target of the current project.
+7. ant.project.invoked-targets	- Comma separated list of the targets that were invoked in the current project.
+8. ant.core.lib - full location of the Ant jar file.
+9. ant.home - home directory of Ant installation.
+10. ant.library.dir	- home directory for Ant library files - typically ANT_HOME/lib folder.
+
+Ex: build.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="main" name="Manish">
+	
+	<target name="main">
+		<echo>Manish Agrawal ${ant.file} ${basedir}</echo>
+		<echo> ${ant.project.name}</echo>
+		<echo> ${ant.core.lib}</echo>
+		<echo>Java/JVM version: ${ant.java.version}</echo> 
+		<echo>Java/JVM detail version: ${java.version}</echo> 
+	</target>
+</project>
+--------------------------------------------------------
+build.properties
+> it placed along with build.xml 
+> it can be created as build.properties.dev for dev env and build.properties.test 
+> it has name and value pairs, separated by = 
+> comments are listed using # 
+--------------------------------------------------------
+##### project Element #####
+
+ATTRIBUTE
+a. name - The Name of the project. (Optional)
+
+b. default	- The default target for the build script. 
+- A project may contain any number of targets. 
+- it specifies which target should be considered as the default. (Mandatory)
+
+c. basedir	- The base directory (or) the root folder for the project. (Optional)
+
+> taskdef and target are sub-element
+--------------------------------------------------------
+######### ANT #########
+> By default, all of the properties of the current project will be available in the new project. 
+- we can set the inheritAll="false" and only "user" properties will pass
+
+## ATTRIBUTE ##
+1. antfile - buildfile to use. By default is built.xml
+2. dir - dir to use as a basedir 
+3. target - target to be call of new ant project
+4. inheritAll - if true, pass all properties to the new Ant project. default is true.
+-------------------------
+-------------------------
+
+--------------------------------------------------------
+
+--------------------------------------------------------
+######### exec #########
+
+## ATTRIBUTE ##
+1. executable[must] - command to execute without any command line arguments
+2. outputproperty - name of a property in which the output of the command should be stored
+3. errorproperty - name of a property in which the standard error of the command should be stored
+4. output - Name of a file to which to write the output
+5. failifexecutionfails - Stop the build if we can't start the program. Defaults to true.
+
+EXAMPLE-
+<property name="browser" location="C:/Program Files/Internet Explorer/iexplore.exe"/>
+<property name="file" location="ant/docs/manual/index.html"/>
+
+<exec executable="${browser}" spawn="true">
+    <arg value="${file}"/>
+</exec>
+- Starts the ${browser} with the specified ${file} and end the Ant process. The browser will remain
+--------------------------------------------------------
+######### FilterSet #########
+> group of filters
+> Filters can be defined as token-value pairs or be read in from a file.
+
+## ATTRIBUTE ##
+1. begintoken - The string marking the beginning of a token (eg., @DATE@).	default @
+2. endtoken - The string marking the end of a token (eg., @DATE@).default @
+3. filtersfile	- Specify a single filtersfile.
+
+EXAMPLE-
+<copy file="${build.dir}/version.txt" toFile="${dist.dir}/version.txt">
+  <filterset>
+    <filter token="DATE" value="${TODAY}"/>
+  </filterset>
+</copy>
+-  copying the version.txt file to the dist directory from the build directory but wish to replace the token @DATE@ with today's date.
+
+--------------------------------------------------------
+######### FilterReader #####
+ 
+> files or directory
+> types of FilterReader
+
+1. stripjavacomments 2. striplinecomments (need comment value)3. striplinebreaks
+4. classconstants 
+5. replacetokens - req <token key="TODAY" value ="${TODAY}"/>
+6. tabstospaces
+
+> useful for reducing file size
+
+FilterChain is a group of ordered FilterReaders. 
+Users can define their own FilterReaders by just extending the java.io.FilterReader class. Such custom FilterReaders can be easily plugged in as nested elements of <filterchain> by using <filterreader> elements.
+
+--------------------------------------------------------
+##### path Element ##### define in data type 
+-------------------
+NESTED Element
+<ENTRY>
+> to specify actual modifications to the property file itself
+
+ATTRIBUTE
+key	- Name of the property name/value pair	Yes
+value - Value to set (=), to add (+) or subtract (-)
+--------------------------------------------------------
+##### XSLT ##### Extensible Stylesheet Language Tran
+> Process a set of documents via XSLT to convert the xml doc into 
+
+--------------------------------------------------------
+##### xmltask #####
+> to insert text and XML content specified either in the Ant build script on in external files.
+
+EXAMPLE-
+<xmltask source="src/web.xml" dest="target/web.xml"> 
+   <insert path="/web-app/display-name" 
+          xml="Development Application"/> 
+</xmltask> 
+- in ant build.xml
+
+OUTCOME - 
+ <?xml version="1.0" encoding="UTF-8"?> 
+<web-app id="ApplicationName" version="2.4"> 
+   <display-name>Development Application</display-name> 
+   .... 
+</web-app>
+-------------------
+<insert> can insert simple text, XML specified in the Ant script, or the content of a file.
+
+EXAMPLE-
+<xmltask source="src/web.xml" dest="target/web.xml"> 
+   <insert path="/web-app/servlet[1]/servlet-class" 
+             position="after"> 
+      <![CDATA[ 
+      <init-param> 
+         <param-name>parameter 1</param-name> 
+         <param-value>value for parameter 1</param-value> 
+      </init-param> 
+      ]]> 
+   </insert> 
+</xmltask> 
+
+OUTCOME - 
+ <?xml version="1.0" encoding="UTF-8"?> 
+<web-app id="XmlTaskDemo" version="2.4"> 
+   <display-name/>
+   <servlet> 
+      <servlet-name>UnitTests</servlet-name> 
+      <servlet-class>com.oopsconsultancy.servlet.tests.UnitTests</servlet-class> 
+      <init-param> 
+         <param-name>parameter 1</param-name> 
+         <param-value>value for parameter 1</param-value> 
+      </init-param> 
+      .... 
+--------------------------
+> cut, copy, and paste among XML documents. The XML cut or copied is stored in a buffer which can be used to paste into doc 
+
+EXAMPLE-
+ <xmltask source="src/web.xml" dest="target/web.xml"> 
+   <!-- copy the first servlet --> 
+   <copy path="/web-app/servlet[1]" buffer="servlet-buffer"/> 
+   <!-- paste a copy back in after the first servlet --> 
+   <paste path="/web-app/servlet[1]" position="after" 
+         buffer="servlet-buffer"/> 
+   <!-- and change the name --> 
+   <replace path="/web-app/servlet[2]/servlet-name/text()" 
+         withText="UnitTests-2"/> 
+</xmltask> 
+- The above copies the first servlet definition within the src/web.xml into a buffer called servlet-buffer. It then pastes it back into the web.xml from 'servlet-buffer' after the first servlet definition and changes the name.	  
+
+> CDATA section contains text that will NOT be parsed by a parser. 
+> Tags inside a CDATA section will NOT be treated as markup and entities will not be expanded. 
+> The primary purpose is for including material such as XML fragments, without needing to escape all the delimiters.
+
+> The only delimiter that is recognized in a CDATA section is "]]>" - which indicates the end of the CDATA section
+
+https://today.java.net/pub/a/today/2006/11/01/xml-manipulation-using-xmltask.html#paths-and-namespaces
+--------------------------------------------------------
+#####  #####
+--------------------------------------------------------
+#####  #####
+--------------------------------------------------------
+#####  #####
+--------------------------------------------------------
+#####  #####
+--------------------------------------------------------
+#####  #####
+--------------------------------------------------------
+#####  #####
+
+--------------------------------------------------------
+> Load a text resource into a single property. 
+> encoding of the current locale is used, unless define. 
+> Resources to load are specified as nested resource elements
+ 
+=========================================================
+
+
+--------------------------------------------------------
+
+--------------------------------------------------------
+adsfadf

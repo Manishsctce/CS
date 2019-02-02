@@ -1,0 +1,34 @@
+--------------------------------------------------------
+########### CONTROLLERS ############
+## What are controllers in AngularJS?
+> it is javascript function that are USED TO PROVIDE DATA AND LOGIC TO HTML.
+> it act as an interface between server and html.
+> CONTROLLERS responsibility to initialize the data that the view needs to display
+>  $scope as an object that links Controller to the View
+
+AngularJS Controllers are used to:
+> Set up initial state of the $scope object, and
+> Add behavior to the $scope object.
+
+
+> ng-controller attribute tells AngularJS what controller to use with this view
+Ex - 
+index.html
+<div ng-controller="HelloController" >
+    <h2>Hello {{helloTo.title}} !</h2>
+</div>
+
+
+<!-- This is controller --> 
+<script>
+angular.module("myapp", [])
+    .controller("HelloController", function($scope) {
+        $scope.helloTo = {};
+        $scope.helloTo.title = "World, AngularJS";
+    });
+</script>
+
+
+> "myapp" module is used to register HelloController 
+> $scope parameter passed to the controller function is the "model". 
+- The controller function adds a "helloTo" JavaScript object, and in that object it adds a "title" field.

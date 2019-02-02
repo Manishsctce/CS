@@ -1,0 +1,382 @@
+PL/SQL Interview Questions
+http://www.way2tutorial.com/plsql/plsql_cursors.php
+http://sql-plsql.blogspot.in/2007/04/sql-plsql-interview-questions.html
+PL/SQL is an advance version of SQL. There are given top list of PL/SQL interview questions with answer.
+
+##What is PL/SQL?
+> PL/SQL stands for procedural language extension to SQL. 
+> It supports procedural features of programming language and SQL both.
+> It was developed by Oracle Corporation in early of 90's to enhance the capabilities of SQL.
+> Oracle uses a PL/SQL engine to processes the PL/SQL statements. 
+> A PL/SQL language code can be stored in the client system (client-side) or in the database (server-side).
+----------------------------------
+##What is PL/SQL table? Why it is used?
+> Objects of type tables are called PL/SQL tables that are modeled as database table. 
+> it is a way to providing arrays. Arrays are like temporary tables in memory that are processed very quickly. 
+> PL/SQL tables are used to move bulk data. They simplifies moving collections of data.
+----------------------------------
+## What steps are included in the compilation process of a PL/SQL block?
+> The compilation process includes syntax checking, binding and p-code generation.
+
+1. SYNTAX CHECKING - it checks PL/SQL code for compilation error.
+2. BINDING - storage address is assigned to the variable that are used to hold data.
+3. P-CODE GENERATION - it is generated for PL/SQL block. It is the list of instruction to the PL/SQL engine.
+
+For Named block, P-CODE is stored in the db. 
+----------------------------------
+
+## Define Commit, Rollback and Savepoint.
+> COMMIT - when it is issued, the txn ended and following happens
+	- all workdone are permanent now.
+	- other user can see changes
+	- any lock acquired by the txn are release.
+
+ROLLBACK - for transaction ending
+> all workdone by the txn is undone. 
+> any lock acquired by the txn are release.
+
+SAVEPOINT - on part of txn can be undone.	
+----------------------------------
+###### DATA TYPE  #######
+
+##What are the datatypes available in PL/SQL?
+
+There are two types of datatypes in PL/SQL:
+Scalar datatypes:  Example are NUMBER, VARCHAR2, DATE, CHAR, LONG, BOOLEAN etc.
+Composite datatypes Example are RECORD, TABLE etc.
+---------------------------------- 
+> v_customername VARCHAR2(20) not null default 'Manish'; it can hold upto 20 byte of data
+> v_custname constant varchar2(20 char) := 'Agrawal'; it can hold 20 char regardless of the number of bytes per character.
+
+> Number(p,s)  used for storing integer and floating-point values
+	p- total number of digits allowed for the value 
+	s- number of digits to the right of the decimal place 
+> Ex - empid number(7,2) mean it can hold (7-2)=5 digits at left side and 2 digits at right side of point
+---------------------------------- 
+## What is  Anchored declarations - %TYPE ?
+
+> It is a way of declaring datatype in pl-sql block. 
+># SYNTAX:  variablename  TABLENAME.COLUMNNAME%TYPE;
+
+> variables directly maps to a column definition in the database
+> NOT NULL constraint or CHECK constraint associated with table column would not be applicable to PL/SQL variable
+> It can be used to directly maps to a datatype of previously declared variable. It will not copy data 
+---------------------------------- 
+##What is BIND VARIABLE?
+> It is a variable declare in the host envirn.
+> it is used to pass runtime values out of one/more plsql pgm to host envir
+> Print command is used to display the value of bind variable
+> it would be alive only in the current session
+
+Ex- VARIABLE g_itemid varchar2(20);
+
+BEGIN
+   :g_itemid :='STN001';
+END;
+
+print g_itemid --> STN001
+---------------------------------- 
+## What is substitution variables?
+> Declared in the host environment 
+> Used to pass runtime values into one or more PL/SQL programs
+> You will not be prompted to enter value during execution of the block
+> Would be alive only in the current session
+
+Ex - 
+SQL> DEFINE g_itemid = 'PEN';
+SQL> DECLARE
+ 2    v_itemname VARCHAR2(30);
+ 3   BEGIN
+ 4     v_itemname :='&g_itemid';
+ 5   DBMS_OUTPUT.PUT_LINE(v_itemname);
+ 6   END;
+----------------------------------
+
+----------------------------------
+##What is the basic structure of PL/SQL?
+
+PL/SQL uses BLOCK structure as its basic structure. Each PL/SQL program consists of SQL and PL/SQL statement which form a PL/SQL block.
+
+PL/SQL block contains 3 sections.
+
+The Declaration Section (optional)
+The Execution Section (mandatory)
+The Exception handling Section (optional)
+----------------------------------
+######CONDITIONAL CONTROL ######
+> PL/SQL Conditional Control two type: 
+1. IF THEN ELSE statement 
+	PL/SQL IF statement four different type,
+	A> IF THEN Statement
+	B> IF THEN ELSE Statement
+	C> IF THEN ELSIF Statement
+	D> Nested IF THEN ELSE Statement
+2. CASE statement
+
+> PL/SQL loop statements 3 different forms:
+1. Basic LOOP - 
+
+	[ label_name ] LOOP 
+	   statement(s);
+	END LOOP [ label_name ];
+
+2. WHILE LOOP - 
+	[ label_name ] WHILE condition LOOP 
+	   statement(s);
+	END LOOP [ label_name ];
+3. FOR LOOP - 
+	[ label_name ] FOR current_value IN [ REVERSE ] lower_value..upper_value LOOP 
+	   statement(s);
+	END LOOP [ label_name ];
+	
+> Oracle recommended to write a label when use loop statement. It's benefit to improve readability.
+--------------------------------
+SEQUENTIAL CONTROL STATEMENT
+1a. EXIT Statement : This statement to exit the loop.
+1b. EXIT WHEN Statement : This statement to exit, when WHEN clauses condition true.
+
+2a. CONTINUE Statement : to skip the current iteration with in loop.
+2b. CONTINUE WHEN Statement : to skip the current iteration with in loop when WHEN clauses condition true.
+
+3. GOTO Statement : Transfers the program execution flow unconditionally.
+
+###### PROCEDURE & FUNCTION ########
+> A subprogram is a named PL/SQL block that can accept parameter and be invoked from a calling envirn.
+
+A subprogram can be created:
+> At schema level
+> Inside a package
+> Inside a PL/SQL block
+
+> A schema level subprogram is a standalone subprogram. It is of two type 
+1. a procedure that performs an action
+2. a function that computes a value
+
+> it provides  modularity, reusability, extensibility and maintainability
+
+> Anonymous plsql block donot have names. 
+> it is declare at the point in application where they are to be run.
+-------------------------
+###FUNCTION: this is subprogram used to compute and return a single value. 
+> A function has a return type in its specification and must return a value specified in that type.
+
+PROCEDURE: this is a subprogram do not return a value directly, mainly used to perform an action.
+-------------------------
+> Each PL/SQL subprogram has a name, and may have a parameter list
+> It have three parts:-
+1. Declarative Part
+> It is an optional part. However, the declarative part for a subprogram does not start with the DECLARE keyword. 
+> It contains declarations of types, cursors, constants, variables, exceptions, and nested subprograms.
+
+2. Executable part - mandatory part
+3. Exception part - optional part
+
+># SYNTAX OF PROCEDURE:-
+
+CREATE [OR REPLACE] PROCEDURE procedure_name
+[(parameter_name [IN | OUT | IN OUT] type [, ...])]
+{IS | AS}
+BEGIN
+  < procedure_body >
+END procedure_name;
+
+> it can ends with either END or END procedure_name;
+> Formal parameter are variables declared in the parameter list of a subpgm specification. 
+Ex - create procedure raise_sal(p_id number, p_amt number) here p_id,p_amt are formal parameter
+
+> Actual Parameter are variables or expression referenced in the parameter list of the subpgm call. Ex - raise_sal(v_id,1000)
+
+> A standalone procedure can be called/execute in two ways:
+1. Using the EXECUTE keyword
+2. Calling the name of the procedure from a PL/SQL block
+
+> A standalone procedure is deleted with the DROP PROCEDURE statement.
+
+Parameter Modes in PL/SQL Subprograms
+1. IN
+> It is use to pass a value to the subprogram. 
+> It is a read-only parameter. Inside the subprogram, an IN parameter acts like a constant. 
+> It cannot be assigned a value. You can pass a constant, literal, initialized variable, or expression as an IN parameter.
+
+2. OUT
+> An OUT parameter returns a value to the calling program.
+
+3. IN OUT
+> An IN OUT parameter passes an initial value to a subprogram and returns an updated value to the caller.
+
+CREATE [OR REPLACE] FUNCTION function_name
+[(parameter_name [IN | OUT | IN OUT] type [, ...])]
+RETURN return_datatype
+{IS | AS}
+BEGIN
+   < function_body >
+END [function_name];
+
+> [OR REPLACE] option allows modifying an existing function.
+> function must contain a return statement.
+
+Locations to call user-define function
+> select list of a select command
+> condition of the where and having
+> connect by, start with, order by and group by clause
+> values clause of the insert command
+> set clause of the update command
+------------------------------------
+###How store procedure are more advantage over function ? 
+
+### PACKAGE ######
+> PL/SQL packages are schema objects that groups logically related PL/SQL types, variables and subprograms.
+
+A package will have two mandatory parts:
+> Package specification
+> Package body or definition
+
+> All objects placed in the specification are called public objects. Any subprogram not in the package specification but coded in the package body is called a private object.
+
+>  package elements (variables, procedures or functions) are accessed with the following syntax:
+	package_name.element_name;
+	
+> CREATE PACKAGE BODY Statement is used for creating the package body.
+> it can contain all the element body define in package body.	
+-------------------------------------
+##What are the Advantages of Packages over Procedure ?
+> Logical Grouping – Methods that work together can be put into a cohesive unit rather than just logically coupled but physically separate.
+> Secure Private Methods - Functions and Procedures can be made private to the package and only be used within it. This makes the public surface simpler and more secure.
+> Privilege Management – Permissions can be granted once for a group of procedures that work together rather than separately for each procedure/function required.
+> Secure Wrapping - Wrapped packages are more difficult to unwrap than wrapped functions/procedures.
+> Simplified Naming – A larger namespace allows names that are simpler and can be re-used in other packages.
+
+> Better Performance – Packages can be compiled and are loaded into memory in entirety rather than piecemeal as other methods. This benefit if it exists at all is minimal compared to the other benefits.
+> Reduced Invalidation – Changing a package body does not invalidate dependencies as changing a function or procedure does.
+> Unique Features - Package Variables, Package Constants, Initialization, Session State, Package Comments, and Overloaded Methods.
+-------------------------------------
+##Trigger
+
+Benefits of Triggers
+Triggers can be written for the following purposes:
+
+> Generating some derived column values automatically
+> Enforcing referential integrity
+> Event logging and storing information on table access
+> Auditing
+> Synchronous replication of tables
+> Imposing security authorizations
+> Preventing invalid transactions
+-------------------------------
+##What is the difference between FUNCTION, PROCEDURE AND PACKAGE in PL/SQL?
+
+
+PACKAGE: A package is schema object which groups logically related PL/SQL types , items and subprograms. You can also say that it is a group of functions, procedure, variables and record type statement. It provides modularity, due to this facility it aids application development. It is used to hide information from unauthorized users.
+----------------------------------
+####### EXCEPTION ######
+##What is exception? What are the types of exceptions?
+
+Exception is an error handling part of PL/SQL. There are two type of exceptions: pre_defined exception and user_defined exception.
+
+##How exception is different from error?
+Whenever an Error occurs Exception arises. Error is a bug whereas exception is a warning or error condition.
+
+##What is the main reason behind using an index?
+Faster access of data blocks in the table.
+----------------------------------
+##What are PL/SQL exceptions? Tell me any three.
+
+Too_many_rows
+No_Data_Found
+Value_error
+Zero_error etc.
+----------------------------------
+##What is the maximum number of triggers, you can apply on a single table?
+
+12 triggers.
+
+##How many types of triggers exist in PL/SQL?
+There are 12 types of triggers in PL/SQL that contains the combination of BEFORE, AFTER, ROW, TABLE, INSERT, UPDATE, DELETE and ALL keywords.
+
+BEFORE ALL ROW INSERT
+AFTER ALL ROW INSERT
+BEFORE INSERT
+AFTER INSERT etc.
+
+12) What is stored Procedure?
+
+A stored procedure is a sequence of statement or a named PL/SQL block which performs one or more specific functions. It is similar to a procedure in other programming languages. It is stored in the database and can be repeatedly executed. It is stored as schema object. It can be nested, invoked and parameterized.
+
+13) How to execute a stored procedure?
+
+There are two way to execute a stored procedure.
+
+From the SQL prompt, write EXECUTE or EXEC followed by procedure_name.
+
+EXECUTE or [EXEC] procedure_name;  
+Simply use the procedure name
+
+procedure_name;  
+14) What are the advantages of stored procedure?
+
+Modularity, extensibility, reusability, Maintainability and one time compilation.
+###### CURSOR ########
+CURSOR - A Cursor is a temporary work area created in the system memory when a sql stmt is executed.
+> A cursor contains information on a select statement and the rows of data accessed by it.
+> Temporary work area is used to store the data retrieved from the database, and manipulate this data. 1 row can be process at a time.
+> It is maintain by Server 
+
+There are two types of cursors
+IMPLICIT CURSORS - created by default when DML and PL/SQL SELECT statements executed
+
+EXPLICIT CURSORS - Declared and named by the programmer
+> it is defined in the declaration section of the PL/SQL Block. 
+> It is created on a SELECT Statement 
+
+># SYNTAX: 
+CURSOR cursor_name [ parameter ] [ RETURN return_type ]
+ [IS SELECT STATEMENT];
+ 
+There are four steps in using an Explicit Cursor :-
+> DECLARE the cursor in the declaration section.
+> OPEN the cursor in the Execution Section as
+	OPEN cursor_name;
+> FETCH the data from cursor into PL/SQL variables or records in the Execution Section.
+	FETCH cursor_name INTO record_name;
+> fetching a cursor to a PL/SQL Record, the record should have the same structure as the cursor.	
+
+> CLOSE the cursor in the Execution Section before you end the PL/SQL Block.
+	CLOSE cursor_name;
+> Both have the same functionality but they differ in the way they are accessed.
+
+
+--------------------------------
+##What are the cursor attributes used in PL/SQL?
+> %ISOPEN: it checks whether the cursor is open or not.
+> Always returns FALSE for implicit cursors, because Oracle closes the SQL cursor automatically after executing its associated SQL statement.
+
+> %ROWCOUNT: returns the number of rows affected by DML operations: INSERT,DELETE,UPDATE,SELECT.
+
+> %FOUND: Returns TRUE if an INSERT, UPDATE, or DELETE statement affected one or more rows or a SELECT INTO statement returned one or more rows. 
+
+> %NOTFOUND: it checks whether cursor has fetched any row. If no - TRUE.
+--------------------------------
+##What is cursor and why it is required?
+
+A cursor is a temporary work area created in a system memory when an SQL statement is executed.
+
+A cursor contains information on a select statement and the row of data accessed by it. This temporary work area stores the data retrieved from the database and manipulate this data. A cursor can hold more than one row, but can process only one row at a time. Cursor are required to process rows individually for queries.
+--------------------------------
+
+--------------------------------
+16) What is consistency?
+
+Consistency simply means that each user sees the consistent view of the data.
+
+Consider an example: there are two users A and B. A transfers money to B's account. Here the changes are updated in A's account (debit) but until it will be updated to B's account (credit), till then other users can't see the debit of A's account. After the debit of A and credit of B, one can see the updates. That???s consistency.
+
+SEQUENCE
+
+CRATE SEQUENCE sequence name INCREMENT BY <integer value> 
+START WITH <integer value>
+MAX VALUE <integer value>
+MIN VALUE <integer value>
+CYCLE/NO CYCLE
+CACHE.   <integer value> NO CACHE
+ORDER/NO ORDER
+--------------------------------

@@ -1,0 +1,277 @@
+############# ABSTRACT ##############
+ABSTRACT CLASS - It is a class that is USED AS TEMPLATE for other class. 
+> its purpose is to provide an appropriate superclass from which other classes can inherit and thus share a common design.
+
+ABSTRACT METHOD - it is a class method which won't be implemented but is expected to be implemented by the descendants of the class.
+
+> abstract class may have or may not hv abstract method
+> if subclass class doesnot implement abstract parent method then it should be declare as abstract
+> abstract class can implement the interface
+> abstract class object cannot be used to instantiate
+> have constructor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do we have constructor if we cannot instantiate the abstract class?
+> Constructor is used in abstract class for implementing constructor chaining(calling constructor from another constructor)
+> Main purpose of constructor is to initialize variable/data of object.
+-------------------------------
+## If we not defining any abstract method in abstract class then what's the use of abstract class?
+> Abstract class is USED TO SHARE A COMMON DESIGN 
+-------------------------------
+## Can abstract class implements interface in Java? does they require to implement all methods?
+> Yes, abstract class can implement interface by using implements keyword. 
+- Since they are abstract, they dont need to implement all methods
+-------------------------------
+## Can abstract class be final in Java?
+> They r opposite of each other, abstract keyword enforces to extend a class, for using it, on the other hand, 
+- final keyword prevents a class from being extended
+-------------------------------
+##Can abstract class contains main method in Java ?
+> Yes, abstract class can contain main method, it just another static method and you can execute Abstract class with main method, until you dont create any instance.
+-------------------------------------
+## In Which we use Abstract class?
+> it is used when IS-A RELATIONSHIP is maintain
+
+Ex - Triangles, squares or rectangles are types of polygons . In that
+triangle IS A polygon but it makes no sense to say a triangle IS CAPABLE OF being a polygon
+
+> in interface all members are by default public. cannot use when we need private. But can use abstract class with private member.
+
+> abstract class are slightly faster than interface because interface involves a search before calling any overridden method in Java
+
+=====================================
+############# INTERFACE #############
+> interface is a blueprint of class.
+> An Interface can ONLY DECLARE STATIC CONSTANTS and abstact methods
+> methods cannot implement default behavior prior to Java 8
+
+>> Interface method hv only PUBLIC and ABSTRACT modifier with method; 
+- NOT static, final
+>> variables are BY default PUBLIC, STATIC and FINAL and it must be initialize
+> Interface can have abstract modifier of it like public abstract interface MyInterface{...}
+
+> Mainly it is USED FOR TYPE DECLARATION.
+>> java DOESNT allow CONSTRUCTOR in interface
+
+>> we CANNOT USE transient, volatile, or synchronized in a member declaration in an interface. 
+>> we can mark interface as abstract but we CANT mark an interface as final.
+> we CANOT use the private and protected specifiers when declaring members of an interface.
+
+> An Interface cannot extend any class but it extend interfaces.
+> A Java interface does not extends the Object
+> we cannot extends Class after implements define i.e we cannot write like [class MyClass implements Runnable extends Thread] it should be class MyClass extends Thread implements Runnable
+
+> Implementing class can USE INTERFACE VARIABLE DIRECTLY with interface name as it is implicitly static
+>> we can DEFINE A CLASS INSIDE the interface. use of inner class in interface is, we can write default implementation for interface methods. 
+-------------------------------------
+## When and Why to use Java Interface?
+
+> It is used to achieve fully abstraction.
+> By interface, we can support the functionality of multiple inheritance.
+> It can be used to achieve loose coupling.
+
+> It is used when classes of various type SHOWS SAME BEHAVIOUR BUT DOESNOT HAVE RELATIONSHIP 
+Ex - Human and Parrot both can Whistle but doesn't have relationship. 
+- But abstact class is used when the same behavior is shown by it different class and have IS-A relationship
+
+> it is used when THE CLASS IS CAPABLE TO show some behavior like bouncing, moving
+> interface Ex - Bounceable , Moveable, 
+=====================================
+##### DEFAULT/DEFENDER METHODS ######
+- virtual extension methods
+> Java8 introduce default implementation of methods inside the interface, 
+- but that should be used as exception rather than rule. 
+- it is INTRODUCED TO MAINTAIN BACKWARD COMPATIBILITY along with supporting lambda expression. 
+
+> interfaces are not allowed to have Object class default methods
+> If any class in the hierarchy has a method with same signature, then default methods become irrelevant
+
+> All evolution of Stream API was possible due to this change.
+- It allows developer to add new methods to the interfaces without breaking the existing implementation
+
+public interface oldInterface {
+    public void existingMethod();
+        default public void newDefaultMethod() {
+        System.out.println("New default method"
+              " is added in interface");
+    }
+}
+---------------------------------------
+## Why Defaut Method?
+- Reengineering an existing JDK framework was always very complex. Modify one interface in JDK framework breaks all classes that extends the interface.
+- Default methods can be provided to an interface without affecting implementing classes
+- For example in Java 8, the JDK collections have been extended and forEach method is added to the entire collection
+---------------------------------------
+##Do default methods introduce multiple inheritance to Java?
+No
+---------------------------------------
+## What if two interface have a default method with same name and a class implements both interfaces?
+- in this case, there will be compiler error i.e "Duplicate default method" for class
+---------------------------------------
+### Why is “final” not allowed in Java 8 interface default methods?
+> It will complicate for multiple inheritance impl.
+
+For Example:-
+interface A { 
+    default void foo() { ... }
+}
+
+interface B { 
+}
+
+class C implements A, B { 
+}
+
+> Now supposing B is changed to have a foo method, with a default:
+interface B { 
+    default void foo() { ... }
+}
+
+> Now, when we go to recompile C, the compiler will tell us that it doesn't know what behavior to inherit for foo(), 
+- so C has to override it (and could choose to delegate to A.super.foo() if it wanted to retain the same behavior.) 
+- But what if B had made its default final, and A is not under the control of the author of C? 
+- Now C is irretrievably broken; it can't compile without overriding foo(), but it can't override foo() if it was final in B.
+=======================================
+############ STATIC METHOD ############
+> It is part of interface, we can’t use it for impl class objects.
+> It is GOOD FOR PROVIDING UTILITY METHODS, for example null check, collection sorting etc.
+> It PROVIDE SECURITY BY NOT ALLOWING IMPLEMENTATION CLASSES TO OVERRIDE THEM.
+> We can’t define interface static method for Object class methods, 
+- we will get compiler error as “This static method cannot hide the instance method from Object”. 
+- This is because it’s not allowed in java, since Object is the base class for all the classes and 
+- we can’t have one class level static method and another instance method with same signature.
+
+> We can use java interface static methods to remove utility classes such as Collections and 
+- move all of it’s static methods to the corresponding interface, that would be easy to find and use.
+
+EX- 
+public interface MyData {
+
+	default void print(String str) {
+		if (!isNull(str))
+			System.out.println("MyData Print::" + str);
+	}
+
+	static boolean isNull(String str) {
+		System.out.println("Interface Null Check");
+
+		return str == null ? true : "".equals(str) ? true : false;
+	}
+}
+
+> Use interface static method as 
+- boolean result = MyData.isNull("abc");
+=======================================
+### What is DIFFERENCE BETWEEN ABSTRACT AND INTERFACE?
+DIFFERENCE
+> multiple abstract class can not inherit in a class
+- multiple Interface can . 
+
+> Abstract class are more structured and can have a state associated with them
+- Interface doesn't associate state 
+
+> Abstract class can have final, non-final, static and non-static variables.
+- Interface has only static and final variables.
+
+> Abstract class can have public, protected, private variables 
+- Interface can only have public variables.
+
+> Abstract class can have static methods, main method and constructor.
+- Interface can't have static methods, main method or constructor.
+
+> abstract class can have concrete as well as abstract method 
+- interface can also have default and abstract method Since Java8.
+
+-----------------------------------------
+## What is similarities between an Abstract class and Interface?
+> both cannot be instantiate
+> both define abstract method
+=======================================
+########## 
+
+ASSOCIATION : Super set of Aggregation
+> Associations present both the whole and the parts.
+> IT ESTABLISHES RELATIONSHIP BETWEEN TWO SEPARATE CLASSES through their objects. 
+- The relationship can be one to one, One to many, many to one and many to many.
+
+> Composition and Aggregation are the two forms of association.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+AGGREGATION : Super set of Composition
+> The whole class plays a more important role than the part class, but unlike the case of composition.
+> the part class can meaningfully exist on its own without the whole class
+> Symbol - holo rhombus at Super class and tail at the sub class
+Ex- Employee(Super) having Address(sub)
+
+> Aggregation is a special form of association which is a unidirectional one way relationship between classes (or entities)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+COMPOSITION - For ex Class A contain Class B
+> Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
+- IT REPRESENTS PART-OF RELATIONSHIP.
+
+> the part class cannot meaningfully exist on its own without the whole class. 
+> This means life of Class B is dependent of life of Class A.
+> Symbol-   dark rhomus at Super class and tail at the part class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Aggregation and Composition?
+
+> Dependency : 
+- Aggregation implies a relationship where the child can exist independently of the parent
+- Composition implies a relationship where the child cannot exist independent of the parent
+
+> Type of Relationship: 
+- Aggregation relation is “has-a” and 
+- composition is “part-of” relation.
+
+> Type of association: 
+- Aggregation is a weak Association.
+- Composition is a strong Association
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Cohesion in Java?
+> It refers all about how a single class is designed.
+- It is most closely associated with making sure that a class is designed with a single, well-focused purpose.
+
+> The advantages of high cohesion is that such classes are much easier to maintain (and less frequently changed) and reusable.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Coupling in Java?
+> it is the degree to which one class knows about another class”. 
+- If one class uses another class, that is coupling. 
+- Coupling is everywhere, but the level of coupling varies.
+
+There are two types of coupling:
+1. TIGHT COUPLING :
+Ex- 
+class Subject {
+  Topic t = new Topic();
+  public void startReading(){
+    t.understand();
+  }
+}
+class Topic {
+  public void understand(){
+    System.out.println("Tight coupling concept");
+  }
+}
+- Here Subject and Topic are tightly couple.
+
+2. Loose coupling:
+> If class A knows class B through its interface only i.e it interacts with class B through its API then class A and class B are said to be loosely coupled.
+
+EXAMPLE: 
+public interface Topic{
+    void understand();
+}
+class Topic1 implements Topic {
+  public void understand(){
+    System.out.println("Got it");
+  }
+} 
+class Topic2 implements Topic {
+  public void unserstand(){
+    System.out.println("understand");
+  }
+} 
+public class Subject {
+  public static void main(String[] args){
+    Topic t = new Topic1();
+    t.understand();
+  }
+}

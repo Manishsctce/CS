@@ -1,0 +1,930 @@
+http://www.avajava.com/tutorials/lessons/how-do-i-use-the-wait-and-notify-methods.html
+http://www.java2novice.com/java-interview-programs/
+http://allzhere.in/2013/05/04/java-multithreading-a-practical-scenario-implementation-guide/
+http://www.java-success.com/multithreading-scenarios-java-applications/
+http://www.javacodegeeks.com/2014/11/multithreading-concurrency-interview-questions-answers.html
+
+
+===================================
+interface Runnable {
+    public abstract void run();
+}
+===================================
+public class Thread
+extends Object implements Runnable{
+
+private char        name[];
+private int         priority;
+private Thread      threadQ;
+
+/* Whether or not the thread is a daemon thread. */
+private boolean     daemon = false;
+
+/* JVM state */
+private boolean     stillborn = false;
+
+public final static int MIN_PRIORITY = 1;
+public final static int NORM_PRIORITY = 5;
+public final static int MAX_PRIORITY = 10;
+
+	public Thread(){...}	
+	public Thread(String name){...}
+	
+	public Thread(Runnable target, String name){...}	
+	
+	public Thread(ThreadGroup group, String name){...}
+	public Thread(ThreadGroup group, Runnable target) {...}
+	public Thread(ThreadGroup group, Runnable target, String name) {...}
+	
+	final ThreadGroup getThreadGroup(){...} 
+}
+
+##What is THREAD?
+> Thread is a worker who is doing some task.
+> It is a SINGLE SEQUENTIAL FLOW OF CONTROL WITHIN A PROGRAM. It is a lightweight process.
+> A thread is a PART OF A PROCESS. 
+- A thread lives within a process i.e No process, no thread 
+
+> to increase processor utilisation over monolithic pgm der is 1 process that hv sequence of code to execute.
+-if the process execution is stopped for some reason, the microprocessor becomes idle without any work. 
+-To avoid this a process divide into number of thread that hv responsibility of some block of statement
+
+> Runnable is implemented by class Thread.
+> Thread share - addr space, HEAP AREA(instance variable it store dynamic obj), 
+- share CLASS/METHOD AREA(stores per-class structures such as the runtime constant pool, field and method data i.e class variable), file 
+
+> Each thread has Separate - Java stack , PC register
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Process ?
+> It is a program which execute some code. 
+> It can be single threaded or multithreaded.
+> It has separate address space
+> context switching between processes are slow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between thread and process?
+
+> A process is an execution environment provided by the operating system that has its own set of private resources (e.g. memory, open files, etc.). 
+> processes are typically independent(Ex- JVM), while threads exist as subsets of a process
+
+> Processes have SEPARATE ADDRESS SPACES, whereas 
+- threads share their address space, data(heap), file 
+
+> Processes must use interprocess communication to communicate with sibling processes (like RMI, CORBA, socket pgrm,JMX)
+- Threads can directly communicate with other threads of its process(ex-in pgm, direct call to other thread ); 
+
+> In Process, context switching between processes are slow
+> context switching between threads in the same process is typically faster than .
+
+> New threads are easily created; 
+- new processes require duplication of the parent process.
+
+> Processes can only exercise control there child processes.
+- Threads have considerable control over other threads of the same process; 
+
+> Changes to the main thread (cancellation, priority change, etc.) may affect the behavior of the other threads of the process; 
+- changes to the parent process do not affect child processes.
+
+> Ex - In Java, processes correspond to a running Java Virtual Machine (JVM) whereas 
+threads live within the JVM and can be created and stopped by the Java application dynamically at runtime.
+
+> Processes have their OWN COPY of the data segment of the parent process.
+- Threads have DIRECT ACCESS to the data segment(memory) of its process; 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to two JVM communicate with each other?
+> Two JVM mean two process and process use IPC(Interprocess comm.) to communicate.
+> It can use any 1 of the following
+1. Socket-Based programming
+2. RMI
+3. Message Passing Architectures (ActiveMQ, EMS)
+4. Java Management Extensions (JMX)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How two Thread communicate with each other?
+> They use wait-and-notify-methods for communication.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Which JVM parameter is used to control stack size of thread?
+> we can use -Xss parameter to control stack size of thread 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Concurrency?
+> Concurrency is the ability of a program to EXECUTE SEVERAL COMPUTATIONS SIMULTANEOUSLY. 
+> This can be achieved by distributing the computations over the available CPU cores of a machine or 
+- even over different machines within the same network.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet Multithreading and Concurrency?
+> Both are same
+> Multithreading means use of multiple thread on sth.
+> Concurrency is the use of threads to attempt multiple tasks simultaneously 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What are the advantage of multithreading concept?
+
+> Multithreaded applications have the following advantages:
+
+1. RESPONSIVENESS: In multithread, sys is responsive to input but in single-threaded pgm, main exec thread blocks entire appl appear freeze. 
+
+2. FASTER EXECUTION: MT pgm operate faster on multi-core CPU but it is not in case of ST
+
+3. BETTER SYSTEM UTILIZATION - not idle
+
+4. Simplified sharing and communication: Unlike processes, require message passing or shared memory in IPC. 
+> Threads automatically share the data, code and files and so, communication is vastly simplified.
+
+5. LOWER RESOURCE CONSUMPTION: Using MT, appl serve multiple client concurrently using less resource than using MP. 
+- Ex - Apache HTTP server use a pool of listener and server threads for listening to incoming requests.
+
+6. PARALLELIZATION
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where we use multithreading concept?
+> To achieve multiple tasks parallel, we uses threads
+- One task does not wait for another to complete.
+- Ex - multiple objects in games like cars, motor bikes, animals, people etc
+- Ex - Railway ticket reservation system where multiple customers accessing the server.
+
+> It is used when we have same process multiple time then we create thread and each thread will do the operation.
+> It is used when we have situation of producer and consumer 
+
+> One CPU can work on one Thread at a time (unless CPUs have hyper-threading,it can handle two at a time). 
+- if computer has 4 CPUs with hyper-threading technologies, it could potentially handle 8 Threads at the same time. 
+=====================================
+##What is difference between user Thread and DAEMON Thread?
+> The thread which we create in java is USER THREAD 
+- DAEMON THREAD is service provider thread that provide service to other thread. 
+
+> Daemon thread runs in background mostly created by JVM for background task like Garbage Collection and other house keeping tasks 
+> Daemon thread is low priority thread compare to user thread.
+
+> JVM DOESNOT WAIT FOR TERMINATION for daemon thread to complete. finally blocks are not called
+> JVM terminates the daemon thread if there is no user thread.
+
+>> Note : Thread inherit the nature of parent thread. So, Thread create by daemon thread will be daemon. Similar for user thread too.
+> We can explicitly define any user thread as daemon thread using setDaemon(true).
+
+- IllegalThreadException
+> We cannot set a live thread as daemon. it throw IllegalThreadStateException.
+
+> Main thead is not daemon thread
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is it possible to convert a normal user thread into a daemon thread after it has been started?
+> No, can causes a IllegalThreadStateException.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain different ways of creating a thread?
+Thread can be created by 
+1. by extending Thread class 
+2. by implementing Runnable interface we can make any class runnable that require Thread to run
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which way of creating thread is preferable and why?
+
+> Creating thread BY IMPLEMENTING RUNNABLE INTERFACE IS PREFERABLE
+- We can extends other class with the class implementing Runnable feature i.e thread feature
+- In OOP, extending a class generally mean adding new feature or modifying existing feature present in parent in our subclass. 
+- But it is not the case with extending Thread
+
+> Separating task as Runnable means we can reuse the task and also has liberty to execute it from different means. 
+=====================================
+############# Runnable[i] ###########
+> The Runnable interface should be implemented by any class whose instances are intended to be executed by a thread. 
+- It have only 1 method 
+interface Runnable{
+	public abstract void run();
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+## What properties does each Java thread have?
+
+Each Java thread has the following properties:
+1. THREAD ID - positive long number generated when this thread was created. 
+- it is unique within the JVM and remains unchanged during its lifetime. 
+- When a thread is terminated, this thread ID may be reused
+- we can get it using getId() Since 1.5
+
+2. NAME of type String
+
+3. PRIORITY of type int
+- MIN_PRIORITY =1; NORM_PRIORITY=5; MAX_PRIORITY=10,
+- throw IllegalArgumentException, if priority set <0 & >10
+- if we set priority of thread is greater than thread group priority then new priority of thread will be equal to threadgroup priority.
+          if (newPriority > g.getMaxPriority()) {
+1036                newPriority = g.getMaxPriority();
+1037            }
+
+4. STATE of type Enum Thread.State
+- private volatile int threadStatus = 0;
+
+5. ThreadGroup - to which the thread belongs to.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+##What are different states in lifecycle of Thread?
+public static enum Thread.State extends Enum<Thread.State>
+
+> There are totally five different states of thread as follow:-
+
+1. NEW - When we create new thread it is in Newborn state i.e Thread t = new Thread()
+- A thread that has not yet started is in this state.
+
+2. RUNNABLE - thead enter into this state using t.start().
+> In this state thread is alive but can/cann't be started. It depend on scheduler to start.
+> a new stack is allocated to thread while calling t.start().
+
+3. RUNNING - when thread scheduler picks up the thread from the Runnable thread pool and allocate CPU then it move to running 
+
+4. WAITING/BLOCKED/sleeping - In these states the thread is said to be alive but not runnable. 
+> The thread switches to this state because of certain reasons i.e method call on thread
+
+- WAITING : A thread that is waiting indefinitely for another thread to perform a particular action is in this state.
+- TIMED_WAITING : A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state.
+- A thread is in the timed waiting state due to calling one of the following methods with a specified positive waiting time:
+- Thread.sleep ; Object.wait with timeout; Thread.join with timeout; LockSupport.parkNanos; LockSupport.parkUntil
+
+5. TERMINATED - When the thread finishes its execution i.e. the run() method execution completes, it is said to be in dead state. 
+> A dead state can not be started again. 
+> If a start() method is invoked on a dead thread a runtime exception will occur.
+> When stop() is invoke on thread obj then it is force to entered in dead state.
+
+
+> A  thread can be in only one state at a given point in time. 
+- These states are virtual machine states which do not reflect any operating system thread states.
+
+=====================================
+########### THREAD METHODS ##########
+public void start(), run();
+public static void sleep(), yield() 
+public static boolean isAlive();
+public final join(); stop()[D], suspend()[D], resume()[D]
+
+> if a thread terminate it cnt be restarted like t1.start() cant define 2 time 
+> run() - it contain body of thread execution. it is similar to main() for thread and can pass args using static instance
+> notify() - wakes up a single thread that is waiting on this object's monitor.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are different ways in which a thread can enter the waiting state?
+> A thread can enter the waiting state by the following ways:
+
+1. Invoking its sleep() method,
+2. By blocking on I/O
+3. By unsuccessfully attempting to acquire an object’s lock
+4. By invoking an object’s wait() method.
+5. It can also enter the waiting state by invoking its (deprecated) suspend() method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### SLEEP() / SUSPEND() #########
+###What is the difference between sleep() and wait()?	
+> Wait is called on an object, not a thread; 
+- Sleep is call on currently executing thread 
+
+> wait() - move thread from running state -> non-runnable ie waiting state until another thread invokes notify() or notifyAll() 
+> Sleep() - move thread running state -> non-runnable state for specified time
+-  If another thread calls t.interrupt() it will wake up the sleeping thread
+
+>> wait() RELEASES THE LOCK or monitor while 
+- sleep() doesnt releases any lock or monitor if it call in synchro context while waiting
+
+> Wait is used for ITC while 
+- sleep is used to introduce pause on execution
+
+> wait is called from synchronized context only otherwise it will throw IllegalMonitorStateException while 
+- sleep can be called without synchronized block
+
+> wait is NON STATIC METHOD and 
+- Sleep is static method
+
+> InterruptedException is checked exception so sleep()/wait() must be in try-catch block or method throws exception
+- public static native void sleep(long millis) throws InterruptedException;
+- public final void wait() throws InterruptedException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is the difference between sleep(), suspend() and wait() ?
+> Thread.sleep() takes the current thread to a "Not Runnable" state for specified amount of time.It call on current thread.
+- InterruptedException if any thread has interrupted the current thread
+
+> Its possible to send other threads into suspended state by making a suspend() call. 
+- This may cause deadlocks thts why deprecated.
+
+> object.wait() call also takes the current thread into a "Not Runnable" state
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between public static yield() and public static sleep()?
+
+>> When a task invokes its yield(), it RETURNS TO READY STATE, either from waiting, running or after its creation. 
+- it allows the current thread to RELEASE ITS LOCK from the object and scheduler gives the lock of the object to the other thread with same priority.
+
+> When a task invokes its sleep(), it RETURNS TO WAITING STATE from a running state.
+> sleep() allows the thread to go to sleep state for x milliseconds. 
+- When a thread goes into sleep state it DOESN’T RELEASE THE LOCK.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can we use Thread.sleep() for real-time processing?
+> No, Thread.sleep() doesn't ensure it sleep time accurately
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############ START() ###############
+##Can we Start a thread twice ?
+> No. Thread cannot be started twice. 
+- If you try to do so, IllegalThreadStateException will be thrown.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How on the start twice, it throws IllegalThreadStateException?
+> Thread maintains threadStatus whose value initialy is 0 and once the thread is completed its value is 2.
+- if start found the threadStatus !=0 then throw IllegalThreadStateException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Difference between public void start() and public void run() of Thread class? 
+> start() is used to start the newly created thread. It internally call the run() 
+> run() method using directly it will not treat the run() as the thread and 
+- by using run() a thread is spawn by current thread
+
+> start() can call only once but run() can call multiple time.
+
+> if we override the start() method then it cann't call run() 
+############ JOIN() #############
+### What is join()?
+> use to waits for the completion of the specified thread. 
+- it returns as soon as thread is considered "not alive". 
+
+1. public final synchronized void join()
+2. public final synchronized void join(long millis) -  Waits for the completion of the specified thread, but no longer than the timeout
+
+>  it DOESNOT GUARANTEE THAT THE CURRENT THREAD WILL WAIT ONLY FOR GIVEN TIME
+> join() basically accomplishes the task as the combination of the sleep() and isAlive() methods
+> join() does not affecting the thread on which it call
+
+public final synchronized void join(long millis)
+throws InterruptedException {
+    long base = System.currentTimeMillis();
+    long now = 0;
+
+    if (millis < 0) {
+        throw new IllegalArgumentException("timeout value is negative");
+    }
+
+    if (millis == 0) {
+        while (isAlive()) {
+            wait(0);
+        }
+    } else {
+        while (isAlive()) {
+            long delay = millis - now;
+            if (delay <= 0) {
+                break;
+            }
+            wait(delay);
+            now = System.currentTimeMillis() - base;
+        }
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Thread.join() in Java works internally?
+> join() is synchro, so it will require lock on thread obj for join()
+final synchronized void join(long milis){
+	while(thread.isAlive()){
+		thread.wait(0);
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What happens when we call the join() method for a thread that was stopped a long time ago?
+> if the thread is already stopped, it will return immediately
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###You have thread T1, T2 and T3, how will you ensure that thread T2 run after T1 and thread T3 run after T2?
+
+> We can use thread.join() 
+> call t1.join() just before another thread(t2). It ensure that t1 will dead before t2 start
+
+=====================================
+########### interrupt ###############
+## Difference between interrrupted() and isInterrupted() method ?
+
+>> The interrupt mechanism is implemented using an internal flag called interrupt status. 
+> Interrupting a thread by calling Thread.interrupt() sets this flag. 
+> When interrupted thread checks for an interrupt by invoking the static method Thread.interrupted(), interrupt status is cleared. 
+> The non-static isInterrupted(), which is used by one thread to query the interrupt status of another, does not change the interrupt status flag. 
+> By convention, any method that exits by throwing an InterruptedException clears interrupt status when it does so.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we check if a Thread holds a lock or not?
+
+> public static boolean holdsLock(Object obj) in java.lang.Thread it return true 
+- if the current thread hold the monitor lock on the specified object.
+> NullPointerException if the object is null
+=======================================
+## Can an already stopped thread be stopped?
+yes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How to stop thread in Java?
+> After Java1.0, it doesn't provide any method to stop thread and stop(), suspend() and resume() are deprecated.
+
+> To manually stop, programmers either TAKE ADVANTAGE OF VOLATILE BOOLEAN VARIABLE AND CHECK IN EVERY ITERATION IF RUN METHOD HAS LOOPS OR INTERRUPT THREADS to abruptly cancel tasks.
+EXAMPLE:
+class Server implements Runnable{ 
+  private volatile boolean exit = false; 
+  public void run() { 
+  	while(!exit){ 
+  		System.out.println("Server is running....."); 
+  	} 
+  	System.out.println("Server is stopped...."); 
+  } 
+  
+  public void stop(){ 
+  	exit = true; 
+  } 
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can main thread dies before the child thread?
+
+> Yes. Main thread dies after completing its job even after the thread created by main thread is not yet completed.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is there any relationship between threads like parent-child? 
+> When you start a thread it inherits the,
+- Thread daemon property and Thread priority
+- from the "parent" thread to "child" thread and that is the only relationship between threads and NO OTHER RELATION EXIST AFTER THREAD STARTS.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Get name of current method in Java?
+String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If there is more than one thread waiting on a specific monitor/object, the choice on which thread will receive the notification is arbitrary( i.e there is no way to specify which waiting thread should be re-awakend)
+NO 
+=========================================
+############ THREAD GROUP ############
+##What is ThreadGroup?
+
+> ThreadGroup is a class that is used to represent a group of thread.
+> Each thread belongs to a ThreadGroup. 
+> a ThreadGroup can also include other thread groups. 
+
+> It PROVIDE METHODS TO CONTROL WHOLE GROUP of thread like set priority, interrupt etc
+> The thread groups FORM A TREE in which every thread group except the initial thread group has a parent.
+> A thread is allowed to access information about its own thread group, but 
+- not to access information about its thread group's parent OR any other thread groups.
+
+# 2 CONSTRUCTOR # 
+ThreadGroup(String name) - here name is the threadgroup name 
+- here parent thread name will be the creating thread name.
+
+ThreadGroup(ThreadGroup parent, String name) - here name is the threadgroup name and parent is another threadgroup
+
+EXAMPLE :-
+ThreadGroup squares = new ThreadGroup("Squares");
+  Thread t1 = new Thread(squares, new T(), "t1"); 
+  Thread t2 = new Thread(squares, new T(), "t2");
+  
+## METHODS ##
+1. int activeGroupCount() 
+> Returns an estimate of the number of active groups in this thread group.
+
+2. void list()
+> Prints information about this thread group to the standard output.
+
+3. String getName ()
+> return the main thread's thread group name.
+=====================================
+######### THREAD EXCEPTIONS #########
+##What happens when an Exception occurs in a thread?
+> the thread that raised the exception will silently die
+> It can be caught if we use any ThreadGroup that handle UncaughtException
+
+EXAMPLE:- 
+public class MyThreadGroup extends ThreadGroup {
+    public MyThreadGroup() {
+        super("My Thread Group");
+    }
+    public void uncaughtException(Thread t, Throwable ex) {
+        // Handle exception
+    }
+}
+Thread t = new Thread(new MyThreadGroup(), "My Thread") { ... };
+t.start();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between InvalidMonitorStateException and IllegalMonitorStateException?
+
+> InvalidMonitorStateException is thrown when we call to wait()/notify()/notifyAll() any of these methods for an Object that is not locked
+> IllegalMonitorStateException is thrown when we call to wait()/notify()/notifyAll() any of these methods for an Object that is locked
+
+Since T2 thread is first in the queue of waiting it acquires the lock and starts processing.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What happens if a thread throws an Exception inside synchronized block?
+> 
+=========================================
+########### VOLATILE ################
+- [more detail in java_basic]
+
+##What is volatile variable ?
+
+> VOLATILE keyword guaranteed that any thread that reads the field will see the MOST RECENTLY WRITTEN VALUE.
+> it WILL NOT PERFORM ANY MUTUAL EXCLUSIVE LOCK
+> Volatile keyword can ONLY APPLIED TO VARIABLEs. 
+> Using volatile keyword along with class and method is compiler error.
+> volatile variable can hold null 
+> Volatile variable can be primitive or object refrence
+
+EXPLANATION
+> When multiple threads using the same variable, each thread will have its own copy of the local cache for that variable.
+- So, when it’s updating the value, it is actually updated in the local cache not in the main variable memory. 
+- To avoid this problem, we declare variable as volatile, then it will not be stored in the local cache. It is updated to the main memory. 
+
+Use volatile variable:
+1. used when a variable is shared between multiple threads.
+2. it CAN BE USED AS AN ALTERNATIVE OF SYNCHRONIZATION. As it guaranted that all reader thread will see updated value and it never lock the variable 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are difference between synchronized and volatile?
+
+> VOLATILE IS A FIELD/VARIABLE MODIFIER, IT CANNOT USE FOR METHOD while 
+- SYNCHRONIZED USED FOR CODE BLOCKS AND METHODS NOT FOR VARIABLE
+
+> Volatile variables are not cached, but 
+- variables used inside synchronized method or block are cached.
+
+> When volatile is used will never create deadlock in program, as volatile never obtains any kind of lock . 
+- But in case if synchronization is not done properly, we might end up creating dedlock in program
+
+> volatile is never expensive in terms of performance while
+- synchronization can be expensive.
+
+> volatile variable can hold null value but 
+- synchronized variable not.
+
+> Attempting to synchronize on a null object will throw a NullPointerException.
+
+> volatile variable can be primitive but 
+- synchronized variable not
+=============================
+####### TRANSIENT ######## [more detail in java_basic]
+##What is transient variable in Java?
+> A variable mark as transient indicate that it is not part of the persistent state of the object i.e cannot be serialized
+> value of transient variable after deserialization is null i.e default value
+-------------------------
+## When should we use transient keyword in java?
+> 1. when a fields values are derived/calculated from other fields 
+Ex- age of a person using time difference (dob - current date)
+
+> 2. Any info which need to be secure
+
+> 3. Any Containing-class having un-serializable class instance and it is serializing, then it will throw java.io.NotSerializationException while serialization, it can be solve by making un-serializable class instance as transient
+
+> 4. field which doesn't mean any sense to serialize make as transient
+ For example, In any class if you have added a logger reference, then whats use of serializing that logger instance. 
+
+=====================================
+########## SYNCHRONIZATION ##########
+##What is Synchronization?
+> Synchronization is the process to control the access any shared resource by multiple threads
+> Synchronization in Java is possible by using Java keywords "synchronized" and "volatile”
+> synchronization is BASED ON OBJECT MONITOR.
+- TWO KINDS OF MONITOR REGIONS: synchronized statements and synchronized methods. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do we need Synchronization?
+
+> we need synchronization for objects, which are shared among multiple threads, 
+- to avoid any corruption of state or 
+- any kind of unexpected behavior. 
+> Synchronization will only be needed if shared object is mutable. 
+- if your shared object is either read-only or immutable object, then we don't need synchronization, despite running multiple threads
+
+> CANNOT USE SYNCHRONIZED WITH CONSTRUCTOR it’s illegal and result in compilation error.
+
+The synchronization is mainly used to
+> To prevent thread interference.
+> To prevent memory consistency problem.
+
+http://javarevisited.blogspot.in/2011/04/synchronization-in-java-synchronized.html#axzz4sZOoYUxv
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are two types of synchronization
+> Process Synchronization (out of scope in this thread page) 
+> Thread Synchronization (
+
+> Java's monitor supports TWO KINDS OF THREAD SYNCHRONIZATION: mutual exclusion and cooperation. 
+1. MUTUAL EXCLUSION : 
+- it is SUPPORTED USING OBJECT LOCKS in the JVM , 
+- it enables multiple threads to independently work on shared data without interfering with each other. 
+- 3 ways to do -
+	a. Synchronized method.
+	b. Synchronized block.
+	c. static synchronization.
+	
+2. COOPERATION (Inter-thread communication in java): 
+- it is supported using wait() and notify() of class Object in the JVM.
+- it enables threads to work together towards a common goal.
+
+https://www.artima.com/insidejvm/ed2/threadsynch.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between a synchronized method and a synchronized block ?
+
+> Scope of synchronized block is smaller than the method
+
+> Using Synchronized method : thread acquire locks on current object (this)
+- Using Synchronized block : thread acquire locks on an object by using the synchronized keyword. 
+
+> The synchronized keyword can be applied in a method level (coarse grained lock) or block level of code (fine grained lock).
+
+> CAN NOT HAVE SYNCHRONIZED VARIABLE. 
+- Using synchronized keyword with a variable is illegal and will result in compilation error. 
+
+SYNCHRONIZED METHOD
+public synchronized void demoMethod(){}
+
+SYNCHRONIZED BLOCK
+public void demoMethod(){
+  synchronized (this){
+  	//other thread safe code
+  }
+}
+- here if "this" can be any object and if object is null then NPE.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where does object lock store in memory?
+
+> synchronized keyword involve locking and unlocking. 
+- before entering into synchronized method or block thread needs to acquire the lock,
+- at this point it READS DATA FROM MAIN MEMORY THAN CACHE AND WHEN IT RELEASE THE LOCK, IT FLUSHES WRITE OPERATION INTO MAIN MEMORY which eliminates memory inconsistency errors.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can a thread hold multiple locks at the same time?
+
+> Yes. A thread can hold multiple locks at the same time. 
+> Once a thread acquires a lock and enters into the synchronized method/block, it may call another synchronized method and acquire a lock on another object.
+- each time when thread aquire lock, lock count increase and decrease when the lock release. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can a thread call multiple synchronized methods on the object of which it hold the lock?
+
+> Yes. Once a thread acquires a lock in some object, it may call any other synchronized method of that same object using the lock that it already holds.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What happens when I make a static method as synchronized?
+
+> If you make any static method as synchronized, the lock will be on the class not on object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can two threads call two different static synchronized methods of the same class?
+
+> No. The static synchronized methods of the same class always block each other as only one lock per class exists. 
+> So no two static synchronized methods can execute at the same time.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Does a static synchronized method block a non-static synchronized method?
+## Can both static and nonstatic java synchronized method running in parallel?
+
+> No, As the thread executing the static synchronized method holds a lock on the class and 
+- the thread executing the non-satic synchronized method holds the lock on the object on which the method has been called, 
+- these two locks are different and these threads do not block each other.
+
+EXAMPLE: 
+public class Counter{
+  private static int count = 0;
+
+  public static synchronized int getCount(){
+    return count;
+  }
+
+  public synchoronized setCount(int count){
+     this.count = count;
+  }
+}
+- here 2 threads can run in parallel and can access getCount and setCount
+=======================================
+## What are the Different ways to make any application thread safe?
+
+> We can make any app thread safe using :-
+1. Re-entrancy
+2. Mutual Exclusion (synchronization)
+3. Thread Local
+4. Atomic operation
+
+=====================================
+########### ThreadLocal[c] ##########
+> Since Java2
+> It is used to create thread local variables
+- Every thread has it’s own ThreadLocal variable and they can use it’s get() and set() methods to get the default value or change it’s value local to Thread.
+
+> if we want to avoid synchronization and still want to share variable in multithreading env then , we can use ThreadLocal variables.
+- It is another way TO ACHIEVE THREAD-SAFETY apart from writing immutable classes.
+- it eliminates sharing by providing explicitly COPY OF OBJECT FOR EACH THREAD. 
+
+> ThreadLocal Variable provide global access i.e can be used from anywhere inside the thread. 
+- it is static and final
+
+> Do not use ThreadLocal with ExecutorService
+
+> it improve scalability and performance of application
+
+#### METHOD #####
+1. T get() {..} 
+- it Returns the value in the current thread's copy of this thread-local variable.
+
+2. void set(T value) {..} 
+- Sets the current thread's copy of this thread-local variable to the specified value
+
+3. void remove() {..}
+> Removes the current thread's value for this thread-local variable.  
+
+EXAMPLE
+public class ThreadLocalWithUserContext implements Runnable {
+  
+    private static ThreadLocal<Context> userContext = new ThreadLocal<>();
+    private Integer userId;
+    private UserRepository userRepository = new UserRepository();
+ 
+    @Override
+    public void run() {
+        String userName = userRepository.getUserNameForUserId(userId);
+        userContext.set(new Context(userName));
+        System.out.println("thread context for given userId: "
+          + userId + " is: " + userContext.get());
+    }
+     
+    // standard constructor
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is ThreadLocal variable? How can it be used?
+
+1. A thread-local variable provides a separate copy of its value for each thread that uses it.
+2. ThreadLocal instances are typically private static fields in classes that wish to associate state with a thread
+3. In case when multiple threads access a ThreadLocal instance, separate copy of Threadlocal variable is maintained for each thread.
+
+Note: Thread t has been made by using Runnable interface, hence it is necessary to use inherited abstract method run() 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How threads communicate with each other?
+
+> Threads use wait-and-notify-methods on an object to communicate.
+> A thread hold lock on an object and when wait() is called on the object by thread that release the lock and it waits for another thread to release object monitor by calling notify() or notifyAll() method on that object. This is how threads communication is possible.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why to use any object to communicate if thread obj has it own monitor?
+
+> Synchronization on object won’t be possible 
+- Because object has monitor, one object can have multiple threads and thread hold lock on object by holding object monitor. 
+- But if each thread will have monitor, we won’t have any way of achieving synchronization.
+- each thread will work independently and never communicate
+=====================================
+##### DEADLOCK & RACE CONDITION #####
+##What is deadlock?
+When two or more threads waiting for each other to release lock and stuck for infinite time, this situation is called deadlock.
+> It will only happen in multitasking
+
+Deadlock happens if four condition is true 
+1. Mutual Exclusion Condition - The resources involved are non-shareable.
+- At least one resource (thread) must be held in a non-shareable mode,i.e only one process at a time claims exclusive control of the resource. 
+- If another process requests that resource, the requesting process must be delayed until the resource has been released.
+
+2. Hold and Wait Condition - Requesting process hold already 1 resources while waiting for requested resources that are currently being held by other processes.
+
+3. No-Preemptive Condition - Resources already allocated to a process cannot be preempted.
+ 
+4. Circular Wait Condition
+The processes in the system form a circular list or chain where each process in the list is waiting for a resource held by the next process in the list.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Explain a deadlock situation and explain how to fix deadlock?
+public void method1(){
+  synchronized(String.class){
+  	System.out.println("Aquired lock on String.class object");
+  }
+  synchronized (Integer.class) {
+	System.out.println("Aquired lock on Integer.class object");
+  }
+}
+
+public void method2(){
+	synchronized(Integer.class){
+		System.out.println("Aquired lock on Integer.class object");
+	}
+	synchronized (String.class) {
+		System.out.println("Aquired lock on String.class object");
+	}
+}
+> Above is a deadlock situation
+single Ordering of synchronized method/block on which lock occur will avoid deadlock like in above code locking order of String.class, Integer.class in both method will avoid deadlock
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##How do you ensure that N threads can access N resources without deadlock ?
+> by making all thread and using resources in a sequence
+
+Few important measures to avoid Deadlock >
+
+> Lock specific member variables of class rather than locking whole class
+> If possible try avoid using nested synchronization blocks.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is RACE CONDITION?
+> Race conditions occurs when two thread operate on same object without proper synchronization 
+- for example, if one thread is updating a variable and second thread tries to read the value before it finished.
+
+> we can solve race condition by using either synchronized block or synchronized method. 
+- When no two threads can access same resource at a time phenomenon is also called as mutual exclusion.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What if two threads try to read same resource without synchronization?
+> When two threads try to read on same resource without synchronization, it’s never going to create any problem.
+
+=====================================
+########### THREAD DUMP #############
+##What is thread dump? What is the use? How to take thread dump?
+> Thread dump is the log file of Thread running.
+> It is used to check the thread status. Mainly use to check deadlock state.
+> JVM dumps state of all threads in log files or standard error console. 
+> In windows you can use Ctrl + Break key combination to take thread dump, on Linux you can use kill -3 command for same
+> we can use jstack tool for taking thread dump
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In Java, how will you take thread dump?
+
+> A thread dump is a list of all the Java threads that are currently active in a Java Virtual Machine (JVM).
+
+> It is highly recommended to take more than 1 thread dump. A good practice is to take multiple thread dumps at a regular interval. There are several ways to take thread dumps from a JVM:
+ 
+1. Get the PID of your java process. The first piece of information you will need to be able to obtain a thread dump is your java process’s PID. The JDK ships with the "jps" command which lists all java process ids.
+2. Request a Thread Dump from the JVM using "jstack" option. It prints thread dumps to the command line console. This tool is available as part of JDK since 5.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to read thread dump ?
+EXAMPLE1:
+"RMI TCP Connection(3)-10.175.2.71" daemon prio=6 tid=0x0000000011459000 nid=0x3bf4c runnable [0x00000000120ef000]
+
+Here "RMI TCP Connection(3)-10.175.2.71" is thread name
+- daemon : tell whether thread is daemon or not
+- prio : tell what is the thread priority
+- tid : it is the thread id
+- nid : native thread id
+- runnable : state of the thread 
+
+EXAMPLE2:
+"Finalizer" daemon prio=8 tid=0x000000000f6a2000 nid=0x3bfc0 in Object.wait() [0x0000000010b9e000]
+   java.lang.Thread.State: WAITING (on object monitor)
+
+- Finalizer : Gives information about reference objects. Reference objects are implemented in close cooperation with the garbage collector. It helps in freeing memory.   
+
+EXAMPLE3:
+
+
+http://www.javamadesoeasy.com/2015/03/visualvm-thread-dumps-generating-and_74.html
+=====================================
+######### PROCESS #########
+##What is difference between preemptive scheduling and time slicing?
+> PREEMPTIVE SCHEDULING the highest priority task executes until it enters the waiting or dead stated or a higher priority task comes into existence.
+
+> TIME SLICING, a task executes for a predefined time period and then the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factor.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+############# SEMAPHORE #############
+## What is Semaphore?
+> A Semaphore is a thread synchronization construct that can be used either to send signals between threads to avoid missed signals, or to guard a critical section like you would with a lock. 
+> Since Java5 comes with semaphore implementations in the java.util.concurrent package
+
+
+================================
+Thread class methods all methods are public
+- void run(): perform action for a thread.
+- void start(): starts exec thread. JVM calls the run() method on the thread.
+- void sleep(long miliseconds): Causes the thread to sleep
+- void join():waits for a thread to die.
+- void join(long miliseconds): waits for a thread to die for the specified miliseconds.
+- int getPriority(): returns the priority of the thread.
+- int setPriority(int priority):changes the priority of the thread.
+- String getName():returns the name of the thread.
+- void setName(String name):changes the name of the thread.
+- Thread currentThread():returns the reference of currently executing thread.
+- int getId():returns the id of the thread.
+- Thread.State getState():returns the state of the thread.
+- boolean isAlive():tests if the thread is alive.
+- void yield():causes the currently executing thread object to temporarily pause and allow other threads to execute.
+- void suspend():is used to suspend the thread(depricated).
+- void resume():is used to resume the suspended thread(depricated).
+- void stop():is used to stop the thread(depricated).
+- boolean isDaemon():tests if the thread is a daemon thread.
+- void setDaemon(boolean b):marks the thread as daemon or user thread.
+- void interrupt():interrupts the thread.
+- boolean isInterrupted():tests if the thread has been interrupted.
+- static boolean interrupted(): tests if the current thread has been interrupted.
+
+ threaded programming model provides developers with a useful abstraction of concurrent execution. Multithreading can also be applied to a single process to enable parallel execution on a multiprocessing system.
+-------------------------
+run() - is the empty method but we can override it for our use.
+run() is equivalent to main() to run thread we can pass arg to thread using satic instance or other technique
+
+http://stackoverflow.com/questions/10351926/how-to-catch-exception-thrown-by-another-thread-in-java
+http://javarevisited.blogspot.in/2010/10/how-to-check-if-thread-holds-lock-on.html
+----------------
+Traditional approach
+1. time consuming
+2. poor resource management
+3. not robust
+
+
+## What is Busy Spinning? Why Should You Use It in Java? (6+)
+> Busy spinning is a waiting strategy, in which a thread just wait in a loop, without releasing the CPU for going to sleep. 
+- This is a very advanced and specialized waiting strategy used in the high-frequency trading application when wait time between two messages is very minimal.
+
+> By not releasing the CPU or suspending the thread, your thread retains all the cached data and instruction, 
+- which may be lost if the thread was suspended and resumed back in a different core of CPU. 
+
+Ex - 
+private volatile boolean flag = false;
+public void waitTillChange(){
+	while(!flag){
+		Thread.sleep(100);
+	}
+}
+
+public void change(){
+	flag = true;
+}
+
+How do you ensure that N thread can access N resources without deadlock?
+=====================================
+########## BEST PRACTICE ############
+
+> try to use volatile variables. If a field is declared volatile all threads see a consistent value for the variable.
+> Final variables are thread safe
+> Usage of local variables : If possible try to use local variables, local variables are thread safe, because every thread has its own stack, i.e. every thread has its own local variables
+
+> avoid using deadlock prone deprecated thread methods such as destroy(), stop(), suspend() and resume().
+
+> use VisualVM  or jstack  to detect problems such as deadlocks and time taken by threads to complete in multi threading programs.
+=====================================
+############ Question ###############
+## Can two threads of two different objects of same class can access a syncronized method in that class or not?  
+
+##How do make change with only 2 thread if we have 15 thread and all r running on the resources.
+==========
+ITC - Inter Thread Communication
+IPC - Inter Process Communication
+ST-Single Thread, 
+MT-Multi-threading
+
+http://javabypatel.blogspot.in/2016/09/java-multithreading-interview-questions-answers.html

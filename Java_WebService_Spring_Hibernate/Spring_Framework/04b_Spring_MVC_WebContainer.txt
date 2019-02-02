@@ -1,0 +1,155 @@
+############# IOC CONTAINER #########
+
+
+=======================================
+## 3. WebApplicationContext Container
+
+> it represent Spring Container for web applications
+> it loads bean definitions from an XML file contained within a web application. 
+- By default it loads the configuration from file "/WEB-INF/applicationContext.xml".
+
+########## IMPLEMENTATIONS ############
+#### 1. XmlWebApplicationContext[c]
+
+##2. AnnotationConfigWebApplicationContext[c]
+> it create application context for web applications by using java clases as input for bean definitions instead of xml files.
+
+http://java-journal.blogspot.in/2012/08/what-is-applicationcontext-what-are-its.html
+
+=======================================
+###### ApplicationContext ######
+## What is the root application context? How is it loaded?
+
+> It is used to PROVIDE CONFIGURATION INFORMATION TO THE APPLICATION.
+> It is a Xml file that contain various Bean Definitions. 
+- It is usually represents a set of Configuration Files.
+
+> It is loaded by ContextLoaderLinstner which is configured into web.xml file
+> By default applicationContext.xml is loaded from WEB-INF folder but its file name can be change using contextConfigLocation
+
+--------------------------------------
+#### ContextLoaderListener ####
+## What is ContextLoaderLinstner? What does it do?
+
+> This listener is RESPONSIBLE TO LOAD THE CONTEXT CONFIGURATION FILES. 
+- It reads a “contextConfigLocation” context-param and passes its value to the context instance
+
+> It PERFORMS THE ACTUAL INITIALIZATION WORK FOR THE ROOT APPLICATION CONTEXT. 
+- it reads the spring configuration file, parse it and loads the beans defined.
+
+> The purpose of the ContextLoaderListener is two-fold:
+- to tie the lifecycle of the ApplicationContext to the lifecycle of the ServletContext and
+- to automate the creation of the ApplicationContext
+
+> By default, this ContextListener will try to look for the Configuration File by name 'applicationContext.xml' in the '/WEB-INF' directory. 
+- But with the help of the parameter 'contextConfigLocation' the default location can be overridden.
+
+EXAMPLE:
+<web-app>
+	<servlet>
+		<servlet-name>SpringConfig</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringConfig</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<listener>
+    	<listener-class>
+      		org.springframework.web.context.ContextLoaderListener
+    	</listener-class>
+  	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/mvc-dispatcher-servlet.xml, /WEB-INF/SpringConfig-servlet.xml</param-value>
+  	</context-param>
+</web-app>
+
+- Here "mvc-dispatcher-servlet.xml" and "SpringConfig-servlet.xml" is web app Context will be loaded
+---------------------------------------
+## Can you have xyz.xml file instead of applicationcontext.xml? 
+
+> ContextLoaderListener is a ServletContextListener that initializes when your webapp starts up. 
+- By default, it looks for Spring’s configuration file at WEB-INF/applicationContext.xml. 
+- You can change this default value by specifying a element named “contextConfigLocation.” 
+
+Example:
+< listener >
+	< listener-class > org.springframework.web.context.ContextLoaderListener
+		<context-param>
+			<param-name > contextConfigLocation < / param-name >
+			< param-value > /WEB-INF/xyz.xml< / param-value >
+		</context-param>
+
+	</listener-class>
+</listener>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is difference bet ApplicationContext and WebApplicationContext?
+
+> both are almost same thing ie spring containers where WebApplicationContext is child of the ApplicationContext[i].
+> There will be only one application context per web application.
+- that is only 1 applicationContext.xml that define beans for "root webapp context"
+
+> WebApplicationContext in Spring is web aware ApplicationContext i.e IT HAS SERVLET CONTEXT INFORMATION. 
+> In single web application THERE CAN BE MULTIPLE WebApplicationContext i.e multiple DispatcherServlet
+> Each DispatcherServlet associated with single WebApplicationContext. 
+- The WebApplicationContext configuration file *-servlet.xml is specific to the DispatcherServlet
+- *-servlet.xml defines the beans for one servlet's app context
+
+- But, applicationContext.xml will be common for all the servlet configuration files. 
+- By default DispatcherServlet loads file name servletName-servlet.xml from your webapps WEB-INF folder
+
+> Beans in spring-servlet.xml can reference beans in applicationContext.xml, but not vice versa
+> In most simple cases, the applicationContext.xml context is unnecessary. 
+- It is generally used to contain beans that are shared bet all servlets in a webapp
+
+> Beans, instantiated in WebApplicationContext will also be able to use ServletContext if they implement ServletContextAware interface
+EXAMPLE:=-
+
+<web-app id="WebApp_ID" version="3.0">
+	<!-- This is the root application context for whole web application. -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/rootApplicationContext.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>webapp1</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+		<!-- To change the default location of the servlet specific configuration files -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/app1-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webapp2</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		
+		<!-- To change the default location of the servlet specific configuration files -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/app2-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+   <servlet-mapping>
+     <servlet-name>webapp1</servlet-name>
+     <url-pattern>/webapp1</url-pattern>
+   </servlet-mapping>
+   
+   <servlet-mapping>
+     <servlet-name>webapp2</servlet-name>
+     <url-pattern>/webapp2</url-pattern>
+   </servlet-mapping>
+</web-app>
+======================================= 

@@ -1,0 +1,78 @@
+## JavaScript Object Notation (JSON) ##
+> It is a syntax for storing and exchanging data.
+
+######### JSON SYNTAX RULE ##########
+> Data is in name/value pairs
+> Data is separated by commas
+> Curly braces hold objects
+> Square brackets hold arrays
+
+> name/value pair consists of a field name (in double quotes), followed by a colon, followed by a value
+
+=====================================
+##### Advantage of JSON over XML ####
+> JSON can be parse easily.
+- it is easy to read and write and less time consuming.
+
+> It is lightweight i.e shorter in length
+
+=====================================
+############# DATA TYPES ############
+> In JSON, values must be one of the following data types:
+- string Ex - 
+- number Ex - { "age":30 }
+- Object (JSON object) Ex - { "employee":{ "name":"John", "age":30, "city":"New York" }  }
+- array Ex - { "employees":[ "John", "Anna", "Peter" ] }
+- boolean Ex -  { "sale":true }
+- null Ex - { "middlename":null }
+
+=====================================
+###### Accessing Object Values ######
+
+> access the object values by using dot (.) 
+> access the object values by using bracket ([]) 
+
+Ex - myObj = { "name":"John", "age":30, "car":null };
+x = myObj.name;
+x = myObj["name"];
+=====================================
+
+> Jackson 2 – 
+
+-------------------------------------
+## How to Convert Java Object to JSON?
+
+EXAMPLE 
+ObjectMapper mapper = new ObjectMapper();
+Staff obj = new Staff();
+
+//Object to JSON in file
+mapper.writeValue(new File("c:\\file.json"), obj);
+
+//Object to JSON in String
+String jsonInString = mapper.writeValueAsString(obj);
+
+-------------------------------------
+## How to convert JSON string to Map using Jackson API?
+
+String jsonStr = "{\"name\":\"Nataraj\", \"job\":\"Programmer\"}";
+Map<String,String> resultMap = new HashMap<String,String>();
+ObjectMapper mapperObj = new ObjectMapper();
+ 
+System.out.println("Input Json: "+jsonStr);
+resultMap = mapperObj.readValue(jsonStr, 
+        new TypeReference<HashMap<String,String>>(){});
+
+
+=====================================
+######## JSON ANNOTATION ############
+> "org.codehaus.jackson.annotate" package 
+
+@JsonPropertyOrder({ "emp_id", "emp_name", "emp_designation", "department", "salary" })		
+- Similar to JXAB @XmlRootElement(propOrder={'f1','f2'..})
+
+@JsonProperty("emp_id")
+private int empId;
+
+@JsonIgnore
+private String department;

@@ -1,0 +1,12 @@
+To upload big file
+
+EXAMPLE : 
+org.apache.commons.httpclient.HttpClient httpClient = new HttpClient();
+int responseCode = httpClient .executeMethod( method );
+PostMethod filePost = new PostMethod( adminBaseURL + (isFormBased ? "/amxadministrator/" + servletName : "/amxadministrator.httpbasic/" + servletName ));
+
+Part[] parts = { new FilePart(f.getName(), f) };
+HttpMethodParams params = filePost.getParams();
+
+filePost.setRequestEntity(new MultipartRequestEntity(parts, params));
+httpClient .executeMethod( filePost )

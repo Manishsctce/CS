@@ -1,0 +1,209 @@
+## What is Filter?
+
+> A filter is an object that CAN TRANSFORM THE HEADER AND CONTENT (OR BOTH) OF A REQUEST OR RESPONSE. 
+> Filters differ from web components in that filters usually DO NOT THEMSELVES CREATE A RESPONSE. 
+
+> The SERVLET FILTER IS PLUGGABLE, i.e. its entry is defined in the web.xml.
+- if we remove the entry of filter from the web.xml, filter will be removed automatically and we don't need to change the servlet.
+- So maintenance cost will be less.
+
+> Note: Unlike Servlet, ONE FILTER DOESN'T HAVE DEPENDENCY ON ANOTHER FILTER.
+
+## USAGE OF FILTER
+> recording all incoming requests
+> logs the IP addresses of the computers from which the requests originate
+> conversion
+> data compression
+> encryption and decryption
+> input validation etc.
+
+ADVANTAGE OF FILTER
+> Filter is pluggable.
+> One filter don't have dependency onto another resource.
+> Less Maintenance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Filters Works?
+
+1. When a request reaches the Web Container, it checks if any filter has URL patterns that matches the requested URL.
+
+2. The WEB CONTAINER LOCATES THE FIRST FILTER WITH A MATCHING URL PATTERN and filter's code is executed.
+- If another filter has a matching URL pattern, its code is then executed. This continues until there are no filters with matching URL patterns left.
+- If no error occurs, the request passes to the target servlet. 
+
+3. The servlet returns the response back to its caller. 
+- The last filter that was applied to the request is the first filter applied to the response.
+
+4. At last the response will be passed to the Web Container which passes it to the client.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Example of Filter mapping in web.xml 
+
+##web.xml##
+<filter>  
+	<filter-name>f1</filter-name>  
+	<filter-class>MyFilter</filter-class>  
+</filter>  
+   
+<filter-mapping>  
+	<filter-name>f1</filter-name>  
+	<url-pattern>/servlet1</url-pattern>  OR <servlet-name>..</servlet-name>
+</filter-mapping> 
+=======================================
+############# Filter API ##############
+> "javax.servlet" package contains the 3 interfaces of Filter API.
+
+1. Filter
+2. FilterChain
+3. FilterConfig
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### Filter[i] ###########
+> For creating any filter implement the Filter interface. 
+> Filter interface provides the life cycle methods for a filter.
+
+#### Method ####
+1. public void init(FilterConfig config) 
+- it is invoked only once. It is used to initialize the filter.
+
+2. public void doFilter(HttpServletRequest request,HttpServletResponse response, FilterChain chain) 
+- it is invoked every time when user request to any resource, to which the filter is mapped.
+- It is used to perform filtering tasks.
+
+3. public void destroy()	
+> This is invoked only once when filter is taken out of the service.
+=====================================
+######### FilterChain[i] #########
+
+> The object of FilterChain is responsible to invoke the next filter or resource in the chain.
+> This object is passed in the doFilter method of Filter interface.
+
+> It contains only 1 method:
+public void doFilter(HttpServletRequest request, HttpServletResponse response): 
+- it passes the control to the next filter or resource.
+=====================================
+########## FilterConfig[i] ##########
+
+> An object of FilterConfig is created by the web container. 
+- This object can be used to get the configuration information from the web.xml file in the filter.
+
+## METHOD ##
+> only 4 methods 
+
+1. public void init(FilterConfig config): 
+> it is invoked only once it is used to initialize the filter.
+
+2. public String getInitParameter(String parameterName): 
+> Returns the parameter value for the specified parameter name.
+
+3. public java.util.Enumeration getInitParameterNames(): 
+> Returns an enumeration containing all the parameter names.
+
+4. public ServletContext getServletContext(): 
+> Returns the ServletContext object.
+===================================
+EXAMPLE: 
+
+public class MyFilter implements Filter{  
+	FilterConfig config;  
+  
+	public void init(FilterConfig config) throws ServletException {  
+		this.config=config;  
+	}  
+  
+	public void doFilter(ServletRequest req, ServletResponse resp,  
+    FilterChain chain) throws IOException, ServletException {        
+		PrintWriter out=resp.getWriter();            
+		String s=config.getInitParameter("construction");  
+          
+		if(s.equals("yes")){  
+			out.print("This page is under construction");  
+		}else{  
+			chain.doFilter(req, resp);//sends request to next resource  
+		}  
+}  
+
+	public void destroy() {}  
+}  
+
+public class HelloServlet extends HttpServlet {  
+	public void doGet(HttpServletRequest request, HttpServletResponse response)  
+        throws ServletException, IOException {  
+  
+        response.setContentType("text/html");  
+        PrintWriter out = response.getWriter();  
+      
+        out.print("<br>welcome to servlet<br>");        
+    }
+}
+
+WEB.XML
+<web-app>  
+ <servlet>  
+    <servlet-name>HelloServlet</servlet-name>  
+    <servlet-class>HelloServlet</servlet-class>  
+  </servlet>  
+  
+  <servlet-mapping>  
+    <servlet-name>HelloServlet</servlet-name>  
+    <url-pattern>/servlet1</url-pattern>  
+  </servlet-mapping>  
+    
+  <filter>  
+	<filter-name>f1</filter-name>  
+	<filter-class>MyFilter</filter-class>  
+	<init-param>  
+		<param-name>construction</param-name>  
+		<param-value>no</param-value>  
+	</init-param>  
+  </filter>  
+  <filter-mapping>  
+	<filter-name>f1</filter-name>  
+	<url-pattern>/servlet1</url-pattern>  
+  </filter-mapping>      
+</web-app>
+------------------------
+## What are Servlet Filters?
+> A filter is a servlet that can transform the content of HTTP requests, responses, and header information. 
+> Filters do not generally create a response or respond to a request as servlets do, rather they modify or adapt the requests for a resource, and modify or adapt responses from a resource. Filters can act on dynamic or static content.
+ 
+Filters are typically used for the following:
+> Accessing of a resource before a request to it is invoked.
+> Processing of the request for a resource before it is invoked.
+> Modification of request headers and data by wrapping the request in customized versions of the request object.
+> Modification of response headers and response data by providing customized versions of the response object.
+> Interception of an invocation of a resource after its call.
+> Actions on a servlet, on groups of servlets, or static content by zero, one, or more filters in a specifiable order.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to configure Servlet Filters?
+
+> A filter is defined either via the @WebFilter annotation or in the deployment descriptor using the <filter> element. 
+> In this element, the following elements are used:
+  -filter-name: used to map the filter to a servlet or URL
+  -filter-class: used by the container to identify the filter type
+  -init-params: initialization parameters for a filter
+ 
+The container will instantiate exactly one instance of the Java class defining the filter per filter declaration in the deployment descriptor.
+Here is an example of a filter declaration:
+<filter>
+<filter-name>LoggingFilter</filter-name>
+<filter-class>com.demo.LoggingFilter</filter-class>
+</filter>
+ 
+Once a filter has been declared in the deployment descriptor, the <filter-mapping> element is used to define servlets and static resources in the Web application to which the filter is to be applied
+<filter-mapping>
+<filter-name>LoggingFilter</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping>
+ 
+Here the Logging Filter is applied to all the servlets and static content pages in the Web application, because every request URI matches the ‘/*’ URL pattern. 
+
+=======================
+## What is FilterChain
+
+
+=================================
+## What is difference between ServletResponse and HttpServletResponseWrapper?
+> A response wrapper is USEFUL TO MODIFY THE RESPONSE'S BEHAVIOUR 
+- used to collect information about the response while it is been used in the request-response chain. 
+- The modified behaviour takes then place whenever some servlet or JSP calls a certain method on the response. 
+- If you have overriden it in your wrapper class, then this one will be called instead. 
+- You could alter the behaviour or collect information there.
+

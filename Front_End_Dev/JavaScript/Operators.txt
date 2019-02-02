@@ -1,0 +1,164 @@
+----------------------------------------------------
+##### OPERATORS #####
+## Special Operators
+> delete - it delete the property from the object
+> in - checks if object has the given property
+> instanceof 
+> new - create new instanceof
+> typeof - checks the type of object
+> void - discard the expression return value
+> yield - checks what is returned in a generator
+-------------------------------------------------------
+#### EQUALITY OPERATOR (==, !=) ####
+> First check for types, if they are the same, apply strict equals.
+> If both arguments are either null or undefined, return true.
+>> If one of them is String and the other is Number, convert both to Number and apply strict equals.
+> If one of them is Boolean, convert it to Number and go to 1.
+> If one of them is String or Number and the other one is Object, convert object into primitive and go to 1
+
+> null equals both null and undefined
+> it compare for equality after doing any necessary type conversions.
+
+EXAMPLE 1: 
+'' == '0'           // false
+0 == ''             // true
+0 == '0'            // true
+
+false == 'false'    // false
+false == '0'        // true
+
+false == undefined  // false
+false == null       // false
+null == undefined   // true
+
+' \t\r\n ' == 0     // true
+
+EXAMPLE2:
+8 == "5" ➙ 8 == 5 ➙ false;
+1 == true ➙ 1 == 1 ➙ true;
+ 
+0 == "" ➙ 0 == 0 ➙ true;
+0 == "0" ➙ 0 == 0 ➙ true;
+"" == "0" ➙ false;
+ 
+"1000" == "1e3" ➙ false;
+1000 == "1e3" ➙ true;
+5 == {valueOf: function () { return 5; }} ➙ 5 == 5 ➙ true;
+
+-------------------------------------------------------
+#### STRICT EQUALS OR IDENTITY (===, !==) #### 
+> operators behave identically to the equality operators
+> If the two operands are of the same type and have the same value, then === produces true
+-------------------------------------------------------
+ #### typeof #### 
+> it RETURNS A STRING REPRESENTATION of the type of the passed expression
+Ex - Unresolvable references will produce "undefined"
+
+> typeof LIES IN TWO CASES for "null" and for function () {}.
+
+TYPE OF EXPRESSION				RESULT
+Undefined						"undefined"
+Null							"object" 
+Boolean							"boolean"
+Number							"number"
+String							"string"
+Object, that can’t be invoked	"object"
+Object, that can be invoked		"function"
+-------------------------------------------------------
+ #### SUBTRACTION #### 
+> Converts both arguments to number. "8" - true is converted to 8 - 1. 
+-------------------------------------------------------
+ #### ADDITION #### 
+> Both arguments are converted to primitives. Lets call them A and B.
+- If any of primitives is a String, concatenate A and B as strings.
+- Otherwise add A and B as numbers. 
+Example 
+8 + "5" ➙ "8" + "5" ➙ "85";
+8 + true ➙ 8 + 1 ➙ 9;
+"8" + true ➙ "8" + "true" ➙ "8true";
+
+-------------------------------------------------------
+ #### LESS-THAN #### 
+> compares arguments as strings only if both of them are strings. 
+
+> Both arguments are converted to primitives. Lets call them A and B.
+- If both of primitives are Strings, compare A and B as strings.
+- Otherwise compare A and B as numbers. 
+
+> A non-numeric string converts to NaN which is always false.
+EXAMPLE1
+8 > "5" ➙ 8 > 5 ➙ true;
+8 > true ➙ 8 > 1 ➙ true;
+"8" > "18" ➙ true;
+
+"2" < "12"	false; //When comparing two strings, "2" will be greater than "12", because (alphabetically) 1 is less than 2
+-------------------------------------------------------
+ ####  #### 
+-------------------------------------------------------
+ ####  ####  
+-------------------------------------------------------
+#### DESTRUCTURING ASSIGNMENT #### 
+> it makes possible to extract data from arrays or objects using a syntax that mirrors the construction of array 
+
+ #### ARRAY DESTRUCTURING
+##SYNTAX
+[a, b] = [1, 2]
+[a, b, ...rest] = [1, 2, 3, 4, 5]
+{a, b} = {a:1, b:2}
+{a, b, ...rest} = {a:1, b:2, c:3, d:4}  //ES7
+
+EXAMPLE1:
+var foo = ["one", "two", "three"];
+
+// without destructuring
+var one   = foo[0];
+var two   = foo[1];
+var three = foo[2];
+
+// with destructuring
+var [one, two, three] = foo;
+
+EXAMPLE2: Assignment without declaration
+var a, b;
+[a, b] = [1, 2];
+
+EXAMPLE3: Swapping variables
+var a = 1;
+var b = 3;
+[a, b] = [b, a];
+
+EXAMPLE4: Multiple-value returns
+function f() {
+  return [1, 2];
+}
+
+OBJECT DESTRUCTURING
+EXAMPLE 1:
+
+var o = {p: 42, q: true};
+var {p, q} = o;
+
+console.log(p); // 42
+console.log(q); // true 
+
+// Assign new variable names
+var {p: foo, q: bar} = o;
+
+console.log(foo); // 42
+console.log(bar); // true  
+
+EXAMPLE:
+EXAMPLE:
+EXAMPLE:
+-------------------------------------------------------
+ ####  #### 
+-------------------------------------------------------
+ ####  #### 
+-------------------------------------------------------
+ ####  #### 
+-------------------------------------------------------
+ ####  #### 
+-------------------------------------------------------
+ ####  #### 
+-------------------------------------------------------
+ ####  #### 

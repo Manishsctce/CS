@@ -1,0 +1,31 @@
+########## SCRIPTING ELEMENTS #########
+## What are scripting elements?
+
+> JSP scripting elements LET YOU INSERT JAVA CODE INTO THE SERVLET that will be generated from the current JSP page. 
+
+3 TYPES OF SCRIPTING ELEMENTS:
+
+1. SCRIPTLET TAG - <% %>
+> content of scriptlets tag are present/inserted in _jspService() of the generated servlet.
+> jsp page may contain any number of scriptlets
+
+2. EXPRESSION TAG -  <%= anything %>
+> It is evaluated and inserted into the output,
+EXAMPLE:
+ <%= java.util.Calendar.getInstance().getTime() %>
+ <%= "Below is use of jstl with sessionScope:" %>
+>Note: DO NOT END YOUR STATEMENT WITH SEMICOLON in case of expression tag.
+
+3. DECLARATION TAG - <%! field and method %>
+> content of declaration tag are inserted into the body of the servlet class, outside of any existing methods
+> used to declare fields and methods.
+> code written in declaration tag will not come under service()
+> declaration section have no access to the implicit objects
+============================
+##what are the difference between jsp scriplet tag and jsp declaration tag?
+
+> Jsp scriptlet tag can only declare variables not methods where as jsp declaration can declare both methods and variables
+
+> declaration of scriptlet tag is placed inside the _jspService() method and 
+> declaration in jsp declaration tag is placed outside the _jspService() method.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

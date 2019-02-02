@@ -1,0 +1,255 @@
+############# CONCURRENCY ###########
+> All the concurrent class are in "java.util.concurrent" package
+
+## What are Concurrent Collection Classes?
+> Collection classes are FAIL-FAST 
+> Concurrent Collection classes support full concurrency of retrievals and adjustable expected concurrency for updates.
+
+> Major classes are 
+- ConcurrentHashMap, 
+- CopyOnWriteArrayList
+- CopyOnWriteArraySet 
+- PriorityBlockingQueue[c] impl BlockingQueue[i].
+
+> All are FAIL-SAFE to avoid ConcurrentModificationException when using iterator.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Concurrent Modification?
+
+> When 1 or more thread is iterating over the col, in bet, one thread changes the structure of the col is known as Concurrent Modification
+> change can be either adding the element to the collection or 
+- by deleting the element in the collection or 
+- by updating the value at particular position in the collection) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is FAIL-FAST ITERATOR?
+> Fail fast is behavior of an iterator 
+> while iterating through the col. , it throws ConcurrentModificationException if there is structural modification  of the col. 
+
+1. Single Threaded Environment - After the creation of the iterator , structure is modified at any time by any method other than iterator's own remove method.   
+2. Multiple Threaded Environment- If one thread is modifying the structure of the collection while other thread is iterating over it .
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is FAIL-SAFE ITERATOR?
+> it makes copy of internal data structure(object array) and ITERATES OVER THE COPIED DATA STRUCT.
+> Any structure modification done to the iterator affects the copied data structure.
+- original data structure remains  structurally unchanged .
+- Hence , no ConcurrentModificationException throws by fail safe iterator.
+
+Two  issues associated with Fail Safe Iterator are :
+1. Overhead of maintaining the copied data structure i.e memory.
+2.  Fail safe iterator does not guarantee that the data being read is the data currently in the original data structure. 
+
+> Iterator return by CopyOnWriteArrayList, ConcurrentHashMap are fail safe.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Fail Fast Iterator come to know that the internal structure is modified ?
+
+> Iterator read internal data structure (object array) directly . 
+> The internal data structure(i.e object array) should not be modified while iterating through the collection. 
+> To ensure this it maintains an internal  flag "mods" .
+> Iterator checks the "mods" flag whenever it gets the next value (using hasNext() method and next() method). 
+> Value of mods flag changes whenever there is an structural modification. 
+> Thus indicating iterator to throw ConcurrentModificationException.
+=======================================
+########## ConcurrentMap[i] ###########
+> it extends Map[i]
+
+## METHODS ##
+1. V putIfAbsent(Obj, Obj)
+2. boolean remove(Obj k, Obj v); 
+- Removes the entry for a key only if currently mapped to a given value
+
+3. boolean replace(K key, V oldValue, V newValue);
+
+4. V replace(K key, V value); 
+- replace k-v pair and return value; null if k-v is not present
+=======================================
+########## ConcurrentHashMap[c] #######
+> Since Java5
+
+## CONSTRUCTOR ##
+ConcurrentHashMap() - create map of default size 16 
+ConcurrentHashMap(int initialCapacity) - create map of given size 
+ConcurrentHashMap(Map m) - 
+ConcurrentHashMap(int initialCapacity, float loadFactor)
+ConcurrentHashMap(int initialCapacity,float loadFactor, int concurrencyLevel)
+
+INITIAL CAPACITY mean these many elements, the map can accommodate initially.
+CONCURRENCY LEVEL - the estimated number of concurrently updating threads
+- if we provide ConcurrencyLevel > initialCapacity, then it will automatically resize to the given concurrencyLevel
+if(initialCapacity < concurrencyLevel)   // Use at least as many bins
+    initialCapacity = concurrencyLevel;
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+## What is ConcurrentHashMap?
+
+> ConcurrentHashMap is very similar to HashTable and HashMap but it provides better concurrency level.
+> main purpose of this class is to provide the same functionality as of Hashtable 
+> In it thread-safety is achieved by dividing whole Map into different partition based upon Concurrency level and only locking particular portion instead of locking whole Map. 
+- It optimize the performance of ConcurrentHashMap.
+
+> it has internal class called Segment 
+> Default concurrency level is 16, and accordingly Map is divided into 16 segments and each segment is governed with a different lock. 
+- so at max 16 threads can work at a time and each thread can work on a each segment 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+## How ConcurrentHashMap works internally?
+
+> It maintain an array of segment to store array of HashEntry which store value.
+
+static final class Segment<K,V> 
+  extends ReentrantLock implements Serializable {
+ transient volatile HashEntry<K,V>[] table;
+}
+ 
+static final class HashEntry<K,V> {
+ final int hash;
+ final K key;
+ volatile V value;
+ volatile HashEntry<K,V> next;
+}	
+> ConcurrentHashMap class has an array of HashEntry class type
+
+## METHODS ##
+> Retrival provides most recently updated value using volatile variables.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### PUTTING KEY-VALUE PAIR ####
+
+1. 1st identifying exact index in Segment array. 
+- (Now flow will be exactly same as putting the data in hashmap/hashtable.) 
+
+2. identify index of internal bucket/array present in internal hashmap
+3. iterate key-value pairs and check each key with key to store, wherever match is found replace stored value with value to store.
+- If there is no match, store key-value pair at the last of list.
+
+> While putting key value pair in Segment, it acquires lock.
+
+public V put(K key, V value) {
+    if (value == null)
+       throw new NullPointerException();
+    int hash = hash(key.hashCode());
+    return segmentFor(hash).put(key, hash, value, false);
+}
+ 
+// Returns the segment that should be used for key with given hash
+final Segment segmentFor(int hash) {
+    return segments[(hash >>> segmentShift) & segmentMask];
+}
+
+// Put method in Segment:
+V put(K key, int hash, V value, boolean onlyIfAbsent) {
+    lock();
+    try {
+        int c = count;
+        if (c++ > threshold) // ensure capacity
+            rehash();
+        HashEntry[] tab = table;
+        int index = hash & (tab.length - 1);
+        HashEntry first = tab[index];
+        HashEntry e = first;
+        while (e != null && (e.hash != hash || !key.equals(e.key)))
+            e = e.next;
+ 
+        V oldValue;
+        if (e != null) {
+            oldValue = e.value;
+            if (!onlyIfAbsent)
+                e.value = value;
+        }
+        else {
+            oldValue = null;
+            ++modCount;
+            tab[index] = new HashEntry(key, hash, first, value);
+            count = c; // write-volatile
+        }
+        return oldValue;
+    } finally {
+        unlock();
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+GETTING KEY-VALUE PAIR:
+1. identifying exact index in Segment array. 
+2. identify index of internal bucket/array present in internal hashmap
+3. After identying bucket(internal array index), iterate key-value pairs and match each key with 
+    given key, wherever match is found return value stored against key.
+    If there is no match, return null.
+
+public V get(Object key) {
+	int hash = hash(key.hashCode());
+	return segmentFor(hash).get(key, hash);
+}
+ 
+// get method in Segment:
+V get(Object key, int hash) {
+	if (count != 0) { // read-volatile
+		HashEntry<K,V> e = getFirst(hash);
+		while (e != null) {
+			if (e.hash == hash && key.equals(e.key)) {
+				V v = e.value;
+				if (v != null)
+					return v;
+				return readValueUnderLock(e); // recheck
+			}
+			e = e.next;
+		}
+	}
+  return null;
+}	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If we choose ConcurrenyLevel as 10 then what will be size of Segment array? Is Segment array size exactly same as concurrenyLevel? If No, then how is the Segment array size calculated?
+
+> Segment array size is calculated based on concurrenyLevel specified but it doesn't mean it will be exactly same as concurrenyLevel.
+
+> Segment array size is always in 2^x, where result should be >= concurrenyLevel(in our case it is 10) 
+2^4>=10, So segment array size will be 16.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How HashEntry[] array size will is calculated? 
+
+HashEntry[] array size = 2^x >=  (initialCapacity / concurrenyLevel) 
+- Here x will be any number.
+
+Ex- if we create CHM as ConcurrentHashMap chm = new ConcurrentHashMap(32,0.75f,4); 
+then initialCapacity will be 2^3 = 32/4 . so initialCapacity will be 8.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between HashMap and ConcurrentHashMap ?
+
+> HashMap is not thread-safe .
+- ConcurrentHashMap is thread-safe that is the code can be accessed by single thread at a time.
+
+> HashMap can be synchronized by using synchronizedMap(HashMap). 
+- By using this method we get a HashMap object which is equivalent to the HashTable object. So every modification is performed on Map is locked on Map object.
+
+> In ConcurrentHashMap  thread-safety is achieved by dividing whole Map into different partition based upon Concurrency level and only locking particular portion instead of locking whole Map. It optimize the performance of ConcurrentHashMap.
+
+> In HashMap there can only be one null key.
+- ConcurrentHashMap does not allow NULL values. So the KEY CAN NOT BE NULL in ConcurrentHashMap.
+
+> In multiple threaded environment HashMap is usually faster than ConcurrentHashMap . 
+- As only single thread can access the certain portion of the Map and thus reducing the performance . 
+- While in HashMap any number of threads can access the code at the same time .
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why ConcurrentHashMap does not allow null keys and null values ?
+
+> Main purpose of ConcurrentHashMap is to use in multi-threading env. Suppose if we allow "null" key, it mean 
+> if map.get(key) returns null, WE CAN'T DETECT WHETHER THE KEY EXPLICITLY MAPS TO NULL VS THE KEY ISN'T MAPPED
+
+- In a non-concurrent map, we can check this using map.contains(key),
+ but in a concurrent one, the map might have changed between calls.
+
+if (map.containsKey(k)) {
+   return map.get(k);
+} else {
+   throw new KeyNotPresentException();
+}
+
+It might be possible that key k might be deleted in between the get(k) and containsKey(k) calls. 
+- As a result , the code will return null as opposed to KeyNotPresentException (Expected Result if key is not present). 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can multiple threads read from the Hashtable concurrently ?
+
+> No multiple threads can not read simultaneously from Hashtable. 
+- Reason, the get() method of Hashtable is synchronized. As a result , at a time only one thread can access the get() method .
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What will happen if the size of Segment array is too small or too large?
+> Using a significantly higher value than we will waste space and time, and 
+- a significantly lower value can lead to thread competition.
+
+=====================================

@@ -1,0 +1,287 @@
+http://r4r.co.in/
+
+USER->SHELL->KERNAL-> HARDWARE
+
+## sudo is the super user in ubuntu 
+> use 'sudo command'
+
+##What are some ways to debug a shell script problem?
+> using "set -x" to enable debugging.
+> it show each line of execution preceded by a plus sign(+)
+---------------------------------------
+##Within a UNIX shell scripting loop construct, what is the difference between the break and continue?
+> Using break within a shell scripting loop construct will CAUSE THE ENTIRE LOOP TO TERMINATE. 
+> A continue will cause the current iteration to terminate, but the loop WILL CONTINUE ON THE NEXT ITERATION.
+---------------------------------------
+##How to find process which is taking maximum memory in server?
+> "top" - it tell us about cpu usage, process id and other details 
+---------------------------------------
+##How to find Exception in log files available in current directory and how to find number of occurrence?
+$ grep 'Exception' log1.txt | wc -l
+
+---------------------------------------
+##What difference between cmp and diff commands?
+
+> cmp - Compares two files BYTE BY BYTE and displays the FIRST MISMATCH.
+> diff - tells the CHANGES TO BE MADE to make the files identical.
+---------------------------------------
+##What is a shell? 	
+> A Unix shell is the program that serves as the interface between user and unix os. 
+> It reads user input from the command line and executes actions based upon that input.
+> It is not a part of kernal but communicate directly with kernal.
+
+List of commonly used UNIX shells:
+1. The Bourne Shell (sh)
+2. The C Shell (csh or tsch)
+3. The Bourne Again Shell (bash)
+4. The Korn Shell (ksh)
+----------------------------------
+## What is Kernel?
+> The kernel is the program that acts as a middle layer between software and hardware. 
+> Kernel is the UNIX operating system. 
+> It is the master program that controls the computer’s resources, allotting them to different users and to different tasks. 
+> It doesn’t deal directly with a user. 
+----------------------------------
+##Define session? 	
+> A session is a collection of one or more process groups. 
+- A process establishes a new session by calling setsid function. 
+- This function returns process group id if OK.
+----------------------------------
+##What do you mean by signal? 	
+Signals are software interrupts. Signals provide a way of handling asynchronous events: a user at a terminal typing the interrupt key to stop a program or the next program in the pipeline terminating prematurely.
+
+----------------------------------
+##What is unix? 
+> UNIX is a multi-user multitasking-optimized operating system that can run on various hardware platforms.	
+> It started off on a cast-off DEC PDP-7 at Bell laboratories in 1969. 
+> Ken Thompson, with ideas and help from Dennis Ritchie, and others, wrote a small, general-purpose operating system.
+
+----------------------------------
+##Define message queue? 	
+> Message queue is a linked list of messages. 
+- It is used to make a communication between the related or unrelated processes.
+----------------------------------
+##What is the first line of shell scripting?
+
+#!/bin/ksh
+----------------------------------
+##What UNIX operating system command would you use to display the shell's environment variables?
+Running the "env" command will display the shell environment variables.
+----------------------------------
+##Define directory and filename? 	
+A directory is a file that contains directory entries. The directory entry containing a file name along with structure of information describing the attributes of the file. The names in a directory are called filename. The only two characters that cannot appear in a file name are / and null character.
+
+----------------------------------
+##Define program and process? 	
+A program is a executable file residing in a disk file. An executing instance of a program is called a process. Every UNIX process have a unique numeric identifier called the process ID. The process ID is always a non negative integer.
+
+----------------------------------
+##List down the different file types? 	
+> Regular file, Directory file, Character special file
+Block special file
+FIFO
+Symbolic link
+Socket
+-------------------------------------
+## Explain briefly abt UNIX FILE SYSTEM?
+
+> Disk space allocated in UNIX is made up of blocks(512 bytes).
+> Here blocks size may vary from one version to another.
+> T0 CHECK block size of file system use cmchk command.
+
+Block belonging to file system are logically divided into four parts
+1. Boot block 2. Super block 3. lnode Table 4. Data Blocks
+----------------------------------
+##What are the options available to determine the group ID of the new file? 	
+The group ID of the new file can be the effective group ID of the process
+The group ID of the new file can be the group ID of the directory in which the file is being created.
+
+11.	What is called a page fault?
+ 	
+Page fault is referred to the situation when the process addresses a page in the working set of the process but the process fails to locate the page in the working set. And on a page fault the kernel updates the working set by reading the page from the secondary device.
+----------------------------------
+##What do you mean by u-area (user area)?
+ 	
+This contains the private data that is manipulated only by the Kernel. This is local to the Process, i.e. each process is allocated a u-area.
+----------------------------------
+##What are the different types of buffering is supported by UNIX?
+ 	
+Fuly buffered
+Line buffered
+Un buffered
+----------------------------------
+##What is the purpose of exec functions?
+ 	
+When a process calls one of the exec functions that process is completely replaced by the new program. The new program stats execution from main function. The processed does not change across an exec because a new process is not created.But this function replaces the current process with new program from disk.
+----------------------------------
+##Define process group? 	
+A process group is a collection of one or more processes. Each process group has a unique process ID. A function getpgrp returns the process group id of the calling process.
+----------------------------------
+##How many prompts are available in a UNIX system?
+ 	
+Two prompts, PS1 (Primary Prompt), PS2 (Secondary Prompt).
+----------------------------------
+##What are shell variables?
+ 	
+Shell variables are special variables, a name-value pair created and maintained by the shell.
+----------------------------------
+##What is Block Started by Symbol?
+ 	
+A data representation at the machine level, that has initial values when a program starts and tells about how much space the kernel allocates for the un-initialized data. Kernel initializes it to zero at run-time.
+----------------------------------
+##What is the command to find out today’s date? 	
+date
+----------------------------------
+##what are the different commands used to create files?
+ 	
+touch - to create empty files.(e.g) - touch ‹filename›
+vi ‹filename›
+cat>filename
+.
+
+----------------------------------
+##What is chmod, chown and chgrp? 	
+Chmod : It is used for to change permissions on files.
+Chown : It is used for to change ownership of a file.
+Chgrp : It is used for to change group of the file.
+
+----------------------------------
+##What are PIDs? 	
+They are process IDs given to processes. A PID can vary from 0 to 65535.
+----------------------------------
+##What does the top command display? 	
+Top command displays the current ammount of memory occupied by the currently executing processes and the details. In addition to memory usage top command displays cpu usage and process details.
+
+----------------------------------
+##What is the command to send message to all users who are logged in? 	
+Wall
+
+----------------------------------
+##Write command to list all the links from a directory?
+In this UNIX command interview questions interviewer is generally checking whether user knows basic use of "ls" "grep" and regular expression etc
+You can write command like:
+ls -lrt | grep "^l"
+----------------------------------
+
+----------------------------------
+##How will you find which operating system your system is running on in UNIX?
+By using command "uname -a" in UNIX
+
+----------------------------------
+##How will you run a process in background? How will you bring that into foreground and how will you kill that process?
+> For running a process in background use "&" in command line. 
+> For bringing it back in foreground use command "fg jobid" and for getting job id you use command "jobs", 
+> for killing that process find PID and use kill -9 PID command. 
+
+----------------------------------
+##How do you know if a remote host is alive or not?
+You can check these by using either ping or telnet command in UNIX. 
+
+----------------------------------
+##How do you see command line history in UNIX?
+> use history command along with grep command in unix to find any relevant command you have already executed. 
+
+----------------------------------
+##How do you copy file from one host to other?
+Many options but you can say by using "scp" command. You can also use rsync command to answer this UNIX interview question or even sftp would be ok.
+
+----------------------------------
+##How do you find which process is taking how much CPU?
+By using "top" command in UNIX, there could be multiple follow-up UNIX command interview questions based upon response of this because “TOP” command has various interactive options to sort result based upon various parameter.
+
+----------------------------------
+##How do you check how much space left in current drive ?
+By using "df" command in UNIX. For example "df -h ." will list how full your current drive is. This is part of anyone day to day activity so I think this Unix Interview question will be to check anyone who claims to working in UNIX but not really working on it.
+
+----------------------------------
+##What is the difference between Swapping and Paging?
+Swapping:
+Whole process is moved from the swap device to the main memory for execution. Process size must be less than or equal to the available main memory. It is easier to implementation and overhead to the system. Swapping systems does not handle the memory more flexibly as compared to the paging systems.
+Paging:
+Only the required memory pages are moved to main memory from the swap device for execution. Process size does not matter. Gives the concept of the virtual memory. It provides greater flexibility in mapping the virtual address space into the physical memory of the machine. Allows more number of processes to fit in the main memory simultaneously. Allows the greater process size than the available physical memory. Demand paging systems handle the memory more flexibly.
+
+
+
+----------------------------------
+##What is difference between ps -ef and ps -auxwww?
+UNIX interview questions answers, UNIX Linux questionsThis is indeed a good Unix Interview Command Question and I have faced this issue while ago where one culprit process was not visible by execute ps –ef command and we are wondering which process is holding the file.
+ps -ef will omit process with very long command line while ps -auxwww will list those process as well.
+
+----------------------------------
+##How do you find how many cpu are in your system and there details?
+By looking into file /etc/cpuinfo for example you can use below command:
+cat /proc/cpuinfo
+
+----------------------------------
+##What is difference between HardLink and SoftLink in UNIX?
+Soft Link or Symbolic Link or Symlink 
+> Symlinks doesn’t contain any information about the destination file or contents of the file, instead of that, 
+> it simply contains the pointer to the location of the destination file.
+> in soft link, a new file is created with a new inode, which have the pointer to the inode location of the original file
+# SYNTAX: ln -s
+
+IN HARD LINK, 
+> only an entry into directory structure is created for the file, 
+> but it points to the inode location of the original file. 
+> there is no new inode creation in the hard link. 
+# SYNTAX: ln 
+
+
+
+----------------------------------
+##What is Zombie process in UNIX? How do you find Zombie process in UNIX?
+When a program forks and the child finishes before the parent, the kernel still keeps some of its information about the child in case the parent might need it - for example, the parent may need to check the child's exit status. To be able to get this information, the parent calls 'wait()'; In the interval between the child terminating and the parent calling 'wait()', the child is said to be a 'zombie' (If you do 'ps', the child will have a 'Z' in its status field to indicate this.)
+Zombie : The process is dead but have not been removed from the process table.
+
+----------------------------------
+##What is "chmod" command? What do you understand by this line “r-- -w- --x?
+
+6. There is a file some where in your system which contains word "UnixCommandInterviewQuestions” How will find that file in Unix?
+By using find command in UNIX for details see here 10 example of using find command in Unix
+
+7. In a file word UNIX is appearing many times? How will you count number?
+grep -c "Unix" filename
+
+8. How do you set environment variable which will be accessible form sub shell?
+By using export   for example export count=1 will be available on all sub shell.
+
+9. How do you check if a particular process is listening on a particular port on remote host?
+By using telnet command for example “telnet hostname port”, if it able to successfully connect then some process is listening on that port. To read more about telnet read networking command in UNIX
+
+10. How do you find whether your system is 32 bit or 64 bit ?
+Either by using "uname -a" command or by using "arch" command.
+
+
+Advanced UNIX Interview Questions and Answers
+
+1. How do you find which processes are using a particular file?
+By using lsof command in UNIX. It wills list down PID of all the process which is using a particular file.
+
+2. How do you find which remote hosts are connecting to your host on a particular port say 10123?
+By using netstat command execute netstat -a | grep "port" and it will list the entire host which is connected to this host on port 10123.
+
+3. What is nohup in UNIX?
+
+4. What is ephemeral port in UNIX?
+Ephemeral ports are port used by Operating system for client sockets. There is a specific range on which OS can open any port specified by ephemeral port range.
+
+5. If one process is inserting data into your MySQL database? How will you check how many rows inserted into every second?
+Purpose of this Unix Command Interview is asking about "watch" command in UNIX which is repeatedly execute command provided with specified delay.
+
+6. There is a file Unix_Test.txt which contains words Unix, how will you replace all Unix to UNIX?
+You can answer this Unix Command Interview question by using SED command in UNIX for example you can execute sed s/Unix/UNIX/g fileName.
+
+7. You have a tab separated file which contains Name, Address and Phone Number, list down all Phone Number without there name and Addresses?
+To answer this Unix Command Interview question you can either you AWK or CUT command here. CUT use tab as default separator so you can use
+cut -f3 filename.
+
+8. Your application home directory is full? How will you find which directory is taking how much space?
+By using disk usage (DU) command in Unix for example du –sh . | grep G  will list down all the directory which has GIGS in Size.
+
+9. How do you find for how many days your Server is up?
+By using uptime command in UNIX
+
+10. You have an IP address in your network how will you find hostname and vice versa?
+This is a standard UNIX command interview question asked by everybody and I guess everybody knows its answer as well. By using nslookup command in UNIX, you can read more about Convert IP Address to hostname in Unix here.
+
+

@@ -1,0 +1,195 @@
+#### JAX-WS (Java API for XML Web Services) #####
+> it is a set of APIs for creating WS in XML format(SOAP)
+> 2 ways to implement Java Soap web-services 
+	a. RPC Style
+	b. Doc style
+
+=======================================	
+############ @WebService ##############
+
+> @WebService(serviceName="DemoWebService")
+- to make any class expose to WS
+
+## ATTRIBUTE ##
+endpointInterface 
+- The COMPLETE NAME OF THE SERVICE ENDPOINT INTERFACE defining the service's abstract Web Service contract.
+
+name 
+- The name of the Web Service.
+
+portName 
+- The port name of the Web Service.
+
+serviceName 
+- The service name of the Web Service. It is use to HIDE ORIGINAL CLASS NAME 
+
+targetNamespace 
+- If the @WebService.targetNamespace annotation is on a service endpoint interface, 
+- the targetNamespace is used for the namespace for the wsdl:portType (and associated XML elements).
+
+wsdlLocation 
+- The location of a pre-defined WSDL describing the service.
+
+EXAMPLE:
+package test.provider.async;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
+import javax.jws.WebService;
+
+@WebService(name = "EndpointSEI", targetNamespace = "http://async.provider.test/")
+public interface EndpointSEI
+{
+   @WebMethod
+   @WebResult(name = "result")
+   public String echo(@WebParam(name = "what") String what);
+}
+ 
+ 
+package test.provider.async;
+import javax.jws.WebService;
+@WebService(targetNamespace = "http://async.provider.test/",
+        endpointInterface = "test.provider.async.EndpointSEI", 
+        portName = "EndpointSIBPort", 
+        serviceName = "EndpointSIBService")
+public class EndpointSIB implements EndpointSEI
+{
+    @Override
+    public String echo(String what) {
+        return what;
+    }
+}
+=======================================
+############# @WebMethod ##############
+
+## ATTRIBUTE ##
+action 
+- The action for this operation.
+
+boolean	exclude 
+         Marks a method to NOT be exposed as a web method.
+
+operationName 
+- Name of the wsdl:operation matching this method.
+
+EXAMPLE:
+@WebMethod(operationName="mirrorText")
+public Content getContent(@WebParam(name="info") String info, @WebParam(name="id") Long id);
+ 
+> operationName
+- here our method original name will not expose to public. it will show mirrorText (optional)
+		  
+=======================================
+############# @WebParam ###############
+
+> it is used Customizes the mapping of an individual parameter to a Web Service message part and XML element
+> If the operation is rpc style
+> it is Optional annotation
+
+## ATTRIBUTE ## 
+boolean	header 
+          If true, the parameter is pulled from a message header rather then the message body.
+WebParam.Mode	mode 
+          The direction in which the parameter is flowing (One of IN, OUT, or INOUT).
+ java.lang.String	name 
+          Name of the parameter.
+java.lang.String	partName 
+	> The name of the wsdl:part representing this parameter.
+	
+java.lang.String	targetNamespace 
+	> The XML namespace for the parameter.
+
+EXAMPLE:
+1. public boolean addPerson(@WebParam(name="person")Person p);
+
+2. public JXRes getJXWsRes(
+	     @WebParam(targetNamespace="http://globinch.com/ws/types",
+	               name="name",
+	               mode=Mode.IN)
+	               String name
+	  );
+3. 
+# WITH THIS 
+<message name="getPerson"><part name="personId" type="xsd:int"/></message>
+
+# without this 
+<message name="getPerson"><part name="arg0" type="xsd:int"/></message>
+
+=======================================
+### @RequestWrapper/@ResponseWrapper ##
+
+> Used to annotate methods in the Service Endpoint Interface with the request/response wrapper bean to be used at runtime.
+> attributes are optional
+
+## ATTRIBUTE ## 
+String	className 
+          Request wrapper bean name.
+String	localName 
+         Elements local name.
+String	targetNamespace 
+         Elements namespace name.
+		 
+EXAMPLE:
+@WebService(targetNamespace = "http://async.provider.test/", name = "EndpointSEI")
+@XmlSeeAlso({test.provider.async.ObjectFactory.class})
+public interface EndpointSEI {
+ 
+    @RequestWrapper(localName = "echo", targetNamespace = "http://async.provider.test/", className = "test.provider.async.Echo")
+    @ResponseWrapper(localName = "echoResponse", targetNamespace = "http://async.provider.test/", className = "test.provider.async.EchoResponse")
+    @WebMethod(operationName = "echo")
+    public Response<test.provider.async.EchoResponse> echoAsync(
+        @WebParam(name = "what", targetNamespace = "")
+        java.lang.String what
+    );
+ 
+    @RequestWrapper(localName = "echo", targetNamespace = "http://async.provider.test/", className = "test.provider.async.Echo")
+    @ResponseWrapper(localName = "echoResponse", targetNamespace = "http://async.provider.test/", className = "test.provider.async.EchoResponse")
+    @WebMethod(operationName = "echo")
+    public Future<?> echoAsync(
+        @WebParam(name = "what", targetNamespace = "")
+        java.lang.String what,
+        @WebParam(name = "asyncHandler", targetNamespace = "")
+        AsyncHandler<test.provider.async.EchoResponse> asyncHandler
+    );
+ 
+    @WebResult(name = "result", targetNamespace = "")
+    @Action(input = "http://async.provider.test/EndpointSEI/echoRequest", output = "http://async.provider.test/EndpointSEI/echoResponse")
+    @RequestWrapper(localName = "echo", targetNamespace = "http://async.provider.test/", className = "test.provider.async.Echo")
+    @WebMethod
+    @ResponseWrapper(localName = "echoResponse", targetNamespace = "http://async.provider.test/", className = "test.provider.async.EchoResponse")
+    public java.lang.String echo(
+        @WebParam(name = "what", targetNamespace = "")
+        java.lang.String what
+    );
+}
+=======================================
+############# @SOAPBinding ############
+
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
+
+
+=======================================
+## What is difference between RPC and Document web services?
+> RPC style web services use method name and parameters to generate XML structure.
+
+> RPC style, the generated WSDL is difficult to be validated against schema.
+- Document style web services can be validated against predefined schema
+
+> In RPC style, SOAP message is sent as many elements.
+- In document style, SOAP message is sent as a single document.
+
+> RPC style message is tightly coupled.
+- Document style message is loosely coupled
+
+> In RPC style, SOAP message keeps the operation name.
+- In Document style, SOAP message loses the operation name.
+
+> In RPC style, parameters are sent as discrete values.
+-  In Document style, parameters are sent in XML format
+
+> In RPC style message part, it defines name and type attributes.
+- In Document style message part, it defines name and element attributes.
+
+> In RPC style for soap:body, it defines use and namespace attributes
+- 
+

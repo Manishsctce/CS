@@ -1,0 +1,167 @@
+## What is difference between web app and Enterprise appln?
+
+> A WEB APPLICATION is an application run over the web/internet
+> The web components typically execute in Web Server and respond to HTTP request.
+> A webapp is typically a 3-tier (or MULTI-TIER) client-server database application run over the Internet 
+1. HTTP Server: E.g., Apache HTTP Server, Apache Tomcat Server and others.
+2. HTTP Client (or Web Browser): E.g., Internet Explorer (MSIE), FireFox, Chrome, Safari, and others.
+3. DATABASE: E.g., Open-source MySQL, Apache Derby, mSQL, SQLite, PostgreSQL, OpenOffice's Base; IBM DB2, SAP SyBase, MS SQL Server, MS Access; and others.
+4. CLIENT-SIDE PROGRAMS: could be written in HTML Form, JavaScript, VBScript, Flash, and others.
+5. SERVER-SIDE Programs: could be written in Java Servlet/JSP, ASP, PHP, Perl, Python, CGI, and others.
+
+> Enterprise appln include complete web appln and other enterprise technology like EJB, JMS etc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Web application works?
+
+1. A user, via a web browser (HTTP client), issues a URL request to an HTTP server(http://host:port/) to start a webapp.
+2. A client-side program (such as an HTML form) is loaded into client's browser.
+3. The user fills up the query criteria in the form.
+4. The client-side program sends the query parameters to a server-side program.
+5. The server-side program receives the query parameters, queries the database and returns the query result to the client.
+6. The client-side program displays the query result on the browser.
+7. The process repeats.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is Web Server?
+> It is the server which handle http request from client and send http response.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Web Server and Application Server?
+
+> Web servers are responsible for serving static content e.g. HTML over HTTP protocol while 
+- application server is responsible for serving dynamic content
+
+WEB SERVER
+> Web Server provide envirn to run web application that contain Servlet, Jsp,Spring...
+> it will run (.war) appln
+Ex - Tomcat or Jetty, Resin
+> Tomcat 7 can handle Servlet 3.0, JSP 2.2 and EL 2.2.
+> Tomcat 8.x (2013): RI for Servlet 3.1, JSP 2.3, EL 3.0 and Java WebSocket 1.0.
+
+APPLICATION SERVER
+> It contains Web containter, Application client container and EJB containers.
+- Web Container is use to contain/load Servlet,JSP,JSF or Web Services
+- Application Client Container provide feature of Dependency Injection and Security
+- EJB Container provide JTA (Transaction management)
+
+> It is used to run Enterprise java application(.ear) and (.war)
+- we can run web appl on appl server but Enterprise appl cannt run on web server.
+
+> It provides the middleware services for state maintenance and security, along with persistence and data access. 
+- It is a type of server designed to install, operate and host associated services and applications for the IT services, end users and organizations.
+
+> Application Server are used to provide services like Connection pooling, Transaction management, messaging, clustering, load balancing and persistence. 
+> Now Apache tomcat also provides connection pooling.
+> Ex of Application Server : JBoss, WebLogic, WebSphere or Glassfish
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is Web Container?
+
+> It provides runtime environment for JavaEE (j2ee) applications.
+- Web Container is combination of a Servlet Engine and a JSP Engine. 
+- If an HTTP Request refers to a Web Component(ie servlet/jsp) then the request is forwarded to the Web Container and 
+- the result of the request is sent back to Web Server, which uses that result to prepare the HTTP Response for the particular HTTP Request. 
+Example: Tomcat is a typical Web Container.
+
+> It performs many operations that are given below:
+
+1. Life Cycle Management
+2. Multithreaded support
+3. Object Pooling
+4. Security etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is TCP/IP? 
+> TCP/IP stands for Transmission Control Protocol and Internet Protocol 
+- It is the network model used in the current Internet architecture
+
+Layer 1: Host-to-network Layer 
+> LOWEST LAYER of the all.
+> Protocol is used to connect to the host, so that the packets can be sent over it.
+> Varies from host to host and network to network.
+
+Layer 2: INTERNET LAYER
+> Selection of a packet switching network which is based on a connectionless internetwork layer is called a internet layer.
+> It is the layer which HOLDS the WHOLE ARCHitecture together.
+> It helps the packet to travel independently to the destination.
+> Order in which packets are received is different from the way they are sent.
+> IP (Internet Protocol) is used in this layer.
+
+Layer 3: TRANSPORT LAYER
+> It decides if data transmission should be on parallel path or single path.
+> Functions such as multiplexing, segmenting or splitting on the data is done by transport layer.
+> The applications can read and write to the transport layer.
+> Transport layer adds header information to the data.
+> Transport layer breaks the message (data) into small units so that they are handled more efficiently by the network layer.
+> Transport layer also arrange the packets to be sent, in sequence.
+> it DOES NOT GUARANTEES DELIVERY OF PACKETS. 
+
+Layer 4: APPLICATION LAYER
+> The TCP/IP specifications described a lot of applications that were at the top of the protocol stack. 
+- Some of them were TELNET, FTP, SMTP, DNS etc.
+
+> TELNET is a two-way communication protocol which allows connecting to a remote machine and run applications on it.
+> FTP(File Transfer Protocol) is a protocol, that allows File transfer amongst computer users connected over a network. It is reliable, simple and efficient.
+> SMTP(Simple Mail Transport Protocol) is a protocol, which is used to transport electronic mail between a source and destination, directed via a route.
+> DNS(Domain Name Server) resolves an IP address into a textual address for Hosts connected over a network.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is War File?
+
+> War is Web archieve file. It contains all the contents of a web application. 
+- It reduces the time duration for transferring file in single file.
+
+> We can make our web prjt as war. Go inside the project directory of your project (outside the WEB-INF) run below command
+	=> jar -cvf projectName.war	*
+	Here, -c is used to create file, -v to generate the verbose output and -f to specify the arhive file name.
+	
+> Now to deploy WAR manually to specific folder of server. Paste war file to WebApps dir of Tomcat and then
+	=> jar -xvf projectName.war 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+####### Tomcat ###########
+> Jetty and Tomcat are open servlet containers, both of them support HTTP server, HTTP client and javax.servlet container.
+> Servlet run in the Tomcat container
+> HttpServletRequest & HttpServletResponse
+> response generated tomcat 
+
+
+> Everytime a web browser access URL the request and response object is created by tomcat each time (whether it is for same user or different). It mean Request and Response object per access.
+
+> Servlet Object - not created per access.
+> there are different servlet thread for different request
+
+> Using Tomcat, It is possible to deploy web applications to a running Tomcat server. It can be control by an attribute "autoDeploy", if value is true then it autoDeploy .war file. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to change port number of apache tomcat?
+
+> Open server.xml file in notepad. It is located inside the apache-tomcat/conf directory . 
+- Change the Connector port = 8080 and replace 8080 by any four digit number instead of 8080
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to deploy  the servlet project?
+> There are several ways to deploy the project. They are as follows:
+
+1. By copying the context(project) folder into the webapps directory of Tomcat 
+2. By copying the war folder into the webapps directory of Tomcat 
+3. By selecting the folder path from the server
+4. By selecting the war file from the server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Default Port Number
+> Telnet server use port 23
+> POP3 mail server use 110 
+> FTP server use 21
+> SMTP use 25
+
+> Port 80 is the port number assigned to HTTP from which a computer sends and receives Web client-based communication 
+- Your web browser works on port 80
+-  If I am going to host my own website from my computer, I would prefer to be able to do so on port 80, since this would mean that anyone connecting to my computer wouldn't have to add a port number to the end of the WWW address I paid for.
+- http:\\www.bollywood.com:8123\ will not work but http:\\www.bollywood.com:80\ will work
+
+- port 8080 is used by the proxy address to connect you to the internet services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Cross-Context Communication between Web Applications
+https://blog.imaginea.com/cross-context-communication-between-web-applications/
+http://java-demos.blogspot.in/2012/10/servlet-servlet-communication.html
+
+
+
+https://www.youtube.com/watch?v=4GAJ5pxQ-3c&list=PLA83F89363A14011C&index=25
+

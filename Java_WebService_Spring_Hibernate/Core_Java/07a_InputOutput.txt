@@ -1,0 +1,226 @@
+######### I/O Streams ##########
+> Stream refers to an ordered Sequence of data
+> Streams are channels of communication between programs and source/destination of data.
+-------------------------
+CLASSIFICATION OF STREAM 
+
+1. Based on source and destination
+> OUTPUT STREAM to write data to a destination, it may be a file, array, peripheral device or socket.
+> INPUT STREAM to read data from a source, it may be a file,an array,peripheral device or socket.
+----------
+
+2. Based on Kind of data
+> BYTE STREAM which receives and sends information as bytes
+> CHARACTER STREAM, which receives and sends information as characters 
+==========================================
+########## FileInputStream[c] #########
+> it obtains input bytes from a file. It is used for reading byte-oriented data (streams of raw bytes) 
+- can also read character-stream data
+
+########## FileOutputStream[c] #########
+> it is an output stream used for writing data to a file.
+
+> If you have to write primitive values into a file, use FileOutputStream class. 
+- You can write byte-oriented as well as character-oriented data through FileOutputStream class. 
+- But, for character-oriented data, it is preferred to use FileWriter than FileOutStream.
+==========================================
+######### CHARACTER-ORIENTED STREAM ######
+> two abstract classes provided for reading and writing characters
+1. Reader class
+2. Writer class
+
+1. Reader Class
+public abstract class Reader implements Readable, Closeable {
+	abstract void close(); // Closes the Reader
+	int read() {} 
+	// Returns an integer representation of the next available character of input. 
+	//-1 is returned when the end of file is encountered.
+}
+> BufferedReader, InputStreamReader, FileReader - subclasses of Reader
+---------------
+2. Writer Class
+public abstract class Writer implements Appendable, Closeable, Flushable {
+	abstract void close() - Closes the  Writer
+	void write( int character) - Writes a single character to a Writer
+}
+
+> public void write(String str, int off, int len){}
+str - String; off - Offset from which to start writing characters; len - Number of characters to write
+
+> BufferedWriter, OutputStreamWriter, FileWriter - subclasses of Writer
+----------------------------
+#### InputStreamReader ####
+> InputStreamReader class can be used to read data from keyboard
+> It performs two tasks:
+1. connects to input stream of keyboard
+2. converts the byte-oriented stream into character-oriented stream
+
+BufferedReader class
+> it is used to read data line by line by readLine() method.
+----------------------------
+### FileWriter
+> FileWriter class is the subclass of OutputStreamWriter used to write data into file and 
+
+Constructors of FileWriter
+> FileWriter(String file)	- creates a new file. It gets file name in string.
+> FileWriter(File file) - creates a new file. It gets file name in File object.
+
+Methods of FileWriter
+1) public void write(String text) - writes the string into FileWriter.
+2) public void write(char c) - writes the char into FileWriter.
+3) public void write(char[] c) - writes char array into FileWriter.
+4) public void flush() - flushes the data of FileWriter.
+5) public void close() - closes FileWriter.
+----------------------------
+### FileReader class
+> FileReader class is the subclass of InputStreamReader used to read data from text files
+> FileReader class is used to read data from the file. It returns data in byte format like FileInputStream class.
+
+Constructors of FileWriter class
+
+> FileReader(String file) - It gets filename in string. It opens the given file in read mode. 
+	-If file doesn't exist, it throws FileNotFoundException.
+> FileReader(File file)	- It gets filename in file instance. It opens the given file in read mode. 
+	-If file doesn't exist, it throws FileNotFoundException.
+	
+Methods of FileReader class
+1) public int read() - returns a character in ASCII form. It returns -1 at the end of file.
+2) public void close()	closes FileReader.
+
+---------------------
+Java.io.StringWriter 
+>this class is a character stream that collects its output in a string buffer, which can then be used to construct a string
+
+=======================================
+################ FILE #################
+> it is an abstract representation of file and dir pathnames
+
+>Instances may or may not denote an actual file-system object such as a file or a directory
+> Instances of the File class are IMMUTABLE;
+
+### FIELDS FOR FILE CLASS
+1. static String pathSeparator - Platform dependent variable for path-separator. For example PATH or CLASSPATH variable list of paths separated by ‘:’ in Unix systems and ‘;’ in Windows system
+2. static char pathSeparatorChar - Same as pathSeparator but it’s char
+
+3. static String separator - Platform dependent default name-separator character as String. For windows, it’s ‘\’ and for unix it’s ‘/’
+
+4. static char separatorChar - Same as separator but it’s char
+
+#### CONSTRUCTORS 
+1. File(File parent,String child)- 
+2. File(String pathname)
+3. File(Strig parent,String child)
+4. File(URI uri)
+
+#### METHODS 
+1. boolean canExecute() 
+- 
+-------------------------------------
+## Ho
+-------------------------------------
+## What's the difference between getPath(), getAbsolutePath(), and getCanonicalPath()?
+Consider these filenames:
+> C:\temp\file.txt - This is a path, an absolute path, and a canonical path.
+> .\file.txt - This is a path. It's neither an absolute path nor a canonical path.
+> C:\temp\myapp\bin\..\\..\file.txt - This is a path and an absolute path. 
+- It's not a canonical path.
+
+> A canonical path is always an absolute path.
+
+> Converting from a path to a canonical path makes it absolute (usually tack on the current working directory so e.g. ./file.txt becomes c:/temp/file.txt). 
+> The canonical path of a file just "purifies" the path, removing and resolving stuff like ..\ and resolving symlinks (on unixes).
+
+> getPath() - return path based on file obj which may not be relative
+>  there are a huge number of absolute paths that point to the same file, but ONLY ONE CANONICAL PATH.
+
+> getCanonicalPath() : gets the path string after resolving any relative path against current directory, and removes any relative pathing (. and ..)
+- it is particularly useful to check if two files are the same.
+
+=======================================
+######### DataOutputStream[c] #########
+> It is USED TO WRITE PRIMITIVE JAVA DATA TYPES TO THE OUTPUT STREAM IN A MACHINE-INDEPENDENT WAY.
+- later be read by a data input stream.
+
+#### METHODS ####
+> void writeInt(int v)	
+> void writeBytes(String s)
+> void writeUTF(String str)	
+- It is used to write a string to the output stream using UTF-8 encoding in portable manner.
+
+-------------------------------------
+######### FilenameFilter(i) #########
+> FilenameFilter is an interface in Java that is USED TO FILTER FILE NAMES, such as those returned from a call to a File object's listFiles() method. 
+> It has only 1 method 
+- boolean accept(File arg0, String arg1); 	
+- If listFiles() is called with no parameters, it returns all File objects in a directory. 
+- If we pass a filter as a parameter, we can selectively return a subset of those objects.
+
+Ex - 
+	FilenameFilter filter = new FilenameFilter() {				
+		public boolean accept(File dir, String name) {
+			 if(name.lastIndexOf('.')>0)
+               {						 
+                  // get last index for '.' char
+                  int lastIndex = name.lastIndexOf('.');
+                  
+                  // get extension
+                  String str = name.substring(lastIndex);
+                  
+                  // match path name extension
+                  if(".tra".equals(str) || str.contains("0"))
+                  {
+                     return false;
+                  }
+               }
+               return true;
+            }
+	};
+	File exeDir = null;
+	File[] listFiles = binDir.listFiles(filter);
+	for(File file:listFiles){
+		exeDir = new File(binDir, file.getName());		
+	}
+	return exeDir;
+-------------------------------------
+#### FileFilter(I) 
+> It is also similar to FilenameFilter but it filter based on timestamp, file type, and other depend on implementation in accept method.
+
+-------------------------------------
+> Each subsequent name in an abstract pathname denotes a directory; the last name may denote either a directory or a file
+> A pathname, whether abstract or in string form, may be either absolute or relative. 
+1. An ABSOLUTE PATHNAME is complete in that no other information is required in order to locate the file that it denotes. 
+
+2. A RELATIVE PATHNAME, in contrast, must be interpreted in terms of information taken from some other pathname
+
+> For UNIX platforms, the prefix of an absolute pathname is always "/". 
+- Relative pathnames have no prefix. 
+- The abstract pathname denoting the root directory has the prefix "/" and an empty name sequence.
+
+> For Microsoft Windows platforms, the prefix of a pathname that contains a drive specifier consists of the drive letter followed by ":" and possibly followed by "\\" if the pathname is absolute. 
+- The prefix of a UNC pathname is "\\\\"; the hostname and the share name are the first two names in the name sequence. 
+- A relative pathname that does not specify a drive has no prefix.
+-------------------------------------
+
+==========================================
+## Send HTTP request & fetching data using Java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+ 
+public class Main {
+    public static void main(String[] args)  {
+        try {
+            URL my_url = new URL("http://www.viralpatel.net/blogs/");
+            BufferedReader br = new BufferedReader(new InputStreamReader(my_url.openStream()));
+            String strTemp = "";
+            while(null != (strTemp = br.readLine())){
+            System.out.println(strTemp);
+        }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+https://blogs.oracle.com/slc/entry/javanio_vs_javaio
+

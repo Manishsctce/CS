@@ -1,0 +1,169 @@
+##### NOHUP OR BACKGROUND SERVICE for windows ####
+> start /min <command_name>
+> start /B <command_name>
+=======================================
+######### List down process ###########
+## to list all process
+tasklist 
+
+## To list particular process 
+tasklist /FI "imagename eq tibcohost.exe"
+
+## to list all process starting with 
+tasklist /FI "imagename eq tibamx"
+
+## To kill process forcefully 
+taskkill /F /IM tibcohost.exe
+/F - forcefully
+
+## to kill particular process 
+ TASKKILL /F /FI "imagename eq tibamx*"
+ 
+## to kill process with pid 
+taskkill /F /PID <process_id>
+=======================================
+CACLS files /e /p {USERNAME}:{PERMISSION}
+
+Where,
+
+/p : Set new permission
+/e : Edit permission and kept old permission as it is i.e. edit ACL instead of replacing it.
+{USERNAME} : Name of user
+{PERMISSION} : Permission can be:
+R – Read
+W – Write
+C – Change (write)
+F – Full control
+=======================================
+## Set variables
+SET var1=value (it wil work)
+SET var1 = value (it won't)
+
+> we can use variable as %variable_name%
+--------------------------------
+## echo %PATH%
+> to get value set in path
+
+## set j
+- to get value set for (j)ava
+
+----------------------------------
+## dir - to view the content of 
+- /S - to list all files in subdir 
+- /A-D - to list all files 
+- /A:D - to list all dir
+
+
+## mkdir - to make dir
+## ren - to rename file/dir
+## copy src dest - to copy file 
+/Y - suppress prompt 
+
+## move??
+=======================================
+########## REMOVE DIRECTORY ###########
+
+## rmdir dirname/fullpath - to delete directory that's not empty
+- /S - for all dir and subdir 
+- /Q - quit mode - it will not ask for user confirmation
+Ex - rmdir /S "My Folder" OR  rd /S "My Folder"
+
+=======================================
+####### COPY FILES N DIRECTORY ########
+
+## xcopy /s /i src_dir_path dest_dir_path
+> /s ensure all dir and subdir will copy
+> /i create new dir if dest folder doesn't exist
+
+=======================================
+####### DELETE FILES N DIRECTORY ######
+
+## del - to delete files/content of dir 
+> /h - to delete hidden file
+> cannt delete dir
+=======================================
+############ FIND STRING ##############
+
+## findstr - to find string in file 
+- /S : searches for matching files in the current directory and all subdir
+- /I : not case-sensitive
+- /M : Prints only the filename if a file contains a match.
+- /A:attr    Specifies color attribute with two hex digits. See "color /?"
+- /F:file    Reads file list from the specified file(/ stands for console).
+- /C:string  Uses specified string as a literal search string.
+- /G:file    Gets search strings from the specified file(/ stands for console).
+
+Ex - dir | findstr str_2_find *.*  - find str from all file in the dir 
+=======================================
+### Comments
+> Comments in batch files are usually placed in lines starting with REM (REMarks).
+> double colon ( :: ) as the first characters of the comment line
+=======================================
+
+C:\>cmd /?
+Starts a new instance of the Windows XP command interpreter
+
+CMD [/A | /U] [/Q] [/D] [/E:ON | /E:OFF] [/F:ON | /F:OFF] [/V:ON | /V:OFF]
+    [[/S] [/C | /K] string]
+
+/C      Carries out the command specified by string and then terminates
+/K      Carries out the command specified by string but remains
+/S      Modifies the treatment of string after /C or /K (see below)
+/Q      Turns echo off
+/D      Disable execution of AutoRun commands from registry (see below)
+/A      Causes the output of internal commands to a pipe or file to be ANSI
+/U      Causes the output of internal commands to a pipe or file to be
+        Unicode
+/T:fg   Sets the foreground/background colors (see COLOR /? for more info)
+/E:ON   Enable command extensions (see below)
+/E:OFF  Disable command extensions (see below)
+/F:ON   Enable file and directory name completion characters (see below)
+/F:OFF  Disable file and directory name completion characters (see below)
+/V:ON   Enable delayed environment variable expansion using ! as the
+        delimiter. For example, /V:ON would allow !var! to expand the
+        variable var at execution time.  The var syntax expands variables
+        at input time, which is quite a different thing when inside of a FOR
+        loop.
+/V:OFF  Disable delayed environment expansion.
+=======================================
+># 0(stdin), 1(stdout) and 2(stderr) represent standard file descriptor in POSIX operation syst.
+
+># < and > are used to redirect the output from a command to somewhere else, like a file.
+
+For example, in ls > myfiles.txt
+
+---------------------
+/dev/null 
+># it is an empty file, a mechanism used to discard everything written to it.
+
+============================
+@ - echo off 
+Ex - @echo foo  will print echo foo
+=======================================
+######## UTILITY SYSTEM COMMAND #######
+> WMIC (Windows Management Instrumentation Command-line)
+
+=======================================
+Resource Monitor : tool to find process
+
+
+
+=======================================
+##### netstat
+netstat -an
+
+-a parameter : lists all the computer’s connections and listening ports, 
+-n parameter : displays addresses and port numbers in numerical format.
+
+EXAMPLE :
+proc localIP:port  remoteIp:port STATE
+TCP 127.0.0.1:1049	0.0.0.0:0	LISTENING
+TCP 127.0.0.1:1059	127.0.0.1:27015	ESTABLISHED
+TCP 127.0.0.1:1085	0.0.0.0:0	LISTENING
+TCP 127.0.0.1:1434	0.0.0.0:0	LISTENING
+
+=======================================
+#### STATE ####
+“LISTENING” shows a classic open port listening for inbound connections. 
+“ESTABLISHED” means there’s an actual connection between your machine and the remote IP and port that is able to exchange traffic. 
+“CLOSE_WAIT” is a state TCP goes into while ending an established connection.

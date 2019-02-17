@@ -40,6 +40,25 @@ It accesses the data using tokens instead of using their credentials and stores 
 - which means you have to write separate pieces of code for Facebook, Google, etc.
 
 > If your favorite sites are connected to the central hub and the central account is hacked, then it will lead to serious effects across several sites instead of just one.
+=======================================
+########### OAuth 2.0 terms ###########
+
+### Authentication
+> It is a process of identifying an individual, usually based on a username and password. 
+- It is about knowing that the user is the owner of the account on the web and desktop computers.
+
+### Federated Authentication
+> Many applications have their own username and passwords. 
+- Some applications depend on other services for verification of the user's identity. 
+
+> A federated identity management system provides a single access to multiple systems. This is known as federated authentication.
+
+### Authorization
+> Authorization is the process of giving someone the permission to do something. 
+- It needs the valid user's identification to check whether that user is authorized or not.
+
+### Delegated Authorization
+> It is the process of giving one’s credentials to other user to perform some actions on behalf of that user. 
 =====================================
 ############## ROLES ################
 > OAuth defines the following roles −
@@ -47,15 +66,16 @@ It accesses the data using tokens instead of using their credentials and stores 
 1. Resource Owner
 > An entity capable of granting access to their own data hosted on the resource server. 
 - When the resource owner is a person, it is referred to as an end-user.
+- It could be an app.
 
 2. Client Application
-> An application making protected resource requests on behalf of the resource owner and with its authorization.  
+> An app making protected resource requests on behalf of the resource owner and with its authorization.  
 - It could be Mobile App, Desktop app or 
 
-3. Resource Server
+3. RESOURCE SERVER
 > The server hosting the protected resources, capable of accepting and responding to protected resource requests using access tokens.
 
-4. Authentication Server
+4. AUTHENTICATION SERVER
 > The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization.
 
 > authorization server may be the same server as the resource server or a separate entity.
@@ -82,6 +102,8 @@ It accesses the data using tokens instead of using their credentials and stores 
  |        |<-(F)--- Protected Resource ---|               |
  +--------+                               +---------------+
 =====================================
+
+=====================================
 ######## Client Registration ########
 
 > When registering a client, the client developer SHALL:
@@ -90,6 +112,27 @@ It accesses the data using tokens instead of using their credentials and stores 
 2. provide its client redirection URIs
 3. include any other information required by the authorization server (e.g., application name, website, description, logo image, the acceptance of legal terms).
 
+#### CLIENT IDENTIFIER (clientId)
+> The authorization server issues the registered client a client identifier -- a unique string representing the registration information provided by the client.  
+- The client identifier is not a secret; 
+- it is exposed to the resource owner and MUST NOT be used alone for client authentication.  
+- The client identifier is unique to the authorization server.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+## Authorization Endpoints 
+> It is the URL's which makes an authentication request on the authorization server, in which the resource owner logs in and permits to access the data to the client application. For instance, address of JSP page, PHP page, etc.
+
+authorization endpoint can be defined in three ways −
+
+Authorization Endpoint
+Redirection Endpoint
+Token Endpoint
+=====================================
+########  ########
+
+### AUTHORIZATION CODE GRANT
+> Authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential clients.
+- Since this is a redirection-based flow, the client must be capable of interacting with the resource owner's user-agent (typically a web browser) and 
+- capable of receiving incoming requests (via redirection) from the authorization server.
 =====================================
 Reference : https://tools.ietf.org/html/rfc6749

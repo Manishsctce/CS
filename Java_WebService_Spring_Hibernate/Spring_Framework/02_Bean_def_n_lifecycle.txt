@@ -13,14 +13,14 @@
 > it's life cycle managed by Spring IoC container
 > it is created with configuration metadata i.e. xml file that you supply to the container
 - For example, in the form of XML <bean/> definitions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What does a Spring Bean definition contain?
 
 > Bean definition contains the information called CONFIGURATION METADATA, which is needed for the container to know the following :
 - How to create a bean
 - Bean's lifecycle details
 - Bean's dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can you configure any class as a Spring Bean?
 
 > We can configure any java class to Spring Bean by following three ways:
@@ -33,9 +33,9 @@
 - It is used with @Configuration classes through which you can configure the bean. 
 
 3. Annotation Based Configuration:
-> We can use @Service, @Component, @Controller and @Repository annotations with the normal java classes if we want to configure them as a Bean. 
+> We can use @Service, @Component, @Controller and @Repository with the normal java classes if we want to configure them as a Bean. 
 - To provide such annotation the base package class location has to be specified for these classes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Create Bean using Java Based Config Annotation in Spring?
 
 > Annotate a class with @Configuration so that the class can be used by "AnnotationConfigApplicationContext" container as a source of bean definitions.
@@ -49,7 +49,9 @@ public class AppConfig {
     return new ServiceImpl();
   }
 }
-Similar to 
+
+SIMILAR TO 
+
 <beans>
   <bean name=“service” class=”com.spring.core.ServiceImpl”/>
 </beans>
@@ -64,7 +66,7 @@ ServiceImpl service = ctx.getBean(ServiceImpl.class);
 > we can use the @Bean annotation in a @Configuration-annotated or in a @Component-annotated class.
 > By default, the bean name will be the same as the method name.
 > Injecting dependencies : using one bean method call another
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Full @Configuration vs 'lite' @Beans mode?
 
 > When @Bean methods are declared within classes that are not annotated with @Configuration they are referred to as being processed in a 'lite' mode. 
@@ -89,7 +91,7 @@ EXAMPLE-
     <value>Ashoka Leyland</value>
   </list>
 </constructor-arg>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 2. PROPERTY: <property>
 > arguments to pass to the bean setters at creation time
 
@@ -141,7 +143,7 @@ EXAMPLE:
 ########### BEAN PROPERTIES #########
 1. class (required): 
 > FULLY QUALIFIED JAVA CLASS NAME except if it serves only as a parent definition for child bean definitions.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 2. Id / name: 
 > both refer to the same thing. 
 - The unique identifier for this bean.
@@ -152,10 +154,10 @@ Ex - <bean id="08402018" name="manish,golu,manas">
 
 > We can define alias
 <alias name="fromName" alias="toName"/>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 3. SCOPE : specifies scope of the object created 
 > more detail given below
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 4. DEPENDS-ON :
 > it is the NAMES OF THE BEANS THAT THIS BEAN DEPENDS ON BEING INITIALIZED.
 > dependencies are normally expressed through bean properties or constructor args. 
@@ -179,7 +181,7 @@ EXAMPLE2:
   <property name="componentRegistryManager" ref="componentRegistryManager"/>
 </bean>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 5. init-method :
 > name of the custom initialization method to invoke after setting bean properties. 
 - The METHOD MUST HAVE NO ARGUMENTS, but may throw any exception. 
@@ -198,13 +200,13 @@ public EmployeeEntity getE2(){
   EmployeeEntity e1 = new EmployeeEntity();		
   return e1;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 6. destroy-method
 > name of the custom destroy method to invoke on bean factory shutdown. 
 - The method must have NO ARGUMENTS, BUT MAY THROW ANY EXCEPTION. 
 - This is alternative to impl Spring's DisposableBean[i] or the standard Java Closeable/AutoCloseable[i], or marking a method with the @PreDestroy. 
 > Note: Only invoked on beans whose lifecycle is under the full control of the factory - which is always the case for singletons, but not guaranteed for any other scope.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 7. lazy-init :  
 > it tells the IoC container to create a bean instance when it is first requested, rather than at startup
 
@@ -227,16 +229,16 @@ EXAMPLE:
 - A bean with lazy-init property set to true can still be instantiated at startup if it is referenced by a non-lazy-init singleton bean. 
 - In such case Spring container has to create the instance for dependency injection.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 8. autowire
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 9. autowire-candidate
 Indicates whether or not this bean should be considered when 
  looking for matching candidates to satisfy another bean's 
  autowiring requirements. Note that this does not affect explicit 
  references by name, which will get resolved even if the specified 
  bean is not marked as an autowire candidate.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 10. factory-method [more detail in 03_IOC_Dependency_Injection.txt]
 
 > name of a factory method to use to create this object. 
@@ -248,12 +250,12 @@ Indicates whether or not this bean should be considered when
 EXAMPLE : 
 <bean id="exampleBean" class="examples.ExampleBean2" factory-method="createInstance"/>
 - the createInstance() method must be a static method. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 11. factory-bean [more detail in 03_IOC_Dependency_Injection.txt]
 
 > Alternative to class attribute for factory-method usage. 
 - If this is specified, no class attribute should be used. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 12. abstract : 
 > set either true or false. The default is "false".
 > it is doesn't meant to be instantiated itself but rather just SERVE AS PARENT FOR CONCRETE CHILD BEAN 
@@ -269,7 +271,7 @@ EXAMPLE:
      <property name="name" value="child-AZ"/>
 </bean> 
 > Parent bean could not be injected, child could
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 13. PARENT:
 > name of the parent bean definition. 
 > It define bean definition inheritance
@@ -319,16 +321,16 @@ EXAMPLE:
 ## In Spring, how to implement inheritance in bean definition?
 
 > A Spring bean can inherit from another Spring bean through "parent" attribute on the child bean. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In Spring, what are bean post processors? Can we associate multiple bean post processors with a bean?
 
 > In Spring framework, the BeanPostProcessor[i] defines a number of callback methods that an application developer can implement in order to provide their own  instantiation logic, dependency-resolution logic etc. 
 - These methods are invoked by the Spring container after it has finished with bean instantiation, configuring and initialization.
  
 - Multiple BeanPostProcessor can be configured for a bean. The order of their execution can be controlled through "order" property.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain the concept of inner beans in Spring?
 
 > Spring inner beans are beans that are defined within the scope of another bean. 
@@ -368,7 +370,7 @@ EXAMPLE:
 - Only valid in the context of a web-aware Spring ApplicationContext.
 
 > IllegalStateException if we use web-application scope in normal case.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to inject session scope bean into singleton bean?
 ## How to inject shorter-lived scoped bean into a longer-lived scoped bean?
 
@@ -383,9 +385,9 @@ EXAMPLE:
   <!-- a reference to the proxied userPreferences bean -->
   <property name="userPreferences" ref="userPreferences"/>
 </bean>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between singleton and prototype bean?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to declare scope using xml and annotation?
 
 #USING XML 
@@ -399,7 +401,7 @@ EXAMPLE:
 public EmployeeManager getEmployeeManager(){
 	return new EmployeeManagerImpl();
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## if we declare bean with same class but different ID's then ? 
 Example:
 <bean id="scopeTest" class="com.example.Scope" scope="singleton">
@@ -411,19 +413,19 @@ Example:
 
 Scope scope = (Scope) ctx.getBean("scopeTest");//Shamik Mitra
 Scope scopeDuplicate = (Scope) ctx.getBean("scopeTestDuplicate");//Samir Mitra
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is there any difference in singleton design pattern and singleton bean scope?
 
 > Spring Singleton scope mean Spring guarantees exactly one bean instance will be shared for the given id per IoC container.
 - Java Singleton : Only 1 object per ClassLoader
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Are Singleton beans thread safe in Spring Framework?
 
 > No, singleton beans are not thread-safe. 
 - Thread safety is about execution, whereas the singleton is a design pattern focusing on creation. 
 
 > Thread safety depends only on the bean implementation itself.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Creating a custom scope #####
 org.springframework.beans.factory.config.Scope interface has 4 method
 1.Object get(String name, ObjectFactory objectFactory)
@@ -433,7 +435,7 @@ org.springframework.beans.factory.config.Scope interface has 4 method
 
 https://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/beans.html#beans-factory-scopes-custom
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Injecting a Prototype Bean into a Singleton Bean?
 > expectation (per prototype specifications) that a new prototype bean will be created and be injected into SingletonBean every time.
 
@@ -539,7 +541,7 @@ IT CAN ALSO WRITE AS
 > Chooses constructor or byType through introspection of the bean class. 
 > If a default constructor is found, the byType mode will be applied.
 > It is deprecated in spring 3
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### @Autowired ############
 
 > Autowired annotation on variable/setters is equivalent to autowire="byType"
@@ -581,7 +583,7 @@ public class FooService {
 }
 
 > @Qualifier annotation matches with the name 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the role of the @Required annotation?
 
 > @Required annotation is used on setter methods, and it indicates that the bean property that has this annotation must be populated at configuration time.
@@ -591,7 +593,7 @@ public class FooService {
 
 > @Autowired can be used to wire with a constructor and a field as well, while 
 - @Required only checks if the property is set.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between @Autowired vs @Inject ?
 
 >  Both serves the same purpose to inject the bean on-fly.
@@ -603,7 +605,7 @@ public class FooService {
 - so to use annotation-driven dependency injection in Spring 2.5 then we have to use the @Autowired .
 
 > Spring's @Autowired,  the @Inject does require the 'required' attribute.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the LIMITATIONS WITH AUTO WIRING?
 
 1. Overriding possibility: You can always specify dependencies using <constructor-arg> and <property> settings which will override autowiring.
@@ -630,7 +632,7 @@ EXAMPLE:
 <list/>, <set/>, <map/>, and <props/> elements allow properties and argument
 <null> element may be used to indicate a null value
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### PROPERTY INJECTION #######
 
 <bean id="moreComplexObject" class="example.ComplexObject">
@@ -643,7 +645,7 @@ EXAMPLE:
     </props>
   </property>
 </bean>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## LIST INJECTION #########  
 
 <!-- results in a setSomeList(java.util.List) call -->
@@ -654,7 +656,7 @@ EXAMPLE:
   </list>
 </property>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### MAP INJECTION #########
 
 <!-- results in a setSomeMap(java.util.Map) call -->
@@ -670,7 +672,7 @@ EXAMPLE:
   </map>
 </property>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### SET INJECTION #########  
 <!-- results in a setSomeSet(java.util.Set) call -->
 <property name="someSet">
@@ -718,7 +720,7 @@ Example-
 - for that BeanPostProcessors  have to implement ordered interface
 
 > It need to configure separately in config file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Differences between BeanFactoryPostProcessor and BeanPostProcessor?
 
 > A bean implementing BeanFactoryPostProcessor is called when all bean definitions will have been loaded, but no beans will have been instantiated yet. 
@@ -748,7 +750,7 @@ Example-
 12. call custom destroy-method
 
 Instatiation -> Populate properties -> BeanNameAware[i].setBeanName() -> BeanFactoryAware[i].setBeanFactoy() -> BeanPostProcessors[i].preProcessBeforeInitialization() -> InitializingBean[i].afterPropertiesSet() -> Call Custom init-method -> BeanPostProcessors.postProcessAfterInitialization()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How we can control the lifecycle of Bean?
 
 > 4 WAYS TO CONTROL LIFE CYCLE OF BEAN

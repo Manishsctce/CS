@@ -1,4 +1,4 @@
-##What is Functional Programming?
+## What is Functional Programming?
 > It is programming style that treat computation as the evaluation 
 > its a style of programming where you FOCUS ON TRANSFORMING DATA THROUGH THE USE OF SMALL EXPRESSIONS THAT IDEALLY DON’T CONTAIN SIDE EFFECTS.
 
@@ -17,8 +17,8 @@ Similarly in programming lang., we have use function that doesn't have any side 
 
 ##Where should we use Functional programming?
 > When there is continous changes in data require like a stream of data to modify.
-=======================================
-########### LAMBDA EXPRESSION #########
+=====================================
+########## LAMBDA EXPRESSION ########
 > Since Java8
 
 ## What is Lambda expression?
@@ -106,8 +106,8 @@ Any lambda expression has the following characteristics:
 4. OPTIONAL RETURN STATEMENT 
 > when the expression returns a value and it is wrapped inside curly braces, then we don’t need a return statement. 
 - That means (a, b) – > {return a+b;} and (a, b) – > {a+b;} are both valid
-=======================================
-######### METHOD REFERENCE ############
+=====================================
+######### METHOD REFERENCE ##########
 
 ## What is a method reference?
 > it can be used for referencing a method of Functional Interface without invoking it. 
@@ -121,8 +121,7 @@ Object::toString();
 numbers.forEach(value -> System.out.println(value));
 numbers.forEach(System.out::println);
 
-## Kinds of Method References
-There are FOUR KINDS OF METHOD REFERENCES:
+## FOUR KINDS OF METHOD REFERENCES ##
 
 1. Reference to a static method	
 Ex - ContainingClass::staticMethodName
@@ -144,7 +143,7 @@ Ex - ClassName::new
 
 > In general, we don't have to pass arguments to method references. However, arguments are treated depending on the type of method reference.
 - In this case, any arguments (if any) taken by the method are passed automatically behind the curtains.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE :
 
 interface IsReferable {
@@ -179,8 +178,8 @@ class ReferenceDemo {
 }
 In above example, all three implementations, 1) using anonymous class 2) Lambda Expression and 3)Method reference will give same results. Anonymous class implementation is added to provide readability.
 
-=======================================
-############# Stream ##################
+=====================================
+############# Stream ################
 
 Stream provides following features:
 > Stream does not store elements. 
@@ -273,3 +272,31 @@ void forEachOrdered(Consumer<? super T> action)
 ## Stream methods
 public static<T> Stream<T> generate(Supplier<T> s)
 <R> R collect(Supplier<R> supplier,BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)
+=====================================
+######### BEST USAGES OF JAVA 8 #####
+
+> Avoid Overloading Methods with Functional Interfaces as Parameters
+EXAMPLE: 
+
+public interface Adder {
+    String add(Function<String, String> f);
+    void add(Consumer<Integer> f);
+}
+ 
+public class AdderImpl implements Adder {
+ 
+    @Override
+    public  String add(Function<String, String> f) {
+        return f.apply("Something ");
+    }
+ 
+    @Override
+    public void add(Consumer<Integer> f) {}
+}
+
+WHILE USING IT String r = adderImpl.add(a -> a + " from lambda"); // IT WILL THROW ERROR add is ambiguous both method
+
+> to solve this problem, we can use methods with different name OR
+- to perform casting manually. This is not preferred.
+String r = Adder.add((Function) a -> a + " from lambda");
+

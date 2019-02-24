@@ -10,8 +10,7 @@ Externalizable[i], Comparator[i]
 > A functional interface is any interface that contains ONLY ONE ABSTRACT METHOD. 
 - it may contain ONE OR MORE DEFAULT METHODS OR STATIC METHODS.
 
-> It mean an interface with exactly one abstract method becomes Functional Interface.  
-> it is a facility to avoid accidental addition of abstract methods in the functional interfaces. 
+> it is a facility to avoid accidental addition of abstract methods in the FI. 
 > These interfaces are also called Single Abstract Method interfaces (SAM Interfaces)
 
 EXAMPLE : 
@@ -37,9 +36,7 @@ public interface Interface1 {
 - Once you add another abstract method to the interface then the compiler/IDE will flag it as an error 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> If a FI is extending another FI then it SHOULDN’T DECLARE ANY NEW ABSTRACT METHODS then only the new interface will be FI.
-
-> A functional interface can extend another interface but finally FI should have only 1 abstract method 
+> A FI can extend another FI but finally FI should have only 1 abstract method 
 - if it extending another FI then it should provide default impl otherwise Compiler error.
 
 EXAMPLE : 
@@ -65,9 +62,14 @@ Runnable r = new Runnable(){
 ## using lambda expression as:
 Runnable r1 = () -> {System.out.println("My Runnable");};
 
-> If you have single statement in method implementation, we don’t need curly braces also. 
+> If you have single statement in method impl, we don’t need curly braces also. 
 Interface1 i1 = (s) -> System.out.println(s);
 i1.method1("abc");
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## is Comparator[i] is the FI?
+> Yes, It is FI. 
+- It contain 2 abstract methods compare() and equals() eventhrough it is FI 
+- because equals() is part of Object class 
 =====================================
 ############### Comparable ##########
 ##What is Comparable interface?

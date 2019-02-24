@@ -1,21 +1,37 @@
+########### Java SE 8(jdk1.8) #########
+> Released on 18 March 2014
+> code name culture is dropped
+
+It has added below features:-
+1. LAMBDA EXPRESSION
+2. DEFAULT METHODS (formerly called  or defender methods)
+> define methods in Interface; DEFAULT METHOD OR DEFENDER METHOD [02b]
+
+3. FUNCTIONAL INTERFACE : more details in 02c_Interfaces_-_Serialization_Externalizable_Clonable.txt
+4. METHOD REFERENCE
+5. Optional Class
+6. Stream update : 04g_java.util_Utility_classes.txt
+=====================================
 ## What is Functional Programming?
-> It is programming style that treat computation as the evaluation 
-> its a style of programming where you FOCUS ON TRANSFORMING DATA THROUGH THE USE OF SMALL EXPRESSIONS THAT IDEALLY DON’T CONTAIN SIDE EFFECTS.
+> It is pgmg style that treat computation as the evaluation 
+> its a style of pgmg where we FOCUS ON TRANSFORMING DATA THROUGH THE USE OF SMALL EXPRESSIONS THAT IDEALLY DON’T CONTAIN SIDE EFFECTS.
 
 EXAMPLE = 
 f(x) = x^2
 f(a,b) = a2 +b2 +2ab
 f(a,b)= f(a)+f(b)+2ab 
 
-Similarly in programming lang., we have use function that doesn't have any side effect. as a building block of another function.
-> In Functional programming, pass immutable data would not lead to concurrency issue 
-> function should not involve in modifying the scope of it.
-----------------------------------------
-> Functions should be stateless in Functional style programming.  
+Similarly in pgmg lang, we have use fn that doesn't have any side effect as a building block of another fn.
+
+> In Functional programming, PASS IMMUTABLE DATA WOULD NOT LEAD TO CONCURRENCY ISSUE 
+- function should not involve in modifying the scope of it.
+
+> FUNCTIONS SHOULD BE STATELESS IN FUNCTIONAL STYLE PROGRAMMING.  
 - That means, they should not using any state of the objects data or maintain some state outside its scope for its execution.
 - By maintaining state, it could possibly lead to concurrency issue 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where should we use Functional programming?
 
-##Where should we use Functional programming?
 > When there is continous changes in data require like a stream of data to modify.
 =====================================
 ########## LAMBDA EXPRESSION ########
@@ -272,6 +288,26 @@ void forEachOrdered(Consumer<? super T> action)
 ## Stream methods
 public static<T> Stream<T> generate(Supplier<T> s)
 <R> R collect(Supplier<R> supplier,BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)
+
+=====================================
+########### CONSUMER[i] #############
+
+> it can be used a template common situation where we need to create method that accept value to act on it.
+=====================================
+########### SUPPLIER[i] #############
+> It is a FI with get(). 
+- get() doesn't take any input and return Object.
+
+> Lambda is represented as 
+  () -> T  here T is the type of the supplier
+=====================================
+########### PREDICATE[i] ############  
+> It is a FI with test(Object) as abstract method
+- return boolean value and take only 1 arg
+SYNTAX 
+	Predicate<Type> p = condition
+EXAMPLE
+    Predicate<Person> person = p -> p.getAge()>30;
 =====================================
 ######### BEST USAGES OF JAVA 8 #####
 

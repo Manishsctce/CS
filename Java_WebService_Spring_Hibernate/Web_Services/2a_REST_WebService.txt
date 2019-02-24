@@ -119,15 +119,17 @@ Example-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you understand by payload in RESTFul?
 
-> “payload” is the data you are interested in transporting
-> Payload means data which passed inside request body also payload is not request parameters. 
+> Payload means DATA WHICH PASSED INSIDE REQUEST BODY 
+- it is not request parameters. 
 - So only you can do payload in POST  and not in GET and DELTE method
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How much maximum pay load you could do in POST method?
+## How much maximum payload you could do in POST method?
 
 > GET which passes data on URL and thus limited by maximum URL length
-> POST has no such limit. So, theoretically you can pass unlimited data as payload to POST method but you need to take practical things into account e.g. sending POST with large payload will consume more bandwidth, take more time and present performance challenge to your server.
+> POST has no such limit. 
+- theoretically WE CAN PASS UNLIMITED DATA AS PAYLOAD to POST method 
+- but sending POST with large payload will consume more bandwidth, take more time and present performance challenge to server.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what tools are required to test your web api?
@@ -151,24 +153,35 @@ Example-
 - It contains model of the deployed resources, their structure, supported media types, HTTP methods and so on
 > It is similar to WSDL which describe SOAP web services.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is Richardson Maturity Model?
+### What is Richardson Maturity Model?
 
 > IT DEFINES THE MATURITY LEVEL OF A RESTFUL WEB SERVICE. 
 Following are the different levels and their characteristics.
 
-Level 0 : Expose SOAP web services in REST style. 
-- Expose action based services (http://server/getPosts, http://server/deletePosts, http://server/doThis, http://server/doThat etc) using REST.
+LEVEL 0 : 
+- Expose SOAP web services in REST style. 
+- Expose action based services 
+EXAMPLE-
+ http://server/getPosts, 
+ http://server/deletePosts, 
+ http://server/doThis using REST.
 
-Level 1 : Expose Resources with proper URI’s (using nouns).
+LEVEL 1 : 
+> Expose Resources with proper URI’s (using nouns).
 - However, HTTP Methods are not used. 
 - Example-: http://server/accounts, http://server/accounts/10. 
 
-Level 2 : 
+LEVEL 2 : 
 > Resources use proper URI's + HTTP Methods. 
-- For example, to update an account, you do a PUT to . The create an account, you do a POST to . Uri’s look like posts/1/comments/5 and accounts/1/friends/1.
+- EXAMPLE
+- to update an account, use PUT 
+- To create an account use POST 
+- Uri’s look like posts/1/comments/5 and accounts/1/friends/1.
 
-Level 3 : HATEOAS (Hypermedia as the engine of application state). 
-- You will tell not only about the information being requested but also about the next possible actions that the service consumer can do. 
+LEVEL 3 : HATEOAS (Hypermedia as the engine of application state). 
+- will all above it also include NEXT POSSIBLE ACTIONS THAT THE SERVICE CONSUMER CAN DO. 
+
+EXAMPLE 
 - When requesting information about a facebook user, a REST service can return user details along with information about how to get his recent posts, how to get his recent comments and how to retrieve his friend’s list.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between a RESTful web service (on HTTP) and a HTTP Servlet both of which perform the same function?
@@ -480,8 +493,8 @@ public class PersonService {
 }
 
 > On calling URI: “/persons/get” result: getPerson is called, personAgent : Mozilla/5.0 (Windows NT 6.1; rv:5.0) Gecko/20100101 Firefox/5.0
-=======================================
-########## Context ###################
+=====================================
+########## Context ##################
 > pragmatically via @Context.
 
 EXAMPLE-

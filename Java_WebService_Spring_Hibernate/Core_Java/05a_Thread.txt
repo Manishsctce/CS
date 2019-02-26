@@ -46,12 +46,15 @@ public final static int MAX_PRIORITY = 10;
 - A thread lives within a process i.e No process, no thread 
 
 > to increase processor utilisation over monolithic pgm der is 1 process that hv sequence of code to execute.
--if the process execution is stopped for some reason, the microprocessor becomes idle without any work. 
--To avoid this a process divide into number of thread that hv responsibility of some block of statement
+-To avoid microprocessor becomes idle a process divide into number of thread that hv responsibility of some block of statement
 
 > Runnable is implemented by class Thread.
-> Thread share - addr space, HEAP AREA(instance variable it store dynamic obj), 
-- share CLASS/METHOD AREA(stores per-class structures such as the runtime constant pool, field and method data i.e class variable), file 
+
+> THREAD SHARE - 
+1. addr space, 
+2. heap area(instance variable it store dynamic obj), 
+3. share CLASS/METHOD AREA(stores per-class structures such as the runtime constant pool, field and method data i.e class variable), 
+4. file 
 
 > Each thread has Separate - Java stack , PC register
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,6 +94,7 @@ threads live within the JVM and can be created and stopped by the Java applicati
 - Threads have DIRECT ACCESS to the data segment(memory) of its process; 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to two JVM communicate with each other?
+
 > Two JVM mean two process and process use IPC(Interprocess comm.) to communicate.
 > It can use any 1 of the following
 1. Socket-Based programming
@@ -99,18 +103,21 @@ threads live within the JVM and can be created and stopped by the Java applicati
 4. Java Management Extensions (JMX)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How two Thread communicate with each other?
-> They use wait-and-notify-methods for communication.
 
+> They use wait-and-notify-methods for communication.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Which JVM parameter is used to control stack size of thread?
+## Which JVM parameter is used to control stack size of thread?
+
 > we can use -Xss parameter to control stack size of thread 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Concurrency?
+
 > Concurrency is the ability of a program to EXECUTE SEVERAL COMPUTATIONS SIMULTANEOUSLY. 
 > This can be achieved by distributing the computations over the available CPU cores of a machine or 
 - even over different machines within the same network.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bet Multithreading and Concurrency?
+
 > Both are same
 > Multithreading means use of multiple thread on sth.
 > Concurrency is the use of threads to attempt multiple tasks simultaneously 
@@ -133,7 +140,8 @@ threads live within the JVM and can be created and stopped by the Java applicati
 
 6. PARALLELIZATION
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Where we use multithreading concept?
+### Where we use multithreading concept?
+
 > To achieve multiple tasks parallel, we uses threads
 - One task does not wait for another to complete.
 - Ex - multiple objects in games like cars, motor bikes, animals, people etc
@@ -146,6 +154,7 @@ threads live within the JVM and can be created and stopped by the Java applicati
 - if computer has 4 CPUs with hyper-threading technologies, it could potentially handle 8 Threads at the same time. 
 =====================================
 ##What is difference between user Thread and DAEMON Thread?
+
 > The thread which we create in java is USER THREAD 
 - DAEMON THREAD is service provider thread that provide service to other thread. 
 
@@ -167,6 +176,7 @@ threads live within the JVM and can be created and stopped by the Java applicati
 > No, can causes a IllegalThreadStateException.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain different ways of creating a thread?
+
 Thread can be created by 
 1. by extending Thread class 
 2. by implementing Runnable interface we can make any class runnable that require Thread to run
@@ -195,23 +205,25 @@ Each Java thread has the following properties:
 - When a thread is terminated, this thread ID may be reused
 - we can get it using getId() Since 1.5
 
+
 2. NAME of type String
 
 3. PRIORITY of type int
 - MIN_PRIORITY =1; NORM_PRIORITY=5; MAX_PRIORITY=10,
 - throw IllegalArgumentException, if priority set <0 & >10
 - if we set priority of thread is greater than thread group priority then new priority of thread will be equal to threadgroup priority.
-          if (newPriority > g.getMaxPriority()) {
-1036                newPriority = g.getMaxPriority();
-1037            }
+
+  if (newPriority > g.getMaxPriority()) {
+      newPriority = g.getMaxPriority();
+  }
 
 4. STATE of type Enum Thread.State
 - private volatile int threadStatus = 0;
 
 5. ThreadGroup - to which the thread belongs to.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
-##What are different states in lifecycle of Thread?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What are different states in lifecycle of Thread?
 public static enum Thread.State extends Enum<Thread.State>
 
 > There are totally five different states of thread as follow:-
@@ -254,6 +266,7 @@ public final join(); stop()[D], suspend()[D], resume()[D]
 > notify() - wakes up a single thread that is waiting on this object's monitor.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are different ways in which a thread can enter the waiting state?
+
 > A thread can enter the waiting state by the following ways:
 
 1. Invoking its sleep() method,
@@ -263,7 +276,8 @@ public final join(); stop()[D], suspend()[D], resume()[D]
 5. It can also enter the waiting state by invoking its (deprecated) suspend() method
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### SLEEP() / SUSPEND() #########
-###What is the difference between sleep() and wait()?	
+### What is the difference between sleep() and wait() and suspend()?	
+
 > Wait is called on an object, not a thread; 
 - Sleep is call on currently executing thread 
 
@@ -286,15 +300,9 @@ public final join(); stop()[D], suspend()[D], resume()[D]
 > InterruptedException is checked exception so sleep()/wait() must be in try-catch block or method throws exception
 - public static native void sleep(long millis) throws InterruptedException;
 - public final void wait() throws InterruptedException
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the difference between sleep(), suspend() and wait() ?
-> Thread.sleep() takes the current thread to a "Not Runnable" state for specified amount of time.It call on current thread.
-- InterruptedException if any thread has interrupted the current thread
 
 > Its possible to send other threads into suspended state by making a suspend() call. 
 - This may cause deadlocks thts why deprecated.
-
-> object.wait() call also takes the current thread into a "Not Runnable" state
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between public static yield() and public static sleep()?
 
@@ -309,32 +317,38 @@ public final join(); stop()[D], suspend()[D], resume()[D]
 ##Can we use Thread.sleep() for real-time processing?
 > No, Thread.sleep() doesn't ensure it sleep time accurately
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-############ START() ###############
+############ START() ################
 ##Can we Start a thread twice ?
+
 > No. Thread cannot be started twice. 
 - If you try to do so, IllegalThreadStateException will be thrown.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How on the start twice, it throws IllegalThreadStateException?
+
 > Thread maintains threadStatus whose value initialy is 0 and once the thread is completed its value is 2.
 - if start found the threadStatus !=0 then throw IllegalThreadStateException
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Difference between public void start() and public void run() of Thread class? 
+## Difference between public void start() and public void run() of Thread class? 
+
 > start() is used to start the newly created thread. It internally call the run() 
 > run() method using directly it will not treat the run() as the thread and 
-- by using run() a thread is spawn by current thread
+- by using run() a thread is not spawn by current thread
 
 > start() can call only once but run() can call multiple time.
 
 > if we override the start() method then it cann't call run() 
-############ JOIN() #############
+
+############## JOIN() ###############
 ### What is join()?
+
 > use to waits for the completion of the specified thread. 
 - it returns as soon as thread is considered "not alive". 
 
 1. public final synchronized void join()
-2. public final synchronized void join(long millis) -  Waits for the completion of the specified thread, but no longer than the timeout
+2. public final synchronized void join(long millis) 
+- Waits for the completion of the specified thread, but no longer than the timeout
+- it DOESNOT GUARANTEE THAT THE CURRENT THREAD WILL WAIT ONLY FOR GIVEN TIME
 
->  it DOESNOT GUARANTEE THAT THE CURRENT THREAD WILL WAIT ONLY FOR GIVEN TIME
 > join() basically accomplishes the task as the combination of the sleep() and isAlive() methods
 > join() does not affecting the thread on which it call
 
@@ -381,7 +395,7 @@ final synchronized void join(long milis){
 
 =====================================
 ########### interrupt ###############
-## Difference between interrrupted() and isInterrupted() method ?
+## Difference between interrrupted() and isInterrupted() ?
 
 >> The interrupt mechanism is implemented using an internal flag called interrupt status. 
 > Interrupting a thread by calling Thread.interrupt() sets this flag. 
@@ -432,8 +446,8 @@ String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If there is more than one thread waiting on a specific monitor/object, the choice on which thread will receive the notification is arbitrary( i.e there is no way to specify which waiting thread should be re-awakend)
 NO 
-=========================================
-############ THREAD GROUP ############
+=====================================
+############ THREAD GROUP ###########
 ##What is ThreadGroup?
 
 > ThreadGroup is a class that is used to represent a group of thread.

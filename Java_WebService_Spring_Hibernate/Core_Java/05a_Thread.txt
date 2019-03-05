@@ -1,11 +1,3 @@
-http://www.avajava.com/tutorials/lessons/how-do-i-use-the-wait-and-notify-methods.html
-http://www.java2novice.com/java-interview-programs/
-http://allzhere.in/2013/05/04/java-multithreading-a-practical-scenario-implementation-guide/
-http://www.java-success.com/multithreading-scenarios-java-applications/
-http://www.javacodegeeks.com/2014/11/multithreading-concurrency-interview-questions-answers.html
-
-
-===================================
 interface Runnable {
     public abstract void run();
 }
@@ -261,6 +253,30 @@ public static void sleep(), yield()
 public static boolean isAlive();
 public final join(); stop()[D], suspend()[D], resume()[D]
 
+Thread class methods all methods are public
+- void run(): perform action for a thread.
+- void start(): starts exec thread. JVM calls the run() method on the thread.
+- void sleep(long miliseconds): Causes the thread to sleep
+- void join():waits for a thread to die.
+- void join(long miliseconds): waits for a thread to die for the specified miliseconds.
+- int getPriority(): returns the priority of the thread.
+- int setPriority(int priority):changes the priority of the thread.
+- String getName():returns the name of the thread.
+- void setName(String name):changes the name of the thread.
+- Thread currentThread():returns the reference of currently executing thread.
+- int getId():returns the id of the thread.
+- Thread.State getState():returns the state of the thread.
+- boolean isAlive():tests if the thread is alive.
+- void yield():causes the currently executing thread object to temporarily pause and allow other threads to execute.
+- void suspend():is used to suspend the thread(depricated).
+- void resume():is used to resume the suspended thread(depricated).
+- void stop():is used to stop the thread(depricated).
+- boolean isDaemon():tests if the thread is a daemon thread.
+- void setDaemon(boolean b):marks the thread as daemon or user thread.
+- void interrupt():interrupts the thread.
+- boolean isInterrupted():tests if the thread has been interrupted.
+- static boolean interrupted(): tests if the current thread has been interrupted.
+
 > if a thread terminate it cnt be restarted like t1.start() cant define 2 time 
 > run() - it contain body of thread execution. it is similar to main() for thread and can pass args using static instance
 > notify() - wakes up a single thread that is waiting on this object's monitor.
@@ -349,8 +365,13 @@ public final join(); stop()[D], suspend()[D], resume()[D]
 - Waits for the completion of the specified thread, but no longer than the timeout
 - it DOESNOT GUARANTEE THAT THE CURRENT THREAD WILL WAIT ONLY FOR GIVEN TIME
 
-> join() basically accomplishes the task as the combination of the sleep() and isAlive() methods
-> join() does not affecting the thread on which it call
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Thread.join() in Java works internally?
+
+> join() is synchro, so it acquire lock on thread obj for join()
+
+> It basically accomplishes the task as the combination of the sleep() and isAlive()
+> It does not affecting the thread on which it call
 
 public final synchronized void join(long millis)
 throws InterruptedException {
@@ -377,21 +398,16 @@ throws InterruptedException {
     }
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How Thread.join() in Java works internally?
-> join() is synchro, so it will require lock on thread obj for join()
-final synchronized void join(long milis){
-	while(thread.isAlive()){
-		thread.wait(0);
-	}
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What happens when we call the join() method for a thread that was stopped a long time ago?
+##What happens when we call the join() for a thread that was stopped a long time ago?
+
 > if the thread is already stopped, it will return immediately
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###You have thread T1, T2 and T3, how will you ensure that thread T2 run after T1 and thread T3 run after T2?
+### You have thread T1, T2 and T3, how will you ensure that thread T2 run after T1 and thread T3 run after T2?
 
 > We can use thread.join() 
 > call t1.join() just before another thread(t2). It ensure that t1 will dead before t2 start
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet wait() and join()?
 
 =====================================
 ########### interrupt ###############
@@ -753,23 +769,28 @@ Note: Thread t has been made by using Runnable interface, hence it is necessary 
 - each thread will work independently and never communicate
 =====================================
 ##### DEADLOCK & RACE CONDITION #####
+
 ##What is deadlock?
-When two or more threads waiting for each other to release lock and stuck for infinite time, this situation is called deadlock.
+> When two or more threads waiting for each other to release lock and stuck for infinite time, this situation is called deadlock.
 > It will only happen in multitasking
 
 Deadlock happens if four condition is true 
-1. Mutual Exclusion Condition - The resources involved are non-shareable.
+1. MUTUAL EXCLUSION CONDITION 
+- The resources involved are non-shareable.
 - At least one resource (thread) must be held in a non-shareable mode,i.e only one process at a time claims exclusive control of the resource. 
 - If another process requests that resource, the requesting process must be delayed until the resource has been released.
 
-2. Hold and Wait Condition - Requesting process hold already 1 resources while waiting for requested resources that are currently being held by other processes.
+2. HOLD AND WAIT CONDITION - Requesting process hold already 1 resources while waiting for requested resources that are currently being held by other processes.
 
-3. No-Preemptive Condition - Resources already allocated to a process cannot be preempted.
+3. NO-PREEMPTIVE CONDITION - Resources already allocated to a process cannot be preempted.
  
-4. Circular Wait Condition
+4. CIRCULAR WAIT CONDITION
 The processes in the system form a circular list or chain where each process in the list is waiting for a resource held by the next process in the list.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Explain a deadlock situation and explain how to fix deadlock?
+
+> Below is a deadlock situation: 
+
 public void method1(){
   synchronized(String.class){
   	System.out.println("Aquired lock on String.class object");
@@ -787,18 +808,21 @@ public void method2(){
 		System.out.println("Aquired lock on String.class object");
 	}
 }
-> Above is a deadlock situation
-single Ordering of synchronized method/block on which lock occur will avoid deadlock like in above code locking order of String.class, Integer.class in both method will avoid deadlock
+
+> single Ordering of synchronized method/block on which lock occur will avoid deadlock 
+- like in above code locking order of String.class, Integer.class in both method will avoid deadlock
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How do you ensure that N threads can access N resources without deadlock ?
+## How do you ensure that N threads can access N resources without deadlock ?
+
 > by making all thread and using resources in a sequence
-
-Few important measures to avoid Deadlock >
-
-> Lock specific member variables of class rather than locking whole class
-> If possible try avoid using nested synchronization blocks.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to avoid deadlock?
+1. Avoid nested Locks 
+2. Lock specific member variables of class rather than locking whole class
+3. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is RACE CONDITION?
+
 > Race conditions occurs when two thread operate on same object without proper synchronization 
 - for example, if one thread is updating a variable and second thread tries to read the value before it finished.
 
@@ -811,22 +835,27 @@ Few important measures to avoid Deadlock >
 =====================================
 ########### THREAD DUMP #############
 ##What is thread dump? What is the use? How to take thread dump?
+
 > Thread dump is the log file of Thread running.
-> It is used to check the thread status. Mainly use to check deadlock state.
+> A thread dump is a list of all the Java threads that are currently active in a Java Virtual Machine (JVM).
+> It is used to check the thread status. Mainly USE TO CHECK DEADLOCK STATE.
+
 > JVM dumps state of all threads in log files or standard error console. 
-> In windows you can use Ctrl + Break key combination to take thread dump, on Linux you can use kill -3 command for same
-> we can use jstack tool for taking thread dump
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In Java, how will you take thread dump?
 
-> A thread dump is a list of all the Java threads that are currently active in a Java Virtual Machine (JVM).
+> we can use "VisualVM" profiler OR "jstack" tool for taking thread dump
+- It prints thread dumps to the command line console. This tool is available in JDK since 5.0
 
-> It is highly recommended to take more than 1 thread dump. A good practice is to take multiple thread dumps at a regular interval. There are several ways to take thread dumps from a JVM:
- 
-1. Get the PID of your java process. The first piece of information you will need to be able to obtain a thread dump is your java process’s PID. The JDK ships with the "jps" command which lists all java process ids.
-2. Request a Thread Dump from the JVM using "jstack" option. It prints thread dumps to the command line console. This tool is available as part of JDK since 5.0
+> In windows, you can use Ctrl + Break key combination to take thread dump, 
+- In Linux, you can use kill -3 command for same
+
+> It is highly recommended to take more than 1 thread dump. 
+- A good practice is to take multiple thread dumps at a regular interval. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to read thread dump ?
+
 EXAMPLE1:
 "RMI TCP Connection(3)-10.175.2.71" daemon prio=6 tid=0x0000000011459000 nid=0x3bf4c runnable [0x00000000120ef000]
 
@@ -845,11 +874,11 @@ EXAMPLE2:
 
 EXAMPLE3:
 
-
 http://www.javamadesoeasy.com/2015/03/visualvm-thread-dumps-generating-and_74.html
 =====================================
 ######### PROCESS #########
-##What is difference between preemptive scheduling and time slicing?
+## What is difference between preemptive scheduling and time slicing?
+
 > PREEMPTIVE SCHEDULING the highest priority task executes until it enters the waiting or dead stated or a higher priority task comes into existence.
 
 > TIME SLICING, a task executes for a predefined time period and then the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factor.
@@ -862,37 +891,12 @@ http://www.javamadesoeasy.com/2015/03/visualvm-thread-dumps-generating-and_74.ht
 
 
 ================================
-Thread class methods all methods are public
-- void run(): perform action for a thread.
-- void start(): starts exec thread. JVM calls the run() method on the thread.
-- void sleep(long miliseconds): Causes the thread to sleep
-- void join():waits for a thread to die.
-- void join(long miliseconds): waits for a thread to die for the specified miliseconds.
-- int getPriority(): returns the priority of the thread.
-- int setPriority(int priority):changes the priority of the thread.
-- String getName():returns the name of the thread.
-- void setName(String name):changes the name of the thread.
-- Thread currentThread():returns the reference of currently executing thread.
-- int getId():returns the id of the thread.
-- Thread.State getState():returns the state of the thread.
-- boolean isAlive():tests if the thread is alive.
-- void yield():causes the currently executing thread object to temporarily pause and allow other threads to execute.
-- void suspend():is used to suspend the thread(depricated).
-- void resume():is used to resume the suspended thread(depricated).
-- void stop():is used to stop the thread(depricated).
-- boolean isDaemon():tests if the thread is a daemon thread.
-- void setDaemon(boolean b):marks the thread as daemon or user thread.
-- void interrupt():interrupts the thread.
-- boolean isInterrupted():tests if the thread has been interrupted.
-- static boolean interrupted(): tests if the current thread has been interrupted.
 
- threaded programming model provides developers with a useful abstraction of concurrent execution. Multithreading can also be applied to a single process to enable parallel execution on a multiprocessing system.
 -------------------------
 run() - is the empty method but we can override it for our use.
 run() is equivalent to main() to run thread we can pass arg to thread using satic instance or other technique
 
-http://stackoverflow.com/questions/10351926/how-to-catch-exception-thrown-by-another-thread-in-java
-http://javarevisited.blogspot.in/2010/10/how-to-check-if-thread-holds-lock-on.html
+
 ----------------
 Traditional approach
 1. time consuming
@@ -900,7 +904,8 @@ Traditional approach
 3. not robust
 
 
-## What is Busy Spinning? Why Should You Use It in Java? (6+)
+### What is Busy Spinning? Why Should You Use It in Java? (6+)
+
 > Busy spinning is a waiting strategy, in which a thread just wait in a loop, without releasing the CPU for going to sleep. 
 - This is a very advanced and specialized waiting strategy used in the high-frequency trading application when wait time between two messages is very minimal.
 
@@ -942,3 +947,12 @@ ST-Single Thread,
 MT-Multi-threading
 
 http://javabypatel.blogspot.in/2016/09/java-multithreading-interview-questions-answers.html
+
+http://stackoverflow.com/questions/10351926/how-to-catch-exception-thrown-by-another-thread-in-java
+http://javarevisited.blogspot.in/2010/10/how-to-check-if-thread-holds-lock-on.html
+
+http://www.avajava.com/tutorials/lessons/how-do-i-use-the-wait-and-notify-methods.html
+http://www.java2novice.com/java-interview-programs/
+http://allzhere.in/2013/05/04/java-multithreading-a-practical-scenario-implementation-guide/
+http://www.java-success.com/multithreading-scenarios-java-applications/
+http://www.javacodegeeks.com/2014/11/multithreading-concurrency-interview-questions-answers.html

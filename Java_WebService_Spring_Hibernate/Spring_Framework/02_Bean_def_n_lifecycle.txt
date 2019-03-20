@@ -63,7 +63,7 @@ ServiceImpl service = ctx.getBean(ServiceImpl.class);
 > It is used at method that produces a bean to be managed by the Spring container. 
 - It is used to explicitly declare a single bean in a configuration class.
 
-> we can use the @Bean annotation in a @Configuration-annotated or in a @Component-annotated class.
+> we can use the @Bean in a @Configuration-annotated or in a @Component-annotated class.
 > By default, the bean name will be the same as the method name.
 > Injecting dependencies : using one bean method call another
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,6 +76,7 @@ ServiceImpl service = ctx.getBean(ServiceImpl.class);
 - Usually one @Bean method should not invoke another @Bean method when operating in 'lite' mode.
 =======================================
 ########## BEAN SUB-ELEMENTS ##########
+
 1. CONSTRUCTOR-ARG: <constructor-arg> 
 > arguments to pass to the constructor at creation time (i.e. used to inject the dependencies)
 
@@ -105,7 +106,7 @@ Ex -
 </bean>
 
 - equivalent to 
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 @Configuration
 public class ServiceConfig {
   private @Autowired AccountRepository accountRepository;
@@ -123,7 +124,7 @@ public class ServiceConfig {
         <value>Ashoka Leyland</value>
     </list>
 </property>
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 #### <idref> element ####
 > it is simply an error-proof way to pass the id of another bean in the container (to a <constructor-arg/> or <property/> element).
 
@@ -385,6 +386,45 @@ EXAMPLE:
   <!-- a reference to the proxied userPreferences bean -->
   <property name="userPreferences" ref="userPreferences"/>
 </bean>
+~~~~~~~~~~~~~~~~~~~~~~~~
+### METHOD INJECTION
+@Configuration
+public class AppConfig {
+ 
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public PrototypeBean prototypeBean() {
+        return new PrototypeBean();
+    }
+ 
+    @Bean
+    public SingletonBean singletonBean() {
+        return new SingletonBean();
+    }
+}
+
+@Component
+public class SingletonLookupBean {
+ 
+    @Lookup
+    public PrototypeBean getPrototypeBean() {
+        return null;
+    }
+}
+
+> Spring will override the getPrototypeBean() annotated with @Lookup. 
+- It then registers the bean into the application context. 
+- Whenever we request the getPrototypeBean(), it returns a new PrototypeBean instance.
+- It will use CGLIB to generate the bytecode responsible for fetching the PrototypeBean from the application context.
+- This is called Method Injection
+
+### SCOPED Proxy
+> Here, we create a proxy object to wire the real object with the dependent one.
+- Each time the method on the proxy object is called, the proxy decides itself whether to create a new instance of the real object or reuse the existing one
+
+@Scope(
+  value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, 
+  proxyMode = ScopedProxyMode.TARGET_CLASS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between singleton and prototype bean?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

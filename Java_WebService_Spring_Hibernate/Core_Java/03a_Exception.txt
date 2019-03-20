@@ -63,21 +63,30 @@ REASON for such Error
 
 =====================================
 ############### EXCEPTION ###########
-##What is an Exception?
+## What is an Exception?
 > Exception is a case that can happen in a program that disrupts the normal flow of the program. 
 > The disruption converted into object and thrown whenever an exceptional event occurs in java which signals that something is not correct with the code written and may give unexpected result
 > it alters the normal program flow
 > it define in java.lang.Exception
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are important methods of Java Exception Class?
 > Exception and all of it’s subclasses doesn’t provide any specific methods and all of the methods are defined in the base class Throwable.
 
 1. String getMessage()
+- returns the message String about the exception. The message can be provided through its constructor.
+
 2. String getLocalizedMessage() 
+
 3. synchronized Throwable getCause() 
+– returns the cause of the exception or null id as represented by a Throwable object.
+
 4. String toString()
 5. void printStackTrace()
-----------------------------------------
+
+6. public StackTraceElement[] getStackTrace() –
+- return stack trace where index 0 represents the top of the call stack whereas 
+- the last element in the array represents the method at the bottom of the call stack.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 ##What is difference between Error and Exception?
 > ERROR - JVM errors you can not repair them at runtime.
 > Though error can be caught in catch block but the execution of application will come to a halt and is not recoverable.
@@ -88,13 +97,13 @@ REASON for such Error
 > Exception[C] <-- IOException[C], ClassNotFoundExceptions[C],..., RunTimeException[U]
 - except RunTimeException in Exception hierarchy all are checked exception
 
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Two types of Exceptions: Checked exceptions &  UncheckedExceptions
 
 > CHECKED EXCEPTION - IOException, ClassNotFoundExceptions, InterruptedException, NoSuchMethodException, SQLException
 
 > RuntimeException (UNCHECKED EXCEPTION) - describe below
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 ## What is Runtime Exception or unchecked exception?
 > exceptions which occur at run time are called as run time exceptions. 
 - These exceptions are unknown to compiler. 
@@ -141,6 +150,7 @@ SQLException
 https://10kloc.wordpress.com/2013/03/09/runtimeexceptions-try-catch-or-not-to-catch/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is Difference between ClassNotFoundException and NoClassDefFoundError?
+
 > Both are related to missing classes in classpath
 
 1. ClassNotFoundException comes when we try to load a class (using classloader) at runtime but requested class is not present in classpath
@@ -160,10 +170,10 @@ https://10kloc.wordpress.com/2013/03/09/runtimeexceptions-try-catch-or-not-to-ca
 
 5. ClassNotFoundException is exception
 - NoClassDefFoundError is error.
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is similarity between NullPointerException and ArrayIndexOutOfBoundException in Java?
 > both are unchecked exception 
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can constructor throw exception ?
 > Yes it can
 =======================================
@@ -193,8 +203,9 @@ public class Demo extends Test{
 > We can make both checked and unchecked exception
 - if we extends Exception then it will be checked 
 - if we extends RuntimeException then it will be unchecked.
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Things to remember while creating Custom Exception 
+
 > Don’t use Exception to control application behaviour. 
 > Exception handling is very expensive as it require native calls to copy stacktrace, each time exception is created.
 
@@ -225,7 +236,7 @@ public String toString() { return super.toString(); }
 	}
 }
 =====================================
-#### TRY-CATCH-FINALLY BLOCK ####
+###### TRY-CATCH-FINALLY BLOCK ######
 
 ##How are the exceptions handled in java?(try-catch-finally block)
 
@@ -243,16 +254,18 @@ public String toString() { return super.toString(); }
 > we can write RETURN statement IN BOTH TRY AND CATCH block
 
 ???How to handle any exception occur in finally block??
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we have an empty catch block?
-> we can have an empty catch block
----------------------------------------
-## What will happen when catch and finally block both return value?
-- value returned by finally block WIN irrespective of value returned by catch/try block.
 
----------------------------------------
+> Yes, we can have an empty catch block
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What will happen when catch and finally block both return value?
+
+> value returned by finally block WIN irrespective of value returned by catch/try block.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is unreachable catch block error?
-> When we have multiple catch blocks for a try block, the order of catch blocks must be from most specific to most general ones. 
+
+> When we have multiple catch blocks for a try block, the ORDER OF CATCH BLOCKS MUST BE FROM MOST SPECIFIC TO MOST GENERAL ones. 
 - i.e sub classes of Exception must come first and super classes later. 
 - If we keep super classes first and sub classes later, compiler will show unreachable catch block error.
 =====================================
@@ -277,7 +290,8 @@ try{
 ######### TRY-WITH-RESOURCES ########
 > Since Java7
 
-##Explain try-with-resources with an example? 
+## Explain try-with-resources with an example? 
+
 > A resource is as an object that must be closed after the program is finished with it. 
 > The try-with-resources statement ensures that each resource is closed at the end of the statement. 
 - it will be closed regardless of whether the try statement completes normally or abruptly
@@ -315,24 +329,26 @@ public  void tryWithResource() throws FileNotFoundException, IOException {
 }
  
 > close methods of resources are called in the opposite order of their creation.
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why variables defined in try can not be used in catch or finally?
 > the string s declared in try block can not be used in catch clause. 
 - The code does not pass compilation
 
 > If Multi catch syntax is used to catch subclass and its superclass than compilation error will be thrown.
 Example- IOException and Exception in multi catch syntax will cause compilation error “The exception IOException is already caught by the alternative Exception”.
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What will happen to the Exception object after exception handling? 
 > It will go for Garbage Collector. And frees the memory. 
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## why we need not to close file when we are using Try-with-resources in java?
+
 > Because FileInputStream implements java.lang.AutoCloseable interface 
 - AutoCloseable interface’s close method automatically closes resources which are no longer needed
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which classes can be used inside Try-with-resources in java?
-> All the classes which implements AutoCloseable interface can be used inside Try-with-resources in java.
----------------------------------------
+
+> All the classes which implements AutoCloseable[i] can be used inside Try-with-resources in java.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > throw keyword can also be used in place of return
 =======================================
 ########### THROW and THROWS ########
@@ -360,7 +376,7 @@ Example- IOException and Exception in multi catch syntax will cause compilation 
 - It is easy to make disable the printing of this information by setting javac's -g:none option
 
 http://www.javaworld.com/article/2073601/ten-tips-for-using-java-stack-traces.html
----------------------------------------
+=====================================
 ## READ STACK TRACE
 
 > Java compiler create synthetic methods on nested classes when their attributes specified with the private modifier are accessed by the enclosing class
@@ -421,5 +437,5 @@ C. Finalize() - it is a method which is always invoked by garbage collector just
 > for arrayindexoutofBound?????
 
 http://howtodoinjava.com/2013/04/04/java-exception-handling-best-practices/
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 http://tutorials.jenkov.com/java-exception-handling/checked-or-unchecked-exceptions.html		

@@ -1,0 +1,43 @@
+## How to execute a method asynchronous in Spring?
+> enabling annotation-driven async processing for an entire Spring application context using @EnableAsync as 
+@Configuration
+ @EnableAsync
+ public class AppConfig {
+
+ }
+- @EnableAsync - look for methods marked with @Async and run in background thread pools.  
+> annotating a method of a bean with @Async will make it execute in a separate thread i.e. the caller will not wait for the completion of the called method. 
+
+> @Async has two limitations:
+
+1. it must be applied to public methods only
+- so that it can be proxied
+
+2. self-invocation – calling the async method from within the same class – won’t work
+- because it bypasses the proxy and calls the underlying method directly.
+
+
+> annotated METHODS HAVING A VOID RETURN TYPE CANNOT TRANSMIT ANY EXCEPTION back to the caller. By default, such uncaught exceptions are only logged.
+
+> By default, Spring will be searching for an associated thread pool definition: either a unique TaskExecutor bean in the context, or an Executor bean named "taskExecutor" otherwise. If neither of the two is resolvable, a SimpleAsyncTaskExecutor will be used to process async method invocations.
+
+ @Configuration
+ @EnableAsync
+ public class AppConfig implements AsyncConfigurer {
+
+     @Override
+     public Executor getAsyncExecutor() {
+         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+         executor.setCorePoolSize(7);
+         executor.setMaxPoolSize(42);
+         executor.setQueueCapacity(11);
+         executor.setThreadNamePrefix("MyExecutor-");
+         executor.initialize();
+         return executor;
+     }
+
+     @Override
+     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+         return new MyAsyncUncaughtExceptionHandler();
+     }
+ }

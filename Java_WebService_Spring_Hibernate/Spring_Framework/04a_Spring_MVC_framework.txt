@@ -22,7 +22,8 @@
 > It is a central Servlet that work as the FRONT CONTROLLER AND HANDLES ALL THE HTTP REQUESTS AND RESPONSES.
 - It is responsible to manage the flow of the spring MVC App.
 
-> It is RESPONSIBLE FOR INITIALIZE WebApplicationContext (i.e *-servlet.xml) and loads all configuration related to web components like controllers, view resolver, interceptors etc. 
+> It is RESPONSIBLE FOR INITIALIZE WebApplicationContext (i.e *-servlet.xml) and 
+- loads all configuration related to web components like controllers, view resolver, interceptors etc. 
 - It will be loaded and initialized by calling init() of DispatcherServlet
 - Its work is to forward the request to specific Controller
 - Load the map of all URLs and the components responsible to handle the request.
@@ -39,7 +40,8 @@ Request --1-> DispatcherServlet --2-> HandlerMapping
 
 > all the incoming request is intercepted by the DispatcherServlet					
 > DispatcherServlet gets entry of handler mapping from the xml file and 
-> DispatcherServlet forwards the request to the controller. The controller returns an object of ModelAndView.
+> DispatcherServlet forwards the request to the controller. 
+- The controller returns an object of ModelAndView.
 > The DispatcherServlet checks the entry of view resolver in the xml file and
 > DispatcherServlet invokes the specified view component.
 - if dispatcher doesn't found the page then 404 page not found error.
@@ -182,7 +184,7 @@ public class FileUploadController{
 
 http://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/handler-mapping/
 
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
 ## What is difference between HandleAdaptor and HandlerMapping?
 > DispatcherServlet uses the HandlerMappings to select the handler method/object, whereas, 
 - HandlerAdapter is used to actually invoke the handler method.
@@ -304,7 +306,7 @@ public interface HandlerAdapter {
 > it is the default handler adapter 
 > It deals with classes implementing Controller interface and is used to forward a request to a controller object.
 
--------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------------
 ##SimpleServletHandlerAdapter
 > This handler adapter allows the use of any Servlet to work with DispatcherServlet for handling the request. 
 > It forwards the request from DispatcherServlet to the appropriate Servlet class by calling its service() method.
@@ -312,7 +314,7 @@ public interface HandlerAdapter {
 > Need to register in web.xml as 
 <bean name="simpleServletHandlerAdapter"
   class="org.springframework.web.servlet.handler.SimpleServletHandlerAdapter" />
--------------------------------------------  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------------  
 ##AnnotationMethodHandlerAdapter
 > This adapter class is used to execute the methods that are annotated with @RequestMapping annotation. 
 - It is used to map the methods based on HTTP methods and HTTP paths.
@@ -469,7 +471,7 @@ Following are built in ViewResolver implementations available in Spring 3
 - ResourceBundleViewResolver
 - BeanNameViewResolver
 - XmlViewResolver
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
 ##What is DelegatingVariableResolver?
 > Spring provides a custom JavaServer Faces VariableResolver implementation that extends the standard Java Server Faces managed beans mechanism which lets you use JSF and Spring together. This variable resolver is called as DelegatingVariableResolver	
 
@@ -564,34 +566,34 @@ public class EmployeeValidator implements Validator
 <bean id="employeeValidator" class="com.howtodoinjava.demo.validator.EmployeeValidator" />
 =====================================
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we use Spring to create Restful Web Service returning JSON response?
 
-> we need to add Jackson dependency in spring application either in pom.xml or MANIFEST.MF 
+> we need to add Jackson dependency in spring app either in pom.xml or MANIFEST.MF 
 > Now return JSON response from your MVC controller.
 - return JAXB annotated object from method and use @ResponseBody annotation on this return type
 
@@ -600,9 +602,7 @@ public class EmployeeRESTController
 {
     @RequestMapping(value = "/employees")
     public @ResponseBody EmployeeListVO getAllEmployees(){
-        EmployeeListVO employees = new EmployeeListVO();
-        //Add employees
-        return employees;
+        return new EmployeeListVO();
     }
 }
 
@@ -617,44 +617,9 @@ public class EmployeeRESTController
     @RequestMapping(value = "/employees")
     public EmployeeListVO getAllEmployees()
     {
-        EmployeeListVO employees = new EmployeeListVO();
-        //Add employees
-        return employees;
+        return new EmployeeListVO();
     }
 }
-=====================================
-######## EXCEPTION HANDLING #########
-
-## How to handle exceptions in Spring MVC environment?
-
-> There are three ways to handle exceptions in Spring MVC:
-
-1. Using @ExceptionHandler at controller level 
-– this approach has a major feature – the @ExceptionHandler annotated method is only active for that particular controller, not globally for the entire application
-~~~~~~~~~~~~~~~~~~~~~~~~
-2. Using HandlerExceptionResolver 
-– this will resolve any exception thrown by the application
-
-> beans have to implement the HandlerExceptionResolver interface for DispatcherServlet to auto-detect them.
-> SimpleMappingExceptionResolver to map each category of exceptions to a view
-
-EXAMPLE:
-<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-  <property name="exceptionMappings">
-    <props>
-      <prop key="com.howtodoinjava.demo.exception.AuthException">
-         error/authExceptionView
-      </prop>
-    </props>
-  </property>
-  <property name="defaultErrorView" value="error/genericView"/>
-</bean>
-~~~~~~~~~~~~~~~~~~~~~~~~
-3. Using @ControllerAdvice 
-– Spring 3.2 brings support for a global @ExceptionHandler with the @ControllerAdvice annotation, which enables a mechanism that breaks away from the older MVC model and makes use of ResponseEntity along with the type safety and flexibility of @ExceptionHandler
-
-
-
 	
 =======================================
 
@@ -668,7 +633,7 @@ http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
 2. Using @Autowired annotation on those beans:
 	@Autowired ServletContext servletContext;
 	@Autowired ServletConfig servletConfig;
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
 > you can have a web application without potentially any web.xml file
 > Servlet 3.0 API brought annotations to the Java Web app world allowing the registration of servlets to be accomplished by annotation.
 

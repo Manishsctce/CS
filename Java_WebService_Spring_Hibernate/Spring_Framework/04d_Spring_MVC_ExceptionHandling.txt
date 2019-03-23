@@ -1,0 +1,30 @@
+=====================================
+######## EXCEPTION HANDLING #########
+
+## How to handle exceptions in Spring MVC environment?
+
+> There are three ways to handle exceptions in Spring MVC:
+
+1. Using @ExceptionHandler at controller level 
+– this approach has a major feature – the @ExceptionHandler annotated method is only active for that particular controller, not globally for the entire application
+~~~~~~~~~~~~~~~~~~~~~~~~
+2. Using HandlerExceptionResolver 
+– this will resolve any exception thrown by the application
+
+> beans have to implement the HandlerExceptionResolver interface for DispatcherServlet to auto-detect them.
+> SimpleMappingExceptionResolver to map each category of exceptions to a view
+
+EXAMPLE:
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+  <property name="exceptionMappings">
+    <props>
+      <prop key="com.howtodoinjava.demo.exception.AuthException">
+         error/authExceptionView
+      </prop>
+    </props>
+  </property>
+  <property name="defaultErrorView" value="error/genericView"/>
+</bean>
+~~~~~~~~~~~~~~~~~~~~~~~~
+3. Using @ControllerAdvice 
+– Spring 3.2 brings support for a global @ExceptionHandler with the @ControllerAdvice annotation, which enables a mechanism that breaks away from the older MVC model and makes use of ResponseEntity along with the type safety and flexibility of @ExceptionHandler

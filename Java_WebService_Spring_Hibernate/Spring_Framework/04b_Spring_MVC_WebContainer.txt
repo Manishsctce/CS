@@ -16,8 +16,8 @@
 
 http://java-journal.blogspot.in/2012/08/what-is-applicationcontext-what-are-its.html
 
-=======================================
-###### ApplicationContext ######
+=====================================
+######## ApplicationContext #########
 ## What is the root application context? How is it loaded?
 
 > It is used to PROVIDE CONFIGURATION INFORMATION TO THE APPLICATION.
@@ -27,7 +27,7 @@ http://java-journal.blogspot.in/2012/08/what-is-applicationcontext-what-are-its.
 > It is loaded by ContextLoaderLinstner which is configured into web.xml file
 > By default applicationContext.xml is loaded from WEB-INF folder but its file name can be change using contextConfigLocation
 
---------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### ContextLoaderListener ####
 ## What is ContextLoaderLinstner? What does it do?
 
@@ -67,23 +67,62 @@ EXAMPLE:
 </web-app>
 
 - Here "mvc-dispatcher-servlet.xml" and "SpringConfig-servlet.xml" is web app Context will be loaded
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you have xyz.xml file instead of applicationcontext.xml? 
 
-> ContextLoaderListener is a ServletContextListener that initializes when your webapp starts up. 
+> ContextLoaderListener is a ServletContextListener that initializes when webapp starts up. 
 - By default, it looks for Spring’s configuration file at WEB-INF/applicationContext.xml. 
-- You can change this default value by specifying a element named “contextConfigLocation.” 
+- if we can change this default value by specifying a element named “contextConfigLocation.” 
 
 Example:
 < listener >
-	< listener-class > org.springframework.web.context.ContextLoaderListener
+	<listener-class> org.springframework.web.context.ContextLoaderListener
 		<context-param>
-			<param-name > contextConfigLocation < / param-name >
-			< param-value > /WEB-INF/xyz.xml< / param-value >
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/xyz.xml</param-value>
 		</context-param>
 
 	</listener-class>
 </listener>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we have multiple Spring configuration files?
+
+> YES. We can have multiple spring context files. 
+- There are two ways to make spring read and configure them.
+
+Specify all files in web.xml file using contextConfigLocation init parameter.
+EXAMPLE:1
+<servlet>
+  <servlet-name>spring</servlet-name>
+  <servlet-class>
+    org.springframework.web.servlet.DispatcherServlet
+  </servlet-class>
+  <init-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      WEB-INF/spring-dao-hibernate.xml,
+      WEB-INF/spring-services.xml,
+      WEB-INF/spring-security.xml
+    </param-value>
+  </init-param>
+  <load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>spring</servlet-name>
+  <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+EXAMPLE:2 
+> we can import them into existing configuration file i.e already configured.
+
+<beans>
+  <import resource="spring-dao-hibernate.xml"/>
+  <import resource="spring-services.xml"/>
+  <import resource="spring-security.xml"/>
+     
+    ... //Other configuration stuff 
+</beans>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference bet ApplicationContext and WebApplicationContext?
 
@@ -108,39 +147,40 @@ Example:
 EXAMPLE:=-
 
 <web-app id="WebApp_ID" version="3.0">
-	<!-- This is the root application context for whole web application. -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/rootApplicationContext.xml</param-value>
-	</context-param>
 
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+   <!-- This is the root application context for whole web application. -->
+   <context-param>
+   	  <param-name>contextConfigLocation</param-name>
+   	  <param-value>/WEB-INF/rootApplicationContext.xml</param-value>
+   </context-param>
+
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+	</listener-class>
+  </listener>
 	
-	<servlet>
-		<servlet-name>webapp1</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <servlet>
+	<servlet-name>webapp1</servlet-name>
+ 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <!-- To change the default location of the servlet specific configuration files -->
+	  <init-param>
+	    <param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/app1-servlet.xml</param-value>
+	  </init-param>
+	  <load-on-startup>1</load-on-startup>
+  </servlet>
 
-		<!-- To change the default location of the servlet specific configuration files -->
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/app1-servlet.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet>
-		<servlet-name>webapp2</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		
-		<!-- To change the default location of the servlet specific configuration files -->
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/app2-servlet.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+  <servlet>
+    <servlet-name>webapp2</servlet-name>	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	
+	<!-- To change the default location of the servlet specific configuration files -->
+	<init-param>
+	  <param-name>contextConfigLocation</param-name>
+	  <param-value>/WEB-INF/app2-servlet.xml</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
 
    <servlet-mapping>
      <servlet-name>webapp1</servlet-name>
@@ -153,3 +193,4 @@ EXAMPLE:=-
    </servlet-mapping>
 </web-app>
 ======================================= 
+## 

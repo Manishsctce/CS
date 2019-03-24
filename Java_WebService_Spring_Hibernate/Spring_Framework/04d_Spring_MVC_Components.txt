@@ -151,8 +151,7 @@ public class SpringDemo {
 ##### @Order #####
 > Defines ordering, as an alternative to implementing the org. springframework.core.Ordered interface.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### @Scope #####
-> Specifies the scope of a bean, either singleton, prototype, request, session, or some custom scope.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### @Configurable #####
 > Used with <context:springconfigured> to declare types whose properties should be injected, even if they are not instantiated by Spring. 
@@ -167,8 +166,8 @@ public class SpringDemo {
 > To enable this scanning, we need to use “context:component-scan” tag in applicationContext.xml i.e *-servlet.xml (WebApplicationContext)
 - it requires a base-package attribute, which specify a starting point for a recursive component search
 
-======================================
-########### @Component ###############
+=====================================
+########### @Component ##############
 
 > it MARKS A JAVA CLASS AS A BEAN so the component-scanning mechanism of spring can pick it. 
 > It is a generic stereotype for any Spring-managed component.
@@ -180,32 +179,35 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 > By default, the bean instances name will be same as the class name with a lowercase initial
 - can define different name using the optional value argument of this annotation.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### @Repository #####
+=====================================
+########## @Repository ##############
 
-> @Repository annotation provides additional benefits specifically for DAOs
-- same as @Component for bean creation and dependency injection but it has special characteristic 
+> It is used as same as @Component for bean creation and dependency injection but it has special characteristic 
+- It provides additional benefits specifically for DAOs
 - it catch Platform specific exceptions and re-throw them(translate) as one of Spring’s unified unchecked exception i.e DataAccessException
 
 - DataAccessException is a runtime exception whereas SQLException is a checked exception. So that the lower implementation would throw error at runtime not a compile time.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### @Service #####
-> It doesn’t provide any additional behavior over the @Component annotation.
-> @Service annotation is also a specialization of the component annotation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### @Controller #####
-> @Controller annotation marks a class as a Spring Web MVC controller. 
+=====================================
+############## @Service #############
+> It is a specialization of the component annotation
+> It DOESN’T PROVIDE ANY ADDITIONAL BEHAVIOR over the @Component annotation.
+- but it’s a good idea to use @Service over @Component in service-layer classes because it specifies intent better.
+
+=====================================
+########### @Controller #############
+> @Controller marks a class as a Spring Web MVC controller. 
 - It too is a @Component specialization, 
 
-- @Component and @Controller are same with respect to bean creation and dependency injection but it may not work with respect to request mapping.
-
+> @Component and @Controller are same with respect to bean creation and dependency injection but it may not work with respect to request mapping.
+- @Controller can use another annotation i.e. @RequestMapping; to map URLs to instance methods of a class.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to use @Component, @Repository, @Service and @Controller Annotations?
+
 > Always use these annotations over concrete classes; not over interfaces.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does Component Scanning work in Spring?
-@Service, @Repository, @Controller are scanned because they themselves are annotated with @Component annotation
 
+@Service, @Repository, @Controller are scanned because they themselves are annotated with @Component annotation
   
 =====================================
 ########### @ModelAttribute #########

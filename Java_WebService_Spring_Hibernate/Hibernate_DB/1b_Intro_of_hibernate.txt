@@ -78,16 +78,27 @@ Hibernate, EclipseLink, OpenJPA are some JPA Provider.
 - JNDI and JTA allow Hibernate to be integrated with J2EE application servers.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which design patterns are used in Hibernate framework?
-> Data Mapper 
+
+1. DOMAIN MODEL PATTERN 
+
+2. DATA ACCEESS OBJECT (DAO) PATTERN
+
+3. DATA MAPPER 
 – A layer of Mappers(*.hbm.xml) that moves data between objects and a database while keeping them independent of each other and the mapper itself.
 
-> Proxy Pattern : for lazy loading
-> Factory pattern : in SessionFactory
+4. PROXY DESIGN PATTERN : 
+- for lazy loading
+
+5. FACTORY DESIGN PATTERN : 
+- in SessionFactory
+
+6. Query Object 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the different levels of ORM quality?
+
 > There are 4 levels define for ORM quality
 1. Pure relational
 2. Light Object mapping
@@ -96,6 +107,7 @@ Hibernate, EclipseLink, OpenJPA are some JPA Provider.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a pure relational ORM?
+
 > At this level entire application is designed around the relational model. 
 - All the operations are SQL based at this level.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,32 +141,33 @@ Hibernate 4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How will you configure Hibernate?
 
-> The CONFIGURATION FILES "hibernate.cfg.xml" (or hibernate.properties) and MAPPING FILES *.hbm.xml ARE USED BY THE CONFIGURATION CLASS 
-- to create (i.e. configure and bootstrap hibernate) the SessionFactory, which in turn creates the Session instances. 
-- Session instances are the primary interface for the persistence service.
-
-> " hibernate.cfg.xml (alternatively can use hibernate.properties): 
+> CONFIGURATION FILES hibernate.cfg.xml (alternatively can use hibernate.properties): 
 - These two files are used to configure the hibernate sevice (connection driver class, connection URL, connection username, connection password, dialect etc). 
 - If both files are present in the classpath then hibernate.cfg.xml file overrides the settings found in the hibernate.properties file.
 
-> " Mapping files (*.hbm.xml): These files are used to map persistent objects to a relational database. 
-> It is the best practice to store each object in an individual mapping file (i.e mapping file per class) 
+> MAPPING FILES (*.hbm.xml): 
+- These files are used to map persistent objects to a relational database. 
+- It is the best practice to store each object in an individual mapping file (i.e mapping file per class) 
 - because storing large number of persistent classes into one mapping file can be difficult to manage and maintain. 
+
 > The naming convention is to use the same name as the persistent (POJO) class name. 
 - For example Account.class will have a mapping file named Account.hbm.xml. 
 - Alternatively hibernate annotations can be used as part of your persistent class code instead of the *.hbm.xml files.
 =====================================
 ######### PERSISTENT CLASSES ########
 
-> Java classes whose objects or instances will be stored in database tables are called persistent classes in Hibernate
+> Java classes whose objects or instances will be stored in DB tables are called persistent classes in Hibernate
 
-RULES OF PERSISTENT CLASSES
-1. DEFAULT CONSTRUCTOR : All Java classes that will be persisted should have default constructor .
+## RULES OF PERSISTENT CLASSES
+1. DEFAULT CONSTRUCTOR : 
+- All Java classes that will be persisted should have default constructor .
 
-2. ID Property : All classes should contain an ID for easy identification of objects within Hibernate and the database. 
+2. ID Property : 
+- All classes should contain an ID for easy identification of objects within Hibernate and the DB. 
 - This property maps to the primary key column of a database table.
 
-3. PRIVATE ATTRIBUTES : All attributes that will be persisted should be declared private and have getXXX and setXXX methods defined in the JavaBean style.
+3. PRIVATE ATTRIBUTES AND GETTER-SETTER: 
+- All attributes that will be persisted should be declared private and have getXXX and setXXX methods defined in the JavaBean style.
 
 4. A central feature of Hibernate, proxies, depends upon the PERSISTENT CLASS BEING EITHER NON-FINAL, OR THE IMPLEMENTATION OF AN INTERFACE THAT DECLARES ALL PUBLIC METHODS.
 
@@ -187,6 +200,7 @@ RULES OF PERSISTENT CLASSES
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to insert and retrieve an image in db?
+
 > inserting and fetching BLOB data such as images requires two steps: 
 - define database column type as “BLOB” and 
 - have a field in entity of type “byte array”.
@@ -242,7 +256,9 @@ FROM UserAction action where ( action.userActionStatus = 'FAILURE' or 1=2)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is AUTOMATIC DIRTY CHECKING in hibernate?
+
 > it is a feature of hibernate which CALLS UPDATE STATEMENT AUTOMATICALLY ON THE OBJECTS THAT ARE MODIFIED IN A TRANSACTION.
+
 EXAMPLE : 
 SessionFactory factory = cfg.buildSessionFactory();  
 Session session1 = factory.openSession();  
@@ -253,6 +269,7 @@ e1.setSalary(70000);
  
 tx.commit();  
 session1.close();  
+
 > After changing the state, we are committing the transaction. In such case, state will be updated automatically. This is known as dirty checking in hibernate.
 
 =====================================
@@ -293,9 +310,12 @@ SELECT * FROM Employee WHERE Employee.departmentId = ?
 ## What are the concurrency strategies in hibernate?
 ## What is optimistic locking? How can you use it with Hibernate?
 
-n applications which have long running transactions, optimistic locking might provide required scalability. Without optimistic locking, the tables might be locked avoiding concurrent access.
+> n applications which have long running transactions, optimistic locking might provide required scalability. 
+- Without optimistic locking, the tables might be locked avoiding concurrent access.
 
-Hibernate provides two approaches to optimistic locking: version number or timestamp. Using a version number is preferred approach. It is implemented using @Version annotation. Entity manager would use the LOCKING_COLUMN to detect conflicting updates.
+> Hibernate provides two approaches to optimistic locking: version number or timestamp. 
+1. Using a version number is preferred approach. It is implemented using @Version annotation. 
+- Entity manager would use the LOCKING_COLUMN to detect conflicting updates.
 
     @Version
     @Column(name="LOCKING_COLUMN")

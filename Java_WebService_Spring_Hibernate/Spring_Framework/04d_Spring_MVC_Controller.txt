@@ -25,9 +25,9 @@ public interface Controller {
 Following are built in Controller implementations available in Spring Web MVC
 - Controller
 - AbstractCommandController
-- SimpleFormController
-- WizardFormController
-- MultiActionController
+- SimpleFormController [deprecated]
+- WizardFormController [deprecated]
+- MultiActionController[deprecated]
 
 =======================================
 ### ANNNOTATION USED WITH CONTROLLER ###
@@ -43,9 +43,10 @@ Following are built in Controller implementations available in Spring Web MVC
 
 > @RequestBody and @ResponseBody
 > @RequestHeader and @ResponseHeader
-- @RequestHeader annotation is used to bind HTTP request header attributes values to controller method parameters.
+- @RequestHeader is used to bind HTTP request header attributes values to controller method parameters.
 =======================================
 ############ @RequestMapping ##########
+
 > It can be applied at both class and method level 
 - It is USED TO MAP A URL to either an entire class or a particular handler method.
 
@@ -195,19 +196,127 @@ public class EmployeeController
     }
 }
 > getAllEmployees() handler method is executed as a catch block if no other matched for any request then this method triggers.
+=======================================
+########### @ResponseBody #############
+
+> traditional workflow the ModelAndView object is forwarded from the controller to the client
+> Spring lets you return data directly from the controller, without looking for a view, using the @ResponseBody annotation on a method.
+> While using @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically.
+
+> When we use the @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically. 
+- Each method in the Controller class must be annotated with @ResponseBody.
+
+> Behind the scene, Spring has a list of HttpMessageConverters registered in the background. 
+- The responsibility of the HTTPMessageConverter is to convert the request body to a specific class and back to the response body again, depending on a predefined mime type.
+
+EXAMPLE:
+
+@Controller
+@RequestMapping("employees")
+public class EmployeeController {
+    Employee employee = new Employee();
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Employee getEmployeeInJSON(@PathVariable String name) {
+       employee.setName(name);
+       employee.setEmail("employee1@genuitec.com");
+    return employee; 
+    }
+	
+    @RequestMapping(value = "/{name}.xml", method = RequestMethod.GET, produces = "application/xml")
+    public @ResponseBody Employee getEmployeeInXML(@PathVariable String name) {
+       employee.setName(name);
+     employee.setEmail("employee1@genuitec.com");
+       return employee; 
+    }
+}
+> @ResponseBody added to each of the @RequestMapping methods in the return value. 
+=======================================
+######## Return types of Controller ####
+
+## What are some of the valid return types of a controller method?
+
+> There are many return types are available for Handler method which is annotated by @RequestMapping inside controller like :
+
+ModelAndView (Class)
+Model (Interface)
+Map
+String
+void
+View
+HttpEntity<?> or ResponseEntity<?>
+HttpHeaders
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the differences between Model, ModelMap, and ModelAndView?
+
+##Model: 
+- It is an Interface. 
+- It defines a holder for model attributes and primarily designed for adding attributes to the model.
+
+EXAMPLE:
+@RequestMapping(method = RequestMethod.GET)
+public String printHello(Model model) {
+  model.addAttribute("message", "Hello World!!");
+  return "hello";
+}
 ~~~~~~~~~~~~~~~~~~~~~~~~
+## ModelMap: 
+- Implementation of Map for use when building model data for use with UI tools.
+- Supports chained calls and generation of model attribute names.
 
-=====================================
-######### @SessionAttributes ########
-> it indicates the session attributes that a specific handler uses
-> it typically list the names of model attributes which should be transparently stored in the session
+EXAMPLE:
+@RequestMapping("/helloworld")
+public String hello(ModelMap map) {
+    String helloWorldMessage = "Hello world!";
+    String welcomeMessage = "Welcome!";
+    map.addAttribute("helloMessage", helloWorldMessage);
+    map.addAttribute("welcomeMessage", welcomeMessage);
+    return "hello";
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+##ModelAndView: 
+> ModelAndView is just a container for both a ModelMap and a view object. 
+- This class merely holds both to make it possible for a controller to return both model and view in a single return value.
 
-> it is used on class level. Typically it's used on the @Controller class. 
-- It's 'value' element is of type String[] whose values are the matching names used in @ModelAttribute either on method level or on handler's method parameter level.
+EXAMPLE:
+@RequestMapping("/welcome")
+public ModelAndView helloWorld() {
+  String message = "Hello World!";
+  return new ModelAndView("welcome", "message", message);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+########## @RestController ############
 
-> when a request comes in, the first thing Spring will do is to notice @SessionAttributes('visitor') and then attempt to find the value of 'visitor' in javax.servlet.http.HttpSession. 
-- If it doesn't find the value, then the method with @ModelAttribute having the same name 'visitor' (method getVisitor()) will be invoked. 
-- The returned value from such method will be used to populate the session with name 'visitor'
+> Spring 4.0 introduced @RestController, a specialized version of the controller
+> @RestController = @Controller + @ResponseBody
+
+> it add the @Controller and @ResponseBody annotations. 
+> By annotating the controller class with @RestController annotation, you no longer need to add @ResponseBody to all the request mapping methods. 
+- The @ResponseBody annotation is active by default.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between RestController and Controller?
+> traditional MVC controller relies on the View technology, 
+- the RESTful web service controller simply returns the object and the object data is written directly to the HTTP response as JSON/XML.
+
+
+EXAMPLE:
+@RestController
+@RequestMapping("employees")
+public class EmployeeController {
+    Employee employee = new Employee();
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
+    public Employee getEmployeeInJSON(@PathVariable String name) {
+       employee.setName(name);
+       employee.setEmail("employee1@genuitec.com");
+       return employee;
+    }
+    @RequestMapping(value = "/{name}.xml", method = RequestMethod.GET, produces = "application/xml")
+    public Employee getEmployeeInXML(@PathVariable String name) {
+       employee.setName(name);
+       employee.setEmail("employee1@genuitec.com");
+    return employee; 
+    } 
+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we use Spring to create Restful Web Service RETURNING JSON RESPONSE?
 
@@ -241,46 +350,45 @@ public class EmployeeRESTController
         //Add employees
         return employees;
     }
-}
-=====================================
-######## EXCEPTION HANDLING #########
-
-## How to handle exceptions in Spring MVC environment?
-
-> There are three ways to handle exceptions in Spring MVC:
-
-1. Using @ExceptionHandler at controller level 
-– this approach has a major feature – the @ExceptionHandler annotated method is only active for that particular controller, not globally for the entire application
-~~~~~~~~~~~~~~~~~~~~~~~~
-2. Using HandlerExceptionResolver 
-– this will resolve any exception thrown by the application
-
-> beans have to implement the HandlerExceptionResolver interface for DispatcherServlet to auto-detect them.
-> SimpleMappingExceptionResolver to map each category of exceptions to a view
-
-EXAMPLE:
-<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-  <property name="exceptionMappings">
-    <props>
-      <prop key="com.howtodoinjava.demo.exception.AuthException">
-         error/authExceptionView
-      </prop>
-    </props>
-  </property>
-  <property name="defaultErrorView" value="error/genericView"/>
-</bean>
-~~~~~~~~~~~~~~~~~~~~~~~~
-3. Using @ControllerAdvice 
-– Spring 3.2 brings support for a global @ExceptionHandler with the @ControllerAdvice annotation, which enables a mechanism that breaks away from the older MVC model and makes use of ResponseEntity along with the type safety and flexibility of @ExceptionHandler
-
-
-
-	
+}	
 =======================================
+=======================================
+## What is the @RequestParam used for?
+
+> It is used to bind request parameter values to the handler method arguments in controller.
+
+@Target(value=PARAMETER)
+@Retention(value=RUNTIME)
+@Documented
+public @interface RequestParam
+
+defaultValue - It is String type attribute and the default value to use as a fallback when the request parameter is not provided or has an empty value.
+name - It is String type attribute and name of the request parameter to bind to.
+required - It is boolean type attribute whether the parameter is required.
+value – It is String type attribute and it is alias for name attribute.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the differences between @RequestParam and @PathVariable?
+@PathVariable: Is is used to pass parameter along with the url, sometimes we need to pass parameters along with the url to get the data. Spring MVC provides support for customizing the URL in order to get data. To achieving this purpose @PathVariable annotation is used in Spring mvc framework.
+
+@RequestParam: It is used to get the request parameters. @RequestParam automatically binds the request parameters to the arguments of your handler method. It also provides auto type conversion for some standard type like int, long, float, string, date 
+=====================================
+######### @SessionAttributes ########
+> it indicates the session attributes that a specific handler uses
+> it typically list the names of model attributes which should be transparently stored in the session
+
+> it is used on class level. Typically it's used on the @Controller class. 
+- It's 'value' element is of type String[] whose values are the matching names used in @ModelAttribute either on method level or on handler's method parameter level.
+
+> when a request comes in, the first thing Spring will do is to notice @SessionAttributes('visitor') and then attempt to find the value of 'visitor' in javax.servlet.http.HttpSession. 
+- If it doesn't find the value, then the method with @ModelAttribute having the same name 'visitor' (method getVisitor()) will be invoked. 
+- The returned value from such method will be used to populate the session with name 'visitor'
+
 
 http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
 
 =======================================
+##### Spring MVC and JSP/Servlet ######
+ 
 ## How to Get ServletContext and ServletConfig Objects in a Spring Bean?
 
 > You can do either by:
@@ -322,43 +430,5 @@ in jsp
 in controller, process action method:
 1 HttpServletRequest request1 = PortalUtil.getHttpServletRequest(request);
 2 Obj obj = (Obj)request1.getSession().getAttribute("obj");
+=======================================
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the differences between Model, ModelMap, and ModelAndView?
-
-##Model: 
-- It is an Interface. 
-- It defines a holder for model attributes and primarily designed for adding attributes to the model.
-
-EXAMPLE:
-@RequestMapping(method = RequestMethod.GET)
-public String printHello(Model model) {
-  model.addAttribute("message", "Hello World!!");
-  return "hello";
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-## ModelMap: 
-- Implementation of Map for use when building model data for use with UI tools.
-- Supports chained calls and generation of model attribute names.
-
-EXAMPLE:
-@RequestMapping("/helloworld")
-public String hello(ModelMap map) {
-    String helloWorldMessage = "Hello world!";
-    String welcomeMessage = "Welcome!";
-    map.addAttribute("helloMessage", helloWorldMessage);
-    map.addAttribute("welcomeMessage", welcomeMessage);
-    return "hello";
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-##ModelAndView: 
-> ModelAndView is just a container for both a ModelMap and a view object. 
-- This class merely holds both to make it possible for a controller to return both model and view in a single return value.
-
-EXAMPLE:
-@RequestMapping("/welcome")
-public ModelAndView helloWorld() {
-  String message = "Hello World!";
-  return new ModelAndView("welcome", "message", message);
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -201,6 +201,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 > @Component and @Controller are same with respect to bean creation and dependency injection but it may not work with respect to request mapping.
 - @Controller can use another annotation i.e. @RequestMapping; to map URLs to instance methods of a class.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can you create a controller without an annotation?
+> @Controller annotation indicates that a particular class serves the role of a controller. 
+- Spring does not require you to extend any controller base class or reference the Servlet API.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to use @Component, @Repository, @Service and @Controller Annotations?
 
 > Always use these annotations over concrete classes; not over interfaces.
@@ -229,68 +233,3 @@ https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
 
 > If you are using XML based configuration then use <mvc:annotation-driven/> as an alternative to @EnableWebMvc
 
-####### @ResponseBody #######
-
-> traditional workflow the ModelAndView object is forwarded from the controller to the client
-> Spring lets you return data directly from the controller, without looking for a view, using the @ResponseBody annotation on a method.
-> While using @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically.
-
-> When we use the @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically. 
-- Each method in the Controller class must be annotated with @ResponseBody.
-
-> Behind the scene, Spring has a list of HttpMessageConverters registered in the background. 
-- The responsibility of the HTTPMessageConverter is to convert the request body to a specific class and back to the response body again, depending on a predefined mime type.
-
-EXAMPLE:
-
-@Controller
-@RequestMapping("employees")
-public class EmployeeController {
-    Employee employee = new Employee();
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody Employee getEmployeeInJSON(@PathVariable String name) {
-       employee.setName(name);
-       employee.setEmail("employee1@genuitec.com");
-    return employee; 
-    }
-	
-    @RequestMapping(value = "/{name}.xml", method = RequestMethod.GET, produces = "application/xml")
-    public @ResponseBody Employee getEmployeeInXML(@PathVariable String name) {
-       employee.setName(name);
-     employee.setEmail("employee1@genuitec.com");
-       return employee; 
-    }
-}
-> @ResponseBody added to each of the @RequestMapping methods in the return value. 
-===============================
-####### @RestController #######
-> Spring 4.0 introduced @RestController, a specialized version of the controller
-> @RestController = @Controller + @ResponseBody
-
-> it add the @Controller and @ResponseBody annotations. 
-> By annotating the controller class with @RestController annotation, you no longer need to add @ResponseBody to all the request mapping methods. 
-- The @ResponseBody annotation is active by default.
-
-## Difference between RestController and Controller?
-> traditional MVC controller relies on the View technology, 
-- the RESTful web service controller simply returns the object and the object data is written directly to the HTTP response as JSON/XML.
-
-
-EXAMPLE:
-@RestController
-@RequestMapping("employees")
-public class EmployeeController {
-    Employee employee = new Employee();
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
-    public Employee getEmployeeInJSON(@PathVariable String name) {
-       employee.setName(name);
-       employee.setEmail("employee1@genuitec.com");
-       return employee;
-    }
-    @RequestMapping(value = "/{name}.xml", method = RequestMethod.GET, produces = "application/xml")
-    public Employee getEmployeeInXML(@PathVariable String name) {
-       employee.setName(name);
-       employee.setEmail("employee1@genuitec.com");
-    return employee; 
-    } 
-}

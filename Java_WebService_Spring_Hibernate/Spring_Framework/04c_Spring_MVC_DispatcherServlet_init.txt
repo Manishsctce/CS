@@ -1,0 +1,620 @@
+######## Spring MVC #######
+> DispatcherServlet initialize below component if available in sequencial manner:-
+1. MultipartResolver 
+2. LocaleResolver
+3. ThemeResolver
+4. HandlerMapping
+5. HandleAdaptor
+6. HandlerExceptionResolver
+7. RequestToViewNameTranslator
+8. ViewResolver
+=======================================
+######### MultipartResolver ###########
+> MultipartResolver is a strategy interface for multipart file upload
+> There is no default resolver implementation used for Spring
+> If a DispatcherServlet detects a multipart request, it will resolve it via the configured "MultipartResolver" and pass on a wrapped HttpServletRequest
+> We can configure it in applicationContext file as below :-
+
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<beans:property name="maxUploadSize" value="100000" />
+</bean>
+
+> 2 concrete implementations included in Spring, as of Spring 3.1:
+- CommonsMultipartResolver and StandardServletMultipartResolver
+
+#### CommonsMultipartResolver[c] ####
+> It uses the Apache commons upload library to handle the file upload in a form. 
+- So we need to add the commons-fileupload.jar and commons-io.jar dependencies.
+
+EXAMPLE:
+> create model class FileUploadForm which will hold the multipart data submitted from HTML form.
+
+import org.springframework.web.multipart.MultipartFile;
+public class FileUploadForm{
+    private MultipartFile file;
+    public MultipartFile getFile() {
+        return file;
+    }
+ 
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+}
+
+> Now create FileUploadController class which will actually handle the upload logic
+@Controller
+public class FileUploadController{
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String save(@ModelAttribute("uploadForm") FileUploadForm uploadForm, Model map) {
+ 
+        MultipartFile multipartFile = uploadForm.getFile();
+ 
+        String fileName = "default.txt";
+ 
+        if (multipartFile != null) {
+            fileName = multipartFile.getOriginalFilename();
+        }
+         
+        //read and store the file as you like
+ 
+        map.addAttribute("files", fileName);
+        return "file_upload_success";
+    }
+}
+
+<form:form method="post" action="save.html" modelAttribute="uploadForm" enctype="multipart/form-data">
+    Please select a file to upload : <input type="file" name="file" />
+    <input type="submit" value="upload" />
+    <span><form:errors path="file" cssClass="error" /></span>
+</form:form>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### StandardServletMultipartResolver ####
+
+=======================================
+######### HandlerMapping[i] ###########
+
+## What is HandlerMapping?
+> it is an Interface to be implemented by objects that DEFINE MAPPING BET REQUESTS AND HANDLER OBJECTS.
+- It define as A MAP OF URL AND CONTROLLER
+
+> It is responsible for mapping incoming web requests to appropriate handler that can process the request.
+> DispatcherServlet processes one or more HandlerMappings (in a specified order) to forward the request to the mapped handler object.
+- For a request, DispatcherServlet after mapping returns HandlerExecutionChain instance that handle the request
+
+- DEFAULT HandlerMapping ARE BeanNameUrlHandlerMapping and RequestMappingHandlerMapping used by the DispatcherServlet.
+- These are used if no HandlerMapping bean is registered in the application context.
+
+?> HandlerExecutionChain always wraps the Handler and may also contain one or more HandlerInterceptors.
+
+http://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/handler-mapping/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between HandleAdaptor and HandlerMapping?
+
+> DispatcherServlet uses the HandlerMappings to select the handler method/object, whereas, 
+- HandlerAdapter is used to actually invoke the handler method.
+
+=======================================
+###### BeanNameUrlHandlerMapping ######
+> This is the default implemenatation used by DispatcherServlet. 
+- Maps from URLs to beans (the controllers) by bean names. 
+- This only works if url starts with "/"
+
+EXAMPLE:
+<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+<bean name="/helloWorld.htm" class="com.javainterviewpoint.HelloWorldController" />
+<bean name="/hello*" class="com.javainterviewpoint.HelloWorldController" /> 
+<bean name="/welcome.htm" class="com.javainterviewpoint.WelcomeController"/>
+=======================================
+#### DefaultAnnotationHandlerMapping ##
+
+> Mappings declared via the @RequestMapping annotation are mapped via this Handler.
+- This mapping is registered by default, however if we register a custom Handler then the defaults are overridden
+=======================================
+##### RequestMappingHandlerMapping ####
+> introduced in spring 3.1. 
+> Maps from URLs to handler classes/methods by matching @RequestMapping value element
+
+> Earlier the DefaultAnnotationHandlerMapping decided which controller to use and 
+- the AnnotationMethodHandlerAdapter selected the actual method that handled the request. 
+- RequestMappingHandlerMapping does both the tasks
+
+
+=======================================
+##### ControllerClassHandlerMapping ###
+> it uses a convention to map the requested URL to the Controller. 
+- It will take the Controller name and converts them to lower case with a leading “/”
+- there is no need for  bean name
+
+EXAMPLE:
+ <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+ <bean class="com.javainterviewpoint.HelloWorldController"></bean>
+ <bean class="com.javainterviewpoint.WelcomeController"></bean>
+ 
+- helloworld is requested, the DispatcherServlet redirects it to the HelloWorldController.
+- helloworld123 is requested, the DispatcherServlet redirects it to the HelloWorldController.
+- welcome is requested, the DispatcherServlet redirects it to the WelcomeController.
+- welcome123 is requested, the DispatcherServlet redirects it to the WelcomeController.
+- helloWorld is requested, you will get 404 error as “W” is capitalized here
+=======================================
+###### SimpleUrlHandlerMapping ########
+> it allows us to specify URL pattern and handler explicitly.
+> There are two ways of defining SimpleUrlHandlerMapping, using <value> tag and <props> tag. 
+> It has a property called mappings we will be passing the URL pattern to it.
+
+##Using <value> tag
+> Left Side of  “=” is URL Pattern and right side is the id or name of the bean
+
+EXAMPLE:
+<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+  <property name="mappings">
+     <value>
+        /welcome.htm=welcomeController
+        /welcome*=welcomeController
+        /hell*=helloWorldController
+        /helloWorld.htm=helloWorldController
+      </value>
+    </property>
+ </bean>
+------------------- 
+##Using <props> tag
+> The property key is the URL Pattern and property value is the id or name of the bean
+
+ <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+       <props>
+          <prop key="/welcome.htm">welcomeController</prop>
+          <prop key="/welcome*">welcomeController</prop>
+          <prop key="/helloworld">helloWorldController</prop>
+          <prop key="/hello*">helloWorldController</prop>
+          <prop key="/HELLOworld">helloWorldController</prop>
+     </props>
+   </property>
+ </bean>
+
+=======================================
+########### HandlerAdapter ############
+## What is a HandlerAdapter?
+> It is an interface which facilitates the handling of HTTP requests.
+> It is the one which Forwarding the Request from the DispatcherServlet to the Controller object.
+> it  is responsible for actually invoking the handler(i.e Controller) through handle(). 
+HandlerAdapter.handle() is used to invoke handleRequestInternal() of Controller.
+
+> The handler is of type Object and hence the dispatcher servlet can handle any Handler type using the HandlerAdapter. 
+> Spring provides certain HandlerAdapters that can handle specific handler interfaces.
+
+> HandleAdaptor used in conjunction(the state of being joined together) with the HandlerMapping
+> An HandlerMapping instance is not tied/coupled to a particular HandlerAdapter instance, but 
+- the type of handler object returned by a HandlerMapping (in HandlerExecutionChain response i.e. the object returned by HandlerExecutionChain#getHandler()) is certainly a factor for a particular HandlerAdapter to decide whether to handle the request or not to handle it.
+
+public interface HandlerAdapter {
+    boolean supports(Object handler);
+     
+    ModelAndView handle(
+      HttpServletRequest request,
+      HttpServletResponse response, 
+      Object handler) throws Exception;
+     
+    long getLastModified(HttpServletRequest request, Object handler);
+}
+> supports API is used to check if a particular handler instance is supported or not. 
+- This method should be called first before calling the handle() method of this interface, 
+- in order to make sure whether the handler instance is supported or not.
+
+> The handle API is used to handle a particular HTTP request. 
+- This method is responsible for invoking the handler by passing the HttpServletRequest and HttpServletResponse object as the parameter. 
+- The handler then executes the application logic and returns a ModelAndView object, which is then processed by the DispatcherServlet.
+=====================================
+##### Types of HandlerAdapter ####
+1. SimpleControllerHandlerAdapter
+
+##SimpleControllerHandlerAdapter
+> it is the default handler adapter 
+> It deals with classes implementing Controller interface and is used to forward a request to a controller object.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##SimpleServletHandlerAdapter
+> This handler adapter allows the use of any Servlet to work with DispatcherServlet for handling the request. 
+> It forwards the request from DispatcherServlet to the appropriate Servlet class by calling its service() method.
+
+> Need to register in web.xml as 
+<bean name="simpleServletHandlerAdapter"
+  class="org.springframework.web.servlet.handler.SimpleServletHandlerAdapter" />
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+##AnnotationMethodHandlerAdapter
+> This adapter class is used to execute the methods that are annotated with @RequestMapping annotation. 
+- It is used to map the methods based on HTTP methods and HTTP paths.
+
+EXAMPLE
+<beans ...>
+    <context:component-scan base-package="com.baeldung.spring.controller" />
+	
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+</beans>
+
+=====================================
+############ CONTROLLER #############
+
+## What is role of Controller in Spring MVC framework?
+
+> Controllers are components that are being called by the Dispatcher Servlet for doing any kind of Business Logic
+
+> Controller (‘c’ in mvc ) delivers access to the behavior of application which is usually defined by a service interface and acts as glue between core application and the web. 
+- It processes/interprets client data and transforms it to a domain object called model, 
+- model is finally represented to the client by the view. 
+
+Spring framework provides wide range of controllers.
+- Spring controllers are based on “org.springframework.web.servlet.mvc.Controller” Interface. 
+- Controller interface provides a single method that handles a request and returns a particular model and view as shown below: 
+
+public interface Controller {
+     ModelAndView handleRequest( HttpServletRequest request,
+                                HttpServletResponse response) throws Exception;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the different built in Controller implementations available in Spring Web MVC?
+
+Following are built in Controller implementations available in Spring Web MVC
+- Controller
+- AbstractCommandController
+- SimpleFormController
+- WizardFormController
+- MultiActionController
+
+
+=======================================
+############ @RequestMapping ##########
+> It can be applied at both class and method level 
+> @RequestMapping annotations using only HTTP request types
+
+
+## @RequestMapping annotations at only method level
+
+@Controller
+public class EmployeeController
+{
+    @RequestMapping("/employee-management/employees")
+    public String getAllEmployees(Model model){
+        return "employeesList";
+    }     
+	
+    @RequestMapping(value={"/employee-management/employees/remove","/employee-management/employees/delete"})
+    public String removeEmployee(@RequestParam("id") String employeeId){       
+        return "employeesList";
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+## @RequestMapping annotations at class level as well as method levels
+
+@Controller
+@RequestMapping("/employee-management/employees/*")
+public class EmployeeController
+{
+    @RequestMapping
+    public String getAllEmployees(Model model){
+        return "employeesList";
+    }
+     
+    @RequestMapping(value={"/remove","/delete"})
+    public String removeEmployee(@RequestParam("id") String employeeId){
+        //application code
+        return "employeesList";
+    }
+}
+> getAllEmployees() handler method is executed as a catch block if no other matched for any request then this method triggers.
+~~~~~~~~~~~~~~~~~~~~~~~~
+> @RequestMapping annotations using only HTTP request types
+
+@Controller
+@RequestMapping("/employee-management/employees")
+public class EmployeeController
+{
+    @RequestMapping (method =  RequestMethod.GET)
+    public String getAllEmployees(Model model){
+        return "employeesList";
+    }
+     
+    @RequestMapping (method =  RequestMethod.PUT)
+    public String updateEmployee(EmployeeVO employee){
+        return "employeesDetail";
+    }
+     
+    @RequestMapping (method =  RequestMethod.DELETE)
+    public String removeEmployee(@RequestParam("id") String employeeId){
+        return "employeesList";
+    }
+}
+=====================================
+######### @SessionAttributes ########
+> it indicates the session attributes that a specific handler uses
+> it typically list the names of model attributes which should be transparently stored in the session
+
+> it is used on class level. Typically it's used on the @Controller class. 
+- It's 'value' element is of type String[] whose values are the matching names used in @ModelAttribute either on method level or on handler's method parameter level.
+
+> when a request comes in, the first thing Spring will do is to notice @SessionAttributes('visitor') and then attempt to find the value of 'visitor' in javax.servlet.http.HttpSession. 
+- If it doesn't find the value, then the method with @ModelAttribute having the same name 'visitor' (method getVisitor()) will be invoked. 
+- The returned value from such method will be used to populate the session with name 'visitor'
+=====================================
+########### ViewResolver ############
+
+> ViewResolver is an interface to be implemented by objects that can resolve views by name.
+
+#### InternalResourceViewResolver ####
+> it is used to resolve “internal resource view” (in simple, it’s final output, jsp or htmp page) based on a predefined URL pattern. 
+- it allow to add predefined prefix or suffix to the view name (prefix + view name + suffix), and generate the final view page URL.
+
+EXAMPLE:
+public class WelcomeController extends AbstractController{
+	@Override
+	protected ModelAndView handleRequestInternal(HttpServletRequest request,
+		HttpServletResponse response) throws Exception {
+		ModelAndView model = new ModelAndView("WelcomePage");
+		return model;
+	}
+}
+
+# applicationContext.xml 
+	<!-- Register the bean -->
+	<bean class="com.mkyong.common.controller.WelcomeController" />
+
+	<bean id="viewResolver"
+    	      class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="prefix" value="/WEB-INF/pages/" />              
+        <property name="suffix" value=".jsp" />
+    </bean>
+> Spring will resolve the view’s name “WelcomePage” in the following way :
+prefix + view name + suffix = /WEB-INF/pages/WelcomePage.jsp	
+
+
+## What are the different built in ViewResolver implementations available in Spring 3?
+Following are built in ViewResolver implementations available in Spring 3
+- UrlBasesViewResolver
+- InternalResourceViewResolver
+- ResourceBundleViewResolver
+- BeanNameViewResolver
+- XmlViewResolver
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+##What is DelegatingVariableResolver?
+> Spring provides a custom JavaServer Faces VariableResolver implementation that extends the standard Java Server Faces managed beans mechanism which lets you use JSF and Spring together. This variable resolver is called as DelegatingVariableResolver	
+
+## What does the InternalResourceViewResolver do in Spring MVC?
+
+=======================================
+######### SPRING MVC INTERCEPTOR ######
+> Interceptor is used to intercepts requests
+- just before the controller or
+- just after the controller or
+- just before the response sent to view
+
+> It can be used for authentication.
+> It can be USED FOR CROSS-CUTTING CONCERNS and to avoid repetitive handler code like  logging, to add a common message to all response
+> A handler interceptor can be registered for particular URL mappings, so it only intercepts requests mapped to certain URLs.
+
+####### HandlerInterceptor[i] #######
+> it is an interface, which must be implemented by the Spring interceptor classes
+
+## 3 CALLBACK METHODS ##
+1. public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception;
+– called just before the controller
+- It return boolean value which tells Spring if the request should be further processed by a handler (true) or not (false)
+
+2. public void postHandle(HttpServletRequest request, HttpServletResponse response,Object handler, ModelAndView modelAndView) throws Exception;
+– called immediately after the request is processed by HandlerAdapter, but before generating a view.
+- can be used TO DETERMINE THE TIME TAKEN BY HANDLER METHOD to process a client’s request.
+
+3. void afterCompletion(HttpServletRequest request, HttpServletResponse response,Object handler, Exception ex) throws Exception;
+– called just before sending response to view
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### HandlerInterceptorAdaptor[c] ###
+> it is an implementation class of HandlerInterceptor interface provided by Spring as a convenient class. 
+> By extending this we can override only the necessary methods out of the three.
+
+> Interceptor classes must be declared in spring context xml configuration file within the tag <mvc:interceptors>
+
+> Interceptor can be configured to execute in two ways, execute for all requests and map to specific url requests.
+
+> ORDER: All global interceptors gets executed first and then the mapped interceptor. 
+
+> if multiple Spring interceptors are configured, the preHandle() method is executed in the order of configuration, 
+- postHandle() and afterCompletion() methods are invoked in the reverse order
+
+EXAMPLE:-
+> To add our interceptors into Spring configuration, 
+- Need to override addInterceptors() method inside WebConfig class that extends WebMvcConfigurerAdapter:
+  
+  public void addInterceptors(InterceptorRegistry registry) {
+      registry.addInterceptor(new LoggerInterceptor());
+  }
+
+- we can achieve the same configuration by editing our XML Spring configuration file:  
+  <mvc:interceptors>
+      <bean id="loggerInterceptor" class="org.baeldung.web.interceptor.LoggerInterceptor"/>
+  </mvc:interceptors>
+  
+  
+=====================================
+############## Validator ############
+
+##How to validate form data in Spring Web MVC Framework?
+
+> Spring MVC supports validation by means of a validator object that implements the Validator interface. 
+> You need to create a class and implement Validator interface. 
+> In this custom validator class, we can use utility methods such as rejectIfEmptyOrWhitespace() and rejectIfEmpty() in the ValidationUtils class to validate the required form fields.
+
+EXAMPLE: 
+@Component
+public class EmployeeValidator implements Validator
+{
+    public boolean supports(Class clazz) {
+        return EmployeeVO.class.isAssignableFrom(clazz);
+    }
+  
+    public void validate(Object target, Errors errors)
+    {
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "error.firstName", "First name is required.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "error.lastName", "Last name is required.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "error.email", "Email is required.");
+    }
+}
+> If any of form fields is empty, these methods will create a field error and bind it to the field. 
+- The 2nd arg of ValidationUtils methods is the property name, while 3rd and 4th are the error code and default error message.
+
+> To activate this custom validator as a spring managed bean, you need to do one of following things:
+
+1) Add @Component annotation to EmployeeValidator class and activate annotation scanning on the package containing such declarations.
+<context:component-scan base-package="com.howtodoinjava.demo" />
+
+2) Alternatively, you can register the validator class bean directly in context file.
+<bean id="employeeValidator" class="com.howtodoinjava.demo.validator.EmployeeValidator" />
+=====================================
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we use Spring to create Restful Web Service returning JSON response?
+
+> we need to add Jackson dependency in spring app either in pom.xml or MANIFEST.MF 
+> Now return JSON response from your MVC controller.
+- return JAXB annotated object from method and use @ResponseBody annotation on this return type
+
+@Controller
+public class EmployeeRESTController
+{
+    @RequestMapping(value = "/employees")
+    public @ResponseBody EmployeeListVO getAllEmployees(){
+        return new EmployeeListVO();
+    }
+}
+
+> Alternatively, we can use @RestController annotation in place of @Controller annotation. 
+- This will remove the need to using @ResponseBody.
+@RestController = @Controller + @ResponseBody
+
+EXAMPLE: 
+@RestController
+public class EmployeeRESTController
+{
+    @RequestMapping(value = "/employees")
+    public EmployeeListVO getAllEmployees()
+    {
+        return new EmployeeListVO();
+    }
+}
+	
+=======================================
+
+http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
+
+=======================================
+## How to Get ServletContext and ServletConfig Objects in a Spring Bean?
+
+> You can do either by:
+1. Implementing Spring-aware interfaces. 
+2. Using @Autowired annotation on those beans:
+	@Autowired ServletContext servletContext;
+	@Autowired ServletConfig servletConfig;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+> you can have a web application without potentially any web.xml file
+> Servlet 3.0 API brought annotations to the Java Web app world allowing the registration of servlets to be accomplished by annotation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to pass object from Spring to JSP? How to iterate objects in JSP?
+
+https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to access Spring Bean in a Servlet?
+
+> we can use ServletContextAttributeExporter 
+- it is used to export any property to servlet from runtime.
+
+in applicationContext.xml
+<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+  <property name="attributes">
+    <map>
+      <entry key="restBindingService" value-ref="restBindingService"/>
+    </map>
+  </property>
+</bean>
+
+in servlet
+(RestBindingService) context.getAttribute("restBindingService");
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  How to pass object from JSP to spring?
+
+in jsp
+1. session.setAttribute("obj", obj);
+
+in controller, process action method:
+1 HttpServletRequest request1 = PortalUtil.getHttpServletRequest(request);
+2 Obj obj = (Obj)request1.getSession().getAttribute("obj");
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the differences between Model, ModelMap, and ModelAndView?
+
+##Model: 
+- It is an Interface. 
+- It defines a holder for model attributes and primarily designed for adding attributes to the model.
+
+EXAMPLE:
+@RequestMapping(method = RequestMethod.GET)
+public String printHello(Model model) {
+  model.addAttribute("message", "Hello World!!");
+  return "hello";
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+## ModelMap: 
+- Implementation of Map for use when building model data for use with UI tools.
+- Supports chained calls and generation of model attribute names.
+
+EXAMPLE:
+@RequestMapping("/helloworld")
+public String hello(ModelMap map) {
+    String helloWorldMessage = "Hello world!";
+    String welcomeMessage = "Welcome!";
+    map.addAttribute("helloMessage", helloWorldMessage);
+    map.addAttribute("welcomeMessage", welcomeMessage);
+    return "hello";
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+##ModelAndView: 
+> ModelAndView is just a container for both a ModelMap and a view object. 
+- This class merely holds both to make it possible for a controller to return both model and view in a single return value.
+
+EXAMPLE:
+@RequestMapping("/welcome")
+public ModelAndView helloWorld() {
+  String message = "Hello World!";
+  return new ModelAndView("welcome", "message", message);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PropertyPlaceholderConfigurer

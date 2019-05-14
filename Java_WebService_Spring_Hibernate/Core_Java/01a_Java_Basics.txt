@@ -90,11 +90,13 @@ Ex - In Inheritence, Base class reference can be use differently as for childs c
 > Because it leads to diamond problem i.e 
 - if 2 class having same method and extended to 1 class then compiler will not able to decide which method
 > multiple inheritances does complicate the design and creates problem during casting, constructor chaining etc
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What if two interface have a default method with same name and a class implements both interfaces?
+
 - in this case, there will be compiler error i.e "Duplicate default method" for class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How does System.out.println() works?
+
 > System class have static instance variable "out" of PrintStream. 
 - PrintStream consist println() method. Therefore define as:-
 
@@ -115,6 +117,7 @@ class PrintStream{
 - The JVM will look for the Main method only in the class whose name you have mentioned. Hence there is not conflict amongst the multiple classes having main method.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What if the main method is declared as private/protected?
+
 > The program compiles properly but at runtime it will give "Main method not public." message.
 =======================================
 ############## IMPORT #################
@@ -130,8 +133,12 @@ Ex - mypackage.Person , mypackage.mh.Home ; create instance of Person in Home af
 > importing with * doesnt mean that all the subpackages are imported. it only import class and interface.
 =======================================
 ############# PACKAGE #################
-> Packages are declared using keyword ‘package’. They should be declared in the first statement in a java file. If you try to declare packages at any other statements, you will get compile time error
-> Only alphabets, numbers and an underscore are allowed in naming the packages.
+> Packages are declared using keyword ‘package’. 
+
+> it should be declared in the FIRST STATEMENT IN A JAVA FILE. 
+- If you try to declare packages at any other statements, you will get compile time error
+
+> Only ALPHABETS, NUMBERS AND AN UNDERSCORE ARE ALLOWED in naming the packages.
 - Package name should start with a alphabets or underscore but not with a number.
 
 =====================================
@@ -172,23 +179,46 @@ b) Non-access Modifiers - static, final, abstract, synchronized,
 
 > Unboxing: The automatic transformation of wrapper types into their primitive equivalent is known as Unboxing.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Does Java pass by reference or by value?
-##What are pass by reference and pass by value ? 
+## Does Java pass by reference or by value?
+## What are pass by reference and pass by value ? 
 
 > Java PASSES EVERYTHING BY VALUE, and not by reference
 - even if we pass object to another method, the OBJECT GET COPIED and even if we manipulate object in method, originally it DOESN'T manipulate by reference(i.e object).
 
-> Pass by value - here we pass value as argument to other method
-> Pass by reference - pass reference of original so that if any change occur in orginial can be reflect in other one also.
+> PASS BY VALUE - here we pass value as argument to other method
+> PASS BY REFERENCE - pass reference of original so that if any change occur in orginial can be reflect in other one also.
 
--------------------------------
+> Java passes the references by value just like any other parameter. 
+- This means the references passed to the method are actually copies of the original references
+EXAMPLE:
+public void tricky(Point arg1, Point arg2)
+{
+  arg1.x = 100;
+  arg1.y = 100;
+  Point temp = arg1;
+  arg1 = arg2;
+  arg2 = temp;
+}
+public static void main(String [] args)
+{
+  Point pnt1 = new Point(0,0);
+  Point pnt2 = new Point(0,0);
+  System.out.println("X: " + pnt1.x + " Y: " +pnt1.y); //X:0 0
+  System.out.println("X: " + pnt2.x + " Y: " +pnt2.y); //0 0
+  System.out.println(" ");
+  tricky(pnt1,pnt2);
+  System.out.println("X: " + pnt1.x + " Y:" + pnt1.y); // 100 100
+  System.out.println("X: " + pnt2.x + " Y: " +pnt2.y);  // 0 0
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is Annotation in Java?
+
 > Annotation is a syntactic metadata that is attached to the source code at classes,methods,variable,parameter,package while programming. 
 > It compile by the java compiler and metadata transform into instruction for the processor by the JIT of JVM. 
 > Basically it used to perform some basic compile-time checking.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Write Java program to create deadlock in Java and fix it ?
+## Write Java program to create deadlock in Java and fix it ?
 
 =====================================
 ####### BASIC PROGRAMMING CONCEPT ###

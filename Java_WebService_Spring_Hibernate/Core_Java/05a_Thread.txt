@@ -375,30 +375,30 @@ Thread class methods all methods are public
 
 public final synchronized void join(long millis)
 throws InterruptedException {
-    long base = System.currentTimeMillis();
-    long now = 0;
+  long base = System.currentTimeMillis();
+  long now = 0;
 
-    if (millis < 0) {
-        throw new IllegalArgumentException("timeout value is negative");
-    }
+  if (millis < 0) {
+    throw new IllegalArgumentException("timeout value is negative");
+  }
 
-    if (millis == 0) {
-        while (isAlive()) {
-            wait(0);
-        }
-    } else {
-        while (isAlive()) {
-            long delay = millis - now;
-            if (delay <= 0) {
-                break;
-            }
-            wait(delay);
-            now = System.currentTimeMillis() - base;
-        }
+  if(millis == 0) {
+    while (isAlive()) {
+       wait(0);
     }
+  }else {
+    while (isAlive()) {
+      long delay = millis - now;
+      if (delay <= 0) {
+        break;
+      }
+      wait(delay);
+      now = System.currentTimeMillis() - base;
+    }
+  }
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What happens when we call the join() for a thread that was stopped a long time ago?
+## What happens when we call the join() for a thread that was stopped a long time ago?
 
 > if the thread is already stopped, it will return immediately
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -421,7 +421,7 @@ throws InterruptedException {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we check if a Thread holds a lock or not?
 
-> public static boolean holdsLock(Object obj) in java.lang.Thread it return true 
+> public static boolean holdsLock(Object obj) in java.lang.Thread return true 
 - if the current thread hold the monitor lock on the specified object.
 > NullPointerException if the object is null
 =======================================
@@ -429,6 +429,7 @@ throws InterruptedException {
 yes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How to stop thread in Java?
+
 > After Java1.0, it doesn't provide any method to stop thread and stop(), suspend() and resume() are deprecated.
 
 > To manually stop, programmers either TAKE ADVANTAGE OF VOLATILE BOOLEAN VARIABLE AND CHECK IN EVERY ITERATION IF RUN METHOD HAS LOOPS OR INTERRUPT THREADS to abruptly cancel tasks.
@@ -446,13 +447,13 @@ class Server implements Runnable{
   	exit = true; 
   } 
 }
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can main thread dies before the child thread?
 
 > Yes. Main thread dies after completing its job even after the thread created by main thread is not yet completed.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is there any relationship between threads like parent-child? 
+
 > When you start a thread it inherits the,
 - Thread daemon property and Thread priority
 - from the "parent" thread to "child" thread and that is the only relationship between threads and NO OTHER RELATION EXIST AFTER THREAD STARTS.
@@ -498,6 +499,7 @@ ThreadGroup squares = new ThreadGroup("Squares");
 =====================================
 ######### THREAD EXCEPTIONS #########
 ##What happens when an Exception occurs in a thread?
+
 > the thread that raised the exception will silently die
 > It can be caught if we use any ThreadGroup that handle UncaughtException
 

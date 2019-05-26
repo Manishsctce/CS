@@ -119,7 +119,7 @@ public interface java.lang.Iterable{
 		return Spliterators.spliteratorUnknownSize(this.iterator(), 0);
 	}
 }
-> Since Java8, a default method forEach() is introduce in interable interface
+> Since Java8, a default method forEach() is introduce in interable[i] 
 Ex- empList.forEach(e -> System.out.println(e.getName))
 empList.forEach(System.out::println);//print all employee
 
@@ -190,8 +190,9 @@ public iterface Iterator {
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is FAIL-FAST ITERATOR?
+
 > Fail fast is behavior of an iterator 
-> while iterating through the collection, it throws ConcurrentModificationException if there is structural modification  of the col. 
+> while iterating through the collection, it throws ConcurrentModificationException if there is structural modification of the col. 
 
 1. Single Threaded Environment - After the creation of the iterator , structure is modified at any time by any method other than iterator's own remove method.   
 2. Multiple Threaded Environment- If one thread is modifying the structure of the collection while other thread is iterating over it .
@@ -238,7 +239,8 @@ final void checkForComodification() {
 - This explains why we don’t get exception if we use set method to replace any existing element.
 =====================================
 ############ ENUMERATION ############
-##What is Enumeration interface?
+##What is Enumeration[i]?
+
 > it defines the methods by which we can enumerate the elements in the collection 
 > Vector has a method that return Enumeration . 
 - it is internally implementing Enumeration in elements(). 
@@ -254,8 +256,9 @@ final void checkForComodification() {
 Vector<E> v;
 for (Enumeration<E> e = v.elements(); e.hasMoreElements();)
     System.out.println(e.nextElement());
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference between Enumeration[i] and Iterator[i]?
+
 > Iterator is MORE SECURE AND SAFE as compared to Enumeration because 
 - it does not allow other thread to modify the collection object while some thread is iterating over it and throws ConcurrentModificationException.
 
@@ -271,8 +274,8 @@ for (Enumeration<E> e = v.elements(); e.hasMoreElements();)
 =====================================
 ###### COMPARABLE & COMPARATOR ######
 ##What is Comparable interface?
-> java.lang.Comparable interface is used TO ORDER the objects of user-defined class and 
-- has only 1 method public int compareTo(Object).
+> java.lang.Comparable[i] is used TO ORDER the objects of user-defined class and 
+- has only 1 method : public int compareTo(Object).
 
 > It provide sorting for only one sequence that for only single datamember.
 > list that impl Comparable can be sorted by Collections and Arrays class as
@@ -280,7 +283,7 @@ for (Enumeration<E> e = v.elements(); e.hasMoreElements();)
 - Arrays.sort(array);
 
 > Objects which impl Comparable in java can be used as keys in a SortedMap like TreeMap or SortedSet like TreeSet without implementing any other interface.
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Comparator[i]?
 
 > Comparator interface is used to order the objects of user-defined class.
@@ -291,15 +294,15 @@ Note: that it is always safe not to override Object.equals(Object).
 
 >> It is used when a class cannot be modifyable
 > It provides multiple sorting sequence
-> The list that implement Comparator interface can be sorted by Collections and Arrays class as
+> The list that implement Comparator[i] can be sorted by Collections and Arrays class as
 - Collections.sort(List list, Comparator c);
 
 EXAMPLE:
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is DIFFERENCE between Comparable[i] and Comparator[i]?
 
-> In Comparable, sorting logic must be in same class that obj to be sorted and must implement Comparable interface 
-- in Comparator, sorting logic can be in different class and implement Comparator interface
+> In Comparable, sorting logic must be in same class that obj to be sorted and must implement Comparable[i] 
+- in Comparator, sorting logic can be in different class and implement Comparator[i]
 
 > Comparable provides only one sort of sequence.
 > Comparator provides multiple sort of sequences.
@@ -307,10 +310,10 @@ EXAMPLE:
 > Comparable has 1 method: int compareTo() and 
 - Comparator has 2methods: compare(Object obj1,Object obj2) & equals(Object ele)
 
-> Comparable define in  java.lang package
+> Comparable define in java.lang package
 - Comparator in java.util
 
-> If we implement Comparable interface, actual class is modified. but not in Comparator.
+> If we implement Comparable[i], actual class is modified. but not in Comparator.
 
 > compareTo() : 0 for equal, -1 for smaller, 1 for greater
 =====================================
@@ -341,7 +344,7 @@ Collections methods:-
 10. static int binarySearch(List list1, Object obj1): 
 	- Searches the obj1 in the list list1. Returns the index number of the element obj1. 
 	- elements must be sorted earlier with sort() method; else unexpected results with execu
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the difference between Collection and Collections?
 
 > java.util.Collection is an interface whereas java.util.Collections is a class. 
@@ -350,7 +353,7 @@ Collections methods:-
 
 > for user-define class obj it should implement Comparable interface otherwise throw ClassCastException
 > All wrapper class implements comparable
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to make a collection read only?
 > Collections class provide 6 methods 1 for each of Collection, List, Map, Set, SortedMap, and SortedSet. As below :
 
@@ -361,7 +364,7 @@ Collections methods:-
 > After collection = Collections.unmodifiableXXX(collection);
 collection.add("String"); // throw UnsupportedOperationException
 
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is UnsupportedOperationException?
 > This exception is thrown on invoked methods which are not supported by actual collection type.
 
@@ -369,16 +372,16 @@ collection.add("String"); // throw UnsupportedOperationException
 - take READ-ONLY LIST using Collections.unmodifiableList(list) 
 - then call add() or remove() -> throw UnsupportedOperationException.
 
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the difference between Collections.sort() and Arrays.sort()?
->Collections.sort() internally call Arrays.sort() so algorithm wise both are same.
+> Collections.sort() internally call Arrays.sort() so algorithm wise both are same.
 > Only difference is the input 
 > Merge sort algo is used
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Arrays class?
 > utility class hving private constructor so not initialize
 > contains various method like binarySearch(), sort(), fill(), hashCode(), toString() etc to enhance the spead
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### EMPTY COLLECTION #####
 > returning an instance of list/set is adding an extra cost without any elements. Its better to return EMPTY_LIST/EMPTY_SET/EMPTY_MAP 
 
@@ -389,22 +392,15 @@ collection.add("String"); // throw UnsupportedOperationException
 >> The field gives you a non type-safe empty immutable object where are the method return type-safe empty immutable object of collection 
 
 =============================
-##Why Collection doesnt extend Cloneable and Serializable interfaces?
+### Why Collection doesnt extend Cloneable[i] and Serializable[i]?
 
-> Collection is an ABSTRACT REPRESENTATION of some objects. 
-- What matters is the implementation.
+> Collection is an ABSTRACT REPRESENTATION of a group of objects. 
+- The details of how the group of elements is maintained is left up to the concrete implementations of Collection.  For example, List allow duplicate ele whereas Set don't
+- However, it does't really make sense to include it in all implementations of Collection. This is because Collection is an abstract representation
+- the concrete implementation should decide how it should be cloned or serialized, or even if it can be cloned or serialized
 
-> The semantics and the implications of either cloning or serializing come into play when dealing with the actual implementation; 
-so concrete implementation should decide how it should be cloned or serialized, or even if it can be cloned or serialized.
-
-> So MANDATING cloning and serialization in all implementations is actually LESS FLEXIBLE AND MORE RESTRICTIVE. 
-The specific implementation should make the decision as to whether it can be cloned or serialized.
-
-> It is not mandatory that every collection concrete implementation should be clonable or serialized that's why we don't hv it in collection  
-- concrete implementation should decide how/whether it should be cloned or serialized,
-- So mandating cloning and serialization in all implementations is actually less flexible and more restrictive.
- 
+> So MANDATING it will be actually LESS FLEXIBLE AND MORE RESTRICTIVE. 
 > A lot of the Collection implementations have a public clone method.  
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are Collection related features in Java 8?
 > 

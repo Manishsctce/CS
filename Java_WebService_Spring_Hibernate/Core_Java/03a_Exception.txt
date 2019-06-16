@@ -1,13 +1,14 @@
 ######### Throwable[c] #########
 public class Throwable implements Serializable {
-	public String getMessage() {
-		return detailMessage;
-	}
-	//Subclasses may override this method in order to produce a locale-specific message. 
-	public String getLocalizedMessage() {
-        return getMessage();
-    }
-	...
+  public String getMessage() {
+  	return detailMessage;
+  }
+  
+  //Subclasses may override this method in order to produce a locale-specific message. 
+  public String getLocalizedMessage() {
+    return getMessage();
+  }
+  ...
 }
 
 > Throwable is a parent class of all Exception classes and Error classes. 
@@ -16,35 +17,38 @@ public class Throwable implements Serializable {
 > It must be checked 
 
 > it contain printStackTrace(), getStackTrace(), getMessage() and other.
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why Throwable is class not Interface?
+
 > Its bcx every Exceptions have state. In particular, message, cause, and stack trace 
 - it is possible only with class not interface.
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## But could it be made abstract?
 > In theory, yes. In practice, no. 
 - Too much code depends on being able to create an instance of Throwable in order to call getStackTrace.
 
 =====================================
 ############### ERROR ###############
-##What is Error?
+## What is Error?
+
 > An Error is an irrecoverable condition occurring at runtime. Such as OutOfMemory error. 
 > It is UNCHECKED i.e if we are throwing error then it is not require to check ie (try-catch block)
 Ex - throw new Error(); // No try-catch block require
 
-> These JVM errors and u CANT REPAIR THEM AT RUNTIME. 
-> Though error can be caught in catch block but the exec of appl will come to HALT and is not recoverable.
+> These JVM errors CANT REPAIR THEM AT RUNTIME. 
+> Though ERROR CAN BE CAUGHT IN CATCH BLOCK but the execution of app will come to HALT and is not recoverable.
 
 > Errors are exceptional scenarios that are OUT OF SCOPE OF APP and it’s not possible to anticipate and recover from them, 
-for example hardware failure, JVM crash or out of memory error
+EXAMPLE - hardware failure, JVM crash or out of memory error
 
 > ERROR 
 - VirtualMachineError <-- OutOfMemoryError,StackOverflowError
 - LinkageError <-- NoClassDefFoundError, ClassFormatError, IncompatibleClassChangeError(NoSuchMethodError)
 - IOError 
 - AWTError
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is OutOfMemoryError in java?
+
 > It is occurs when JVM runs out of memory in the heap or PermGen space.
 
 REASON for such Error
@@ -55,21 +59,25 @@ REASON for such Error
 - in most of JVM default size of Perm Space is around "64MB"
 
 2. Memory leak through Classloaders
-> we can use Eclipse Memory Analyzer to examine heap dump or use any profiler like Netbeans or JProbe.
+> we can use Eclipse Memory Analyzer to examine heap dump OR 
+- use any profiler like Netbeans or JProbe.
 
 - Permanent generation is used to store String pool and various Metadata required by JVM related to Class, method and other java primitives.
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is StackOverflowError in java?
 
+> This error is thrown to indicate that the application’s stack was exhausted, due to deep recursion.
 =====================================
 ############### EXCEPTION ###########
 ## What is an Exception?
+
 > Exception is a case that can happen in a program that disrupts the normal flow of the program. 
 > The disruption converted into object and thrown whenever an exceptional event occurs in java which signals that something is not correct with the code written and may give unexpected result
 > it alters the normal program flow
 > it define in java.lang.Exception
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are important methods of Java Exception Class?
+
 > Exception and all of it’s subclasses doesn’t provide any specific methods and all of the methods are defined in the base class Throwable.
 
 1. String getMessage()
@@ -88,8 +96,9 @@ REASON for such Error
 - the last element in the array represents the method at the bottom of the call stack.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 ##What is difference between Error and Exception?
-> ERROR - JVM errors you can not repair them at runtime.
-> Though error can be caught in catch block but the execution of application will come to a halt and is not recoverable.
+
+> ERROR - JVM errors can not repair at runtime.
+- Though error can be caught in catch block but the execution of application will come to a halt and is not recoverable.
 =====================================
 ########## TYPE OF EXCEPTION ########
 ## Explain the exception hierarchy in java.
@@ -100,11 +109,13 @@ REASON for such Error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Two types of Exceptions: Checked exceptions &  UncheckedExceptions
 
-> CHECKED EXCEPTION - IOException, ClassNotFoundExceptions, InterruptedException, NoSuchMethodException, SQLException
+> CHECKED EXCEPTION 
+- IOException, ClassNotFoundExceptions, InterruptedException, NoSuchMethodException, SQLException
 
 > RuntimeException (UNCHECKED EXCEPTION) - describe below
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Runtime Exception or unchecked exception?
+
 > exceptions which occur at run time are called as run time exceptions. 
 - These exceptions are unknown to compiler. 
 
@@ -115,9 +126,9 @@ RuntimeException
 4. NullPointerException
 5. IndexOutOfBoundException <-- ArrayIndexOutOfBoundsException, StringIndexOutOfBoundException
 6. ArrayStoreException (attempt has been made to store the wrong type of object into an array of objects)
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Checked exception?
+
 > All exception other than RunTimeException are checked exception
 
 IOException <-- FileNotFoundException
@@ -125,13 +136,14 @@ ClassNotFoundException <--
 InterruptedException, 
 NoSuchMethodException - throw while using Reflection and the method no found
 SQLException
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we handle Throwable class exception?
+
 > we can handle throwable class exception but it is NOT GOOD PRACTICE to handle it as it give all error and exception. 
 > Here error can be any thing which is irrecoverable condition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is main difference between RuntimeException/unchecked and checked Exception?
+
 >>  It is MANDATORY TO PROVIDE TRY CATCH OR TRY FINALLY BLOCK TO HANDLE CHECKED EXCEPTION and failure to do so will result in compile time error, while 
 - in case of RuntimeException this is not mandatory
 
@@ -141,9 +153,9 @@ SQLException
  
 > By extending java.lang.RuntimeException, we can create unchecked exception.
 - By extending java.lang.Exception, we can create checked exception.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When should you use a checked exception and when should you use an unchecked exception?
+
 > Use Checked Exception, when client code can take some useful recovery action based on info in exception
 > Use Un-checked Exception, when client code cann't take any action 
 
@@ -178,7 +190,8 @@ https://10kloc.wordpress.com/2013/03/09/runtimeexceptions-try-catch-or-not-to-ca
 > Yes it can
 =======================================
 ###### EXCEPTION OVERRIDING RULE ######
-> overridden method can declare more specific exception not generic.
+
+> OVERRIDDEN METHOD CAN DECLARE MORE SPECIFIC EXCEPTION NOT GENERIC.
 
 >> If the superclass method does not declare an exception, 
 - subclass overridden method CANNOT DECLARE THE CHECKED EXCEPTION but 
@@ -191,14 +204,15 @@ https://10kloc.wordpress.com/2013/03/09/runtimeexceptions-try-catch-or-not-to-ca
 
 EXAMPLE-
 class Test{
-    public void display() throws IOException{}
+  public void display() throws IOException{}
 }
 public class Demo extends Test{
-    public void display() throws Exception{} //throwing super class exception
+  public void display() throws Exception{} //throwing super class exception
 }
 -  does not compile as subclass display() method cannot throw more than IOException
 =====================================
 ########### CUSTOM EXCEPTION ########
+
 > We can make our own exception by extending different Exception classes
 > We can make both checked and unchecked exception
 - if we extends Exception then it will be checked 
@@ -421,7 +435,8 @@ C. Finalize() - it is a method which is always invoked by garbage collector just
 
 =======================================
 ############ BEST PRACTICES #########
-##What BEST PRACTICES you follow while doing Exception handling in Java ?
+## What BEST PRACTICES you follow while doing Exception handling in Java ?
+
 >> Returning boolean instead of returning null to avoid NullPointerException at callers end.
 > Non empty catch blocks
 > Modify the sqlexception before throwing it to user

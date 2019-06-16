@@ -54,21 +54,21 @@ There are several kinds of variables:
 
 > In Subclass - super class relation, SUBCLASS CONSTRUCTOR SHOULD PROPOGATE TO SUPER CLASS through any constructor
 - subclass para constructor can call non-para super() constructor or like that
-- subclass can call its super class constructor. but cannt call it grand super constructor
+- subclass can call its super class constructor. but CANNT CALL IT GRAND SUPER CONSTRUCTOR
 
-> static initializer block is executed before constructor because they are executed when class is loaded into memory 
+> STATIC INITIALIZER BLOCK IS EXECUTED BEFORE CONSTRUCTOR because they are executed when class is loaded into memory 
 - while constructors are executed when you create instance 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Constructor Overloading?
+
 > multiple constructors with a different signature inside one Class is called Constructor Overloading
 > if an overloaded constructor called using 'this()', it must be the first statement of constructor
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Constructor Chaining? 
+
 > Calling one constructor from another constructor in Java is called Constructor chaining. 
 > we can use keyword 'this' for calling constructor of same class and 'super' for calling constructor of super class. 
 > Call to constructor must be on the first line of any constructor or else you will get compilation error.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## if we doesn't maintain Constructor Chaining, does it affect?
 
@@ -124,9 +124,11 @@ EXAMPLE :
 =====================================
 ############## INNER CLASSES ########
 ##What are various types of inner classes?
-There are 4 TYPES of inner class
-1. Anonymous class   2. Local class  
-3. Member class (i.e non-static inner class) 
+
+There are 4 TYPES OF INNER CLASS
+1. Anonymous class   
+2. Local inner class  
+3. Member inner class (i.e non-static inner class) 
 4. Top-Level class(Static class or Static Nested Class)
 
 > Based on static modifier, there are 2 type of inner classes: 
@@ -137,7 +139,7 @@ There are 4 TYPES of inner class
 > File creation
 EnclosingOuter.class 
 EnclosingOuter$Inner.class
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~---
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Where should you use nested class in Java? 
 
 Reasons for using inner classes,
@@ -200,14 +202,15 @@ public class AnonymousClassDemo {
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the purpose of an anonymous inner class?
-> by creating an anonymous inner class, we can override one or more methods of a superclass
+
+> by creating an anonymous inner class, we can override one or more methods of a superclass and it is fast way
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##we could have do the method overiding  using a normal, separate class and extending super class then why anonymous class?
+##we could have do the method overiding using a normal, separate class and extending super class then why anonymous class?
 > it is fast way to override superclass method and created only once thats why it use
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 =====================================
 ########### LOCAL INNER CLASS #######
+
 > it is DECLARED INSIDE A CODE BLOCK OR METHOD. 
 > Once you declare a class within a block, it can be instantiated as many times as you wish within that block
 > local classes AREN'T ALLOWED TO BE DECLARED PUBLIC, PROTECTED, PRIVATE, OR STATIC.
@@ -231,33 +234,32 @@ public class AnonymousClassDemo {
 
 EXAMPLE:
 class TopClass1{
-	private String topClassVar;
-	TopClass1(String topClassVar){
-		this.topClassVar = topClassVar;
-	}
+  private String topClassVar;
+  TopClass1(String topClassVar){
+  	this.topClassVar = topClassVar;
+  }
 	
-	void topClassMethod1(){
-		String str = "Member method local variable";
-		final String str2 = "Final String";
-		
-		final class LocalInnerClass{			
-			
-			void display(){				
-				//Local inner class can access Parent class variable
-				syso("Local method of Local Inner class accessing parent class variable: "+topClassVar);
-				
-				//Cannot use non-final variable of member method of parent class
-				//syso("Local method of Local Inner class accessing local variable: "+str);//WORK with JDK8
-				
-				//Local Inner class can access only final local variable
-				syso("Local method of Local Inner class accessing final local variable: "+str2);
-			}
-		}
-		LocalInnerClass localInnerClass = new LocalInnerClass();
-		localInnerClass.display();
-	}
+  void topClassMethod1(){
+  	String str = "Member method local variable";
+  	final String str2 = "Final String";
+  	
+  	final class LocalInnerClass{			
+  		
+  	  void display(){				
+  	  	//Local inner class can access Parent class variable
+  	  	syso("Local method of Local Inner class accessing parent class variable: "+topClassVar);
+  	  	
+  	  	//Cannot use non-final variable of member method of parent class
+  	  	//syso("Local method of Local Inner class accessing local variable: "+str);//WORK with JDK8
+  	  	
+  	  	//Local Inner class can access only final local variable
+  	  	syso("Local method of Local Inner class accessing final local variable: "+str2);
+  	  }
+  	}
+  	LocalInnerClass localInnerClass = new LocalInnerClass();
+  	localInnerClass.display();
+  }
 }
-
 =======================================
 ## MEMBER INNER CLASS (INNER CLASS) ###
 
@@ -266,37 +268,41 @@ class TopClass1{
 > Member Class can access private member of its enclosing class
 > In Jdk, Map.Entry 
 
-> an inner class is associated with an instance, it CANNOT DEFINE ANY STATIC MEMBERS ITSELF
-- compiler complain as "field staticInnerClassVar cannot be declared static in a non-static inner type, unless initialized with a constant 
-	 expression"
+> an inner class is associated with an instance, it CANNOT DEFINE ANY STATIC MEMBERS ITSELF compiler error
 - can define FINAL STATIC variable;
 - but we CANN'T DEFINE ANY LOCAL VARIABLE AS 'STATIC' OR 'STATIC FINAL' (i.e inside static/non-static member method )
 
-> In order to create instance of Inner class, an instance of outer class is required. 
-- Every instance of inner class is bounded to one instance of Outer class.
-Ex - OuterClass.InnerClass innerObject = outerObject.new InnerClass();
+> TO CREATE INSTANCE OF MEMBER INNER CLASS, AN INSTANCE OF OUTER CLASS IS REQUIRED. 
+- Every instance of member inner class is bounded to one instance of Outer class.
+
+EXAMPLE1: - OuterClass.InnerClass innerObject = outerObject.new InnerClass();
+EXAMPLE2: - OuterClass.InnerClass innerObject = new OuterClass().new InnerClass();
 
 =======================================
 ######## STATIC INNER CLASS #########
 > Nested Class
 > inner class that is define as static is static inner class 
 
+> Static class can be created inside another class only,
+- we cannot create outer class as static 
+
 > Static nested class does not use any non-static reference.
 
 > Static nested classes are accessed using the enclosing class name, i.e. OuterClass.StaticNestedClass or can be use directly if imported 
-- To create instance for the static nested class, 
-	1. we dont need to create object of outer class. we can use as following:
-	OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+- TO CREATE INSTANCE FOR THE STATIC NESTED CLASS, 
+  1. we dont need to create object of outer class. we can use as following:
+  OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
 	
-	2. We can import StaticNestedClass (import classesDemo.TopClass2.NestedStaticClass;) and then create instance as below:-
-	NestedStaticClass nestedObject = new NestedStaticClass();
+  2. We can import StaticNestedClass (import classesDemo.TopClass2.NestedStaticClass;) and then create instance as below:-
+  NestedStaticClass nestedObject = new NestedStaticClass();
 
->we make a class static in Java when we want a single resource to be shared between all instances and
+> we make a class static in Java when we want a single resource to be shared between all instances and
 -  normally we do this for utility classes which are required by all components and which itself doesn't have any state.
 
 > Two class file will create for nested class. The nested class file will have parent name separated with $.	
 =======================================
 ##What is the DIFFERENCE B/W A NESTED CLASS AND INNER CLASS.
+
 > Static inner classes are known as nested classes and 
 - non-static inner classes are known as inner class.
 
@@ -308,8 +314,7 @@ Ex - OuterClass.InnerClass innerObject = outerObject.new InnerClass();
 
 > Static nested class can be use directly if imported 
 - inner class cannot be imported
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~---
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Difference between ANONYMOUS CLASS AND LOCAL INNER CLASS
 ##How is local inner class different from anonymous class and which one you should chose?
 
@@ -320,11 +325,12 @@ Ex - OuterClass.InnerClass innerObject = outerObject.new InnerClass();
 - anonymous class is accessible only at the point of its declaration i.e only once
 
 > if you need a named constructor and/or an overloaded constructor then use Local inner class 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
-##How do you get a reference to outer class in inner class ?
-> Inside inner class, 'this' would refer to inner class itself, so you access the outer class as OuterClassName.this
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do you get a reference to outer class in inner class ?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+> Inside inner class, 'this' would refer to inner class itself, 
+- TO ACCESS THE OUTER CLASS in Inner class as OuterClassName.this
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Where should you use inner classes?
 > Code without inner classes is more maintainable and readable.
 > When you access private data members of the outer class, the JDK compiler creates package-access member func in the outer class for the inner class to access the private members. This leaves a security hole. 
@@ -377,23 +383,25 @@ EXAMPLES:
 > Reflection can also cause initialization of class. Some methods of java.lang.reflect package may cause class to be initialized. 
 > JLS Strictly says that a class should not be initialized by any reason other than above.
 
-## Rule of CLASS INITIALIZATION ##
-1. Classes are initialized from top to bottom so field declared on top initialized before field declared in bottom
-2. Super Class is initialized before Sub Class or derived class in Java
-3. If Class initialization is triggered due TO ACCESS OF STATIC FIELD, ONLY CLASS WHICH HAS DECLARED STATIC FIELD IS INITIALIZED and 
+#### RULE OF CLASS INITIALIZATION ####
+
+1. CLASSES ARE INITIALIZED FROM TOP TO BOTTOM so field declared on top initialized before field declared in bottom
+- Super Class is initialized before Sub Class or derived class in Java
+- non-static fields are initialized by constr. sub-class constr implicitly call super-class constr. which guarantees that non-static or instance var of super-class is initialized before sub-class. 
+
+2. If Class initialization is triggered due TO ACCESS OF STATIC FIELD, ONLY CLASS WHICH HAS DECLARED STATIC FIELD IS INITIALIZED and 
 - it doesn't trigger initialization of super class or sub class 
 - even if static field is referenced by Type  of Sub Class, Sub Interface or by implementation class of interface.
 
-4. interface initialization in Java doesn't cause super interfaces to be initialized bcz doesn't support contructor and its chaining
-5. static fields are initialized during static initialization of class while 
+3. interface initialization in Java doesn't cause super interfaces to be initialized bcz doesn't support contructor and its chaining
+
+4. static fields are initialized during static initialization of class while 
 - non static fields are initialized when instance of class is created. 
 - It means static fields are initialized before non static fields in Java.
 
-6. non static fields are initialized by constructors in Java. 
-- sub class constructor implicitly call super class constructor before doing any initialization, 
-- which guarantees that non static or instance variables of super class is initialized before sub class.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
-##Describe what happens when an object of a class is created?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Describe what happens when an object of a class is created?
+
 1. Memory is allocated in heap to hold all instance variables and implementation-specific data of the object and its superclasses.
 
 2. The instance variables of the objects are initialized to their default values.
@@ -415,7 +423,7 @@ JAVA CLASS LOADER
 
 > Uniqueness principle allows to load a class exactly once, which is basically achieved by delegation and ensures that child ClassLoader doesn't reload the class already loaded by parent. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the principle on which classloader works?
 
 >ClassLoader in Java works on three principle: 
@@ -431,7 +439,7 @@ JAVA CLASS LOADER
 
 
 > Correct understanding of class loader is must to resolve issues like NoClassDefFoundError in Java and java.lang.ClassNotFoundException, which are related to class loading. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is classloader in java? How many type of default classloader are there?
 
 > It is a class which is used to load class and interface file in java. So that JVM can execute the byte codes
@@ -448,7 +456,6 @@ JAVA CLASS LOADER
 
 - Extension ClassLoader in JVM is implemented by  sun.misc.Launcher$ExtClassLoader. 
 
-
 - load classes from jdk extension directory "JAVA_HOME/jre/lib/ext". These java classses are extension of standard core java classes.
 
 3. SYSTEM OR APPLICATION CLASS LOADER. 
@@ -456,7 +463,7 @@ JAVA CLASS LOADER
 - Class-Path attribute of Manifest file inside JAR.
 - Application class loader is a child of Extension ClassLoader and its implemented by sun.misc.Launcher$AppClassLoader class
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Example of Visibility principle?
 public class ClassLoaderTest {
   
@@ -492,7 +499,7 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
         at java.lang.Class.forName(Class.java:247)
         at test.ClassLoaderTest.main(ClassLoaderTest.java:29)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### How to load class explicitly in Java?
 > Java provides API to explicitly load a class by 
 - Class.forName(classname) and 
@@ -507,17 +514,17 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 - Some web server also supports hot deploy functionality which is implemented using ClassLoader. 
 - You can also use ClassLoader to load classes from database or any other persistent store.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between loadClass and Class.forName ?
 
 > loadClass only loads the class but doesn't initialize the object whereas 
 - Class.forName() initialize the object after loading it.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between static vs. dynamic class loading?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between NoClassDefFoundError and ClassNotFoundException?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to maintain multiple version of class in a JVM?
 ## Many times during the development you will need to work with different libraries versions which not always backward compatible or from some reason you need to support multiple versions of the same library. 
 
@@ -538,7 +545,7 @@ method.invoke(null, (Object) params);
 
 2. custom class loader: 
 https://dzone.com/articles/java-classloader-handling
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://www.journaldev.com/349/java-classloader
 https://stackoverflow.com/questions/148681/unloading-classes-in-java

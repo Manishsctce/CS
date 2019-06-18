@@ -4,13 +4,13 @@
 > A Map is an object that maps keys to values. Each pair is known as an entry. 
 > A map cannot contain duplicate keys.
 General Map Implementations :
-1. HashTable 2. HashMap 3. LinkedHashMap 4. TreeMap 5. ConcurrentHashMap
+1. HashTable(HT) 2. HashMap(HM) 3. LinkedHashMap(LHM) 4. TreeMap(TM) 5. ConcurrentHashMap(CHM)
 
-> HashTable - No iteration order, no null key or value, synchr, time perfo O(1), buckets implementation 
-> HashMap - No iteration order, 1 null key or many null values, not sychro, time perfo O(1), buckets implementation 
-> LinkedHashMap -Yes iteration order (maintain order of insertion),  subclass of HashMap
-> TreeMap - maintain natural order of key(i.e ascending), no-yes null key-values, NOT synch,  time perfo O(log n), RB tree implementation 
-> ConcurrentHashMap - NO iteration order, NO NULL Key or value, thread safe, 
+1. HashTable - No iteration order, no null key or value, synchr, time perfo O(1), buckets implementation 
+2. HashMap - No iteration order, 1 null key or many null values, not sychro, time perfo O(1), buckets implementation 
+3. LinkedHashMap -Yes iteration order (maintain order of insertion),  subclass of HashMap
+4. TreeMap - maintain natural order of key(i.e ascending), no-yes null key-values, NOT synch,  time perfo O(log n), RB tree implementation 
+5. ConcurrentHashMap - NO iteration order, NO NULL Key or value, thread safe, 
 ############ Map[i] METHODS #########
 
 01. V put(object key,Object val): is used to insert an entry in this map.
@@ -26,8 +26,8 @@ General Map Implementations :
 04. V get(Object key): 
 - return value for the specified key.
 
-05. boolean containsKey(Object key): to search the specified key from this map.
-06. boolean containsValue(Object value): to search the specified value from this map.
+05. boolean containsKey(Object key): to search the specified key in this map.
+06. boolean containsValue(Object value): to search the specified value in this map.
 07. Set keySet(): 
 - returns the Set of all the keys.
 
@@ -95,14 +95,15 @@ INTERNAL IMPLEMENTATION
 >
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Map.Entry? How elements are storing in Map?
+
 > Entry is a subinterface of Map. It can be use as Map.Entry name. 
-> It is used to store the key-value pair in the form of entry object or in other word,
+> It is used to store the key-value pair in the form of entry object i.e,
 - MAP ELEMENTS ARE STORED IN FORM OF ENTRY.
 
 > It is also USED TO ITERATE OVER MAP 
 > Its implementation is in HashMap as below.
 
-## METHODS ##
+#### METHODS ####
 1. boolean equals(Object o) 
 2. K getKey()
 3. V getValue()
@@ -121,9 +122,10 @@ static class Entry<K ,V> implements Map.Entry<K ,V>
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to iterate over Map?
+
 EXAMPLE1:
 Set<Map.Entry<String, Double>> set = treemap.entrySet();		
-// Display the elements.
+
 for(Map.Entry<String, Double> me : set) {
 	System.out.print(me.getKey() + ": ");
 	System.out.println(me.getValue());
@@ -132,7 +134,7 @@ for(Map.Entry<String, Double> me : set) {
 ##Using foreach and Map.Entry
 for (Map.Entry<String, String> entry : map.entrySet())
 {
-    System.out.println(entry.getKey() + "/" + entry.getValue());
+  System.out.println(entry.getKey() + "/" + entry.getValue());
 }
 
 ## Using forEach from Java 8
@@ -152,7 +154,7 @@ for (Iterator<Map.Entry<Integer, Integer>> entries = map.entrySet().iterator(); 
     System.out.println(entry.getKey() + "/" + entry.getValue());
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## where Iterator interface methods hasNext(), next(), remove() method is define?
+## where Iterator[i] methods hasNext(), next(), remove() method is define?
 
 > All methods of Collection is define in AbstractCollection class
 > All methods of Set is define in AbstractSet
@@ -174,84 +176,91 @@ for (Iterator<Map.Entry<Integer, Integer>> entries = map.entrySet().iterator(); 
 3. Hashtable(int initialCapacity, float loadFactor)
 4. public Hashtable(Map<? extends K, ? extends V> t)
 
-> When we have a collision(i.e 2 key have same hashCode), there are multiple methodologies available to resolve it. To name a few hashtable collision resolution technique, ‘separate chaining’, ‘open addressing’, ‘robin hood hashing’, ‘cuckoo hashing’, etc. 
+> When we have a collision(i.e 2 key have same hashCode), it can be solve using few hashtable collision resolution technique like
+- separate chaining, open addressing, robin hood hashing, cuckoo hashing, etc. 
 
-> Java’s hashtable uses ‘separate chaining’ for collision resolution in Hashtable.
+> Hashtable uses ‘separate chaining’ for collision resolution.
 
-> Initial capacity is number of buckets created at the time of Hashtable instantiation. Bucket is a logical space of storage for Hashtable.
-> The number of buckets and probability of collision is inversly proportional.
->> The default size of initialCapacity is 11 define in default HashTable constructor and loadFactor is .75
-It mean that if the hashTable is 3/4th full then the size of HashTable increase and new capacity will be oldcapacity * 2 +1;
+> INITIAL CAPACITY is no. of buckets created at the time of Hashtable instantiation. 
+- BUCKET is a logical space of storage for Hashtable.
+- The number of buckets and probability of collision is inversly proportional.
+
+>> The default size of initialCapacity is 11 and loadFactor is .75
+- It mean that if the hashTable is 3/4th full then the size of HashTable increase and new capacity will be oldcapacity * 2 +1;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How HashTable get(Object key) works?
 
 public synchronized V get(Object key) 
 {
-        Entry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length; // hash * max hex value of int i.e 32 bit
-        for (Entry< K,V > e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                return e.value;
-            }
-        }
-        return null;
+   Entry tab[] = table;
+   int hash = key.hashCode();
+   int index = (hash & 0x7FFFFFFF) % tab.length; //hash*max hex value of int i.e 32 bit
+   for (Entry< K,V > e = tab[index] ; e != null ; e = e.next) {
+     if ((e.hash == hash) && e.key.equals(key)) {
+         return e.value;
+     }
+   }
+   return null;
 }
-> There can be at most one key-value mapping
 > get value of null key will throw NullPointerException
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bt impl of HashMap.get() and HashTable.get() ?
 
-> In HashMap.get() it will check the null key-values pair to but not in HashTable.get() 
-> single hash value calculation 
+> In HashMap.get() it will check the null key-values pair to but 
+- not in HashTable.get() 
+> single hash value calculation is used in HT but not HM 
 > all other implementation part is same (i.e find index 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How put() of HashTable works?
 
- public synchronized V put(K key, V value) 
+public synchronized V put(K key, V value) 
 {
-    // Make sure the value is not null
-    if (value == null) {
-        throw new NullPointerException();
+  // Make sure the value is not null
+  if (value == null) {
+      throw new NullPointerException();
+  }
+  // Makes sure the key is not already in the hashtable.
+  Entry tab[] = table;
+  int hash = key.hashCode();
+  int index = (hash & 0x7FFFFFFF) % tab.length;//bucket index
+  for (Entry< K,V > e = tab[index] ; e != null ; e = e.next) {
+    if ((e.hash == hash) && e.key.equals(key)) {
+      V old = e.value;
+      e.value = value;
+      return old;
     }
-    // Makes sure the key is not already in the hashtable.
-    Entry tab[] = table;
-    int hash = key.hashCode();
-    int index = (hash & 0x7FFFFFFF) % tab.length;//bucket index
-    for (Entry< K,V > e = tab[index] ; e != null ; e = e.next) {
-        if ((e.hash == hash) && e.key.equals(key)) {
-            V old = e.value;
-            e.value = value;
-            return old;
-        }
-    }
-    modCount++;
-    if (count  >= threshold) {
-        // Rehash the table if the threshold is exceeded
-        rehash();
-        tab = table;
-        index = (hash & 0x7FFFFFFF) % tab.length;
-    }
-    // Creates the new entry.
-    Entry< K,V > e = tab[index];
-    tab[index] = new Entry<  >(hash, key, value, e);
-    count++;
-    return null;
+  }
+  modCount++;
+  if (count  >= threshold) {
+    // Rehash the table if the threshold is exceeded
+    rehash();
+    tab = table;
+    index = (hash & 0x7FFFFFFF) % tab.length;
+  }
+  // Creates the new entry.
+  Entry< K,V > e = tab[index];
+  tab[index] = new Entry<  >(hash, key, value, e);
+  count++;
+  return null;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How hashCode is fit into the table size?
 
 > Actually index is calculate based on (hashCode of key)% tab.length;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is difference between HashMap and Hashtable?
->> HashMap class is roughly equivalent to Hashtable, except that it is unsynchronized and permits nulls
+### What is difference between HashMap and Hashtable?
+
+>> HM is roughly equivalent to HT, except that it is unsynchronized and permits nulls
 
 > HashMap allows null key and values whereas 
 - Hashtable doesn’t allow null key and values.
 
 > Hashtable is synchronized but HashMap is not synchronized. 
+
 > Initial capacity of HashTable is 11 and HashMap is 16 and loadfactor = 0.75
-> LinkedHashMap was introduced in Java 1.4 as a subclass of HashMap, so incase you want iteration order, you can easily switch from HashMap to LinkedHashMap but that is not the case with Hashtable whose iteration order is unpredictable.
+
+> LHM was introduced in Java 1.4 as a subclass of HM, we can easily switch 
+- but that is not the case with HT whose iteration order is unpredictable.
 
 > HashMap provides Set of keys to iterate and hence it’s fail-fast but 
 - Hashtable provides Enumeration of keys that doesn’t support this feature.

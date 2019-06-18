@@ -10,7 +10,8 @@ JAVA
 > MEMORY MANAGEMENT - auto gc
 > SECURE - It is secure because No explicit pointer and programs run inside JVM which provide security using class loader,bytecode verfier and Security manager(what resource a class can access)
 > Dynamic - using package avoid name conflict which associate packagename dynamically
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+############ OOP CONCEPT ##############
 ##What is OOP?
 
 > Object Oriented concept state everything in real world can be represent as an object.
@@ -54,7 +55,9 @@ JAVA
 - ENCAPSULATION is implemented using private and protected access modifier.
 - ABSTRACTION is implemented using interface and abstract class while 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+############ POLYMORPHISM #############
+
 ##What is POLYMORPHISM? (poly - many)+(morphism-behaivour)
 
 > it is a concept which state an object/reference/method can behave differently in different context.
@@ -83,8 +86,20 @@ Ex - In Inheritence, Base class reference can be use differently as for childs c
  Method overloading
  Method overriding through inheritance
  Method overriding through the Java interface
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Java does not support operator overloading ?
+
+> Operator Overloading mean a single operator can behave different with different parameter 
+Ex - "+" behave different for int,float,String.
+> Here we can change the behavior of operator too. Ex- + operator can internally doing subtraction. This make the behaivour more complex thats why avoid in Java.
+
+> This is not supported in java because It was making Java complex.
+- It was making Java error prone. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=======================================
+############ INHERITANCE #############
+
 ## Why multiple inheritance is not supported in Java ?
 
 > Because it leads to diamond problem i.e 
@@ -108,11 +123,14 @@ class PrintStream{
 	public void println(){
 	...}
 }
-######### MAIN METHOD ############
+=======================================
+############ MAIN METHOD ##############
 ## What if I do not provide the String array as the argument to the method?
+
 > Program compiles but throws a runtime error "NoSuchMethodError".
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can an application have multiple classes having main method?
+## Can an application have multiple classes having main method?
+
 > Yes it is possible. While starting the application we mention the class name to be run. 
 - The JVM will look for the Main method only in the class whose name you have mentioned. Hence there is not conflict amongst the multiple classes having main method.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -232,7 +250,7 @@ public static void main(String [] args)
 > primitive datatype(byte,short,int,long,float,double,char,boolean) doesnot contain null value
 > All numeric primitive data type are signed datatype mean it can contain negative values also
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### Size of data types ####
+####### Size of data types ######
 - byte 8 bit (-128 to 127), 
 - short : signed 16 bit (-32768 to -32767), 
 - int 	: signed 32 bit (–2,147,483,648 to 2,147,483,647) i.e 2^32 
@@ -252,7 +270,7 @@ Ex -
 char c1 = 064770; is an octal representation of the integer value 27128, which is legal because it fits into an unsigned 16-bit integer. 
 char c3 = 0xbeef; is a hexadecimal representation of the integer value 48879, which fits into an unsigned 16-bit integer. 
 char c6 = '\uface'; is a Unicode representation of a character.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Will size of primitive data type change with change in processor bit(i.e 32 or 64 bit)??
 
 > No, size of primitive data type will not change but size of object will change with processor bit.
@@ -306,6 +324,7 @@ System.out.println(_);//print 10
 <= Less than or equal to
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 4. BOOLEAN LOGICAL #######
+
 Logical AND (&) => true & false = false
 Logical OR (|) 
 Logical XOR (exclusive OR) '^'  - true & false = true
@@ -341,10 +360,10 @@ result = testCondition ? value1 : value2
 > it continue while condition is true 
 
 =======================================
-######## DECISION MAKING LOOP #######
+######## DECISION MAKING LOOP #########
 - 1. if..else and 2. switch
 
-############## SWITCH ###############
+############## SWITCH #################
 > Before Java7, Switch statements are based on char,int expressions and since both bytes and chars can IMPLICITLY BE WIDENED TO AN INTEGER 
 > case statement takes only a single argument. Ex - case 0,1 (wrong)
 > it support auto-unboxing
@@ -380,57 +399,66 @@ public class StringsInSwitch {
         }
     }
 }
-=========================================
-########### KEYWORDS OF JAVA ########
+=======================================
+########### KEYWORDS OF JAVA ##########
+
 > goto, strictfp, continue, instanceof, transient, native(reserved)
 > assert, exit, main, null, next, delete, then is NOT A KEYWORD
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Strictfp is known for strict floating point calculation 
 > By modifying class and method with strictfp. float variable pericision will not change at different OS
-========================================
-## TRANSIENT(last for very short time)##
+=======================================
+############# TRANSIENT ###############
+
+> TRANSIENT mean last for very short time
+
 > Java transient keyword is used in serialization. 
-- If you define any data member as transient, IT WILL NOT BE SERIALIZED.
+- If we define any data member as transient, IT WILL NOT BE SERIALIZED.
+
 > Applying it to method or local variable is compilation error
 > value of transient variable after deserialization is null i.e default value
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When should we use transient keyword in java?
-> 1. when a fields values are DERIVED/calculated FROM OTHER FIELDS 
+
+1. when a fields values are DERIVED/calculated FROM OTHER FIELDS 
 Ex- age of a person using time difference (dob - current date)
 
-> 2. Any info which NEED TO BE SECURE
+2. Any info which NEED TO BE SECURE
 
-> 3. Any Containing-class having un-serializable class instance and it is serializing, then it will throw java.io.NotSerializationException while serialization, 
+3. Any Containing-class having un-serializable class instance and it is serializing, then it will throw java.io.NotSerializationException while serialization, 
 - it can be solve by making un-serializable class instance as transient
 
-> 4. field which doesn't mean any sense to serialize make as transient
-For example, In any class if you have added a logger reference, then whats use of serializing that logger instance. 
+4. field which doesn't make any sense to serialize mark as transient
+- For example, In any class if you have added a logger reference, then whats use of serializing that logger instance. 
 
-========================================
-############# VOLATILE ############
+=======================================
+############# VOLATILE ################
 > it mean liable to change rapidly
 
-##What is volatile variable ?
+## What is volatile variable ?
+
 > VOLATILE keyword actually guaranteed that any thread that reads the field will see the MOST RECENTLY WRITTEN VALUE.
 > it WILL NOT PERFORM ANY MUTUAL EXCLUSIVE LOCK
+
 > Volatile keyword can ONLY BE APPLIED TO VARIABLEs. 
 > Using volatile keyword along with class and method is compiler error.
+
 > volatile variable can hold null 
 > Volatile variable can be primitive or object refrence
 
-Use volatile variable:
+## Use volatile variable:
 1. used when a variable is shared between multiple threads.
 2. value of volatile variable WILL NEVER BE CACHED THREAD-LOCALLY: all reads and writes will go straight to "main memory".
 3. it can be used as an alternative of synchronization. As it guaranted that all reader thread will see updated value and it never lock the variable 
-========================================
-##### INSTANCEOF #####
-=> it is use to test if an object is an instance of a class, an instance of a subclass, or an instance of a class that implements a particular interface.
+=======================================
+############# INSTANCEOF ##############
 
-=>  null is not an instance of anything.
-Ex -  (employer instanceof Employee)?true:false; //return false bcz employer is parent of employee and it is not instance of employee
+> it is use to test if an object is an instance of a class, an instance of a subclass, or an instance of a class that implements a particular interface.
 
-========================================
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+>  null is not an instance of anything.
+EXAMPLE - (employer instanceof Employee)?true:false; //return false bcz employer is parent of employee and it is not instance of employee
+
+=======================================
 public static void main(String args[]) throws Exception{
 	new Thread(new Runnable(){
 		public void run(){
@@ -472,35 +500,3 @@ Now to avoif this prblm?
 > In Java all primitive data types are completely define but in C/C++ doesnt 
 > As the length of an int in C might be 16 bits on a PC, 32 bits on a workstation, and 60 bits on an old supercomputer but in Java its 32 bits and 
 > in java 16 bit char data type allowed portability with Unicode char which include all spoken lang and java string are not array of char its an object.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Why Java does not support operator overloading ?
-
-> Operator Overloading mean a single operator can behave different with different parameter 
-Ex - "+" behave different for int,float,String.
-> Here we can change the behavior of operator too. Ex- + operator can internally doing subtraction. This make the behaivour more complex thats why avoid in Java.
-
-> This is not supported in java because It was making Java complex.
-- It was making Java error prone. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=========================================
-############# JAVA TOOLS ################
-
-############ Java VisualVM  ###########
-> It is java monitoring tool that give complete details of the java app running and the process/thread/memory used
-
-> It can be used to manage custom MBeans
-
-> It integrate the features of other tools like jinfo, jmap, jstack, jstat, and jconsole
-
-> It doesn't have the MBeans tab (where we can view all the MBean registered with our JVM) but we can add MBean plugins to enable it.
-
-> It can be used to monitor performance, memory usage/leaks, thread deadlocks.
-=========================================
-############### JConsole  ###############
-> It is similar to VisualVM but not that powerful 
-
-=========================================
-################# PMD ###################
-- Checks code for errors. 
-- Can run standalone or as a plugin for NetBeans, Eclipse. 
-- Improving Code Quality with PMD and Eclipse. 	

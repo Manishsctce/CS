@@ -1,4 +1,5 @@
-########  DESIGN PATTERN #########
+=======================================
+############# COMMAND DP ##############
 
 > it is a data driven design pattern and falls under behavioral pattern category. 
 - A request is wrapped under an object as command and passed to invoker object. 
@@ -8,25 +9,22 @@
 
 GoF Definition:
 
-----------------------------------------
+=======================================
 #### Design Pattern Important Points ##
 
-----------------------------------------
-###### USAGE #######
+=======================================
+########## JAVA EXAMPLES ##############
 
-----------------------------------------
-##### JAVA EXAMPLES #######
 Runnable interface (java.lang.Runnable) and Swing Action (javax.swing.Action) uses command pattern.
-----------------------------------------
-##EXAMPLES: ##
+=======================================
+############ EXAMPLE : 1 ##############
 
 public interface FileSystemReceiver {
 	void openFile();
 	void writeFile();
 	void closeFile();
 }
-
-package com.journaldev.design.command;
+---------------------------------------
 public class UnixFileSystemReceiver implements FileSystemReceiver {
 
 	public void openFile() {
@@ -42,8 +40,7 @@ public class UnixFileSystemReceiver implements FileSystemReceiver {
 	}
 
 }
-
-package com.journaldev.design.command;
+---------------------------------------
 public class WindowsFileSystemReceiver implements FileSystemReceiver {
 
 	@Override
@@ -63,13 +60,11 @@ public class WindowsFileSystemReceiver implements FileSystemReceiver {
 	}
 }
 
-
-package com.journaldev.design.command;
+---------------------------------------
 public interface Command {
 	void execute();
 }
-
-package com.journaldev.design.command;
+---------------------------------------
 public class OpenFileCommand implements Command {
 
 	private FileSystemReceiver fileSystem;
@@ -83,9 +78,7 @@ public class OpenFileCommand implements Command {
 		this.fileSystem.openFile();
 	}
 }
-
-
-package com.journaldev.design.command;
+---------------------------------------
 public class CloseFileCommand implements Command {
 	private FileSystemReceiver fileSystem;
 	
@@ -95,10 +88,8 @@ public class CloseFileCommand implements Command {
 	public void execute() {
 		this.fileSystem.closeFile();
 	}
-
 }
-
-package com.journaldev.design.command;
+---------------------------------------
 public class WriteFileCommand implements Command {
 
 	private FileSystemReceiver fileSystem;
@@ -110,10 +101,9 @@ public class WriteFileCommand implements Command {
 	public void execute() {
 		this.fileSystem.writeFile();
 	}
-
 }
 
-package com.journaldev.design.command;
+---------------------------------------
 public class FileInvoker {
 	public Command command;
 	
@@ -125,9 +115,7 @@ public class FileInvoker {
 		this.command.execute();
 	}
 }
-
-package com.journaldev.design.command;
-
+---------------------------------------
 public class FileSystemReceiverUtil {
 	
 	public static FileSystemReceiver getUnderlyingFileSystem(){
@@ -138,11 +126,9 @@ public class FileSystemReceiverUtil {
 		 }else{
 			 return new UnixFileSystemReceiver();
 		 }
-	}
-	
+	}	
 }
-
-package com.journaldev.design.command;
+---------------------------------------
 public class FileSystemClient {
 
 	public static void main(String[] args) {
@@ -168,3 +154,4 @@ public class FileSystemClient {
 	}
 
 }
+=======================================

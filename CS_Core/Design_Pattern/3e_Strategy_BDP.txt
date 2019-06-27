@@ -1,4 +1,6 @@
-######## STRATEGY DESIGN PATTERN #########
+=======================================
+####### STRATEGY DESIGN PATTERN #######
+
 GoF Definition:
 > it enables selecting an algorithm at runtime. 
 - It also known as the policy pattern
@@ -6,30 +8,31 @@ GoF Definition:
 > strategy pattern USES COMPOSITION INSTEAD OF INHERITANCE
 
 =======================================
-########## JAVA EXAMPLES ##############
+############ JAVA EXAMPLES ############
 Collections.sort()
 Comparator
 =======================================
-##EXAMPLES: 1##
+############ EXAMPLE : 1 ##############
 IBrakeBehavior[i] <-- BrakeWithABS[c] , Brake[c]
-Car[c] {brakeBehavior:IBrakeBehavior} 							
-
+Car[c] {brakeBehavior:IBrakeBehavior} 	
+						
+---------------------------------------
 public interface IBrakeBehavior {
   public void brake();
 }
-
+---------------------------------------
 public class BrakeWithABS implements IBrakeBehavior {
     public void brake() {
         System.out.println("Brake with ABS applied");
     }
 }
-
+---------------------------------------
 public class Brake implements IBrakeBehavior {
     public void brake() {
         System.out.println("Simple Brake applied");
     }
 }
-
+---------------------------------------
 /* Client that can use the algorithms above interchangeably */
 public abstract class Car {
     protected IBrakeBehavior brakeBehavior;
@@ -42,21 +45,21 @@ public abstract class Car {
         this.brakeBehavior = brakeType;
     }
 }
-
+---------------------------------------
 /* Client 1 uses one algorithm (Brake) in the constructor */
 public class Sedan extends Car {
     public Sedan() {
         this.brakeBehavior = new Brake();
     }
 }
-
+---------------------------------------
 /* Client 2 uses another algorithm (BrakeWithABS) in the constructor */
 public class SUV extends Car {
     public SUV() {
         this.brakeBehavior = new BrakeWithABS();
     }
 }
-
+---------------------------------------
 /* Using the Car example */
 public class CarExample {
     public static void main(final String[] arguments) {
@@ -71,8 +74,8 @@ public class CarExample {
         suvCar.applyBrake();    // This will invoke class "Brake"
     }
 }
-=====================================
-##EXAMPLES: 2##
+=======================================
+############ EXAMPLE : 2 ##############
 
 BillingStrategy[i] : getActPrice(double rawPrice):double
 
@@ -80,10 +83,7 @@ NormalStrategy[c] <- BillingStrategy[i] :  getActPrice(rawPrice)
 HappyHourStrategy[c] <- BillingStrategy[i] :  getActPrice(rawPrice*0.5)
 
 Customer : drinks:List<Double>, strategy:BillingStrategy, add(double price,int quantity)
-
-import java.util.ArrayList;
-import java.util.List;
-
+---------------------------------------
 public class StrategyPatternWiki {
   public static void main(final String[] arguments) {
     Customer firstCustomer = new Customer(new NormalStrategy());
@@ -108,9 +108,8 @@ public class StrategyPatternWiki {
     secondCustomer.printBill();
   }
 }
-
+---------------------------------------
 class Customer {
-
     private List<Double> drinks;
     private BillingStrategy strategy;
 
@@ -138,11 +137,11 @@ class Customer {
         this.strategy = strategy;
     }
 }
-
+---------------------------------------
 interface BillingStrategy {
     double getActPrice(final double rawPrice);
 }
-
+---------------------------------------
 // Normal billing strategy (unchanged price)
 class NormalStrategy implements BillingStrategy {
     @Override
@@ -150,7 +149,7 @@ class NormalStrategy implements BillingStrategy {
         return rawPrice;
     }
 }
-
+---------------------------------------
 // Strategy for Happy hour (50% discount)
 class HappyHourStrategy implements BillingStrategy {
     @Override
@@ -158,3 +157,4 @@ class HappyHourStrategy implements BillingStrategy {
         return rawPrice*0.5;
     }
 }
+=======================================

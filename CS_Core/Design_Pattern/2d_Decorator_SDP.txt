@@ -26,7 +26,7 @@
 ## DISADVANTAGE ##
 > code maintenance can be a problem as it provides a lot of similar kind of small objects (each decorator)
 =======================================
-########### JAVA EXAMPLES #############
+############ JAVA EXAMPLES ############
 
 BASE CLASS
 java.io.Reader; 
@@ -51,8 +51,8 @@ javax.swing.JScrollPane
 > When you want to transparently and dynamically add responsibilities to objects without affecting other objects.
 > When you want to add responsibilities to an object that you may want to change in future.
 > Extending functionality by sub-classing is no longer practical.
------------------------------------------
-## Explain an example of decorator design pattern?
+=======================================
+############ EXAMPLE : 1 ##############
 
 // Component on Decorator design pattern
 public abstract class Currency {
@@ -64,7 +64,7 @@ public abstract class Currency {
 	public abstract double cost(double value);
 
 }
-
+---------------------------------------
 // Concrete Component
 public class Rupee extends Currency {
 	double value;
@@ -76,7 +76,7 @@ public class Rupee extends Currency {
 		return value;
 	}
 }
-
+---------------------------------------
 //Another Concrete Component
 public class Dollar extends Currency{
 	double value;
@@ -89,13 +89,12 @@ public class Dollar extends Currency{
 		return value;
 	}
 }
-
+---------------------------------------
 // Decorator
 public abstract class Decorator extends Currency{
  public abstract String getDescription();
 }
-
-
+---------------------------------------
 // Concrete Decorator
 public class USDDecorator extends Decorator{
 	Currency currency;
@@ -107,7 +106,7 @@ public class USDDecorator extends Decorator{
 		return currency.getDescription()+" ,its US Dollar";
 	}
 }
-
+---------------------------------------
 public class SGDDecorator extends Decorator{
 	Currency currency;
 	
@@ -118,8 +117,7 @@ public class SGDDecorator extends Decorator{
 		return currency.getDescription()+" ,its singapore Dollar";
 	}
 }
-
-
+---------------------------------------
 Now its time to check currency.
 public class CurrencyCheck {
  public static void main(String[] args) {

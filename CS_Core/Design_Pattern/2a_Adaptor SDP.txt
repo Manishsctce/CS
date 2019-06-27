@@ -1,10 +1,11 @@
-##### ADAPTOR(translator) PATTERN #### 
-> works as a bridge between two incompatible interface
+##### ADAPTOR(translator) PATTERN ##### 
+> WORKS AS A BRIDGE BETWEEN TWO INCOMPATIBLE INTERFACE
 > involves a single class which is responsible to join functionalities of independent or incompatible interfaces.
 
 Ex - card reader is adaptor for laptop (adaptee) to read memory card(target)
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to implement adapter design pattern?
+
 > Adapter design pattern can be implemented in two ways. 
 1. using the inheritance method 
 2. using the composition method
@@ -18,7 +19,7 @@ java.util.Collections#enumeration()
 java.io.InputStreamReader(InputStream) (returns a Reader)
 java.io.OutputStreamWriter(OutputStream) (returns a Writer)
 javax.xml.bind.annotation.adapters.XmlAdapter#marshal() and #unmarshal()
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The visitor pattern is used when:
 > When you have a class(Target) that invokes methods defined in an interface and
 - you have a another class(Adapter) that doesn't implement the interface but 
@@ -28,26 +29,27 @@ The visitor pattern is used when:
 
 When you write a class (Target) for a generic use relying on some general interfaces and you have some implemented classes, not implementing the interface, that needs to be invoked by the Target class.
 
-#######################################
-EXAMPLE 1:
+=======================================
+############ EXAMPLE : 1 ##############
+
 > We have a MediaPlayer[i] and a concrete class AudioPlayer
 - We are having another interface AdvancedMediaPlayer and its concrete classes 
 - We want to make AudioPlayer to play other formats as well
 
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+
 public interface AdvancedMediaPlayer {	
    public void playVlc(String fileName);
    public void playMp4(String fileName);
 }
-----------------------------
+---------------------------------
 public class VlcPlayer implements AdvancedMediaPlayer{
    public void playVlc(String fileName) {
       System.out.println("Playing vlc file. Name: "+ fileName);		
    }
 
-   public void playMp4(String fileName) { .... }
+   public void playMp4(String fileName) { }
 }
-----------------------------
+---------------------------------
 public class Mp4Player implements AdvancedMediaPlayer{
    public void playVlc(String fileName) {      //do nothing
    }
@@ -55,7 +57,7 @@ public class Mp4Player implements AdvancedMediaPlayer{
       System.out.println("Playing mp4 file. Name: "+ fileName);		
    }
 }
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+---------------------------------
 public interface MediaPlayer {
    public void play(String audioType, String fileName);
 }
@@ -105,7 +107,7 @@ public class AudioPlayer implements MediaPlayer {
       }
    }   
 }
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+---------------------------------
 >>Use the AudioPlayer to play different types of audio formats.
 
 public class AdapterPatternDemo {
@@ -120,5 +122,5 @@ public class AdapterPatternDemo {
 }
 
 >>Verify the output.
-
+=======================================
 

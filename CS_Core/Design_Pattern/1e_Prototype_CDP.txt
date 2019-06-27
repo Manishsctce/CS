@@ -1,4 +1,4 @@
-###### PROTOTYPE DESIGN PATTERN #######
+########### PROTOTYPE DP ##############
 
 > it REFERS TO CREATING DUPLICATE OBJECT while keeping performance in mind
 > it involves implementing a prototype interface which tells to create a clone of the current object. 
@@ -16,7 +16,7 @@
 
 java.lang.Object#clone() (the class has to implement java.lang.Cloneable)
 =======================================
-#### EXAMPLE1: ####
+############ EXAMPLE : 1 ##############
 
 public abstract class Shape implements Cloneable {
    private String id;
@@ -47,7 +47,7 @@ public abstract class Shape implements Cloneable {
       return clone;
    }
 }
----------------------------
+---------------------------------------
 public class Rectangle extends Shape {
    public Rectangle(){
      type = "Rectangle";
@@ -57,7 +57,7 @@ public class Rectangle extends Shape {
       System.out.println("Inside Rectangle::draw() method.");
    }
 }
----------------------------
+---------------------------------------
 public class Square extends Shape {
   public Square(){
     type = "Square";
@@ -67,7 +67,7 @@ public class Square extends Shape {
     System.out.println("Inside Square::draw() method.");
   }
 }
----------------------------
+---------------------------------------
 public class Circle extends Shape {
    public Circle(){
      type = "Circle";
@@ -77,9 +77,7 @@ public class Circle extends Shape {
       System.out.println("Inside Circle::draw() method.");
    }
 }
--------------------------------------
-
-import java.util.Hashtable;
+---------------------------------------
 public class ShapeCache {
 	
    private static Hashtable<String, Shape> shapeMap  = new Hashtable<String, Shape>();
@@ -107,7 +105,7 @@ public class ShapeCache {
       shapeMap.put(rectangle.getId(), rectangle);
    }
 }
------------------------------------------
+---------------------------------------
 public class PrototypePatternDemo {
   public static void main(String[] args) {
     ShapeCache.loadCache();

@@ -8,18 +8,18 @@ Provides a way to access the elements of an aggregate object without exposing it
 ###### USAGE #######
 
 =======================================
-########## JAVA EXAMPLES ##############
+############ JAVA EXAMPLES ############
 
 All implementations of java.util.Iterator (thus among others also java.util.Scanner!).
 All implementations of java.util.Enumeration
-----------------------------------------
-##EXAMPLES: ##
-package com.journaldev.design.iterator;
+
+=======================================
+############ EXAMPLE : 1 ##############
+
 public enum ChannelTypeEnum {
 	ENGLISH, HINDI, FRENCH, ALL;
 }
---------------------------------------
-package com.journaldev.design.iterator;
+---------------------------------------
 public class Channel {
 	private double frequency;
 	private ChannelTypeEnum TYPE;
@@ -42,24 +42,18 @@ public class Channel {
 		return "Frequency="+this.frequency+", Type="+this.TYPE;
 	}	
 }
---------------------------------------
-package com.journaldev.design.iterator;
+---------------------------------------
 public interface ChannelCollection {
 	public void addChannel(Channel c);
 	public void removeChannel(Channel c);
 	public ChannelIterator iterator(ChannelTypeEnum type);	
 }
---------------------------------------
-package com.journaldev.design.iterator;
+---------------------------------------
 public interface ChannelIterator {
 	public boolean hasNext();
 	public Channel next();
 }
---------------------------------------
-package com.journaldev.design.iterator;
-
-import java.util.ArrayList;
-import java.util.List;
+---------------------------------------
 public class ChannelCollectionImpl implements ChannelCollection {
 	private List<Channel> channelsList;
 
@@ -111,8 +105,7 @@ public class ChannelCollectionImpl implements ChannelCollection {
 		}
 	}
 }
---------------------------------------
-package com.journaldev.design.iterator;
+---------------------------------------
 public class IteratorPatternTest {
 	public static void main(String[] args) {
 		ChannelCollection channels = populateChannels();
@@ -144,3 +137,4 @@ public class IteratorPatternTest {
 		return channels;
 	}
 }
+=======================================

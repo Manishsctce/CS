@@ -1,4 +1,6 @@
-########  DESIGN PATTERN #########
+=======================================
+############ FLYWEIGHT DP #############
+
 ## What is Flyweight design pattern?
 > It is a Structural design pattern
 > it is used when we need to create a lot of Objects of a class. 
@@ -24,10 +26,10 @@ Example, an Object Circle can have extrinsic properties such as color and width.
 
 GoF Definition:
 > Use sharing to support large numbers of fine-grained objects efficiently
-----------------------------------------
+---------------------------------------
 #### Design Pattern Important Points ##
 
-----------------------------------------
+---------------------------------------
 ###### USAGE #######
 
 =======================================
@@ -37,8 +39,8 @@ GoF Definition:
 >  Java String class String Pool implementation.
 
 java.lang.Integer#valueOf(int) (also on Boolean, Byte, Character, Short, Long and BigDecimal)
-----------------------------------------
-##EXAMPLES: ##
+=======================================
+############ EXAMPLE : 1 ##############
 
 public interface Shape {
    void draw();
@@ -71,7 +73,7 @@ public class Circle implements Shape {
       System.out.println("Circle: Draw() [Color : " + color + ", x : " + x + ", y :" + y + ", radius :" + radius);
    }
 }
-
+---------------------------------------
 import java.util.HashMap;
 public class ShapeFactory {
    private static final HashMap<String, Shape> circleMap = new HashMap();
@@ -87,7 +89,7 @@ public class ShapeFactory {
       return circle;
    }
 }
-
+---------------------------------------
 public class FlyweightPatternDemo {
    private static final String colors[] = { "Red", "Green", "Blue", "White", "Black" };
    public static void main(String[] args) {
@@ -110,3 +112,4 @@ public class FlyweightPatternDemo {
       return (int)(Math.random()*100);
    }
 }
+=======================================

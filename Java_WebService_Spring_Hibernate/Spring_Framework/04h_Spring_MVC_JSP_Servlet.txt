@@ -1,0 +1,84 @@
+=======================================
+## How to Get ServletContext and ServletConfig Objects in a Spring Bean?
+
+> You can do either by:
+1. Implementing Spring-aware interfaces. 
+2. Using @Autowired annotation on those beans:
+	@Autowired ServletContext servletContext;
+	@Autowired ServletConfig servletConfig;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
+> you can have a web application without potentially any web.xml file
+> Servlet 3.0 API brought annotations to the Java Web app world allowing the registration of servlets to be accomplished by annotation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to pass object from Spring to JSP? How to iterate objects in JSP?
+
+https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to access Spring Bean in a Servlet?
+
+> we can use ServletContextAttributeExporter 
+- it is used to export any property to servlet from runtime.
+
+in applicationContext.xml
+<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+  <property name="attributes">
+    <map>
+      <entry key="restBindingService" value-ref="restBindingService"/>
+    </map>
+  </property>
+</bean>
+
+in servlet
+(RestBindingService) context.getAttribute("restBindingService");
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  How to pass object from JSP to spring?
+
+in jsp
+1. session.setAttribute("obj", obj);
+
+in controller, process action method:
+1 HttpServletRequest request1 = PortalUtil.getHttpServletRequest(request);
+2 Obj obj = (Obj)request1.getSession().getAttribute("obj");
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the differences between Model, ModelMap, and ModelAndView?
+
+##Model: 
+- It is an Interface. 
+- It defines a holder for model attributes and primarily designed for adding attributes to the model.
+
+EXAMPLE:
+@RequestMapping(method = RequestMethod.GET)
+public String printHello(Model model) {
+  model.addAttribute("message", "Hello World!!");
+  return "hello";
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+## ModelMap: 
+- Implementation of Map for use when building model data for use with UI tools.
+- Supports chained calls and generation of model attribute names.
+
+EXAMPLE:
+@RequestMapping("/helloworld")
+public String hello(ModelMap map) {
+    String helloWorldMessage = "Hello world!";
+    String welcomeMessage = "Welcome!";
+    map.addAttribute("helloMessage", helloWorldMessage);
+    map.addAttribute("welcomeMessage", welcomeMessage);
+    return "hello";
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+##ModelAndView: 
+> ModelAndView is just a container for both a ModelMap and a view object. 
+- This class merely holds both to make it possible for a controller to return both model and view in a single return value.
+
+EXAMPLE:
+@RequestMapping("/welcome")
+public ModelAndView helloWorld() {
+  String message = "Hello World!";
+  return new ModelAndView("welcome", "message", message);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PropertyPlaceholderConfigurer

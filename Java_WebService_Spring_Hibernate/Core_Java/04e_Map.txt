@@ -313,9 +313,9 @@ It have 4 constructor :-
 ### How does a HashMap use transient?
 
 > HashMap store key-value pair in form of entry in a table i.e Entry table[].
-> this Entry table array is define as transient as
- transient Entry[] table;
-> It is because HashMap say it DOESNOT GUARANTEES THE ORDER OF MAP ELEMENTS and while serializing in form of normal Entry table[] we are serializing in a particular order that is the contradiction.
+- it is define as transient as 'transient Entry[] table';
+
+> It is because HM DOESNOT GUARANTEES THE ORDER OF MAP ELEMENTS and while serializing in form of normal Entry table[] we are serializing in a particular order that is the contradiction.
 > so Entry table[] is define as transient and all the related field are mark as transient ( i.e calculated at run time)
 > so while serializing HashMap, writeObject() serializing it as key1-value1,key2-value2 and so on form. Not in table[]
 

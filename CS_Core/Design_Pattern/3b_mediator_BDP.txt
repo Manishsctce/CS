@@ -1,30 +1,31 @@
-######## Mediator DESIGN PATTERN #########
+=======================================
+############# MEDIATOR DP #############
 GoF Definition:
 
 INTENT
 > Mediator enables decoupling of objects by introducing a layer in between so that the interaction between objects happen via the layer.
 > Allows loose coupling by encapsulating the way disparate sets of objects interact and communicate with each other. 
 > Allows for the actions of each object set to vary independently of one another.
-=====================================
-#### Mediator Design Pattern Important Points ##
+=======================================
+##### Mediator DP Important Points ####
 
 > Java Message Service (JMS) uses Mediator pattern along with Observer pattern to allow applications to subscribe and publish data to other applications.
 We should not use mediator pattern just to achieve lose-coupling because if the number of mediators will grow, then it will become hard to maintain them.
 
 > This mediator object is like a router in networks, which is routes / controls or coordinates communication between systems.
-=====================================
+=======================================
 ###### USAGE #######
 
-=====================================
-########## JAVA EXAMPLES ############
+=======================================
+########### JAVA EXAMPLES #############
 java.util.Timer (all scheduleXXX() methods)
 java.util.concurrent.Executor#execute()
 java.util.concurrent.ExecutorService (the invokeXXX() and submit() methods)
 java.util.concurrent.ScheduledExecutorService (all scheduleXXX() methods)
 java.lang.reflect.Method#invoke()
 
-=====================================
-############# EXAMPLES: #############
+=======================================
+############ EXAMPLE : 1 ##############
 
 ###ChatMediator.java
 package com.journaldev.design.mediator;
@@ -46,7 +47,7 @@ public abstract class User {
   public abstract void receive(String msg);
 }
 > ChatMediator is required for the communication between different users.
-
+---------------------------------------
 ### ChatMediatorImpl.java
 package com.journaldev.design.mediator;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class ChatMediatorImpl implements ChatMediator {
   }
 
 }
-
+---------------------------------------
 ### UserImpl.java
 package com.journaldev.design.mediator;
 public class UserImpl extends User {
@@ -93,7 +94,7 @@ public class UserImpl extends User {
   
 }
 > Notice that send() method is using mediator to send the message to the users and it has no idea how it will be handled by the mediator.
-
+---------------------------------------
 ### ChatClient.java
 package com.journaldev.design.mediator;
 public class ChatClient {
@@ -118,3 +119,4 @@ Pankaj: Sending Message=Hi All
 Lisa: Received Message:Hi All
 Saurabh: Received Message:Hi All
 David: Received Message:Hi All
+=======================================

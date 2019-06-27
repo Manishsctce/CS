@@ -1,6 +1,7 @@
 ######## Spring MVC #######
 
 ## What is Spring MVC framework?
+
 > Spring web MVC framework provides model-view-controller architecture.
 - It is USED TO DEVELOP FLEXIBLE AND LOOSELY COUPLED WEB APPLICATIONS. 
 
@@ -15,6 +16,7 @@
 > Customizable handler mapping and view resolution
 =======================================
 ######### DispatcherServlet ###########
+
 ## What is DispatcherServlet?
 ## What is the front controller class of Spring MVC?
 
@@ -93,7 +95,7 @@ WEB_APPLICATION_CONTEXT_ATTRIBUTE, LOCALE_RESOLVER_ATTRIBUTE, THEME_RESOLVER_ATT
 
 9. Call the trigger AfterCompletion() of the HandlerInterceptors.
 =======================================
-#### DispatcherServlet.properties ####
+#### DispatcherServlet.properties #####
 > it is the property file which contain mapping of default class used in Spring MVC like  
 
 1. org.springframework.web.servlet.HandlerExceptionResolver	=	org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver,
@@ -105,59 +107,6 @@ org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping
 
 ## Is the DispatcherServlet instantiated via an application context?
 > No. ApplicationContext instantiated via DispactcherServlet.
-
-=======================================
-######### SPRING MVC INTERCEPTOR ######
-> Interceptor is used to intercepts requests
-- just before the controller or
-- just after the controller or
-- just before the response sent to view
-
-> It can be used for authentication.
-> It can be USED FOR CROSS-CUTTING CONCERNS and to avoid repetitive handler code like  logging, to add a common message to all response
-> A handler interceptor can be registered for particular URL mappings, so it only intercepts requests mapped to certain URLs.
-
-####### HandlerInterceptor[i] #######
-> it is an interface, which must be implemented by the Spring interceptor classes
-
-## 3 CALLBACK METHODS ##
-1. public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception;
-– called just before the controller
-- It return boolean value which tells Spring if the request should be further processed by a handler (true) or not (false)
-
-2. public void postHandle(HttpServletRequest request, HttpServletResponse response,Object handler, ModelAndView modelAndView) throws Exception;
-– called immediately after the request is processed by HandlerAdapter, but before generating a view.
-- can be used TO DETERMINE THE TIME TAKEN BY HANDLER METHOD to process a client’s request.
-
-3. void afterCompletion(HttpServletRequest request, HttpServletResponse response,Object handler, Exception ex) throws Exception;
-– called just before sending response to view
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### HandlerInterceptorAdaptor[c] ###
-> it is an implementation class of HandlerInterceptor interface provided by Spring as a convenient class. 
-> By extending this we can override only the necessary methods out of the three.
-
-> Interceptor classes must be declared in spring context xml configuration file within the tag <mvc:interceptors>
-
-> Interceptor can be configured to execute in two ways, execute for all requests and map to specific url requests.
-
-> ORDER: All global interceptors gets executed first and then the mapped interceptor. 
-
-> if multiple Spring interceptors are configured, the preHandle() method is executed in the order of configuration, 
-- postHandle() and afterCompletion() methods are invoked in the reverse order
-
-EXAMPLE:-
-> To add our interceptors into Spring configuration, 
-- Need to override addInterceptors() method inside WebConfig class that extends WebMvcConfigurerAdapter:
-  
-  public void addInterceptors(InterceptorRegistry registry) {
-      registry.addInterceptor(new LoggerInterceptor());
-  }
-
-- we can achieve the same configuration by editing our XML Spring configuration file:  
-  <mvc:interceptors>
-      <bean id="loggerInterceptor" class="org.baeldung.web.interceptor.LoggerInterceptor"/>
-  </mvc:interceptors>
-  
   
 =====================================
 ############## Validator ############
@@ -194,82 +143,6 @@ public class EmployeeValidator implements Validator
 2) Alternatively, you can register the validator class bean directly in context file.
 <bean id="employeeValidator" class="com.howtodoinjava.demo.validator.EmployeeValidator" />
 =====================================
-## How can we use Spring to create Restful Web Service returning JSON response?
-
-> we need to add Jackson dependency in spring app either in pom.xml or MANIFEST.MF 
-> Now return JSON response from your MVC controller.
-- return JAXB annotated object from method and use @ResponseBody annotation on this return type
-
-@Controller
-public class EmployeeRESTController
-{
-    @RequestMapping(value = "/employees")
-    public @ResponseBody EmployeeListVO getAllEmployees(){
-        return new EmployeeListVO();
-    }
-}
-
-> Alternatively, we can use @RestController annotation in place of @Controller annotation. 
-- This will remove the need to using @ResponseBody.
-@RestController = @Controller + @ResponseBody
-
-EXAMPLE: 
-@RestController
-public class EmployeeRESTController
-{
-    @RequestMapping(value = "/employees")
-    public EmployeeListVO getAllEmployees()
-    {
-        return new EmployeeListVO();
-    }
-}
-	
-=======================================
-
-http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
-
-=======================================
-## How to Get ServletContext and ServletConfig Objects in a Spring Bean?
-
-> You can do either by:
-1. Implementing Spring-aware interfaces. 
-2. Using @Autowired annotation on those beans:
-	@Autowired ServletContext servletContext;
-	@Autowired ServletConfig servletConfig;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
-> you can have a web application without potentially any web.xml file
-> Servlet 3.0 API brought annotations to the Java Web app world allowing the registration of servlets to be accomplished by annotation.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to pass object from Spring to JSP? How to iterate objects in JSP?
-
-https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to access Spring Bean in a Servlet?
-
-> we can use ServletContextAttributeExporter 
-- it is used to export any property to servlet from runtime.
-
-in applicationContext.xml
-<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
-  <property name="attributes">
-    <map>
-      <entry key="restBindingService" value-ref="restBindingService"/>
-    </map>
-  </property>
-</bean>
-
-in servlet
-(RestBindingService) context.getAttribute("restBindingService");
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##  How to pass object from JSP to spring?
-
-in jsp
-1. session.setAttribute("obj", obj);
-
-in controller, process action method:
-1 HttpServletRequest request1 = PortalUtil.getHttpServletRequest(request);
-2 Obj obj = (Obj)request1.getSession().getAttribute("obj");
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the differences between Model, ModelMap, and ModelAndView?

@@ -1,9 +1,10 @@
+=======================================
 ##### Chain of Responsibility DP ######
 GoF Definition:
 "Gives more than one object an opportunity to handle a request by linking receiving objects together."
 
 > The main objective of this pattern is that it avoids coupling the sender of the request to the receiver, giving more than one object the opportunity to handle the request
-============================================
+=======================================
 ### Highlights of Chain of Responsibility ##
 
 > Client doesn’t know which part of the chain will be processing the request
@@ -13,7 +14,7 @@ GoF Definition:
 > Every node in chain will have the responsibility to decide, if they can serve the request.
 > If node decides to forward the request, it should be capable of choosing the next node and forward it.
 > There is a possibility where none of the node may serve the request.
-============================================
+=======================================
 ###### USAGE #######
 > It is used when multiple objects can handle a request and the handler doesn’t have to be a specific object.
 =======================================
@@ -30,7 +31,7 @@ javax.servlet.Filter#doFilter()
 - doFilter method of the Filter is called by the container each time a request/response pair is passed through the chain due to a client request for a resource at the end of the chain. 
 - The FilterChain passed in to this method allows the Filter to pass on the request and response to the next entity in the chain.
 =======================================
-############# EXAMPLES: ###############
+############ EXAMPLE : 1 ##############
 
 1. Handler : This can be an interface which will primarily recieve the request and dispatches the request to chain of handlers. 
 - It has reference of only first handler in the chain and does not know anything about rest of the handlers.
@@ -42,7 +43,7 @@ javax.servlet.Filter#doFilter()
 	HANDLER[i].handleRequest()
 		|<----ConcreteHandler1[c].handleRequest()
 		|<----ConcreteHandler2[c].handleRequest()
-----------------------------------------
+---------------------------------------
 ##EXAMPLES: ##
 
 ### Currency
@@ -55,14 +56,13 @@ public class Currency {
 		return this.amount;
 	}
 }
-
+---------------------------------------
 ### DispenseChain
 public interface DispenseChain {
 	void setNextChain(DispenseChain nextChain);	
 	void dispense(Currency cur);
 }
-
-
+---------------------------------------
 ### Dollar50Dispenser
 public class Dollar50Dispenser implements DispenseChain {
 	private DispenseChain chain;
@@ -82,9 +82,9 @@ public class Dollar50Dispenser implements DispenseChain {
 		}
 	}
 }
-
+---------------------------------------
 ### Dollar20Dispenser.java
-package com.journaldev.design.chainofresponsibility;
+
 public class Dollar20Dispenser implements DispenseChain{
 	private DispenseChain chain;
 	@Override
@@ -103,9 +103,9 @@ public class Dollar20Dispenser implements DispenseChain{
 		}
 	}
 }
+---------------------------------------
+## Dollar10Dispenser.java
 
-Dollar10Dispenser.java
-package com.journaldev.design.chainofresponsibility;
 public class Dollar10Dispenser implements DispenseChain {
 	private DispenseChain chain;
 	
@@ -126,8 +126,8 @@ public class Dollar10Dispenser implements DispenseChain {
 		}
 	}
 }
+---------------------------------------
 
-package com.journaldev.design.chainofresponsibility;
 import java.util.Scanner;
 
 public class ATMDispenseChain {
@@ -159,3 +159,4 @@ public class ATMDispenseChain {
 		}
 	}
 }
+=======================================

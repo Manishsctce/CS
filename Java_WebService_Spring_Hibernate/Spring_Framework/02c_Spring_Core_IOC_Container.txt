@@ -20,9 +20,16 @@
 
 > There are 3 ways to provide configuration metadata to the Spring Container:
 
-1. XML based configuration file.
+1. XML based configuration file 
+- All configurations are in one or multiple XML files
+
 2. Annotation-based configuration
+- Spring 2.5 introduces this. 
+- We still have to write XML files but just to indicate "component-scan" on the packages of annotated classes
+
 3. Java-based configuration
+- Spring 3.0, a pure-Java means of configuring container was provided. 
+- We don't need any XML with this method of configuration
 =======================================
 #### XML BASED CONFIGURATION FILE #####
 
@@ -47,11 +54,34 @@ ApplicationContext context = new ClassPathXmlApplicationContext(
     <bean id="bean1" class="..."/>
     <bean id="bean2" class="..."/>
 </beans>
-************************
-#### In case of Annotation, use @import in place of <import resource="..."/>
-Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### XML-centric ###########
+> We can use @Configuration inside XML configuration as like 
+
+@Configuration
+public class AppConfig {
+  private @Autowired DataSource dataSource;
+  public @Bean AccountRepository accountRepository() {
+      return new JdbcAccountRepository(dataSource);
+  }
+  public @Bean TransferService transferService() {
+      return new TransferService(accountRepository());
+  }
+}
+
+<beans>
+  <bean class="com.acme.AppConfig"/> 
+
+  <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+</beans>
+- Here XML will load all the beans 
 =======================================
-###### @CONFIGURATION #########
+########### @CONFIGURATION ############
+
 > Declare Java Configuration class with @Configuration
 - It is equivalent to <beans> in xml 
 - This class will be equivalent to applicationContext.xml to initialize bean. 
@@ -83,30 +113,8 @@ public class AppConfig {
 	<constructor-arg index="2" value="password"/>
 </bean>	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### XML-centric ###########
-> We can use @Configuration inside XML configuration as like 
-
-@Configuration
-public class AppConfig {
-  private @Autowired DataSource dataSource;
-  public @Bean AccountRepository accountRepository() {
-      return new JdbcAccountRepository(dataSource);
-  }
-  public @Bean TransferService transferService() {
-      return new TransferService(accountRepository());
-  }
-}
-
-<beans>
-  <bean class="com.acme.AppConfig"/> 
-
-  <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="url" value="${jdbc.url}"/>
-    <property name="username" value="${jdbc.username}"/>
-    <property name="password" value="${jdbc.password}"/>
-  </bean>
-</beans>
-- Here XML will load all the beans 
+#### In case of Annotation, use @import in place of <import resource="..."/>
+Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
 =======================================
 ####### TYPES OF IOC CONTAINERS #######
 

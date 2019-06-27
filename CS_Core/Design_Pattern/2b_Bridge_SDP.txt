@@ -1,21 +1,23 @@
 ######## BRIDGE DESIGN PATTERN ########
-
-## What is Bridge design Pattern?
-> It is a structural design pattern.
-> Decouple the abstraction from its implementation
-> Uses composition over inheritance.
-
-###### USAGE #######
-> it helps two incompatible classes to work together
-
-----------------------------------------
 GoF Definition:
 Decouple the abstraction from its implementation so that the two can vary independently
 
 OR
 > DECOUPLE IMPLENTATION FROM INTERFACE AND HIDING IMPLEMENTATION DETAILS FROM CLIENT is the essense of bridge design pattern.
-----------------------------------------
-#### BRIDGE Design Pattern Important Points ##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Bridge design Pattern?
+
+> It is a structural design pattern.
+> Decouple the abstraction from its implementation
+> USES COMPOSITION OVER INHERITANCE.
+
+###### USAGE #######
+> it helps two incompatible classes to work together
+
+
+=======================================
+###### BRIDGE DP Important Points #####
+
 > this pattern decouples implementation class and abstract class by providing a bridge structure between them.
 
 > Creates two different hierarchies. One for abstraction and another for implementation.
@@ -30,45 +32,50 @@ OR
 =======================================
 ### ELEMENTS OF BRIDGE DESIGN PATTERN ###
 
-Abstraction – core of the bridge design pattern and defines the crux. Contains a reference to the implementer.
+1. ABSTRACTION 
+– core of the bridge DP and defines the crux. Contains a reference to the implementer.
 Ex - Shape[ac] have DrawAPI[i]
 
-Refined Abstraction – Extends the abstraction takes the finer detail one level below. Hides the finer elements from implemetors.
+2. REFINED ABSTRACTION 
+– Extends the abstraction takes the finer detail one level below. Hides the finer elements from implemetors.
 Ex - Circle 
 
-Implementer – This interface is the higer level than abstraction. Just defines the basic operations.
+3. IMPLEMENTER 
+– This interface is the higer level than abstraction. Just defines the basic operations.
 Ex - DrawAPI[i]
 
-Concrete Implementation – Implements the above implementer by providing concrete implementation.
+4. CONCRETE IMPLEMENTATION 
+– Implements the above implementer by providing concrete implementation.
 Ex - RedCircle and GreenCircle
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Adaptor and bridge pattern ?
+
 The major difference between adapter and bridge is when they are used. 
 > Adapter is used when two incompatible interfaces have to be unified together, ie., adapter is a result of existing incompatibilities. 
-- But bridge is something we use when we actually need to separate interface from implementation.
+- But bridge is used when we actually need to separate interface from implementation.
 
-=========================================
-##EXAMPLES:
+=======================================
+############ EXAMPLE : 1 ##############
 
 > bridge implementer interface
 public interface DrawAPI {
    public void drawCircle(int radius, int x, int y);
 }
------------------------------------------
+---------------------------------
 public class RedCircle implements DrawAPI {
    @Override
    public void drawCircle(int radius, int x, int y) {
       System.out.println("Drawing Circle[ color: red, radius: " + radius + ", x: " + x + ", " + y + "]");
    }
 }
------------------------------------------
+---------------------------------
 public class GreenCircle implements DrawAPI {
    @Override
    public void drawCircle(int radius, int x, int y) {
       System.out.println("Drawing Circle[ color: green, radius: " + radius + ", x: " + x + ", " + y + "]");
    }
 }
------------------------------------------
+---------------------------------
 public abstract class Shape {
    protected DrawAPI drawAPI;
    
@@ -77,7 +84,7 @@ public abstract class Shape {
    }
    public abstract void draw();	
 }
------------------------------------------
+---------------------------------
 public class Circle extends Shape {
    private int x, y, radius;
 
@@ -92,7 +99,7 @@ public class Circle extends Shape {
       drawAPI.drawCircle(radius,x,y);
    }
 }
------------------------------------------
+---------------------------------
 public class BridgePatternDemo {
    public static void main(String[] args) {
       Shape redCircle = new Circle(100,100, 10, new RedCircle());
@@ -102,4 +109,4 @@ public class BridgePatternDemo {
       greenCircle.draw();
    }
 }
-=========================================
+=======================================

@@ -1,3 +1,4 @@
+=======================================
 ######## PROXY DESIGN PATTERN #########
 GoF Definition:
 > It is structural DP 
@@ -8,8 +9,8 @@ GoF Definition:
 
 > Proxy pattern is also known as SURROGATE OR PLACEHOLDER DP.
 
-=====================================
-#### ADVANTAGE OF PROXY PATTERN #####
+=======================================
+##### ADVANTAGE OF PROXY PATTERN ######
 
 > It PROVIDES PROTECTION TO THE ORIGINAL OBJECT from the outside world.
 Usage of Proxy Pattern:
@@ -57,7 +58,7 @@ https://www.java2blog.com/proxy-design-pattern-in-java/
 
 
 =======================================
-EXAMPLE1:
+############ EXAMPLE : 1 ##############
 public interface Image {
    void display();
 }
@@ -80,7 +81,7 @@ public class RealImage implements Image {
       System.out.println("Loading " + fileName);
    }
 }
-
+---------------------------------------
 public class ProxyImage implements Image{
 
    private RealImage realImage;
@@ -98,7 +99,7 @@ public class ProxyImage implements Image{
       realImage.display();
    }
 }
-
+---------------------------------------
 public class ProxyPatternDemo {
 	
    public static void main(String[] args) {
@@ -113,11 +114,12 @@ public class ProxyPatternDemo {
    }
 }
 =======================================
-EXAMPLE2:
+##### EXAMPLE2:
+
 public interface CommandExecutor {
   public void runCommand(String cmd) throws Exception;
 }
-------------------------
+
 public class CommandExecutorImpl implements CommandExecutor {
   public void runCommand(String cmd) throws IOException {
     //some heavy implementation
@@ -125,7 +127,7 @@ public class CommandExecutorImpl implements CommandExecutor {
   	System.out.println("'" + cmd + "' command executed.");
   }
 }
-------------------------
+---------------------------------------
 public class CommandExecutorProxy implements CommandExecutor {
 
   private boolean isAdmin;
@@ -149,7 +151,7 @@ public class CommandExecutorProxy implements CommandExecutor {
   	}
   }
 }
-------------------------
+---------------------------------------
 public class ProxyPatternTest {
 	public static void main(String[] args){
 		CommandExecutor executor = new CommandExecutorProxy("Pankaj", "wrong_pwd");
@@ -161,4 +163,4 @@ public class ProxyPatternTest {
 		}	
 	}
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================

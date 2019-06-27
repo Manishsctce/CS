@@ -1,4 +1,5 @@
-###### ABSTRACT FACTORY DESIGN PATTERN ######
+=======================================
+######## ABSTRACT FACTORY DP ##########
 > it provides a way to encapsulate a GROUP OF INDIVIDUAL FACTORIES CLASSES that have a common theme without specifying their concrete classes
 
 > it ADDS ANOTHER LAYER OF ABSTRACTION OVER FACTORY PATTERN 
@@ -20,11 +21,11 @@
 
 > Now FactoryProducer having getFactory() that returns the require Factory class as AbstractFactory 
 - Example - getFactory(String choice) : ShapeFactory/ColorFactory
-=======================================================
+=======================================
 ## USES ##
 > It is used when system has to create multiple families of products or we want to provide a library of products without exposing the implementation details.
-=======================================================
-###### Examples in JDK #########
+=======================================
+############ JAVA EXAMPLES ############
 
 javax.xml.parsers.DocumentBuilderFactory#newInstance()
 
@@ -35,21 +36,21 @@ Document doc = factory.parse(stocks)
 javax.xml.transform.TransformerFactory#newInstance()
 
 javax.xml.xpath.XPathFactory#newInstance()
-=======================================================
-################################################################
-EXAMPLE 1:- 
-	FactoryProducer 
-		|
-		~	
-	AbstractFactory[ac] |<------- ShapeFactory[c] ----> SHAPE[i]|<----Rectangle[c]
-						|										|<----Square[c]
-						|										|<----Circle[c
-						|
-						|<------- ColorFactory[c]-----> Color[i]|<----Red[c]
-																|<----Green[c]
-																|<----Blue[c]
-						
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~
+=======================================
+############ EXAMPLE : 1 ##############
+
+FactoryProducer 
+	|
+	~	
+AbstractFactory[ac] |<------- ShapeFactory[c] ----> SHAPE[i]|<----Rectangle[c]
+					|										|<----Square[c]
+					|										|<----Circle[c
+					|
+					|<------- ColorFactory[c]-----> Color[i]|<----Red[c]
+															|<----Green[c]
+															|<----Blue[c]
+					
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
 public interface Shape {
    void draw();
 }
@@ -65,7 +66,7 @@ public class Square implements Shape {
 public class Circle implements Shape {
    public void draw() {      System.out.println("Inside Circle::draw() method."); }
 }
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~
+---------------------------------------
 public interface Color {
    void fill();
 }
@@ -81,12 +82,12 @@ public class Green implements Color {
 public class Blue implements Color {
    public void fill() {      System.out.println("Inside Blue::fill() method.");}
 }
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~
+---------------------------------------
 public abstract class AbstractFactory {
    abstract Color getColor(String color);
    abstract Shape getShape(String shape) ;
 }
----------------------------
+---------------------------------------
 public class ShapeFactory extends AbstractFactory {
    
    public Shape getShape(String shapeType){
@@ -110,7 +111,7 @@ public class ShapeFactory extends AbstractFactory {
       return null;
    }
 }
-----------------------------
+---------------------------------------
 public class ColorFactory extends AbstractFactory {
 	
    public Shape getShape(String shapeType){
@@ -134,7 +135,7 @@ public class ColorFactory extends AbstractFactory {
       return null;
    }
 }
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~
+---------------------------------------
 public class FactoryProducer {
    public static AbstractFactory getFactory(String choice){
    
@@ -148,7 +149,7 @@ public class FactoryProducer {
       return null;
    }
 }
-=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~
+---------------------------------------
 public class AbstractFactoryPatternDemo {
    public static void main(String[] args) {
 
@@ -195,4 +196,4 @@ public class AbstractFactoryPatternDemo {
       color3.fill();
    }
 }
-#########################################################################
+#######################################

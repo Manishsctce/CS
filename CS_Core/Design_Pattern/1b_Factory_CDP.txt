@@ -1,4 +1,5 @@
-######## 2. FACTORY METHOD DESIGN PATTERN ##########
+=======================================
+####### 2. FACTORY METHOD DP ##########
 
 > it is a CREATIONAL PATTERN which uses factory methods to deal with the problem of creating objects 
 - WITHOUT SPECIFYING THE EXACT CLASS OF OBJECT that will be created. 
@@ -24,7 +25,7 @@ Ex-
 
 > This pattern introduces loose coupling between classes
 
-Advantage of Factory Design Pattern
+## Advantage of Factory Design Pattern 
 > it  allows the sub-classes to choose the type of objects to create.
 > It promotes the loose-coupling by eliminating the need to bind application-specific classes into the code
 
@@ -44,7 +45,8 @@ java.net.URLStreamHandlerFactory#createURLStreamHandler(String) (Returns singlet
 java.util.EnumSet#of()
 javax.xml.bind.JAXBContext#createMarshaller() and other similar methods
 =======================================
-#### Dzone example
+############ EXAMPLE : 1 ##############
+
 public interface Logger {
 	public void log(String message);
 }
@@ -55,7 +57,7 @@ public class XMLLogger implements Logger {
 		System.err.println("logging");
 	}
 }
-		
+---------------------------------------		
 abstract class AbstractLoggerCreator {
 	//the factory methodpublic 
 	abstract Logger createLogger();
@@ -70,7 +72,7 @@ abstract class AbstractLoggerCreator {
 		return logger;
 	}
 }
-
+---------------------------------------
 //ConcreteCreatorpublic 
 class XMLLoggerCreator extends AbstractLoggerCreator{
 	@Overridepublic 
@@ -79,7 +81,7 @@ class XMLLoggerCreator extends AbstractLoggerCreator{
 		return logger;
 	}
 }
-
+---------------------------------------
 public class Client {
 	private void someMethodThatLogs(AbstractLoggerCreator logCreator){
 		Logger logger = logCreator.createLogger();
@@ -94,7 +96,7 @@ public class Client {
 	}
 }	
 =======================================
-######### javatpoint example ##########
+############ EXAMPLE : 2 ##############
 
 abstract class Plan{  
          protected double rate;  
@@ -104,7 +106,7 @@ abstract class Plan{
               System.out.println(units*rate);  
           }  
 }
-
+---------------------------------------
 class  DomesticPlan extends Plan{  
         //@override  
          public void getRate(){  
@@ -125,7 +127,7 @@ class  DomesticPlan extends Plan{
         rate=5.50;  
    }  
  }
- 
+--------------------------------------- 
 class GetPlanFactory{  
  
    //use getPlan method to get object of type Plan   
@@ -141,7 +143,7 @@ class GetPlanFactory{
       return null;  
    }  
 }
-
+---------------------------------------
 class GenerateBill{  
     public static void main(String args[])throws IOException{  
 	
@@ -163,7 +165,7 @@ class GenerateBill{
     }  
 }
 
-===========================================================================
+=======================================
 interface Logger {
 	void info(String arg0);
 	void trace(String arg0);
@@ -173,11 +175,11 @@ interface Logger {
 	boolean isDebugEnabled(Marker arg0);
 	boolean isInfoEnabled();
 }
---------------------------------
+---------------------------------------
 public interface ILoggerFactory {
 	Logger getLogger(String arg0);
 }
---------------------------------
+---------------------------------------
 public final class LoggerFactory {
   static ILoggerFactory loggerFactory;
 	static {
@@ -203,7 +205,7 @@ public final class LoggerFactory {
 		return loggerFactory;
 	}
 }
---------------------------------
+---------------------------------------
 public class StaticLoggerBinder implements LoggerFactoryBinder {
 	public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 	private static final String loggerFactoryClassStr = CommonLoggingLoggerFactory.class.getName();
@@ -217,7 +219,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
 		return loggerFactoryClassStr;
 	}
 }
---------------------------------
+---------------------------------------
 public class CommonLoggingLoggerFactory implements ILoggerFactory {
 	Map<String, Logger> loggerMap;
 

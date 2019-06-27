@@ -18,14 +18,14 @@ Captures and externalizes an object's internal state so that it can be restored 
 ###### USAGE #######
 
 =======================================
-########## JAVA EXAMPLES ##############
+############ JAVA EXAMPLES ############
 
 java.util.Date (the setter methods do that, Date is internally represented by a long value)
 All implementations of java.io.Serializable
 All implementations of javax.faces.component.StateHolder
+=======================================
+############ EXAMPLE : 1 ##############
 
-----------------------------------------
-##EXAMPLES: ##
 public class Memento {
    private String state;
 
@@ -37,7 +37,7 @@ public class Memento {
       return state;
    }	
 }
--------------------------------
+---------------------------------------
 public class Originator {
    private String state;
 
@@ -57,9 +57,7 @@ public class Originator {
       state = memento.getState();
    }
 }
--------------------------------
-import java.util.ArrayList;
-import java.util.List;
+---------------------------------------
 public class CareTaker {
    private List<Memento> mementoList = new ArrayList<Memento>();
 
@@ -71,7 +69,7 @@ public class CareTaker {
       return mementoList.get(index);
    }
 }
-
+---------------------------------------
 public class MementoPatternDemo {
    public static void main(String[] args) {
    
@@ -94,3 +92,4 @@ public class MementoPatternDemo {
       System.out.println("Second saved State: " + originator.getState());
    }
 }
+=======================================

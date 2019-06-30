@@ -1,42 +1,55 @@
 =======================================
 ########### FACADE PATTERN ############
 > It is a structural design pattern
+
+> It introduce a facade class which act as an interface for user to call method of the required class.
+
 > It is USED TO PROVIDE A UNIFIED AND SIMPLIFIED INTERFACE TO A GROUP OF INTERFACES in a subsystem, 
+- unified interface enables an object to access the subsystem 
 - therefore it hides the complexities of the subsystem from the client
 
 > Subsystem may be dependent with one another. 
 - In such case, facade can act as a coordinator and decouple the dependencies between the subsystems.
-> Translates the client requests to the subsystems that can fulfill those requests.
 
-> unified interface enables an object to access the subsystem using the interface to communicate with the subsystem. 
-
-> It introduce a facade class which act as an interface for user to call method of the required class.
-
-ADVANTAGE 
+## ADVANTAGE 
 > It promotes loose coupling between subsystems and its clients.
 - It shields the clients from the complexities of the sub-system components.
 
-DISADVANTAGE
-> By introducing the Facade into your code, you will be hardwiring subsystems into the Facade. This is fine if the subsystem never changes
+## DISADVANTAGE
+> By introducing the Facade into your code, you will be hardwiring subsystems into the Facade. 
+- This is fine if the subsystem never changes
+=======================================
+########## IMPORTANT POINTS ###########
+> A controller is not a facade.
+
+> Facade is ‘not’ a layer that imposes security and hides important data and implementation.
+
+> facade can act as a coordinator and decouple the dependencies between the subsystems.
+
+> Translating data to suit the interface of a subsystem is done by the facade.
 =======================================
 ########### JAVA EXAMPLES #############
-
-javax.faces.context.FacesContext, 
-- it internally uses among others the abstract/interface types  LifeCycle, ViewHandler, NavigationHandler and many more without that the enduser has to worry about it (which are however overrideable by injection).
-
-javax.faces.context.ExternalContext, 
+> javax.faces.context.ExternalContext, 
 - which internally uses ServletContext, HttpSession, HttpServletRequest, HttpServletResponse, etc.
+
+> javax.faces.context.FacesContext, 
+- it internally uses among others the abstract/interface types  LifeCycle, ViewHandler, NavigationHandler and many more without that the enduser has to worry about it (which are however overrideable by injection).
 =======================================
 ## When do we make usage of Facade Pattern?
+
 It is used:
 > When you want to provide simple interface to a complex sub-system.
 > When several dependencies exist between clients and the implementation classes of an abstraction.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Facade Vs Mediator Design Pattern
-In the implementation of mediator pattern, subsystem or peers components are aware of the mediator and that interact with it. 
-In the case of facade pattern, subsystems are not aware of the existence of facade. Only facade talks to the subsystems.
+## What is difference bet Facade and Mediator DP?
+
+> Both looks similar in terms of abstraction
+
+> But difference is in the implementation 
+- In mediator DP, subsystem or peers components are aware of the mediator and that interact with it. 
+- In facade DP, subsystems are not aware of the existence of facade. Only facade talks to the subsystems.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is difference between Facade and Factory design pattern?
+## What is difference bet Facade and Factory DP?
 
 > In Facade, required method is called by calling Facade class method.
 > Facade class create object of all the require class and call it methods
@@ -56,6 +69,3 @@ public class TravelFacade{
 		//process and return   
 	}
 }
-
-
-http://javapapers.com/design-patterns/facade-design-pattern/

@@ -48,22 +48,21 @@ javax.xml.bind.JAXBContext#createMarshaller() and other similar methods
 ############ EXAMPLE : 1 ##############
 
 public interface Logger {
-	public void log(String message);
+  public void log(String message);
 }
-
+---------------------------------------
 public class XMLLogger implements Logger {
-	public void log(String message) {
-		//log to xml 
-		System.err.println("logging");
-	}
+  public void log(String message) {
+  	System.err.println("logging"); 	//log to xml 
+  }
 }
 ---------------------------------------		
-abstract class AbstractLoggerCreator {
-	//the factory methodpublic 
-	abstract Logger createLogger();
+public abstract class AbstractLoggerCreator {
+	//the factory method
+	public abstract Logger createLogger();
 	
-	//the operations that are implemented for all LoggerCreators//like anOperation() in our diagrampublic 
-	Logger getLogger(){
+	//the operations that are implemented for all LoggerCreators//like anOperation() in our diagram
+	public Logger getLogger(){
 	
 		//depending on the subclass, we'll get a particular logger.
 		Logger logger = createLogger();
@@ -73,8 +72,8 @@ abstract class AbstractLoggerCreator {
 	}
 }
 ---------------------------------------
-//ConcreteCreatorpublic 
-class XMLLoggerCreator extends AbstractLoggerCreator{
+//ConcreteCreator
+public class XMLLoggerCreator extends AbstractLoggerCreator{
 	@Overridepublic 
 	Logger createLogger() {
 		XMLLogger logger = new XMLLogger();
@@ -150,15 +149,15 @@ class GenerateBill{
       GetPlanFactory planFactory = new GetPlanFactory();  
         
       System.out.print("Enter the name of plan for which the bill will be generated: ");  
-      BufferedReader br=new BufferedReader(new InputStreamReader(System.in));  
-  
+      BufferedReader br=new BufferedReader(new InputStreamReader(System.in));   
       String planName=br.readLine();  
+	  
       System.out.print("Enter the number of units for bill will be calculated: ");  
       int units=Integer.parseInt(br.readLine());  
   
       Plan p = planFactory.getPlan(planName);  
+	  
       //call getRate() method and calculateBill()method of DomesticPaln.  
-  
        System.out.print("Bill amount for "+planName+" of  "+units+" units is: ");  
        p.getRate();  
            p.calculateBill(units);  
@@ -178,6 +177,17 @@ interface Logger {
 ---------------------------------------
 public interface ILoggerFactory {
 	Logger getLogger(String arg0);
+}
+---------------------------------------
+public class CommonLoggingLoggerFactory implements ILoggerFactory {
+	Map<String, Logger> loggerMap;
+
+	public Logger getLogger(String name) {
+		CommonLoggingLoggerAdapter slf4jLogger = null;
+		org.apache.log4j.Logger log4jLogger = LogManager.getLogger(name);
+		slf4jLogger = new CommonLoggingLoggerAdapter(log4jLogger);
+		return slf4jLogger;
+	}
 }
 ---------------------------------------
 public final class LoggerFactory {
@@ -220,13 +230,3 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
 	}
 }
 ---------------------------------------
-public class CommonLoggingLoggerFactory implements ILoggerFactory {
-	Map<String, Logger> loggerMap;
-
-	public Logger getLogger(String name) {
-		CommonLoggingLoggerAdapter slf4jLogger = null;
-		org.apache.log4j.Logger log4jLogger = LogManager.getLogger(name);
-		slf4jLogger = new CommonLoggingLoggerAdapter(log4jLogger);
-		return slf4jLogger;
-	}
-}

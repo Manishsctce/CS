@@ -59,15 +59,18 @@ Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 6. hibernate.connection.password - The database password.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is dialect class in Hibernate?
-> To connect to any database with hibernate, we need to specify the SQL dialect class in hibernate.cfg.xml
+
+> TO CONNECT TO ANY DATABASE WITH HIBERNATE, we need to specify the SQL dialect class in hibernate.cfg.xml
 - Dialect is used to convert HQL statements to data base specific statements.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How to create the table dynamically in hibernate?
+## How to create the table dynamically in hibernate?
+
 hibernate.hbm2ddl.auto=update
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the use of "hibernate.hbm2ddl.auto" in configuration file??
+
 > it automatically validates or exports DDL schema(table structure) to the database when the SessionFactory is created. 
-- can execute the DDL commands (CREATE, ALTER, DROP AND TRUNCATE) from the hibernate framework, while creating the SessionFactory itself.
+- can execute the Data Definition Lang(DDL) commands (CREATE, ALTER, DROP AND TRUNCATE) from HBF, while creating the SessionFactory itself.
 
 VALUES: validate | update | create | create-drop
 
@@ -92,7 +95,7 @@ No
 ## What is SessionFactory in Hibernate? is SessionFactory thread-safe?
 
 > it is USED TO GET THE SESSION OBJECTS.
-- It is responsible to read the hibernate configuration parameters and connect to the database and provide Session objects
+- It is RESPONSIBLE TO READ THE HIBERNATE CONFIGURATION PARAMETERS AND CONNECT TO THE DATABASE and provide Session objects
 
 > SessionFactory instances are NOT LIGHTWEIGHT AND TYPICALLY ONE INSTANCE IS CREATED for the whole application. 
 - If the application accesses multiple databases, it needs one per database. 
@@ -104,11 +107,10 @@ No
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create session Object from SessionFactory?
 
-> SessionFactory[i] provides factory method to get the object of Session.
 Configuration cfg = new Configuration().configure("hibernate.cfg.xml"); 
 SessionFactory sessionFactory =cfg.buildSessionFactory();
 
-> SessionFactory provides 3 METHODS through which we can get Session object 
+> SessionFactory[i] provides 3 factory method to get the object of Session.
 – getCurrentSession(), 
 - openSession() and 
 - openStatelessSession().
@@ -227,11 +229,11 @@ Update the persistent instance with the identifier of the given detached instanc
 
 ## What are different states of an entity bean?
 
-> An Instances may exist in one of the following three states at a given point in time:
+> An Instances may exist in one of the following 3 states at a given point in time:
 1. TRANSIENT: 
 - A new instance of a persistent class which is not associated with a Session 
-- New instance has no representation in the database and no identifier value. It is considered transient by Hibernate.
-- Transient instances may be made persistent by calling save(), persist() or saveOrUpdate()
+- New instance has no representation in the DB and no identifier value. It is considered transient by Hibernate.
+- Transient instances can be made persistent by calling save(), persist() or saveOrUpdate()
 
 2. PERSISTENT
 - When an object is associated with a unique session, it’s in persistent state. 
@@ -244,7 +246,6 @@ Update the persistent instance with the identifier of the given detached instanc
 > Detached instances may be made persistent by calling update(), saveOrUpdate(), lock() or replicate(). 
 - The state of a transient or detached instance may also be made persistent as a new persistent instance by calling merge().
 
-
 new Object Create --> TRANSIENT STATE
 TRANSIENT STATE --session.save() or session.saveOrUpdate()-->PERSISTENT STATE 
 PERSISTENT STATE --session.evict()/clear()/close()--> DETACH STATE
@@ -252,6 +253,7 @@ DETACH STATE --session.saveOrUpdate/merge/update--> PERSISTENT STATE
 PERSISTENT STATE --session.delete()--> Object Removed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Difference between Transient and Detached States?
+
 > Transient objects do not have association with the databases and session objects. 
 - They are simple objects and not persisted to the database.
 
@@ -280,7 +282,7 @@ Long id2 = (Long) session.save(person);//create a new entry
 - persist() doesn't guarantee that the identifier value will be assigned to the persistent instance immediately, the assignment might happen at flush time
 
 > persist() : guarantees that it will not execute INSERT stmt, if it is called outside of transaction boundaries.
-- we can use persist() method only within the boundary of a transaction
+- we can use persist() only within the boundary of a transaction
 - save() : does not guarantee the same, it can be called inside or outside of a transaction 
 - save() returns an identifier, and if an INSERT has to be executed to get the identifier (e.g. "identity" generator, not "sequence"), this INSERT happens immediately, no matter if you are inside or outside of a transaction
 
@@ -381,6 +383,7 @@ session2.update(emp1); //Now it will work with exception
 > createCriteria - used to create criteria 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What’s the use of session.lock() in hibernate?
+
 > It can be used to ASSOCIATE A DETACHED OBJECT TO A SESSION and put the object back into a persistence context.  
 - it does this without forcing an update of the database 
 - This method of reattaching doesn’t check for any data synchronization in database while reattaching the object and 
@@ -485,7 +488,7 @@ A Query instance is lightweight and can't be used outside the Session that creat
 =========================================
 ############### Query[i] ##############
 > It is an object oriented representation of Hibernate Query. 
-> The object of Query can be obtained by calling the createQuery() method Session interface.
+> The object of Query can be obtained by calling the createQuery() of Session[i].
 
 EXAMPLE:
 Query q=session.createQuery("select sum(salary) from Emp");  
@@ -522,3 +525,5 @@ System.out.println(list.get(0));
 
 > central method is execute(), that supports the Hibernate code that implements HibernateCallback interface
 
+=======================================
+HBF - Hibernate Framework

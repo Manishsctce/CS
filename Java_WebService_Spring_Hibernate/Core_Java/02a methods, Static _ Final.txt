@@ -355,27 +355,21 @@ class S extends R {
 
 > we cannot use this() and this(parameter-list) in the method. as it is used to invoke constructor 
 - and we cannnot invoke constructor from method
-=========================================
-######## S T A T I C ########
-##Does static variables get garbage collected?
-> No, STATIC VARIABLES CANNOT BE ELECTED FOR GARBAGE COLLECTION.
-> They can be collected when the respective class loader (that was responsible for loading this class) is itself collected for garbage. 
-> Static variables are referenced by Class objects which are referenced by Class loaders 
--so unless the ClassLoader itself becomes eligible for collection  the static variables  won't be collected.
---------------------------
-## When the ClassLoader is eligible for garbage-collection? [more detail in GC]
-> A class can be garbage-collected when nothing references it.
---------------------------
-##What does the static keyword mean?
-> Static in java is modifier which is use efficiently for memory management.
+=======================================
+########## STATIC VARIABLE ############
+
+## What does the static keyword mean?
+
+> Static in java is modifier which is USE FOR MEMORY MANAGEMENT.
 > It can be use with variable(called class variable), methods, blocks, nested class
 > static variable or function is SHARED BETween ALL INSTANCES OF THAT CLASS as it belongs to the type, not the actual objects themselves. 
 - So if you have a variable: private static int i = 0; and you increment it ( i++ ) in one instance, 
 - the change will be reflected in all instances
 
-> 
+>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the significance of STATIC VARIABLE?
+## What is the significance of STATIC VARIABLE?
+
 > Static variable is variable that belongs to whole class rather than individual object of class. 
 > It make ONLY ONE COPY of static variable IN HEAP MEMORY. 
 > It mean same value for every object of the class.
@@ -385,27 +379,43 @@ class S extends R {
 > it get memory once i.e only one copy of static variable present in heap 
 >> static variable CANNOT DEFINE LOCALLY bcz it is define for class and local variable belongs to the particular method
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######## STATIC BLOCK#########
+## Does static variables get garbage collected?
+
+> No, STATIC VARIABLES CANNOT BE ELECTED FOR GARBAGE COLLECTION.
+> They can be collected when the respective class loader (that was responsible for loading this class) is itself collected for garbage. 
+> Static variables are referenced by Class objects which are referenced by Class loaders 
+-so unless the ClassLoader itself becomes eligible for collection  the static variables  won't be collected.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When the ClassLoader is eligible for garbage-collection? [more detail in GC]
+
+> A class can be garbage-collected when nothing references it. 
+=======================================
+############# STATIC BLOCK ############
+
 > Can be USED TO ADD PREPROCESSING if required
 > All the static blocks gets executed IN SEQUENCE they appear in the class
-> Static block excuted when the class get loaded. even if we didnt created object of the class
+> Static block excuted when the class get loaded. 
+- even if we didnt created object of the class
+
 >> static block is CALLED BEFORE THE CONSTRUCTOR
 >> static block loaded only once
 >  java.lang.NoClassDefFoundError can be thrown
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can static block throw exception?
+
 > No, Static code blocks cannot throw Checked Exceptions, 
 - we can catch the checked exception, log it appropriately and throw a Runtime Exception
 
 > It is because it is not possible to handle these checked exceptions in our source. 
 - we do not have any control over the initialization process and static{} blocks cannot be called from our source so that we could surround them with try-catch.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#########STATIC METHOD########
+=======================================
+############ STATIC METHOD ############
+
 > it is the common method that belong to the class rather than a object of the class
 > it can be called directly using class name without creating object of that class
 > It is used in class if the method doesn't depend on the instance variable and methods i.e not belong to particular object state.
 > Utility methods are good candidate of making static
-> static method doesnot override. It call with reference class
+> STATIC METHOD DOESNOT OVERRIDE. It call with reference class
 > it inherit in the child class
 
 > It can access non-static variable/method of class with the object reference of class but not directly
@@ -462,7 +472,7 @@ class Q extends P {
 > A user cannot override static methods in Java, because method overriding is based upon dynamic binding at runtime and static methods are statically binded at compile time. 
 > A static method is not associated with any instance of a class so the concept is not applicable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can you access non static variable in static context ? 
+## Can you access non static variable in static context ? 
 
 > NO, if we try to access non-static variable in static context without any instance, the COMPILER WILL COMPLAIN 
 - because those variable are not created yet and they are not associated with instance
@@ -475,6 +485,7 @@ StaticDemo demo2 = new StaticDemo(100);
 StaticDemo.changeCounter(); //this method access nonostatic variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why can't we define an abstract static method?
+
 > No, "abstract" means: "Implements no functionality", and "static" means: "There is functionality even if you don't have an object instance". 
 - And that's a logical contradiction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -485,7 +496,7 @@ StaticDemo.changeCounter(); //this method access nonostatic variable
 
 > one static variable is shared between all object in Java
 > in a multi-threading environment access to static variable must be synchronized 
-- Its not suggest to use static variable in multi-threading and concurrent application because some time it create subtle bugs which is hard to find and debug
+- ITS NOT SUGGEST TO USE STATIC VARIABLE IN MULTI-THREADING and concurrent application because some time it create subtle bugs which is hard to find and debug
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE:
 class Shape{
@@ -509,12 +520,13 @@ public class PumpkinDemo {
 > it is useful bcz we can import only the required method/variable/method/class not everything
 
 > Adv - less coding is require
-> Disadv - heavy use of it make pgm unreadable
+> Disadv - heavy use of it MAKE PGM UNREADABLE
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the difference between import and static import?
+## What is the difference between import and static import?
+
 > import allow to access classes of the package without package qualification
-- static import allow to access static member of a class without Class qualification
+- STATIC IMPORT ALLOW TO ACCESS STATIC MEMBER OF A CLASS WITHOUT CLASS QUALIFICATION
 
 > import allow to access class, interface 
 - static import allow static member only 

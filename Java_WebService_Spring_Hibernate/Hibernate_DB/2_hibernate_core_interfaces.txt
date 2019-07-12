@@ -440,7 +440,7 @@ System.out.println("vehicle synchronized again: " + v);
 - Whenever hibernate returns an instance of any entity class, it checks whether it returns a proxy object to avoid the database hit.
 
 > Mapping of classes can be made into a proxy instead of a table.
-=========================================
+=======================================
 ########### Transaction[i] ############
 > A transaction represents a unit of work. 
 - Application uses transactions to do some operations on DB. 
@@ -457,7 +457,7 @@ System.out.println("vehicle synchronized again: " + v);
 > A transaction is associated with Session and instantiated as below 
 Transaction transaction = session.beginTransaction();
 
-## METHODS ##
+##### METHODS #####
 1. void begin() 
 - starts a new transaction.
 
@@ -476,16 +476,19 @@ Transaction transaction = session.beginTransaction();
 6. void registerSynchronization(Synchronization s) 
 - registers a user synchronization callback for this transaction.
 
-boolean wasCommited() checks if the transaction is commited successfully.
-boolean wasRolledBack() checks if the transaction is rolledback successfully.
-=========================================
-######## 5. Query and Criteria[i] #######
+boolean wasCommited() 
+- checks if the transaction is commited successfully.
+
+boolean wasRolledBack() 
+- checks if the transaction is rolledback successfully.
+=======================================
+###### 5. Query and Criteria[i] #######
 The Query interface allows you to perform queries against the database and control how the query is executed. Queries are written in HQL or in the native SQL dialect of your database. A Query instance is used to bind query parameters, limit the number of results returned by the query, and finally to execute the query. 
 The Criteria interface is very similar; it allows you to create and execute object-oriented criteria queries. 
 To help make application code less verbose, Hibernate provides some shortcut methods on the Session interface that let you invoke a query in one line of code. We won't use these shortcuts; instead, we'll always use the Query interface. 
 A Query instance is lightweight and can't be used outside the Session that created it.
 
-=========================================
+=======================================
 ############### Query[i] ##############
 > It is an object oriented representation of Hibernate Query. 
 > The object of Query can be obtained by calling the createQuery() of Session[i].

@@ -1,168 +1,22 @@
-######## LOGGER INTRODUCTION ########
+######### LOGGER INTRODUCTION #########
 > There are various logging lib like java.util.logging, Apache log4j, logback, SLF4J (Simple logging facade for Java)
----------------------------------------
-> Loggers are named entities. Logger names are case-sensitive and they follow the hierarchical naming rule:
 
-#### Named Hierarchy ##
-> A logger is said to be an ancestor of another logger if its name followed by a dot is a prefix of the descendant logger name.
-- A logger is said to be a parent of a child logger if there are no ancestors between itself and the descendant logger.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention what are the two static methods for obtaining a logger object?
 
-For example: the logger named "com.foo" is a parent of the logger named "com.foo.Bar". Similarly, "java" is a parent of "java.util" and an ancestor of "java.util.Vector".
----------------------------------------
-> The root logger resides at the top of the logger hierarchy.
-- It is exceptional in three ways:
-	1. it always exists,
-	2. it cannot be retrieved by name.
-	3. its level cannot be set to null
----------------------------------------
-########### METHODS #########
-> package org.apache.log4j;
-> Some of the basic methods in the Logger class are listed below.
+> We have to initialize one Logger object for each Java class.
 
-    // Creation & retrieval methods:
-    public static Logger getRootLogger();
-    public static Logger getLogger(String name);
+The two static methods for obtaining a logger object are 
+1. Public static Logger getRootLogger()
 
-    // printing methods:
-    public void trace(Object message);
-    public void debug(Object message);
-    public void info(Object message);
-    public void warn(Object message);
-    public void error(Object message);
-    public void fatal(Object message);
-
-    // generic printing method:
-    public void log(Level l, Object message);
----------------------------------------
-########## LEVEL #############
-> these are define in this "org.apache.log4j.Level" class
-> set of possible levels and weightage 
-OFF		0  heighest
-FATAL	1
-ERROR	3
-WARN	4
-INFO	6
-DEBUG	7
-TRACE	7
-ALL		7  lowest
-
-> ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF.
-> A log request of level p in a logger with level q is enabled if p >= q. This rule is at the heart of log4j.
-- logger outputs all those messages equal to that level and also all greater levels than it. 
-
-
-> RootLogger level define from which level logger appender will print.
-Ex - if rootLogger is set at info then no appender can print debug, trace 
-	
->  by default, the root logger is assigned to Level.DEBUG.
-
-## appender Threshold is used to set from where the appender will start printing. Ex - if Threshold set to WARN then Warn and it upper level will start printing.
-
-### LevelRangeFilter
-> used to reject messages with priorities outside a certain range.
-> filter admits three options LevelMin, LevelMax and AcceptOnMatch.
-> if threshold is defined as warn and LevelMin=error, LevelMax=fatal then only error and fatal will print
-========================
-> If a given logger is not assigned a level, then it inherits one from its closest ancestor with an assigned level. More formally:
-## Level Inheritance
-> The inherited level for a given logger C, is equal to the first non-null level in the logger hierarchy, starting at C and proceeding upwards in the hierarchy towards the root logger.
-
-LoggerName	AssignedLevel	InheritedLevel
-root		Proot			Proot
-X			Px				Px
-X.Y			none			Px
-X.Y.Z		Pxyz			Pxyz
-
-In this example, the loggers root, X and X.Y.Z are assigned the levels Proot, Px and Pxyz respectively. The logger X.Y inherits its level value from its parent X.
-------------------------------------------------------
-
-> Log4j has three main components: loggers, appenders and layouts.
-------------------------------------------------------
-######### APPENDER #########
-The Appender controls how the logging is output. The Appenders available are (descriptions borrowed from the log4j API http://jakarta.apache.org/log4j/docs/api/index.html):
-
-ConsoleAppender: appends log events to System.out or System.err using a layout specified by the user. The default target is System.out.
-
-DailyRollingFileAppender extends FileAppender so that the underlying file is rolled over at a user chosen frequency.
-
-FileAppender appends log events to a file.
-
-RollingFileAppender extends FileAppender to backup the log files when they reach a certain size.
-
-WriterAppender appends log events to a Writer or an OutputStream depending on the user's choice.
-
-SMTPAppender sends an e-mail when a specific logging event occurs, typically on errors or fatal errors.
-
-SocketAppender sends LoggingEvent objects to a remote a log server, usually a SocketNode.
-> RollingFileAppender extends FileAppender to backup the log files when they reach a certain size.
-------------------------------------------------------
-######### PatternLayout #########
-> it output format according to conversion patterns similar to the C language printf function
-- Each conversion specifier starts with a percent sign (%) and is followed by optional format modifiers and a conversion character
-
-1. %d : Used to output the date of the logging event. 
-- The date conversion specifier may be followed by a date format specifier enclosed between braces. 
-- For example, %d{HH:mm:ss,SSS} or %d{dd MMM yyyy HH:mm:ss,SSS}.
-
-2. p : Used to output the priority of the logging event.
- %-5p means the priority of the logging event should be left justified to a width of five characters(i.e identation or space)
-
-3. x : Used to output the NDC (nested diagnostic context) associated with the thread that generated the logging event.
- 
-4. n : Outputs the platform dependent line separator character or characters.
-5. m : Used to output the application supplied message associated with the logging event.
-
-For More detail : http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
-------------------------------------------------------
-#### Log4j configuration Property ####
-
-> log4j.rootLogger - it makes logger object 
-log4j.rootLogger=info, file, stdout, stderr
-
-
-log4j.appender.file=org.apache.log4j.RollingFileAppender
-log4j.appender.file.File=admincmdline.log
-log4j.appender.file.MaxFileSize=1024KB
-log4j.appender.file.MaxBackupIndex=4
-log4j.appender.file.layout=org.apache.log4j.PatternLayout
-log4j.appender.file.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss,SSS} %-5p (%13F:%L) %3x - %m%n
-
-
-log4j.appender.stderr = org.apache.log4j.ConsoleAppender
-log4j.appender.stderr.Threshold = WARN
-log4j.appender.stderr.Target   = System.err
-log4j.appender.stderr.layout = org.apache.log4j.PatternLayout
-log4j.appender.stderr.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %5p - %m%n
-
-
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.Threshold = info
-log4j.appender.stdout.Target   = System.out
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %5p - %m%n
-log4j.appender.stdout.filter.filter1=org.apache.log4j.varia.LevelRangeFilter
-log4j.appender.stdout.filter.filter1.levelMin=TRACE
-log4j.appender.stdout.filter.filter1.levelMax=INFO
-
-# add a FileAppender to the logger fout
-log4j.appender.fout=org.apache.log4j.FileAppender
-
-# create a log file
-log4j.appender.fout.File=crawl.log
-log4j.appender.fout.layout=org.apache.log4j.PatternLayout
-
-# use a more detailed message pattern
-log4j.appender.stdout.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %5p - %m%n
-
-
-# to make fresh copy of log i.e not to append
-log4j.appender.rollingFile.Append=false
-
-## Threshold in logger property
-log4j.appender.stderr.Threshold = warn
-> The logger's minimum level is set to warn, which means everything you log with this logger which doesn't have at least the warn level will be ignored.
---------------------------
+2. Public static Logger getLogger(String name)
+Ex - private static final Logger logger = Logger.getLogger(CurrentClass.class.getName()).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between SLF4J and Log4j?
+
+> Simple Logging Facade for Java provides a Java logging API by means of a simple facade pattern.
+- SLF4J is basically an abstraction layer. It is not a logging implementation. 
+- It means that if you're writing a library and you use SLF4J, you can give that library to someone else to use and they can choose which logging implementation to use with SLF4J e.g. log4j or the Java logging API.
 
 Log4j:
 logger.debug("Processing trade with id: " + id + " symbol: " + symbol);
@@ -171,23 +25,7 @@ SLF4J:  place holder and represented as {} in code
 logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);
 
 > SLF4J reduce cost of constructing logging messages (String) and thus reduce memory and CPU efficiency
-===================================================
-
-	
-
-java log
-All logging is done via a Logger instance. Loggers gather the data to be logged into a LogRecord. The LogRecord is then forwarded to a Handler. The Handler determines what to do with the LogRecord. For instance, the LogRecord can be written to disk, or sent over the network to a surveillance system.
-
-Both Logger's and Handler's can pass the LogRecord through a Filter which determines whether the LogRecord should be forwarded or not.
-
-A Handler can also use a Formatter to format the LogRecord as a string before it is sent to the external disk or system.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## difference between slf4j and log4j
-
-> Simple Logging Facade for Java provides a Java logging API by means of a simple facade pattern.
-- SLF4J is basically an abstraction layer. It is not a logging implementation. 
-- It means that if you're writing a library and you use SLF4J, you can give that library to someone else to use and they can choose which logging implementation to use with SLF4J e.g. log4j or the Java logging API.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-----
 ## Explain what is Log4j?
 
 > Log4j is a fast, flexible and reliable logging framework  written in Java developed in early 1996. 
@@ -207,6 +45,93 @@ A Handler can also use a Formatter to format the LogRecord as a string before it
 1. Loggers
 2. Appenders
 3. Layout
+=======================================
+############## METHODS ################
+> package org.apache.log4j;
+
+> Some of the basic methods in the Logger class are listed below.
+
+ // Creation & retrieval methods:
+ public static Logger getRootLogger();
+ public static Logger getLogger(String name);
+
+ // printing methods:
+ public void trace(Object message);
+ public void debug(Object message);
+ public void info(Object message);
+ public void warn(Object message);
+ public void error(Object message);
+ public void fatal(Object message);
+
+ // generic printing method:
+ public void log(Level l, Object message);
+=======================================
+############### LEVEL #################
+> these are define in this "org.apache.log4j.Level" class
+> set of possible levels and weightage 
+OFF     0  heighest
+FATAL   1
+ERROR   3
+WARN    4
+INFO    6
+DEBUG   7
+TRACE   7
+ALL	    7  lowest
+
+> ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF.
+
+## HEART OF LOG4J : p >= q 
+- logger outputs all those messages equal to that level and also all greater levels than it. 
+EXAMPLE : If logging level = INFO, then app can log messages with scopes - INFO, WARN, ERROR and FATAL.
+
+## appender Threshold is used to set from where the appender will start printing. 
+Ex - if Threshold set to WARN then Warn and it upper level will start printing.
+
+### LevelRangeFilter
+> used to reject messages with priorities outside a certain range.
+> filter admits three options LevelMin, LevelMax and AcceptOnMatch.
+> if threshold is defined as warn and LevelMin=error, LevelMax=fatal then only error and fatal will print
+=======================================
+########## NAMED HIERARCHY ############
+
+> Loggers are named entities. Logger names are case-sensitive and they follow the hierarchical naming rule:
+
+> A logger is said to be an ancestor of another logger if its name followed by a dot is a prefix of the descendant logger name.
+- A logger is said to be a parent of a child logger if there are no ancestors between itself and the descendant logger.
+
+EXAMPLE: the logger named "com.foo" is a parent of the logger named "com.foo.Bar". 
+- Similarly, "java" is a parent of "java.util" and an ancestor of "java.util.Vector".
+=======================================
+############ ROOT LOGGER ##############
+> The root logger resides at the top of the logger hierarchy.
+- It is exceptional in three ways:
+
+1. it always exists and mandatory
+2. it cannot be retrieved by name.
+3. its level cannot be set to null
+	
+> Log4j’s root logger by default has DEBUG level
+
+> root logger exists outside the scope of any custom logger hierarchy. 
+- It always exists as the root logger for all possible logger hierarchies, and it has no namespace. 
+- ALL OTHER APP-SPECIFIC LOGGER OBJECTS ARE CHILD OBJECTS TO THE ROOT LOGGER. 
+- A CHILD LOGGER CAN INHERIT PROPERTIES FROM ITS PARENT LOGGER recursively up the tree
+
+> RootLogger level define from which level logger appender will print.
+Ex - if rootLogger is set at info then no appender can print debug, trace 
+=======================================
+######### LEVEL INHERITANCE ###########
+> If a given logger is not assigned a level, then it INHERITS ONE FROM ITS CLOSEST ANCESTOR with an assigned level.
+
+EXAMPLE- the loggers root, X and X.Y.Z are assigned the levels Proot, Px and Pxyz respectively. 
+- The logger X.Y inherits its level value from its parent X. if X level is not present then inherit root level
+
+LoggerName	AssignedLevel	InheritedLevel
+root		Proot			Proot
+X			Px				Px
+X.Y			none			Px
+X.Y.Z		Pxyz			Pxyz
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Inside logger component what are the different log levels?
 
@@ -234,12 +159,6 @@ Some of the Appenders type include
 ## Explain what is layouts in log4j?
 
 > Layout in log4j is responsible for FORMATTING LOGGING INFORMATION in different styles.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Mention what are the two static methods for obtaining a logger object?
-
-The two static methods for obtaining a logger object are 
-- Public static Logger getRootLogger()
-- Public static Logger getLogger(String name)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the other support objects in Log4j?
 
@@ -288,31 +207,32 @@ configuration, URL for default initialization configuration file
 configurationClass, Class name for configurator to execute default initialization configuration file
 ignoreTCL, if true, the thread class loader will be overlooked when loading classes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-17) Mention what is the role of filter in log4j?
+## Mention what is the role of filter in log4j?
 
-Filter objects in log4j decide whether logging request should be handled by a particular Appender or ignored.
-
-18) Explain how can you get multiple processes to log to the same file?
+> Filter objects in log4j decide whether logging request should be handled by a particular Appender or ignored.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain how can you get multiple processes to log to the same file?
 
 You may have each process log to a socket Appender. The receiving socket server can receive all the events and send them to a single log file.
-
-19) Mention what is the difference between Threshold and LevelRangeFilter in log4j?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention what is the difference between Threshold and LevelRangeFilter in log4j?
 
 Both Threshold and LevelRangeFilter does the same thing. However threshold should be faster. Filters enable you to implement your own logic, and you can also link them together if required. If you need a basic threshold functionality, then “threshold” function will be enough.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention what does .class mean in log4j context?
 
-20) Mention what does .class mean in log4j context?
+> In log4j context, .class is used to get the full name of your class and that string is used to configure this logger object.  
+For example, logger.getlogget (Myclass.class)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain what is package level logging in log4j?
 
-In log4j context, .class is used to get the full name of your class and that string is used to configure this logger object.  For example, logger.getlogget (Myclass.class)
-
-21) Explain what is package level logging in log4j?
-
-Package level logging is the standard logging of log4j, with this you would determine the package and the associated level.
-
-22) Explain what does WARN and TRACE level indicates in log4j?
+> Package level logging is the standard logging of log4j, with this you would determine the package and the associated level.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain what does WARN and TRACE level indicates in log4j?
 
 Log4j level WARN gives a warning about an unpredicted event to the user. The messages coming out of this level may not stop the progress of the system.  The TRACE level provides more detailed information than the DEBUG level, and it will stay on the top of the hierarchy.
-
-23) Explain what are the format characters used in log4j?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain what are the format characters used in log4j?
 
 The format characters used in log4j are
 
@@ -321,17 +241,120 @@ m- It is used to output the application supplied message related with the loggin
 p-It is used to output the priority of the logging event
 C- It is used to output the class name of the caller issuing the logging request
 When any number is used along with the character it means the priority of the logging event should be justified to a width of 4 characters.
-
-24) Mention what is the best way to migrate from java.util logging to log4j?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention what is the best way to migrate from java.util logging to log4j?
 
 The best way to migrate from java.util  logged to log4j is to use global file search/replace method.  It will replace with “org.apache.log4j.Logger”
-
-25) Explain why do you get multiple copies of the message in log file sometime?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain why do you get multiple copies of the message in log file sometime?
 
 There could be two reasons why this may happen
 
 Repeated configuration of log4j
 Attaching the same appenders to multiple loggers
+
+=======================================
+############# APPENDER ################
+> The Appender controls how the logging is output. 
+
+
+1. ConsoleAppender: 
+- appends log events to System.out or System.err using a layout specified by the user. 
+- The default target is System.out.
+
+2. DailyRollingFileAppender extends FileAppender 
+- the underlying file is rolled over at a user chosen frequency.
+
+3. FileAppender appends log events to a file.
+
+4. RollingFileAppender extends FileAppender 
+- to backup the log files when they reach a certain size.
+
+5. WriterAppender 
+- appends log events to a Writer or an OutputStream depending on the user's choice.
+
+6. SMTPAppender 
+- sends an e-mail when a specific logging event occurs, typically on errors or fatal errors.
+
+7. SocketAppender 
+- sends LoggingEvent objects to a remote a log server, usually a SocketNode.
+=======================================
+########### PatternLayout #############
+> it output format according to conversion patterns similar to the C language printf function
+- Each conversion specifier starts with a percent sign (%) and is followed by optional format modifiers and a conversion character
+
+1. %d : Used to output the date of the logging event. 
+- The date conversion specifier may be followed by a date format specifier enclosed between braces. 
+- For example, %d{HH:mm:ss,SSS} or %d{dd MMM yyyy HH:mm:ss,SSS}.
+
+2. p : Used to output the priority of the logging event.
+ %-5p means the priority of the logging event should be left justified to a width of five characters(i.e identation or space)
+
+3. x : Used to output the NDC (nested diagnostic context) associated with the thread that generated the logging event.
+ 
+4. n : Outputs the platform dependent line separator character or characters.
+5. m : Used to output the application supplied message associated with the logging event.
+
+For More detail : http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
+=======================================
+#### Log4j configuration Property #####
+
+> log4j.rootLogger - it makes logger object 
+log4j.rootLogger=info, file, stdout, stderr
+
+
+log4j.appender.file=org.apache.log4j.RollingFileAppender
+log4j.appender.file.File=admincmdline.log
+log4j.appender.file.MaxFileSize=1024KB
+log4j.appender.file.MaxBackupIndex=4
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss,SSS} %-5p (%13F:%L) %3x - %m%n
+
+
+log4j.appender.stderr = org.apache.log4j.ConsoleAppender
+log4j.appender.stderr.Threshold = WARN
+log4j.appender.stderr.Target   = System.err
+log4j.appender.stderr.layout = org.apache.log4j.PatternLayout
+log4j.appender.stderr.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %5p - %m%n
+
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Threshold = info
+log4j.appender.stdout.Target   = System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %5p - %m%n
+log4j.appender.stdout.filter.filter1=org.apache.log4j.varia.LevelRangeFilter
+log4j.appender.stdout.filter.filter1.levelMin=TRACE
+log4j.appender.stdout.filter.filter1.levelMax=INFO
+
+# add a FileAppender to the logger fout
+log4j.appender.fout=org.apache.log4j.FileAppender
+
+# create a log file
+log4j.appender.fout.File=crawl.log
+log4j.appender.fout.layout=org.apache.log4j.PatternLayout
+
+# use a more detailed message pattern
+log4j.appender.stdout.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %5p - %m%n
+
+
+# to make fresh copy of log i.e not to append
+log4j.appender.rollingFile.Append=false
+
+## Threshold in logger property
+log4j.appender.stderr.Threshold = warn
+> The logger's minimum level is set to warn, which means everything you log with this logger which doesn't have at least the warn level will be ignored.
+
+===================================================
+
+	
+
+java log
+All logging is done via a Logger instance. Loggers gather the data to be logged into a LogRecord. The LogRecord is then forwarded to a Handler. The Handler determines what to do with the LogRecord. For instance, the LogRecord can be written to disk, or sent over the network to a surveillance system.
+
+Both Logger's and Handler's can pass the LogRecord through a Filter which determines whether the LogRecord should be forwarded or not.
+
+A Handler can also use a Formatter to format the LogRecord as a string before it is sent to the external disk or system.
 =======================================
 ##### PatternLayout ######
 > PatternLayout class extends the abstract org.apache.log4j.Layout class and overrides the format() method to structure the logging information according to a supplied pattern

@@ -1,0 +1,448 @@
+=======================================
+## What are the Different ways to make any application thread safe?
+
+> We can make any app thread safe using :-
+1. Re-entrancy
+2. Mutual Exclusion (synchronization)
+3. Thread Local
+4. Atomic operation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by thread-safety?
+
+> A class is thread-safe if it behaves correctly when accessed from multiple threads, 
+- regardless of the scheduling or interleaving of the execution of those threads by the runtime environment, and 
+- with no additional synchronization or other coordination on the part of the calling code.
+=======================================
+########### SYNCHRONIZATION ###########
+
+##What is Synchronization?
+
+> Synchronization is the process to control the access any shared resource by multiple threads
+> Synchronization in Java is possible by using Java keywords "synchronized" and "volatile”
+> synchronization is BASED ON OBJECT MONITOR.
+- TWO KINDS OF MONITOR REGIONS: synchronized statements and synchronized methods. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do we need Synchronization?
+
+> we need synchronization for objects, which are shared among multiple threads, 
+- to avoid any corruption of state or 
+- any kind of unexpected behavior. 
+> Synchronization will only be needed if shared object is mutable. 
+- if your shared object is either read-only or immutable object, then we don't need synchronization, despite running multiple threads
+
+> CANNOT USE SYNCHRONIZED WITH CONSTRUCTOR it’s illegal and result in compilation error.
+
+The synchronization is mainly used to
+> To prevent thread interference.
+> To prevent memory consistency problem.
+
+http://javarevisited.blogspot.in/2011/04/synchronization-in-java-synchronized.html#axzz4sZOoYUxv
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are two types of synchronization
+> Process Synchronization (out of scope in this thread page) 
+> Thread Synchronization (
+
+> Java's monitor supports TWO KINDS OF THREAD SYNCHRONIZATION: mutual exclusion and cooperation. 
+1. MUTUAL EXCLUSION : 
+- it is SUPPORTED USING OBJECT LOCKS in the JVM , 
+- it enables multiple threads to independently work on shared data without interfering with each other. 
+- 3 ways to do -
+	a. Synchronized method.
+	b. Synchronized block.
+	c. static synchronization.
+	
+2. COOPERATION (Inter-thread communication in java): 
+- it is supported using wait() and notify() of class Object in the JVM.
+- it enables threads to work together towards a common goal.
+
+https://www.artima.com/insidejvm/ed2/threadsynch.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between a synchronized method and a synchronized block ?
+
+> Scope of synchronized block is smaller than the method
+
+> Using Synchronized method : thread acquire locks on current object (this)
+- Using Synchronized block : thread acquire locks on an object by using the synchronized keyword. 
+
+> The synchronized keyword can be applied in a method level (coarse grained lock) or block level of code (fine grained lock).
+
+> CAN NOT HAVE SYNCHRONIZED VARIABLE. 
+- Using synchronized keyword with a variable is illegal and will result in compilation error. 
+
+SYNCHRONIZED METHOD
+public synchronized void demoMethod(){}
+
+SYNCHRONIZED BLOCK
+public void demoMethod(){
+  synchronized (this){
+  	//other thread safe code
+  }
+}
+- here if "this" can be any object and if object is null then NPE.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where does object lock store in memory?
+
+> synchronized keyword involve locking and unlocking. 
+- before entering into synchronized method or block thread needs to acquire the lock,
+- at this point it READS DATA FROM MAIN MEMORY THAN CACHE AND WHEN IT RELEASE THE LOCK, IT FLUSHES WRITE OPERATION INTO MAIN MEMORY which eliminates memory inconsistency errors.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can a thread hold multiple locks at the same time?
+
+> Yes. A thread can hold multiple locks at the same time. 
+> Once a thread acquires a lock and enters into the synchronized method/block, it may call another synchronized method and acquire a lock on another object.
+- each time when thread aquire lock, lock count increase and decrease when the lock release. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can a thread call multiple synchronized methods on the object of which it hold the lock?
+
+> Yes. Once a thread acquires a lock in some object, it may call any other synchronized method of that same object using the lock that it already holds.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What happens when I make a static method as synchronized?
+
+> If you make any static method as synchronized, the lock will be on the class not on object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Can two threads call two different static synchronized methods of the same class?
+
+> No. The static synchronized methods of the same class always block each other as only one lock per class exists. 
+> So no two static synchronized methods can execute at the same time.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Does a static synchronized method block a non-static synchronized method?
+## Can both static and nonstatic java synchronized method running in parallel?
+
+> No, As the thread executing the static synchronized method holds a lock on the class and 
+- the thread executing the non-satic synchronized method holds the lock on the object on which the method has been called, 
+- these two locks are different and these threads do not block each other.
+
+EXAMPLE: 
+public class Counter{
+  private static int count = 0;
+
+  public static synchronized int getCount(){
+    return count;
+  }
+
+  public synchoronized setCount(int count){
+     this.count = count;
+  }
+}
+- here 2 threads can run in parallel and can access getCount and setCount	
+=======================================
+######### Java Synchronizers ##########
+
+> Java also provide five classes for common special-purpose synchronization.
+1. CountDownLatch
+2. Semaphore
+3. CyclicBarrier
+4. Exchanger
+5. Phaser
+=======================================
+######### CountDownLatch[c] ###########
+> Since Java5
+## What is CountDownLatch class?
+
+> It is a KIND OF SYNCHRONIZER which allows one Thread to wait for one or more Threads before starts processing. 
+- it is used when threads hv to wait for some other threads that reached to some state then only waiting thread starts
+
+> it provide synchr. counter that decrease till 0 then only it instance proceed other thread
+
+> It is MAINLY USED IN SERVER SIDE CORE JAVA APPLICATION WHICH USES SERVICES ARCHITECTURE 
+- where multiple services is provided by multiple threads and application can not start processing until all services have started successfully 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How CountDownLatch works?
+
+> defines one constructor : CountDownLatch(int count) 
+- Here count : number of threads, for which latch should wait. 
+- This value can be SET ONLY ONCE, and CountDownLatch provides NO OTHER MECHANISM TO RESET THIS COUNT
+
+> first interaction with CountDownLatch is with main thread which is goind to wait for other threads. 
+- This main thread must call, CountDownLatch.await() method immediately after starting other threads. 
+- The execution will stop on await() method till the time, other threads complete their execution.
+
+> Other N threads must have reference of latch object, because they will need to notify the CountDownLatch object that they have completed their task.
+- This notification is done by method : CountDownLatch.countDown();
+
+EXAMPLE:
+public static void main(String args[]) {
+    final CountDownLatch latch = new CountDownLatch(3);
+    
+	Thread cacheService = new Thread(new Service("CacheService", 1000, latch));
+    Thread alertService = new Thread(new Service("AlertService", 1000, latch));
+    Thread validationService = new Thread(new Service("ValidationService", 1000, latch));
+    
+    cacheService.start(); //separate thread will initialize CacheService
+    alertService.start(); //another thread for AlertService initialization
+    validationService.start();
+    
+    // application should not start processing any thread until all service is up
+    //each thread once up and read will do a count down. 
+    
+    try{
+         latch.await();  //main thread is waiting on CountDownLatch to finish
+         System.out.println("All services are up, Application is starting now");
+    }catch(InterruptedException ie){
+        ie.printStackTrace();
+    }      
+}
+
+class Service implements Runnable{
+    private final String name;
+    private final int timeToStart;
+    private final CountDownLatch latch;
+  
+    public Service(String name, int timeToStart, CountDownLatch latch){
+        this.name = name;
+        this.timeToStart = timeToStart;
+        this.latch = latch;
+    }
+
+    public void run() {
+        try {
+            Thread.sleep(timeToStart);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println( name + " is Up");
+        latch.countDown(); //reduce count of CountDownLatch by 1
+    } 
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between a CountDownLatch and a CyclicBarrier?
+
+SIMILARITY
+> Both classes maintain INTERNAL COUNTER that is decremented by different threads
+>
+DIFFERENCE
+> CountDownLatch class doesnot reset its counter
+- CyclicBarrier RESETS THE INTERNAL VALUE back to the initial value once the value reaches zero
+=======================================
+############# SEMAPHORE ###############
+> Since Java5 in the java.util.concurrent package
+
+## What is Semaphore?
+
+> It is a thread synchronization.
+> It maintains a set of permits (tickets), 
+- each acquire() will take a permit (ticket) from semaphore, 
+- each release() will return back the permit (ticket) back to the semaphore. 
+- If permits (tickets) are not available, acquire() will block until one is available.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Scenerio where we can use Semaphore?
+
+> It is used to limit the number of concurrent threads accessing a specific resource.
+
+) To implement better Database connection pool which will block if no more connection is available instead of failing and handover Connection as soon as its available.
+
+2) To put a bound on collection classes. by using semaphore you can implement bounded collection whose bound is specified by counting semaphore.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet Semaphore and Mutex?
+
+> Semaphores – Restrict the number of threads that can access a resource. Example, limit max 10 connections to access a file simultaneously.
+
+> Mutex – Only one thread to access a resource at once. Example, when a client is accessing a file, no one else should have access the same file at the same time.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+########### CyclicBarrier #############
+
+CyclicBarrier is used to make threads wait for each other. It is used when different threads process a part of computation and when all threads have completed the execution, the result needs to be combined in the parent thread. In other words, a CyclicBarrier is used when multiple thread carry out different sub tasks and the output of these sub tasks need to be combined to form the final output. After completing its execution, threads call await() method and wait for other threads to reach the barrier. Once all the threads have reached, the barriers then give the way for threads to proceed.
+
+CyclicBarrier newBarrier = new CyclicBarrier(numberOfThreads);
+=======================================
+############## ATOMIC #################
+## What is atomic operation? What are atomic classes in Java Concurrency API?
+
+> an operation which is performed as a single unit of work without the possibility of interference from other operations.
+
+> Java language specification guarantees that reading or writing a variable is an atomic operation(unless the variable is of type long or double ). 
+- Operations variables of type long or double are only atomic if they declared with the volatile keyword.
+
+> int++ is not an atomic operation. 
+- So by the time 1 threads read value and increment by 1, other thread read old value leads to wrong result.
+
+> it come under java.util.concurrent.atomic package
+> it performed in a single unit of task 
+- it perform to avoid data inconsistency.
+
+
+
+> To solve this issue, we can use Synchronization 
+- but Java 5 java.util.concurrent.atomic provides wrapper classes for int and long that achieve this atomically without usage of Synchronization. 
+- count.incrementAndGet() is atomic operation and equal to count++;
+=====================================
+############### LOCKS ###############
+## What is Lock interface in Java Concurrency API? What are it’s benefits over synchronization?
+
+> it come under java.util.concurrent.locks package
+> Lock[i] PROVIDE MORE EXTENSIVE LOCKING OPERATIONS than can be obtained using synchronized methods and statements. 
+- allow more flexible structuring and support multiple associated Condition objs. 
+> it facilitate more effective locking system
+
+> The ADVANTAGES of a lock are
+- to make them fair
+- to make a thread responsive to interruption while waiting on a Lock object.
+- to try to acquire the lock, but return immediately or after a timeout if the lock can’t be acquired
+- to acquire and release locks in different scopes, and in different orders
+
+> Some important interfaces and classes in Java Concurrency Lock API are
+
+1 Condition: it objs similar to Obj wait-notify model 
+- A Condition object is always created by Lock object. 
+- it methods are await() ~ wait() ,
+ - signal(), signalAll() ~ notify(), notifyAll().
+
+2 ReadWriteLock 
+- It contains pair of associated locks, one for read-only operations and another one for writing. 
+- The read lock may be held simultaneously by multiple reader threads as long as there are no writer threads. 
+- The write lock is exclusive.
+
+3 ReentrantLock 
+- This class implements the Lock interface in similar way as synchronized keyword. 
+- it contains some utility methods to get the thread holding the lock, threads waiting to acquire the lock etc.
+- synchronized block are reentrant in nature i.e if a thread has lock on the monitor object and if another synchronized block requires to have the lock on the same monitor object then thread can enter that code block
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is differences between Lock and synchronization ?
+=======================================
+########### ReadWriteLock[i] ###########
+
+>  request for read lock by multiple threads can be acquired simultaneously if there is no write lock request
+- If a thread acquires write lock on a resource, then no other read or writes lock by any thread 
+
+> STARVATION - it occur If new threads were constantly granted read access and the thread waiting for write access would remain blocked indefinately, resulting starvation
+ 
+=======================================
+########### ReentrantLock[c] ###########
+## What is ReentrantLock ?
+
+> it is concrete impl of Lock[i]. 
+> Since Java5
+> it is mutual exclusive lock similar to synchr 
+> it include additional features of FAIRNESS of long waiting thread.
+> Lock is acquired by lock() tht can be held by Thread until it call unlock() 
+
+> SYNCHRONIZED BLOCK ARE REENTRANT IN NATURE i.e. 
+- if a thread has lock on the monitor object and if another synchronized block requires to have the lock on the same monitor object then 
+- thread can enter that code block
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between ReentrantLock and Synchronized keyword ?
+
+> The main difference is ability to trying for lock interruptibly, and with timeout. 
+- Thread doesn’t need to block infinitely, which was the case with synchronized
+
+> Another significant difference is FAIRNESS
+> synchronized keyword doesn't support fairness. Any thread can acquire lock once released, no preference can be specified, 
+- we can make ReentrantLock fair by specifying fairness property, while creating instance of ReentrantLock. 
+- Fairness property provides lock to longest waiting thread, in case of contention.
+
+> ReentrantLock provides tryLock() which acquires lock only if its available or not held by any other thread
+- This reduce blocking of thread waiting for lock
+
+> ReentrantLock introduce the ability to interrupt Thread while waiting for Lock.
+- it provide lockInterruptibly(), used to interrupt thread when it is waiting for lock.
+- tryLock() with timeout can also be use
+= But with synchr, thread cab be blocked waiting for lock for indefinite time.
+
+> it provide methods to get List of all thread waiting for lock.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the DISADVANTAGE OF REENTRANTLOCK?
+
+> wrapping method body inside try-finally block make code unreadable and hide business logic.
+
+> Aquiring and releasing lock is in hand of prgmr, it need to be use efficiently otherwise may cause bug.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+> Synchronized use intrinsic locks or monitor of obj
+LIMITATIONS of intrinsic locking mechanism:
+
+1 It is not possible to interrupt a thread waiting to acquire a lock (lock Interruptibly).
+2 It is not possible to attempt to acquire a lock without being willing to wait for it forever (try lock).
+3 Cannot implement non-block-structured locking disciplines, as intrinsic locks must be released in the same block in which they are acquired.
+=======================================
+###### ReentrantReadWriteLock[c] ######
+
+> ReentrantReadWriteLock is the implementation of ReadWriteLock[i] and ReadWriteLock extends Lock[i]
+> Similar to ReentrantLock, it also allows a thread to acquire the read lock or write lock multiple times recursively, thus the word “Reentrant”.
+
+> It maintains two separate locks, one for reading and one for writing:
+- Lock readLock = rwLock.readLock();
+- Lock writeLock = rwLock.writeLock();
+
+> ReentrantReadWriteLock CAN BEHAVE AS FAIR AND NON-FAIR MODE BOTH. 
+- The default behavior is non-fair. 
+- The performance of non-fair lock is better though it is possible that a READER OR WRITER LOCK CAN BE POSTPONED MANY TIMES which are continuously trying to lock.
+- In case of FAIR LOCK the locking request is fulfilled in the order that either the longest waiting single writer lock or the group of read locks request, whosoever has longest waiting time will acquire lock on the shared resource. 
+
+> Then you can use the read lock to safeguard a code block that performs read operation like this:
+readLock.lock(); 
+try {
+    // reading data
+} finally {
+    readLock.unlock();
+}
+
+> And use the write lock to safeguard a code block that performs update operation like this:
+writeLock.lock();
+try {
+    // update data
+} finally { 
+    writeLock.unlock();
+}
+
+> A ReadWriteLock implementation guarantees the following behaviors:
+1. Multiple threads can read the data at the same time, as long as there’s no thread is updating the data.
+2. Only one thread can update the data at a time, causing other threads (both readers and writers) block until the write lock is released.
+3. If a thread attempts to update the data while other threads are reading, the write thread also blocks until the read lock is released.
+
+- It can be used to add concurrency features to a data structure, but it doesn’t guarantee the performance because 
+- it depends on various factors: how the data structure is designed, the contention of reader and writer threads at real time, CPU architecture (single core  or multicores), etc.
+=======================================
+##How to find a deadlock has occurred in Java? How to detect a Deadlock in Java?
+
+> Earlier versions of Java had no mechanism to handle/detect deadlock. 
+> Since JDK 1.5 there are some powerful methods added in the java.lang.management package to diagnose and detect deadlocks. 
+> The java.lang.management.ThreadMXBean interface is management interface for the thread system of the Java virtual machine. 
+- It has two methods which can leveraged to detect deadlock in a Java application.
+
+1. findMonitorDeadlockedThreads() 
+- This method can be used to detect cycles of threads that are in deadlock waiting to acquire object monitors. 
+- It returns an array of thread IDs that are deadlocked waiting on monitor.
+
+2. findDeadlockedThreads() - It returns an array of thread IDs that are deadlocked waiting on monitor or ownable synchronizers.
+
+ import java.lang.management.ThreadMXBean;        
+      {...
+        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+        System.out.println("Bean: " + bean);
+            ...
+        System.out.println("Monitor deadlocked threads: " + bean.findMonitorDeadlockedThreads());
+       long[] ids = bean.getAllThreadIds();
+	   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is JAVA MEMORY MODEL?
+
+> it describes the communication between the memory of the threads and the main memory of the app.
+> It defines the rules how changes in the memory done by threads are propagated to other threads
+
+> It guarentee that the changes made by one thread should be visible to other. 
+
+Happens-before relationship guarantees :
+
+PROGRAM ORDER RULE : Each action in a thread happens-before every action in that thread that comes later in the program order, this is known as .
+
+MONITOR LOCK RULE : An unlock on a monitor lock happens-before every subsequent lock on that same monitor lock.
+
+A write to a volatile field happens-before every subsequent read of that same field, known as Volatile variable rule.
+A call to Thread.start on a thread happens-before any other thread detects that thread has terminated, either by successfully return from Thread.join() or by Thread.isAlive() returning false, also known as Thread start rule.
+A thread calling interrupt on another thread happens-before the interrupted thread detects the interrupt( either by having InterruptedException thrown, or invoking isInterrupted or interrupted), popularly known as Thread Interruption rule.
+The end of a constructor for an object happens-before the start of the finalizer for that object, known as Finalizer rule.
+
+If A happens-before B, and B happens-before C, then A happens-before C, which means happens-before guarantees Transitivity.
+
+http://www.xyzws.com/Javafaq/can-transient-variables-be-declared-as-final-or-static/0 
+================================
+
+##What is Scheduler?
+> it is process that implemented with scheduler algo. used to manage process and thread to access critical resource.
+> it provide load balancing bet avail process and thread

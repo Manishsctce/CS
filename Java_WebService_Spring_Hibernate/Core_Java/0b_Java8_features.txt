@@ -33,8 +33,8 @@ Similarly in pgmg lang, we have use fn that doesn't have any side effect as a bu
 ## Where should we use Functional programming?
 
 > When there is continous changes in data require like a stream of data to modify.
-=====================================
-########## LAMBDA EXPRESSION ########
+=======================================
+########## LAMBDA EXPRESSION ##########
 > Since Java8
 
 ## What is Lambda expression?
@@ -197,6 +197,133 @@ In above example, all three implementations, 1) using anonymous class 2) Lambda 
 =====================================
 ############# Stream ################
 
+############ JAVA 8 STREAM ############
+> Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
+
+> Prior to Java 8, the approach to do it would be:
+
+private static int sumIterator(List<Integer> list) {
+	Iterator<Integer> it = list.iterator();
+	int sum = 0;
+	while (it.hasNext()) {
+		int num = it.next();
+		if (num > 10) {
+			sum += num;
+		}
+	}
+	return sum;
+}
+There are three major problems with the above approach:
+
+1. We just want to know the sum of integers but we would also have to provide how the iteration will take place, this is also called external iteration because client program is handling the algorithm to iterate over the list.
+2. The program is sequential in nature, there is no way we can do this in parallel easily.
+3. There is a lot of code to do even a simple task.
+
+> To overcome all the above shortcomings, Java 8 Stream API was introduced. 
+- We can use Java Stream API to implement internal iteration, that is better because java framework is in control of the iteration.
+
+> Internal iteration provides several features such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
+
+=====================================
+### Difference between map() and flatMap() in Java8 Stream?
+
+# map() 
+- it applies a fn on each ele of stream and stores the value returned by the fn into a new Stream. 
+- This way one stream is transformed into another 
+- e.g. a Stream of String is transformed into a Stream of Integer.
+
+> it is used for transformation only
+
+# flatMap() 
+- it can take a Stream of List and return Stream of values combined from all those list.
+
+> it is used for both transformation and flattening.
+=====================================
+## How Stream.map() works in Java 8?
+=====================================
+## What is the difference between intermediate and terminal operation on Stream? 
+
+> The INTERMEDIATE STREAM OPERATION returns another Stream 
+- Which means we can further call other methods of Stream class to compose a pipeline.
+
+EXAMPLE - after calling map() or flatMap() we can still call filter() on Stream.
+
+> TERMINAL OPERATION produces a result other than Stream e.g. a value or a Collection.
+
+- Once a terminal method like forEach() or collect() is called we cannot call any other method of Stream or reuse the Stream.
+=====================================
+## What does peek() method does? When should you use it? 
+> The peek() method of Stream class allows you to see through a Stream pipeline. 
+- we can peek through each step and print meaningful messages on the console. 
+- It's generally used for debugging issues related to lambda expression and Stream processing.
+=====================================
+## What do you mean by saying Stream is lazy?
+
+When we say Stream is lazy we mean that most of the methods defined on java.util.stream.Stream class is lazy i.e. they will not work by just including them on Stream pipeline.
+
+They only work when you call a terminal method on the Stream and finish as soon as they find the data they are looking for rather than scanning through the whole set of data.
+
+
+
+10. What is the difference between a normal and functional interface in Java? (answer)
+The normal interface in Java can contain any number of the abstract method while the functional interface can only contain just one abstract method.
+
+You might be thinking why they are called functional interface? Once you know the answer, it might be a little easier for you to remember the concept.
+
+Well, they are called functional interface because they wrap a function as an interface. The function is represented by the single abstract method on the interface.
+
+
+
+## What is difference between findFirst() and findAny() method? 
+> findFirst()  will return the first element meeting the criterion i.e. Predicate 
+- findAny() will return any element meeting the criterion, very useful while working with a parallel stream. 
+
+## Can you convert an array to Stream? How? (answer)
+> Yes, we can convert an array to Stream in Java. 
+> The Stream class provides a factory method to create a Stream from an array like Stream.of(T ...) which accepts a variable argument, that means you can also pass an array to it as shown in the following example:
+
+EXAMPLE:
+String[] languages = {"Java", "Python", "JavaScript"};
+Stream numbers = Stream.of(languages);
+numbers.forEach(System.out::println);
+
+Output:
+Java
+Python
+JavaScript
+
+## What is the parallel Stream? How can you get a parallel stream from a List? (answer)
+A parallel stream can parallel execute stream processing task. For example, if you have a parallel stream of 1 million orders and you are looking for orders worth more than 1 million then you can use a filter to do that.
+
+Unlike sequential Stream, the parallel stream can launch multiple threads to search for those orders on the different part of Stream and then combine the result.
+
+############ JAVA 8 STREAM ############
+> Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
+
+> Prior to Java 8, the approach to do it would be:
+
+private static int sumIterator(List<Integer> list) {
+	Iterator<Integer> it = list.iterator();
+	int sum = 0;
+	while (it.hasNext()) {
+		int num = it.next();
+		if (num > 10) {
+			sum += num;
+		}
+	}
+	return sum;
+}
+There are three major problems with the above approach:
+
+1. We just want to know the sum of integers but we would also have to provide how the iteration will take place, this is also called external iteration because client program is handling the algorithm to iterate over the list.
+2. The program is sequential in nature, there is no way we can do this in parallel easily.
+3. There is a lot of code to do even a simple task.
+
+> To overcome all the above shortcomings, Java 8 Stream API was introduced. 
+- We can use Java Stream API to implement internal iteration, that is better because java framework is in control of the iteration.
+
+> Internal iteration provides several features such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Stream provides following features:
 > Stream does not store elements. 
 - It simply conveys elements from a source such as a data structure, an array, or an I/O channel, through a pipeline of computational operations.
@@ -239,8 +366,38 @@ LongStream longStream = LongStream.rangeClosed(1, 3);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### PARALLEL STREAMS ####
 =======================================
-######## FI used in Stream API ########
+######### FUNCTIONAL INTERFACE ########
+> It is added in Java8
 
+##Describe some of the functional interfaces in the standard library.?
+
+> There are a lot of FI in the java.util.function package, some are:
+
+1. FUNCTION 
+– it takes one argument and returns a result
+
+2. CONSUMER 
+– it takes one argument and returns no result (represents a side effect)
+
+3. SUPPLIER 
+> it takes not argument and returns a result
+- It's similar to the factory method or new() which return an object.
+
+4. PREDICATE 
+– it takes one argument and returns a boolean
+
+5. BIFUNCTION 
+– it takes two arguments and returns a result
+
+6. BINARYOPERATOR 
+– it is similar to a BiFunction, taking two arguments and returning a result. 
+- The two arguments and the result are all of the same types
+
+7. UNARYOPERATOR 
+– it is similar to a Function, taking two arguments and returning a result. 
+- The argument and the result are all of the same types
+=====================================
+########### Function[i] #############
 
 ##### 1. Function and BiFunction ###### 
 > Function represents a function that takes one type of argument and returns another type of argument. 
@@ -261,6 +418,35 @@ LongStream longStream = LongStream.rangeClosed(1, 3);
 4. <A> A[] toArray(IntFunction<A[]> generator)
 
 5. <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is java.util.function.Function<T,R>?
+
+> it is an in-built functional interface introduced in Java 8
+> It is USED FOR MAPPING SCENARIOS i.e when an object of a type is taken as input and it is converted(or mapped) to another type.
+
+> Function Descriptor is T -> R. 
+- This means an object of type T is input to the lambda and an object of type R is obtained as return value
+
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+ 
+	default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
+    }
+    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> after.apply(apply(t));
+    }
+    static <T> Function<T, T> identity() {
+        return t -> t;
+    }
+}
+andThen() 
+- which combines the function on which it is applied(current function) with another function, named after
+
+
 =======================================
 #### 2. Predicate and BiPredicate #####
 > It represents a predicate against which elements of the stream are tested. 

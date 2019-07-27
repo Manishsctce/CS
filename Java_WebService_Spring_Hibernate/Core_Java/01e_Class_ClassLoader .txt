@@ -7,6 +7,11 @@ There are several kinds of variables:
 1. Member variables in a class—these are called fields.
 2. Variables in a method or block of code are called local variables.
 3. Variables in method declarations are called parameters.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why do member variables have default values whereas local variables don't have any default value ?
+
+> member variable are loaded into heap, so they are initialized with default values when an instance of a class is created. 
+- In case of local variables, they are stored in stack until they are being used.
 =====================================
 ############# CONSTRUCTOR ###########
 ##What is CONSTRUCTOR?
@@ -507,8 +512,9 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 
 > Class is loaded by calling loadClass() of java.lang.ClassLoader class which calls findClass() to locate bytecodes for corresponding class
 - If findClass() does not found the class than it throws java.lang.ClassNotFoundException and if it finds it calls defineClass() to convert bytecodes into a .class instance which is returned to the caller.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Where to use ClassLoader in Java?
+
 > By using separate ClassLoader you can also loads SAME CLASS FROM MULTIPLE SOURCES and they will be treated as different class in JVM. 
 - J2EE uses multiple class loaders to load class from different location like classes from WAR file will be loaded by Web-app ClassLoader while classes bundled in EJB-JAR is loaded by another class loader. 
 - Some web server also supports hot deploy functionality which is implemented using ClassLoader. 
@@ -521,6 +527,12 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 - Class.forName() initialize the object after loading it.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between static vs. dynamic class loading?
+
+> STATIC LOADING - Classes are statically loaded with Java new operator.
+
+> DYNAMIC CLASS LOADING 
+- It is a technique for programmatically invoking the functions of a classloader at runtime. 
+Class.forName (Test className);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between NoClassDefFoundError and ClassNotFoundException?
 

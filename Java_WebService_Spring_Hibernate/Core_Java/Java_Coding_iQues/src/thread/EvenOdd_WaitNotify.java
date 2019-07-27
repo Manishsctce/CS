@@ -1,4 +1,4 @@
-package threadDemo;
+package thread;
 //Even and Odd with 2 threads
 
 class Even1 implements Runnable{

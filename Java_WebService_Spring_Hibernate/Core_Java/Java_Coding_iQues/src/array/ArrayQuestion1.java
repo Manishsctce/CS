@@ -1,4 +1,4 @@
-package zzJavaObjective;
+package array;
 import java.util.Arrays;
 
 //Remove duplicate element from array
@@ -17,19 +17,10 @@ public class ArrayQuestion1 {
 	 System.out.println("Merge array: ");
 	 display(merge(a, b));
 	 
-	 System.out.println();
+	 System.out.println("");
 	 
-	 System.out.println("After removing duplicated");
+	 System.out.println("After removing duplicated:");
 	 display(removeDuplicate(a));
-	}
-	static int[] sorting(int a[]){
-		int f[] = new int[a.length];
-		
-		for(int i=0;i<a.length;i++){
-			//for()
-		}
-		
-		return f;
 	}
 	
 	static int[] removeDuplicate(int a[]){
@@ -74,9 +65,9 @@ public class ArrayQuestion1 {
 	}
 	
 	public static void display(int temp[]){
-		System.out.println();
 		for(int i=0;i<temp.length;i++){
 			System.out.print(temp[i]);
 		}
+		System.out.println();
 	}
 }

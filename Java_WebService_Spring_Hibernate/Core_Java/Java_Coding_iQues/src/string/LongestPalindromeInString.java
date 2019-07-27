@@ -1,4 +1,4 @@
-package stringDemo;
+package string;
 
 public class LongestPalindromeInString {
 

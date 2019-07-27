@@ -1,4 +1,4 @@
-package threadDemo;
+package thread;
 import java.util.*;
 
 /*//This is also working

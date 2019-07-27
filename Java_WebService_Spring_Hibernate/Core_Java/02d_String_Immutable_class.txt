@@ -129,6 +129,7 @@ StringBuilder strBuilder = new String("Manish");//ClassCastException
 > strBuff += "Manish";//Compiler error String cannot covert to StringBuffer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between StringBuffer and StringBuilder?
+
 > there is only 1 difference between StringBuffer and StringBuilder. Both contain same methods
 >> StringBuffer and its method is synchronized but StringBuilder and its method is not synchronized. 
 - So we can say StringBuffer is thread safe but StringBuilder is not.
@@ -136,10 +137,11 @@ StringBuilder strBuilder = new String("Manish");//ClassCastException
 > ALL 3 CLASSES ARE FINAL.
 > Relative performance of StringBuffer is low but other one is high
 > StringBuffer is introduce in jdk1.0 but StringBuilder is introduce in 1.5v
-==========================================
-######### STRING TOKENIZER ###########
+=======================================
+######### STRING TOKENIZER ############
 
-##What is meant by STRING TOKENIZER?
+## What is meant by STRING TOKENIZER?
+
 > java.util.StringTokenizer class allows you to break a string into tokens. It is simple way to break string.
  
 Below are constructor:-
@@ -159,10 +161,12 @@ tok.nextToken()
 
 > StringTokenizer class is DEPRECATED now. It is recommended to use split() method of String class or regex (Regular Expression).	 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is difference bet split and StringTokenizer?
-> in StringTokenizer, we can use more than 1 exp to split the string but in split we cannot.
+## What is difference bet split and StringTokenizer?
 
-Ex - 
+> in StringTokenizer, we can use more than 1 exp to split the string but in split we cannot.
+- But split take this exp as 1 expression
+
+EXAMPLE - 
 << 
 String str = "Hello World, This is manish Agrawal. Regards, Manish".
 StringTokenizer token = new StringTokenizer(str,", .");// exp is comma, space, dot
@@ -176,11 +180,9 @@ manish
 Agrawal
 Regards
 Manish
-
-But split take this exp as 1 expression
 >>
-=========================================
-##### STRING METHODS ######
+=======================================
+########### STRING METHODS ############
 
 ##How to check if the String is null or not?
 > Empty String mean string which is not null. But it can be "" or " "
@@ -205,7 +207,7 @@ str.split("-",2) => give 2 string array i.e Welcome , to-Tutorialspoint.com
 
 str.split("-",3) => give 3 string array i.e Welcome , to, Tutorialspoint.com
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How does substring() inside String works?
+## How does substring() inside String works?
 
 public String substring(int beginIndex) Ex: "unhappy".substring(2) returns "happy"
 public String substring(int beginIndex,int endIndex)
@@ -215,6 +217,7 @@ Examples:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How substring() method of String class create memory leaks in jdk1.6 and below?
+
 > substring() would build a new String object keeping a reference to the whole char array, to avoid copying it. 
 - it calls String (int offset, int count, char value []) constructor to create new String object. 
 - Here char array actually hold the complete string character and cause memory leak. 
@@ -235,13 +238,15 @@ string.substring(3, 10) will return the substring which point to original string
 > String.valueOf(<primitive_datatype>);//convert primitive datatype into String
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert String to Integer in Java?
+
 1> int a = Integer.parseInt("123");//return Integer upto 10digit
 2> int a = Integer.valueOf("1234");//return Integer upto 10digit after that NumberFormatException
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Convert Date to String ?
+
 > In Date, small case “m” represent minutes while “M” represent Month
 - “d” represent date in month while “D” represent Day of week.
-Example:
+EXAMPLE:
 String myDate = "20-12-1987";
 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 System.out.println(dateFormat.parse(myDate));//Sun Dec 20 00:00:00 IST 1987
@@ -257,11 +262,12 @@ System.out.println(dateFormat.parse(myDate));//Sun Dec 20 00:00:00 IST 1987
 
 ##to convert Byte array into String format
 String s = new String(bytes);
-==========================================
-######## IMMUTABLE OBJECT/CLASS ##########
+=======================================
+####### IMMUTABLE OBJECT/CLASS ########
+
 > Immutable objects(like string) are those object whose state will not change once created.
 - any change will lead to new object.
-- it is always thread safe
+- IT IS ALWAYS THREAD SAFE
 
 ##What is an immutable class?
 
@@ -278,13 +284,14 @@ String s = new String(bytes);
 > The class is final so we cannot create the subclass.
 > There is NO SETTER METHODS i.e. we have no option to change the value of the instance variable.
 > IMMUTABLE OBJECTS ARE BY DEFAULT THREAD SAFE, can be shared without synchronization in concurrent environmen
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Does all property of immutable object needs to be final?
 
 > It's not necessary but non-final variable should be private and not modify them except in constructor
 > 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How to create an immutable class?
+
 > To create an immutable class following steps should be followed:
 	 
 1. DO NOT PROVIDE ANY SETTERS for any properties.
@@ -292,7 +299,8 @@ String s = new String(bytes);
 
 2. MAKE PROPERTIES OF THE CLASS FINAL AND PRIVATE
 
-3. Don't allow subclasses to override methods. The simplest way to do this is to declare the class as final. 
+3. DON'T ALLOW SUBCLASSES TO OVERRIDE METHODS. 
+- The simplest way to do this is to declare the class as final. 
 - A more sophisticated approach is to MAKE THE CONSTRUCTOR PRIVATE AND CONSTRUCT INSTANCES IN FACTORY METHODS.
 
 4. If the instance fields include references to mutable objects, don't allow those objects to be changed:
@@ -436,8 +444,8 @@ No
 
 > The BEST USE OF THE IMMUTABLE OBJECTS IS AS THE KEYS OF A MAP.   
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-==========================================
-######## CODING INTERVIEW QUESTION #######
+=======================================
+###### CODING INTERVIEW QUESTION ######
 SYM ASCI HEX  
 NUL 0    0    
 @   64   40   
@@ -636,7 +644,9 @@ If s1 = “JavaJ2eeStrutsHibernate” then s3 = “JavaJ2eeStrutsHibernateJavaJ2
 
 Step 3 : Check whether s3 contains s2 using contains() method of String class. If it contains then s2 is rotated version of s1.
 ========================================
-## 
+## Print odd number from array of string without converting string into integer?
+
+> iterate each string, use subString to find last digit, check whether it is equal to 1,3,5,7,9 if yes then odd else even 
 ========================================
 ## 
 ========================================

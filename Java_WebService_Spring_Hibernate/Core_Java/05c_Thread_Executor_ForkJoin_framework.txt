@@ -1,5 +1,6 @@
 =======================================
 ##What is Thread Pool?
+
 > It MANAGES POOL OF WORKER THREADS, it contains a queue that keeps tasks waiting to get executed.
 
 > It represents a GROUP OF WORKER THREADS that are waiting for the job and reuse many times.
@@ -171,4 +172,74 @@ Creates a thread pool that can schedule commands to run after a given delay, or 
 - Callable<Object> callable(Runnable)
 - Callable<T> callable(Runnable, Object)
 =======================================
+############ FORK / JOIN ##############
+> Since Java7
 
+> FORK/JOIN framework is an implementation of the ExecutorService[i] that helps to take advantage of multiple processors.
+> It is designed for work that can be broken into smaller pieces recursively. 
+> It distributes tasks to worker threads in a thread pool
+> fork/join framework is distinct because it uses a WORK-STEALING ALGORITHM.
+> Worker threads that run out of things to do can steal tasks from other threads that are still busy.
+
+> core classes supporting the Fork-Join mechanism are ForkJoinPool and ForkJoinTask
+
+## FORK AND JOIN PRINCIPLE ##
+fork and join principle consists of 2 steps i.e fork and join steps which are performed recursively.
+
+1. FORK - A task that uses the fork and join principle can fork (split) itself into smaller subtasks which can be executed concurrently.
+2. JOIN - When a task has split itself up into subtasks, the task waits until the subtasks have finished executing.
+
+############ ForkJoinPool ###########
+- ForkJoinPool extends AbstractExecutorService
+
+## What is ForkJoinPool?
+
+> It is a special thread pool which is designed to work well with ForkJoinTask
+> It is basically a specialized implementation of ExecutorService IMPLEMENTING THE WORK-STEALING ALGORITHM
+> It maintains a number of threads, which number is typically based on the number of CPUs available
+
+> we can submit two types of tasks. 
+- RecursiveAction[c] - A task that does not return any result (an "action"), and 
+- RecursiveTask[c] - a task which does return a result (a "task"). 
+
+EXAMPLE:
+int numberOfProcessors = Runtime.getRunTime().availableProcessors();//indicate level of parallelism
+ForkJoinPool pool = new ForkJoinPool(numberOfProcessors);
+
+- If no-argument pass then by default, it creates a pool of size that equals the number of available processors obtained.
+- pool adjusts its size dynamically in an attempt to maintain enough active threads 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How ForkJoinPool work?
+
+> Each thread has a special kind of queue, Deques, where all its tasks are placed
+- threads do not share a common queue, but each thread has its own queue 
+
+> threads put aside a task which are blocked/waiting for someother task
+In other words, if the current task cannot proceed (as it performs a join on a subtask), then it is placed on this queue until all of its dependencies are ready.
+
+> tasks are added to the thread’s queue (using the fork operation) and each thread always processes the last task added to its queue (i.e LIFO maner)
+
+> Any idle threads can take tasks from the other threads queues if available, that is, work-stealing
+- A thread will always steal oldest tasks from some other thread’s queue
+
+http://www.javacreed.com/java-fork-join-example/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between ForkJoinPool and other ExecutorService?
+
+> main difference between Fork/Join and Executor frameworks is the work-stealing algorithm. 
+
+> In Fork-Join, pool need NOT be EXPLICITLY SHUTDOWN upon program exit because all its THREADS ARE IN DAEMON MODE.
+
+three different ways of submitting a task to the ForkJoinPool.
+
+1) execute() method //Desired asynchronous execution; call its fork method to split the work between multiple threads.
+2) invoke() method: //Await to obtain the result; call the invoke method on the pool.
+3) submit() method: //Returns a Future object that you can use for checking status and obtaining the result on its completion.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is there existing Implementations in JDK which use Fork-Join framework?
+
+> In Java8, for parallelSort() of java.util.Arrays[c]
+- Parallel sorting of large arrays is faster than sequential sorting when run on multiprocessor systems.
+
+> Parallelism used in Stream.parallel()
+========================================

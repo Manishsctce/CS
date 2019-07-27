@@ -2,7 +2,7 @@
 > Java is platform independent language but JVM is platform dependent tool
 > Java is architectural Neutral bcz it generate an arch. neutral file 
 - file that once compiled code will run on any platform without recompiling or any kind of modification 
-- i.e. “ Write Once run Anywhere” . It make possible by the use of Java Virtual Machine(JVM)
+- i.e. “ WRITE ONCE RUN ANYWHERE” . It make possible by the use of Java Virtual Machine(JVM)
 - JVM needs to translate bytecode into machine language code.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain the architecture of java?
@@ -15,12 +15,15 @@
 > add security by separating the namespace for the classes of the local file system from those imported from network sources. 
 > MEMORY LAYOUT of the execution file is determine
 
-2. BYTECODE VERIFIER - It test the format of code fragments , violation of access rights etc. It ensure the system integrity. 
-It make four passes
-	i. There are no ACCESS RESTRICTION violation
-	ii. check for stackflow i.e. no operand in code causse stack overflows or underflow
-	iii. No illegal DATA CONVERSION
-	iv. ensure the SYSTEM INTEGRITY
+2. BYTECODE VERIFIER 
+- It test the format of code fragments, violation of access rights etc. 
+- It ENSURE THE SYSTEM INTEGRITY. 
+
+> It make 4 passes
+  1. There are no ACCESS RESTRICTION violation
+  2. check for stackflow i.e. no operand in code causse stack overflows or underflow
+  3. No illegal DATA CONVERSION
+  4. ensure the SYSTEM INTEGRITY
 
 3. INTERPRETER has two function 
 a> execute byte code 
@@ -31,8 +34,17 @@ b> make appropriate call to the underlying h/w
 > it enhance the performance of JVM by REDUCING THE LINE BY LINE COMPILATION of critical code(i.e compile multiple time) to compile once into machine lang.
 > it remove the compilation for unused code.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between JIT and JVM?
+
+> main goal of JVM is to provide platform independence while 
+- objective of JIT is to improve performance of JVM
+
+> JIT is part of JVM itself and it improve the performance of JVM by directly compiling some hot code (code which executes above a certain threshold) into native instruction (ML) 
+- JIT also offers CACHING OF COMPILED CODE which result in improved performance of JVM.
 =======================================
 ######## JAVA MEMORY MANAGEMENT #######
+
 > OS and C-Runtime store in 1st 1GB space of RAM
 > 1GB is shared by JVM and Native heap 
 > generally 2GB outof 4GB are use by heap mem and we can use "Xms" to set max heap size 
@@ -43,9 +55,11 @@ b> make appropriate call to the underlying h/w
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What KIND OF MEMORY AREA are there in java?
 
-JVM have following type of memory area
+> JVM have following type of memory area:
+
 1. CLASS(METHOD) AREA: 
-- Class(Method) Area stores per-class structures such as the runtime constant pool, field and method data, the code for methods.
+- It is part of PermGen 
+- It stores per-class structures such as the runtime constant pool, field and method data, the code for methods and constructor.
 - store static variable
 
 2. HEAP: It is the runtime data area in which objects are allocated.
@@ -236,6 +250,187 @@ jmap -dump:live, file=/location/of/heap_dump.hprof  PID
 - Thus useful for analysing what use of memory an app is making at some point in time so handy in diagnosing some memory issues, and 
 - if done at intervals handy in DIAGNOSING MEMORY LEAKS.
 =======================================
+######## GARBAGE COLLECTION ###########
+
+## What do you mean by Garbage Collection?
+
+> garbage means unreferenced objects.
+> Garbage Collection is process of reclaiming the runtime unused memory automatically
+- Live objects are tracked and everything else designated garbage
+
+> GC is a dameon thread. JVM controls the Garbage Collector
+> Before removing an object from memory, garbage collection thread invokes finalize() method of that object 
+
+> Cyclic dependencies are not counted as reference so 
+- if object A has reference of object B and object B has reference of Object A and they don't have any other live reference then both Objects A and B will be eligible for Garbage collection
+
+> JVM runs the Garbage Collector when it realizes that the memory is running low.
+
+ADVANTAGE
+> It makes java memory efficient because garbage collector removes the unreferenced objects from HEAP MEMORY.
+> It is automatically done by the garbage collector so we don't need to make extra efforts.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How Garbage Collector works??
+
+> JVM use "MARK AND SWEEP" algorithm for GC. 
+1. MARK - It mark the object that is referenced(i.e live)
+2. SWEEP - Now the unmark ref. are not in use. so it sweep those object/references
+
+> Garbage collected from Young generation heap memory is called Minor GC and from Old Gen - Major GC 
+
+> Object are 1st store in Eden space and when it is filled, minor GC perform and all objects are moved to one of the survivor spaces.
+- Minor GC also checks the survivor objects and move them to the other survivor space. 
+- So AT A TIME, ONE OF THE SURVIVOR SPACE IS ALWAYS EMPTY.
+
+> Objects that are survived after many cycles of GC, are moved to the Old generation memory space. 
+- Usually, it’s done BY SETTING A THRESHOLD for the age of the young generation objects before they become eligible to promote to Old generation
+
+> we can use Java Visual VM to see memory and GC operations in GUI
+=======================================
+##### TYPES OF GARBAGE COLLECTOR ######
+
+## What are the different garbage collectors in Java?
+
+> The HotSpot JVM contains 5 type of Garbage Collectors:
+- we need to use the JVM switch to enable the garbage collection strategy for the app
+
+1. Serial GC (-XX:+UseSerialGC)
+2. Parallel GC (-XX:+UseParallelGC): (Throughput GC) (default)
+3. Parallel Old GC (-XX:+UseParallelOldGC)
+4. Concurrent Mark Sweep (CMS) Collector (-XX:+UseConcMarkSweepGC)
+5. G1 Garbage Collector(-XX:+UseG1GC)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### SERIAL GC ###########
+
+> It can be enable using -XX:+UseSerialGC
+> It USES SIMPLE MARK-SWEEP-COMPACT APPROACH WITH SINGLE THREAD for both minor and major GC
+- The way it works by freezing all the app threads while doing GC
+- It may not be suitable for a server environment. 
+
+> It is the default for client style machines in Java SE 5 and 6. 
+
+> Turn on the -XX:+UseSerialGC JVM argument to use the serial garbage collector.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## PARALLEL GC ##########
+
+> It can be enable using -XX:+UseParallelGC
+> It is also called Throughput GC because it uses multiple CPUs to speed up the GC performance. 
+> It is the default garbage collector of the JVM.
+
+> It is same as Serial GC except that it spawns N threads FOR MINOR GC
+- where N is the number of CPU cores in the system. 
+- We can control the number of threads using -XX:ParallelGCThreads=n JVM option
+
+> A SINGLE THREAD IS USED FOR MAJOR GC and Old Generation compaction
+
+> By default on a host with N CPUs, use N garbage collector threads in the collection.
+
+> It also freezes all the app threads while performing garbage collection.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### PARALLEL OLD GC #########
+> It can be enable using -XX:+UseParallelOldGC
+
+> It is same as Parallel GC except that it USES MULTIPLE THREADS FOR BOTH MINOR AND MAJOR GC
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### CMS Collector #########
+> It can be enable using -XX:+UseConcMarkSweepGC
+
+> The Concurrent Mark Sweep (CMS) collector collects the tenured generation. 
+> It does the MAJOR GC
+> IT ATTEMPTS TO MINIMIZE THE PAUSES due to GC by doing most of the GC work concurrently with the app threads.
+
+> This garbage collector is suitable for responsive app where we can’t afford longer pause times
+> We can limit the number of threads in CMS collector using -XX:ParallelCMSThreads=n JVM option.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### G1 Garbage Collector ######
+
+> The Garbage First or G1 garbage collector is available in Java 7 and is designed to be the long term replacement for the CMS collector. 
+- The G1 collector is a parallel, concurrent, and incrementally compacting low-pause garbage collector that has quite a different layout from the other garbage collectors described above.
+> It divides the heap space into multiple equal-sized heap regions. 
+- When a garbage collection is invoked, it first collects the region with lesser live data, hence “Garbage First”
+=======================================
+## How an object can be unreferenced?
+
+> BY NULLING THE REFERENCE i.e  object = null
+
+> Object is created inside a block and reference goes out scope once control exit that block.
+
+> BY ASSIGNING A REFERENCE TO ANOTHER  
+Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
+
+> By creating annonymous object etc.  ex - new ClassName(); <--anonymous obj--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is finalize method? (Ref - 1d.)
+
+> it is invoke each time before the object is gc 
+> called by the garbage collector before reclaiming the memory allocated to the object. 
+> A class overrides the finalize() to dispose of system resources or to perform other cleanup. 
+> it is not recommended because the execution of finalize() is not guaranteed and there is a severe impact on performance.
+
+> NO GUARANTEE that an object will be garbage collected 
+- i.e no guarantee finalize() will be called on an object bcz 
+- not guarantee which thread will pick finalize(). 
+- if any thread pick then that hv user visible sync. lock or not.
+
+> finalize() called only ONCE by the gc
+> even once the finalize() is called by the gc, it is still possible to prevent the object from garbage collection
+> it is use to perform clean up activity
+> define in Object class as protected void finalize(){}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to enable/disable call of finalize() of exit of the application?
+
+> Runtime.getRuntime().runFinalizersOnExit(boolean value) . 
+- Passing the boolean value will either disable or enable the finalize() call
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can the Garbage Collection be requested?
+
+1. by calling System.gc() 
+- It will request the jvm to perform GC
+
+2. Runtime.getRuntime().gc() 
+- Here Runtime class is the singleton class
+- getRuntime() returns a singleton instance of the Runtime class
+
+> Its not guaranteed that GC will run immediately as result of calling these method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Do static member variables ever get garbage collected?
+
+> Objects referenced by static variable will be garbage collected at the time of class unloading.
+
+> Class can be unloaded is if the Classloader used is garbage collected.
+> OSGi platform strives to do just this, as each bundle has a different classloader
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When the ClassLoader is eligible for garbage-collection?
+
+> A class can be garbage-collected when nothing references it. 
+- In most simple setups this never happens, but there are situations where it can occur.
+
+> There are many ways to make a class reachable and thus prevent it from being eligible for GC:
+- objects of that class are still reachable.
+- the Class object representing the class is still reachable
+- the ClassLoader that loaded the class is still reachable
+- other classes loaded by the ClassLoader are still reachable
+
+When none of those are true, then the ClassLoader and all classes it loaded are eligible for GC.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which part of the memory is involved in Garbage Collection? Stack or Heap?
+> Heap 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What happens if an uncaught exception is thrown from during the execution of the finalize() method of an object?
+
+>  exception will be ignored and the garbage collection (finalization) of that object terminates.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to ensure that instance is never garbage collected?
+
+> you can store a reference somewhere in your finalizer.
+- This will prevent the object from being collected until the collector determines again that there are no more references.
+
+protected void finalize() throws Throwable {
+    MyObjectStore.getInstance().store(this);
+    super.finalize(); // questionable, but you should ensure calling it somewhere.
+}
+> But this is not right way.
+=======================================
 ##### JAVA COMMAND LINE PROPERTIES ####
 
 -cp classpath => default classpath and additional classpath
@@ -296,6 +491,7 @@ This is helpful if you want to start debugging as soon as the JVM starts.
 => If "y", listen for a debugger application to attach; otherwise, attach to the debugger application at the specified address. 
 =====================================
 ########## CREATING JARS ############
+
 > jar cvf <jar_name>.jar source_folder
 -c : Creates a new archive file named jarfile (if f is specified)
 -M : Do not create a manifest file entry (for c and u), 
@@ -313,151 +509,6 @@ Ex -
 
 ## To extract only certain files from a jar file, supply their filenames:
 > jar xf myFile.jar foo bar
-=====================================
-############ GARBAGE COLLECTION #####
-
-## What do you mean by Garbage Collection?
-> garbage means unreferenced objects.
-> Garbage Collection is process of reclaiming the runtime unused memory automatically
-- Live objects are tracked and everything else designated garbage
-
-> GC is a dameon thread. JVM controls the Garbage Collector
-> Before removing an object from memory, garbage collection thread invokes finalize() method of that object 
-
-> Cyclic dependencies are not counted as reference so 
-- if object A has reference of object B and object B has reference of Object A and they don't have any other live reference then both Objects A and B will be eligible for Garbage collection
-
-> JVM runs the Garbage Collector when it realizes that the memory is running low.
-
-ADVANTAGE
-> It makes java memory efficient because garbage collector removes the unreferenced objects from HEAP MEMORY.
-> It is automatically done by the garbage collector so we don't need to make extra efforts.
--------------------------------
-### How Garbage Collector works??
-> "mark and swap" is the algorithm JVM internally uses.
-
-> 1. it perform marking task i.e it mark the object that is referenced(i.e live)
-> 2. Now the unmark ref. are not in use. so it sweep those object/references
-
-> Garbage collected from Young generation heap memory is minor GC.
-> Object are 1st store in eden space and 
-- then after minor GC it moved to suvivor space(S0) and then S1 space gen.
-- aft a particular threshold(i.e age) and then move to tenured space(old gen) space. 
-
-> Garbage collected from Old generation heap memory is major GC.
-
-> we can use Java Visual VM to monitor the JVM process
--------------------------------
-##
-
--------------------------------
-##How can an object be unreferenced?
-> By nulling the reference i.e  object = null
-> Object is created inside a block and reference goes out scope once control exit that block.
-
-> By assigning a reference to another  
-Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
-
-> By creating annonymous object etc.  ex - new ClassName(); <--anonymous obj--
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is finalize method? (Ref - 1d.)
-
-> it is invoke each time before the object is gc 
-> called by the garbage collector before reclaiming the memory allocated to the object. 
-> A class overrides the finalize() to dispose of system resources or to perform other cleanup. 
-> it is not recommended because the execution of finalize() is not guaranteed and there is a severe impact on performance.
-
-> NO GUARANTEE that an object will be garbage collected 
-- i.e no guarantee finalize() will be called on an object bcz 
-- not guarantee which thread will pick finalize(). 
-- if any thread pick then that hv user visible sync. lock or not.
-
-> finalize() called only ONCE by the gc
-> even once the finalize() is called by the gc, it is still possible to prevent the object from garbage collection
-> it is use to perform clean up activity
-> define in Object class as protected void finalize(){}
--------------------------------
-## How to enable/disable call of finalize() method of exit of the application?
-
-> Runtime.getRuntime().runFinalizersOnExit(boolean value) . 
-- Passing the boolean value will either disable or enable the finalize() call
--------------------------------
-##How can the Garbage Collection be requested?
-1. by calling Sytem.gc(). It will request the jvm to perform GC
-
-2. Runtime.getRuntime().gc() 
-- Here Runtime class is the singleton class
-- getRuntime() returns a singleton instance of the Runtime class
-
-> Its not guaranteed that GC will run immediately as result of calling these method
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Do static member variables ever get garbage collected?
-> Objects referenced by static variable will be garbage collected at the time of class unloading.
-
-> Class can be unloaded is if the Classloader used is garbage collected.
-> OSGi platform strives to do just this, as each bundle has a different classloader
--------------------------------
-## When the ClassLoader is eligible for garbage-collection?
-> A class can be garbage-collected when nothing references it. 
-- In most simple setups this never happens, but there are situations where it can occur.
-
-> There are many ways to make a class reachable and thus prevent it from being eligible for GC:
-- objects of that class are still reachable.
-- the Class object representing the class is still reachable
-- the ClassLoader that loaded the class is still reachable
-- other classes loaded by the ClassLoader are still reachable
-
-When none of those are true, then the ClassLoader and all classes it loaded are eligible for GC.
--------------------------------
-## Which part of the memory is involved in Garbage Collection? Stack or Heap?
-> Heap 
-=======================================
-##### TYPES OF GARBAGE COLLECTOR ######
-
-## What are the different garbage collectors in Java?
-
-The HotSpot JVM contains several garbage collectors. They are:
-
-1. SERIAL GC:
-> It uses just a single thread for garbage collection i.e both minor and major garbage collections are done serially (using a single virtual CPU)
-- The way it works by freezing all the application threads while doing garbage collection 
-- It may not be suitable for a server environment. 
-
-> It is the default for client style machines in Java SE 5 and 6. 
-
-> Turn on the -XX:+UseSerialGC JVM argument to use the serial garbage collector.
-~~~~~~~~~~~~~~~~~~~~~~~~
-2. PARALLEL GC: (Throughput GC) (default)
-> it uses multiple threads to perform the young generation garbage collection. 
-> A single thread is used for major garbage collection and Old Generation compaction
-> By default on a host with N CPUs, the parallel garbage collector uses N garbage collector threads in the collection.
-> It is the default garbage collector of the JVM.
-
-> It also freezes all the application threads while performing garbage collection.
-~~~~~~~~~~~~~~~~~~~~~~~~
-3. CMS Collector: 
-> The Concurrent Mark Sweep (CMS) collector collects the tenured generation. 
-> It attempts to minimize the pauses due to garbage collection by doing most of the garbage collection work concurrently with the application threads.
-
-~~~~~~~~~~~~~~~~~~~~~~~~
-4. G1 Garbage Collector: 
-> The Garbage First or G1 garbage collector is available in Java 7 and is designed to be the long term replacement for the CMS collector. 
-- The G1 collector is a parallel, concurrent, and incrementally compacting low-pause garbage collector that has quite a different layout from the other garbage collectors described above.
-=======================================
-##What happens if an uncaught exception is thrown from during the execution of the finalize() method of an object?
->  exception will be ignored and the garbage collection (finalization) of that object terminates.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to ensure that instance is never garbage collected?
-
-> you can store a reference somewhere in your finalizer.
-- This will prevent the object from being collected until the collector determines again that there are no more references.
-
-protected void finalize() throws Throwable {
-    MyObjectStore.getInstance().store(this);
-    super.finalize(); // questionable, but you should ensure calling it somewhere.
-}
-> But this is not right way.
-
 =======================================
 ## Difference between PATH and CLASSPATH?
 > PATH is an environment variable which is used to locate JDK binaries like "java" or "javac" command
@@ -523,13 +574,6 @@ JDK(Java Development kit) - It is software development kit. it include
 > to launch Eclipse this javaw.exe is used.
 
 > javaws.exe is used to launch a java application that is distributed through web
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the difference between JIT and JVM?
-
-> main goal of JVM is to provide platform independence while 
-- objective of JIT is to improve performance of JVM
-- JIT is part of JVM itself and it improve the performance of JVM by directly compiling some hot code (code which executes above a certain threshold) into native instruction (ML) 
-- JIT also offers CACHING OF COMPILED CODE which result in improved performance of JVM.
 
 ===================================
 Java virtual machine (Java VM) has built-in instrumentation that enables you to monitor and manage it using the Java Management Extensions (JMX) technology. These built-in management utilities are often referred to as out-of-the-box management tools for the Java VM. You can also monitor any appropriately instrumented applications using the JMX API. 

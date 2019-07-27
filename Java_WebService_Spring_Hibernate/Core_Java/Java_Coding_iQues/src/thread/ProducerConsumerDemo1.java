@@ -1,4 +1,4 @@
-package threadDemo;
+package thread;
 /* producer/consumer problem*/
 
 //Q, the queue that you're trying to synchronize;

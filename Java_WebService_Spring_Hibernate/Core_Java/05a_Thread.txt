@@ -290,8 +290,8 @@ Thread class methods all methods are public
 3. By unsuccessfully attempting to acquire an object’s lock
 4. By invoking an object’s wait() method.
 5. It can also enter the waiting state by invoking its (deprecated) suspend() method
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### SLEEP() / SUSPEND() #########
+=======================================
+######### SLEEP() / SUSPEND() #########
 ### What is the difference between sleep() and wait() and suspend()?	
 
 > Wait is called on an object, not a thread; 
@@ -332,8 +332,8 @@ Thread class methods all methods are public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we use Thread.sleep() for real-time processing?
 > No, Thread.sleep() doesn't ensure it sleep time accurately
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-############ START() ################
+=======================================
+############# START() #################
 ##Can we Start a thread twice ?
 
 > No. Thread cannot be started twice. 
@@ -354,7 +354,34 @@ Thread class methods all methods are public
 
 > if we override the start() method then it cann't call run() 
 
-############## JOIN() ###############
+## Can an already stopped thread be stopped?
+yes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### How to stop thread in Java?
+
+> After Java1.0, it doesn't provide any method to stop thread and stop(), suspend() and resume() are deprecated.
+
+> To manually stop, programmers either TAKE ADVANTAGE OF VOLATILE BOOLEAN VARIABLE AND CHECK IN EVERY ITERATION IF RUN METHOD HAS LOOPS OR INTERRUPT THREADS to abruptly cancel tasks.
+EXAMPLE:
+class Server implements Runnable{ 
+  private volatile boolean exit = false; 
+  public void run() { 
+  	while(!exit){ 
+  		System.out.println("Server is running....."); 
+  	} 
+  	System.out.println("Server is stopped...."); 
+  } 
+  
+  public void stop(){ 
+  	exit = true; 
+  } 
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can main thread dies before the child thread?
+
+> Yes. Main thread dies after completing its job even after the thread created by main thread is not yet completed.
+=======================================
+############### JOIN() ################
 ### What is join()?
 
 > use to waits for the completion of the specified thread. 
@@ -409,8 +436,9 @@ throws InterruptedException {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bet wait() and join()?
 
-=====================================
-########### interrupt ###############
+=======================================
+############# INTERRUPT ###############
+
 ## Difference between interrrupted() and isInterrupted() ?
 
 >> The interrupt mechanism is implemented using an internal flag called interrupt status. 
@@ -418,39 +446,10 @@ throws InterruptedException {
 > When interrupted thread checks for an interrupt by invoking the static method Thread.interrupted(), interrupt status is cleared. 
 > The non-static isInterrupted(), which is used by one thread to query the interrupt status of another, does not change the interrupt status flag. 
 > By convention, any method that exits by throwing an InterruptedException clears interrupt status when it does so.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How can we check if a Thread holds a lock or not?
 
-> public static boolean holdsLock(Object obj) in java.lang.Thread return true 
-- if the current thread hold the monitor lock on the specified object.
-> NullPointerException if the object is null
 =======================================
-## Can an already stopped thread be stopped?
-yes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### How to stop thread in Java?
+############# QUESTION ################
 
-> After Java1.0, it doesn't provide any method to stop thread and stop(), suspend() and resume() are deprecated.
-
-> To manually stop, programmers either TAKE ADVANTAGE OF VOLATILE BOOLEAN VARIABLE AND CHECK IN EVERY ITERATION IF RUN METHOD HAS LOOPS OR INTERRUPT THREADS to abruptly cancel tasks.
-EXAMPLE:
-class Server implements Runnable{ 
-  private volatile boolean exit = false; 
-  public void run() { 
-  	while(!exit){ 
-  		System.out.println("Server is running....."); 
-  	} 
-  	System.out.println("Server is stopped...."); 
-  } 
-  
-  public void stop(){ 
-  	exit = true; 
-  } 
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Can main thread dies before the child thread?
-
-> Yes. Main thread dies after completing its job even after the thread created by main thread is not yet completed.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is there any relationship between threads like parent-child? 
 
@@ -459,12 +458,31 @@ class Server implements Runnable{
 - from the "parent" thread to "child" thread and that is the only relationship between threads and NO OTHER RELATION EXIST AFTER THREAD STARTS.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Get name of current method in Java?
-String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+> String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If there is more than one thread waiting on a specific monitor/object, the choice on which thread will receive the notification is arbitrary( i.e there is no way to specify which waiting thread should be re-awakend)
 NO 
-=====================================
-############ THREAD GROUP ###########
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How threads communicate with each other?
+
+> Threads use wait-and-notify-methods on an object to communicate.
+> A thread hold lock on an object and when wait() is called on the object by thread that release the lock and it waits for another thread to release object monitor by calling notify() or notifyAll() method on that object. This is how threads communication is possible.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why to use any object to communicate if thread obj has it own monitor?
+
+> Synchronization on object won’t be possible 
+- Because object has monitor, one object can have multiple threads and thread hold lock on object by holding object monitor. 
+- But if each thread will have monitor, we won’t have any way of achieving synchronization.
+- each thread will work independently and never communicate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we check if a Thread holds a lock or not?
+
+> public static boolean holdsLock(Object obj) in java.lang.Thread return true 
+- if the current thread hold the monitor lock on the specified object.
+> NullPointerException if the object is null
+=======================================
+############ THREAD GROUP #############
 ##What is ThreadGroup?
 
 > ThreadGroup is a class that is used to represent a group of thread.
@@ -496,8 +514,8 @@ ThreadGroup squares = new ThreadGroup("Squares");
 
 3. String getName ()
 > return the main thread's thread group name.
-=====================================
-######### THREAD EXCEPTIONS #########
+=======================================
+######### THREAD EXCEPTIONS ###########
 ##What happens when an Exception occurs in a thread?
 
 > the thread that raised the exception will silently die
@@ -524,8 +542,8 @@ Since T2 thread is first in the queue of waiting it acquires the lock and starts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What happens if a thread throws an Exception inside synchronized block?
 > 
-=========================================
-########### VOLATILE ################
+=======================================
+############# VOLATILE ################
 - [more detail in java_basic]
  
 ##What is volatile variable ?
@@ -545,6 +563,14 @@ EXPLANATION
 Use volatile variable:
 1. used when a variable is shared between multiple threads.
 2. it CAN BE USED AS AN ALTERNATIVE OF SYNCHRONIZATION. As it guaranted that all reader thread will see updated value and it never lock the variable 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is false sharing in the context of multi-threading?
+> false sharing is one of the well-known performance issues on multi-core systems, 
+- where each process has its local cache. 
+
+> It occurs when threads on different processor modify variables that reside on same local cache.
+- It can be avoid using volatile keyword
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are difference between synchronized and volatile?
 
@@ -567,13 +593,16 @@ Use volatile variable:
 
 > volatile variable can be primitive but 
 - synchronized variable not
-=============================
-####### TRANSIENT ######## [more detail in java_basic]
+=======================================
+############# TRANSIENT ############### 
+- [more detail in java_basic]
+
 ##What is transient variable in Java?
 > A variable mark as transient indicate that it is not part of the persistent state of the object i.e cannot be serialized
 > value of transient variable after deserialization is null i.e default value
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When should we use transient keyword in java?
+
 > 1. when a fields values are derived/calculated from other fields 
 Ex- age of a person using time difference (dob - current date)
 
@@ -584,145 +613,13 @@ Ex- age of a person using time difference (dob - current date)
 > 4. field which doesn't mean any sense to serialize make as transient
  For example, In any class if you have added a logger reference, then whats use of serializing that logger instance. 
 
-=====================================
-########## SYNCHRONIZATION ##########
-##What is Synchronization?
-> Synchronization is the process to control the access any shared resource by multiple threads
-> Synchronization in Java is possible by using Java keywords "synchronized" and "volatile”
-> synchronization is BASED ON OBJECT MONITOR.
-- TWO KINDS OF MONITOR REGIONS: synchronized statements and synchronized methods. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Why do we need Synchronization?
 
-> we need synchronization for objects, which are shared among multiple threads, 
-- to avoid any corruption of state or 
-- any kind of unexpected behavior. 
-> Synchronization will only be needed if shared object is mutable. 
-- if your shared object is either read-only or immutable object, then we don't need synchronization, despite running multiple threads
-
-> CANNOT USE SYNCHRONIZED WITH CONSTRUCTOR it’s illegal and result in compilation error.
-
-The synchronization is mainly used to
-> To prevent thread interference.
-> To prevent memory consistency problem.
-
-http://javarevisited.blogspot.in/2011/04/synchronization-in-java-synchronized.html#axzz4sZOoYUxv
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-There are two types of synchronization
-> Process Synchronization (out of scope in this thread page) 
-> Thread Synchronization (
-
-> Java's monitor supports TWO KINDS OF THREAD SYNCHRONIZATION: mutual exclusion and cooperation. 
-1. MUTUAL EXCLUSION : 
-- it is SUPPORTED USING OBJECT LOCKS in the JVM , 
-- it enables multiple threads to independently work on shared data without interfering with each other. 
-- 3 ways to do -
-	a. Synchronized method.
-	b. Synchronized block.
-	c. static synchronization.
-	
-2. COOPERATION (Inter-thread communication in java): 
-- it is supported using wait() and notify() of class Object in the JVM.
-- it enables threads to work together towards a common goal.
-
-https://www.artima.com/insidejvm/ed2/threadsynch.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the difference between a synchronized method and a synchronized block ?
-
-> Scope of synchronized block is smaller than the method
-
-> Using Synchronized method : thread acquire locks on current object (this)
-- Using Synchronized block : thread acquire locks on an object by using the synchronized keyword. 
-
-> The synchronized keyword can be applied in a method level (coarse grained lock) or block level of code (fine grained lock).
-
-> CAN NOT HAVE SYNCHRONIZED VARIABLE. 
-- Using synchronized keyword with a variable is illegal and will result in compilation error. 
-
-SYNCHRONIZED METHOD
-public synchronized void demoMethod(){}
-
-SYNCHRONIZED BLOCK
-public void demoMethod(){
-  synchronized (this){
-  	//other thread safe code
-  }
-}
-- here if "this" can be any object and if object is null then NPE.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Where does object lock store in memory?
-
-> synchronized keyword involve locking and unlocking. 
-- before entering into synchronized method or block thread needs to acquire the lock,
-- at this point it READS DATA FROM MAIN MEMORY THAN CACHE AND WHEN IT RELEASE THE LOCK, IT FLUSHES WRITE OPERATION INTO MAIN MEMORY which eliminates memory inconsistency errors.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Can a thread hold multiple locks at the same time?
-
-> Yes. A thread can hold multiple locks at the same time. 
-> Once a thread acquires a lock and enters into the synchronized method/block, it may call another synchronized method and acquire a lock on another object.
-- each time when thread aquire lock, lock count increase and decrease when the lock release. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can a thread call multiple synchronized methods on the object of which it hold the lock?
-
-> Yes. Once a thread acquires a lock in some object, it may call any other synchronized method of that same object using the lock that it already holds.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What happens when I make a static method as synchronized?
-
-> If you make any static method as synchronized, the lock will be on the class not on object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can two threads call two different static synchronized methods of the same class?
-
-> No. The static synchronized methods of the same class always block each other as only one lock per class exists. 
-> So no two static synchronized methods can execute at the same time.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Does a static synchronized method block a non-static synchronized method?
-## Can both static and nonstatic java synchronized method running in parallel?
-
-> No, As the thread executing the static synchronized method holds a lock on the class and 
-- the thread executing the non-satic synchronized method holds the lock on the object on which the method has been called, 
-- these two locks are different and these threads do not block each other.
-
-EXAMPLE: 
-public class Counter{
-  private static int count = 0;
-
-  public static synchronized int getCount(){
-    return count;
-  }
-
-  public synchoronized setCount(int count){
-     this.count = count;
-  }
-}
-- here 2 threads can run in parallel and can access getCount and setCount
 =======================================
-## What are the Different ways to make any application thread safe?
-
-> We can make any app thread safe using :-
-1. Re-entrancy
-2. Mutual Exclusion (synchronization)
-3. Thread Local
-4. Atomic operation
-
-=====================================
-########### ThreadLocal[c] ##########
+########### ThreadLocal[c] ############
 > Since Java2
-> It is used to create thread local variables
-- Every thread has it’s own ThreadLocal variable and they can use it’s get() and set() methods to get the default value or change it’s value local to Thread.
 
-> if we want to avoid synchronization and still want to share variable in multithreading env then , we can use ThreadLocal variables.
-- It is another way TO ACHIEVE THREAD-SAFETY apart from writing immutable classes.
-- it eliminates sharing by providing explicitly COPY OF OBJECT FOR EACH THREAD. 
-
-> ThreadLocal Variable provide global access i.e can be used from anywhere inside the thread. 
-- it is static and final
-
-> Do not use ThreadLocal with ExecutorService
-
-> it improve scalability and performance of application
-
-#### METHOD #####
+##### METHOD #####
 1. T get() {..} 
 - it Returns the value in the current thread's copy of this thread-local variable.
 
@@ -731,6 +628,9 @@ public class Counter{
 
 3. void remove() {..}
 > Removes the current thread's value for this thread-local variable.  
+
+4. protected T initialValue()
+- returns the current thread's initial value for this thread-local variable
 
 EXAMPLE
 public class ThreadLocalWithUserContext implements Runnable {
@@ -750,25 +650,35 @@ public class ThreadLocalWithUserContext implements Runnable {
     // standard constructor
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is ThreadLocal variable? How can it be used?
+## What is ThreadLocal?
+
+> It is a class in java that ENABLES TO CREATE VARIABLES THAT CAN ONLY BE READ AND WRITTEN BY THE SAME THREAD.
+- Thus even if 2 threads are executing the same code, and the code has a reference to a threadlocal variable then 2 thread cannot see each other threadlocal variables.
+- they can use it’s get() - to get the default value and set() - to change it’s value local to Thread.
+
+> ThreadLocal Variable provide global access i.e can be used from anywhere inside the thread. 
+- it is static and final
+
+> Do not use ThreadLocal with ExecutorService
+
+> it improve scalability and performance of application
 
 1. A thread-local variable provides a separate copy of its value for each thread that uses it.
 2. ThreadLocal instances are typically private static fields in classes that wish to associate state with a thread
-3. In case when multiple threads access a ThreadLocal instance, separate copy of Threadlocal variable is maintained for each thread.
-
-Note: Thread t has been made by using Runnable interface, hence it is necessary to use inherited abstract method run() 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How threads communicate with each other?
+## When to use ThreadLocal? 
 
-> Threads use wait-and-notify-methods on an object to communicate.
-> A thread hold lock on an object and when wait() is called on the object by thread that release the lock and it waits for another thread to release object monitor by calling notify() or notifyAll() method on that object. This is how threads communication is possible.
+1. If we have shared object and it have some properties which can be updated by diff threads. but it is required that UPDATED PROPERTY BY 1 THREAD MUST NOT BE REFLECTED IN ANOTHER THREAD and it should remain local to that particular thread. 
+
+2. if we want to avoid synchronization and still want to share variable in multithreading env then , we can use ThreadLocal variables.
+- It is another way TO ACHIEVE THREAD-SAFETY apart from writing immutable classes.
+- it eliminates sharing by providing explicitly COPY OF OBJECT FOR EACH THREAD. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Why to use any object to communicate if thread obj has it own monitor?
+## Can we use ThreadLocal with ExecutorService?
 
-> Synchronization on object won’t be possible 
-- Because object has monitor, one object can have multiple threads and thread hold lock on object by holding object monitor. 
-- But if each thread will have monitor, we won’t have any way of achieving synchronization.
-- each thread will work independently and never communicate
+> No, we should not use a TheadLocal together with ExecutorService
+- because we have limited thread in ExecutorService and it can be used to do different runnable action. 
+- because we do not have a guarantee that every Runnable action for a given userId will be handled by the same thread every time it is executed.
 =====================================
 ##### DEADLOCK & RACE CONDITION #####
 
@@ -832,8 +742,8 @@ public void method2(){
 - When no two threads can access same resource at a time phenomenon is also called as mutual exclusion.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What if two threads try to read same resource without synchronization?
-> When two threads try to read on same resource without synchronization, it’s never going to create any problem.
 
+> When two threads try to read on same resource without synchronization, it’s never going to create any problem.
 =====================================
 ########### THREAD DUMP #############
 ##What is thread dump? What is the use? How to take thread dump?
@@ -886,11 +796,6 @@ http://www.javamadesoeasy.com/2015/03/visualvm-thread-dumps-generating-and_74.ht
 > TIME SLICING, a task executes for a predefined time period and then the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factor.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-############# SEMAPHORE #############
-## What is Semaphore?
-> A Semaphore is a thread synchronization construct that can be used either to send signals between threads to avoid missed signals, or to guard a critical section like you would with a lock. 
-> Since Java5 comes with semaphore implementations in the java.util.concurrent package
-
 
 ================================
 
@@ -941,7 +846,7 @@ How do you ensure that N thread can access N resources without deadlock?
 ############ Question ###############
 ## Can two threads of two different objects of same class can access a syncronized method in that class or not?  
 
-##How do make change with only 2 thread if we have 15 thread and all r running on the resources.
+## How do make change with only 2 thread if we have 15 thread and all r running on the resources.
 ==========
 ITC - Inter Thread Communication
 IPC - Inter Process Communication

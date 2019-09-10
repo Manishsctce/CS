@@ -75,24 +75,32 @@ Callable task = new CallableEmp(); Thread t = new Thread(task); //don;t compile
 
 #### METHODS #### 
 1. boolean cancel(boolean mayInterruptIfRunning);
+
 - use to cancel execution of this task. 
 - This attempt will fail if the task has already completed/cancelled/ could not be cancelled for some other reason.
 - If the task has already started, then the "mayInterruptIfRunning" parameter determines whether to interrupt or not.
 -----------------------------
 2. boolean isCancelled() : 
+
 - Returns true if this task was cancelled before it completed normally
 -----------------------------
 3. boolean isDone() 
+
 - ret true if task completed. 
 - Completion may be due to normal termination, an exception, or cancellation in all case return true.
 -----------------------------
 4. V get() throws InterruptedException, ExecutionException;
+
 - waits for the completion of the computation. 
 - If the returning value is null, the task has finished correctly
 -----------------------------
 5. V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException;
+
+- if the result of the task isn’t available, waits for the specified time. 
+- If the specified period of time passes and the result isn’t yet available, the method returns a null value.
 =======================================
-## What is FutureTask Class?
+## What is FutureTask[c]?
+
 class FutureTask<V> implements RunnableFuture<V>
 
 > FutureTask is the base impl class of Future[i] 
@@ -103,14 +111,23 @@ class FutureTask<V> implements RunnableFuture<V>
 3. protected void done(){} 
 - Subclasses may override this method to invoke completion callbacks or perform bookkeeping
 =======================================
-##What is RunnableFuture[i]?
+## What is RunnableFuture[i]?
+
 > it is interface which extends Runnable and Future
-> it have 1 method run():void bcz we need not to impl. run() in our subclass. 
+> it have 1 method run():void 
+- bcz we need not to impl. run() in our subclass. 
 - Basic impl will work define in FutureTask[c]
 - while in Runnable subclass we need to impl run()  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CompletableFuture extends the functionality of the Future[i] for asynchronous calls. 
-> It also implements the CompletionStage[i]. 
+=======================================
+######## CompletableFuture[c] #########
+
+class CompletableFuture<T> implements Future<T>, CompletionStage<T> {...}
+
+> it is used for asynchronous programming in Java. 
+- Asynchronous programming is a means of writing non-blocking code by running a task on a separate thread than the main app thread and 
+- notifying the main thread about its progress, completion or failure
+
 > CompletionStage offers methods, that let you attach callbacks that will be executed on completion.
 =======================================
 By default, Future task is run asynchronously, so will be executed in a different Thread from the one which added it by calling the execute method. For example ” Thread1? called execute method , Futuretask will be executed in “Thread2"

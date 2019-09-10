@@ -1,4 +1,4 @@
-####### JAVA PERFORMANCE TUNING ######
+####### JAVA PERFORMANCE TUNING #######
 
 ## What is Performance?
 > Startup Time 
@@ -13,4 +13,35 @@
 
 > Scalability
 - 
-=========================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Load testing tools and Application Performance Management (APM) solutions are commonly used to track and optimize the performance of Java applications
+
+APM product - AppDynamics
+=======================================
+## How to identify the performance impact on code?
+
+> use a profiler and get detailed information about the behavior and performance of each part of your code.
+
+=======================================
+## How to improve the performance of the Java app?
+
+1. Use StringBuilder to concatenate Strings programmatically
+
+2. Use primitives where possible
+- to store the value in the stack instead of the heap to reduce memory consumption
+
+
+3. Try to avoid BigInteger and BigDecimal
+- BigInteger and BigDecimal require much more memory than a simple long or double and slow down all calculations dramatically.
+
+4. Use Apache Commons StringUtils.replace instead of String.replace
+
+5. Avoid Recursion
+- Recursive code logic leading to StackOverFlowError is another common scenario in Java applications
+
+6. Use Regular Expression carefully
+- it’s worth to cache a Pattern reference instead of compiling repeatedly:
+Example: static final Pattern HEAVY_REGEX = Pattern.compile("(((X)*Y)*Z)*");
+- Using a popular library like Apache Commons Lang is also a good alternative, especially for manipulation of Strings.
+
+7. Avoid Creating and Destroying Too Many Threads

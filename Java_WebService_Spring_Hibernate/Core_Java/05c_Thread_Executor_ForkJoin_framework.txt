@@ -1,22 +1,34 @@
 =======================================
 ##What is Thread Pool?
 
-> It MANAGES POOL OF WORKER THREADS, it contains a queue that keeps tasks waiting to get executed.
+> A thread pool is a collection of pre-initialized threads
+- it contains a queue that keeps tasks waiting to get executed.
 
 > It represents a GROUP OF WORKER THREADS that are waiting for the job and reuse many times.
 > USEFUL WHEN NEED TO LIMIT NO. OF THREADS RUNNING IN APP at same time.
-> it offers a solution to both the problem of thread life-cycle overhead and the problem of resource thrashing.
+
+> it offers a solution to both the problem of thread 
+- 1. life-cycle overhead and 
+- 2. the problem of resource thrashing.
+
+> java.util.concurrent.Executors provide implementation of java.util.concurrent.Executor[i] to create the thread pool in java.
+- ExecutorService executor = Executors.newFixedThreadPool(5);//creating a pool of 5 threads 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How thread pool works in java?
+
+> A thread pool is a collection of pre-initialized threads
+
+> Tasks are submitted to a thread pool via an internal queue called the Blocking Queue. 
+- If there are more tasks than the number of active threads, they are inserted into the blocking queue for waiting until any thread becomes available. 
+- If the blocking queue is full than new tasks are rejected.
 
 > Thread Pool life cycle as follows:
 1. Get a new task to execute
 2. Execute it
 3. Go back to waiting for next task
-
-> java.util.concurrent.Executors provide implementation of java.util.concurrent.Executor interface to create the thread pool in java.
-
-> ExecutorService executor = Executors.newFixedThreadPool(5);//creating a pool of 5 threads 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why Thread Pools?
+
 > In many server app, we may want to process each client request in parallel. 
 > For this, we choose traditional approach of creating one thread per request.
 > Creating lots of thread with no bounds to the maximum threshold can cause app to run out of heap memory. 
@@ -38,139 +50,358 @@ DISADVANTAGE of one thread per task approach
 
 Bounded vs Unbounded queues
 =======================================
-###### HIERARCHY #########
-Executor[i] <--- ExecutorService[i]
-ExecutorService[i] <------ AbstractExecutorService[ac]
-AbstractExecutorService[ac] <----- ThreadPoolExecutor[c]
-ThreadPoolExecutor[c] |<--- ScheduledThreadPoolExecutor[c]
-					  |<--- ScheduledExecutorService[i]
+############# HIERARCHY ###############
 
+Executor[i] <--- ExecutorService[i]
+ExecutorService[i] <--- AbstractExecutorService[ac]
+AbstractExecutorService[ac] <--- ThreadPoolExecutor[c]
+ScheduledExecutorService[i] <--- ThreadPoolExecutor[c] <--- ScheduledThreadPoolExecutor[c]
 					  
 > ExecutorService[i] extends Executor[i] 
 > AbstractExecutorService[ac] implements ExecutorService[i]
 > ThreadPoolExecutor[c] extends AbstractExecutorService[ac]
 > ScheduledThreadPoolExecutor[c] extends ThreadPoolExecutor[c] impl ScheduledExecutorService[i]
-=======================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Executor[i]?
-> Executor[i] hv only 1 method: void execute(Runnable).
+
+> Executor[i] hv only 1 method 
+- void execute(Runnable).
 
 > ExecutorService[i] is the implementation of Executor[i], which is a more extensive interface. 
 > The ThreadPoolExecutor class provides an extensible thread pool implementation. 
 > The Executors class provides convenient factory methods for these Executors.
 =======================================
-########## ExecutorService[i] #######
+########## ExecutorService[i] #########
 > java.util.concurrent.ExecutorService[i] extends Executor[i] 
  
 ## What is ExecutorService?
-> It is an interface that extends the behaviour of Executor interface 
-- REPRESENT ASYNCHRONOUS EXECUTION MECHANISM 
-> It provides us mechanisms to manage the end and detect progress of the asynchronous tasks
 
+> It is an interface that extends the behaviour of Executor[i]
+- used to execute a Runnable or Callable task in ASYNCHRONOUS way 
+
+- It adds features to manage the lifecycle, both of the individual tasks and of the executor itself.
+
+> It provides us mechanisms to manage the end and detect progress of the asynchronous tasks
 - run in background. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create instance of ExecutorService?
 
 > create an ExecutorService depends on the impl we use.
-newSingleThreadExecutor()
-newFixedThreadPool() - fixed num of thread
-newScheduledThreadPool(10) 
+1. ExecutorService es = Executors.newSingleThreadExecutor();//Executes only one thread
+ 
+2. ExecutorService es = Executors.newFixedThreadPool(2);
+ 
+//Internally manages thread pool of 10 threads to run scheduled tasks
+3. ExecutorService es = Executors.newScheduledThreadPool(10);
+
+4. ExecutorService es = 
+new ThreadPoolExecutor(10, 100, 5L, TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>());
+- creates a thread pool executor with minimum thread count 10, maximum threads count 100, 5 milliseconds keep alive time and a blocking queue to watch for tasks in future.
+
 
 #### ExecutorService[i] METHODS ####
-1. execute(Runnable obj) - execute asynchronously
+1. void execute(Runnable obj) 
+
+- execute asynchronously
 - no way to obtain result of Runnable
--------------------------
-2. Future<> submit(Runnable) 
-> return Future obj that can be used to check Runnable finished successfully
--------------------------
-3. Future<> submit(Callable) - similar to submit(Runnable) 
-> her Callable make use of call() that return result
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
+2. Future<?> submit(Runnable task)
+
+- submit runnable task for execution and  
+- return Future obj that can be used to check Runnable finished successfully
+- Future’s get() will return null upon successful completion.
+~~~~~~~~~~~~~~~~~~~~~~~~
+3. <T> Future<T> submit(Runnable task, T result)
+
+- Submits a runnable task for execution and returns a Future representing that task. 
+- The Future’s get() will return the given result upon successful completion.
+~~~~~~~~~~~~~~~~~~~~~~~~
+3. <T> Future<T> submit(Callable<T> task) 
+
+- similar to submit(Runnable) 
+- submits a value-returning task for execution and returns a Future representing pending results of the task. 
+- her Callable make use of call() that return result
+~~~~~~~~~~~~~~~~~~~~~~~~
 4. List<Future<T>> invokeAny() 
+
 - take collection of Callable obj or subinterface
 - does not return Future obj, but return result of Callable obj
 - No guarantee abt which Callable result we get.
-
-5. List<Future<T>> invokeAll(Collection):
+~~~~~~~~~~~~~~~~~~~~~~~~
+5. List<Future<T>> invokeAll(Collection tasks):
 - invokes all of the Callable obj we pass
 > return list of Future obj for result of each Callable.
 > task might finish due to an exception
----------------------------------
-6. void shutdown(): 
-> allow previously submitted tasks to execute before terminating
-> app keep running even if ExecutorService complete all task and exits from main.
-> To terminate the thread call shutdown(). 
-> it will not shutdown immediately but NO LONGER ACCEPT NEW TASKS
 
-7. List<Runnable> shutdownNow() - stop right away and skips all submitted but non-processed task. 
+> task wait for other tasks to complete in the list and then we can get the result using future.get()
+~~~~~~~~~~~~~~~~~~~~~~~~
+List<Future> invokeAll(Collection tasks, timeOut, timeUnit) 
+– executes the given tasks, returning a list of Futures holding their status and results when all complete or the timeout expires.
+~~~~~~~~~~~~~~~~~~~~~~~~
+6. void shutdown(): 
+- allow previously submitted tasks to execute before terminating
+- it will not shutdown immediately but NO LONGER ACCEPT NEW TASKS
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+7. List<Runnable> shutdownNow() 
+- it interrupts the running task and shuts down the executor immediately
+- Note that if your tasks ignore the interruption, shutdownNow will behave exactly the same way as shutdown
+
 > prevents waiting tasks from starting and attempts to stop currently executing tasks.
 
 > Upon termination, an executor has no tasks actively executing, no tasks awaiting execution, and no new tasks can be submitted. 
 > An unused ExecutorService should be shut down to allow reclamation of its resources.
----------------------------------
-8. boolean awaitTermination(long,TimeUnit);
-> it is used in order to wait until all threads are terminated
+~~~~~~~~~~~~~~~~~~~~~~~~
+8. boolean awaitTermination(long timeout, TimeUnit unit);
 
-- boolean isShutdown();
+- it is used in order to wait i.e. block until 
+- all tasks/threads have completed execution after a shutdown request, OR 
+- the timeout occurs, OR 
+- the current thread is interrupted, whichever happens first
+~~~~~~~~~~~~~~~~~~~~~~~~
+9 boolean isShutdown();
 
 > These methods define in AbstractExecutorService[C]
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Executor framework?
+> it is a framework for standardizing invocation, scheduling, execution, and control of asynchronous tasks according to a set of execution policies.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the benefits of Executor framework?
+
+> The framework mainly separates task creation and execution. 
+- Task creation is mainly boiler plate code and is easily replaceable.
+
+> With an executor, we have to create tasks which implement either Runnable[i] or Callable[i] and send them to the executor.
+
+> Executor internally maintain a (configurable) thread pool to improve application performance by avoiding the continuous spawning of threads.
+
+> Executor is responsible for executing the tasks, running them with the necessary threads from the pool.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference between Executor.submit() and Executor.execute()?
+
 > submit() can be used to invoke runnable/callable thread and return object in the form of Future object.
 - execute() is used to invoke only Runnable task and it doesn't return anything.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ExecutorService[i] has the following impl class
-- ThreadPoolExecutor[c] extends AbstractExecutorService[c]
-- ScheduledThreadPoolExecutor[c] extends ThreadPoolExecutor[c] impl ScheduledExecutorService[i]
 
-> create an ExecutorService depends on the impl we use.
-newSingleThreadExecutor()
-newFixedThreadPool() - fixed num of thread
-newScheduledThreadPool(10) 
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a ScheduledExecutorService[i] ?
+
 > it extends ExecutorService[i]
+> It is used to execute a task either periodically or after a specified delay
 > it have below methods
 - ScheduledFuture<V> schedule(Callable<V> c,long delay, TimeUnit);
+
 
 > it adds method that allow to submit new tasks to the underlying impl that should be executed a given point in time.
 
 > There are two methods to schedule one-shot tasks and two methods to create and execute periodic tasks.
 =======================================
-####### ThreadPoolExecutor ######
+######## ThreadPoolExecutor[c] ########
+> It provide multiple constructors to create Thread pool.
+
+#### CONSTRUCTORS ####
+1. ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
+ TimeUnit unit, BlockingQueue<Runnable> workQueue) 
+
+2. ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
+ TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) 
+
+3. ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
+ TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory) 
+
+4. ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, 
+TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, 
+RejectedExecutionHandler handler) 
+
+#### Number of threads(N) 
+- thread instances currently in the pool. This number gradually increases as more task are submitted to the pool.
+
+#### corePoolSize (C)
+> no. of threads can at most be created per pool for the incoming tasks before the new tasks go to the queue.
+
+1. If N<= C then create a new Thread to run a new task.
+- idle threads are not assigned to the new incoming task.
+
+2. If N >= C, if there are some idle threads then new task is assigned there, otherwise they are put into the queue.
+
+3. If the queue is full and N < M , create a new thread to run tasks in.
+
+4. If the queue is full, and N >= M then reject the task.
+
+#### maximumPoolSize (M)
+- maximum size of the pool
+
+#### keepAliveTime
+> When N > C (corePoolSize) then idle threads are monitored for how long they have been idle. On crossing keepAliveTime, idle threads are terminated (removed from the pool).
+
+> EXAMPLE : Starting thread pool size is 1, corePoolSize=5,maximumPoolSize=10 and the queue is 100 like new ArrayBlockingQueue<Runnable>(100):
+- as requests come in threads will be created up to 5, 
+- then tasks will be added to the queue until it reaches 100. 
+- When the queue is full new threads will be created up to maxPoolSize. 
+- Once all the threads are in use and the queue is full tasks will be rejected. 
+- As the queue reduces so does the number of active threads.
+
+#### workQueue
+> queues can be bounded (e.g. ArrayBlockingQueue) or 
+- it can be unbounded (e.g. LinkedBlockingQueue).
+
+#### handler
+> An instance of RejectedExecutionHandler to use when the tasks are submitted beyond the pool maximum size. 
+- This handler takes care of what action needs to be taken for new tasks submissions at this point.
+
+ThreadPoolExecutor provides four out of the box nested implementation to be used:
+
+ThreadPoolExecutor.AbortPolicy: This is the default rejection policy. It throws RejectedExecutionException:
+        public static class AbortPolicy implements RejectedExecutionHandler {
+
+          public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+            throw new RejectedExecutionException("Task " + r.toString() +
+                                                 " rejected from " +
+                                                 e.toString());
+          }
+        }
+
+ThreadPoolExecutor.CallerRunsPolicy: Instead of rejecting the task, it is attempted to run in the caller thread:
+ public static class CallerRunsPolicy implements RejectedExecutionHandler {
+
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+            if (!e.isShutdown()) {
+                r.run();
+            }
+        }
+    }
+Using this will obviously slow down the rate that new tasks are submitted.
+
+
+ThreadPoolExecutor.DiscardPolicy: The task is quietly rejected:
+        public static class DiscardPolicy implements RejectedExecutionHandler {
+
+          public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+
+          }
+        }
+ThreadPoolExecutor.DiscardOldestPolicy: It removes the oldest task in the queue and executes the new one right away instead of rejecting it:
+        public static class DiscardOldestPolicy implements RejectedExecutionHandler {
+
+           public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+             if (!e.isShutdown()) {
+                e.getQueue().poll();
+                e.execute(r);
+           }
+          }
+        }
+
+> It provides a lot of methods to obtain information about its status. 
+EXAMPLE : getPoolSize(), getActiveCount(), and getCompletedTaskCount() 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create ThreadPoolExecutor[c]?
+
+> ThreadPoolExecutor[c] has 4 different constructors with adjustable parameters 
+- but, due to their complexity, the Java concurrency API provides the Executors[c] to construct executors and other related objects. 
+- IT’S RECOMMENDED TO USE THE Executors[c]
+
+> Using pre-built methods in java.util.concurrent.Executors[i], We can create 5 types of ThreadPoolExecutor
+
+1. Fixed thread pool executor 
+ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+
+2. Cached thread pool executor 
+ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+
+3. Scheduled thread pool executor 
+ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(10);
+
+4. Single thread pool executor 
+ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor();
+
+5. Work stealing thread pool executor 
+ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newWorkStealingPool(4);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ############# EXECUTORS ############
-## What is Executors[c] Framework?
-> it is a framework for standardizing invocation, scheduling, execution, and control of asynchronous tasks according to a set of execution policies.
-> It is FACTORY CLASS that PROVIDE METHODS FOR CREATING THREAD POOLS. 
+## What is Executors[c]?
 
 > Since Java5 under "java.util.concurrent" package.
+
+> Executors is a utility class that provides factory methods for creating the implementations of the ExecutorService[i]
+
+> It is FACTORY CLASS that PROVIDE METHODS FOR CREATING THREAD POOLS. 
+
 >> it PROVIDE UTILITY METHODS for Executor[i], ExecutorService[i], ScheduledExecutorService[i], ThreadFactory, and Callable classes.
 
+> We can create following 5 types of thread pool executors with pre-built methods in java.util.concurrent.Executors[i]
 > it is only class that support execution of Callable impl.
 
-######## METHODS ########
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### METHODS #############
 > It contains below public static methods 
 
-## Executors.newFixedThreadPool(int): ExecutorService 
-> Creates a thread pool that reuses a fixed number of threads operating off a shared unbounded queue. 
-> At any point, at most nThreads threads will be active processing tasks. 
-> If additional tasks are submitted when all threads are active, they will wait in the queue until a thread is available. 
+=======================================
+####### 1. Fixed ThreadPool ###########
+
+> Creates a thread pool that REUSES A FIXED NUMBER OF THREADS operating off a shared unbounded queue. 
+- If additional tasks are submitted when all threads are active, TASKS WILL WAIT IN THE QUEUE UNTIL A THREAD IS AVAILABLE. 
+
 > If any thread terminates due to a failure during execution prior to shutdown, a new one will take its place if needed to execute subsequent tasks. 
 > The threads in the pool will exist until it is explicitly shutdown.
----------------------------------------
-## Executors.newSingleThreadExecutor() : ExecutorService 
-> Creates an Executor that uses a single worker thread operating off an unbounded queue.
- (Note however that if this single thread terminates due to a failure during execution prior to shutdown, a new one will take its place if needed to execute subsequent tasks.) 
-> Tasks are guaranteed to execute sequentially, and no more than one task will be active at any given time. 
-Unlike the otherwise equivalent newFixedThreadPool(1) the returned executor is guaranteed not to be reconfigurable to use additional threads.
----------------------------------------
-## Executors.newScheduledThreadPool(int corePoolSize) : ScheduledExecutorService
-Creates a thread pool that can schedule commands to run after a given delay, or to execute periodically
----------------------------------------
-## ExecutorService newCachedThreadPool()
+
+EXAMPLE:
+ExecutorService es = Executors.newFixedThreadPool(int);
+=======================================
+####### 2. Single ThreadPool ##########
+
+> Creates an Executor that USE A SINGLE WORKER THREAD operating off an unbounded queue.
+- if this single thread terminates due to a failure during execution prior to shutdown, a new one will take its place if needed to execute subsequent tasks.
+
+> TASKS ARE GUARANTEED TO EXECUTE SEQUENTIALLY, AND NO MORE THAN ONE TASK WILL BE ACTIVE AT ANY GIVEN TIME. 
+- newFixedThreadPool(1) is equivalent to newSingleThreadExecutor but 
+- newSingleThreadExecutor give guarantee it cannot be reconfigurable to use additional thread 
+
+EXAMPLE:
+ExecutorService es = Executors.newSingleThreadExecutor();
+=======================================
+####### 4. Scheduled ThreadPool #######
+
+> It creates a thread pool that can schedule commands TO RUN AFTER A GIVEN DELAY, OR TO EXECUTE PERIODICALLY
+- execute a task, REPEATEDLY N TIMES, EITHER N FIXED NUMBER OF TIMES OR INFINITIVELY AFTER FIXED DELAY.
+
+ScheduledExecutorService ses = Executors.newScheduledThreadPool(int corePoolSize);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### METHODS #############
+> It provides 4 methods which provide different capabilities to execute the tasks in repeated manner.
+
+1. ScheduledFuture schedule(Runnable command, long delay, TimeUnit unit) 
+– Creates and executes a task that becomes enabled after the given delay.
+
+2. ScheduledFuture schedule(Callable callable, long delay, TimeUnit unit) 
+– Creates and executes a ScheduledFuture that becomes enabled after the given delay.
+
+3. ScheduledFuture scheduleAtFixedRate(Runnable command, long initialDelay, long delay, TimeUnit unit) 
+– Creates and executes a periodic action that becomes enabled first after the given initial delay, and subsequently with the given delay period. 
+- If any execution of this task takes longer than its period, then SUBSEQUENT EXECUTIONS MAY START LATE, but will not concurrently execute.
+
+4. ScheduledFuture scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) – 
+- Creates and executes a periodic action that becomes enabled first after the given initial delay, and subsequently with the given delay period. 
+- No matter how much time a long running task takes, there will be a FIXED DELAY TIME GAP BETWEEN TWO EXECUTIONS.
+
+=======================================
+####### 4. Cached ThreadPool ##########
+
+– Creates a thread pool that CREATES NEW THREADS AS NEEDED, BUT WILL REUSE PREVIOUSLY CONSTRUCTED THREADS WHEN THEY ARE AVAILABLE. 
+- DO NOT use this thread pool if tasks are long running. It can bring down the system if number of threads goes beyond what system can handle.
+
+ExecutorService es = Executors.newCachedThreadPool();
 - Callable<Object> callable(Runnable)
 - Callable<T> callable(Runnable, Object)
+=======================================
+####### 5. Work stealing ThreadPool ###
+
+– Creates a thread pool that maintains enough threads to support the given parallelism level. 
+- Here parallelism level means the maximum number of threads which will be used to execute a given task, at single point of time, in multi-processor machines.
+
+ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newWorkStealingPool(4);
 =======================================
 ############ FORK / JOIN ##############
 > Since Java7

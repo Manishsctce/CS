@@ -33,27 +33,42 @@ Similarly in pgmg lang, we have use fn that doesn't have any side effect as a bu
 ## Where should we use Functional programming?
 
 > When there is continous changes in data require like a stream of data to modify.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is diff bet Imperative style / Declarative style of prgm?
+
+Imperative - It is where we say 'what to do?' and 'how to do?'
+
+Declarative/Functional - In this style of programming, we say 'what to do?' and we don't need to say 'how to do?'
 =======================================
 ########## LAMBDA EXPRESSION ##########
 > Since Java8
 
 ## What is Lambda expression?
-> It is an anonymous function that can be referenced and passed around as an object
-- It comprises of a set of parameters, a lambda operator (->) and a function body.
-- the lambda expressions are represented as objects, and so they must be bound to a particular object type known as a Functional Interface. This is called the target type.
+## Explain the syntax and characteristics of a Lambda Expression?
 
-## The Parameters ##
-- A lambda expression can receive zero, one or more parameters.
-- The type of the parameters can be explicitly declared or it can be inferred from the context.
-- Parameters are enclosed in parentheses and separated by commas.
+> It is an ANONYMOUS FUNCTION THAT CAN BE REFERENCED AND PASSED AROUND AS AN OBJECT & EXECUTED LaTER
+- It comprises of a set of parameters, a lambda operator (->) and a function body.
+
+> it represented as objects, and so they must be bound to a particular object type known as a Functional Interface. This is called the target type.
+
+#### PARAMETERS ####
+> It can receive zero, one or more parameters.
+
+> The type of parameters can be explicitly declared OR 
+- it can be inferred from the context.
+
+> Parameters are enclosed in parentheses and separated by commas.
 - Empty parentheses are used to represent an empty set of parameters.
 - When there is a single parameter, if its type is inferred, it is not mandatory to use parentheses.
 
-## The Body ##
-- The body of the lambda expression can contain zero, one or more statements.
-- When there is a single statement curly brackets are not mandatory and the return type of the anonymous function is the same as that of the body expression.
-- When there is more than one statement then these must be enclosed in curly brackets (a code block) and the return type of the anonymous function is the same as the type of the value returned within the code block, or void if nothing is returned.
+#### BODY ####
+> it can be zero, one or more statements.
 
+> For 1 statement, curly brackets are not mandatory and 
+- return type of anonymous function is same as that of body expression.
+
+> For >1 statement, it must be enclosed in curly brackets (a code block) and 
+- return type of anonymous func is same as type of value returned within code block, OR void if nothing is returned.
 
 EXAMPLE - 
 n -> n % 2 != 0;
@@ -95,37 +110,15 @@ Give no parameters prints Hello World! to the main output and returns void.
 > It is used to define inline implementation of Functional interface.
 > It  eliminates the need of anonymous class
 > Less coding.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Explain the syntax and characteristics of a Lambda Expression?
 
-> A lambda expression consists of two parts: 
-- the parameter part and the expressions part separated by a forward arrow as below:
-params -> expressions
-
-Any lambda expression has the following characteristics:
-1. OPTIONAL TYPE DECLARATION
-> parameters type declaration is optional.
-> compiler can infer them from their values
-
-2. OPTIONAL PARENTHESES 
-> when only a single parameter is declared, we don’t need to place it in parentheses. 
-- This means param -> … and (param) -> … are all valid. 
-
-> But when more than one parameter is declared, parentheses are required
-
-3. OPTIONAL CURLY BRACES 
-> when the expressions part only has a single statement, there is no need for curly braces. 
-- This means that param – > statement and param – > {statement;} are all valid. 
-
-> But curly braces are required when there is more than one statement
-
-4. OPTIONAL RETURN STATEMENT 
-> when the expression returns a value and it is wrapped inside curly braces, then we don’t need a return statement. 
-- That means (a, b) – > {return a+b;} and (a, b) – > {a+b;} are both valid
-=====================================
-######### METHOD REFERENCE ##########
+=======================================
+########## METHOD REFERENCE ###########
 
 ## What is a method reference?
+
+> It is a compact, easy-to-read handle for a method that already has a name. 
+- It is more compact than annonymous class and lambda exp. 
+
 > it can be used for referencing a method of Functional Interface without invoking it. 
 - It is USED FOR TREATING METHODS AS LAMBDA EXPRESSIONS.
 - It is compact and easy form of lambda expression
@@ -151,10 +144,10 @@ Ex - ContainingType::methodName
 4. Reference to a constructor	
 Ex - ClassName::new
 
-## When to use method reference :
+## When to use method reference?
 - When a Lambda expression is invoking already defined method, you can replace it with reference to that method.
 
-## When you can not use Method reference :
+## When you can not use Method reference?
 - You CAN NOT PASS ARGUMENTS TO THE METHOD REFERENCE.
 
 > In general, we don't have to pass arguments to method references. However, arguments are treated depending on the type of method reference.
@@ -168,40 +161,36 @@ interface IsReferable {
 
 class ReferenceDemo {
 
-   public static void commonMethod() {
-      System.out.println("This method is already defined.");
-   }
+  psv commonMethod() {
+    syso("This method is already defined.");
+  }
 
-   public void implement() {
+  pv implement() {
+    //1. ANONYMOUS CLASS.
+    IsReferable demoOne = new IsReferable() {
+      @Override
+      pv referenceDemo() {
+        ReferenceDemo.commonMethod();
+      }
+    };
+    demoOne.referenceDemo();
 
-      //1. Anonymous class.
-      IsReferable demoOne = new IsReferable() {
-         @Override
-         public void referenceDemo() {
-            ReferenceDemo.commonMethod();
-         }
-      };
-      demoOne.referenceDemo();
+    //2. LAMBDA IMPLEMENTAION.
+    IsReferable demo = () -> ReferenceDemo.commonMethod();
+    demo.referenceDemo();
 
-      //2. Lambda implementaion.
-      IsReferable demo = () -> ReferenceDemo.commonMethod();
-      demo.referenceDemo();
-
-      //3. Method reference.
-      IsReferable demoTwo = ReferenceDemo::commonMethod;
-      demoTwo.referenceDemo();
-   }
+    //3. METHOD REFERENCE.
+    IsReferable demoTwo = ReferenceDemo::commonMethod;
+    demoTwo.referenceDemo();
+  }
 }
-In above example, all three implementations, 1) using anonymous class 2) Lambda Expression and 3)Method reference will give same results. Anonymous class implementation is added to provide readability.
-
-=====================================
-############# Stream ################
+=======================================
+############### Stream ################
 
 ############ JAVA 8 STREAM ############
 > Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
 
-> Prior to Java 8, the approach to do it would be:
-
+// Prior to Java 8
 private static int sumIterator(List<Integer> list) {
 	Iterator<Integer> it = list.iterator();
 	int sum = 0;
@@ -213,9 +202,9 @@ private static int sumIterator(List<Integer> list) {
 	}
 	return sum;
 }
-There are three major problems with the above approach:
 
-1. We just want to know the sum of integers but we would also have to provide how the iteration will take place, this is also called external iteration because client program is handling the algorithm to iterate over the list.
+> There are 3 major problems with the above approach:
+1. we have provided how the iteration will take place, this is also called external iteration
 2. The program is sequential in nature, there is no way we can do this in parallel easily.
 3. There is a lot of code to do even a simple task.
 
@@ -224,7 +213,11 @@ There are three major problems with the above approach:
 
 > Internal iteration provides several features such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
 
-=====================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## is there any difference bet Stream.forEach() and Collection.forEach()?
+
+> With Stream.forEach, the order is undefined
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Difference between map() and flatMap() in Java8 Stream?
 
 # map() 
@@ -238,9 +231,9 @@ There are three major problems with the above approach:
 - it can take a Stream of List and return Stream of values combined from all those list.
 
 > it is used for both transformation and flattening.
-=====================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Stream.map() works in Java 8?
-=====================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between intermediate and terminal operation on Stream? 
 
 > The INTERMEDIATE STREAM OPERATION returns another Stream 
@@ -251,34 +244,35 @@ EXAMPLE - after calling map() or flatMap() we can still call filter() on Stream.
 > TERMINAL OPERATION produces a result other than Stream e.g. a value or a Collection.
 
 - Once a terminal method like forEach() or collect() is called we cannot call any other method of Stream or reuse the Stream.
-=====================================
-## What does peek() method does? When should you use it? 
-> The peek() method of Stream class allows you to see through a Stream pipeline. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does peek() does? When should you use it?
+ 
+> The peek() of Stream class allows you to see through a Stream pipeline. 
 - we can peek through each step and print meaningful messages on the console. 
 - It's generally used for debugging issues related to lambda expression and Stream processing.
-=====================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by saying Stream is lazy?
 
-When we say Stream is lazy we mean that most of the methods defined on java.util.stream.Stream class is lazy i.e. they will not work by just including them on Stream pipeline.
+> It mean methods in Stream[c] is lazy, it will not work by just including them on Stream pipeline.
 
-They only work when you call a terminal method on the Stream and finish as soon as they find the data they are looking for rather than scanning through the whole set of data.
+- It will only work when we call a terminal method on the Stream and 
+- finish as soon as they find the data they are looking for rather than scanning through the whole set of data.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between a normal and functional interface in Java? 
 
-
-
-10. What is the difference between a normal and functional interface in Java? (answer)
-The normal interface in Java can contain any number of the abstract method while the functional interface can only contain just one abstract method.
+> The normal interface in Java can contain any number of the abstract method while the functional interface can only contain just one abstract method.
 
 You might be thinking why they are called functional interface? Once you know the answer, it might be a little easier for you to remember the concept.
 
 Well, they are called functional interface because they wrap a function as an interface. The function is represented by the single abstract method on the interface.
-
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between findFirst() and findAny() method? 
+
 > findFirst()  will return the first element meeting the criterion i.e. Predicate 
 - findAny() will return any element meeting the criterion, very useful while working with a parallel stream. 
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you convert an array to Stream? How? (answer)
+
 > Yes, we can convert an array to Stream in Java. 
 > The Stream class provides a factory method to create a Stream from an array like Stream.of(T ...) which accepts a variable argument, that means you can also pass an array to it as shown in the following example:
 
@@ -291,7 +285,7 @@ Output:
 Java
 Python
 JavaScript
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the parallel Stream? How can you get a parallel stream from a List? (answer)
 A parallel stream can parallel execute stream processing task. For example, if you have a parallel stream of 1 million orders and you are looking for orders worth more than 1 million then you can use a filter to do that.
 
@@ -525,3 +519,124 @@ String r = Adder.add((Function) a -> a + " from lambda");
 =====================================
 ############# OPTIONAL ##############
 
+Optional is a container object which is used to contain not-null objects. Optional object is used to represent null with absent value. This class has various utility methods to facilitate code to handle values as ‘available’ or ‘not available’ instead of checking null values. It is introduced in Java 8 and is similar to what Optional is in Guava.
+
+> It is a single-value container that either contains a value or doesn’t.
+
+Rule 1 : Never, ever, use null for an Optional variable or return value. 
+Rule 2 : Never use Optional.get() unless you can prove that the Optional is present.
+- prefer alternative to Optional.isPresent() and Optional.get()
+
+
+######## METHOD ########
+
+## 3 METHODS TO CREATE OPTIONAL INSTANCE 
+1. static <T> Optional<T> empty()
+- Returns an empty Optional instance.
+
+2. static <T> Optional<T> of(T value)
+- Returns an Optional with default non-null value.
+- If we pass null in of(), then a NullPointerException is thrown immediately.
+
+3. static <T> Optional<T> ofNullable(T value)
+- Returns an Optional describing the specified value, if non-null, otherwise returns an empty Optional.
+
+## METHODS TO DO STH If Optional value is present 
+4. boolean isPresent()
+- Returns true if there is a value present, otherwise false.
+
+5. void ifPresent(Consumer<? super T> consumer)
+- If a value is present, it invokes the specified consumer with the value, otherwise does nothing.
+
+6. T get()
+- If a value is present in this Optional, returns the value, otherwise throws NoSuchElementException.
+
+## METHODS TO APPLY SOME LOGIC ON Optional
+7. Optional<T> filter(Predicate<? super <T> predicate)
+- If a value is present and the value matches a given predicate, it returns an Optional describing the value, otherwise returns an empty Optional.
+
+8. <U> Optional<U> flatMap(Function<? super T,Optional<U>> mapper)
+- If a value is present, it applies the provided Optional-bearing mapping function to it, returns that result, otherwise returns an empty Optional.
+
+9. <U>Optional<U> map(Function<? super T,? extends U> mapper)
+- If a value is present, applies the provided mapping function to it, and if the result is non-null, returns an Optional describing the result.
+
+## METHODS FOR DEFAULT/ABSENT VALUES AND ITS ACTIONS
+10. T orElse(T other)
+- Returns the value if present, otherwise returns other.
+
+11. T orElseGet(Supplier<? extends T> other)
+- Returns the value if present, otherwise invokes other and returns the result of that invocation.
+
+12. <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
+- Returns the contained value, if present, otherwise throws an exception to be created by the provided supplier.
+
+## OTHER
+13. int hashCode()
+- Returns the hash code value of the present value, if any, or 0 (zero) if no value is present.
+
+14. boolean equals(Object obj)
+- Indicates whether some other object is "equal to" this Optional.
+
+15. String toString()
+- Returns a non-empty string representation of this Optional suitable for debugging.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Optional works in JVM?
+
+> Inside Optional, value holds is defined as:
+
+//If non-null, the value; if null, indicates no value is present
+private final T value;
+
+> empty Optional is declared as 
+private static final Optional<?> EMPTY = new Optional<>();
+
+> default no-args constructor is private, so we can’t create an instance of Optional except 3 way 
+
+> When we create an Optional then below call happen at end and assign the passed value to ‘value’ attribute.
+this.value = Objects.requireNonNull(value);
+
+> When we try to get a value from an Optional
+
+public T get() {
+    if (value == null) {
+        throw new NoSuchElementException("No value present");
+    }
+    return value;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where does Java Optional fits?
+
+If we observe above real-time Retail Domain use-case, we should know that Java Optional construct is useful at the following places.
+
+1. Method Parameter
+EXAMPLE: 
+public void setResolution(Optional<ScreenResolution> resolution) {
+	this.resolution = resolution;
+}
+
+2 Method Return Type
+EXAMPLE: 
+public Optional<ScreenResolution> getResolution() {
+	return resolution;
+}
+
+3. Constructor Parameter
+EXAMPLE: 
+public DisplayFeatures(String size, Optional<ScreenResolution> resolution){
+	this.size = size;
+	this.resolution = resolution;
+}
+
+4. Variable Declaration
+EXAMPLE: 
+private Optional<ScreenResolution> resolution;
+
+5. Class Level
+
+EXAMPLE: 
+public class B
+public class A<T extends Optional<B>> { }
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

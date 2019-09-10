@@ -9,25 +9,25 @@ ABSTRACT METHOD - it is a class method which won't be implemented but is expecte
 > abstract class can implement the interface
 > abstract class object cannot be used to instantiate
 > have constructor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do we have constructor if we cannot instantiate the abstract class?
 > Constructor is used in abstract class for implementing constructor chaining(calling constructor from another constructor)
 > Main purpose of constructor is to initialize variable/data of object.
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If we not defining any abstract method in abstract class then what's the use of abstract class?
 > Abstract class is USED TO SHARE A COMMON DESIGN 
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can abstract class implements interface in Java? does they require to implement all methods?
 > Yes, abstract class can implement interface by using implements keyword. 
 - Since they are abstract, they dont need to implement all methods
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can abstract class be final in Java?
 > They r opposite of each other, abstract keyword enforces to extend a class, for using it, on the other hand, 
 - final keyword prevents a class from being extended
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can abstract class contains main method in Java ?
 > Yes, abstract class can contain main method, it just another static method and you can execute Abstract class with main method, until you dont create any instance.
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In Which we use Abstract class?
 > it is used when IS-A RELATIONSHIP is maintain
 
@@ -40,29 +40,39 @@ triangle IS A polygon but it makes no sense to say a triangle IS CAPABLE OF bein
 
 =====================================
 ############# INTERFACE #############
+
 > interface is a blueprint of class.
-> An Interface can ONLY DECLARE STATIC CONSTANTS and abstact methods
-> methods cannot implement default behavior prior to Java 8
-
->> Interface method hv only PUBLIC and ABSTRACT modifier with method; 
-- NOT static, final
->> variables are BY default PUBLIC, STATIC and FINAL and it must be initialize
-> Interface can have abstract modifier of it like public abstract interface MyInterface{...}
-
 > Mainly it is USED FOR TYPE DECLARATION.
->> java DOESNT allow CONSTRUCTOR in interface
 
->> we CANNOT USE transient, volatile, or synchronized in a member declaration in an interface. 
 >> we can mark interface as abstract but we CANT mark an interface as final.
-> we CANOT use the private and protected specifiers when declaring members of an interface.
+- like public abstract interface MyInterface{...}
 
 > An Interface cannot extend any class but it extend interfaces.
+
 > A Java interface does not extends the Object
+
+#### VARIABLE ####
+> It can ONLY DECLARE STATIC CONSTANTS and abstact methods
+- methods cannot implement default behavior prior to Java 8
+
+>> variables are BY default PUBLIC, STATIC and FINAL and it must be initialize
+> we CANOT use the private and protected specifiers when declaring members of an interface.
+
+>> we CANNOT USE transient, volatile, or synchronized in a member declaration in an interface. 
+
+#### METHOD ####
+>> Interface method hv only PUBLIC and ABSTRACT modifier with method; 
+- NOT static, final
+
+> In Java8, static methods are allowed in interface
+
+>> java DOESNT allow CONSTRUCTOR in interface
+
 > we cannot extends Class after implements define i.e we cannot write like [class MyClass implements Runnable extends Thread] it should be class MyClass extends Thread implements Runnable
 
 > Implementing class can USE INTERFACE VARIABLE DIRECTLY with interface name as it is implicitly static
 >> we can DEFINE A CLASS INSIDE the interface. use of inner class in interface is, we can write default implementation for interface methods. 
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When and Why to use Java Interface?
 
 > It is used to achieve fully abstraction.
@@ -95,18 +105,18 @@ public interface oldInterface {
               " is added in interface");
     }
 }
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why Defaut Method?
 - Reengineering an existing JDK framework was always very complex. Modify one interface in JDK framework breaks all classes that extends the interface.
 - Default methods can be provided to an interface without affecting implementing classes
 - For example in Java 8, the JDK collections have been extended and forEach method is added to the entire collection
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Do default methods introduce multiple inheritance to Java?
 No
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What if two interface have a default method with same name and a class implements both interfaces?
 - in this case, there will be compiler error i.e "Duplicate default method" for class
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Why is “final” not allowed in Java 8 interface default methods?
 > It will complicate for multiple inheritance impl.
 
@@ -181,7 +191,7 @@ DIFFERENCE
 > abstract class can have concrete as well as abstract method 
 - interface can also have default and abstract method Since Java8.
 
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is similarities between an Abstract class and Interface?
 > both cannot be instantiate
 > both define abstract method

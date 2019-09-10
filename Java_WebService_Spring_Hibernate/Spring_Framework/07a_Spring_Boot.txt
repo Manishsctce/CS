@@ -1,5 +1,10 @@
+## What is Spring actuator?
 
+> Spring Boot actuator provides restful WS to access the current state of running app in the production env. 
+- With the help of actuator, we can check various metrics and monitor app.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to execute a method asynchronous in Spring?
+
 > enabling annotation-driven async processing for an entire Spring application context using @EnableAsync as 
 @Configuration
  @EnableAsync
@@ -42,3 +47,43 @@
          return new MyAsyncUncaughtExceptionHandler();
      }
  }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Spring Cloud Sleuth? 
+
+> It is a powerful tool for enhancing logs in any app, but especially in a system built up of multiple services. 
+
+> It is used because it is tedious and time-consuming to diagnose a problem with a scheduled task, a multi-threaded operation, or a complex web request. 
+- Often, even when there is logging, it is hard to tell what actions need to be correlated together to create a single request.
+
+
+> Sleuth integrates effortlessly with logging frameworks like Logback and SLF4J to add unique identifiers that help track and diagnose issues using logs.
+
+Need to add below dependency:
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+
+EXAMPLE LOG: 
+2017-01-10 22:36:38.254  INFO 
+  [Baeldung Sleuth Tutorial,4e30f7340b3fb631,4e30f7340b3fb631,false] 12516 
+  --- [nio-8080-exec-1] c.b.spring.session.SleuthController : Hello Sleuth
+
+> the part in the beginning bet brackets is in below format added by sleuth:
+[application name, traceId, spanId, export]
+
+1. Application name 
+– This is the name we set in the properties file and can be used to aggregate logs from multiple instances of the same application.
+
+2. TraceId 
+– This is an id that is assigned to a single request, job, or action. 
+- Something like each unique user initiated web request will have its own traceId.
+
+3. SpanId 
+– Tracks a unit of work. 
+- Think of a request that consists of multiple steps. Each step could have its own spanId and be tracked individually. 
+- By default, any application flow will start with same TraceId and SpanId.
+
+4 Export 
+– This property is a boolean that indicates whether or not this log was exported to an aggregator like Zipkin/Splunk.
+- Aggreator is used to analyze logs 

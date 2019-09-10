@@ -20,11 +20,12 @@ GIT: Distributed version control system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Git and GitHub?
 
-Git is a revision control system, a tool to manage your source code history.
+> Git is a revision/version control system, 
+- a tool to manage your source code history.
 
-GitHub is a hosting service for Git repositories.
+> GitHub is a hosting service for Git repositories.
 
-So they are not the same thing: Git is the tool, GitHub is the service for projects that use Git.
+- they are not the same thing: Git is the tool, GitHub is the service for projects that use Git.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Git Flow vs Github Flow?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,7 +56,7 @@ git clone is used to get a local copy of an existing remote repository to work o
 once for a given repository, unless you want to have multiple working copies of it around
 git pull (or git fetch + git merge) is how you update that local copy with new commits from the remote
 repository. If you are collaborating with others, it is a command that you will run frequently.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is purpose of checkout?
 
 git-checkout - Switch branches or restore working tree files
@@ -63,14 +64,14 @@ E. g1: git checkout mybranch – git switch to mybranch
 E. g2: git checkout . – It restoes the tree files from remote repository to local repo
 E. g 3: git checkout commit_Id -- <filename> - This restores the commit_Id version file from remote to
 Local repo
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is stash command and why we use it?
 git-stash - Stash the changes in a dirty working directory away
 E.g.: git stash / push- The command saves your local modifications away and reverts the working
 directory to match the HEAD commit.
 E.g. 2: git stash show – list the modifications stashed away
 E.g. 3: git stash apply – To restore the modifications stashed away
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 what is merge command?
 git-merge - Join two or more development histories together
 Let us consider branch BugFix is created from master branch
@@ -78,7 +79,7 @@ Let us consider branch BugFix is created from master branch
  Now you need merge the BugFix branch to master branch
  You need to use below command from master branch
 git merge BugFix – This command merges the code change done in BugFix branch into master branch
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between branch vs. Tag?
 > Branches are symbolic names for line of development. New commits are created on top ofbranch. The branch pointer naturally advances, pointing to newer and newer commits.
 
@@ -93,56 +94,82 @@ added to the staging area. This help the developer to keep track of the files th
 commit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between local and Remote repositories?
- Git local repository is the one on which we will make local changes, typically this local repository
-is on our computer.
- Git remote repository is the one of the server acts as central repository from where all the
-developer works(commit/push/pull/clone) for the collaboration
-How to remove files added to staging area?
-git reset [option] [commit_id] command is used to alter the staged snapshot and/or the working
-directory
---soft -Does not touch the index file or the working tree at all (but resets the head to <commit>, just like
-all modes do). This leaves all your changed files "Changes to be committed", as git status would put it.
---mixed - Resets the index but not the working tree (i.e., the changed files are preserved but not marked
-for commit) and reports what has not been updated. This is the default action.
---hard - Resets the index and working tree. Any changes to tracked files in the working tree since
-<commit> are discarded.
-How to remove the files committed to the local repository?
-git rm <filename>- This command removes the file from the repo but also deletes it from the local file
-system
-git rm –cached <file name> - This command removes the file only from the Git repository and not
-remove it from the filesystem
-How to check the local modified files in Git?
-Use git status command - Displays paths that have differences between the index file and the current
+
+> Git local repository is the one on which we will make local changes, typically this local repository is on our computer.
+
+> Git remote repository is the one of the server acts as central repository from where all the developer works(commit/push/pull/clone) for the collaboration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to remove files added to staging area?
+
+$ git reset [option] [commit_id] 
+- it is used to alter the staged snapshot and/or the working directory
+
+--soft 
+> Does not touch the index file or the working tree at all (but resets the head to <commit>, just like all modes do). 
+- This leaves all your changed files "Changes to be committed", as git status would put it.
+
+--mixed 
+> Resets the index but not the working tree (i.e., the changed files are preserved but not marked for commit) and reports what has not been updated. 
+This is the default action.
+
+--hard 
+> Resets the index and working tree. Any changes to tracked files in the working tree since <commit> are discarded.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to remove the files committed to the local repository?
+
+git rm <filename> 
+- This command removes the file from the repo but also deletes it from the local file system
+
+git rm –cached <file name> 
+- This command removes the file only from the Git repository and not remove it from the filesystem
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to check the local modified files in Git?
+
+$ git status 
+- Displays paths that have differences between the index file and the current
+
 HEAD commit, paths that have differences between the working tree and the index file, and paths in the
 working tree that are not tracked by Git
-How to check the history of the files?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to check the history of the files?
 gitk and git log commands
-gitk - Displays changes in a repository or a selected set of commits. This includes visualizing the commit
-graph, showing information related to each commit, and the files in the trees of each revision.
-git log - It provides a list of all the commits made on our branch with the most recent commit first
-What is difference between Revert/Reset/Checkout?
-git revert - A revert is an operation that takes a specified commit and creates a new commit which
-inverses the specified commit. git revertcan only be run at a commit level scope and has no file level
-functionality.
-git reset – git reset is a simple way to undo changes that haven’t been shared with anyone else.
-git checkout - The git checkout command is used to update the state of the repository to a specific point
-in the projects history
-Command Scope Common use cases
+
+$ gitk 
+- Displays changes in a repository or a selected set of commits. 
+- This includes visualizing the commit graph, showing information related to each commit, and the files in the trees of each revision.
+
+$ git log 
+- It provides a list of all the commits made on our branch with the most recent commit first
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Revert/Reset/Checkout?
+
+$ git revert 
+- A revert is an operation that takes a specified commit and creates a new commit which inverses the specified commit. 
+- it can only be run at a commit level scope and has no file level functionality.
+
+$ git reset 
+– it is a simple way to undo changes that haven’t been shared with anyone else.
+
+$ git checkout 
+- it is used to update the state of the repository to a specific point in the projects history
+
+COMMAND SCOPE COMMON USE CASES
 git reset Commit-level Discard commits in a private branch or throw away uncommited changes
 git reset File-level Unstage a file
 git checkout Commit-level Switch between branches or inspect old snapshots
 git checkout File-level Discard changes in the working directory
 git revert Commit-level Undo commits in a public branch
 git revert File-level (N/A)
-What is difference between merging vs. Rebasing?
-git merge and rebase commands are designed to integrate changes from one branch into another
-branch
-git merge is easy because it’s a non-destructive operation. The existing branches are not changed in any
-way
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between merging vs. Rebasing?
+git merge and rebase commands are designed to integrate changes from one branch into another branch
+
+git merge is easy because it’s a non-destructive operation. The existing branches are not changed in anyway
 git rebase - The major benefit of rebasing is that you get a much cleaner project history. First, it
 eliminates the unnecessary merge commits required by git merge and second one is perfectly linear
 project history
-What is git hook?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is git hook?
 Git has a way to fire off custom scripts when certain important actions occur. here are two groups of
 these hooks:
  client-side - Client-side hooks are triggered by operations such as committing and merging
@@ -150,7 +177,8 @@ these hooks:
 can use these hooks for all sorts of reasons.
 All these scripts are stored under the git install sub directory @. git/hooks.
 You can write scripts using python/Ruby/shell
-Useful git commands
+
+USEFUL GIT COMMANDS
 git help -list available subcommands and someconcept guides.
 git add <filename> - Add file to staging area/index
 git add . – add all modified/untracked files to staging area/index

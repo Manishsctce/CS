@@ -28,6 +28,7 @@
 > we need synchronization for objects, which are shared among multiple threads, 
 - to avoid any corruption of state or 
 - any kind of unexpected behavior. 
+
 > Synchronization will only be needed if shared object is mutable. 
 - if your shared object is either read-only or immutable object, then we don't need synchronization, despite running multiple threads
 
@@ -40,8 +41,8 @@ The synchronization is mainly used to
 http://javarevisited.blogspot.in/2011/04/synchronization-in-java-synchronized.html#axzz4sZOoYUxv
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There are two types of synchronization
-> Process Synchronization (out of scope in this thread page) 
-> Thread Synchronization (
+> Process Synchronization 
+> Thread Synchronization
 
 > Java's monitor supports TWO KINDS OF THREAD SYNCHRONIZATION: mutual exclusion and cooperation. 
 1. MUTUAL EXCLUSION : 
@@ -89,7 +90,7 @@ public void demoMethod(){
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can a thread hold multiple locks at the same time?
 
-> Yes. A thread can hold multiple locks at the same time. 
+> YES. A THREAD CAN HOLD MULTIPLE LOCKS AT THE SAME TIME. 
 > Once a thread acquires a lock and enters into the synchronized method/block, it may call another synchronized method and acquire a lock on another object.
 - each time when thread aquire lock, lock count increase and decrease when the lock release. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +105,7 @@ public void demoMethod(){
 ##Can two threads call two different static synchronized methods of the same class?
 
 > No. The static synchronized methods of the same class always block each other as only one lock per class exists. 
-> So no two static synchronized methods can execute at the same time.
+> So 2 STATIC SYNCHRONIZED METHODS CANN'T EXECUTE AT THE SAME TIME.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Does a static synchronized method block a non-static synchronized method?
 ## Can both static and nonstatic java synchronized method running in parallel?
@@ -125,18 +126,18 @@ public class Counter{
      this.count = count;
   }
 }
-- here 2 threads can run in parallel and can access getCount and setCount	
+- here 2 THREADS CAN RUN IN PARALLEL and can access getCount and setCount	
 =======================================
-######### Java Synchronizers ##########
+######### JAVA SYNCHRONIZERS ##########
 
 > Java also provide five classes for common special-purpose synchronization.
 1. CountDownLatch
-2. Semaphore
-3. CyclicBarrier
+2. CyclicBarrier
+3. Semaphore
 4. Exchanger
 5. Phaser
 =======================================
-######### CountDownLatch[c] ###########
+########## CountDownLatch[c] ##########
 > Since Java5
 ## What is CountDownLatch class?
 
@@ -163,48 +164,87 @@ public class Counter{
 
 EXAMPLE:
 public static void main(String args[]) {
-    final CountDownLatch latch = new CountDownLatch(3);
+  final CountDownLatch latch = new CountDownLatch(3);
     
-	Thread cacheService = new Thread(new Service("CacheService", 1000, latch));
-    Thread alertService = new Thread(new Service("AlertService", 1000, latch));
-    Thread validationService = new Thread(new Service("ValidationService", 1000, latch));
+  Thread cacheService = new Thread(new Service("CacheService", 1000, latch));
+  Thread alertService = new Thread(new Service("AlertService", 1000, latch));
+  Thread validationService = new Thread(new Service("ValidationService", 1000, latch));
     
-    cacheService.start(); //separate thread will initialize CacheService
-    alertService.start(); //another thread for AlertService initialization
-    validationService.start();
+  cacheService.start(); //separate thread will initialize CacheService
+  alertService.start(); //another thread for AlertService initialization
+  validationService.start();
     
-    // application should not start processing any thread until all service is up
-    //each thread once up and read will do a count down. 
+  // application should not start processing any thread until all service is up
+  //each thread once up and read will do a count down. 
     
-    try{
-         latch.await();  //main thread is waiting on CountDownLatch to finish
-         System.out.println("All services are up, Application is starting now");
-    }catch(InterruptedException ie){
-        ie.printStackTrace();
-    }      
+  try{
+    latch.await();  //main thread is waiting on CountDownLatch to finish
+    System.out.println("All services are up, Application is starting now");
+  }catch(InterruptedException ie){
+    ie.printStackTrace();
+  }      
 }
 
 class Service implements Runnable{
-    private final String name;
-    private final int timeToStart;
-    private final CountDownLatch latch;
+  private final String name;
+  private final int timeToStart;
+  private final CountDownLatch latch;
   
-    public Service(String name, int timeToStart, CountDownLatch latch){
-        this.name = name;
-        this.timeToStart = timeToStart;
-        this.latch = latch;
-    }
+  public Service(String name, int timeToStart, CountDownLatch latch){
+    this.name = name;
+    this.timeToStart = timeToStart;
+    this.latch = latch;
+  }
 
-    public void run() {
-        try {
-            Thread.sleep(timeToStart);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println( name + " is Up");
-        latch.countDown(); //reduce count of CountDownLatch by 1
-    } 
+  public void run() {
+    try {
+      Thread.sleep(timeToStart);
+    } catch (InterruptedException ex) {
+      Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    System.out.println( name + " is Up");
+    latch.countDown(); //reduce count of CountDownLatch by 1
+  }
 }
+=======================================
+########### CyclicBarrier #############
+> java.util.Concurrent package
+ 
+> It is used when multiple thread carry out different sub tasks and the output of these sub tasks need to be combined to form the final output. 
+- After completing its execution, threads call await() and wait for other threads to reach the barrier. 
+- Once all the threads have reached, the barriers then give the way for threads to proceed.
+
+CyclicBarrier newBarrier = new CyclicBarrier(numberOfThreads);
+
+#### METHODS ####
+1. public int getParties() 
+- returns the number of parties required to trip this barrier
+
+2. public void reset()
+- resets the barrier to its initial state. 
+- If any parties are currently waiting at the barrier, they will return with a BrokenBarrierException.
+
+3. boolean isBroken() 
+- queries if this barrier is in broken state. 
+
+4. int getNumberWaiting()
+ - return the number of parites currently waiting at the barrier. 
+ 
+5. public int await() throws InterruptedException, BrokenBarrierException
+- waits until all parties have invoked await on this barrier. 
+- it returns the arrival index of the current thread 
+- Here 1 indicates the first to arrive and zero indicates the last to arrive. 
+
+## BrokenBarrierException
+
+> A barrier breaks when any of the waiting thread leaves the barrier. 
+- This happens when one or more waiting thread is interrupted or when the waiting time is completed because the thread called the await() methods with a timeout as follows:
+
+newBarrier.await(1000, TimeUnit.MILLISECONDS);
+// thread calling this await() 
+// methods waits for only 1000 milliseconds.
+
+When the barrier breaks due to one of more participating threads, the await() of all the other threads throws a BrokenThreadException. Whereas, the threads that are already waiting in the barriers have their await() call terminated.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between a CountDownLatch and a CyclicBarrier?
 
@@ -214,6 +254,14 @@ SIMILARITY
 DIFFERENCE
 > CountDownLatch class doesnot reset its counter
 - CyclicBarrier RESETS THE INTERNAL VALUE back to the initial value once the value reaches zero
+
+> CountDownLatch can be used by the Main Thread to wait on the Child Threads. 
+- CyclicBarrier can be used to enable waiting on Threads until each other finish.
+
+> CountDownLatch is a top down waiting where as 
+- CyclicBarrier is across waiting.
+
+
 =======================================
 ############# SEMAPHORE ###############
 > Since Java5 in the java.util.concurrent package
@@ -243,12 +291,6 @@ DIFFERENCE
 
 > Mutex – Only one thread to access a resource at once. Example, when a client is accessing a file, no one else should have access the same file at the same time.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======================================
-########### CyclicBarrier #############
-
-CyclicBarrier is used to make threads wait for each other. It is used when different threads process a part of computation and when all threads have completed the execution, the result needs to be combined in the parent thread. In other words, a CyclicBarrier is used when multiple thread carry out different sub tasks and the output of these sub tasks need to be combined to form the final output. After completing its execution, threads call await() method and wait for other threads to reach the barrier. Once all the threads have reached, the barriers then give the way for threads to proceed.
-
-CyclicBarrier newBarrier = new CyclicBarrier(numberOfThreads);
 =======================================
 ############## ATOMIC #################
 ## What is atomic operation? What are atomic classes in Java Concurrency API?

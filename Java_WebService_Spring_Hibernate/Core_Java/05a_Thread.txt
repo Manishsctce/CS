@@ -659,7 +659,7 @@ public class ThreadLocalWithUserContext implements Runnable {
 > ThreadLocal Variable provide global access i.e can be used from anywhere inside the thread. 
 - it is static and final
 
-> Do not use ThreadLocal with ExecutorService
+> DO NOT USE ThreadLocal WITH ExecutorService
 
 > it improve scalability and performance of application
 
@@ -668,7 +668,8 @@ public class ThreadLocalWithUserContext implements Runnable {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to use ThreadLocal? 
 
-1. If we have shared object and it have some properties which can be updated by diff threads. but it is required that UPDATED PROPERTY BY 1 THREAD MUST NOT BE REFLECTED IN ANOTHER THREAD and it should remain local to that particular thread. 
+1. If we have shared object and it have some properties which can be updated by diff threads. 
+- but it is required that UPDATED PROPERTY BY 1 THREAD MUST NOT BE REFLECTED IN ANOTHER THREAD and it should remain local to that particular thread. 
 
 2. if we want to avoid synchronization and still want to share variable in multithreading env then , we can use ThreadLocal variables.
 - It is another way TO ACHIEVE THREAD-SAFETY apart from writing immutable classes.
@@ -746,11 +747,13 @@ public void method2(){
 > When two threads try to read on same resource without synchronization, it’s never going to create any problem.
 =====================================
 ########### THREAD DUMP #############
+
 ##What is thread dump? What is the use? How to take thread dump?
 
 > Thread dump is the log file of Thread running.
-> A thread dump is a list of all the Java threads that are currently active in a Java Virtual Machine (JVM).
-> It is used to check the thread status. Mainly USE TO CHECK DEADLOCK STATE.
+> A thread dump is a list of all the Java threads that are currently active in a JVM.
+> It is used to check the thread status. 
+- Mainly USE TO CHECK DEADLOCK STATE.
 
 > JVM dumps state of all threads in log files or standard error console. 
 

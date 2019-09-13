@@ -5,7 +5,7 @@ INSTR (string, substr [,start_position [,nth_appearance]] )
 
 Ex - INSTR('Tech on the net', 'e', 1, 2)
 Result: 11  (the 2nd occurrence of 'e')
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### LPAD FUNCTION ###
 > pads the left-side of a string with a specific set of characters (when string1 is not null)
 ##SYNTAX
@@ -13,13 +13,13 @@ LPAD( string1, padded_length [, pad_string])
 Ex - 
 $ LPAD('tech', 8, '0'); //Result: '0000tech'
 $ LPAD('tech', 7);//Result: '   tech'
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### NVL FUNCTION ###
 > it lets you substitute a value when a null value is encountered
 ##SYNTAX
 NVL( string1, replace_with )
 Ex- SELECT NVL(supplier_city, 'n/a') FROM suppliers;
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### SUBSTR FUNCTION ###
 > allows us to extract a substring from a string.
 ##SYNTAX
@@ -35,9 +35,9 @@ Note:-
 If start_position is a positive number, then the SUBSTR function starts from the beginning of the string.
 If start_position is a negative number, then the SUBSTR function starts from the end of the string and counts backwards.
 If length is a negative number, then the SUBSTR function will return a NULL value.
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 4. ASCII() - Returns numeric value of left-most character
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### LISTAGG ####
 ##SYNTAX
 LISTAGG(GAM.FORACID,',') WITHIN GROUP (ORDER BY FORACID)
@@ -46,7 +46,7 @@ LISTAGG(GAM.FORACID,',') WITHIN GROUP (ORDER BY FORACID)
 > If we don’t want output in any specific order, we can remove the ordering concept. We can give ORDER BY NULL in the function input
 > LISTAGG are constrained to the maximum size of VARCHAR2 in SQL (i.e. 4000)
 
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### CASE STATEMENT ###
 > Oracle/PLSQL CASE statement has the functionality of an IF-THEN-ELSE statement.
 ##SYNTAX
@@ -67,7 +67,7 @@ FROM suppliers;
 ---------------
 $ UPDATE SALARIES SET sex = CASE sex WHEN 'm' THEN 'f' ELSE 'm' END;
 
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### DECODE function ###
 > it has the functionality of an IF-THEN-ELSE statement.
 ##SYNTAX
@@ -83,7 +83,7 @@ ELSIF supplier_id = 10002 THEN
 ELSE
    result := 'Gateway';
 END IF;
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### TRANSLATE FUNCTION ###
 > replaces a sequence of characters in a string with another set of characters
 
@@ -96,4 +96,10 @@ Result: '4tech56'
 
 TRANSLATE('222tech', '2ec', '3it')
 Result: '333tith'
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## To get Current date and Time
+
+mysql> SELECT CURDATE();
+mysql> select now();
+sqlserver> select getdate();
+oracle> select sysdate from dual;

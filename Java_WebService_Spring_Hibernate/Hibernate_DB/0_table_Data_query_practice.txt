@@ -1,0 +1,135 @@
+=======================================
+CREATE TABLE Worker (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT(15),
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+);
+
+INSERT INTO Worker 
+	(WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT) VALUES
+		(001, 'Monika', 'Arora', 100000, '14-02-20 09.00.00', 'HR'),
+		(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin'),
+		(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR'),
+		(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin'),
+		(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin'),
+		(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account'),
+		(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account'),
+		(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+
+CREATE TABLE Bonus (
+	WORKER_REF_ID INT,
+	BONUS_AMOUNT INT(10),
+	BONUS_DATE DATETIME,
+	FOREIGN KEY (WORKER_REF_ID)
+		REFERENCES Worker(WORKER_ID)
+        ON DELETE CASCADE
+);
+
+INSERT INTO Bonus 
+	(WORKER_REF_ID, BONUS_AMOUNT, BONUS_DATE) VALUES
+		(001, 5000, '16-02-20'),
+		(002, 3000, '16-06-11'),
+		(003, 4000, '16-02-20'),
+		(001, 4500, '16-02-20'),
+		(002, 3500, '16-06-11');
+		
+CREATE TABLE Title (
+	WORKER_REF_ID INT,
+	WORKER_TITLE CHAR(25),
+	AFFECTED_FROM DATETIME,
+	FOREIGN KEY (WORKER_REF_ID)
+		REFERENCES Worker(WORKER_ID)
+        ON DELETE CASCADE
+);
+
+INSERT INTO Title 
+	(WORKER_REF_ID, WORKER_TITLE, AFFECTED_FROM) VALUES
+ (001, 'Manager', '2016-02-20 00:00:00'),
+ (002, 'Executive', '2016-06-11 00:00:00'),
+ (008, 'Executive', '2016-06-11 00:00:00'),
+ (005, 'Manager', '2016-06-11 00:00:00'),
+ (004, 'Asst. Manager', '2016-06-11 00:00:00'),
+ (007, 'Executive', '2016-06-11 00:00:00'),
+ (006, 'Lead', '2016-06-11 00:00:00'),
+ (003, 'Lead', '2016-06-11 00:00:00');
+=======================================
+Worker - worker_id,first_name, last_name, salary, joining_date, department
+Bonus - worker_ref, bonus_amount, bonus_date 
+Title - worker_ref, worker_title, affected_from;
+
+## How to Fetch The List Of Employees With The Same Salary?
+
+select w1.worker_id, w1.first_name, w1.salary from Worker w1, worker w2 where w1.salary = w2.salary and w1.worker_id != w2.worker_id;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Fetch Three Max Salaries From A Table.
+
+mysql> SELECT distinct Salary from worker a WHERE 3 >= (SELECT count(distinct Salary) from worker b WHERE a.Salary <= b.Salary) order by a.Salary desc;
+
+oracle> select a.salary from (select distinct salary from worker order by salary desc) as a where rownum<=3;
+
+mysql> select a.salary from (select distinct salary from worker order by salary desc) as a LIMIT 3;
+=======================================
+
+CREATE TABLE Employee (
+	emp_id INT NOT NULL PRIMARY KEY,
+	ename CHAR(25),
+	managerid INT(15),
+	JOINING_DATE DATETIME
+);
+
+INSERT INTO Employee 
+	(emp_id, ename, managerid, JOINING_DATE) VALUES
+	(121, 'Monika Arora  ', 100, '14-02-20 09.00.00'),
+	(132, 'Niharika Verma', 101, '14-06-11 09.00.00'),
+	(113, 'Vishal Singhal', 121, '14-02-20 09.00.00'),
+	(134, 'Amitabh Singh ', 132, '14-02-20 09.00.00'),
+	(155, 'Vivek Bhati', 121, '14-06-11 09.00.00'),
+	(106, 'Vipul Diwan', 132, '14-06-11 09.00.00'),
+	(107, 'Satish Kumar', 132, '14-01-20 09.00.00'),
+	(108, 'Geetika Chauhan', 132, '14-04-11 09.00.00'),
+	(109, 'Pankaj Chauhan', 121, '14-12-19 09.00.00'),
+	(119, 'Henry Hughe', 121, '24-09-19 09.00.00');
+	
+create table EmployeeSalary( emp_id int, project char(15), salary int);
+
+insert into EmployeeSalary
+(emp_id, project, salary) values
+(121, 'Management', 100000)
+(121, 'HR', 100000),
+(132,'Admin',  80000),
+(113,'HR',     300000),	
+(134,'Admin',  500000),
+(155,'Admin',  500000),
+(106,'Account',200000),
+(107,'Account',75000),
+(108,'Admin',  90000);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Employee       - emp_id, ename, managerid, joining_date
+EmployeeSalary - emp_id, project, salary
+
+## How to find ename having salary greater than 100000?
+
+select ename from employee where emp_id in (select emp_id from EmployeeSalary where salary> 100000);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to find employees who is managing someone.[SELF-JOIN]
+
+select e.emp_id, e.ename from Employee e, Employee m where e.emp_id = m.managerid;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Find Employee which doesn't assigned to any project.
+
+select emp_id, ename from employee e left outer join employeesalary es where e.emp_id !=  es.emp_id;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Find out employee who has not assigned any project
+
+select distinct e.emp_id, e.ename from employee e where e.emp_id not in (select emp_id from employeesalary);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Find out all employee who has/hasn't assigned any project and display "No Project Assigned"
+
+mysql> select e.emp_id, e.ename, IfNULL(es.project,'NO Project Assigned') AS pro_name from employee e left outer join employeesalary es ON e.emp_id = es.emp_id;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Find out employees assigned to more than 1 projects?
+
+mysql> select e.emp_id, e.ename, es.project from employee e inner join  employeesalary es ON e.emp_id=es.emp_id WHERE e.emp_id in (select d.emp_id from employeesalary d group by d.emp_id having count(d.emp_id)>=2);

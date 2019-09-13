@@ -1,16 +1,20 @@
 Complex Queries in SQL ( Oracle )
 
-####### CREATE ########
+=======================================
+############## CREATE #################
+
 ## To create a table similar to another table with its data
 > create table table_name as select * from source_table;
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## To create a table similar to another table without its data i.e only structure
 
 > in where clause of source table it should not select any row or it should be false
 > create table table_name as select * from source_table where rownum = 0;
 > Create table emp1 as select * from emp where 1=2;
 
-####### INSERT ########
+=======================================
+############## INSERT #################
+
 ## TO INSERT DATA FROM ANY TABLE
 insert into table select < columns> from table
 =======================================
@@ -19,22 +23,22 @@ insert into table select < columns> from table
 ## To copy sql table data into another table
 
 > select * into <destination_table> from <source_table>
----------------------------------------
-##To fetch ALTERNATE records from a table. (EVEN NUMBERED)
-$ select * from emp where rowid in (select 
-DECODE( mod(rownum,2),0,rowid, null) from emp);
-------------------
-##To select ALTERNATE records from a table. (ODD NUMBERED)
-select * from emp where rowid in 
-(select decode(mod(rownum,2),0,null ,rowid) from emp);
----------------------------------------
-##Find the 3rd MAX salary in the emp table.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## To fetch ALTERNATE records from a table. (EVEN NUMBERED)
+$ select * from emp where rowid in (select DECODE( mod(rownum,2),0,rowid, null) from emp);
+
+mysql> Select id,Name from emp group by id having mod(id,2) = 1;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## To select ALTERNATE records from a table. (ODD NUMBERED)
+$ select * from emp where rowid in (select decode(mod(rownum,2),0,null ,rowid) from emp);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Find the 3rd MAX salary in the emp table.
 select distinct sal from emp e1 where 3 = (select count(distinct sal) from emp e2 where e1.sal <= e2.sal);
 ------------------
 ##Find the 3rd MIN salary in the emp table.
 select distinct sal from emp e1 where 3 = (select count(distinct sal) from emp e2where e1.sal >= e2.sal);
----------------------------------------
-##Select FIRST n records from a table.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Select FIRST n records from a table.
 > select * from emp where rownum <= &n;
 
 ## Select LAST n records from a table
@@ -51,17 +55,17 @@ select * from emp MINUS
 ## How can I retrive all records of emp1 those should not present in emp2?
 (Select * from emp1) Minus (Select * from emp2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##List dept no., Dept name for all the departments in which there are no employees in the department.
+## List dept no., Dept name for all the departments in which there are no employees in the department.
 
 $ select * from dept where deptno not in (select deptno from emp);  
 $ select * from dept a where not exists (select * from emp b where a.deptno = b.deptno);
 $ select empno,ename,b.deptno,dname from emp a, dept b where a.deptno(+) = b.deptno and empno is null;
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How to get 3 Max salaries ?
+## How to get 3 Max salaries ?
 select distinct sal from emp a where 3 >= (select count(distinct sal) from emp b where a.sal <= b.sal) order by a.sal desc;
 
-##How to get 3 Min salaries ?
+## How to get 3 Min salaries ?
 select distinct sal from emp a  where 3 >= (select count(distinct sal) from emp b  where a.sal >= b.sal);
 
 ##How to get nth max salaries ?
@@ -82,22 +86,19 @@ q.setMaxResults(1);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Select DISTINCT RECORDS from emp table.
 select * from emp a where  rowid = (select max(rowid) from emp b where  a.empno=b.empno);
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Count of number of employees in  department  wise.
 select count(EMPNO), b.deptno, dname from emp a, dept b  where a.deptno(+)=b.deptno  group by b.deptno,dname;
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In emp table add comm+sal as total sal .
 select ename,(sal+nvl(comm,0)) as totalsal from emp;
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Select all records where dept no of both emp and dept table matches.
 select * from emp where exists (select * from dept where emp.deptno=dept.deptno)
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Count the total sal  deptno wise where more than 2 employees exist.
-SELECT  deptno, sum(sal) As totalsal
-FROM emp
-GROUP BY deptno
-HAVING COUNT(empno) > 2
----------------------------------------
+SELECT  deptno, sum(sal) As totalsal FROM emp GROUP BY deptno HAVING COUNT(empno) > 2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to find all Emp report to which manager from employee table? 
 Employees : employee_id, last_name, email, hire_date, job_id, salary,department_id ,manager_id
 

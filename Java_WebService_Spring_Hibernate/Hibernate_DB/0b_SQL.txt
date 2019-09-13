@@ -74,13 +74,14 @@ MERGE - UPSERT operation (insert or update)
 
 > You can rollback data after using DELETE statement.	
 - It is not possible to rollback after using TRUNCATE statement.
-=================================
-########## OPERATORS ############
+=======================================
+############# OPERATORS ###############
 
 ##What are the type of operators available in SQL?
-> Arithmetic operators => +,-,*,/,%
-> Logical operators => >,<,=,!=,<>, 
-> Comparison operator => AND,OR,BETWEEN,IN,NOT, EXISTS, LIKE, ALL
+
+> Arithmetic operators :   +,-,*,/,%
+> Logical operators    : >, <, =, !=, <> 
+> Comparison operator  : AND,OR,BETWEEN,IN,NOT, EXISTS, LIKE, ALL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### IS NULL or IS NOT NULL #####
 
@@ -92,7 +93,7 @@ WHERE column_name IS NULL;
 
 SELECT column_names FROM table_name
 WHERE column_name IS NOT NULL;
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain 3 different rules that apply to NULLs when doing comparison?
 
 1. For all operators except for concatenation(||), if a value of expr. is null then expres evaluate to NULL.
@@ -220,14 +221,36 @@ LEN(c) :- returns length of a text
 
 =======================================
 ################ JOIN #################
+
 > it is used to extract information from more than one table based on the related column/coloums
+
+## what are the basic types of joins?
+
+> There are 2 basic types of joins in SQL :
+
+1.Joins using Operators -> Equi Join,Non Equi Join
+
+2.Joins using Concept-> Inner Join,Outer Join,Cross Join,Self Join
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain Equi Join with example?
+
+> When two or more tables has been joined using equal to operator then this category is called as equi join.
+- it make use of WHERE clause to apply the condition between two tables.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain Non-Equi Join with example?
+
+> When two or more tables are joining without Equal to condition then that join is known as Non-Equi join
+- we can use any operator for non equi join that is <>,!=,<,>,Between.
 =================================
 ########## INNER JOIN ###########
-> Returns records that have matching values in both tables (i.e common in both the table).
+
+> RETURNS RECORDS THAT HAVE MATCHING VALUES IN BOTH TABLES (i.e common in both the table).
 
 Ex: https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_join
-Orders : OrderID, CustomerID, EmployeeID, OrderDate, ShipperID
-Customers : CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country
+ORDERS    : OrderID, CustomerID, EmployeeID, OrderDate, ShipperID
+CUSTOMERS : CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country
+
+Type1:
 
 SELECT o.OrderID, c.CustomerName, o.OrderDate
 FROM Orders o
@@ -235,7 +258,14 @@ INNER JOIN Customers c
 ON o.CustomerID=c.CustomerID;
 - it will result all order that that match with customer id in order and customer.
 
-##Which types of join is used in SQL widely?
+Type2:
+
+SELECT o.OrderID, c.CustomerName, o.OrderDate
+FROM Orders o, Customers c
+WHERE o.CustomerID=c.CustomerID;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which types of join is used in SQL widely?
+
 > INNER JOIN is the most common type of Join which is used to combine the rows from two tables and 
 > create a result set containing only such records that are PRESENT IN BOTH THE TABLES based on the joining condition (predicate).
 
@@ -244,11 +274,13 @@ FROM DEPT dept, EMPLOYEE emp
 WHERE emp.dept_id = dept.id;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can Inner join happens between two table without where condition?
+
 Yes, it can happens
 =================================
 ########## OUTER JOIN ###########
-> it will return matching rows from both tables as well as any unmatched rows from one or both the tables 
-> (based on whether it is single outer or full outer join respectively)
+
+> it will RETURN MATCHING ROWS FROM BOTH TABLES AS WELL AS ANY UNMATCHED ROWS FROM ONE OR BOTH THE TABLES 
+- (based on whether it is single outer or full outer join respectively)
 
 =================================
 ####### LEFT OUTER JOIN #########
@@ -256,8 +288,9 @@ Yes, it can happens
 > it RETURNS ALL THE ROWS FROM THE LEFT TABLE WITH THE MATCHING ROWS FROM THE RIGHT TABLE. 
 > If there are no field matching in the right table then it returns NULL values
 
-**2 way to write left outer join
-SELECT dept.name DEPARTMENT, emp.name EMPLOYEE 
+## 2 way to write left outer join
+
+oracle> SELECT dept.name DEPARTMENT, emp.name EMPLOYEE 
 FROM DEPT dept, EMPLOYEE emp
 WHERE dept.id = emp.dept_id (+);
 
@@ -267,8 +300,8 @@ ON dept.id = emp.dept_id ;
 =================================
 ####### RIGHT OUTER JOIN ########
 
-> returns all the rows from the right table with the matching rows from the left table. 
-> If there are no field matching in the left table then it returns NULL values
+> RETURNS ALL THE ROWS FROM THE RIGHT TABLE WITH THE MATCHING ROWS FROM THE LEFT TABLE. 
+- If there are no field matching in the left table then it returns NULL values
 
 =================================
 ####### FULL OUTER JOIN ########
@@ -364,7 +397,10 @@ select CustomerID,CustomerName, City, Country, PostalCode from Customers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the difference between JOIN and UNION?
 
-> Union : it uniquely combines the results of two or more queries into a single result set. 
+> UNION : 
+> It allows us to add 2 similar data sets to create resulting data set. 
+- It DOES NOT REQUIRE ANY CONDITION FOR JOINING.
+- it uniquely combines the results of two or more queries into a single result set. 
 - But no. of columns must match in both/all the queries (and also the order) which are used for union. 
 
 > UNION -- returns with no duplicate rows
@@ -375,7 +411,8 @@ select CustomerID,CustomerName, City, Country, PostalCode from Customers
 > You cannot use the union operator on text and image columns.
 > You cannot use the for browse clause in statements involving the union operator. 
 
-JOINS: it is used to extract information from more than one table based on the related column/coloums (PK and RFK) 
+JOINS: 
+> it is used to extract information from more than one table based on the related column/coloums (PK and RFK) 
 - any no. of rows can be retrived based on matching matching colums. 
 
 Different types of joins are 

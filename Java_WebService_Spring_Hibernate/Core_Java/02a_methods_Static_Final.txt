@@ -37,9 +37,9 @@ Block < Method < Object < Class
 > method overloading DOES NOT AFFECT BY THE THROWS EXCEPTION. 
 - Overloaded method may or may not throws exception
 
-> If compiler found method of same type then compile time error "Duplicate method"
+> If compiler found method of same type then throw CTE "Duplicate method"
 
-> It is also POSSIBLE TO OVERLOAD METHODS IN SUB CLASSES, as long as the methods shares same name and they are different in the number of parameters or type of parameters.
+> We can also OVERLOAD METHODS IN SUB CLASSES, as long as the methods shares same name and they are different in the number of parameters or type of parameters.
 
 > If more than one method is both accessible and applicable to a method invocation then Java compiler uses the set of rules that the MOST SPECIFIC METHOD
 - PRIORITY GOES AS: Exact Match > Widening > Boxing/unboxing > Varargs
@@ -124,12 +124,20 @@ obj.test(97);//int
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE6:
  test(Character c) return "Char";
- test(Integer i) return "Int";
+ test(Integer i) return "Integer";
  test(Object o) return "Object";
  
  byte b = 10;
  obj.test(b);//"Object" Its bcz you can box and then widen"
+ 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EXAMPLE6b:
+ test(Integer i) return "Integer";
+ test(int i) return "int";
+
+ int i=15;
+ obj.test(i);//int
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 EXAMPLE7:
 test(long i, int j) return "method1";
 test(int i, Integer j) return "method2";
@@ -172,31 +180,35 @@ static void doStuff(int x, int... doArgs) { }
 > It enables the compiler to assemble the array like above
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=========================================
+=======================================
 ########## METHOD OVERRIDING ##########
+
 > Sub class can change the implementation of a method inherited from super class
 
 >> To override a method, method header should be SAME i.e METHOD NAME, PARAMETER LIST AND RETURN TYPE(subtype)
+
 > An overriding method can also RETURN SUBTYPE of the type returned by the overridden method
+
 >> Access specifier cannot be more restrictive, give Complier err 
 (most restrictive)Private ->default-> Protected ->Public (least restrictive)
 
-> CANNOT OVERRIDE PRIVATE METHOD AND STATIC METHOD but we can hide them.
+> PRIVATE AND STATIC METHOD DOESN'T OVERRIDE but it will be HIDE
 - static method doesn't override but inherit. 
 - Private method doesn't override and inherit. 
-- so we can use parent private method name in child as per our wish
+- so we can use parent private method name in child class as per our use
 
 >> CANNOT HIDE/OVERRIDE FINAL METHOD, result compilation error in method signature. 
-- BUT FINAL METHOD INHERIT 
-- but overriden method cn be make final
+- BUT FINAL METHOD INHERIT
+- overriden method cn be make final
 
 > if sm meth name is use in child class as of parent class with different parameter list then that method is not override
 
-METHOD OVERRIDING EXCEPTION RULE
+## METHOD OVERRIDING EXCEPTION RULE
 > If the superclass method does not declare an exception, subclass overridden method cannot declare the checked exception but it can declare unchecked exception.
 > If the superclass method declares an exception, subclass overridden method can declare same, subclass exception or no exception but cannot declare parent exception.
--------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Name some built-in classes that doesn't override?
+
 > String, StringBuffer, StringBuilder are built-in class whose methods cannot override bcz all the methods are final
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is CO-VARIANT METHOD OVERRIDING?
@@ -209,6 +221,7 @@ EXAMPLE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is difference between method overloading and method overriding?
+
 > Method overloading is used to increase the readability of pgm
 - Method overriding is used to provide specific impl of super class method in subclass.
  
@@ -219,8 +232,9 @@ EXAMPLE:
 - overriding,  parameter must be same.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is METHOD HIDING?
-> If a method is define in a Parent class as static and same method also define in child class with same signature. It is called METHOD HIDING
-- methods are executed based on referenced type class i.e cannt call child class method with parent class reference 
+
+> If a method is define in a Parent class as private/static and same method also define in child class with same signature. It is called METHOD HIDING
+- METHODS ARE EXECUTED BASED ON REFERENCED TYPE CLASS i.e cannt call child class method with parent class reference 
 
 - when we specify any method or variable as static then those are created at the time of class loading and not at runtime
 > it is also called STATIC BINDING /static polymorphism
@@ -230,8 +244,8 @@ Parent p = new Child();
 p.staticMethod(); // call parent class static method
 p.normalMethod();// call subclass normalMethod
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## can you override and overload static method in Java?
-No. For more detail refer "Static method" of this page
+## can you override static method in Java?
+No. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## static method inherit in the subclasses
 
@@ -412,17 +426,21 @@ class S extends R {
 ############ STATIC METHOD ############
 
 > it is the common method that belong to the class rather than a object of the class
+
 > it can be called directly using class name without creating object of that class
+
 > It is used in class if the method doesn't depend on the instance variable and methods i.e not belong to particular object state.
 > Utility methods are good candidate of making static
+
 > STATIC METHOD DOESNOT OVERRIDE. It call with reference class
-> it inherit in the child class
+- it inherit in the child class
 
 > It can access non-static variable/method of class with the object reference of class but not directly
 > it DOESN'T CONTAIN THIS OR SUPER KEYWORD becz this is use to refer the object instance which is called with static
 
-> We CAN DEFINE PRIVATE STATIC METHOD in cls but its nt gud practice. As it violate the OOP. 
+> We CAN DEFINE PRIVATE STATIC METHOD in cls but its NOT GUD PRACTICE. As it violate the OOP. 
 - As Static method does not use data member(state) so what the use to be in class.
+
 > When static modifier is removed from the signature of the main method, it will throws an error at "NoSuchMethodError runtime
 
 > We can write static modifier with overridden method - modifier also affect

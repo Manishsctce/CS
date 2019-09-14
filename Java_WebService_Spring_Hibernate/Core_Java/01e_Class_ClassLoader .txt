@@ -218,6 +218,7 @@ public class AnonymousClassDemo {
 
 > it is DECLARED INSIDE A CODE BLOCK OR METHOD. 
 > Once you declare a class within a block, it can be instantiated as many times as you wish within that block
+
 > local classes AREN'T ALLOWED TO BE DECLARED PUBLIC, PROTECTED, PRIVATE, OR STATIC.
 
 > Local Inner Class CAN BE ABSTRACT AND FINAL ONLY
@@ -426,8 +427,6 @@ JAVA CLASS LOADER
 > java class loader throws ClassNotFoundException, if it cannot loads or fails to get Java class.
 > Java class loaders are used to load classes at runtime. 
 
-> Uniqueness principle allows to load a class exactly once, which is basically achieved by delegation and ensures that child ClassLoader doesn't reload the class already loaded by parent. 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the principle on which classloader works?
 
@@ -453,23 +452,21 @@ JAVA CLASS LOADER
 1. BOOTSTRAP  or Primordial ClassLoader
 - it is responsible for loading standard JDK class files from rt.jar (Runtime jar-java.lang.String...), i18.jar etc and it is parent of all class loaders 
 - don't have any parents, if you call String.class.getClassLoader() it will return null
-- These jars hv java core classes present in java.* package
 
 2. EXTENSION CLASS LOADER
 > it delegates class loading request to its parent, Bootstrap and if unsuccessful, 
-- loads class form jre/lib/ext directory or any other directory pointed by java.ext.dirs system property. 
+- loads class from jre/lib/ext directory or any other directory pointed by java.ext.dirs system property. These java classses are extension of standard core java classes.
 
 - Extension ClassLoader in JVM is implemented by  sun.misc.Launcher$ExtClassLoader. 
 
-- load classes from jdk extension directory "JAVA_HOME/jre/lib/ext". These java classses are extension of standard core java classes.
-
 3. SYSTEM OR APPLICATION CLASS LOADER. 
-> it is responsible for loading application specific classes from CLASSPATH environment variable, -classpath or -cp command line option,
+> it is responsible for loading app specific classes from CLASSPATH env variable, -classpath or -cp command line option,
 - Class-Path attribute of Manifest file inside JAR.
 - Application class loader is a child of Extension ClassLoader and its implemented by sun.misc.Launcher$AppClassLoader class
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Example of Visibility principle?
+
 public class ClassLoaderTest {
   
     public static void main(String args[]) {
@@ -506,6 +503,7 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### How to load class explicitly in Java?
+
 > Java provides API to explicitly load a class by 
 - Class.forName(classname) and 
 - Class.forName(classname, initialized, classloader)
@@ -516,15 +514,20 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 ### Where to use ClassLoader in Java?
 
 > By using separate ClassLoader you can also loads SAME CLASS FROM MULTIPLE SOURCES and they will be treated as different class in JVM. 
-- J2EE uses multiple class loaders to load class from different location like classes from WAR file will be loaded by Web-app ClassLoader while classes bundled in EJB-JAR is loaded by another class loader. 
+- J2EE uses multiple class loaders to load class from different location like classes from WAR file will be loaded by Web-app ClassLoader 
+- while classes bundled in EJB-JAR is loaded by another class loader. 
 - Some web server also supports hot deploy functionality which is implemented using ClassLoader. 
 - You can also use ClassLoader to load classes from database or any other persistent store.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Difference between loadClass and Class.forName ?
+## Difference between ClassLoader:loadClass and Class.forName ?
 
 > loadClass only loads the class but doesn't initialize the object whereas 
 - Class.forName() initialize the object after loading it.
+
+ClassLoader cl = ClassLoader.getSystemClassLoader();
+cl.loadClass("MyClass");
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between static vs. dynamic class loading?
 

@@ -285,7 +285,7 @@ String s = new String(bytes);
 > There is NO SETTER METHODS i.e. we have no option to change the value of the instance variable.
 > IMMUTABLE OBJECTS ARE BY DEFAULT THREAD SAFE, can be shared without synchronization in concurrent environmen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Does all property of immutable object needs to be final?
+### Does all property of immutable object needs to be final?
 
 > It's not necessary but non-final variable should be private and not modify them except in constructor
 > 
@@ -298,6 +298,7 @@ String s = new String(bytes);
 - Set the values of properties using constructor only.
 
 2. MAKE PROPERTIES OF THE CLASS FINAL AND PRIVATE
+- doesn't necessary to make every property final but it should be private
 
 3. DON'T ALLOW SUBCLASSES TO OVERRIDE METHODS. 
 - The simplest way to do this is to declare the class as final. 
@@ -305,9 +306,9 @@ String s = new String(bytes);
 
 4. If the instance fields include references to mutable objects, don't allow those objects to be changed:
    a> DON'T PROVIDE METHODS THAT MODIFY THE MUTABLE OBJECTS.
-   b> Don't share references to the mutable objects. 
-   - Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and store references to the copies. 
-   - Similarly, create copies of your internal mutable objects when necessary to avoid returning the originals in your methods.
+   b> DON'T SHARE REFERENCES Of THE MUTABLE OBJECTS if require return copied 
+   - Never store references to external, mutable objects passed to the constructor; IF NECESSARY, CREATE COPIES, and store references to the copies. 
+   - Similarly, create copies of your internal mutable objects when necessary, to avoid returning the originals in your methods.
 
 EXAMPLE:-
 class Address{
@@ -359,7 +360,7 @@ public class ImmutableClass {
   private HashMap<String, String> properties;
   private String company;
 
-//ONLY GETTER METHOD
+  //ONLY GETTER METHOD
  
   public HashMap<String, String> getProperties() {
     //return cloned object to avoid changing it by the client application
@@ -440,9 +441,11 @@ No
 > Once created the STATE OF THE IMMUTABLE OBJECT CAN NOT BE CHANGED 
 - so there is no possibility of them getting into an inconsistent state.
 
-> The references to the immutable objects can be easily shared or cached without having to copy or clone them as there state can not be changed ever after construction.
+> The REFERENCES OF IMMUTABLE OBJECTS CAN BE EASILY SHARED OR CACHED 
+- without having to copy or clone them as there state can not be changed ever after construction.
 
 > The BEST USE OF THE IMMUTABLE OBJECTS IS AS THE KEYS OF A MAP.   
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ###### CODING INTERVIEW QUESTION ######

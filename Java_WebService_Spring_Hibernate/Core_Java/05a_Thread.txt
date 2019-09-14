@@ -729,7 +729,47 @@ public void method2(){
 
 > by making all thread and using resources in a sequence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is diff bet Starvation and Deadlock?
+> Starvation and Deadlock are situations that occur when the processes that require a resource are delayed for a long time.
+
+STARVATION
+> It occurs if a process is indefinitely postponed. This may happen if the process requires a resource for execution that it is never alloted.
+
+##COMMON CAUSES OF STARVATION:
+
+1. If a process is never provided the resources it requires for execution because of faulty resource allocation decisions, then starvation can occur.
+
+2. A lower priority process may wait forever if higher priority processes constantly monopolize the processor.
+3. Starvation may occur if there are not enough resources to provide to every process as required.
+4. If random selection of processes is used then a process may wait for a long time because of non-selection.
+
+## SOLUTIONS TO HANDLE STARVATION:
+
+1. An independent manager can be used for allocation of resources. This resource manager distributes resources fairly and tries to avoid starvation.
+2. Random selection of processes for resource allocation or processor allocation should be avoided as they encourage starvation.
+3. The priority scheme of resource allocation should include concepts such as aging, where the priority of a process is increased the longer it waits. This avoids starvation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+DEADLOCK
+> A deadlock occurs when two or more processes need some resource to complete their execution that is held by the other process.
+
+> A deadlock will only occur if the FOUR COFFMAN CONDITIONS hold true. These conditions are not necessarily mutually exclusive. They are given as follows:
+
+1. Mutual Exclusion
+- It implies there should be a resource that can only be held by one process at a time. 
+- This means that the resources should be non-sharable.
+
+2. Hold and Wait
+- A process can hold multiple resources and still request more resources from other processes which are holding them.
+
+3. No preemption
+- A resource cannot be preempted from a process by force. A process can only release a resource voluntarily.
+
+4. Circular wait
+- A process is waiting for the resource held by the second process, which is waiting for the resource held by the third process and so on, till the last process is waiting for a resource held by the first process. This forms a circular chain.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to avoid deadlock?
+
 1. Avoid nested Locks 
 2. Lock specific member variables of class rather than locking whole class
 3. 
@@ -739,7 +779,7 @@ public void method2(){
 > Race conditions occurs when two thread operate on same object without proper synchronization 
 - for example, if one thread is updating a variable and second thread tries to read the value before it finished.
 
-> we can solve race condition by using either synchronized block or synchronized method. 
+> we can SOLVE RACE CONDITION BY USING EITHER SYNCHRONIZED BLOCK OR SYNCHRONIZED METHOD. 
 - When no two threads can access same resource at a time phenomenon is also called as mutual exclusion.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What if two threads try to read same resource without synchronization?

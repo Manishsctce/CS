@@ -1,5 +1,5 @@
 	public interface List<E> extends Collection<E> {}
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##List some important method of List?
 #### METHODS ####
 1. void add(int index, E obj) 
@@ -34,11 +34,17 @@
 
 > length : return how many element array can store
 - also known as CAPACITY, 
-- array doesn't  have size()
+- array doesn't have size()
 
-> size() : return total NO. OF ELEMENTS currently stored in ArrayList
+> size() : return total NO. OF ELEMENTS CURRENTLY STORED in ArrayList
 - length is not in arrayList
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is diff bet List<?> and List<Object> in Java?
+
+> List<?> is List of unknown type while 
+- List<Object> is essentially List of any Type.
+
+=======================================
 ##What are the classes implementation of List interface?
 
 1. ArrayList - dynamic array, not synch, insertion order, can contain duplicate element, random access
@@ -46,10 +52,10 @@
 3. LinkedList - double linked list, not synch, insertion order, can contain duplicate element, NO RANDOM ACCESS,used for better manipulation
 
 4. CopyOnWriteArrayList - 
-=====================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert Array to Set?
 Set<Integer> set = new HashSet<Integer>(Arrays.asList(numArray));
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert map into List?
 List<Entry> entryList = new ArrayList<Entry>(companyDetails.entrySet());
 =======================================
@@ -85,35 +91,44 @@ while(iterator.hasNext()){
 =======================================
 ############# ArrayList ###############
 
+## If size of an arrayList is 5 and if we insert data at 3rd index then what will happen?
+> size of arrayList will be 6 and at 3rd index data will insert and the value at that index will be shift right.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference between Array and ArrayList ?
 
 > Array are of fix size whereas 
 - ArrayList is dynamic in nature
 
->> Array can contain ONLY SINGLE DATATYPE whereas 
-- ArrayList can contain different data object.
+>> Array CAN CONTAIN OBJECT AND PRIMITIVE TYPE whereas 
+- ArrayList can contain ONLY OBJECT.
+
+> Array can be multi-dimensional
+- ArrayList is one dimensional 
 
 > ArrayList provides more methods and features like addAll, removeAll etc
-> ArrayList is one dimensional but Array can be multi-dimensional
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is difference between ArrayList and vector?
 
 ## DIFFERENCE ##
-1) SYNCHRONIZATION 
-- ArrayList is not thread-safe whereas Vector is thread-safe. 
-- In Vector class, each method like add(), get(int i) is surrounded with a synchronized block and thus making Vector class thread-safe.
+1. SYNCHRONIZATION 
+- ArrayList is not thread-safe whereas 
+- Vector is thread-safe, each method like add(), get(int i) is surrounded with a synchronized block.
 
-2) DATA GROWTH 
-- A Vector defaults to DOUBLING THE SIZE of its array, while 
-- the ArrayList INCREASES ITS ARRAY SIZE BY 50 PERCENT.
+2. DATA GROWTH 
+- Vector by default double its size dynamically while 
+- ArrayList INCREASES ITS ARRAY SIZE BY 50 PERCENT.
 - Internally, both the ArrayList and Vector hold onto their contents using an Array. 
 - When an element is inserted into an ArrayList or a Vector, the object will need to expand its internal array if it runs out of room. 
 
-3> Other than Hashtable ,VECTOR is the only other class which USES BOTH Enumeration and Iterator. 
-- While ArrayList can only use Iterator for traversing an ArrayList .
+3. DATA TRANVERSE
+- Vector USES BOTH Enumeration and Iterator for traversing.
+- ArrayList can only use Iterator for traversing an ArrayList.
 
-4> ArrayList does not define the increment size . Vector defines the increment size as
+4. 
+- Vector defines the increment size as
 public Vector(int initialCapacity, int capacityIncrement){ //some code  } 
+- ArrayList does not define the increment size . 
 
 5> Vector has setSize() 
 Sets the size of this vector. If the new size is greater than the current size, new null items are added to the end of the vector.
@@ -133,7 +148,7 @@ If the new size is less than the current size, all components at index newSize a
 
 > both maintain a counter of element added
 
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If an Employee class is present and its objects are added in an arrayList. 
 - Now I want the list to be sorted on the basis of the emp age of Employee class. What are the steps?
 
@@ -157,7 +172,7 @@ public int compareTo(Object o) {
 		else
 			return -1;
 	}
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How about when Employee class is a jar file and you do not have access to its source code?
 
 > Since Comparable interface cannot be impl, create Comparator class and override the compare(Object obj, Object obj1) method .
@@ -175,7 +190,7 @@ class StudentAgeComparator implements Comparator<Student>{
 			return 0;
 	}
 }
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How can list/Arraylist be synchronized without using Vector?
 
 > Arraylist can be synchronized using:
@@ -213,11 +228,12 @@ public class LinkedList<E>
 > Object get(int index): It returns the item of the specified index from the list.
 > Object getFirst(): It fetches the first item from the list.
 > Object getLast(): It fetches the last item from the list
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How LinkedList Works?
 > It works based on Linked 
-------------------------------------
-###What is difference between ArrayList and LinkedList?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is difference between ArrayList and LinkedList?
+
 > ArrayList is based on Array data structure but 
 - LinkedList is based on DOUBLY LINKED LIST DATA STRUCTURE.
 
@@ -247,13 +263,12 @@ public class LinkedList<E>
 > ArrayList creates an empty list of initial capacity 10  
 - LinkedList  only constructs the empty list without any initial capacity.
 
-http://www.geeksforgeeks.org/top-20-linked-list-interview-question/
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to Use ArrayList and LinkedList ?
 
 > ArrayList is preferred for get(int) or SEARCH OPERATIONS bcz O(1) order.
 
-> LinkedList is preferred for insert(int) , delete(int) operations then the get(int) operations
+> LinkedList is preferred for insert(int), delete(int) operations then the get(int) operations
 - as they do not need to maintain back and forth like arraylist to preserve continues indices
 =====================================
 ########## CopyOnWriteArrayList #####
@@ -271,10 +286,10 @@ http://www.geeksforgeeks.org/top-20-linked-list-interview-question/
 - Consequently any updates made on CopyOnWriteArrayList is not available to Iterator.
 
 > remove() doesn't supported in CopyOnWriteArrayList
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How CopyOnWriteArrayList is different with Vector?
 > CopyOnWriteArrayList creates copy of underlying ArrayList with every mutation operation e.g. add or set.
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between ArrayList and CopyOnWriteArrayList
 > ArrayList is not thread-safe 
 - CopyOnWriteArrayList is thread safe 
@@ -290,8 +305,9 @@ http://www.geeksforgeeks.org/top-20-linked-list-interview-question/
 =========================================
 ######### PROBLEM STATEMENT #########
 ## How to remove duplicates from ArrayList in Java?
+
 > Use Set to insert value from list and back to arrayList.
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to remove repeated elements and maintain order from ArrayList?
 
 > Copy all the elements of ArrayList in LinkedHashSet (as it maintain insertion order, not contain duplicate element) - arrayList.addAll(linkedHashSet)

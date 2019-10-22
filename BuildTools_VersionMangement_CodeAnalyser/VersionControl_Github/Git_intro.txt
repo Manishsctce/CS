@@ -1,4 +1,5 @@
 ## What is Git and its advantages?
+
 > DVCS (distributed version control system)
 > Branching and Merging – Easy context switching, feature based workflow and disposable
 experimentation
@@ -27,6 +28,10 @@ GIT: Distributed version control system
 
 - they are not the same thing: Git is the tool, GitHub is the service for projects that use Git.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention the various Git repository hosting functions.
+
+> Github, Gitlab, Bitbucket, SourceForge, GitEnterprise
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Git Flow vs Github Flow?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is git workflow?
@@ -42,37 +47,67 @@ commit
 8. Open a "pull request" (propose changes to the master branch)
 9. "Merge" your branch to the master branch – git merge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is ‘bare repository’ in Git?
+
+> It contains information about the version control and no working files (no tree) and it doesn’t contain the special .git sub-directory. 
+- Instead, it contains all the contents of the .git sub-directory directly in the main directory itself, whereas the working directory consists of :
+- A .git subdirectory with all the Git related revision history of your repository.
+- A working tree, or checked out copies of your project files.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is clone Command?
 
-git-clone - Clone a repository into a new directory
-git clone <remote repository URL><Local directory Name>
-E.g.: git clone https://github.com/sivajavatechie/JenkinsTest.git JenkinsClone
-To clone specific branch from the remote repository use git clone -b
+$ git clone <remote repository URL> <Local directory Name>
+- Clone a repository into a new directory
+
+EXAMPLE: git clone https://github.com/sivajavatechie/JenkinsTest.git JenkinsClone
+
+> To clone specific branch from the remote repository use git clone -b
 git clone -b master https://github.com/sivajavatechie/JenkinsTest.git Master
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between clone vs. pull?
 
-git clone is used to get a local copy of an existing remote repository to work on. It's usually only used
-once for a given repository, unless you want to have multiple working copies of it around
-git pull (or git fetch + git merge) is how you update that local copy with new commits from the remote
-repository. If you are collaborating with others, it is a command that you will run frequently.
+> git clone is used to get a local copy of an existing remote repository to work on. 
+- It's usually only used once for a given repository, unless you want to have multiple working copies of it around
+
+> git pull (or git fetch + git merge) is how you update that local copy with new commits from the remote repository. 
+- If you are collaborating with others, it is a command that you will run frequently.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between git pull and git fetch?
+
+> "git pull" command pulls new changes or commits from a particular branch from your central repository and updates your target branch in your local repository.
+- Git pull = git fetch + git merge 
+
+> "git fetch" pulls all new commits from the desired branch and stores it in a new branch in your local repository. 
+- If you want to reflect these changes in your target branch, "git fetch" must be followed with a "git merge". 
+- Your target branch will only be updated after merging the target branch and fetched branch.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is purpose of checkout?
 
-git-checkout - Switch branches or restore working tree files
+git checkout - Switch branches or restore working tree files
 E. g1: git checkout mybranch – git switch to mybranch
 E. g2: git checkout . – It restoes the tree files from remote repository to local repo
-E. g 3: git checkout commit_Id -- <filename> - This restores the commit_Id version file from remote to
+E. g3: git checkout commit_Id -- <filename> - This restores the commit_Id version file from remote to
 Local repo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is stash command and why we use it?
+
 git-stash - Stash the changes in a dirty working directory away
-E.g.: git stash / push- The command saves your local modifications away and reverts the working
-directory to match the HEAD commit.
-E.g. 2: git stash show – list the modifications stashed away
-E.g. 3: git stash apply – To restore the modifications stashed away
+$$ git stash / push
+- The command saves your local modifications away and reverts the working directory to match the HEAD commit.
+
+$$ git stash show 
+– list the modifications stashed away
+
+$$ git stash apply – To restore the modifications stashed away
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-what is merge command?
+## What is the difference between the ‘git diff ’and ‘git status’?
+
+> ‘git diff ’ depicts the changes between commits, commit and working tree, etc
+- ‘git status’ shows you the diff bet working directory and the index
+- ‘git diff’ is similar to ‘git status’
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is merge command?
+
 git-merge - Join two or more development histories together
 Let us consider branch BugFix is created from master branch
  Code fix done in BugFix branch
@@ -81,6 +116,7 @@ Let us consider branch BugFix is created from master branch
 git merge BugFix – This command merges the code change done in BugFix branch into master branch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between branch vs. Tag?
+
 > Branches are symbolic names for line of development. New commits are created on top ofbranch. The branch pointer naturally advances, pointing to newer and newer commits.
 
 > tags are symbolic names for a given revision. They always point to the same object (usually: to the same revision); they do not change.
@@ -88,10 +124,14 @@ git merge BugFix – This command merges the code change done in BugFix branch i
 > A tag represents a version of a particular branch at a moment in time. 
 - A branch represents a separate thread of development that may run concurrently with other development efforts on the same code base.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## what is stage area(Index)?
-Stage area holds the files which will be part of the next commit. Git keeps track of the files which were
-added to the staging area. This help the developer to keep track of the files those will be part of next
-commit
+## What is ‘staging area’ or ‘index’ in Git?
+
+> Staging area is the intermediate layer/area that holds the files which will be part of the next commit. 
+ Working_dir -git add-> Staging_Area -git commit-> Local_Repo -git push-> remote_repo
+
+
+> Git keeps track of the files which were added to the staging area. 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between local and Remote repositories?
 
@@ -117,10 +157,10 @@ This is the default action.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to remove the files committed to the local repository?
 
-git rm <filename> 
+$ git rm <filename> 
 - This command removes the file from the repo but also deletes it from the local file system
 
-git rm –cached <file name> 
+$ git rm –cached <file name> 
 - This command removes the file only from the Git repository and not remove it from the filesystem
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to check the local modified files in Git?
@@ -132,6 +172,7 @@ HEAD commit, paths that have differences between the working tree and the index 
 working tree that are not tracked by Git
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to check the history of the files?
+
 gitk and git log commands
 
 $ gitk 
@@ -169,15 +210,32 @@ git rebase - The major benefit of rebasing is that you get a much cleaner projec
 eliminates the unnecessary merge commits required by git merge and second one is perfectly linear
 project history
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is git hook?
-Git has a way to fire off custom scripts when certain important actions occur. here are two groups of
-these hooks:
- client-side - Client-side hooks are triggered by operations such as committing and merging
- server-side - server-side hooks run on network operations such as receiving pushed commits. You
-can use these hooks for all sorts of reasons.
-All these scripts are stored under the git install sub directory @. git/hooks.
-You can write scripts using python/Ruby/shell
+## How do you find a list of files that has changed in a particular commit?
 
+$$ git diff-tree -r {hash}
+$$ git diff-tree –no-commit-id –name-only -r {hash}
+
+-r : makes the command list individual files, rather than collapsing them into root directory names only.
+
+–no-commit-id will suppress the commit hashes from appearing in the output
+
+–name-only will only print the file names, instead of their paths.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is git hook?
+
+> Git has a way to fire off custom scripts when certain important actions occur. 
+here are two groups of these hooks:
+
+1. CLIENT-SIDE 
+- Client-side hooks are triggered by operations such as committing and merging
+
+2. server-side 
+- server-side hooks run on network operations such as receiving pushed commits. 
+- You can use these hooks for all sorts of reasons.
+
+- All these scripts are stored under the git install sub directory @. git/hooks.
+- We can write scripts using python/Ruby/shell
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 USEFUL GIT COMMANDS
 git help -list available subcommands and someconcept guides.
 git add <filename> - Add file to staging area/index

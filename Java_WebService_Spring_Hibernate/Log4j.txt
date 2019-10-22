@@ -1,16 +1,5 @@
 ######### LOGGER INTRODUCTION #########
 > There are various logging lib like java.util.logging, Apache log4j, logback, SLF4J (Simple logging facade for Java)
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Mention what are the two static methods for obtaining a logger object?
-
-> We have to initialize one Logger object for each Java class.
-
-The two static methods for obtaining a logger object are 
-1. Public static Logger getRootLogger()
-
-2. Public static Logger getLogger(String name)
-Ex - private static final Logger logger = Logger.getLogger(CurrentClass.class.getName()).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between SLF4J and Log4j?
 
@@ -46,7 +35,7 @@ logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);
 2. Appenders
 3. Layout
 =======================================
-############## METHODS ################
+########## LOGGER METHODS #############
 > package org.apache.log4j;
 
 > Some of the basic methods in the Logger class are listed below.
@@ -65,6 +54,16 @@ logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);
 
  // generic printing method:
  public void log(Level l, Object message);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Mention what are the two static methods for obtaining a logger object?
+
+> We have to initialize one Logger object for each Java class.
+
+The two static methods for obtaining a logger object are 
+1. Public static Logger getRootLogger()
+
+2. Public static Logger getLogger(String name)
+Ex - private static final Logger logger = Logger.getLogger(CurrentClass.class.getName()).
 =======================================
 ############### LEVEL #################
 > these are define in this "org.apache.log4j.Level" class
@@ -80,7 +79,8 @@ ALL	    7  lowest
 
 > ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF.
 
-## HEART OF LOG4J : p >= q 
+##### HEART RULE OF LOG4J #####
+p >= q 
 - logger outputs all those messages equal to that level and also all greater levels than it. 
 EXAMPLE : If logging level = INFO, then app can log messages with scopes - INFO, WARN, ERROR and FATAL.
 
@@ -137,17 +137,19 @@ X.Y.Z		Pxyz			Pxyz
 
 > Different log levels inside logger components are
 
-All
-Debug
-Info
-Warn
-Error
-Fatal
-Off
+OFF     0  heighest
+FATAL   1
+ERROR   3
+WARN    4
+INFO    6
+DEBUG   7
+TRACE   7
+ALL	    7  lowest
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what are Appenders in Log4j?
 
-> Appenders are used to deliver LogEvents to their destination. In simple words, it is USED TO WRITE LOGS in the file.
+> Appenders are used to deliver LogEvents to their destination. 
+- In simple words, it is USED TO WRITE LOGS in the file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the different types of Appenders?
 
@@ -176,7 +178,7 @@ Log Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what is the command to write your logging information into a file?
 
-To write your logging information into a file, you would need to use a command org.apache.log4j.FileAppender
+> To write your logging information into a file, you would need to use a command org.apache.log4j.FileAppender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the logging methods provided by logger class?
 
@@ -187,7 +189,7 @@ Public static logger getLogger(String name);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In log4j how can you log into the database?
 
-The log4j API provides the object org.apache.log4j.jdbc. JDBCAppender object can put logging information in a particular database.
+> The log4j API provides the object org.apache.log4j.jdbc.JDBCAppender object can put logging information in a particular database.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain whether log4j is a thread safe?
 
@@ -195,17 +197,27 @@ The log4j API provides the object org.apache.log4j.jdbc. JDBCAppender object can
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain whether a log output format can be customized?
 
-Yes, you can extend the layout class to create your own customized log format. Appenders can be parameterized to use the layout of your choice.
+> Yes, you can extend the layout class to create your own customized log format. 
+- Appenders can be parameterized to use the layout of your choice.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what are the system properties checked by log4j?
 
-The system properties checked by log4j are
+> The system properties checked by log4j are
 
-Log4j debug, if true, log4j will show internal debugging messages to the console
-defaultInitOverride, if true, log4j will not execute default initialization
-configuration, URL for default initialization configuration file
-configurationClass, Class name for configurator to execute default initialization configuration file
-ignoreTCL, if true, the thread class loader will be overlooked when loading classes
+1. Log4j debug
+- if true, log4j will show internal debugging messages to the console
+
+2. defaultInitOverride 
+- if true, log4j will not execute default initialization
+
+3. configuration
+- URL for default initialization configuration file
+
+4. configurationClass
+- Class name for configurator to execute default initialization configuration file
+
+5. ignoreTCL
+- if true, the thread class loader will be overlooked when loading classes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what is the role of filter in log4j?
 

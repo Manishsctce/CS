@@ -11,18 +11,28 @@ GoF Definition:
 > Composite DP treats each node in two ways - Composite or leaf.
 1. COMPOSITE means it can have other objects below it.
 2. LEAF means it has no objects below it.
+=======================================
+########## JAVA EXAMPLES ##############
 
+java.util.Map#putAll(Map)
+java.util.List#addAll(Collection)
+java.util.Set#addAll(Collection)
+java.nio.ByteBuffer#put(ByteBuffer) (also on CharBuffer, ShortBuffer, IntBuffer, LongBuffer, FloatBuffer and DoubleBuffer)
+java.awt.Container#add(Component)
+----------------------------------------
+###### USAGE #######
+> you want client to be able to ignore difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.
 =======================================
 ############### ELEMENTS ##############
 
 ## BASE COMPONENT [interface] 
-> It is the interface for all objects in the composition, 
+> It is the INTERFACE FOR ALL OBJECTS IN THE COMPOSITION, 
 - client program uses base component to work with the objects in the composition. 
-- It can be an interface or an abstract class with some methods common to all the objects.
+- It CAN BE AN INTERFACE OR AN ABSTRACT CLASS WITH SOME COMMON METHODS TO ALL THE OBJECTS.
 
 ## LEAF
-> represents leaf objects in the composition. A leaf has no children.
-> defines behaviour for primitive objects in the composition.
+- implements the default behavior of the base component. 
+- It doesn't contain a reference to the other objects.
 
 ## COMPOSITE
 > It consists of leaf elements and implements the operations in base component
@@ -35,17 +45,7 @@ GoF Definition:
 > Client use the component interface to interact with objects in the composition structure.
 - if recipient is a leaf then request is handled directly.
 - If recipient is a composite,then it usually forwards request to its child components,possibly performing additional operations before and after forwarding.
-=======================================
-########## JAVA EXAMPLES ##############
 
-java.util.Map#putAll(Map)
-java.util.List#addAll(Collection)
-java.util.Set#addAll(Collection)
-java.nio.ByteBuffer#put(ByteBuffer) (also on CharBuffer, ShortBuffer, IntBuffer, LongBuffer, FloatBuffer and DoubleBuffer)
-java.awt.Container#add(Component)
-----------------------------------------
-###### USAGE #######
-> you want client to be able to ignore difference between compositions of objects and individual objects.Clients will treat all objects in the composite structure uniformly.
 =======================================
 ############ EXAMPLE : 1 ##############
 

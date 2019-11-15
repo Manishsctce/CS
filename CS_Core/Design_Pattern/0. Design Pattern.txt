@@ -88,10 +88,12 @@ Example: JPA
 > it states that the design and writing of the code should be done in a way that 
 - new functionality should be added with minimum changes in the existing code (by adding new classes & method not changing the existing one)
 
+> One of the key examples of this is State and Strategy design pattern, where 
+- Context class is closed for modification and new functionality is provided by writing new code by implementing a new state of strategy
+
 ## Liskov Substitution Principle (LSP):
 > It says derived class or subclass must enhance functionality, but not reduce them.
 - we could replace the existing implement with its subtype which has enhanced features.
-> It represents "L" on the SOLID acronym
 
 ## Interface Segregation Principle (ISP)
 > a client should not implement an interface if it doesn't use that
@@ -160,6 +162,15 @@ One of a good example of Strategy pattern from JDK itself is a Collections.sort(
 - Here Comparator is a strategy interface and defines a strategy for comparing objects. 
 - Because of this pattern, we don't need to modify sort() method (closed for modification) to compare any object, 
 - at the same time we can implement Comparator interface to define new comparing strategy (open for extension). 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between Strategy and State design Pattern?
 
+> both Strategy and State pattern has the same structure, but their intent is totally different.
+
+> State design pattern is used to define and manage the state of an object, while 
+- Strategy pattern is used to define a set of an interchangeable algorithm and let's client choose one of them. 
+
+> Strategy pattern is a client driven pattern while 
+- Object can manage their state itself.
 =======================================
 ####### DRY (Don't Repeat Yourself)####

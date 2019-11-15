@@ -47,6 +47,30 @@ commit
 8. Open a "pull request" (propose changes to the master branch)
 9. "Merge" your branch to the master branch – git merge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Describe the branching strategies you have used.
+
+1. Feature branching 
+– A feature branch model keeps all of the changes for a particular feature inside of a branch. 
+- When the feature is fully tested and validated by automated tests, the branch is then merged into master.
+
+2. Task branching 
+– In this model, each task is implemented on its own branch with the task key included in the branch name. 
+- It is easy to see which code implements which task, just look for the task key in the branch name.
+
+3. Release branching 
+– Once the develop branch has acquired enough features for a release, you can clone that branch to form a Release branch. 
+- Creating this branch starts the next release cycle, so no new features can be added after this point, only bug fixes, documentation generation, and other release-oriented tasks should go in this branch. 
+- Once it is ready to ship, the release gets merged into master and tagged with a version number. 
+- In addition, it should be merged back into the develop branch, which may have progressed since the release was initiated.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Explain the advantages of forking workflow
+
+> There is a fundamental difference between the forking workflow and other popular git workflows. Rather than using a single server-side to act as the “central” codebase, it gives every developer their own server-side repository. The Forking Workflow is commonly seen in public open-source projects.
+
+> A crucial advantage of the Forking Workflow is that contributions can be integrated without even needing everybody to push to a single central repository that leads to clean project history. Developers can push to their own server-side repositories, but only the project maintainer can push to the official repository.
+
+> If developers are ready to publish a local commit, then they push the commit to their own public repository and not the official one. After this, they go for a pull request with the main repository that lets the project maintainer know an update is ready to be integrated.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is ‘bare repository’ in Git?
 
 > It contains information about the version control and no working files (no tree) and it doesn’t contain the special .git sub-directory. 
@@ -92,19 +116,36 @@ Local repo
 ## what is stash command and why we use it?
 
 git-stash - Stash the changes in a dirty working directory away
-$$ git stash / push
+
+$$ git legacy-stash push
 - The command saves your local modifications away and reverts the working directory to match the HEAD commit.
 
-$$ git stash show 
+$$ git legacy-stash show 
 – list the modifications stashed away
 
-$$ git stash apply – To restore the modifications stashed away
+$$ git legacy-stash apply – To restore the modifications stashed away
+
+$$ git legacy-stash drop 
+- used to remove the stashed item. It will remove the last added stash item by default, and it can also remove a specific item if you include it as an argument.
+EXAMPLE: git stash drop stash@{0}
+
+$$ git legacy-stash list 
+- It will display the list of stashed items
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between the ‘git diff ’and ‘git status’?
 
 > ‘git diff ’ depicts the changes between commits, commit and working tree, etc
 - ‘git status’ shows you the diff bet working directory and the index
 - ‘git diff’ is similar to ‘git status’
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does a commit object contain?
+
+> Commit object contains the following components, you should mention all the three points presented below:
+
+1. A set of files, representing the state of a project at a given point of time
+2. Reference to parent commit objects
+3. An SHA-1 name, a 40 character string that uniquely identifies the commit object 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is merge command?
 
@@ -115,11 +156,25 @@ Let us consider branch BugFix is created from master branch
  You need to use below command from master branch
 git merge BugFix – This command merges the code change done in BugFix branch into master branch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How will you know in Git if a branch has already been merged into master?
+
+> To know if a branch has been merged into master or not you can use the below commands:
+
+$$ git branch --merged 
+– It lists the branches that have been merged into the current branch.
+
+$$ git branch --no-merged 
+– It lists the branches that have not been merged.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between branch vs. Tag?
 
-> Branches are symbolic names for line of development. New commits are created on top ofbranch. The branch pointer naturally advances, pointing to newer and newer commits.
+> Branches are symbolic names for line of development. 
+- New commits are created on top of branch. 
+- The branch pointer naturally advances, pointing to newer and newer commits.
 
-> tags are symbolic names for a given revision. They always point to the same object (usually: to the same revision); they do not change.
+> tags are symbolic names for a given revision. 
+- They always point to the same object (usually: to the same revision); 
+- they do not change.
 
 > A tag represents a version of a particular branch at a moment in time. 
 - A branch represents a separate thread of development that may run concurrently with other development efforts on the same code base.
@@ -258,3 +313,13 @@ git log - git log command can list history of the commits
 git show<commit id> - displays the details about the particular commit
 git diff – compare the current HEAD to local workspace and display any diff found
 git grep 􀍞<search string> -Search for the string in any version of the project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  What is the function of ‘git config’?
+
+> "git config" command can be used to change your Git configuration, including your username.
+
+$$ git config –global user.name “Your Name”
+- This command will add a username.
+
+$$ git config –global user.email “Your E-mail Address”
+- This command will add an email id. 

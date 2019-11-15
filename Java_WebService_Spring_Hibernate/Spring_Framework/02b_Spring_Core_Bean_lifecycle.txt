@@ -26,7 +26,7 @@ Instatiation -> Populate properties -> BeanNameAware[i].setBeanName() -> BeanFac
 1. @PostConstruct and @PreDestroy annotations
 2. InitializingBean and DisposableBean callback interfaces
 
-3. custom init() and destroy() methods in bean configuration file
+3. custom init() and destroy() in bean configuration file
 - we can use the "init-method" attribute to specify the name of the method that has a void no-argument signature.
 
 4. Other Aware interfaces for specific behavior
@@ -37,6 +37,7 @@ Instatiation -> Populate properties -> BeanNameAware[i].setBeanName() -> BeanFac
 - each mechanism is configured with a different method name, then each configured method is executed
 =======================================	
 ####1. @PostConstruct n @PreDestroy ###
+
 > It is introduce in Spring 2.5 onwards
 > These are in javax.annotation package.
 
@@ -50,6 +51,7 @@ Instatiation -> Populate properties -> BeanNameAware[i].setBeanName() -> BeanFac
 - To enable it, you have to either register ‘CommonAnnotationBeanPostProcessor‘ or specify the ‘<context:annotation-config />‘ in bean configuration file,
 =======================================
 ####2. InitializingBean[i] & DisposableBean[i] ####
+
 > It provide callback methods to control the life cycle of bean.
 
 > InitializingBean[i] provide a callback function [void afterPropertiesSet()] which the ApplicationContext will invoke when the bean is constructed.
@@ -146,7 +148,8 @@ BeanB ---> BeanA
 - Another solution is not to use constructor injection and stick to setter injection only.
 =====================================
 ############ FACTORY BEAN ###########
-> factory bean by implementing org.springframework.beans.factory.FactoryBean interface.
+
+> factory bean by implementing org.springframework.beans.factory.FactoryBean[i]
 > It is a bean that SERVES AS A FACTORY FOR CREATING OTHER BEANS 
 > MOSTLY USED TO IMPLEMENT FRAMEWORK FACILITIES
 
@@ -168,17 +171,18 @@ class Bus extends Vehicle{
 class Car extends Vehicle{
     private int enginePower;
 }
-public class VehicleFactoryBean extends AbstractFactoryBean{
-	private Vehicle vehicle;
-	SETTER AND GETTER()
-	
-	protected Object createInstance() throws Exception{
-		return vehicle;
-	}
 
-	public Class getObjectType(){
-		return Vehicle.class;
-	}
+public class VehicleFactoryBean extends AbstractFactoryBean{
+  private Vehicle vehicle;
+  SETTER AND GETTER()
+  
+  protected Object createInstance() throws Exception{
+  	return vehicle;
+  }
+  
+  public Class getObjectType(){
+  	return Vehicle.class;
+  }
 }
 > Now in appContext.xml, we create instance of Vehicle using VehicleFactoryBean as 
 <bean id="bus" class="com.newjava4world.spring.factoryBeanDemo.VehicleFactoryBean">

@@ -1,0 +1,28 @@
+###### Virtual Private Cloud #####
+> VPC stands for Virtual Private Cloud- It is logically isolated area of the AWS cloud
+- We can have complete control over your virtual networking environment, including a selection of your IP address range, the creation of subnets, and configuration of route tables and network gateways.
+- we can provide multiple layers of security, including security groups and network access control lists, to help control access to Amazon EC2 instances in each subnet.Architecture of VPC
+Implied Router
+	* It is the central VPC routing function.
+	* It connects the different AZ's together and connects the VPC to the internet gateway.
+	* Each subnet will have a route table the router uses to forward traffic within the VPC. 
+	* The route tables will also have entries to external destinations.
+
+Route Tables
+	* You can have up to 200 route tables per VPC
+	* We can have up to 50 routes entries per route table.
+	* Each subnet MUST be associated with only one route table at a given time.
+	* If you don't specify a subnet-to-route-table association, the subnet(when created) will be associated with the main(default) VPC route table.
+	* You can change the subnet associated to another route table.
+	* we can also edit the main (default) route table if we need, but we cannot delete the main (default) route table.
+
+         - However, we can make a custom route table manually become the main route table, then we can delete the former main, as it is no longer a main route table.
+	* Every route table in a VPC comes with a default rule that allows all VPC subnets to communicate with one another
+
+  - we cannot modify or delete this rule.## VPC IP Addressing> Once the VPC is created, we cann't changes its CIDR block range.- The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses).
+	* 
+Min size of CIDR block is /28 means out of 32bit, 28bit is taken by CIDR block and 4bit for host i.e. 2^4=16 IP can be use by host 
+	* 
+Max size of CIDR block is /16 means out of 32bit, 16bit is taken by CIDR block and 6bit for host i.e. 2^6 IP can be use by host 
+
+

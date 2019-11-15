@@ -1,9 +1,6 @@
 ######## BRIDGE DESIGN PATTERN ########
 GoF Definition:
-Decouple the abstraction from its implementation so that the two can vary independently
-
-OR
-> DECOUPLE IMPLENTATION FROM INTERFACE AND HIDING IMPLEMENTATION DETAILS FROM CLIENT is the essense of bridge design pattern.
+> Decouple the abstraction from its implementation so that the two can vary independently
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Bridge design Pattern?
 
@@ -18,32 +15,31 @@ OR
 > this pattern decouples implementation class and abstract class by providing a bridge structure between them.
 
 > Creates two different hierarchies. One for abstraction and another for implementation.
-> Avoids permanent binding by removing the dependency between abstraction and implementation.
+> AVOIDS PERMANENT BINDING by removing the dependency between abstraction and implementation.
 > We create a bridge that coordinates between abstraction and implementation.
 > Abstraction and implementation can be extended separately.
 =======================================
 ########### JAVA EXAMPLES #############
 
-> new LinkedHashMap(LinkedHashSet<K>, List<V>) which returns an unmodifiable linked map which doesn't clone the items, but uses them. 
+> new LinkedHashMap(LinkedHashSet.
+<K>, List<V>) which returns an unmodifiable linked map which doesn't clone the items, but uses them. 
 - The java.util.Collections#newSetFromMap() and singletonXXX() methods however comes close.
 =======================================
 ### ELEMENTS OF BRIDGE DESIGN PATTERN ###
 
 1. ABSTRACTION 
-– core of the bridge DP and defines the crux. Contains a reference to the implementer.
-Ex - Shape[ac] have DrawAPI[i]
+– core of the bridge DP and defines the crux. Ex - Shape[ac] 
+- Contains a reference to the implementer. Ex - Shape[ac] have DrawAPI[i]
 
 2. REFINED ABSTRACTION 
-– Extends the abstraction takes the finer detail one level below. Hides the finer elements from implemetors.
-Ex - Circle 
+– Extends the abstraction takes the finer detail one level below. Ex - Circle 
+- Hides the finer elements from implemetors.
 
 3. IMPLEMENTER 
-– This interface is the higer level than abstraction. Just defines the basic operations.
-Ex - DrawAPI[i]
+– This interface is the higer level than abstraction. Just defines the basic operations. Ex - DrawAPI[i]
 
 4. CONCRETE IMPLEMENTATION 
-– Implements the above implementer by providing concrete implementation.
-Ex - RedCircle and GreenCircle
+– Implements the above implementer by providing concrete implementation. Ex - RedCircle and GreenCircle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Adaptor and bridge pattern ?
 
@@ -53,8 +49,8 @@ The major difference between adapter and bridge is when they are used.
 
 =======================================
 ############ EXAMPLE : 1 ##############
-
 > bridge implementer interface
+
 public interface DrawAPI {
    public void drawCircle(int radius, int x, int y);
 }

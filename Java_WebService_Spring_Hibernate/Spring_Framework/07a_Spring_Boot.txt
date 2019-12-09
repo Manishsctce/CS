@@ -1,8 +1,155 @@
+## What Are the Differences Between Spring and Spring Boot?
+
+> Spring framework provide multiple feature to make the development of an app easier. 
+- It require configuration to create a simple hello-world project. 
+- It is where Spring boot help and provide a way to get rid out of configuration.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Can We Set up a Spring Boot Application with Maven?
+
+> By inheriting from below parent project 
+
+<parent>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-parent</artifactId>
+  <version>2.1.7.RELEASE</version>
+</parent>
+
+> Using the starter parent project is convenient, but not always feasible.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Spring Boot? Why should you use it?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Deploy Spring Boot Web Applications as Jar and War Files?
+
+Traditionally, we package a web application as a WAR file, then deploy it into an external server. Doing this allows us to arrange multiple applications on the same server. During the time that CPU and memory were scarce, this was a great way to save resources.
+
+However, things have changed. Computer hardware is fairly cheap now, and the attention has turned to server configuration. A small mistake in configuring the server during deployment may lead to catastrophic consequences.
+
+Spring tackles this problem by providing a plugin, namely spring-boot-maven-plugin, to package a web application as an executable JAR. To include this plugin, just add a plugin element to pom.xml:
+
+1
+2
+3
+4
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+</plugin>
+With this plugin in place, we'll get a fat JAR after executing the package phase. This JAR contains all the necessary dependencies, including an embedded server. Thus, we no longer need to worry about configuring an external server.
+
+We can then run the application just like we would an ordinary executable JAR.
+
+Notice that the packaging element in the pom.xml file must be set to jar to build a JAR file:
+
+1
+<packaging>jar</packaging>
+If we don't include this element, it also defaults to jar.
+
+In case we want to build a WAR file, change the packaging element to war:
+
+1
+<packaging>war</packaging>
+And leave the container dependency off the packaged file:
+
+1
+2
+3
+4
+5
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <scope>provided</scope>
+</dependency>
+After executing the Maven package phase, we'll have a deployable WAR file.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are some important features of using Spring Boot? 
+
+1. Starter dependency
+- it will automatically download all the jar to improve productivity.
+Ex - spring-boot-web-starter
+
+2. Auto-Configuration
+- it automatically configures a lot of things based upon what is present in the classpath.
+
+3. Spring Initializer
+- A web application which can create initial project structure for you. This simplifies initial project setup part.
+
+4. Spring actuator
+5. Spring CLI 
+=======================================
+######### SPRING BOOT STARTER #########
+it will automatically download all the jar to improve productivity.
+
+spring-boot-starter 
+- core starter, including auto-configuration support, logging, and YAML
+
+spring-boot-starter-aop
+- starter for aspect-oriented programming with Spring AOP and AspectJ
+
+spring-boot-starter-data-jpa
+- starter for using Spring Data JPA with Hibernate
+
+spring-boot-starter-jdbc
+- starter for using JDBC with the HikariCP connection pool
+
+spring-boot-starter-security
+- starter for using Spring Security
+
+spring-boot-starter-test
+- starter for testing Spring Boot applications
+
+spring-boot-starter-web
+- starter for building web, including RESTful, applications using Spring MVC
+=======================================
+#### SPRING BOOT AUTO-CONFIGURATION ###
+
+## What is auto-configuration in Spring boot? how does it help? Why Spring Boot is called opinionated?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the diff bet @SpringBootApplication and @EnableAutoConfiguration?
+
+@EnableAutoConfiguration is used to enable auto-configuration     
+@SpringBootApplication = @EnableAutoConfiguration + @Configuration + @ComponentScan 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Tell an Auto-Configuration to Back Away When a Bean Exists?
+
+> we can use @ConditionalOnMissingBean 
+- Its attributes are 
+value: The types of beans to be checked
+name: The names of beans to be checked
+
+
+=======================================
+######### SPRING BOOT ACTUATOR ########
+
 ## What is Spring actuator?
 
-> Spring Boot actuator provides restful WS to access the current state of running app in the production env. 
-- With the help of actuator, we can check various metrics and monitor app.
+> It is a tool used to monitor and manage app
+> It provides restful WS to access the current state of running app in the production env. 
+- It has built-in endpoints which help to monitor
+
+dump	- used to perform a thread dump
+env	 	- used to expose properties from Spring's ConfigurableEnvironment
+flyway	- used to show any Flyway database migrations that have been applied.
+health	- used to show application health information
+info	- used to display arbitrary application info
+loggers	- used to show and modify the configuration of loggers in the app
+Metrics	- used to show metrics information for the current app
+mappings- used to display a collated list of all @RequestMapping paths.
+shutdown- used to allow the application to be gracefully shutdown.
+trace	- used to display trace information.	
+liquibase- used to show any Liquibase database migrations that have been applied
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to enable actuator?
+
+> Add below dependency in pom.xml to enable actuator.
+
+<groupId>org.springframework.boot</groupId>  
+<artifactId>spring-boot-starter-actuator</artifactId>  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=======================================
 ## How to execute a method asynchronous in Spring?
 
 > enabling annotation-driven async processing for an entire Spring application context using @EnableAsync as 
@@ -47,13 +194,14 @@
          return new MyAsyncUncaughtExceptionHandler();
      }
  }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+######## SPRING CLOUD SLEUTH ##########
+
 ## What is Spring Cloud Sleuth? 
 
-> It is a powerful tool for enhancing logs in any app, but especially in a system built up of multiple services. 
-
-> It is used because it is tedious and time-consuming to diagnose a problem with a scheduled task, a multi-threaded operation, or a complex web request. 
-- Often, even when there is logging, it is hard to tell what actions need to be correlated together to create a single request.
+> It is a powerful TOOL FOR ENHANCING LOGS, ESPECIALLY IN A SYSTEM BUILT-UP OF MULTIPLE SERVICES. 
+- Its because it is tedious and time-consuming to diagnose a problem with a scheduled task, a multi-threaded operation, or a complex web request. 
+- it is hard to tell what actions need to be correlated together to create a single request.
 
 
 > Sleuth integrates effortlessly with logging frameworks like Logback and SLF4J to add unique identifiers that help track and diagnose issues using logs.
@@ -100,4 +248,7 @@ EXAMPLE LOG:
 We need to customize default logging configuration :-
 
 1. by adding logback.xml to the app classpath(src/main/resources). It will override the default logging conf. 
+
+=======================================
+https://www.baeldung.com/spring-boot-interview-questions#questions
 

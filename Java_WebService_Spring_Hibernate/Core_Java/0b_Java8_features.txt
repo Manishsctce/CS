@@ -187,7 +187,7 @@ class ReferenceDemo {
   }
 }
 =======================================
-############ JAVA 8 STREAM ############
+############### STREAM ################
 
 > Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
 
@@ -205,55 +205,147 @@ private static int sumIterator(List<Integer> list) {
 }
 
 > There are 3 MAJOR PROBLEMS with the above approach:
-1. we have provided how the iteration will take place, this is also called external iteration
-2. The program is SEQUENTIAL IN NATURE, NO WAY TO MAKE IT PARALLEL easily.
+
+1. we have provided HOW THE ITERATION WILL WORK, this is called external iteration
+2. The pgm is SEQUENTIAL IN NATURE, NO WAY TO MAKE IT PARALLEL easily.
 3. There is a LOT OF CODE to do even a simple task.
 
 > To overcome all the above shortcomings, Java 8 Stream API was introduced. 
-- We can use Java Stream API to implement internal iteration, that is better because java framework is in control of the iteration.
+- We can use Java STREAM API TO IMPLEMENT INTERNAL ITERATION, that is better because java framework is in control of the iteration.
 
-> Internal iteration provides several features such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
+> INTERNAL ITERATION PROVIDES SEVERAL FEATURES such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Stream provides following features:
+> Stream does not store elements.
+- It simply conveys elements from a source such as a data structure, an array, or an I/O channel, through a pipeline of computational operations.
+
+> Stream is functional in nature.
+- Operations performed on a stream does not modify it's source.
+- For example, filtering a Stream obtained from a collection produces a new Stream without the filtered elements, rather than removing elements from the source collection.
+
+> Stream is lazy and evaluates code only when required.
+
+> The elements of a stream are only visited once during the life of a stream.
+- Like an Iterator, a new stream must be generated to revisit the same elements of the source.
+
+##EMPTY STREAM
+Stream<String> streamEmpty = Stream.empty();
+
+##STREAM OF COLLECTION
+Collection<String> collection = Arrays.asList("a", "b", "c");
+Stream<String> streamOfCollection = collection.stream();
+
+##STREAM OF ARRAY
+Stream<String> streamOfArray = Stream.of("a", "b", "c");
+
+String[] arr = new String[]{"a", "b", "c"};
+Stream<String> streamOfArrayFull = Arrays.stream(arr);
+
+##Stream of any type
+Stream<String> strStream = Stream.of("a", "b", "c");
+strStream.foreach(System.out::print());
+
+##Stream iterate
+Stream<Integer> streamIterated = Stream.iterate(40, n -> n + 2).limit(20);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Stream of Primitives
+> As Stream<T> is a generic interface and there is no way to use primitives as a type parameter with generics,
+- three new special interfaces were created: IntStream, LongStream, DoubleStream.
+
+IntStream intStream = IntStream.range(1, 3);
+LongStream longStream = LongStream.rangeClosed(1, 3);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Stream?
 
-> A stream is a sequence of objects that supports various methods which can be pipelined to produce the desired result.
+> A stream is a SEQUENCE OF OBJECTS that SUPPORTS VARIOUS METHODS WHICH CAN BE PIPELINED TO PRODUCE THE DESIRED RESULT.
 > The features of Java stream are –
 
-- A stream is not a data structure instead it takes input from the Collections, Arrays or I/O channels.
+- A stream is NOT A DATA STRUCTURE instead it takes input from the Collections, Arrays or I/O channels.
 - Streams don’t change the original data structure, they only provide the result as per the pipelined methods.
 - Each intermediate operation is lazily executed and returns a stream as a result, hence various intermediate operations can be pipelined. Terminal operations mark the end of the stream and return the result.
 
-###### METHODS #######
-## INTERMEDIATE METHOD
-1. map: it is used to map the items in the collection to other objects according to the Function passed as argument.
-List number = Arrays.asList(2,3,4,5);
-List square = number.stream().map(x->x*x).collect(Collectors.toList());
+#### #### METHODS #### ####
 
-2. filter: it is used to select elements as per the Predicate passed as argument.
+#### CREATION METHOD ####
+## public static<T> Stream<T> empty()
+- it create empty stream of type T.
+
+## static<T> Stream<T> of(T t)
+- create single element stream of type T.
+
+## public static<T> Stream<T> of(T... values)
+- Returns a stream consisting of supplied values as elements.
+
+##
+---------------------------------
+#### INTERMEDIATE METHOD ####
+
+## map: 
+- it is used to map the items in the collection to other objects according to the Function passed as argument.
+List numbers = Arrays.asList(2,3,4,5);
+List square = numbers.stream().map(x->x*x).collect(Collectors.toList());
+
+## filter(Predicate<T> predicate): Stream<T> 
+- it is used to select elements as per the Predicate passed as argument.
+EXAMPLE:
 List names = Arrays.asList("Reflection","Collection","Stream");
 List result = names.stream().filter(s->s.startsWith("S")).collect(Collectors.toList());
 
-3. sorted: it is used to sort the stream.
+## distinct():Stream<T>
+- return stream of unique ele 
+
+## limit(long maxSize): Stream<T> 
+- return stream containing first n ele 
+
+## skip(long n): Stream<T> 
+- Returns a stream after skipping first n elements.
+
+## sorted(): Stream<T> 
+- it is used to sort the stream.
 List names = Arrays.asList("Reflection","Collection","Stream");
 List result = names.stream().sorted().collect(Collectors.toList());
 
-## TERMINAL OPERATIONS
-4. collect: The collect method is used to return the result of the intermediate operations performed on the stream.
+## sorted(Comparator<T> comp):Stream<T> 
+- Returns a stream consisting of elements sorted according to supplied Comparator
+EXAMPLE: 
+names.stream().sorted((String name1, String name2) -> name1.length() - name2.length()).forEach(System.out::println);
+
+#### #### TERMINAL OPERATIONS #### ####
+## R collect(Collector<T> collector)
+- The collect method is used to return the result of the intermediate operations performed on the stream.
 List number = Arrays.asList(2,3,4,5,3);
 Set square = number.stream().map(x->x*x).collect(Collectors.toSet());
 
-5. forEach: The forEach method is used to iterate through every element of the stream.
+## forEach: The forEach method is used to iterate through every element of the stream.
 List number = Arrays.asList(2,3,4,5);
 number.stream().map(x->x*x).forEach(y->System.out.println(y));
 
-6. reduce: The reduce method is used to reduce the elements of a stream to a single value.
-The reduce method takes a BinaryOperator as a parameter.
+## T reduce(T identity, BinaryOperator<T> accumulator) 
+- The reduce method is used to reduce the elements of a stream to a single value.
+- The reduce method takes a BinaryOperator as a parameter.
+EXAMPLE
 List number = Arrays.asList(2,3,4,5);
 int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
 
-## 
-7. of(T… values) returns a sequential ordered stream whose elements are the specified values. 
-- Stream.of() method simply calls the Arrays.stream() method for non-primitive types
+## Optional<T> min(Comparator<T> comparator)
+- It returns minimum element in a stream wrapped in an Optional object.
+
+## Optional<T> max(Comparator<T> comparator)
+- It returns maximum element in a stream wrapped in an Optional object.
+
+## long count()
+- Returns the number of elements in a stream.
+
+## boolean anyMatch(Predicate<T> predicate)
+- 
+
+## boolean allMatch(Predicate<T> predicate)
+- This method returns true if all the elements of a stream matches with given predicate. Otherwise returns false.
+
+## boolean noneMatch(Predicate<T> predicate)
+- Returns true only if all the elements of a stream doesn’t match with given predicate.
+
+## Stream<T> peek(Consumer<T> action)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between intermediate and terminal operation on Stream? 
@@ -266,6 +358,9 @@ EXAMPLE - after calling map() or flatMap() we can still call filter() on Stream.
 > TERMINAL OPERATION produces a result other than Stream e.g. a value or a Collection.
 
 - Once a terminal method like forEach() or collect() is called we cannot call any other method of Stream or reuse the Stream.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is diff bet Stream and Collection?
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## is there any difference bet Stream.forEach() and Collection.forEach()?
 
@@ -358,74 +453,20 @@ JavaScript
 
 Unlike sequential Stream, the parallel stream can launch multiple threads to search for those orders on the different part of Stream and then combine the result.
 
-############ JAVA 8 STREAM ############
-> Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
+=======================================
+############# Collectors ##############
+> It is a final class
+> It provides reduction operations, such as accumulating elements into collections, summarizing elements according to various criteria, etc.
 
-> Prior to Java 8, the approach to do it would be:
+#### METHODS ####
+1. public static <T,K> Collector<T,?,Map<K,List<T>>> groupingBy(Function<? super T,? extends K> classifier)
+- It returns a Collector implementing a "group by" operation on input elements of type T, grouping elements according to a classification function, and returning the results in a Map.
+EXAMPLE - 
+List<String> keys = Arrays.asList("Apple","Ball","Apple","Ball");
+Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k));
+syso(mg); [Apple= {Apple,Apple}, Ball={Ball,Ball}]
 
-private static int sumIterator(List<Integer> list) {
-	Iterator<Integer> it = list.iterator();
-	int sum = 0;
-	while (it.hasNext()) {
-		int num = it.next();
-		if (num > 10) {
-			sum += num;
-		}
-	}
-	return sum;
-}
-There are three major problems with the above approach:
 
-1. We just want to know the sum of integers but we would also have to provide how the iteration will take place, this is also called external iteration because client program is handling the algorithm to iterate over the list.
-2. The program is sequential in nature, there is no way we can do this in parallel easily.
-3. There is a lot of code to do even a simple task.
-
-> To overcome all the above shortcomings, Java 8 Stream API was introduced. 
-- We can use Java Stream API to implement internal iteration, that is better because java framework is in control of the iteration.
-
-> Internal iteration provides several features such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Stream provides following features:
-> Stream does not store elements. 
-- It simply conveys elements from a source such as a data structure, an array, or an I/O channel, through a pipeline of computational operations.
-
-> Stream is functional in nature. 
-- Operations performed on a stream does not modify it's source. 
-- For example, filtering a Stream obtained from a collection produces a new Stream without the filtered elements, rather than removing elements from the source collection.
-
-> Stream is lazy and evaluates code only when required.
-
-> The elements of a stream are only visited once during the life of a stream. 
-- Like an Iterator, a new stream must be generated to revisit the same elements of the source.
-
-##EMPTY STREAM
-Stream<String> streamEmpty = Stream.empty();
-
-##STREAM OF COLLECTION
-Collection<String> collection = Arrays.asList("a", "b", "c");
-Stream<String> streamOfCollection = collection.stream();
-
-##STREAM OF ARRAY
-Stream<String> streamOfArray = Stream.of("a", "b", "c");
-
-String[] arr = new String[]{"a", "b", "c"};
-Stream<String> streamOfArrayFull = Arrays.stream(arr);
-
-##Stream of any type
-Stream<String> strStream = Stream.of("a", "b", "c");
-strStream.foreach(System.out::print());
-
-##Stream iterate
-Stream<Integer> streamIterated = Stream.iterate(40, n -> n + 2).limit(20);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Stream of Primitives
-> As Stream<T> is a generic interface and there is no way to use primitives as a type parameter with generics, 
-- three new special interfaces were created: IntStream, LongStream, DoubleStream.
-
-IntStream intStream = IntStream.range(1, 3);
-LongStream longStream = LongStream.rangeClosed(1, 3);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### PARALLEL STREAMS ####
 =======================================
 ######### FUNCTIONAL INTERFACE ########
 > It is added in Java8
@@ -461,11 +502,20 @@ LongStream longStream = LongStream.rangeClosed(1, 3);
 ########### Function[i] #############
 
 ##### 1. Function and BiFunction ###### 
-> Function represents a function that takes one type of argument and returns another type of argument. 
-- Function<T, R> is the generic form where T is the type of the input to the function and R is the type of the result of the function.
+
+## What is java.util.function.Function<T,R> interface?
+
+> it is an in-built functional interface introduced in Java 8
+> It is USED FOR MAPPING SCENARIOS i.e when an object of a type is taken as input and it is converted(or mapped) to another type.
+
+> Function<T, R> is the generic form where 
+- T is the type of the input to the function and 
+- R is the type of the result of the function.
 
 > For handling primitive types, there are specific Function interfaces 
-– ToIntFunction, ToLongFunction, ToDoubleFunction, ToIntBiFunction, ToLongBiFunction, ToDoubleBiFunction, LongToIntFunction, LongToDoubleFunction, IntToLongFunction, IntToDoubleFunction etc.
+– ToIntFunction, ToLongFunction, ToDoubleFunction, 
+- ToIntBiFunction, ToLongBiFunction, ToDoubleBiFunction, 
+- LongToIntFunction, LongToDoubleFunction, IntToLongFunction, IntToDoubleFunction etc.
 
 ##Stream methods where Function or it’s primitive specialization is used are:
 
@@ -480,10 +530,6 @@ LongStream longStream = LongStream.rangeClosed(1, 3);
 
 5. <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is java.util.function.Function<T,R>?
-
-> it is an in-built functional interface introduced in Java 8
-> It is USED FOR MAPPING SCENARIOS i.e when an object of a type is taken as input and it is converted(or mapped) to another type.
 
 > Function Descriptor is T -> R. 
 - This means an object of type T is input to the lambda and an object of type R is obtained as return value
@@ -527,7 +573,7 @@ boolean anyMatch(Predicate<? super T> predicate)
 boolean allMatch(Predicate<? super T> predicate)
 boolean noneMatch(Predicate<? super T> predicate)
 =======================================
-#### 3. Consumer[i] and BiConsumer ####
+######## 3. Consumer[i]  #########
 
 > It represents an operation that accepts a single input argument and returns no result. 
 - It can be used to perform some action on all the elements of the java stream.
@@ -537,23 +583,19 @@ boolean noneMatch(Predicate<? super T> predicate)
 Stream<T> peek(Consumer<? super T> action)
 void forEach(Consumer<? super T> action)
 void forEachOrdered(Consumer<? super T> action)
+
+#### BiConsumer
 =======================================
-############# 4. Supplier #############
-> Supplier represent an operation through which we can generate new values in the stream. 
+########### 4. Supplier[i] ############
+> It REPRESENT AN OPERATION THROUGH WHICH WE CAN GENERATE NEW VALUES in the stream. 
+
+- get() doesn't take any input and return Object.
+> Lambda is represented as 
+  () -> T  here T is the type of the supplier
 
 ## Stream methods
 public static<T> Stream<T> generate(Supplier<T> s)
 <R> R collect(Supplier<R> supplier,BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)
-
-=====================================
-########### SUPPLIER[i] #############
-\> It is a FI with get(). 
-- get() doesn't take any input and return Object.
-
-> Lambda is represented as 
-  () -> T  here T is the type of the supplier
-=====================================
-########### PREDICATE[i] ############  
 
 =====================================
 ######### BEST USAGES OF JAVA 8 #####
@@ -589,12 +631,9 @@ String r = Adder.add((Function) a -> a + " from lambda");
 
 ## What is Optional[c]?
 
-> Optional is a container object which is used to contain not-null objects. 
-- It is used to represent null with absent value. 
-- This class has various utility methods to facilitate code to handle values as ‘available’ or ‘not available’ instead of checking null values. 
-
-
-> It is a single-value container that either contains a value or doesn’t.
+> This class is basically introduced to avoid NullPointerException in java.
+- Optional class encapsulates optional value which is either present or not.
+- It is a wrapper around object and can be use to avoid NullPointerExceptions.
 
 Rule 1 : Never, ever, use null for an Optional variable or return value. 
 Rule 2 : Never use Optional.get() unless you can prove that the Optional is present.
@@ -713,3 +752,5 @@ public class B
 public class A<T extends Optional<B>> { }
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is StringJoiner[c] in Java8?
+> It is a util class which is used to construct different strings with desired delimiters

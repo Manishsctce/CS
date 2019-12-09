@@ -28,6 +28,27 @@ logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);
 > You can easily save log information into either files or even databases.
 > Can be used for projects of any sizes small or large.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How we can initialize Log4j properly?
+
+1. By adding BasicConfigurator.configure();
+EXAMPLE-
+public static void main(String[] args) {
+	BasicConfigurator.configure();
+	log.info("This is Logger Info");
+}
+
+2. By Creating log4j.properties file. 
+EAMPLE Default Content:
+<<
+# This sets the global logging level and specifies the appenders
+log4j.rootLogger=INFO, theConsoleAppender
+ 
+# settings for the console appender
+log4j.appender.theConsoleAppender=org.apache.log4j.ConsoleAppender
+log4j.appender.theConsoleAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.theConsoleAppender.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
+>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the three principal components of Log4j?
 
 > The three principal components of Log4j are

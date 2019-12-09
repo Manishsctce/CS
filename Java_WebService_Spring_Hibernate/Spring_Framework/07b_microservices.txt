@@ -65,6 +65,11 @@ A microservice architecture has the following components:
 
 5. REMOTE SERVICE 
 – Enables the remote access information that resides on a network of IT devices.
+
+Client --> Identity Provider --> API Gateway -----> Microservice --> Remote Service
+Client ------------------------> API Gateway -----> Microservice --> Service Discovery 
+Client <-- CDN  <--------------- Static Content       
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the pros and cons of Microservice Architecture?
 
@@ -190,7 +195,7 @@ Representational State Transfer (REST)/RESTful web services are an architectural
 
 Microservices can be implemented with or without RESTful APIs, but it’s always easier to build loosely coupled microservices using RESTful APIs.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Q17. What do you know about Spring Boot?
+## What do you know about Spring Boot?
 It’s a knows fact that spring has become more and more complex as new functionalities have been added. If you have to start a new spring project, then you have to add build path or add maven dependencies, configure application server, add spring configuration. So everything has to be done from scratch.
 
 Spring Boot is the solution to this problem. Using spring boot you can avoid all the boilerplate code and configurations. So basically consider yourself as if you’re baking a cake spring is like the ingredients that are required to make the cake and spring boot is the complete cake in your hand.
@@ -199,10 +204,12 @@ Spring Boot - Microservices Interview Questions - Edureka
 
 Fig 10: Factors of Spring Boot – Microservices Interview Questions 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Q18. What is an actuator in Spring boot?
+## What is an actuator in Spring boot?
+
 Spring Boot actuator provides restful web services to access the current state of running an application in the production environment. With the help of actuator, you can check various metrics and monitor your application.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Q19. What is Spring Cloud?
+## What is Spring Cloud?
+
 According to the official website of Spring Cloud, Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, leadership election, distributed sessions, cluster state).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Q20. What problems are solved by Spring Cloud?
@@ -236,16 +243,21 @@ At the top level, we have acceptance tests that are few in number. These accepta
 Q24. What do you understand by Distributed Transaction?
 Distributed Transaction is any situation where a single event results in the mutation of two or more separate sources of data which cannot be committed atomically. In the world of microservices, it becomes even more complex as each service is a unit of work and most of the time multiple services have to work together to make a business successful.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Q25. What is an Idempotence and where it is used?
+## What is an Idempotence and where it is used?
 Idempotence is the property of being able to do something twice in such a way that the end result will remain the same i.e. as if it had been done once only.
 
 Usage: Idempotence is used at the remote service, or data source so that, when it receives the instruction more than once, it only processes the instruction once.
 
-Q26. What is Bounded Context?
-Bounded Context is a central pattern in Domain-Driven Design. It is the focus of DDD’s strategic design section which is all about dealing with large models and teams. DDD deals with large models by dividing them into different Bounded Contexts and being explicit about their inter-relationships.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Bounded Context?
 
-Q27. What is Two Factor Authentication?
-Two-factor authentication enables the second level of authentication to an account log-in process.
+> Bounded Context is a central pattern in Domain-Driven Design. 
+- It is the focus of DDD’s strategic design section which is all about dealing with large models and teams. 
+- DDD DEALS WITH LARGE MODELS BY DIVIDING THEM INTO DIFFERENT BOUNDED CONTEXTS and being explicit about their inter-relationships.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Two Factor Authentication?
+> Two-factor authentication enables the second level of authentication to an account log-in process.
 
 2 Factor Authentication - Microservices Interview Questions - Edureka
 
@@ -253,28 +265,28 @@ Fig11: Representation of Two Factor Authentication – Microservices Interview Q
 
 So suppose a user has to enter only username and password, then that’s considered a single-factor authentication.
 
-Q28. What are the types of credentials of Two Factor Authentication?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the types of credentials of Two Factor Authentication?
 The three types of credentials are:
 
 Types of Credentials - Microservices Interview Questions - Edureka
 
 Fig 12: Types of Credentials of Two Factor Authentication – Microservices Interview Questions 
-
-Q29. What are Client certificates?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are Client certificates?
 A type of digital certificate that is used by client systems to make authenticated requests to a remote server is known as the client certificate. Client certificates play a very important role in many mutual authentication designs, providing strong assurances of a requester’s identity.
-
-Q30. What is the use of PACT in Microservices architecture?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the use of PACT in Microservices architecture?
 PACT is an open source tool to allow testing interactions between service providers and consumers in isolation against the contract made so that the reliability of Microservices integration increases.
 
 Usage in Microservices:
 Used to implement Consumer Driven Contract in Microservices.
 Tests the consumer-driven contracts between consumer and provider of a Microservice.
-Q31. What is OAuth?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is OAuth?
 OAuth stands for open authorization protocol. This allows accessing the resources of the resource owner by enabling the client applications on HTTP services such as third-party providers Facebook, GitHub, etc. So with this, you can share resources stored on one site with another site without using their credentials.
-
-Course Curriculum
-Microservices Architecture Training
-Q32. What is Conway’s law?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Conway’s law?
 “Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization’s communication structure.” – Mel Conway
 
 Conway's Law - Microservices Interview Questions - Edureka
@@ -282,13 +294,13 @@ Conway's Law - Microservices Interview Questions - Edureka
 Fig 13: Representation of Conway’s Law – Microservices Interview Questions 
 
 This law basically tries to convey the fact that, in order for a software module to function, the complete team should communicate well. Therefore the structure of a system reflects the social boundaries of the organization(s) that produced it.
-
-Q33. What do you understand by Contract Testing?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you understand by Contract Testing?
 According to Martin Flower, contract test is a test at the boundary of an external service which verifies that it meets the contract expected by a consuming service.
 
 Also, contract testing does not test the behavior of the service in depth. Rather, it tests that the inputs & outputs of service calls contain required attributes and the response latency, throughput is within allowed limits.
-
-Q34. What is End to End Microservices Testing?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is End to End Microservices Testing?
 End-to-end testing validates each and every process in the workflow is functioning properly. This ensures that the system works together as a whole and satisfies all requirements.
 
 In layman terms, you can say that end to end testing is a kind of tests where everything is tested after a particular period.
@@ -296,32 +308,32 @@ In layman terms, you can say that end to end testing is a kind of tests where ev
 Microservices Testing - Microservices Interview Questions - Edureka
 
 Fig 14: Hierarchy of Tests – Microservices Interview Questions 
-
-Q35. What is the use of Container in Microservices?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the use of Container in Microservices?
 Containers are a good way to manage microservice based application to develop and deploy them individually. You can encapsulate your microservice in a container image along with its dependencies, which then can be used to roll on-demand instances of microservice without any additional efforts required.
 
 Container in Microservices - Microservices Interview Questions - Edureka
 
 Fig 15: Representation of Containers and How they are used in Microservices – Microservices Interview Questions 
-
-Q36. What is DRY in Microservices architecture?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is DRY in Microservices architecture?
 DRY stands for Don’t Repeat Yourself. It basically promotes the concept of reusing the code. This results in developing and sharing the libraries which in turn result in tight coupling.
-
-Q37. What is a Consumer-Driven Contract (CDC)?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a Consumer-Driven Contract (CDC)?
 This is basically a pattern for developing Microservices so that they can be used by external systems. When we work on microservices, there is a particular provider who builds it and there are one or more consumers who use Microservice.
 
 Generally, providers specify the interfaces in an XML document. But in Consumer Driven Contract, each consumer of service conveys the interface expected from the Provider.
-
-Q38. What is the role of Web, RESTful APIs in Microservices?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the role of Web, RESTful APIs in Microservices?
 A microservice architecture is based on a concept wherein all its services should be able to interact with each other to build a business functionality. So, to achieve this, each microservice must have an interface. This makes the web API a very important enabler of microservices. Being based on the open networking principles of the Web, RESTful APIs provide the most logical model for building interfaces between the various components of a microservice architecture.
-
-Q39. What do you understand by Semantic monitoring in Microservices architecture?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you understand by Semantic monitoring in Microservices architecture?
 Semantic monitoring, also known as synthetic monitoring combines automated tests with monitoring the application in order to detect business failing factors.
-
-Q40. How can we perform Cross-Functional testing?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we perform Cross-Functional testing?
 Cross-functional testing is a verification of non-functional requirements, i.e. those requirements which cannot be implemented like a normal feature.
-
-Q41. How can we eradicate non-determinism in tests?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we eradicate non-determinism in tests?
 Non-Deterministic Tests (NDT)  are basically unreliable tests.  So, sometimes it may happen that they pass and obviously sometimes they may also fail. As and when they fail, they are made to re-run to pass.
 
 Some ways to remove non-determinism from tests are as follows:
@@ -332,7 +344,8 @@ Remote Services
 Isolation
 Time
 Resource leaks
-Q42. What is the difference between Mock or Stub?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between Mock or Stub?
 Stub
 A dummy object that helps in running the test.
 Provides fixed behavior under certain conditions which can be hard-coded.
@@ -344,8 +357,8 @@ A dummy object in which certain properties are set initially.
 The behavior of this object depends on the set properties.
 The object’s behavior can also be tested.
 For example, for a Customer object, you can mock it by setting name and age. You can set age as 12 and then test for isAdult() method that will return true for age greater than 18. So, your Mock Customer object works for the specified condition.
-
-Q43. What do you know about Mike Cohn’s Test Pyramid?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you know about Mike Cohn’s Test Pyramid?
 Mike Cohn provided a model called Test Pyramid. This describes the kind of automated tests required for software development.
 
 Mike Cohn's Test Pyramid - Microservices Interview Questions - Edureka
@@ -353,25 +366,22 @@ Mike Cohn's Test Pyramid - Microservices Interview Questions - Edureka
 Fig 16: Mike Cohn’s Test Pyramid – Microservices Interview Questions
 
 As per pyramid, the number of tests at first layer should be highest. At service layer, the number of tests should be less than at the unit test level, but more than at the end-to-end level.
-
-Q44. What is the purpose of Docker?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the purpose of Docker?
 Docker provides a container environment that can be used to host any application. In this, the software application and the dependencies which support it are tightly-packaged together.
 
 So, this packaged product is called a Container and since it is done by Docker, it is called Docker container!
-
-Course Curriculum
-Microservices Architecture Training
-Weekday / Weekend Batches
-Q45. What is Canary Releasing?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Canary Releasing?
 Canary Releasing is a technique to reduce the risk of introducing a new software version in production. This is done by slowly rolling out the change to a small subset of users before giving it out to the entire infrastructure, i.e. making it available to everybody.
-
-Q46. What do you mean by Continuous Integration (CI)?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by Continuous Integration (CI)?
 Continuous Integration (CI) is the process of automating the build and testing of code every time a team member commits changes to version control. This encourages developers to share code and unit tests by merging the changes into a shared version control repository after every small task completion.
-
-Q47. What is Continuous Monitoring?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Continuous Monitoring?
 Continuous monitoring gets into the depth of monitoring coverage, from in-browser front-end performance metrics, through application performance, and down to host virtualized infrastructure metrics.
-
-Q48. What is the role of an architect in Microservices architecture?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the role of an architect in Microservices architecture?
 An architect in microservices architecture plays the following roles:
 
 Decides broad strokes about the layout of the overall software system.
@@ -383,8 +393,8 @@ Q49. Can we create State Machines out of Microservices?
 As we know that each Microservice owning its own database is an independently deployable program unit, this, in turn, lets us create a State Machine out of it. So, we can specify different states and events for a particular microservice.
 
 For Example, we can define an Order microservice. An Order can have different states. The transitions of Order states can be independent events in the Order microservice.
-
-Q50. What are Reactive Extensions in Microservices?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are Reactive Extensions in Microservices?
 Reactive Extensions also are known as Rx. It is a design approach in which we collect results by calling multiple services and then compile a combined response. These calls can be synchronous or asynchronous, blocking or non-blocking. Rx is a very popular tool in distributed systems which works opposite to legacy flows.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -395,3 +405,5 @@ Reactive Extensions also are known as Rx. It is a design approach in which we co
 > When any services is already existing and we are deploying with another version it is called Green deployment
 - with the help of router we can redirect few users to this version 
 - all user doesn't affect with this type of deployment 
+
+https://www.edureka.co/blog/interview-questions/microservices-interview-questions/

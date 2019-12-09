@@ -200,12 +200,10 @@ public class EmployeeController
 ########### @ResponseBody #############
 
 > traditional workflow the ModelAndView object is forwarded from the controller to the client
-> Spring lets you return data directly from the controller, without looking for a view, using the @ResponseBody annotation on a method.
-> While using @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically.
+> using the @ResponseBody, Spring lets you RETURN DATA DIRECTLY FROM THE CONTROLLER, without looking for a view
+- While using @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically.
 
-> When we use the @ResponseBody on a method, Spring converts the return value and writes it to the http response automatically. 
-- Each method in the Controller class must be annotated with @ResponseBody.
-
+> When we use the @ResponseBody on a met
 > Behind the scene, Spring has a list of HttpMessageConverters registered in the background. 
 - The responsibility of the HTTPMessageConverter is to convert the request body to a specific class and back to the response body again, depending on a predefined mime type.
 
@@ -295,6 +293,7 @@ public ModelAndView helloWorld() {
 - The @ResponseBody annotation is active by default.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between RestController and Controller?
+
 > traditional MVC controller relies on the View technology, 
 - the RESTful web service controller simply returns the object and the object data is written directly to the HTTP response as JSON/XML.
 

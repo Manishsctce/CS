@@ -85,15 +85,17 @@ Some of the BENEFITS of collections framework are;
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the benefit of Generics in Collections Framework?
+
 > Java 1.5 came with Generics.
 > Generics allow us to provide the type of Object that a collection can contain.
 > ClassCastException at Runtime 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are Collection related features in Java 8?
-A: Java 8 has brought major changes in the Collection API. Some of the changes are:
+
+Java 8 has brought major changes in the Collection API. Some of the changes are:
 
 1. Java Stream API for collection classes for supporting sequential as well as parallel processing
-2. Iterable interface is extended with forEach() default method that we can use to iterate over a collection. 
+2. Iterable[i] is extended with forEach() default method that we can use to iterate over a collection. 
 - It is very helpful when used with lambda expressions because it’s argument Consumer is a function interface.
 
 3. Miscellaneous Collection API improvements such as forEachRemaining(Consumer action) method in Iterator interface, Map replaceAll(), compute(), merge() methods.
@@ -103,7 +105,7 @@ A: Java 8 has brought major changes in the Collection API. Some of the changes a
 > Map contains key-value pairs and it provides methods to retrieve list of Keys or values as Collection 
 > it doesnt fit into the group of elements paradigm.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is an Iterable interface? 
+## What is an Iterable interface? 
 
 > Iterable[i] is extended by Collection[i]. It mean all type of collection can be iterate using iterator()
 > The class which need to iterate must implements Iterable[i] which have iterator() that return Iterator 
@@ -246,6 +248,34 @@ final void checkForComodification() {
 - here 'modCount' holds the modification count and every time we use add, remove or trimToSize method, it increments. 
 - 'expectedModCount' is the iterator variable that is initialized when we create iterator with same value as modCount. 
 - This explains why we don’t get exception if we use set method to replace any existing element.
+
+=====================================
+############ SPLITERATOR ############
+> Splittable Iterator : it can split some source, and it can iterate it too.
+> it can split into multiple pieces using trySplit(). Splitting is needed for parallel processing.
+
+
+> we can use it for both Collection API and Stream API classes.
+> It provides characteristics about Collection or API objects.
+> We can NOT use this Iterator for Map implemented classes.
+
+> It uses tryAdvance() method to iterate elements individually in multiple Threads to support Parallel Processing.
+> It uses forEachRemaining() to iterate elements sequentially in a single Thread.
+> It uses trySplit() to divide itself into Sub-Spliterators to support Parallel Processing.
+> Spliterator supports both Sequential and Parallel processing of data.
+> Spliterator itself does not provide the parallel programming behavior. However, it provides some methods to support it.
+
+#### METHOD ####
+
+1. boolean tryAdvance(Consumer<? super T> action)
+2. void forEachRemaining(Consumer<? super T> action) 
+3. Spliterator<T> trySplit()
+4. long estimateSize()
+- estimate of the number of elements that would be encountered by a forEachRemaining() traversal, or returns Long.MAX_VALUE if infinite, unknown, or too expensive to compute.
+
+5. int characteristics(): Returns a set of characteristics of this Spliterator and its elements.
+6. Comparator<? super T> getComparator()
+
 =====================================
 ############ ENUMERATION ############
 ##What is Enumeration[i]?

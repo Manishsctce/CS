@@ -141,10 +141,10 @@ public class Counter{
 > Since Java5
 ## What is CountDownLatch class?
 
-> It is a KIND OF SYNCHRONIZER which allows one Thread to wait for one or more Threads before starts processing. 
+> It is a KIND OF SYNCHRONIZER which ALLOWS ONE THREAD TO WAIT FOR ONE OR MORE THREADS BEFORE STARTS PROCESSING. 
 - it is used when threads hv to wait for some other threads that reached to some state then only waiting thread starts
 
-> it provide synchr. counter that decrease till 0 then only it instance proceed other thread
+> it PROVIDE SYNCHR. COUNTER THAT DECREASE TILL 0 then only it instance proceed other thread
 
 > It is MAINLY USED IN SERVER SIDE CORE JAVA APPLICATION WHICH USES SERVICES ARCHITECTURE 
 - where multiple services is provided by multiple threads and application can not start processing until all services have started successfully 
@@ -153,7 +153,7 @@ public class Counter{
 
 > defines one constructor : CountDownLatch(int count) 
 - Here count : number of threads, for which latch should wait. 
-- This value can be SET ONLY ONCE, and CountDownLatch provides NO OTHER MECHANISM TO RESET THIS COUNT
+- This value can be SET ONLY ONCE, and it DOESN'T PROVIDES ANY OTHER MECHANISM TO RESET THIS COUNT
 
 > first interaction with CountDownLatch is with main thread which is goind to wait for other threads. 
 - This main thread must call, CountDownLatch.await() method immediately after starting other threads. 
@@ -210,7 +210,7 @@ class Service implements Runnable{
 ########### CyclicBarrier #############
 > java.util.Concurrent package
  
-> It is used when multiple thread carry out different sub tasks and the output of these sub tasks need to be combined to form the final output. 
+> It is USED WHEN MULTIPLE THREAD CARRY OUT DIFFERENT SUB-TASKS AND OUTPUT OF THESE SUB-TASKS NEED TO BE COMBINED TO FORM THE FINAL OUTPUT. 
 - After completing its execution, threads call await() and wait for other threads to reach the barrier. 
 - Once all the threads have reached, the barriers then give the way for threads to proceed.
 
@@ -234,7 +234,7 @@ CyclicBarrier newBarrier = new CyclicBarrier(numberOfThreads);
 - waits until all parties have invoked await on this barrier. 
 - it returns the arrival index of the current thread 
 - Here 1 indicates the first to arrive and zero indicates the last to arrive. 
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## BrokenBarrierException
 
 > A barrier breaks when any of the waiting thread leaves the barrier. 
@@ -246,13 +246,13 @@ newBarrier.await(1000, TimeUnit.MILLISECONDS);
 
 When the barrier breaks due to one of more participating threads, the await() of all the other threads throws a BrokenThreadException. Whereas, the threads that are already waiting in the barriers have their await() call terminated.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the difference between a CountDownLatch and a CyclicBarrier?
+## What is the difference bet CountDownLatch and CyclicBarrier?
 
 SIMILARITY
 > Both classes maintain INTERNAL COUNTER that is decremented by different threads
 >
 DIFFERENCE
-> CountDownLatch class doesnot reset its counter
+> CountDownLatch class DOESNOT RESET ITS COUNTER
 - CyclicBarrier RESETS THE INTERNAL VALUE back to the initial value once the value reaches zero
 
 > CountDownLatch can be used by the Main Thread to wait on the Child Threads. 
@@ -260,7 +260,6 @@ DIFFERENCE
 
 > CountDownLatch is a top down waiting where as 
 - CyclicBarrier is across waiting.
-
 
 =======================================
 ############# SEMAPHORE ###############
@@ -314,6 +313,25 @@ DIFFERENCE
 - count.incrementAndGet() is atomic operation and equal to count++;
 =====================================
 ############### LOCKS ###############
+
+
+#### METHODS ####
+## void lock() 
+– acquire the lock if it's available; if the lock isn't available a thread gets blocked until the lock is released
+
+## void lockInterruptibly() 
+– this is similar to the lock(), but it allows the blocked thread to be interrupted and resume the execution through a thrown java.lang.InterruptedException
+
+## boolean tryLock() 
+– this is a non-blocking version of lock() method; it attempts to acquire the lock immediately, return true if locking succeeds
+
+## boolean tryLock(long timeout, TimeUnit timeUnit) 
+– this is similar to tryLock(), except it waits up the given timeout before giving up trying to acquire the Lock
+
+## void unlock() 
+– unlocks the Lock instance
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Lock interface in Java Concurrency API? What are it’s benefits over synchronization?
 
 > it come under java.util.concurrent.locks package
@@ -368,23 +386,26 @@ DIFFERENCE
 - thread can enter that code block
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is difference between ReentrantLock and Synchronized keyword ?
+## What is difference between ReentrantLock and Synchronized block(SB) ?
 
 > The main difference is ability to trying for lock interruptibly, and with timeout. 
 - Thread doesn’t need to block infinitely, which was the case with synchronized
 
-> Another significant difference is FAIRNESS
-> synchronized keyword doesn't support fairness. Any thread can acquire lock once released, no preference can be specified, 
-- we can make ReentrantLock fair by specifying fairness property, while creating instance of ReentrantLock. 
+## FAIRNESS
+> Synchronized block doesn't support fairness. Any thread can acquire lock once released, no preference can be specified, 
+- ReentrantLock can be fair by specifying fairness property, while creating instance of ReentrantLock. 
 - Fairness property provides lock to longest waiting thread, in case of contention.
 
+## TryLock
+> In Synchronized block, A thread gets blocked if it can't get an access to SB. 
 > ReentrantLock provides tryLock() which acquires lock only if its available or not held by any other thread
 - This reduce blocking of thread waiting for lock
 
+## lockInterruptibly
+> For Synchronized block, thread can't be interrupted, it will be in “waiting” state to acquire the access of SB
 > ReentrantLock introduce the ability to interrupt Thread while waiting for Lock.
 - it provide lockInterruptibly(), used to interrupt thread when it is waiting for lock.
 - tryLock() with timeout can also be use
-= But with synchr, thread cab be blocked waiting for lock for indefinite time.
 
 > it provide methods to get List of all thread waiting for lock.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -439,6 +460,8 @@ try {
 
 - It can be used to add concurrency features to a data structure, but it doesn’t guarantee the performance because 
 - it depends on various factors: how the data structure is designed, the contention of reader and writer threads at real time, CPU architecture (single core  or multicores), etc.
+=======================================
+## What is StampedLock?
 =======================================
 ##How to find a deadlock has occurred in Java? How to detect a Deadlock in Java?
 

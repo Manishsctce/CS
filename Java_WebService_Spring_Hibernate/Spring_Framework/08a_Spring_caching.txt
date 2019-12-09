@@ -1,0 +1,161 @@
+## What is caching?
+
+> Caching is a mechanism to enhance the performance of a system. 
+- It is a temporary memory that lies between the app and the persistent database. 
+- Cache memory stores recently used data items in order to reduce the number of database hits as much as possible.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why we need caching?
+
+> Caching of frequently used data in application is a very popular technique TO INCREASE PERFORMANCE OF APP 
+- With caching, we store such frequently accessed data in memory to avoid hitting the costly backends every time. 
+- Data access from memory is always faster in comparison to fetching from storage like database, file system or other service calls.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What data should be cached?
+This is mostly opinionated decision about the type of data which should reside in cache and go through cache lifecycle. It varies in different scenario and requirement on how much time we can tolerate stale data.
+
+So caching candidates will vary on each project, still those are few examples of caching –
+
+List of products available in an eCommerce store
+Any Master data which is not frequently changed
+Any frequently used database read query, where result does not change in each call at least for a specific period.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+########### TYPES OF CACHE ############
+
+#### In-memory caching
+This is the most frequently used area where caching is used extensively to increase performance of the application. In-memory caches such as Memcached and Radis are key-value stores between your application and your data storage. Since the data is held in RAM, it is much faster than typical databases where data is stored on disk.
+
+RAM is more limited than disk, so cache invalidation algorithms such as least recently used (LRU) can help invalidate ‘cold’ entries and keep ‘hot’ data in RAM. Memcached is in-momory caching where Redis is more advanced which allows us to backup and restore facility as well as it is distributed caching tool where we can manage caching in distributed clusters.
+
+##### Database caching
+Your database usually includes some level of caching in a default configuration, optimized for a generic use case. Tweaking these settings for specific usage patterns can further boost performance. One popular in this area is first level cache of Hibernate or any ORM frameworks.
+
+2.3. Web server caching
+Reverse proxies and caches such as Varnish can serve static and dynamic content directly. Web servers can also cache requests, returning responses without having to contact application servers. In today’s API age, this option is a viable if we want to cache API responses in web server level.
+
+#### CDN caching
+Caches can be located on the client side (OS or browser), server side, or in a distinct cache layer.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to register a cache engine with spring boot?
+
+> Spring boot provides integration with following cache providers.
+
+JCache (JSR-107) (EhCache 3, Hazelcast, Infinispan, and others)
+EhCache 2.x
+Hazelcast
+Infinispan
+Couchbase
+Redis
+Caffeine
+Simple cache
+
+spring.cache.infinispan.config=infinispan.xml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Disable cache? 
+
+> to disable the cache no need to remove all the annotations just add the below line in the application.properties file.
+spring.cache.type=none
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What shall I cache?
+Which cache shall I use?
+which data shall I cache?
+how about data-consistency?
+which impact does it have on my infrastructure
+how do i introduce caching 
+how about cahching in spring?
+
+======================================= 
+> For using standard caching, then use "spring-context-support" which is on top of "spring-context" 
+> For Spring boot app, add "spring-boot-starter-cache" package 
+
+
+> To enable caching in spring boot app, add @EnableCaching to any of the configuration classes
+- we must register a cacheManager
+OR <cache:annotation-driven/>
+
+EXAMPLE: 
+@Configuration
+@EnableCaching
+public class CachingConfig {
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("addresses");
+    }
+}
+
+######### CACHING ANNOTATION ##########
+1. @Cacheable
+- Demarcates cachable methods, can read and write to the cache(s)
+
+2. @CacheEvict
+- Demarcates methods that perform cache eviction, i.e. method that act as triggers for removing data from the cache Ex- removeEmployee()
+
+3. @CachePut
+- update the cache with the annotated mthod's return value. will always execute the method. Ex - updateEmployee();
+
+4. @Caching 
+5. @CacheConfig
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## @Cacheable ###########
+> Demarcates cachable methods, can read and write to the cache(s)
+
+> It has more options. Like WE CAN SPECIFY KEY OF THE CACHE from the request. 
+- If nothing specified, spring uses all the class fields and use those as cache key (mostly HashCode) to maintain caching.
+
+EXAMPLE:
+@Cacheable(value="books", key="#isbn")
+public Book findStoryBook(ISBN isbn, boolean checkWarehouse, boolean includeUsed)
+ 
+@Cacheable(value="books", key="#isbn.rawNumber")
+public Book findStoryBook (ISBN isbn, boolean checkWarehouse, boolean includeUsed)
+ 
+@Cacheable(value="books", key="T(classType).hash(#isbn)")
+public Book findStoryBook (ISBN isbn, boolean checkWarehouse, boolean includeUsed)
+
+
+> We can also use conditional caching as well
+EXAMPLE:
+@Cacheable(value="book", condition="#name.length < 50")
+public Book findStoryBook (String name)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## @CacheEvict ##########
+
+- Demarcates methods that perform cache eviction, i.e. method that act as triggers for removing data from the cache Ex- removeEmployee()
+
+> to remove all the entries of the cache
+@CacheEvict(value="addresses", allEntries=true)
+public String getAddress(Customer customer) {...}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## @CachePut ##########
+
+> based on the output of the method rather than the input – via the unless parameter:
+
+@CachePut(value="addresses", unless="#result.length()<64")
+public String getAddress(Customer customer) {...}
+
+> It's important to know that the condition and unless parameters can be used in conjunction with all the caching annotations.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### @Caching ############
+
+> if you want to use multiple annotations of the same type for caching a method.
+- compile error since Java does not allow multiple annotations on a method instead use @Caching as 
+EXAMPLE:
+
+@Caching(evict = { 
+  @CacheEvict("addresses"), 
+  @CacheEvict(value="directory", key="#customer.name") })
+public String getAddress(Customer customer) {...}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### @CacheConfig ##########
+
+> we can streamline some of the cache configuration into a single place – at the class level – so that you don't have to declare things multiple times:
+
+@CacheConfig(cacheNames={"addresses"})
+public class CustomerDataService {
+ 
+    @Cacheable

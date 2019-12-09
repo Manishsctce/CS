@@ -396,6 +396,7 @@ Note: that there can only be one null key in HashMap .  Null keys always map to 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Rehashing? Why Rehashing is required? 
+
 > IT IS THE PROCESS OF RE-CALCULATING THE HASHCODE OF ALREADY STORED ENTRIES (Key-Value pairs), 
 - to move them to another bigger size hashmap WHEN LOAD FACTOR THRESHOLD IS REACHED.
 
@@ -420,29 +421,34 @@ In Rehashing process,
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Java 8
 > HashMap internally switches to balanced tree from linked list if there are more than 8 entries in one bucket
+- which give O(logN) performance in the worst case as compared to O(n) of a linked list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to avoid collision in HashMap?
 
 > Java HashMap already handles collisions. 
 - To avoid collision we need to override hashCode() and equals() such that it creates the best possible distribution of values throughout the HashMap
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What’s wrong using HashMap in multithreaded environment? When get() method go to infinite loop ?
+### What’s wrong using HashMap in multithreaded environment? When get() method go to infinite loop ?
 
 > HashMap has the concept of rehashing when it reaches to its upper limit of size. 
 - This rehashing is the process of creating a new memory area, and copying all the already present key-value pairs in new memory are. 
-- Lets say Thread A tried to put a key-value pair in map and then rehashing started. 
+
+> WHEN 2 THREAD WRITING IN MAP AND AT THE SAME TIME RESIZE IT THEN IT WILL OCCUR.
+- Lets say Thread A TRIED TO PUT A K-V PAIR AND THEN REHASHING STARTED. 
 - At the same time, thread B came and started manipulating the buckets using put operation.
 
 - Here while rehashing process, there are chances to generate the cyclic dependency where one element in linked list [in any bucket] can point to any previous node in same bucket. 
 - This will result in infinite loop, because rehashing code contains a “while(true) { //get next node; }” block and in cyclic dependency it will run infinite.
 
+> This problem is not in Java 8 
 http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to synchronized a HashMap?
+
 > using Collections.synchronizedMap(hashmap)  
 - it returns a thread-safe map backed up by the specified HashMap
 
-> It is also mandatory that the user manually synchronizes on the returned map when iterating over any of its collection views:
+> It is also mandatory that the user MANUALLY SYNCHRONIZES ON THE RETURNED MAP WHILE ITERATING over any of its collection views:
 EXAMPLE: 
   Map<Integer, String> synchronizedHashMaps = Collections.synchronizedMap(new HashMap<>());
   
@@ -455,6 +461,7 @@ EXAMPLE:
   }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between HashTable and Collections.synchronized(HashMap)?
+
 > Both are blocking in nature i.e. multiple threads will need to wait for getting the lock on instance before putting/getting anything out of it.
 > NO MAJOR DIFFERENCE
 =====================================
@@ -469,8 +476,8 @@ EXAMPLE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do we need LinkedHashMap when we already had TreeMap and HashMap ?
-> LinkedHashMap provide insertion order because of double linked list based implementation. As it was not provided by HashMap and TreeMap.
 
+> LinkedHashMap provide insertion order because of double linked list based implementation. As it was not provided by HashMap and TreeMap.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to use linkedhashmap over hashmap in java?
 
@@ -484,6 +491,7 @@ EXAMPLE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What happens if we insert a key which is already present in the LinkedHashMap ? Does the order change ?
+
 > No,It didn't change the order. 
 - It first checks containsKey() before invoking put() method . 
 - If containsKey(K) returns true then the value is replace by new value and return old value.
@@ -493,6 +501,7 @@ EXAMPLE:
 > Time complexity of the add, remove and contains operations is constant time i.e O(1) .
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Does LinkedHashMap Iterator behaves  like fail fast iterator or fail-safe iterator ?
+
 > LinkedHashMap iterator behaves like fail-fast iterator. 
 - it will  throw ConcurrentModificationException. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -545,6 +554,7 @@ TreeMap(Map<? extends K, ? extends V> m)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How TreeMap works?
+
 > it sorts the TreeMap object keys using Red-Black tree algorithm.
 
 RED-BLACK TREE PROPERTIES : [chk details in Tree notes of DS] 
@@ -612,11 +622,17 @@ public V put(K key, V value) {
     return null;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Do we need to override hashCode() and equals() for TreeMap?
+
+No, TreeMap use comparator for sorting, it doesn't required hashCode and equals() 
+- but comparator and equals behaviour should be same for code consistency.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do we need TreeMap when we have sortedMap ?
 
 > sortedMap is a interface and TreeMap is the class implementing it.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which data structure you will prefer in your code : HashMap or TreeMap ?
+
 > HashMap is faster while TreeMap is sorted .
 
 > If we do not want to sort the elements but just to insert and retrieve the elements then use HashMap .
@@ -627,6 +643,7 @@ public V put(K key, V value) {
 ##
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If we add Enum constants to a sorted collection ( Treemap , TreeSet ), What will be the order in which they will be maintained ?
+
 > Order in which constants are declared
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to get a REVERSE ORDER VIEW of Mapping from TreeMap?
@@ -643,6 +660,7 @@ Map<Float,Integer> tree = new TreeMap<Float,Integer>(Collections.reverseOrder())
 > The ITERATOR FAILS FAST and quickly if structurally modified at any time after the iterator is created (in any way except through the iterator's own remove method ).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to get Comparator from TreeMap?
+
 > If you have created TreeMap in Java by providing an external comparator than you can get that Comparator by comparator() method of TreeMap.
 
 Comparator comparator = assetClassMap.comparator();

@@ -1,79 +1,79 @@
 > MARKER INTERFACE(No method) : Serializable[i], Cloneable[i]
-> FUNCTIONAL INTERFACE(1 method) : Comparable[i], Runnable[i], Callable[i] 
+> FUNCTIONAL INTERFACE(1 method) : Comparable[i], Runnable[i], Callable[i]
 
 Externalizable[i], Comparator[i]
 =====================================
 ########## FUNCTIONAL INTERFACE #######
 
-> @FunctionalInterface annotation. 
-> Since Java8. 
-> A functional interface is any interface that contains ONLY ONE ABSTRACT METHOD. 
+> @FunctionalInterface annotation.
+> Since Java8.
+> A functional interface is any interface that contains ONLY ONE ABSTRACT METHOD.
 - it may contain ONE OR MORE DEFAULT METHODS OR STATIC METHODS.
 
-> it is a facility to avoid accidental addition of abstract methods in the FI. 
+> it is a facility to avoid accidental addition of abstract methods in the FI.
 > These interfaces are also called Single Abstract Method interfaces (SAM Interfaces)
 
-EXAMPLE : 
+EXAMPLE :
 
 @FunctionalInterface
 public interface Interface1 {
-	void method1(String str);
-	
-	default void log(String str){
-		System.out.println("I1 logging::"+str);
-	}
-	
-	static void print(String str){
-		System.out.println("Printing "+str);
-	}
-	
-	//compile time error as
-	// default method cannot override a method from java.lang.Object"
-	//	default String toString(){
-	//		return "i1";
-	//	}
+     void method1(String str);
+    
+     default void log(String str){
+          System.out.println("I1 logging::"+str);
+     }
+    
+     static void print(String str){
+          System.out.println("Printing "+str);
+     }
+    
+     //compile time error as
+     // default method cannot override a method from java.lang.Object"
+     //     default String toString(){
+     //          return "i1";
+     //     }
 }
-- Once you add another abstract method to the interface then the compiler/IDE will flag it as an error 
+- Once you add another abstract method to the interface then the compiler/IDE will flag it as an error
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> A FI can extend another FI but finally FI should have only 1 abstract method 
+> A FI can extend another FI but finally FI should have only 1 abstract method
 - if it extending another FI then it should provide default impl otherwise Compiler error.
 
-EXAMPLE : 
+EXAMPLE :
 @FunctionalInterface
 interface FunctionalInterface2{
-	public abstract void method2();
+     public abstract void method2();
 }
 
 @FunctionalInterface
 interface FunctionalInterface23 extends FunctionalInterface2{ // Compiler Error
-	public abstract void method23();
+     public abstract void method23();
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> MAJOR BENEFITS OF FI is the possibility TO USE LAMBDA EXPRESSIONS to instantiate them. 
+> MAJOR BENEFITS OF FI is the possibility TO USE LAMBDA EXPRESSIONS to instantiate them.
 - We can instantiate an interface with anonymous class but the code looks bulky.
 
 Runnable r = new Runnable(){
-			@Override
-			public void run() {
-				System.out.println("My Runnable");
-			}};
+               @Override
+               public void run() {
+                    System.out.println("My Runnable");
+               }};
 
 ## using lambda expression as:
 Runnable r1 = () -> {System.out.println("My Runnable");};
 
-> If you have single statement in method impl, we don’t need curly braces also. 
+> If you have single statement in method impl, we don’t need curly braces also.
 Interface1 i1 = (s) -> System.out.println(s);
 i1.method1("abc");
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## is Comparator[i] is the FI?
-> Yes, It is FI. 
-- It contain 2 abstract methods compare() and equals() eventhrough it is FI 
-- because equals() is part of Object class 
+> Yes, It is FI.
+- It contain 2 abstract methods compare() and equals() eventhrough it is FI
+- because equals() is part of Object class
 =====================================
 ############### Comparable ##########
 ##What is Comparable interface?
-> java.lang.Comparable interface is used TO ORDER the objects of user-defined class and 
+> java.lang.Comparable interface is used TO ORDER the objects of user-defined class and
 - has only 1 method public int compareTo(Object).
 
 > It provide sorting for only one sequence that for only single datamember.
@@ -84,31 +84,31 @@ i1.method1("abc");
 > Objects which impl Comparable in java can be used as keys in a SortedMap[i] like TreeMap[c] or SortedSet[i] like TreeSet[c] without implementing any other interface.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to implement compareTo() ?
-> return -ve integer if current object is less than other object, 
+> return -ve integer if current object is less than other object,
 - return +ve integer if current object is greater than other object
-- return 0 if both objects are equal 
+- return 0 if both objects are equal
 
-> it must be constitent with equals() 
+> it must be constitent with equals()
 
 > it must throw NullPointerException if current object get compared to null object as opposed to equals() which return false
 
-> don't use subtraction for comparing integral values because result of subtraction can overflow as every int operation is modulo 2^32. 
+> don't use subtraction for comparing integral values because result of subtraction can overflow as every int operation is modulo 2^32.
 - use either Integer.compareTo() OR logical operators for comparison
 
-> USE RELATIONAL OPERATOR TO COMPARE INTEGRAL NUMERIC VALUE i.e. < or > but 
-- use Float.compareTo() or Double.compareTo() to compare floating point number 
+> USE RELATIONAL OPERATOR TO COMPARE INTEGRAL NUMERIC VALUE i.e. < or > but
+- use Float.compareTo() or Double.compareTo() to compare floating point number
 
 
 EXAMPLE:-
 public int compareTo(final HostDesc d){
     if (d == this)
         return 0;
-		
+         
     final String thisHostName = getName();
     final String otherHostName = d.getName();
 
-    if (thisHostName != null && otherHostName == null)    
-        return 1;    
+    if (thisHostName != null && otherHostName == null)   
+        return 1;   
     else if (thisHostName == null && otherHostName != null)
         return -1;
     else if (thisHostName == null && otherHostName == null)
@@ -122,41 +122,40 @@ public int compareTo(final HostDesc d){
 ##What is Comparator interface?
 > Comparator interface is used to order the objects of user-defined class.
 
-> COMPARATOR HAS 2 METHOD: 
-- int compare(Object obj1,Object obj2) & 
+> COMPARATOR HAS 2 METHOD:
+- int compare(Object obj1,Object obj2) &
 - boolean equals(Object element)
 
 > Here equals() can be overriden but not necessary because it is implemented by every obj class.
- 
 EXAMPLE:
-Collections.sort(targetListToSort, 
+Collections.sort(targetListToSort,
   new Comparator<Object>() {
-  	public int compare(Object o1, Object o2) {
-  	  return ((WireTargetDesc)o1).getId().getName().compareTo(((WireTargetDesc)o2).getId().getName()) ;
-  	}
+       public int compare(Object o1, Object o2) {
+         return ((WireTargetDesc)o1).getId().getName().compareTo(((WireTargetDesc)o2).getId().getName()) ;
+       }
 });
 =======================================
 ############ MARKER INTERFACE #########
 ##What is Marker Interface/Tag interface?
 
 > it is interfaces with NO FIELD OR METHODS OR IT IS EMPTY INTERFACE
-> It provides some useful information to JVM/compiler so that JVM/compiler performs some special operations on it. 
+> It provides some useful information to JVM/compiler so that JVM/compiler performs some special operations on it.
 - It is used for better readability of code.
 
-> Ex - Serializable, Clonnable, EventListener, ThreadSafe and Remote interface. 
+> Ex - Serializable, Clonnable, EventListener, ThreadSafe and Remote interface.
 > Runnable is not a marker interface. it has void run()
-> It is used to indicate compiler and JVM 
-> Marker Interface is thread - safe 
+> It is used to indicate compiler and JVM
+> Marker Interface is thread - safe
 
 > From java 1.5, the need for marker interface is eliminated by the introduction of the java annotation feature
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we develop our own marker interface? if Yes How?
 Yes
-EXAMPLE: 
+EXAMPLE:
 public interface AGradeCollegeMarker {}
-public class College1 implements AGradeCollegeMarker{	//Do something}
-public class TestCollege { 
-  tester(){ 
+public class College1 implements AGradeCollegeMarker{     //Do something}
+public class TestCollege {
+  tester(){
     if (obj instanceof AGradeCollegeMarker) {
       System.out.println("A grade college.");
     }
@@ -175,6 +174,7 @@ public interface java.io.Serializable{
 }
 
 ## What is Serialization and Deserialization?
+
 SERIALIZATION :
 > it is the process used to CONVERT OBJECT STATE INTO BINARY FORMAT.
 - serialized obj can be save on disk file or sent over network to other JVM.
@@ -182,84 +182,98 @@ SERIALIZATION :
 > SERIALIZED DATA is the stream of bytes. It has all the information about the instance.
 - information includes CLASS META DATA, TYPE INFORMATION OF INSTANCE FIELDS AND VALUES OF INSTANCE FIELDS as well.
 
-DESERIALIZATION 
+DESERIALIZATION
 > it is reverse process of Serialization used to create object with binary stream.
 
 > There is no way to serialize a method object in a portable way since it doesn't contain all the necessary information to restore it (for example, the bytecode).
 > Instead, you should serialize the name of the class, the method name and the parameter types. Then you can recreate the Method instance during deserialization.
+
+> super class is Serializable than all its subclasses will be serializable by default
+> serializable variables that are stored must be restored in the same order in which they were saved.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the need of Serialization?
+## What is the need of Serialization?
 
 > To send state of one or more objects state over the network through a socket.
 > To save the state of an object in a file.
 > An objects state needs to be manipulated as a stream of bytes.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is serialVersionUID? What would happen if you don't define this?
+## What is serialVersionUID? What would happen if you don't define this?
 
-> private static final long serialVersionUID is an ID 
+> private static final long serialVersionUID is an ID
 
-> IT IS STAMPED ON OBJECT AS VERSION OF CLASS WHEN OBJECT GET SERIALIZED.
-> it is used to REPRESENTS CLASS VERSION. You can only de-serialize a class if it's SerialVersionUID matches with the serialized instance
+> It is used for version control of object. 
+- IT IS STAMPED ON OBJECT AS VERSION OF CLASS WHEN OBJECT GET SERIALIZED.
+- it is used to REPRESENTS CLASS VERSION. we de-serialize a class if it's SerialVersionUID matches with the serialized instance
+- we should change it if the current version of class is not backwards compatible with its earlier versions.
+- throws java.io.InvalidClassException in case of serialVersionUID mismatch.
 
-> we should change it if the current version of class is not backwards compatible with its earlier versions. 
-
-> SerialVersionUID is used for version control of object. you can specify serialVersionUID in our class file also.
-> throws java.io.InvalidClassException in case of serialVersionUID mismatch.
-
-> If WE DIDN'T DEFINE it then JVM generates serialVersionUID based upon structure of class which depends upon interfaces the class implements and several other factors which is subject to change. 
+> If WE DIDN'T DEFINE it then JVM generates serialVersionUID based upon structure of class which depends upon interfaces the class implements and several other factors which is subject to change.
 - In this case, it will not be possible for the already serialized class to recover when a class field is added or modified.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is use of serialVersionUID?
 
-> when the object is serialize, serialVersionUID stamped to the object, 
+> when the object is serialize, serialVersionUID stamped to the object,
 - While de-serialize, the JVM first evaluate the serialVersionUID of serialized class and compare the serialVersionUID value with the object state, if invalid then InvalidClassException
 
-> default serialVersionUID computation is highly sensitive to class details 
-- It may vary depending on compiler implementations, and can result in unexpected InvalidClassExceptions during deserialization. 
+> default serialVersionUID computation is highly sensitive to class details
+- It may vary depending on compiler implementations, and can result in unexpected InvalidClassExceptions during deserialization.
 - Recommended to use explicit serialVersionUID
 
 > serialVersionUID fields are not useful as inherited members
 > Different class can have same serialVersionUID
 
-> TRANSIENT AND STATIC FIELDS ARE IGNORED IN SERIALIZATION. 
-- After de-serialization transient fields and non-final static fields will be null. 
+> TRANSIENT AND STATIC FIELDS ARE IGNORED IN SERIALIZATION.
+- After de-serialization transient fields and non-final static fields will be null.
 
 > Final static fields still have values since they are part of the class data.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If a class is serialized with serialVersionId in class and then modified the class(added parameter), now while de-serialization will it fail?
 
+> No, its because the serialVersionId is same after modification
+- while modifying the class, if the serialVersionId we change then it will fail with InvalidClassException  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If a class is serialized without serialVersionId and then modified the class(added parameter), now while de-serialization will it fail?
+
+> Yes, its because the serialVersionId got changed after modification by JVM
+- that's why it always better to have serialVersionId in serializable class 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to generate and view serialVersionUID?
 
-> In Eclipse, just click on class which implement Serializable interface and generate serialVersionUID.
+> In Eclipse, just click on class which implement Serializable[i] and generate serialVersionUID.
 > To view serialVersionUID of java class there is a tool serialver. Use serialver -show to start the gui version of the tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to serialize obj of Employee class it implement Serializable?
 
 EXAMPLE: FOR SERIALIZATION
- Employee emp = new Employee();
- FileOutputStream fos = new FileOutputStream( "empSerObj.ser");  
- ObjectOutputStream oos = new ObjectOutputStream(fos);  
- oos.writeObject(emp); 
+Employee emp = new Employee();
+FileOutputStream fos = new FileOutputStream( "empSerObj.ser"); 
+ObjectOutputStream oos = new ObjectOutputStream(fos); 
+oos.writeObject(emp);
 
 EXAMPLE: FOR DESERIALIZATION
- Employee emp = null;
- FileInputStream fis = new FileInputStream("empSerObj.ser");  
- ObjectInputStream ois = new ObjectInputStream(fis);  
- emp = (Employee) ois.readObject();  
+Employee emp = null;
+FileInputStream fis = new FileInputStream("empSerObj.ser"); 
+ObjectInputStream ois = new ObjectInputStream(fis); 
+emp = (Employee) ois.readObject(); 
 
 > In both case, it can throw FileNotFoundException, IOException
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How deserialization process happen in java?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How de-serialization works?
+## How JVM creates the object without calling the constructor during de-serialization??
 
-> NOTE : for the deserialization of a class object, the bytecode of the class, whose object is being deserialized, must be present within the JVM performing deserialization. Otherwise, the ‘ClassNotFoundException’ is thrown.
+> In deserialization process, it is required that ALL THE PARENT CLASSES OF INSTANCE SHOULD BE SERIALIZABLE;
+- IF NOT SERIALIZABLE THEN IT MUST HAVE DEFAULT CONSTRUCTOR.
 
-> During de-serialization, JVM invokes the constructor of super most class
-> If any super class of instance to be de-serialized in non-serializable and it doesn't have default constructor then ‘NotSerializableException‘ is thrown by JVM.
-- while object reconstruction, JVM checks serialVersionUID in the byte stream with the class of that object. If it doesn't match then ‘InvalidClassException‘ is thrown.
+> while deserialization, the SUPER MOST CLASS IS SEARCHED FIRST that's why JVM create instance of Object class first.
+- If any super class of instance is non-serializable then it’s default constructor used to allocate instance in memory, If no default constructor then throw ‘NotSerializableException‘.
+- before object reconstruction, JVM also checks serialVersionUID mentioned in the byte stream matches the serialVersionUID of the class of that object. If it does not match then throw ‘InvalidClassException‘.
 
-> After executing super class constructor, JVM read the byte stream and use instance’s meta data to set type information and other meta information of instance.
-- After the blank instance is created, JVM first set it’s static fields and then invokes the default readObject()
-- [if it’s not overridden, otherwise overridden method will be called] internally which is responsible for setting the values from byte stream to blank instance.
+- After executing super class constructor, JVM read the byte stream and use instance’s meta data to set type information and other meta information of instance.
+
+> After the blank instance is created, JVM first set it’s static fields and then invokes the default readObject() [if it’s not overridden, otherwise overridden method will be called] internally which is responsible for setting the values from byte stream to blank instance.
+
+> After the readObject() method is completed, the deserialization process is done and you are ready to work with new deserialized instance.
 
 https://howtodoinjava.com/core-java/serialization/how-deserialization-process-happen-in-java/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -267,7 +281,7 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 
 > Following changes to a serializable class are compatible it does not require to compile again
 1. ADD FIELDS or CLASS
-- Addition of a new field or class will not affect serialization, since any new data in the stream is simply ignored by older versions. 
+- Addition of a new field or class will not affect serialization, since any new data in the stream is simply ignored by older versions.
 - the newly added field will be set to its default values when the object of an older version of the class is un marshaled.
 
 2. Change a field from static to non-static and transient to non-transient
@@ -286,35 +300,34 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## While serializing you want some of the members not to serialize? How do you achieve it?
 
-> declare the member as static or transient 
+> declare static / transient member
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Why does serialization NOT save the value of static class attributes? Why static variables are not serialized?
+## Why static variables are not serialized?
 
-> The Java variables declared as STATIC ARE NOT PART OF THE STATE OF AN OBJECT since they are shared by all instances of that class. 
+> STATIC VARIABLES ARE NOT PART OF THE STATE OF AN OBJECT since they are shared by all instances of that class.
+
 > Saving static variables with each serialized object would have following problems
   a> IT WILL MAKE REDUNDANT COPY OF SAME VARIABLE in multiple objects which makes it in-efficient.
   b> The static variable can be modified by any object and a serialized copy would be stale or not in sync with current value.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How we can supress the compiler msg for serialVersionId ? 
+## How to suppress the compiler warning msg for serialVersionId ?
 
-> If we do not provide serialVersionId in a class which is supposed to be serialised then compiler will give warning  messages about the same. 
-- If we want to override this warning we can use below annotation. Once used, compiler will stop complaining about the missing serialVersionUID.
 @SuppressWarnings(“serial”)
-
+- Once used, compiler will stop complaining about the missing serialVersionUID.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How many methods Serializable has? If no method then what is the purpose of Serializable interface?
+## How many methods Serializable[i] has? If no method then what is the purpose of Serializable[i]?
 
-> Serializable interface exists in java.io package. 
-> It doesn't have any method that's why called Marker Interface 
+> Serializable[i] exists in java.io package.
+> It doesn't have any method that's why called Marker Interface
 > It is use to mark a class as serializable and gives compiler an indication that use Java Serializable mechanism to serialize the object.
 > java.lang.Cloneable, java.util.EventListener etc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What will happen if one of the members in the class doesn't implement Serializable[i]?
+## What will happen if one of the members in the class doesn't implement Serializable[i]?
 
 > it throw "NotSerializableException" at runtime
-- If a Serializable class is having a non-serializable class reference as its member then while serializing an object 
+- If a Serializable class is having a non-serializable class reference as its member then while serializing an object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How can a sub-class of Serializable super class avoid serialization? 
+## How can a sub-class of Serializable super class avoid serialization?
 ## If serializable interface is implemented by the super class of a class, how can the serialization of the class be avoided?
 
 > Since, an interface cannot be unimplemented, it is not possible to make a class non-serializable.
@@ -322,73 +335,53 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 
 class MySubClass extends SomeSerializableSuperClass {
   private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-  	throw new NotSerializableException(Can not serialize this class);
+       throw new NotSerializableException(Can not serialize this class);
   }
   private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-  	throw new NotSerializableException(Can not serialize this class);
+       throw new NotSerializableException(Can not serialize this class);
   }
   private void readObjectNoData() throws ObjectStreamException {
-  	throw new NotSerializableException(Can not serialize this class);
+       throw new NotSerializableException(Can not serialize this class);
   }
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> super class is Serializable than all its subclasses will be serializable by default
-> serializable variables that are stored must be restored in the same order in which they were saved.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If a class is Serializable but its super class in not, what will be the state of the instance variables inherited from super class after deserialization?
 
-> values of supercass will be set with default value
-> superclass must have a no-argument constructor in it
+> values of superclass will be set with default value
+> superclass must have a no-argument constructor
 > The values of the instance variables inherited from superclass will be reset to the values they were given during the original construction of the object as the non-serializable super-class constructor will run.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you Customize Serialization process or can you override default Serialization process in Java?
-> we can write writeObject() and readObject() in our class 
+
+> we can write writeObject() and readObject() in our class
 > these methods are present in ObjectOutputStream, ObjectInputStream
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Suppose super class of a new class implement Serializable interface, how can you avoid new class to being serialized?
 
-Notes: - 
+Notes: -
 > @serial tag to denote Serializable fields.
 > The .ser extension is conventionally used for files representing serialized objects.
 
 > whenever any final field/reference is evaluated as constant expression, it is serialized by JVM ignoring the presence of transient keyword.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are the Limitations of Serialization?
+
 1. File size is very high
 2. Customization due to transient which  is NOT EFFECTIVE because we get “null” in place of transient attributes.
 3. while customizing we also GET METAINFORMATION of the file which includes when created who are eligible to read it etc: which is against data security.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## at the time of the deserializtion, how the JVM creates the object without calling the constructor??
-
-> In deserialization process, it is required that ALL THE PARENT CLASSES OF INSTANCE SHOULD BE SERIALIZABLE; 
-- if not Serializable then it must have a default constructor. 
-
-> while deserialization, the super most class is searched first and JVM end up reaching Object class itself and create an instance of Object class first. 
-- If in between searching the super classes, any class is found non-serializable then it’s default constructor will be used to allocate an instance in memory.
-
-- If any super class of instance in non-serializable and also does not have a default constructor then it throw ‘NotSerializableException‘.
-- before object reconstruction, JVM also checks serialVersionUID mentioned in the byte stream matches the serialVersionUID of the class of that object. If it does not match then throw ‘InvalidClassException‘.
-
-- So till now we got the instance located in memory using one of superclass’s default constructor. 
-- Note that after this no constructor will be called for any class. 
-- After executing super class constructor, JVM read the byte stream and use instance’s meta data to set type information and other meta information of instance.
-
-> After the blank instance is created, JVM first set it’s static fields and then invokes the default readObject() [if it’s not overridden, otherwise overridden method will be called] internally which is responsible for setting the values from byte stream to blank instance.
-
-> After the readObject() method is completed, the deserialization process is done and you are ready to work with new deserialized instance.
-
-https://howtodoinjava.com/core-java/serialization/how-deserialization-process-happen-in-java/
 ==========================================
 ########### EXTERNALIZABLE[i] #########
 #Since jdk1.1
 
 public interface Externalizable extends java.io.Serializable {
-	void writeExternal(ObjectOutput out) throws IOException;
-	void readExternal(ObjectInput in) throws IOException, ClassNotFoundException;
+     void writeExternal(ObjectOutput out) throws IOException;
+     void readExternal(ObjectInput in) throws IOException, ClassNotFoundException;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Externalization?
+
 > It is a process used to convert object state into a binary format which can be save on disk file or sent over network to other JVM
 - It is similar to Serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -396,7 +389,7 @@ public interface Externalizable extends java.io.Serializable {
 
 > Externalizable interface has 2 method - writeExternal() and readExternal()
 - it provide complete control to developer to convert object state in its own way.
-- where as in Serializable it use default serialization process. 
+- where as in Serializable it use default serialization process.
 
 > Correct implementation of Externalizable interface can improve performance of application drastically.
 
@@ -404,8 +397,9 @@ http://www.jusfortechies.com/java/core-java/externalization.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When will you use Serializable or Externalizable interface? and why?
+
 > if we want to do a selective attribute serialization we can use Serializable[i] with transient modifier for variables not to be serialized but
-> use of Externalizable[i] can be really effective in cases when we have TO SERIALIZE ONLY SOME DYNAMICALLY SELECTED ATTRIBUTES OF A LARGE OBJECT. 
+> use of Externalizable[i] can be really effective in cases when we have TO SERIALIZE ONLY SOME DYNAMICALLY SELECTED ATTRIBUTES OF A LARGE OBJECT.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How we make attribute externalize by writeExternal() & readExternal()?
 
@@ -413,27 +407,27 @@ http://www.jusfortechies.com/java/core-java/externalization.php
 - writeInt(i) and readInt() --> for integers
 - writeDouble(d) and readDouble() --> for doubles
 - writeUTF(s) and readUTF() --> for strings
-- writeObject(i) and readObject() --> for derived attributes other than string & wrapper 
+- writeObject(i) and readObject() --> for derived attributes other than string & wrapper
 
 class UserSettings implements Externalizable {
-     
+    
   //This is required
   public UserSettings(){ }
-  
+ 
   private String doNotStoreMe;
-  
+ 
   private Integer fieldOne;
   private String fieldTwo;
   private boolean fieldThree;
-  
+ 
   getter & setter ...
-  
+ 
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
       fieldOne = in.readInt();
       fieldTwo = in.readUTF();
       fieldThree = in.readBoolean();
   }
-  
+ 
   public void writeExternal(ObjectOutput out) throws IOException {
       out.writeInt(fieldOne);
       out.writeUTF(fieldTwo);
@@ -465,35 +459,34 @@ http://www.beingjavaguys.com/2013/11/inheritance-in-java-serialization_30.html
 
 > A clone of an object is an object with DISTINCT IDENTITY AND EQUAL CONTENTS i.e
 > It has below 3 RULE
-1. x.clone() != x 
+1. x.clone() != x
 - it means cloned object DON'T HAVE SAME REFERENCE
 
-2. x.clone.getClass() == x.getClass() 
+2. x.clone.getClass() == x.getClass()
 - it means cloned object have same class but its is not mandatory
 
-3. x.clone().equals(x) 
-- it means cloned object data should be equal to the original 
+3. x.clone().equals(x)
+- it means cloned object data should be equal to the original
 
 > To define clone, a class must implement java.lang.Cloneable marker interface and must override Objects clone()
-> define clone() with a public modifier as bcz clone() is define protected in Object class so it can be access only in subclass or in same package 
- protected Object clone() throws CloneNotSupportedException {
+> define clone() with a public modifier as bcz clone() is define protected in Object class so it can be access only in subclass or in same package
+protected Object clone() throws CloneNotSupportedException {
     return super.clone();
- }
- 
-> If you override the clone method in a non final class, you should return an object obtained by invoking super.clone 
+}
+> If you override the clone method in a non final class, you should return an object obtained by invoking super.clone
 > If we don't implement Cloneable interface, clone() method generates CloneNotSupportedException.
 > default implementation of Object.clone() performs a shallow copy.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How cloning works?
 
-> By default, java CLONING IS FIELD BY FIELD COPY i.e. 
-- as the Object class does not have idea about the structure of class on which clone() method will be invoked. 
+> By default, java CLONING IS FIELD BY FIELD COPY i.e.
+- as the Object class does not have idea about the structure of class on which clone() method will be invoked.
 - So, JVM when called for cloning, do following things:
 
-1. If the class has only primitive data type members then 
+1. If the class has only primitive data type members then
 - a completely new copy of the object will be created and the reference of new object copy will be returned.
 
-2. If the class contains members of any class type then 
+2. If the class contains members of any class type then
 - only the object references are copied and hence the member references in BOTH THE ORIGINAL OBJECT AS WELL AS THE CLONED OBJECT REFER TO THE SAME OBJECT.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the need of cloning?
@@ -508,12 +501,13 @@ http://www.beingjavaguys.com/2013/11/inheritance-in-java-serialization_30.html
   }
 
 > In DEEP COPY, We want a clone which is independent of original and making changes in clone should not affect original.
-> In Deep copy, we just override clone() as	
+> In Deep copy, we just override clone() as    
 
   protected Employee clone() throws CloneNotSupportedException {
     Employee cloned = (Employee)super.clone();
-    Department deptclone = (Department)cloned.getDept().clone();		
+    Department deptclone = (Department)cloned.getDept().clone();         
     cloned.setDept(deptclone);
     return cloned;
   }
-> It means that each reference obj need to clone and set with main cloning class in clone() 
+- here if department is not cloneable then create a new obj and fill the value from cloned obj dept.  
+> It means that each reference obj need to clone and set with main cloning class in clone()

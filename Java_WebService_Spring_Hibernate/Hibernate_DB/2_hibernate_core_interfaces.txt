@@ -483,9 +483,13 @@ boolean wasRolledBack()
 - checks if the transaction is rolledback successfully.
 =======================================
 ###### 5. Query and Criteria[i] #######
-The Query interface allows you to perform queries against the database and control how the query is executed. Queries are written in HQL or in the native SQL dialect of your database. A Query instance is used to bind query parameters, limit the number of results returned by the query, and finally to execute the query. 
-The Criteria interface is very similar; it allows you to create and execute object-oriented criteria queries. 
-To help make application code less verbose, Hibernate provides some shortcut methods on the Session interface that let you invoke a query in one line of code. We won't use these shortcuts; instead, we'll always use the Query interface. 
+> The Query interface allows you to perform queries against the database and control how the query is executed. 
+> Queries are written in HQL or in the native SQL dialect of your database. 
+
+> A QUERY INSTANCE IS USED TO BIND QUERY PARAMETERS, LIMIT THE NUMBER OF RESULTS RETURNED BY THE QUERY, and finally to execute the query. 
+- The Criteria interface is very similar; it allows you to create and execute object-oriented criteria queries. 
+- To help make application code less verbose, Hibernate provides some shortcut methods on the Session interface that let you invoke a query in one line of code. 
+- We won't use these shortcuts; instead, we'll always use the Query interface. 
 A Query instance is lightweight and can't be used outside the Session that created it.
 
 =======================================
@@ -494,8 +498,8 @@ A Query instance is lightweight and can't be used outside the Session that creat
 > The object of Query can be obtained by calling the createQuery() of Session[i].
 
 EXAMPLE:
-Query q=session.createQuery("select sum(salary) from Emp");  
-List<Integer> list=q.list();  
+Query q = session.createQuery("select sum(salary) from Emp");  
+List<Integer> list = q.list();  
 System.out.println(list.get(0));
 
 #### METHODS ####
@@ -523,7 +527,8 @@ System.out.println(list.get(0));
 =====================================
 ########## HibernateTemplate ########
 > it is a helper class that is used to simplify the data access code. 
-- This class supports automatically converts HibernateExceptions which is a checked exception into DataAccessExceptions which is an unchecked exception. 
+- This class supports AUTOMATICALLY CONVERTS HibernateExceptions which is a CHECKED EXCEPTION INTO DataAccessExceptions which is an UNCHECKED EXCEPTION. 
+
 > it is typically used to implement data access or business logic services. 
 
 > central method is execute(), that supports the Hibernate code that implements HibernateCallback interface

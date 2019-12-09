@@ -139,6 +139,7 @@ If the new size is less than the current size, all components at index newSize a
 > Vector in Jdk1.0 but ArrayList in jdb1.2 onward
 -------------------
 ## SIMILARITY ##
+
 > By default Vector size is 10 and 
 - ArrayList has 10 as default size.  
 - public ArrayList() { this(10); }
@@ -150,6 +151,7 @@ If the new size is less than the current size, all components at index newSize a
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If an Employee class is present and its objects are added in an arrayList. 
+
 - Now I want the list to be sorted on the basis of the emp age of Employee class. What are the steps?
 
 1. Impl Comparable[i] for the Employee class and override the compareTo(Object obj) in which compare the emp age
@@ -173,7 +175,7 @@ public int compareTo(Object o) {
 			return -1;
 	}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How about when Employee class is a jar file and you do not have access to its source code?
+## How about when Employee class is a jar file and you do not have access to its source code?
 
 > Since Comparable interface cannot be impl, create Comparator class and override the compare(Object obj, Object obj1) method .
 
@@ -190,8 +192,11 @@ class StudentAgeComparator implements Comparator<Student>{
 			return 0;
 	}
 }
+
+Or in java 8 
+> call Collections.sort(studentList, Comparator.comparing(Student::getAge));
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How can list/Arraylist be synchronized without using Vector?
+## How can list/Arraylist be synchronized without using Vector?
 
 > Arraylist can be synchronized using:
 - Collection.synchronizedList(List list)
@@ -199,6 +204,12 @@ class StudentAgeComparator implements Comparator<Student>{
 Other collections can be synchronized:
 - Collection.synchronizedMap(Map map)
 - Collection.synchronizedCollection(Collection c)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is it safe to iterate over collection returned by Collections.synchronizedCollection() ?
+
+NO
+> instance returned by synchronizedCollection() is now synchronized and is thread safe to add elements. 
+- But while iterating we should use synchronized block otherwise it may result in non-deterministic behavior.
 =====================================
 ############# LINKEDLIST ############
 

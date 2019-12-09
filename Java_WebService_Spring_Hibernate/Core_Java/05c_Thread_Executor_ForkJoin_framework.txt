@@ -20,7 +20,7 @@
 
 > Tasks are submitted to a thread pool via an internal queue called the Blocking Queue. 
 - If there are more tasks than the number of active threads, they are inserted into the blocking queue for waiting until any thread becomes available. 
-- If the blocking queue is full than new tasks are rejected.
+- IF THE BLOCKING QUEUE IS FULL THAN NEW TASKS ARE REJECTED.
 
 > Thread Pool life cycle as follows:
 1. Get a new task to execute
@@ -31,7 +31,7 @@
 
 > In many server app, we may want to process each client request in parallel. 
 > For this, we choose traditional approach of creating one thread per request.
-> Creating lots of thread with no bounds to the maximum threshold can cause app to run out of heap memory. 
+> CREATING LOTS OF THREAD WITH NO BOUNDS TO THE MAXIMUM THRESHOLD CAN CAUSE APP TO RUN OUT OF HEAP MEMORY. 
 - So, creating a ThreadPool is a better solution as a finite number of threads can be pooled and reused. 
 
 DISADVANTAGE of one thread per task approach
@@ -39,16 +39,7 @@ DISADVANTAGE of one thread per task approach
 - Server that processing requests can spend more time and 
 - consume more system resources in creating and destroying threads than it would processing actual client requests.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Core pool size (C)
-> defines how many threads can at most be created per pool for the incoming tasks before the new tasks go to the queue.
-- This value may also be changed dynamically by using setCorePoolSize(int) 
 
-- This value can be changed dynamically by using setMaximumPoolSize(int corePoolSize)
-
-## Queuing
-> At some point, if new task submission exceeds core pool size (C) then a queue is used for the extra tasks.
-
-Bounded vs Unbounded queues
 =======================================
 ############# HIERARCHY ###############
 
@@ -67,9 +58,9 @@ ScheduledExecutorService[i] <--- ThreadPoolExecutor[c] <--- ScheduledThreadPoolE
 > Executor[i] hv only 1 method 
 - void execute(Runnable).
 
-> ExecutorService[i] is the implementation of Executor[i], which is a more extensive interface. 
+> ExecutorService[i] extends Executor[i], which is a more extensive interface. 
 > The ThreadPoolExecutor class provides an extensible thread pool implementation. 
-> The Executors class provides convenient factory methods for these Executors.
+> The Executors[c] provides convenient factory methods for these Executors.
 =======================================
 ########## ExecutorService[i] #########
 > java.util.concurrent.ExecutorService[i] extends Executor[i] 
@@ -77,7 +68,7 @@ ScheduledExecutorService[i] <--- ThreadPoolExecutor[c] <--- ScheduledThreadPoolE
 ## What is ExecutorService?
 
 > It is an interface that extends the behaviour of Executor[i]
-- used to execute a Runnable or Callable task in ASYNCHRONOUS way 
+- USED TO EXECUTE A RUNNABLE OR CALLABLE TASK IN ASYNCHRONOUS WAY 
 
 - It adds features to manage the lifecycle, both of the individual tasks and of the executor itself.
 
@@ -129,6 +120,7 @@ new ThreadPoolExecutor(10, 100, 5L, TimeUnit.MILLISECONDS,new LinkedBlockingQueu
 - No guarantee abt which Callable result we get.
 ~~~~~~~~~~~~~~~~~~~~~~~~
 5. List<Future<T>> invokeAll(Collection tasks):
+
 - invokes all of the Callable obj we pass
 > return list of Future obj for result of each Callable.
 > task might finish due to an exception
@@ -139,9 +131,9 @@ List<Future> invokeAll(Collection tasks, timeOut, timeUnit)
 – executes the given tasks, returning a list of Futures holding their status and results when all complete or the timeout expires.
 ~~~~~~~~~~~~~~~~~~~~~~~~
 6. void shutdown(): 
+
 - allow previously submitted tasks to execute before terminating
 - it will not shutdown immediately but NO LONGER ACCEPT NEW TASKS
-
 ~~~~~~~~~~~~~~~~~~~~~~~~
 7. List<Runnable> shutdownNow() 
 - it interrupts the running task and shuts down the executor immediately
@@ -165,8 +157,8 @@ List<Future> invokeAll(Collection tasks, timeOut, timeUnit)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Executor framework?
-> it is a framework for standardizing invocation, scheduling, execution, and control of asynchronous tasks according to a set of execution policies.
 
+> it is a framework for standardizing invocation, scheduling, execution, and control of asynchronous tasks according to a set of execution policies.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the benefits of Executor framework?
 
@@ -175,11 +167,11 @@ List<Future> invokeAll(Collection tasks, timeOut, timeUnit)
 
 > With an executor, we have to create tasks which implement either Runnable[i] or Callable[i] and send them to the executor.
 
-> Executor internally maintain a (configurable) thread pool to improve application performance by avoiding the continuous spawning of threads.
+> EXECUTOR INTERNALLY MAINTAIN a (configurable) THREAD POOL TO IMPROVE APP PERFORMANCE by avoiding the continuous spawning of threads.
 
 > Executor is responsible for executing the tasks, running them with the necessary threads from the pool.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### What is difference between Executor.submit() and Executor.execute()?
+### What is diff bet Executor.submit() and Executor.execute()?
 
 > submit() can be used to invoke runnable/callable thread and return object in the form of Future object.
 - execute() is used to invoke only Runnable task and it doesn't return anything.
@@ -214,11 +206,12 @@ List<Future> invokeAll(Collection tasks, timeOut, timeUnit)
 TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, 
 RejectedExecutionHandler handler) 
 
-#### Number of threads(N) 
+#### Number of threads(N) #### 
 - thread instances currently in the pool. This number gradually increases as more task are submitted to the pool.
 
-#### corePoolSize (C)
-> no. of threads can at most be created per pool for the incoming tasks before the new tasks go to the queue.
+#### corePoolSize (C)  ####
+> defines HOW MANY THREADS CAN AT MOST BE CREATED PER POOL for the incoming tasks before the new tasks go to the queue.
+- This value can be changed dynamically by using setMaximumPoolSize(int corePoolSize)
 
 1. If N<= C then create a new Thread to run a new task.
 - idle threads are not assigned to the new incoming task.
@@ -229,11 +222,12 @@ RejectedExecutionHandler handler)
 
 4. If the queue is full, and N >= M then reject the task.
 
-#### maximumPoolSize (M)
+#### maximumPoolSize (M) ####
 - maximum size of the pool
 
-#### keepAliveTime
-> When N > C (corePoolSize) then idle threads are monitored for how long they have been idle. On crossing keepAliveTime, idle threads are terminated (removed from the pool).
+#### keepAliveTime ####
+> When N > C (corePoolSize) then idle threads are monitored for how long they have been idle. 
+- ON CROSSING keepAliveTime, IDLE THREADS ARE TERMINATED (removed from the pool).
 
 > EXAMPLE : Starting thread pool size is 1, corePoolSize=5,maximumPoolSize=10 and the queue is 100 like new ArrayBlockingQueue<Runnable>(100):
 - as requests come in threads will be created up to 5, 
@@ -242,17 +236,19 @@ RejectedExecutionHandler handler)
 - Once all the threads are in use and the queue is full tasks will be rejected. 
 - As the queue reduces so does the number of active threads.
 
-#### workQueue
+#### workQueue ####
 > queues can be bounded (e.g. ArrayBlockingQueue) or 
 - it can be unbounded (e.g. LinkedBlockingQueue).
 
-#### handler
+#### handler ####
 > An instance of RejectedExecutionHandler to use when the tasks are submitted beyond the pool maximum size. 
 - This handler takes care of what action needs to be taken for new tasks submissions at this point.
 
 ThreadPoolExecutor provides four out of the box nested implementation to be used:
 
-ThreadPoolExecutor.AbortPolicy: This is the default rejection policy. It throws RejectedExecutionException:
+1. ThreadPoolExecutor.AbortPolicy: 
+- This is the default rejection policy. It throws RejectedExecutionException:
+
         public static class AbortPolicy implements RejectedExecutionHandler {
 
           public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
@@ -262,7 +258,9 @@ ThreadPoolExecutor.AbortPolicy: This is the default rejection policy. It throws 
           }
         }
 
-ThreadPoolExecutor.CallerRunsPolicy: Instead of rejecting the task, it is attempted to run in the caller thread:
+2. ThreadPoolExecutor.CallerRunsPolicy: 
+- Instead of rejecting the task, it is attempted to run in the caller thread:
+
  public static class CallerRunsPolicy implements RejectedExecutionHandler {
 
         public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
@@ -274,7 +272,7 @@ ThreadPoolExecutor.CallerRunsPolicy: Instead of rejecting the task, it is attemp
 Using this will obviously slow down the rate that new tasks are submitted.
 
 
-ThreadPoolExecutor.DiscardPolicy: The task is quietly rejected:
+3. ThreadPoolExecutor.DiscardPolicy: The task is quietly rejected:
         public static class DiscardPolicy implements RejectedExecutionHandler {
 
           public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
@@ -301,7 +299,7 @@ EXAMPLE : getPoolSize(), getActiveCount(), and getCompletedTaskCount()
 - but, due to their complexity, the Java concurrency API provides the Executors[c] to construct executors and other related objects. 
 - IT’S RECOMMENDED TO USE THE Executors[c]
 
-> Using pre-built methods in java.util.concurrent.Executors[i], We can create 5 types of ThreadPoolExecutor
+> 5 types of ThreadPoolExecutor
 
 1. Fixed thread pool executor 
 ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);

@@ -71,7 +71,83 @@
 ##### SOFTWARE DESIGN PRINCIPLES ######
 ## What are Software Design Principles?
 
+## What is a DRY principle?
 
+DRY stand for "Don't Repeat Yourself," a basic principle of software development aimed at reducing repetition of information. The DRY principle is stated as, "Every piece of knowledge or logic must have a single, unambiguous representation within a system."
+
+Divide your code and logic into smaller reusable units and use that code by calling it where you want. 
+
+It saves time and effort, is easy to maintain, and also reduces the chances of bugs.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a KISS principle?
+
+> It stand for "Keep It Simple, Stupid"
+> It says keep the code simple and clear, making it easy to understand.
+- Each method should never be more than 40-50 lines.
+- Each method should only solve one small problem, not many use cases.
+
+> To Achieve, Think of many solutions for your problem, then choose the best, simplest one and transform that into your code.
+
+EXAMPLE:
+public String weekday1(int day) {
+    switch (day) {
+        case 1:
+            return "Monday";
+        case 2:
+            return "Tuesday";
+        case 3:
+            return "Wednesday";
+        case 4:
+            return "Thursday";
+        case 5:
+            return "Friday";
+        case 6:
+            return "Saturday";
+        case 7:
+            return "Sunday";
+        default:
+            throw new InvalidOperationException("day must be in range 1 to 7");
+    }
+}
+public String weekday2(int day) {
+    if ((day < 1) || (day > 7)) throw new InvalidOperationException("day must be in range 1 to 7");
+    string[] days = {
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    };
+    return days[day - 1];
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is an ACID?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a CAP theorem?
+
+> It is a tool used to makes system designers aware of the trade-offs while designing networked shared-data systems.
+> The theorem states that networked shared-data systems can only guarantee/strongly support two of the following three properties:
+
+1. CONSISTENCY 
+- A guarantee that every node in a distributed cluster returns the same, most recent, successful write. 
+- Consistency refers to every client having the same view of the data. 
+- There are various types of consistency models. Consistency in CAP (used to prove the theorem) refers to linearizability or sequential consistency, a very strong form of consistency.
+
+2. AVAILABILITY 
+- Every non-failing node returns a response for all read and write requests in a reasonable amount of time. The key word here is every. 
+- To be available, every node on (either side of a network partition) must be able to respond in a reasonable amount of time.
+
+3. PARTITION TOLERANT 
+- The system continues to function and upholds its consistency guarantees in spite of network partitions. 
+- Network partitions are a fact of life. Distributed systems guaranteeing partition tolerance can gracefully recover from partitions once the partition heals.
+
+The CAP theorem categorizes systems into three categories:
+
+CP (Consistent and Partition Tolerant) — At first glance, the CP category is confusing, i.e., a system that is consistent and partition tolerant but never available. CP is referring to a category of systems where availability is sacrificed only in the case of a network partition.
+CA (Consistent and Available) — CA systems are consistent and available systems in the absence of any network partition. Often a single node's DB servers are categorized as CA systems. Single node DB servers do not need to deal with partition tolerance and are thus considered CA systems. The only hole in this theory is that single node DB systems are not a network of shared data systems and thus do not fall under the preview of CAP. [^11]
+AP (Available and Partition Tolerant) — These are systems that are available and partition tolerant but cannot guarantee consistency.
 =======================================
 ######## SOLID DESIGN Principal #######
 1. S - SRP – Single Responsibility Principle.
@@ -172,5 +248,116 @@ One of a good example of Strategy pattern from JDK itself is a Collections.sort(
 
 > Strategy pattern is a client driven pattern while 
 - Object can manage their state itself.
-=======================================
-####### DRY (Don't Repeat Yourself)####
+=====================================
+########## RELATIONSHIP #############
+Association > Aggregation > Composition 
+
+############ ASSOCIATION ############ 
+> It is Super set of Aggregation
+
+> IT IS RELATIONSHIP BETWEEN TWO SEPARATE CLASSES THROUGH THEIR OBJECTS. 
+- The relationship can be One-to-One, One-to-Many, Many-to-One and Many-to-Many.
+
+> Composition and Aggregation are the two forms of association.
+=====================================
+############ AGGREGATION ############
+> It is Super set of Composition
+
+> Aggregation is a special form of association which is a unidirectional one way relationship between classes (or entities)
+
+> It represents Has-A relationship.
+> It is a unidirectional association i.e. a one way relationship. 
+- For example, department can have students but vice versa is not possible and thus unidirectional in nature.
+
+> In Aggregation, both the entries can survive individually which means ending one entity will not effect the other entity
+
+> The whole class plays a more important role than the part class, but unlike the case of composition.
+- the part class can meaningfully exist on its own without the whole class
+
+> SYMBOL - holo rhombus at Super class and tail at the sub class
+Ex- Employee(Super) having Address(sub)
+
+=====================================
+############ COMPOSITION ############
+## COMPOSITION - For ex Class A contain Class B
+
+> Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
+- IT REPRESENTS PART-OF RELATIONSHIP.
+
+> In Composition, both the entities are dependent on each other.
+
+> the part class cannot meaningfully exist on its own without the whole class. 
+> This means life of Class B is dependent of life of Class A.
+> SYMBOL-   dark rhomus at Super class and tail at the part class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Aggregation and Composition?
+
+> Dependency : 
+- Aggregation implies a relationship where the child can exist independently of the parent
+- Composition implies a relationship where the child cannot exist independent of the parent
+
+> Type of Relationship: 
+- Aggregation relation is “has-a” and 
+- composition is “part-of” relation.
+
+> Type of association: 
+- Aggregation is a weak Association.
+- Composition is a strong Association
+=====================================
+## What is Cohesion in Java?
+> It refers all about how a single class is designed.
+- It is most closely associated with making sure that a class is designed with a single, well-focused purpose.
+
+> The advantages of high cohesion is that such classes are much easier to maintain (and less frequently changed) and reusable.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Coupling in Java?
+
+> it is the degree to which one class knows about another class”. 
+- If one class uses another class, that is coupling. 
+- Coupling is everywhere, but the level of coupling varies.
+
+There are two types of coupling:
+1. TIGHT COUPLING :
+Ex- 
+class Subject {
+  Topic t = new Topic();
+  public void startReading(){
+    t.understand();
+  }
+}
+class Topic {
+  public void understand(){
+    System.out.println("Tight coupling concept");
+  }
+}
+- Here Subject and Topic are tightly couple.
+
+2. Loose coupling:
+> If class A knows class B through its interface only i.e it interacts with class B through its API then class A and class B are said to be loosely coupled.
+
+EXAMPLE: 
+public interface Topic{
+    void understand();
+}
+class Topic1 implements Topic {
+  public void understand(){
+    System.out.println("Got it");
+  }
+} 
+class Topic2 implements Topic {
+  public void unserstand(){
+    System.out.println("understand");
+  }
+} 
+public class Subject {
+  public static void main(String[] args){
+    Topic t = new Topic1();
+    t.understand();
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a difference between composite and composition?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What design pattern is String.intern()?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What design pattern is Collections.sort()?

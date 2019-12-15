@@ -52,6 +52,9 @@ DISADVANTAGE OF HIBERNATE OVER JDBC
 > Hibernate supports JPA annotations, so code is independent of implementation and easily replaceable with other ORM tools. 
 - JDBC code is very tightly coupled with the application.
 
+> In hibernate, there is no need to create connection pools as hibernate does all connection handling automatically while 
+- in JDBC, connection pools need to be created
+
 http://www.java-samples.com/showtutorial.php?tutorialid=813
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between JPA and Hibernate?
@@ -64,6 +67,18 @@ http://www.java-samples.com/showtutorial.php?tutorialid=813
 ## What are all JPA Provider?
 
 Hibernate, EclipseLink, OpenJPA are some JPA Provider.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Does hibernate support polymorphism?
+
+> Yes, hibernate fully supports polymorphism. 
+- Polymorphism queries and polymorphism associations are supported in all mapping strategies of hibernate.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What the three inheritance models are of hibernate?
+
+Hibernate has following three inheritance models:
+a. Tables Per Concrete Class
+b. Table per class hierarchy
+c. Table per sub-class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain Hibernate Application Architecture?
 
@@ -172,14 +187,24 @@ Hibernate, EclipseLink, OpenJPA are some JPA Provider.
 ## Why we should not make Entity Class final?
 
 > Hibernate use proxy classes for lazy loading of data, only when it’s needed. 
-- This is done by extending the entity bean, if the entity bean will be final then lazy loading will not be possible, hence low performance.
+- This is done by extending the entity bean, IF ENTITY BEAN WILL BE FINAL THEN LAZY LOADING WILL NOT BE POSSIBLE, hence low performance.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is it necessary to implement Serializable for Entity Bean?
 
-> No, it is not necessary to implement Serializable for Entity bean 
+> NO, IT IS NOT NECESSARY TO IMPLEMENT SERIALIZABLE FOR ENTITY BEAN 
 - It is because hibernate do the conversion for us. 
-- but it will be good to implement Serializable if we are transfering the bean to remote machine or vice-versa because as per JSR220
+- but IT WILL BE GOOD TO IMPLEMENT SERIALIZABLE if we are transfering the bean to remote machine or vice-versa because as per JSR220
 - the entity class must implement the Serializable if it is transfer from remote machine
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we mark an Entity/collection as immutable in Hibernate?
+
+> In Hibernate, by default an entity or collection is mutable. 
+- We can add, delete or update an entity/collection.
+
+> TO MARK AN ENTITY/COLLECTION AS IMMUTABLE, WE CAN USE @Immutable.
+
+> XML file: We can also set the property mutable=false in the XML file for an entity to make it immutable.
 =====================================
 ## Explain the general flow of Hibernate communication with RDBMS? 
 
@@ -332,12 +357,62 @@ List cats = q.list();
 > It provides the reference implementation of both these bean validation specification.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-What are different environments to configure hibernate?
+## What are different environments to configure hibernate?
+
 There are mainly two types of environments in which the configuration of hibernate application differs.
 
-i. Managed environment – In this kind of environment everything from database connections, transaction boundaries, security levels and all are defined. An example of this kind of environment is environment provided by application servers such as JBoss, Weblogic and WebSphere.
+i. Managed environment 
+– In this kind of environment everything from database connections, transaction boundaries, security levels and all are defined. 
+- An example of this kind of environment is environment provided by application servers such as JBoss, Weblogic and WebSphere.
 
-ii. Non-managed environment – This kind of environment provides a basic configuration template. Tomcat is one of the best examples that provide this kind of environment.
+ii. Non-managed environment 
+– This kind of environment provides a basic configuration template. 
+- Tomcat is one of the best examples that provide this kind of environment.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What’s the usage of callback interfaces in hibernate?
+
+> Callback interfaces of hibernate are useful in receiving event notifications from objects. 
+- For example, when an object is loaded or deleted, an event is generated and notification is sent using callback interfaces.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In how many ways, objects can be fetched from database in hibernate?
+
+Hibernate provides following four ways to fetch objects from database:
+a. Using HQL
+b. Using identifier
+c. Using Criteria API
+d. Using Standard SQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In how many ways objects can be identified in Hibernate?
+
+Object identification can be done in hibernate in following three ways:
+a. Using Object Identity: Using == operator.
+b. Using Object Equality: Using equals() method.
+c. Using database identity: Relational database objects can be identified if they represent same row.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What different fetching strategies are of hibernate?
+
+Following fetching strategies are available in hibernate:
+1. Join Fetching
+2. Batch Fetching
+3. Select Fetching
+4. Sub-select Fetching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## How can we reattach any detached objects in Hibernate?
+
+> Objects which have been detached and are no longer associated with any persistent entities can be reattached 
+- by calling session.merge() method of session class.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are different ways to disable hibernate second level cache?
+
+> Hibernate second level cache can be disabled using any of the following ways:
+a. By setting use_second_level_cache as false.
+b. By using CACHEMODE.IGNORE
+c. Using cache provider as org.hibernate.cache.NoCacheProvider
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we invoke stored procedures in hibernate?
+
+=======================================
 http://www.javatechinfo.com/2013/01/top-50-important-hibernate-interview.html
 https://codingcompiler.com/hibernate-interview-questions-answers/
+https://www.journaldev.com/3633/hibernate-interview-questions-and-answers

@@ -313,9 +313,18 @@ DIFFERENCE
 - count.incrementAndGet() is atomic operation and equal to count++;
 =====================================
 ############### LOCKS ###############
+> it come under java.util.concurrent.locks package
 
+## What is Lock[i] in Java Concurrency API? What are it’s benefits over synchronization?
 
-#### METHODS ####
+> Lock[i] PROVIDE MORE EXTENSIVE LOCKING OPERATIONS
+> The ADVANTAGES of a lock are
+- to make them fair
+- to make a thread responsive to interruption while waiting on a Lock object.
+- to try to acquire the lock, but return immediately or after a timeout if the lock can’t be acquired
+- to acquire and release locks in different scopes, and in different orders
+
+######## METHODS ########
 ## void lock() 
 – acquire the lock if it's available; if the lock isn't available a thread gets blocked until the lock is released
 
@@ -330,44 +339,14 @@ DIFFERENCE
 
 ## void unlock() 
 – unlocks the Lock instance
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is Lock interface in Java Concurrency API? What are it’s benefits over synchronization?
 
-> it come under java.util.concurrent.locks package
-> Lock[i] PROVIDE MORE EXTENSIVE LOCKING OPERATIONS than can be obtained using synchronized methods and statements. 
-- allow more flexible structuring and support multiple associated Condition objs. 
-> it facilitate more effective locking system
-
-> The ADVANTAGES of a lock are
-- to make them fair
-- to make a thread responsive to interruption while waiting on a Lock object.
-- to try to acquire the lock, but return immediately or after a timeout if the lock can’t be acquired
-- to acquire and release locks in different scopes, and in different orders
-
-> Some important interfaces and classes in Java Concurrency Lock API are
-
-1 Condition: it objs similar to Obj wait-notify model 
-- A Condition object is always created by Lock object. 
-- it methods are await() ~ wait() ,
- - signal(), signalAll() ~ notify(), notifyAll().
-
-2 ReadWriteLock 
-- It contains pair of associated locks, one for read-only operations and another one for writing. 
-- The read lock may be held simultaneously by multiple reader threads as long as there are no writer threads. 
-- The write lock is exclusive.
-
-3 ReentrantLock 
-- This class implements the Lock interface in similar way as synchronized keyword. 
-- it contains some utility methods to get the thread holding the lock, threads waiting to acquire the lock etc.
-- synchronized block are reentrant in nature i.e if a thread has lock on the monitor object and if another synchronized block requires to have the lock on the same monitor object then thread can enter that code block
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is differences between Lock and synchronization ?
 =======================================
 ########### ReadWriteLock[i] ###########
-
->  request for read lock by multiple threads can be acquired simultaneously if there is no write lock request
-- If a thread acquires write lock on a resource, then no other read or writes lock by any thread 
+> It contains pair of associated locks, one for read-only operations and another one for writing. 
+- READ LOCK: multiple threads can be acquired read lock simultaneously if there is no write lock request
+- WRITE LOCK: If a thread acquires write lock on a resource, then no other read or writes lock by any thread 
+- The write lock is exclusive.
 
 > STARVATION - it occur If new threads were constantly granted read access and the thread waiting for write access would remain blocked indefinately, resulting starvation
  
@@ -461,6 +440,15 @@ try {
 - It can be used to add concurrency features to a data structure, but it doesn’t guarantee the performance because 
 - it depends on various factors: how the data structure is designed, the contention of reader and writer threads at real time, CPU architecture (single core  or multicores), etc.
 =======================================
+############# CONDITION ###############
+
+1 Condition: 
+it objs similar to Obj wait-notify model 
+- A Condition object is always created by Lock object. 
+- it methods are await() ~ wait() ,
+ - signal(), signalAll() ~ notify(), notifyAll().
+=======================================
+############ StampedLock ##############
 ## What is StampedLock?
 =======================================
 ##How to find a deadlock has occurred in Java? How to detect a Deadlock in Java?

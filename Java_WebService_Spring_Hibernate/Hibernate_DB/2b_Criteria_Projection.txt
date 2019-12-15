@@ -1,28 +1,39 @@
+> HQL is not preferred way for updating or deleting values because then we need to take care of any associations between tables.
 =========================================
 ############# Criteria[i] ###############
-> Hibernate Criteria Query Language (HCQL) is used to fetch the records based on the specific criteria
-> It CAN'T USED TO RUN UPDATE OR DELETE QUERIES OR ANY DDL STATEMENTS. 
+Hibernate Criteria Query Language (HCQL)
+
+> Hibernate Criteria API is OOA for querying the database and getting results.
+- it ALLOWS US TO BUILD UP A CRITERIA QUERY OBJECT PROGRAMMATICALLY where we can apply filtration rules and logical conditions.
+- It CAN'T USED TO RUN UPDATE OR DELETE QUERIES OR ANY DDL STATEMENTS. 
 - it ONLY USED TO FETCH THE RESULTS from DB using OOA
 
-> It is used to define conditions the data has to satisfy in order to be selected. 
-- It's like referring to how is the data you're fetching. Like modifiying the from and where clauses of an SQL query.
+> it PROVIDES PROJECTION THAT WE CAN USE FOR AGGREGATE FUNCTIONS such as sum(), min(), max() etc.
+> it can be USED FOR JOIN QUERIES by joining multiple tables, useful methods for Hibernate criteria join are createAlias(), setFetchMode() and setProjection()
 
 > Criteria[i] provides methods to apply criteria such as retrieving all the records of table whose salary is greater than 50000 etc
 
-## create Crietria instance
-Ex - Criteria c = session.createCriteria();
+## CREATE CRIETRIA INSTANCE
+Ex - Criteria c = session.createCriteria(Persistent.class);
 
 #### METHODS ####
-01. Criteria add(Criterion c) :
+
+## Criteria add(Criterion c) :
 > used to add restrictions.
 
-02. Criteria addOrder(Order o) :
-- specifies ordering.
+## Criteria addOrder(Order o) :
+- to sort result set in either ascending or descending order
+EXAMPLE: 
+// To sort records in descening order
+cr.addOrder(Order.desc("salary"));
 
-03. Criteria setFirstResult(int firstResult) 
+// To sort records in ascending order
+cr.addOrder(Order.asc("salary"));
+
+## Criteria setFirstResult(int firstResult) 
 - specifies the first number of record to be retreived.
 
-Criteria setMaxResult(int totalResult) 
+## Criteria setMaxResult(int totalResult) 
 - specifies the total number of records to be retreived.
 
 List list() : 
@@ -57,24 +68,35 @@ session.createCriteria(Employee.class,"emp")
 
 > Yes, with Enum I was getting an exception while doing equality check for enum field.
 got it fixed by adding @Enumerated(EnumType.STRING) to the field in entity.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### Restrictions class ######
-> it provides methods that can be used as Criterion. 
+=======================================
+######### RESTRICTIONS CLASS ##########
+
+> Criteria API can use add() to add restriction for criteria query.
+> Restrictions class provides methods that can be used as Criterion. 
+- all methods are public static and return SimpleExpression
+- all methods take (String propertyName, Object value)
 
 #### METHODS ####
-public static SimpleExpression lt(String propertyName,Object value) : sets the less than constraint to the given property.
-public static SimpleExpression le(String propertyName,Object value) : sets the less than or equal constraint to the given property.
-public static SimpleExpression gt(String propertyName,Object value) : sets the greater than constraint to the given property.
-public static SimpleExpression ge(String propertyName,Object value) : sets the greater than or equal than constraint to the given property.
-public static SimpleExpression ne(String propertyName,Object value) : sets the not equal constraint to the given property.
-public static SimpleExpression eq(String propertyName,Object value) : sets the equal constraint to the given property.
-public static Criterion between(String propertyName, Object low, Object high) : sets the between constraint.
-public static SimpleExpression like(String propertyName, Object value) : sets the like constraint to the given property.
+
+## lt : sets the less than constraint to the given property.
+## le : sets the less than or equal constraint to the given property.
+## gt : sets the greater than constraint to the given property.
+## ge : sets the greater than or equal than constraint to the given property.
+## ne : sets the not equal constraint to the given property.
+## eq : sets the equal constraint to the given property.
+## like : sets the like constraint to the given property.
+
+## Criterion between(String propertyName, Object low, Object high) : sets the between constraint.
+
+## LogicalExpression and(Criterion lhs, Criterion rhs)
+- 
+## LogicalExpression or(Criterion lhs, Criterion rhs)
+- 
 
 EXAMPLE:
-Crietria c=session.createCriteria(Emp.class);  
+Crietria c = session.createCriteria(Emp.class);  
 c.add(Restrictions.gt("salary",10000));//salary is the propertyname  
-List list=c.list();  
+List list = c.list();  
 =======================================
 ############ Order class ##############
 > The Order class represents an order. 

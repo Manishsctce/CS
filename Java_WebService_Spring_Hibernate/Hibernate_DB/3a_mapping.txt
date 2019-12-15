@@ -20,16 +20,28 @@ EXAMPLE: <classname>.hbm.xml
       <property name="salary" column="salary" type="int"/>
    </class>
 </hibernate-mapping>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Should all the mapping files of hibernate have .hbm.xml extension to work properly?
 
+> No, having .hbm.xml extension is a convention and not a requirement for hibernate mapping file names. We can have any extension for these mapping files.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is an Entity?
+
+> entity is an object that has some distinct value. 
+- In a persistent storage mechanism, an entity is a business object. 
+- Each entity has an associated table in relational database. 
+- Each instance of the entity represents a row of the table. 
+- Entity class is an annotated POJO
 =======================================
 ###### XML MAPPING FILE ELEMENTS ######
-<hibernate-mapping> : 
+
+## <hibernate-mapping> : 
 - it is root element which contains all the <class> elements.
 -------------------------------
-<class> : class name and table name 
+## <class> : class name and table name 
 <meta> : 
 -------------------------------
-<id> : 
+## <id> : 
 - maps the unique ID attribute in class to the primary key of the database table. 
 - name attribute of the id element : refers to the property in the class and 
 - column attribute refers to the column in the database table. 
@@ -77,37 +89,77 @@ true/false	: boolean or java.lang.Boolean : CHAR(1) ('T' or 'F')
 
 =====================================
 ######### ANNOTATION MAPPING ########
+
 > Hibernate Annotations are based on the JPA 2 specification and supports all the features.
-
-> All the JPA annotations are defined in the javax.persistence.* package. 
+- All the JPA annotations are defined in the javax.persistence.* package. 
 - Hibernate EntityManager implements the interfaces and life cycle defined by the JPA specification.
-
-> Instead of creating mapping file(.hbm.xml) we can use annotations to do the object relational mapping.
-> For this we need to use persistence annotations in 
-- Hibernate supports EJB3 persistence annotations. The EJB3 annotations are contained in the javax.persistence package.
 
 ###### @Entity ######
 > it is used to mark this class as an Entity bean. 
 - the class should atleast have a package scope no-argument constructor(i.e default access specifier constr.).
+- it is mandatory 
 
 ###### @Table ######
 > it is used to specify the table to persist the data. 
 - The name attribute refers to the table name. 
 - If @Table annotation is not specified then Hibernate will by default use the class name as the table name.
 
-## @Id annotation 
+## @Id 
 > it is used to specify the identifier property of the entity bean. 
 > The placement of the @Id annotation determines the default access strategy that Hibernate will use for the mapping. 
 - If the @Id annotation is placed over the field, then filed access will be used. 
 - Instead if it placed over the getter method of that field, then property access will be used.
-
-## @GeneratedValue annotation 
-> it is used to specify the primary key generation strategy to use. 
+- it is mandatory 
+ 
+## @GeneratedValue 
+> SPECIFY PRIMARY KEY GENERATION STRATEGY to use. 
 - If the strategy is not specified by default AUTO will be used.
 
-## @Column annotation 
-> it is used to specify the details of the column to which a field or property will be mapped. 
-- If the @Column annotation is not specified by default the property name will be used as the column name.
+## @Column 
+- If it is not specified then by default property name will be used as the column name.
+- it can be used at field itself or getter method of the field
+
+@Column(name="fieldname_in_db", length=100, nullable=false, unique=true)
+
+## @Transient
+- to exclude from persistent 
+-------------------------------
+## @Immutable
+- ignore any updates to the entity. 
+- It helps improve performance by excluding the class from dirty checking during persistence operations.
+-------------------------------
+## @Embeddable
+- to be part of or embedded in an entity instance, without them having an identity that makes them independent.
+EXAMPLE:
+@Embeddable
+public class BookMetadata {
+    private String mainTopic;
+    private boolean coauthored;
+    ... // constructors, getters, setters
+}
+
+@Entity
+public class Book {
+    protected BookMetadata bookMetadata;
+    ...
+}
+-------------------------------
+## AttributeOverride
+> to change the name of a column in the embeddable field. 
+- To do this, we need to override the mapping of the fields of BookMetadata using the @AttributeOverride applied on the owning entity
+
+EXAMPLE:
+
+@Entity
+public class Book {
+    
+    @AttributeOverride(name = "mainTopic",
+               column = @Column(name = "TOPIC", length = 60, nullable = false))
+    @AttributeOverride(name = "coauthored",
+               column = @Column(name = "CO_AUTHORED"))
+    protected BookMetadata bookMetadata;
+    ...
+}
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is pros & cons of Hibernate annotation Vs Mapping file?

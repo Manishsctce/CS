@@ -138,7 +138,10 @@ SessionFactory sessionFactory =cfg.buildSessionFactory();
 - We should close this session object once we are done with all the database operations. 
 - We should OPEN A NEW SESSION FOR EACH REQUEST in multi-threaded environment.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can we get hibernate statistics?
 
+> We can get hibernate statistics using getStatistics() method of SessionFactory class as shown below:
+ SessionFactory.getStatistics()
 =====================================
 ########### 3. Session[i] ###########
 > Session is USED TO GET A PHYSICAL CONNECTION WITH A DATABASE. 
@@ -275,6 +278,7 @@ session.evict(person);
 Long id2 = (Long) session.save(person);//create a new entry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the difference between session.save() and session.persist()?
+
 > Hibernate persist() is similar to save (with transaction)
 
 > session.save(Object o):Serializable - returns the identifier of the instance.
@@ -362,6 +366,10 @@ session2.merge(emp1); //it merge the object state with emp2
 session2.update(emp1); //Now it will work with exception
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What’s the use of session.lock() in hibernate?
+
+session.lock() method of session class is used to reattach an object which has been detached earlier. This method of reattaching doesn’t check for any data synchronization in database while reattaching the object and hence may lead to lack of synchronization in data.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between clear() and evict()?
 
 > session.evict(Object obj) : 
@@ -435,7 +443,7 @@ System.out.println("vehicle synchronized again: " + v);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is hibernate proxy and when proxy is generated ?
 
-> In hibernate,  proxies are placeholder that are generated at runtime to help lazy loading.
+> In hibernate, proxies are placeholder that are generated at runtime to help lazy loading.
 - Hibernate creates a proxy instead of querying the database directly and the proxy will load the 'real' object whenever one of its method is invoked. 
 - Whenever hibernate returns an instance of any entity class, it checks whether it returns a proxy object to avoid the database hit.
 
@@ -481,22 +489,35 @@ boolean wasCommited()
 
 boolean wasRolledBack() 
 - checks if the transaction is rolledback successfully.
+
+EXAMPLE:
+Transaction transaction = null;
+try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+  
+  transaction = session.beginTransaction();
+
+  String hql = "INSERT INTO Student (firstName, lastName, email) " +
+      "SELECT firstName, lastName, email FROM Student";
+  Query query = session.createQuery(hql);
+  int result = query.executeUpdate();
+  System.out.println("Rows affected: " + result);
+
+  // commit transaction
+  transaction.commit();
+} catch (Exception e) {
+    if (transaction != null) {
+        transaction.rollback();
+    }
+}
 =======================================
-###### 5. Query and Criteria[i] #######
-> The Query interface allows you to perform queries against the database and control how the query is executed. 
-> Queries are written in HQL or in the native SQL dialect of your database. 
+####### 5. QUERY[i]/CRITERIA[i] #######
+
+> Query[i] allows to perform queries against DB and control how the query is executed. 
+- Queries are written in HQL or in the native SQL dialect of DB. 
 
 > A QUERY INSTANCE IS USED TO BIND QUERY PARAMETERS, LIMIT THE NUMBER OF RESULTS RETURNED BY THE QUERY, and finally to execute the query. 
-- The Criteria interface is very similar; it allows you to create and execute object-oriented criteria queries. 
-- To help make application code less verbose, Hibernate provides some shortcut methods on the Session interface that let you invoke a query in one line of code. 
-- We won't use these shortcuts; instead, we'll always use the Query interface. 
-A Query instance is lightweight and can't be used outside the Session that created it.
 
-=======================================
-############### Query[i] ##############
-> It is an object oriented representation of Hibernate Query. 
 > The object of Query can be obtained by calling the createQuery() of Session[i].
-
 EXAMPLE:
 Query q = session.createQuery("select sum(salary) from Emp");  
 List<Integer> list = q.list();  

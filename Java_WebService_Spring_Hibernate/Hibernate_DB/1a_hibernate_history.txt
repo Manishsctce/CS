@@ -1,5 +1,23 @@
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Hibernate 4 
+=======================================
+############# HIBERNATE 5 #############
+01. Support classes of the Date and Time API as BasicTypes
+- Hibernate automatically maps the LocalDate[c] to a JDBC DATE and persists it in the database
+
+02. Get query results as a Stream
+EXAMPLE : 
+Stream<Object[]> books = session.createNativeQuery("SELECT b.title, b.publishingDate FROM book b").stream();
+- It fetches the result set in multiple batches and uses Hibernate’s ScrollableResults implementation to scroll through it.
+
+03. Fetch multiple entities by their primary key
+EXAMPLE:
+MultiIdentifierLoadAccess<Book> multi = session.byMultipleIds(Book.class);
+List<Book> books = multi.multiLoad(1L, 2L, 3L);
+- Hibernate creates one query for this method call and provides the 3 primary keys as parameters to an IN statement.
+
+04. Join unassociated entities in a query
+
+=======================================
+############# HIBERNATE 4 #############
 - support for initial multi-tenancy, 
 - ServiceRegistry Introduction, 
 - SessionFactory session clean up, 

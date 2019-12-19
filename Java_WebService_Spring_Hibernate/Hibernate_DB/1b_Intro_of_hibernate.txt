@@ -411,7 +411,50 @@ b. By using CACHEMODE.IGNORE
 c. Using cache provider as org.hibernate.cache.NoCacheProvider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we invoke stored procedures in hibernate?
+=======================================
+####### Hibernate BEST PRACTISE #######
 
+1. Use a projection that fits your use case
+
+a. Entity is used when we need all attributes of the entity and for update or delete operations that affect only a small number of entities.
+em.find(Author.class, 1L);
+
+b. POJOs is useful if we only need a small subset of the entity attributes or if we need attributes from several related entities
+
+List<BookPublisherValue> bookPublisherValues = em.createQuery(
+  “SELECT new org.thoughts.on.java.model.BookPublisherValue(b.title, b.publisher.name) FROM Book b”,
+BookPublisherValue.class).getResultList();
+
+2. Use the kind of query that fits your use case
+- 
+-----------------------------
+3. Use bind parameters
+
+EXAMPLE:
+Query q = em.createNativeQuery(“SELECT a.firstname, a.lastname FROM Author a WHERE a.id = ?”);
+q.setParameter(1, 1);
+Object[] author = (Object[]) q.getSingleResult();
+-----------------------------
+4. Use static Strings for named queries and parameter names
+
+EXAMPLE:
+@NamedQuery(name = Author.QUERY_FIND_BY_LAST_NAME,
+query = “SELECT a FROM Author a WHERE a.lastName = :” + Author.PARAM_LAST_NAME)
+@Entity
+public class Author {
+ 
+  public static final String QUERY_FIND_BY_LAST_NAME = “Author.findByLastName”;
+  public static final String PARAM_LAST_NAME = “lastName”;
+ 
+}
+-----------------------------
+5. Don’t use FetchType.EAGER
+- it can cause LazyInitializationException and the n+1 select issue  
+
+6. Initialize required lazy relationships with the initial query
+- to fetch an entity together with the relationships
+
+7. Avoid cascade remove for huge relationships
 =======================================
 http://www.javatechinfo.com/2013/01/top-50-important-hibernate-interview.html
 https://codingcompiler.com/hibernate-interview-questions-answers/

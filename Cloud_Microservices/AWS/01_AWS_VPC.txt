@@ -2,27 +2,138 @@
 > VPC stands for Virtual Private Cloud- It is logically isolated area of the AWS cloud
 - We can have complete control over your virtual networking environment, including a selection of your IP address range, the creation of subnets, and configuration of route tables and network gateways.
 - we can provide multiple layers of security, including security groups and network access control lists, to help control access to Amazon EC2 instances in each subnet.Architecture of VPC
-Implied Router
-	* It is the central VPC routing function.
-	* It connects the different AZ's together and connects the VPC to the internet gateway.
-	* Each subnet will have a route table the router uses to forward traffic within the VPC. 
-	* The route tables will also have entries to external destinations.
-
-Route Tables
-	* You can have up to 200 route tables per VPC
-	* We can have up to 50 routes entries per route table.
-	* Each subnet MUST be associated with only one route table at a given time.
-	* If you don't specify a subnet-to-route-table association, the subnet(when created) will be associated with the main(default) VPC route table.
-	* You can change the subnet associated to another route table.
-	* we can also edit the main (default) route table if we need, but we cannot delete the main (default) route table.
-
-         - However, we can make a custom route table manually become the main route table, then we can delete the former main, as it is no longer a main route table.
-	* Every route table in a VPC comes with a default rule that allows all VPC subnets to communicate with one another
-
-  - we cannot modify or delete this rule.## VPC IP Addressing> Once the VPC is created, we cann't changes its CIDR block range.- The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses).
-	* 
-Min size of CIDR block is /28 means out of 32bit, 28bit is taken by CIDR block and 4bit for host i.e. 2^4=16 IP can be use by host 
-	* 
-Max size of CIDR block is /16 means out of 32bit, 16bit is taken by CIDR block and 6bit for host i.e. 2^6 IP can be use by host 
 
 
+##### Implied Router ######
+> It is the central VPC routing function.
+> It connects the different AZ's together and connects the VPC to the internet gateway.
+> Each subnet will have a route table the router uses to forward traffic within the VPC. 
+> The route tables will also have entries to external destinations.
+
+##### ROUTE TABLES #######
+> You can have up to 200 route tables per VPC
+> We can have up to 50 routes entries per route table.
+> EACH SUBNET MUST BE ASSOCIATED WITH ONLY ONE ROUTE TABLE at a given time.
+> If you don't specify a subnet-to-route-table association, the subnet(when created) will be associated with the main(default) VPC route table.
+> We can change the subnet associated to another route table.
+
+> we can also edit the main (default) route table if we need, but 
+- we cannot delete the main (default) route table.
+- However, we can make a custom route table manually become the main route table, then we can delete the former main, as it is no longer a main route table.
+
+> Every route table in a VPC comes with a default rule that allows all VPC subnets to communicate with one another
+- we cannot modify or delete this rule.
+ 
+=======================================
+######### VPC IP Addressing ###########
+
+> Once the VPC is created, we cann't change its CIDR block range. 
+- The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses).
+
+> Min size of CIDR block is /28 means out of 32bit, 28bit is taken by CIDR block and 4bit for host i.e. 2^4=16 IP can be use by host 
+
+> Max size of CIDR block is /16 means out of 32bit, 16bit is taken by CIDR block and 6bit for host i.e. 2^6 IP can be use by host 
+
+> If we need a different CIDR size, create a new VPC 
+
+> The different subnet within a VPC can NOT overlap (basic TCP/IP rule) 
+
+> we can however, expand VPC 
+
+#### AWS Reserved IPs in each subnet
+
+> First 4 IP addresses in each  subnet and the last one are reserved by AWS
+- Ex if the subnet is 10.0.0.0/24 then 
+10.0.0.0 is the base network 
+10.0.0.1 VPC router 
+10.0.0.2 DNS related 
+10.0.0.3 Reserved for future use
+10.0.0.255 last IP 
+
+=======================================
+#### INTERNET GATEWAY #### 
+> Is the gateway through which our VPC communicate with the internet and with other AWS services
+
+Q> Is a horizontally scaled, redundant, and highly available VPC component
+- it is manage be AWS itself 
+
+> only 1 IG per VPC 
+
+> It performs NAT(static one-to-one) between Private and Public (or Elastic) IPv4 address
+
+> It supports both IPv4 and IPv6
+
+#### Public Subnet Vs Private Subnet 
+
+10.0.0.0, 172.16.0.0, 192.168.0.0 
+
+=======================================
+########## SECURITY GROUPS ############
+
+> Any Virtual Server Instance(EC2) created must have a security group for it specified during its launch. you can either choose an existing one, or create a new security group during launch. 
+
+> Each VPC created will have a default security group create for it, you can NOT delete a default security group.
+
+> SECURITY GROUPS ARE VPC RESOURCES, hence different EC2 instances, in different AZ, belonging to the same VPC, can have the same security group applied to them
+
+> Changes to security groups take effect immediately. 
+
+> A Security group can be used in different subnet 
+#### TYPE OF SECURITY GROUPS ####
+
+1. Default Security Group in a default or custom VPC, will have:
+- Inbound rules allowing instances assigned the same security group to talk to one another 
+- All outbound traffic is allowed 
+
+2. Custom(Non-default) security groups in a VPC will always have:
+- No Inbound rules - basically all inbound traffic is denied by default 
+- All outbound traffic is allowed by default 
+
+##### SECURITY GROUP CONFIGURATION ####
+> we can use Security group names as the source or destination in other security group rules. 
+
+> we can use the Security group name as the source in its own inbound security group rules. 
+
+> Security group are directional and can use allow rules only 
+> A security group set of rules end with an implicit deny any 
+
+> we can use CIDR addr or another security group in the security group. 
+
+#### Ques 
+
+## To allow the EC2 instances assigned to a security group to communicate with one another, 
+- create a security group, apply it to all these instances, and configure a rule that allows any traffic, on any protocol/ports, the source of which is the security group itself. 
+- Be cautious that the security group is a VPC resource, which mean member EC2 instances can be from different subnet and AZs too. 
+
+
+## To allow all EC2 instances on a subnet to communicate with each other,
+- create a security group and apply it to those instances, and configure a rule that allows communication on all protocol/ports, the source of which is the subnet CIDR block 
+
+=======================================
+##### NETWORK ACCESS CONTROL LISTS #### 
+
+> It is a function performed on the implied router (The implied VPC router hosts the NACL function) 
+
+> It functions at the subnet level 
+
+> NACL are stateless. 
+- Outbound traffic for an allowed inbound traffic, must be explicitly allowed too 
+
+> YOU CAN HAVE "PERMIT" AND "DENY" RULES IN A NACL
+
+> NACL is a set of rules, each has a number  
+
+> NACL rules are checked for a permit from lower numbered rules until either a permit is found or an explicit/implicit deny is reached. 
+
+> you can insert rules (based on the configured rule number spacing) between existing rules, hence it is recommended to leave a number range between any two rules to allow for edits later. 
+
+> NACL end with an explicit deny any, which we cannot delete. 
+
+> A subnet must be associated with a NACL, if you do not specify the NACL, the subnet will get associated with the default NACL automatically. 
+
+> we can create our own custom NACL, not necessary to use default 
+> Default NACL allows all inbound and outbound traffic 
+
+> A Custom NACL block/denies all inbound and outbound traffic by default 
+
+ 

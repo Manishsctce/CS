@@ -1,0 +1,78 @@
+## EBS Types 
+1. General purpose 
+> SSD backed (Solid state drives)
+> Are better for transactional workloads such as small databases & boot volumes, Dev/Test environment, Low Latency interactive apps where performance is highly dependent on IOPS 
+
+> Volume Sizes 1-16TB 
+> Max IOPS - 10,000 
+
+
+2. Provisioned IOPS 
+=======================================
+###### EBS Block storage ###### V1 
+> Two types of Block store devices are supported: 
+1. Elastic Block store (EBS) 
+- Persistent 
+- Network attached virtual drives 
+
+2. Instance store 
+- Basically the virtual hard drive on the host allocated to this EC2 instance 
+- It is called ephimeral storage or temporary storage
+- Limited to 10GB per device  
+
+
+> There are two type of blocks store available for Amazon easy to instance they are
+
+1. Elastic block store 
+- it is persistence storage
+- EBS backed EC2 instance (i.e. root volume of which is EBS) can be stopped, reboot, restart and terminated
+
+2. Instance store (is a virtual hard drive allocated to the EC2 instance on the host)
+- Instance store-backed EC2 instances boot from an AMI stored on S3
+- Ephemeral storage (non persistent storage)
+- EC2 instance cannot be stopped, can only be rebooted or terminated - reboot will not erase the instance store data
+- Terminate will erase the data
+
+### EBS Device Volumes 
+
+> EBS volume behave like raw, unformatted, external block storage device that you can attach(Mount) to your EC2 instances
+> EBS volume are block storage device suitable for database style data that requires frequent read and write
+
+> EBS volume attached to your instance through the AWS network like virtual hard drive
+> An EBS volume can attach to a single EC2 instance only at a time
+
+> Both EBS volume and EC2 instance must be in the same AZ 
+- you cannot attach a volume in one AZ to an EC2 instance in a different AZ
+
+> An EBS volume data is replicated by AWS across multiple servers in the same AZ to prevent data loss resulting from any single AWS component failure 
+=======================================
+#V2 
+
+## Difference between Instance Store Vs EBS? 
+
+> IOPS Performance 
+> Use instance store instead of EBS if very high IOPS rate is required
+- Instance store although cannot provide for data persistence, but it can provide for much higher IOPS compared to network attached storage EBS storage
+- remember that instance store is a virtual hard disk space allocated to the instance on the localhost 
+- it is worth noting that not all newer EC2 instance support instance store volume
+=======================================
+######## EBS Snapshots ########## v3 
+
+> EBS snapshot are point-in-time image/copies of your EBS volume
+> any data returned to the volume after the snapshot process is initiated will not be included in the resulting snapshot (but will be included in future incremental updates)
+> Per add account up to 5,000 EBS volumes can be created
+> Per account up to 10,000 EVS snapshot can be created
+> TVS snapshot are stored on S3 however you cannot access them directly you can only access them through easy to api
+> This is unlikely instant store in EMI where you can specify a S3 bucket of your own
+
+#### Characteristics
+> Why EVS volume are easy specific snapshot are regional is specific
+> To migrate and EVS from one is easy to another is to another create a snapshot reason is specific and create an EBS volume from the snapshot in the intended ages
+> You can create restore a snapshot to an EBS volume of the same order large size than the original volume size from which the snapshot was created but you cannot restore and EVS volume snapshot to a smaller volume size
+
+## EVS exercise during snapshot process #
+> You can take a snapshot of a non roti vs volume while the volume is a news on a running easy to instance
+> This menu can still access it while the snapshot is being processed
+> Poverty snapshot will only include data that is already written to your volume
+> Any data cache ID by the operating system OS or in memory will not be included which mean the snapshot cannot be 100% consistent
+=======================================

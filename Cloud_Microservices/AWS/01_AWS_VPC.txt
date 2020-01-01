@@ -79,7 +79,8 @@ Q> Is a horizontally scaled, redundant, and highly available VPC component
 > Changes to security groups take effect immediately. 
 
 > A Security group can be used in different subnet 
-#### TYPE OF SECURITY GROUPS ####
+
+####### TYPE OF SECURITY GROUPS #######
 
 1. Default Security Group in a default or custom VPC, will have:
 - Inbound rules allowing instances assigned the same security group to talk to one another 
@@ -136,4 +137,104 @@ Q> Is a horizontally scaled, redundant, and highly available VPC component
 
 > A Custom NACL block/denies all inbound and outbound traffic by default 
 
- 
+## NOTE:
+> Inbound in ACL means coming from outside the subnet destined to the subnet. 
+- Outbound means going out of the subnet.
+
+> Inbound for security group means inbound from outside the instance destined to the instance. 
+- Outbound means going out of the instance ENI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Ques 
+## If an instance in a VPC is unable to communicate over a certain protocol/ports with anothe instance in the same VPC, then the problem is the security setting of :
+
+- Security group or NACL of the source instance, and/or,
+- Security group or NACL of the destination instance 
+
+* The problem will never be routing table configuration, due to the default route entry .
+
+
+>> NACL are stateless, to allow certain traffic through it, it need to be allowed( and the return traffic) in the inbound and outbound rules of the ACL. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+=======================================
+####### Security Group & NACL ######### V12
+
+> Changes made to NACLs (or Security Group) take effect immediately, so they are both quick to activate/defend as needed. 
+
+> NACL can help you block certain ranges of IP address from a large pool (Internet address for instance), becuase they do have deny rules.
+- SG cannot block a certain range of IP address from interrnet from getting to your EC2 feet of instances 
+=======================================
+## What is difference between Security group and NACL? 
+
+> SG operates at the instance level (2nd line of defense i.e defense in depth)
+- NACL operates at the subnet level (1nd line of defense)
+
+> SG Support allow rules only 
+- NACL supports allow and deny rules 
+
+> SG is stateful i.e return traffic is automatically allowed regardless of any rules 
+- NACL is stateless : return traffic must be explicitly allowed by rule 
+
+> SG, we evaluate all rules before deciding whether to allow traffic 
+- NACL, we process rules in number order when deciding 
+
+> SG Applies to an instance only if someone specifies the sG when launching the instance or associates the SG with the instance later on 
+- NACL Automatically applies to all instances in the subnet its associated with (backup layer of defense, so you don't have to rely on someone specifying the SG) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+
+
+=======================================
+############# NAT Instance ############ V15 
+> NAT instance place at public subnet
+- it is normal EC2 instance but it is loaded with AMI that has NAT functionality 
+
+> NAT instance is configured in a public subnet 
+
+> NAT instance need to be assigned a security group
+
+> NAT instance is there to enable the private subnet EC2 instance to get to the internet
+
+> No traffic initiated from the internet can access the private subnet 
+
+> Only admin SSH traffic can be allowed to the NAT instance (or RDP if windows) 
+
+> Public subnet EC2 instance don't need to go through NAT 
+
+#### NAT INSTANCE SECURITY GROUP ####
+> Private subnet EC2 instances need to access websites on the internet (http/https)
+
+> NAT instance SG must allow :
+- Traffic inbound from the private subnet or the private subnet SG as a source on the ports 80(http) and 443(https) 
+
+- Traffic outbound to 0.0.0.0/0 (internet) on ports 80 and 443 
+
+- Traffic inbound from customer own network on port 22(ssh) to administer the NAT instance
+
+######## NAT GATEWAY ##########
+
+> It is a AWS managed service 
+
+> Cannot be assigned a Security group 
+> AWS is responsible for its security/patching etc 
+> Works only with an Elastic IP, can not use a public IP to do it function 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## What is difference between NAT Gateway and NAT Instance?
+
+> NAT Instance we manage it and launch it 
+- NAT Gateway manage by AWS 
+
+> NAT Instance we add Security group 
+- NAT Gateway SG is managed by AWS 
+
+> NAT instance works on public ip / elastic ip 
+- NAT gateway works only on elastic ip 
+
+=======================================
+########### VPC wizard ######### V16 
+
+> VPC with public and private subnets created by a VPC wizard will have 
+- by default, a public subnet associated with a custom route table
+- by default, a private subnet associated with the main route table 
+- An IGW created and attached to the VPC
+
+- by default the wizard will prefer to create a NAT Gateway for your VPC, but you have the option to choose a NAT instance instead. 

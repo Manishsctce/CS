@@ -76,3 +76,8 @@
 > Poverty snapshot will only include data that is already written to your volume
 > Any data cache ID by the operating system OS or in memory will not be included which mean the snapshot cannot be 100% consistent
 =======================================
+#### EBS snapshot #######
+> This snapshot is created immediately but it may stay in pending status until the full snapshot is complete all changed data block are copied to S3 the status then change to complete
+> This may take few hour to complete especially for the first time snapshot of a volume
+> during the period when snapshot status is pending you can still access the volume but you might be slower because the snapshot activity
+> While in pending state and in progress is snapshot will not include data from ongoing read and write to the volume this is why for a complete snapshot you need to stop argue or unmount the volume if possible or stop the instance for root volume

@@ -81,3 +81,13 @@
 > This may take few hour to complete especially for the first time snapshot of a volume
 > during the period when snapshot status is pending you can still access the volume but you might be slower because the snapshot activity
 > While in pending state and in progress is snapshot will not include data from ongoing read and write to the volume this is why for a complete snapshot you need to stop argue or unmount the volume if possible or stop the instance for root volume
+
+##EBS snapshot consistency
+> To take complete(consistent) snapshot of your non-root EBS volume
+1. Pause file write to the desired volume for enough time to take a snapshot
+2. if you can't pause file write, you need to unmount detach the volume from the EC2 instance take the snapshot and then remount the volume to ensure a consistent and complete the snapshot
+
+> you can re-Mount the volume while the snapshot status is pending 
+- this mean the volume does not have to deattach until the snapshot completes
+
+> To take snapshot for root(boot)EBS volume you should stop the instance first and then take the snapshot

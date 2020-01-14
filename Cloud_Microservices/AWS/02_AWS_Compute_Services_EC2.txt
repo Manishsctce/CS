@@ -268,10 +268,10 @@ Storage		: NVMe SSD
 =======================================
 ########## EC2 Status checks ########## V12 
 
-> By default a w s e c 2 in services perform automatically status check every 1 minute
+> By default AWS EC2 in services perform automatically status check every 1 minute
 - This is done on every running EC2 instance to identify any hardware or software issues
 - Each status check returns either a pass or a failure status
-- If one or more is status check return a fail, the overall EC2 instances status is changed to "impaired"
+- If one or more status check return a fail, the overall EC2 instances status is changed to "impaired"
 
 > Status checks are built in AWS EC2 services
 - They cannot be configured, deleted, disabled or changed
@@ -299,3 +299,53 @@ Storage		: NVMe SSD
 - you can use the reboot and recover to move your EC2 instance to another host
 
 =======================================
+########### EC2 States ################ v13
+> When you launch an instance, it goes through pending then running state 
+> moving to running state mean, instance has started booting 
+> then the instance receive a private DNS hostname, and possibly a public DNS hostname (depends on whether it is configured to receive a public IP) 
+
+> if you reboot an EC2 instance, it is considered as running and does not add additional hour for your bill 
+> stopping and restarting an instance adds an hour to your bill
+
+## EC2 Stopped State 
+> When you stop an instance AWS shuts it down.
+> Stopped instance maintain its instance ID and root volume
+
+> INSTANCE-STORE BACKED INSTANCE CANNOT BE STOPPED they can only be reboot and terminate
+
+> You are not charged for EC2 instance if they are stopped, however attached EBS volumes incur charges
+
+> For stopped EC2 instance you can, detach/ re-attach their EBS volume including the root volume 
+- when detached, you can attach it to another instance modify it and then re-attached it again to the stopped instance
+
+## EC2- stopping an EC2 instance
+> When you stop an EBS backed instance, any data in any instance-store volume is lost 
+- despite the fact that the instance can be restarted, all instance store will be gone
+
+> When you stop an EBS-backed EC2 instance
+- Instance perform on shutdown 
+- state change from running->stopping->stopped 
+- EBS volume remain attached to the instance 
+- any data cache in RAM or instance store volume is gone 
+- most probably when restarted again it will restart on a new physical host 
+- instance retain its private ipv4 address, any IPv6 address
+- instance release its public ipv4 address back to AWS pool
+- instance retain its elastic IP address
+
+##Stopping and instance
+> if your instance was registered with an ELB, it is recommended that you de-register it from the ELB, such that the ELB will stop healthcheck to the instance 
+- you can re-register it later when used restart
+
+> If your instance was part of an auto scaling group, the ASG would mark it when stopped, as unhealthy, terminated it and replace it
+- if you do not want this to happen you better remove/detach the instance from the auto scaling group before stopping it 
+
+## EC2 reboot
+> Rebooting an EC2 instances does not cause a new hourly bill
+> best practice 
+- use EC2 reboot and not the instance operating system reboot
+- 2 reason for this 
+1. AWS when it initiates reboot, wait for 4 minutes, then if the instance did not reboot will force a hard reboot
+
+2. AWS Reboot creates an AWS cloudtrail log which is used for forensic, troubleshooting and documentation/audit purpose
+=======================================
+########### 

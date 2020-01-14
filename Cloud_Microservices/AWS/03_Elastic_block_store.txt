@@ -76,18 +76,120 @@
 > Poverty snapshot will only include data that is already written to your volume
 > Any data cache ID by the operating system OS or in memory will not be included which mean the snapshot cannot be 100% consistent
 =======================================
-#### EBS snapshot #######
-> This snapshot is created immediately but it may stay in pending status until the full snapshot is complete all changed data block are copied to S3 the status then change to complete
-> This may take few hour to complete especially for the first time snapshot of a volume
-> during the period when snapshot status is pending you can still access the volume but you might be slower because the snapshot activity
-> While in pending state and in progress is snapshot will not include data from ongoing read and write to the volume this is why for a complete snapshot you need to stop argue or unmount the volume if possible or stop the instance for root volume
+#### EBS snapshot ####### v4
 
-##EBS snapshot consistency
+> This snapshot is created immediately but it may stay in pending status until the full snapshot is complete(all changed data blocks are copied to S3) the status then change to complete
+- This may take few hours to complete, especially for the first time snapshot of a vol
+
+> During the period when snapshot status is pending, you can still access the volume but I/O might be slower because of the snapshot activity
+
+> While in pending state, an in progress snapshot will not include data from ongoing read and write to the volume 
+- this is why for a complete snapshot you need to stop I/O or unmount the volume if possible(or stop the instance for root volumes)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## EBS snapshot consistency
+
 > To take complete(consistent) snapshot of your non-root EBS volume
+
 1. Pause file write to the desired volume for enough time to take a snapshot
-2. if you can't pause file write, you need to unmount detach the volume from the EC2 instance take the snapshot and then remount the volume to ensure a consistent and complete the snapshot
+
+2. if you can't pause file write, you need to unmount detach the volume from the EC2 instance, take the snapshot and then remount the volume to ensure a consistent and complete the snapshot
 
 > you can re-Mount the volume while the snapshot status is pending 
-- this mean the volume does not have to deattach until the snapshot completes
+- this mean the volume does not have to deatached until the snapshot completes
 
-> To take snapshot for root(boot)EBS volume you should stop the instance first and then take the snapshot
+> To create snapshot for root(boot)EBS volume you should stop the instance first and then take the snapshot
+> Be careful if you have any instance-store volume on the EC2 instance, their data will be lost once you stop the instance
+
+## EBS incremental snapshot
+> EBS snapshots are stored incrementally
+> For low cost storage on S3 and guarantee to be fully restore data from the snapshot
+- What you need is a single snapshot then further snapshots will only carry the changed blocks (incremental updates) 
+- Therefor you do not need to have multiple full/complete copies of the snapshot(less storage, fastest updates)
+
+> EBS snapshots are asynchronously created 
+- this refer to the fact that updates or changes to snapshot do not have to happen immediately when the respective volume data change
+
+> You are charged for: 
+- data transfer to S3 from your EVS volume you are taking a snapshot 
+- storage on S3
+=======================================
+##EBS encrypted support
+
+> EBS encryption is supported on all EBS volume type and all EC2 instance families
+> Snapshots of encrypted volume are also encrypted
+> Creating and EBS volume from an encrypted snapshot will result it an encrypted volume.
+
+##EBS Data encryption at rest
+
+> Data encryption at rest me encrypting data while it is stored on the data storage device
+> There are many ways you can encrypt data on an EBS volume at rest, while the volume is attached to an EC2 instance
+- Use 3rd party EBS volume(SSD or HDD) encryption tool
+- Use encrypted EBS volume
+- Use encryption at the OS level (using data encryption plugin/driver)
+- Encrypt data at the application level before storing it to the volume
+- Use encrypted file system on top of the EBS volume
+
+##EBS encryption data in transit
+
+> Remember that EBS volume are not physically attached to the EC2 instance rather they are virtually attached through the AWS infrastructure
+- This means when you encrypt data on an EBS volume, data is actually encrypted on the EC2 instance then transferred encrypted, to be stored on the EBS volume
+- This mean data in transit between EC2 and encrypted EBS volume is also encrypted
+
+> Data at rest in the EBS volume is also encrypted
+
+## EBS encryption
+
+> Encrypted volume are accessed exactly like unencrypted one basically encryption is handle transparently.
+> you can attach an encrypted and unencrypted volume to the same EC2 instance (but the instance has to support encrypted volume)
+=======================================
+########## EBS encryption ######### v7
+> There is no direct way to change the encryption state of a volume
+> To change the state(indirectly) you need to follow either of the following two way
+1. Attach in new encrypted EBS volume to the EC2 instance that has the data to be encrypted then 
+- mount the new volume to the EC2 instance 
+- copy the data from the un-encrypted volume to the new volume 
+- both volume must be on the same EC2 instance
+
+2. Create a snapshot of the unencrypted volume 
+- copy the snapshot and choose encryption for the new copy, this will create an encrypted copy of the snapshot 
+- use this new copy to create an EBS volume, which will be encrypted too
+- attach the new encrypted, EBS volume to the EC2 instance
+- you can delete the one with the un-encrypted data
+
+#### Root ebs volume encryption
+> There is no direct way to change the encryption state of volume
+
+> There is an indirect workaround to this
+- Launch the instance with EBS volume required 
+- do whatever patching or install application 
+- create an AMI from the EC2 instance 
+- copy the AMI and choose encryption while copying 
+- this result it an encrypted AMI that is private 
+- use the encrypted AMI to launch new EC2 instance which will have the EBS root volume encrypted
+
+### EBS volume/snapshot - encryption key
+> To encrypt a volume or a snapshot, we need an encryption key called Customer Master Key(CMK) and are managed by Key Management Service(KMS)
+
+> When encrypting 1st EBS volume, AWS KMS create a default CMK key, 
+- this key is used for your first volume encryption, encryption of a snapshot created from this volume and subsequent volume created from these snapshot
+
+> After that, each newly encrypted volume is encrypted with the Unique /separate AES256 bit encryption key 
+- this key is used to encrypt the volume it's snapshot and any volume created from this snapshot
+
+##Changing encryption key
+> You cannot change the encryption key used to encrypt an existing encrypted snapshot or encrypted EBS volume
+- If you want to change the key, copy create a copy of the snapshot and specified during the copy process that you want to re-encrypt the copy with a different key
+- this come in handy when you have a snapshot that was encrypted using your default CMK key and you want to change the key in order to be able to share the snapshot with other account
+
+## EBS volume migration
+> EBS volume are AZ specific(can be used in the AZ where they are created only)
+> To move or migrate your EBS volume to another AZ in the same region, 
+- create a snapshot of the volume 
+- use the snapshot to create a new volume in the new AZ
+
+> to move or migrate your EBS volume to another region 
+- you need to create a snapshot of the volume 
+- copy the snapshot and specify the new region where it should be 
+- in the new region create a volume out of the copied snapshot
+
+=======================================

@@ -3,8 +3,8 @@
 - We can have complete control over your virtual networking environment, including a selection of your IP address range, the creation of subnets, and configuration of route tables and network gateways.
 - we can provide multiple layers of security, including security groups and network access control lists, to help control access to Amazon EC2 instances in each subnet.Architecture of VPC
 
-
-##### Implied Router ######
+=======================================
+########### IMPLIED ROUTER ############ v2
 > It is the central VPC routing function.
 > It connects the different AZ's together and connects the VPC to the internet gateway.
 > Each subnet will have a route table the router uses to forward traffic within the VPC. 
@@ -22,23 +22,25 @@
 - However, we can make a custom route table manually become the main route table, then we can delete the former main, as it is no longer a main route table.
 
 > Every route table in a VPC comes with a default rule that allows all VPC subnets to communicate with one another
-- we cannot modify or delete this rule.
- 
+- we CANNOT modify or delete this rule.
+- this entry contain 'CIDR block IP addr of VPC' in destination and target is local  
 =======================================
-######### VPC IP Addressing ###########
+######### VPC IP Addressing ########### v3
 
-> Once the VPC is created, we cann't change its CIDR block range. 
+> ONCE THE VPC IS CREATED, WE CANN'T CHANGE ITS CIDR BLOCK RANGE. 
 - The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses).
 
-> Min size of CIDR block is /28 means out of 32bit, 28bit is taken by CIDR block and 4bit for host i.e. 2^4=16 IP can be use by host 
+> MIN SIZE OF CIDR BLOCK IS /28 means out of 32bit, 28bit is taken by CIDR block and 4bit for host i.e. 2^4=16 IP can be use by host 
 
-> Max size of CIDR block is /16 means out of 32bit, 16bit is taken by CIDR block and 6bit for host i.e. 2^6 IP can be use by host 
+> MAX SIZE OF CIDR BLOCK IS /16 means out of 32bit, 16bit is taken by CIDR block and 6bit for host i.e. 2^6 IP can be use by host 
 
 > If we need a different CIDR size, create a new VPC 
 
 > The different subnet within a VPC can NOT overlap (basic TCP/IP rule) 
+EXAMPLE: if a subnet X CIDR block is 10.0.0.0/24, it mean last 8 bit assign for host 
+- Now we cannot have another subnet Y within the same VPC having 10.0.0.0/28 CIDR block because it is taking last 4 bit of subnet X
 
-> we can however, expand VPC 
+> we can however, expand VPC CIDR by adding new/extra IP addr ranges 
 
 #### AWS Reserved IPs in each subnet
 
@@ -50,7 +52,6 @@
 10.0.0.3 Reserved for future use
 10.0.0.255 last IP 
 
-=======================================
 #### INTERNET GATEWAY #### 
 > Is the gateway through which our VPC communicate with the internet and with other AWS services
 
@@ -65,10 +66,15 @@ Q> Is a horizontally scaled, redundant, and highly available VPC component
 
 #### Public Subnet Vs Private Subnet 
 
-10.0.0.0, 172.16.0.0, 192.168.0.0 
+##Private IP address
+10.0.0.0, 
+172.16.0.0, 
+192.168.0.0 
+
+Routable IP addr
 
 =======================================
-########## SECURITY GROUPS ############
+########## SECURITY GROUPS ############ v6
 
 > Any Virtual Server Instance(EC2) created must have a security group for it specified during its launch. you can either choose an existing one, or create a new security group during launch. 
 

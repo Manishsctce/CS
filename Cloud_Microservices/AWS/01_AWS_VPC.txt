@@ -10,6 +10,7 @@
 > Each subnet will have a route table the router uses to forward traffic within the VPC. 
 > The route tables will also have entries to external destinations.
 
+> Route Table, NACL are part of IMPLIED ROUTER
 ##### ROUTE TABLES #######
 > You can have up to 200 route tables per VPC
 > We can have up to 50 routes entries per route table.
@@ -162,13 +163,13 @@ Routable IP addr
 >> NACL are stateless, to allow certain traffic through it, it need to be allowed( and the return traffic) in the inbound and outbound rules of the ACL. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 =======================================
-####### Security Group & NACL ######### V12
+####### Security Group & NACL ######### v12
 
-> Changes made to NACLs (or Security Group) take effect immediately, so they are both quick to activate/defend as needed. 
+> CHANGES MADE TO NACLS (OR SECURITY GROUP) TAKE EFFECT IMMEDIATELY, so they are both quick to activate/defend as needed. 
 
-> NACL can help you block certain ranges of IP address from a large pool (Internet address for instance), becuase they do have deny rules.
-- SG cannot block a certain range of IP address from interrnet from getting to your EC2 feet of instances 
-=======================================
+> NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
+- SG cannot block a certain range of IP address from internet from getting to your EC2 fleet of instances 
+======================================= 
 ## What is difference between Security group and NACL? 
 
 > SG operates at the instance level (2nd line of defense i.e defense in depth)
@@ -177,17 +178,27 @@ Routable IP addr
 > SG Support allow rules only 
 - NACL supports allow and deny rules 
 
-> SG is stateful i.e return traffic is automatically allowed regardless of any rules 
-- NACL is stateless : return traffic must be explicitly allowed by rule 
+> SG IS STATEFUL i.e return traffic is automatically allowed regardless of any rules 
+- NACL IS STATELESS : return traffic must be explicitly allowed by rule 
 
 > SG, we evaluate all rules before deciding whether to allow traffic 
 - NACL, we process rules in number order when deciding 
 
 > SG Applies to an instance only if someone specifies the sG when launching the instance or associates the SG with the instance later on 
 - NACL Automatically applies to all instances in the subnet its associated with (backup layer of defense, so you don't have to rely on someone specifying the SG) 
+
+## Security GROUP format 
+INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
+OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
+
+##NACL format 
+#INBOUND - Rule, Type, Protocol, PortRange, source, Allow/Deny
+#OUTBOUND - Rule, Type, Protocol, PortRange, Destination, Allow/Deny, 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+#### TCP/IP PACKET HEADERS #### v13
 
-
+DestIP - DestPort - SourceIP - SourcePort - payload
+- Here SourcePort could be ephemeral 
 
 =======================================
 ############# NAT Instance ############ V15 
@@ -236,11 +247,51 @@ Routable IP addr
 - NAT gateway works only on elastic ip 
 
 =======================================
-########### VPC wizard ######### V16 
+############# VPC WIZARD ############## v16 
 
-> VPC with public and private subnets created by a VPC wizard will have 
-- by default, a public subnet associated with a custom route table
+> VPC with public and private subnets created by a VPC wizard will have: 
+- by default, a public subnet associated with a custom route table and IGW
 - by default, a private subnet associated with the main route table 
 - An IGW created and attached to the VPC
 
-- by default the wizard will prefer to create a NAT Gateway for your VPC, but you have the option to choose a NAT instance instead. 
+- by default the wizard will prefer to create a NAT Gateway for your VPC, but you have the option to choose a NAT instance instead.  
+
+> For launch of NAT instance the wizard need atleast M1 instance
+
+> Main(default) VPC route table is assigned to the private subnet, it has the VPC local subnet routing entry and an entry 0.0.0.0/0 pointing to the NAT instance/gateway
+
+> Custom route table will have an entry 0.0.0.0/0 pointing to internet gateway as a target
+
+> NOTE : CREATING A VPC, CREATES ROUTE TABLE AND NOT ROUTING INSTANCE
+
+> VPC created by VPC Wizard, by default creates NAT Gateway/instance 
+
+> VPC with NAT instance cannot be deleted unless the user manually terminate those NAT instance 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## VPC wizard - public and VPN-only subnet
+
+> Wizard created VPC with public and VPN-only subnet does not have a NAT instance or NAT gateway 
+
+> Wizard created VPC will have
+- Main route table associated with the the VPN-only subnet
+- Custom route table associated with public subnet and pointing to the VPC IGW
+- IGW created for the VPC
+- VGW with VPN connection
+- Route propagation enable for the main route table for exchanging route with the VGW dynamically
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Routing to on premise network
+> A public and VPN-only subnet VPC created by the VPC wizard refer to the fact that no NAT instance(or gateway) will be created as part of the wizard configuration
+- VPN-only mean a subnet that does not require access to the internet
+
+> VPC main route table is associated with the VPN-only subnet
+> VPC custom route table is associated with the public subnet
+> VGW is the gateway the main table refer to for access to customer premise/data centre
+
+## VPN-only subnet
+> Configuring a VPC using the VPC wizard that has a VPN-only and VPN access implies:
+- No public subnet 
+- no NAT instance/gateway 
+- it will create a virtual private gateway(VGW) but without an elastic IP 
+- it will create a VPN connection
+=======================================

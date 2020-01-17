@@ -1,7 +1,10 @@
 ###### Virtual Private Cloud #####
-> VPC stands for Virtual Private Cloud- It is logically isolated area of the AWS cloud
-- We can have complete control over your virtual networking environment, including a selection of your IP address range, the creation of subnets, and configuration of route tables and network gateways.
-- we can provide multiple layers of security, including security groups and network access control lists, to help control access to Amazon EC2 instances in each subnet.Architecture of VPC
+> VPC stands for Virtual Private Cloud
+- It is logically isolated area of the AWS cloud
+- We can have complete control over our virtual networking environment, including a selection of our IP address range, the creation of subnets, and configuration of route tables and network gateways.
+- we can provide multiple layers of security, including security groups and NACL, to help control access to Amazon EC2 instances in each subnet.
+
+### Architecture of VPC
 
 =======================================
 ########### IMPLIED ROUTER ############ v2
@@ -11,6 +14,7 @@
 > The route tables will also have entries to external destinations.
 
 > Route Table, NACL are part of IMPLIED ROUTER
+
 ##### ROUTE TABLES #######
 > You can have up to 200 route tables per VPC
 > We can have up to 50 routes entries per route table.
@@ -79,7 +83,8 @@ Routable IP addr
 
 > Any Virtual Server Instance(EC2) created must have a security group for it specified during its launch. you can either choose an existing one, or create a new security group during launch. 
 
-> Each VPC created will have a default security group create for it, you can NOT delete a default security group.
+> Each VPC created will have a default security group, 
+- we CANNOT delete a default security group.
 
 > SECURITY GROUPS ARE VPC RESOURCES, hence different EC2 instances, in different AZ, belonging to the same VPC, can have the same security group applied to them
 
@@ -295,3 +300,79 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - it will create a virtual private gateway(VGW) but without an elastic IP 
 - it will create a VPN connection
 =======================================
+############ VPC PEERING ############## v18
+> VPC peering connection is a networking connection between 2 vpc that enable you to route traffic between them using private ipv4/IPv6 address
+
+> Instance in another vpc can communicate with each other as if they are within same network
+
+> You can create a vpc peering connection between your own vpc or with vpc in another AWS account within a single or between regions
+
+> AWS use the existing infrastructure of a vpc to create a vpc peering connection
+- it is neither a gateway nor a VPN and connection and does not rely on a separate piece of physical hardware
+
+> There is no single point of failure for communication or a bandwidth bottleneck
+
+> EXAMPLE of vpc peering connection usages:
+- if you have more than one AWS account, you can peer the vpc across those account to create a file sharing network 
+- you can also use a vpc peering connection to allow other VPC to access resources in your own vpc
+
+## To establish a VPC peering connection you do the following: 
+- the owner of requester VPC (or local vpc) send a request to the owner of peer VPC  
+- EITHER OF VPC SHOULD NOT HAVE OVERLAP CIDR BLOCK 
+
+> To enable the flow of traffic between the peer VPC, 
+- use private IP address, 
+- add route entry in VPC route table of both VPCs 
+- if require update the SG rules to ensure that traffic to and from the peer VPC is not restricted 
+
+
+> vpc peering connection is a one to one relationship between two vpc 
+- you can create multiple vpc peering connection for each vpc that you own
+
+> TRANSITIVE PEERING RELATIONSHIP ARE NOT SUPPORTED:
+- you do not have any peering relationship with VPC that your vpc is not correctly peered with.
+
+> Vpc peering does not support edge-to-EDGE routing
+
+> You have a limit on the number of active(50) and pending vpc peering(25) connection that you can have per vpc
+
+> we cannot have more than 1 VPC peering connection betw the same 2 VPCs at the same time. 
+
+> A placement group can span period vpc
+> Unicast reverse path forwarding in vpc peering connection is not supported
+
+> vpc peering is not transitive 
+- to allow 4 VPC to talk to each other 
+- we need a full mesh among them 
+- n(n-1)/2 vpc peering i.e 6 peering connection are required 
+- what if there we have 20 or 30 VPC
+
+=======================================
+############ Transit Gateway ########## v19
+
+> Transit gateway is a network transit hub that you can use to interconnect your VPC and on premise networks 
+
+> it is a regional resource 
+> VPC are allowed to communicate with one another and with on-premise CIDR block by default 
+
+> this can be changed by creating multiple route table, associated different vpc with different routing table to limit/control who talk to whom 
+
+> transitive gateway can be associated across accounts
+
+> A VPC, an AWS direct connect gateway, or a VPN connection can be attached to a transit gateway
+
+## Transit gateway route table
+> Transit gateway has a default route table and can optionally have additional route table
+> Route table includes dynamic and static routes that decide the next hop based on destination IP address of the packet
+
+> The target of these rounds can be a vpc or a VPN connection
+> by default the vpc and VPN connection that are attached to a transitwy are associated with the default transit gateway route table.
+
+# Association
+> Each attachment is associated with exactly one route table
+> Each route table can be associated with zero or many attachment
+
+# Route propagation
+> A Vpc or VPN connection can dynamically propagate route to a transit gateway route table
+> With a vpc, you can create static route to send traffic to the transit gateway
+> With the VPN connection, route are propagated with the transit gateway on your on-premise router using border gateway protocol(BGP)

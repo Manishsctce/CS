@@ -335,3 +335,31 @@ Notes:
 3. Log delivery group
 - Write permission on a bucket enable this group to write server access logs
 =======================================
+########## v9
+ When to use Object ACLS To manage Object Permissions
+> An object ACL is the only way to manage access to objects not owned by the bucket owner
+- This can happen when the bucket owner authorizes another account to upload objects to the bucket, but still the Bucket owner will not own the objects
+- However, the bucket owner can deny, through the bucket policy, access to the object, even if the object ACL allows it
+- The bucket owner can delete any object regardless whether it owns it or not
+
+> When managing granular permissions at the object level is required
+- Bucket policies are limited to 20KB in size and won't be practical to be used for this
+- Object ACLS are limited to 100 granted permissions per ACL
+
+
+## When to use Bucket ACLS
+> The only recommended use case for the bucket ACL is to grant write permission to the Amazon S3 Log Delivery group to write access log objects to your bucket
+
+- If you want Amazon S3 to deliver access logs to your bucket, you willneed to grant write permission on the bucket to the Log Delivery group.
+
+> You can use bucket and Object ACLs to grant cross-account permissions to other accounts, but ACLS support only a finite set of permission, these don't include all Amazon S3 permissions.
+
+######## ACL limitations
+> You can use ACLS to grant basic read/write permissions to other AWS accounts.
+
+> There are limits to managing permissions using ACLS.
+- For example, you can grant permissions only to other AWS accounts; you cannot grant permissions to users in your account.
+
+- You cannot grant conditional permissions, nor can you explicitly deny permissions. ACLS are suitable for specific scenarios.
+
+- For example, if a bucket owner allows other AWS accounts to upload objects, permissions to these objects can only be managed using object ACL by the AWS account that owns the object.

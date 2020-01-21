@@ -1,0 +1,169 @@
+=======================================
+###### AWS SECURITY services #########
+
+AWS Identity and Access Management (IAM)
+- It enables you to manage access to AWS services and resources securely.
+
+=======================================
+=======================================
+## AWS Account Identifiers
+
+> AWS assigns two types of unique ID to each user's account:
+
+1. AWS account ID
+> It is a 12-digit number which can be used to construct Amazon Resource Names (ARNs)
+
+2. Canonical user ID
+>  It is 64-DIGIT HEXADECIMAL ENCODED a 256-bit number.
+> It is USED in an Amazon S3 bucket policy FOR CROSS-ACCOUNT ACCESS means that AWS account can access the resources in another AWS account. 
+- For example, if you want AWS account access to your bucket, you need to specify the canonical user ID to your bucket's policy.
+
+=======================================
+### Identity Access Management(IAM) ###
+
+> It is USED TO MANAGE USERS AND THEIR LEVEL OF ACCESS to the aws console.
+- It is used to set users, permissions and roles. It allows you to grant access to the different parts of the aws platform.
+
+- With IAM, Organizations can centrally manage users, security credentials such as access keys, and permissions that control which AWS resources users can access.
+
+> IAM enables the organization to create multiple users, each with its own security credentials, controlled and billed to a single aws account. 
+- IAM allows the user to do only what they need to do as a part of the user's job.
+
+> Without IAM, Org with multiple users must either create multiple user acc, 
+- each with its own billing and subscriptions to AWS products or share an account with a single security credential. 
+- Without IAM, you also don't have control about the tasks that the users can do.
+
+
+===================================
+######## Features of IAM ##########
+
+1. Centralised control of your AWS account: 
+- You can control creation, rotation, and cancellation of each user's security credentials. You can also control what data in the aws system users can access and how they can access.
+
+2. Shared Access to your AWS account: 
+- Users can share the resources for the collaborative projects.
+
+3. Granular permissions: 
+- It is used to set a permission that user can use a particular service but not other services.
+
+4. Identity Federation: 
+- An Identity Federation means that we can use Facebook, Active Directory, LinkedIn, etc with IAM. 
+- Users can log in to the AWS Console with same username and password as we log in with the Active Directory, Facebook, etc.
+
+5. Multifactor Authentication: 
+- An AWS provides multifactor authentication as we need to enter the username, password, and security check code to log in to the AWS Management Console.
+
+6. Permissions based on Organizational groups: 
+- Users can be restricted to the AWS access based on their job duties, for example, admin, developer, etc.
+
+7. Networking controls: 
+- IAM also ensures that the users can access the AWS resources within the organization's corporate network.
+
+8. Provide temporary access for users/devices and services where necessary: 
+- If you are using a mobile app and storing the data in AWS account, you can do this only when you are using temporary access.
+
+9. Integrates with many different aws services: IAM is integrated with many different aws services.
+
+10. Supports PCI DSS Compliance: 
+- PCI DSS (Payment Card Industry Data Security Standard) is a compliance framework. If you are taking credit card information, then you need to pay for compliance with the framework.
+
+11. Eventually Consistent: 
+- IAM service is eventually consistent as 
+- it achieves high availability by replicating the data across multiple servers within the Amazon's data center around the world.
+
+12. Free to use: AWS IAM is a feature of AWS account which is offered at no additional charge. You will be charged only when you access other AWS services by using IAM user.
+=======================================
+############# IAM ELEMENT ############# v3
+> IAM infrastructure includes the following elements: 
+1. Principal 
+2. Request 
+3. Authentication 
+4. Authorisation 
+5. Action
+
+## PRINCIPAL
+> A principle is an entity that can take an action on an resource
+> Our administrative IAM user is your first principle
+> AWS principles can be IAM users, Roles, Federated user and application
+> we can allow user and service to assume a role
+> We can support federated user or programmatic access to allow an application to access AWS account
+
+~~~~~~~~~~~~
+## REQUEST
+> When Principles send a request via console, CLI, SDK or APIs including the following:
+- Actions (or operation) that the principal wants to perform
+- Resource upon which the actions are performed
+- Principal information including the environment from which the request was made
+
+## REQUEST CONTEXT
+> Before AWS can evaluate and authorize a request, AWS gathers below information:
+- PRINCIPAL(the requester) : which is determined based on the authorisation data
+- AGGREGATE PERMISSION : that are associated with that principle
+- ENVIRONMENT DATA : such as the IP address user agent SSL enabled status at the time of day
+- RESOURCE DATA : this include resource information such as dynamic DB table name, S3 bucket, or tag on an Amazon ec2 instance
+
+## AUTHENTICATION
+> A principal sending a request must be authentication(sign in to AWS) to send the request to AWS services 
+- some services like S3 allow requests from Anonymous users 
+
+
+=======================================
+######### v9 
+
+
+## Users and Credentials
+> You can access AWS in different ways depending on the user credentials:
+
+Console Password:
+- A password that the user can type to sign in to interactive sessions such as the AWS Management Console.
+
+Access Keys:
+-A combination of an access key ID and a secret access key.
+一You can assign two to a user at a time.LrI
+-These can be used to make programmatic calls to AWS when using the APl in program code or at a command prompt when using the AWS CLI or the AWS PowerShell tools.
+
+Server Certificates:
+-SSL/TLS certificates that you can use to authenticate with some AWS services.
+
+## IAM
+> Create credentials for the user,depending on the type of access the user requires:
+
+# Programmatic access:
+-The IAM user might need to make APl calls or use the AWS CLI or the Tools for Windows PowerShell.
+- In that case,create an access key (an access key ID and a secret access key)for that user.
+
+# AWS Management Console access
+-If the user needs to access AWS resources from the AWS Management Console, Create a password for the user.
+
+> As a best practice,do not create credential of a certain types for a user who will never need that kind of access
+
+## IAM Users - Password Management
+You can
+- Allow all IAM users in the account to change their own password
+- Allow only a selected IAM users to change their own password
+• För this case, Disable the option for all users to change their own passwords and you use an lAM policy to grant permissions to only some users to change their own passwords and optionally other credentials like their own access keys.
+
+## IAM Users-Access Keys
+> Users need their own access keys to make programmatic calls to AWS from the HTTPS API, CLI,SKDs,Toosl for Windows PowerShell
+
+> You can create,modify,view,or rotate access keys(access key IDs and secret access keys)for IAM users.
+
+> When you create an access key,IAM returns the access key ID and secret access key.
+
+> You should save these in a secure location and give them to the user.
+- To ensure the security of your AWS account,the secret access key is accessible only at the time you create .
+
+-If a secret access key is lost,you must delete the access key for the associated user and create a new key.
+
+> By default, when you create an access key, its status is Active, which means the user can use the access key for AWS CLI, Tools for Windows PowerShell, and API calls.
+
+> Each user can have two active access keys, which is useful when you must rotate the user's access keys.
+
+> You can give your users permission to list, rotate, and manage their own keys
+- This is done through an IAM policy, not from Console menus like Passwords
+
+> You can disable a user's access key, which means it can't be used for API calls.
+- You might do this while you're rotating keys or to revoke API access for a user.
+
+> You can delete an access key at any time. However, when you delete an access key, it's gone forever and cannot be retrieved. (You can always create new keys.)
+=======================================

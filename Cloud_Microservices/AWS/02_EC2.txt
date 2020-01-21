@@ -348,4 +348,196 @@ Storage		: NVMe SSD
 
 2. AWS Reboot creates an AWS cloudtrail log which is used for forensic, troubleshooting and documentation/audit purpose
 =======================================
-########### 
+########### v14
+
+## EC2 - Instance Termination
+> When you terminate a running instance the instance states changes as follows
+Running -> Shutting down -> Terminated
+- During the Shutting down and Terminated states you do not incur charges
+
+> By default, EBS root device volumes (created automatically when the instance is launched) are deleted automatically when the EC2 instance is terminated
+
+> Any additional (non boot/root) volumes attached to the instance (those you attach to the instance during launch or later), by default, persist after the instance is terminated
+
+> You can modify both behaviors by modifying the "DeleteOnTermination" attribute of any EBS volume during instance launch or while running
+
+> You can view EBS root volume DeleteOnTermination, behavior from "Block Device Mapping"
+
+## EC2 Termination Protection
+
+> This is a feature you can enable such that an EC2 instance is protected against accidental termination through API, Console, or CLI) SDK
+
+> This can be enabled for Instance-store backed and EBS-Backed Instances
+
+> CloudWatch can ONLY terminate EC2 instances if they do not have the termination protection
+
+> If you want to terminate an instance that has termination protection turned on, you can do so by choosing oS shutdown, and configure AWS to treat OS shutdown as instance termination.
+
+> This can be configured during launch, when the instance is running or stopped (if EBS backed instance)	
+
+## Troubleshooting - Instance Immediate Termination
+
+> AWS recommends that after you launch an EC2 instance, you check its status to confirm that it moved from pending to running, and not to a terminated state.
+
+> Possible reasons that a launched instance immediately terminates are:
+- The instance store-backed ÁMI you used to launch the instance is missing a required part.
+- You've reached your EBS volume limit.
+- An EBS snapshot is corrupt.
+
+> To find the reason of the termination:
+- From AWS Console : Go to Instances (select the instance) -> Description tab -> State Transition reason
+- From CLI use the "describe-instance" command
+
+=======================================
+##### v15
+
+## EC2 - Instance Meta Data
+Instance Meta Data:
+This is instance data that you can use to configure or manage the instance
+Examples are IPV4 address, IPV6 address, DNS Hostnames, AMI-ID, Instance-ID,
+Instance-Type, Local-hostname, Public Keys, Security groups...
+Meta data can be only viewed from within the instance itself
+i.e you have to logon to the instance
+Meta data is not protected by encryption (cryptography), anyone that has access to
+the instance can view this data
+
+## EC2 - Instance Meta Data
+To view an EC2 Instance's Meta Data (from the EC2 instance console):
+GET http://169.254.169.254/latest/meta-data/
+OR
+Curl http://169.254.169.254/latest/meta-data/
+To view a specific metadata parameter, example to view local hostname
+GET http://169.254.169.254/latest/meta-data/host-name/
+
+## EC2 - Instance User Data
+> Instance user data:
+- Is data supplied by the user at instance launch in the form of a script to be executed
+during the instance boot
+User data is limited to 16KB
+User data can only be viewed from within the instance itself (logon to it)
+You can change user data
+To do so, you need to stop the instance first (EBS backed)
+Instance -> actions ->Instance-settings -> View/Change user data
+User data is not protected by encryption, do not include passwords or sensitive data in
+no
+your user data (scripts)
+ca
+You are not charged for requests to read user data or metadata
+=======================================
+####### EC2 - VM Import/Export ######## v16 
+
+> Can be used to migrate Vmware, Microsfot, XEN VMs to the cloud (Import)
+
+> Can be used to convert EC2 Instances to Vmware, Microsfot, XEN VMs to use on-premise (Export)
+
+> This supports:
+- Windows and Linux VMs
+- Vmware ESX VMDK [Virtual Machine Disk] (and OVA [Open Virtualization Appliance] images for export only)
+- Citrix XEN VHD [Virtual Hard Disk]
+- MicroSoft Hyper-V VHD
+
+>> VM Import/Export is supported through API / CLI, but NOT through AWS Console
+
+> Before generating the VMDK or VHD images, MAKE SURE THE VM IS STOPPED AND NOT IN SUSPENDED OR PAUSED STATES
+
+> For vmware, AWS HAS A VM CONNECTOR which is a plugin to vmware vCenter
+- This allow the migration of VMs to AWS S3
+- Convert it to EC2 AMI
+- And progress can be tracked in vCenter
+
+### EC2 - IAM Roles
+> For an EC2 instance to have access to other AWS services (example S3) you need to configure an IAM Role, which will have an IAM policy attached, under the EC2 instance.
+=======================================
+### EC2 - BASTION HOSTS for Linux  ### v17
+
+(Now AWS calls it Remote Desktop for Windows Instances)
+> For inbound, secure, connectivity to your VPC to manage andadminister public and/or private EC2 instances, you can use a bastion host (or a jump bOx/stone).
+- The Bastion host is an EC2 instance, whose interfaces will have a security group allowing inbound SSH (for Linux EC2 instances) or RDP for windows instances
+
+> Bastion hosts can have auto-assigned public IP addresses or Elastic IP addresses (Elastic IPs are better for security reasons and to fix the IP address)
+
+> Using Security groups you can further limit which IP CIDRS can access the Bastion Host.
+
+> Once logged to the Bastion host, you can connect via RDP (Windows) or SSH(Linux) to the EC2 instance(s) you desire to manage
+
+## EC2 - Bastion Hosts
+> To configure a bastion host in high availability, you can use auto
+scaling groups as follows:
+1. Create the ASG with desired capacity of 2, choose multiple
+Availability zones (2), using Elastic IPs on each (This is the recommended HA way)
+
+2. (Not an HA but saves on cost) Create an ASG with desired
+capacity 1, min 1, max 1, such that if the bastion instance fails/
+or gets terminated, the ASG will launch another one.
+
+- until ASG launches another one, you may have a down time (this is for management/administration ), where downtime is acceptable
+
+## EC2- Bastion Best Practices
+Best Practices : For Automated, Highly Available Bastion host deployment:
+The architecture supports AWS best practices for high availability and security:
+• Linux bastion hosts are deployed in two Availability Zones to support immediate access
+across the VPC.
+- You can configure the number of bastion host instances at launch.
+An Auto Scaling group ensures that, the nuntier of bastion host instances always matches the
+desired capacity you specify during launch.
+Elastic IP addresses are associated with the bastion instances to make it easier to remember,
+and allow these IP addresses from on-premises firewalls.
+If an instance is terminated and the Auto Scaling group launches a new insante as a
+replacement, the existing Elastic IP addresses are re-associated with the new instances.
+
+=======================================
+### EC2 - Instance Purchasing Options # v18
+
+####### 1. RESERVED INSTANCE #######
+> You do not actually buy Instances, rather, you reserve long term capacity and pay for it for instance family/configuration, anytime you run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
+
+> You can purchase it at a significant discount
+
+> Purchased reserved instance are always available
+
+> When purchased with an AZ scope, capacity reservation in the AZ is guaranteed
+> Term options are 1 year or 3 years
+
+> Once purchased, it can NOT be refunded or Cancelled
+- You can however, sell them on AWS reserved instance marketplace
+- Only the ones with AZ scope can be sold on the Marketplace
+
+> You are billed for reserved instance, whether it is running or stopped
+
+> Reserved instances DO NOT RENEW AUTOMATICALLY when the reserved term expires, rather, it will be billing as on-demand billing rates
+
+> You have no control over which EC2 on-demand instance will have the reserved instance prices applied to
+
+> Reserved Instance benefits can only apply to on-demand instances (not Spot or Dedicated)
+
+## EC2 - Reserved Instance Scope
+> By default, a Reserved Instance scope is Region, however, it can bé AZ pr Region
+If AZ, you get guaranteed reserved capacity in the AZ
+You can also sell the reservations with AZ scope on AWS reserved instance market
+place
+If the scope Region, you do not get reserved capacity guarantees
+You can change from Scope AZ to Scope Region
+
+#### Modifying EC2 Reserved Instances ####
+> What you can change is:
+- Change AZ within the same Region (keep its scope as(AZ but for a different AZ)
+- This also means you can migrate Reserved instances befween AZs in the same region
+- Change the scope from AZ to a Region or the other way around
+
+- Change instance size within the same instance family
+- You can modify all or a subset of your reservation
+
+> You need to submit a request for the desired modification, through AWS consate, CLI, or API
+
+## EC2 Spot Instances
+> AWS Spot Instances allow customers to use compute capacity without upfront commitments, at prices cheaper than on-demand instance pricing
+
+> Customers bid on Spot instances. AWS Off-peak pricing fluctuates, if the price meets the bid price, the instances are allocated for the bidding account
+
+> SPOT INSTANCES MAYBE TERMINATED AT ANYTIME by AWS when the market prices goes higher than the previous bid price by the client (who got the instances)
+
+> all Instance families are available for spot instances (T2 for example)
+
+> Encrypted EBS volumes are supported in Spot instance
+- If you specify in your launch configuration, it will be honored
+=======================================

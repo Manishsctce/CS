@@ -263,12 +263,13 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 > bucket policy and access control list are resource-based because you attached them to your Amazon S3 resources
 
 ## 1a. ACL-BASED ACCESS POLICY (buckets and objects ACLs)
-- each bucket and object can have an ACL associated with it
+- each BUCKET AND OBJECT CAN HAVE AN ACL associated with it
+
 > An ACL is a list of grants i.e. identifying guarantee(who) and permission granted(what)
-> You use ACL to grant basic read/write permission to other AWS account
+> ACL GRANT BASIC READ/WRITE PERMISSION to other AWS account
 
 ##1b. BUCKET POLICY 
-> for your bucket you can add a bucket policy to grant other AWS account or IAM user permission FOR THE BUCKET AND THE OBJECT in it
+> FOR BUCKET AND OBJECT, we can add a bucket policy to grant other AWS account or IAM user permission 
 - any object permission apply only to the object that the bucket owner creates 
 - bucket policy supplement and in many cases replace ACL based access policy
 
@@ -363,3 +364,88 @@ Notes:
 - You cannot grant conditional permissions, nor can you explicitly deny permissions. ACLS are suitable for specific scenarios.
 
 - For example, if a bucket owner allows other AWS accounts to upload objects, permissions to these objects can only be managed using object ACL by the AWS account that owns the object.
+=======================================
+############ v10
+## When to use Bucket Policies
+> If an AWS account that owns a bucket wants to grant permission to users in its account, it can use either a bucket policy or a user policy.
+
+> If the AWS account that owns the object also owns the bucket, then it can write a bucket policy to manage the object permissions.
+
+> If you want to manage cross-account permissions for all Amazon S3 permissions 
+- For Cross account permissions, when you use to provide another account full S3 permissions, you can only do that via Bucket policies
+
+## When to use User Policies
+> User policies support granting permission for all Amazon S3 operations
+
+> The user policies are for managing permissions for users in your account.
+
+> If the AWS account that owns the object wants to grant permission to a user in its account, it can use a user policy.
+
+> An IAM uset must have permissions from the parent account to which it belongs, and from the AWS account that owns the resource the user wants to access. The permissions can be granted as follows:
+- Permission from the parent account : The parent account can grant permissions to its user by attaching a user policy.
+- Permission from the resource owner - The resource owner can grant permission to either the IAM user (using a bucket policy) or the parent account (using a bucket policy, bucket ACL, or object ACL).
+
+## Permissions delegation
+> If an AWS acount owns a resource, it can grant those permissions to another AWS account.
+- That acount am then delegate those permissions, ora subset of them, to users in the account This is referred to as permission delegation.
+- An account that receives permissions from another account cannot delegate permission cross-account to another AWS account
+
+=======================================
+########## v11
+
+## S3 Bucket Versioning
+> Bucket versioning is a $3 bucket sub-resource used to protect against accidental object/data deletion or overwrites
+
+> Versioning can also be used for data retention and archive
+> once you enable Bucket versioning on a bucket, it can not be disabled, however, it can be suspended
+
+> When enabled, bucket versioning will protect existing and new objects, and maintains their versions as they are updated (edited, written to...)
+- Updating objects refers to PUT, POST, COPY, DELETE actions on objects
+
+> By default an HTTP GET retrieves the most recent version
+> Only S3 bucket owner can permanently delete objects once versioning is enabled
+
+## S3 Bucket Versioning- Delete markers
+> When versioning is enabled, and you try to delete an object, a DELETE marker is placed on the object
+- You can still view the object and the delete marker
+
+> If you reconsider deleting the object, you can delete the "DELETE Marker", and the object will be available again
+
+> You will be charged for all S3 storage costs for all Object versions stored
+- You can use versioning with S3 lifecycle policies to delete older versions, OR, you can move them to a cheaper S3 storage (or Glacier)
+
+## S3 Bucket Versioning
+> Bucket versioning states:
+- Enabled
+- Suspended
+- Un-versioned
+
+> Versioning applies to all objects in a bucket and not partially applied
+> Objects existing before enabling versioning will have a version ID or "NULL"
+> If you have a bucket that is already versioned, then you suspend versioning, existing objects and their versions remain as is
+- However they will not be updated/versioned further with future updates,
+
+## Suspended Bucket Versioning
+> While the bucket versioning is suspended:
+- New objects (uploaded after suspension), they will have a version ID "null"
+• If the same object key (name) is used to store another object, It will override the existing one (complete object overwrite)
+
+- Objects with versions that existed before the versioning suspenion; 
+- a new object with the same object key (name) will replace the curreht/latést version, but will have an ID "null", and becomes the new current version
+- a new object with the same key (name) will overwrite the one with the "null" ID
+
+> An object deletion in a suspended versloning bucket, will only delete the object(s) with ID "null"
+
+> The bucket owner canpermanently delete any versions
+
+## Bucket Versioning- MFA Delete
+> Multi Factor Authentication (MFA) Delete js a versioning capability that adds another level of security in case your account is compromised
+
+> This adds another layer of security for the following:
+- Changing your bucket's versioning state
+- Permanently deleting an object version
+
+> MFA Delete requires:
+- Your security credentials
+- The code displayed on an approved physical or SW-based authentication device
+> This provides maximum protection to your objects

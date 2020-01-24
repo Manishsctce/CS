@@ -487,3 +487,135 @@ If uploading an Object and requesting SSE using Customer Provided Keys,and if th
 operation is successful
 Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the
 encryption key you specified when uploading the object.
+=======================================
+[2:39 PM, 1/23/2020] Manish Agrawal: S3 STANDARD Storage Class
+> Provides for 99.99% availability
+> 11 9's Data Durability ( 99.999999999%)
+> Data encrypted in-transit and at rest in S3
+> Designed to sustain the concurrent loss of data in two facilities
+[2:44 PM, 1/23/2020] Manish Agrawal: ## S3 Infrequent Access Class (S3 – IA)
+
+> For long-lived, less frequently accessed data
+
+> Designed to sustain the concurrent loss
+of data in two facilities
+
+> Suitable for backups and older data (old pictures, files)
+
+> 99.9% Availability
+> 11  9's data durability
+[2:48 PM, 1/23/2020] Manish Agrawal: S3 Infrequent Access Class (S3 – IA)
+> Quick access and high performance like S3 Standard
+
+> Data encrypted in-transit and at rest in S3 buckets
+
+> Data must be kept for at least 30 days in this class
+
+> Suitable for objects greater than 128 KB (Not less than that)
+[3:14 PM, 1/23/2020] Manish Agrawal: ##S3 Reduced Redundancy Storage ( S3 – RRS)
+
+> Designed to sustain the data loss in one facility
+
+> 99.99% availability
+> 99.99% data durability
+
+> Use for non-critical, reproducible data
+
+> Lower level of redundancy
+> Use for images and save their thumbnails in S3 standard, transcoded media
+[3:22 PM, 1/23/2020] Manish Agrawal: S3 Reduced Redundancy Storage ( S3 - RRS)
+> If an S3 RRS object is lost, AWS will return HTTP 405 error when the object is requested for read
+> S3 can send a notification in case an object is lost
+[3:34 PM, 1/23/2020] Manish Agrawal: ##### Glacier – Archiving Storage 
+> an archiving storage for infrequently accessed data
+> Achieved objects are not available for real time access, you need to submit a retrieval
+request, restore the data first before you can read it (can take few hours),
+- Requested archived data will be copied to RRS
+- After data is retrieved, you have up to 24 hours to download it
+
+> You can NOT specify Glacier as the Storage Class at the time you create an object
+
+> 11 9's data durability
+
+> No SLA
+[4:32 PM, 1/23/2020] Manish Agrawal: Glacier - Archiving Storage
+> Is designed to sustain data loss in two facilities
+> You need to keep your data for a minimum of 90 days (minimum charge)
+
+> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports
+secure transfer of your data (In-transit) over Secure Sockets Layer (SSL)
+
+> Glacier may NOT be available in all AWS regions, check for availability
+
+> Glacier objects are visible and available only through AWS S3 not through AWS Glacier
+[4:35 PM, 1/23/2020] Manish Agrawal: Glacier - Archiving Storage
+> Glacier redundantly stores your data to multiple facilities, on multiple devices within each facility
+synchronously
+
+> Glacier awaits until the multiple facility upload is completed successfully before confirmting a
+successful upload to the user
+
+> Glacier does NOT archive object metadata, you need to maintain a client-side database to
+maintain this information about the objects 
+- Basically which archives hold which objects 
+
+Suitable for:
+-Archive
+- Media asset archiving,
+Health care information archiving,
+- Regulatory and compliance archiving,
+- A replacement for magnetic tapes
+[4:41 PM, 1/23/2020] Manish Agrawal: Glacier - Archiving Storage
+> You can upload archives to Glacier of a size:
+- As small as 1 Byte
+- As large as 40 TB
+
+> Glacier file archives of size 1bytes to 4GB can be done in one shot
+
+> Glacier file archives from 100MB up to 40TB, can be uploaded to Glacier using multi-part
+upload
+
+
+> Uploading archives is Synchronous
+
+> Downloading archives is Asynchronous
+
+> The contents of an archive, once uploaded, can not be updated
+
+## Glacier - Archiving Storage
+> You can upload data to Glacier directly from CLI, SDKS, or through APIS
+
+- You can not do that through the AWS Console
+
+> AWS Import/Export Snowball comes in handy when you need to upload large amount of
+data to Glacier
+usually takes 5-7 days
+
+## Glacier - Archiving Storage
+> When transitioning objects to Glacier from other classes (via lifecycle rules),
+- Glacier adds 32KB overheads (indexing and archive metadata) to the object
+-• The number is 40KB overheads if you are using S3 to upload to Glacier
+- You pay for these overheads in addition to your actual data
+- The 32KB of overhead associated with each archive accounts för system
+indexing/metadata overhead.
+
+
+> It is recommended to group a large number of small objects, into a smaller number of larger
+objects to reduce these overhead charges.
+- If you need to access individual archived files, make sure that you group them in a way
+that allow this (compression techniques that allows the access to individual files)
+• This will enable you to avoid downloading the entire archive to access individual
+files
+
+## Glacier - Archiving Storage
+> Maintaining Client-Side Archive Metadata
+- Amazon Glacier does not support any additional metadata for the archives, except the
+archive description (optional)
+• You might maintain metadata about the archives on the client-side. The metadata
+can include archive name and some other meaningful information about the
+archive.
+> After you upload an archive, you cannot update its content or its description.
+- The only way you can update the archive content or its description is by deleting the
+archive and uploading another archive.
+- Note that each time you upload an archive, Amazon Glacier returns to you a unigue
+archive ID.

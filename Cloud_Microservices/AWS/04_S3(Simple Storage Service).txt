@@ -17,6 +17,23 @@
 
 ## 
 =======================================
+> three different metrics: availability, durability and reliability. 
+## What durability is AWS?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What durability is AWS?
+> Durability is used to measure the likelihood of data loss. ... 
+> AWS measures durability as a percentage. 
+- For example, the S3 Standard Tier is designed for 99.999999999% durability. 
+- This means that if you store 100 billion objects in S3, you will lose one object at most.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is reliability in AWS?
+
+> The reliability pillar includes the ABILITY OF A SYSTEM TO RECOVER FROM INFRASTRUCTURE OR SERVICE DISRUPTIONS, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Resiliency in AWS?
+
+> The ability for a system to recover from a failure induced by load, attacks, and failures.
+=======================================
 ##### SIMPLE STORAGE SERVICE(S3) ######
 
 > S3 is one of the first services that has been produced by aws.
@@ -452,8 +469,8 @@ The permissions can be granted as follows:
 - Your security credentials
 - The code displayed on an approved physical or SW-based authentication device
 > This provides maximum protection to your objects
-
-[9:35 AM, 1/23/2020] Manish Agrawal: Multipart Upload
+=======================================
+Multipart Upload
 Is used to upload an object (objects) in parts
 Parts are uploaded independently and in parallel, in any order
 It is recommended for objects sizes of 100MB or larger
@@ -488,23 +505,24 @@ operation is successful
 Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the
 encryption key you specified when uploading the object.
 =======================================
-[2:39 PM, 1/23/2020] Manish Agrawal: S3 STANDARD Storage Class
+############ S3 STORAGE CLASS #########
+
+#### S3 STANDARD Storage Class ####
 > Provides for 99.99% availability
 > 11 9's Data Durability ( 99.999999999%)
 > Data encrypted in-transit and at rest in S3
 > Designed to sustain the concurrent loss of data in two facilities
-[2:44 PM, 1/23/2020] Manish Agrawal: ## S3 Infrequent Access Class (S3 – IA)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## S3 Infrequent Access Class(S3–IA) ##
 
 > For long-lived, less frequently accessed data
-
-> Designed to sustain the concurrent loss
-of data in two facilities
+> Designed to sustain the concurrent loss of data in two facilities
 
 > Suitable for backups and older data (old pictures, files)
-
 > 99.9% Availability
 > 11  9's data durability
-[2:48 PM, 1/23/2020] Manish Agrawal: S3 Infrequent Access Class (S3 – IA)
+
 > Quick access and high performance like S3 Standard
 
 > Data encrypted in-transit and at rest in S3 buckets
@@ -512,7 +530,8 @@ of data in two facilities
 > Data must be kept for at least 30 days in this class
 
 > Suitable for objects greater than 128 KB (Not less than that)
-[3:14 PM, 1/23/2020] Manish Agrawal: ##S3 Reduced Redundancy Storage ( S3 – RRS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## S3 Reduced Redundancy Storage(S3–RRS)
 
 > Designed to sustain the data loss in one facility
 
@@ -523,13 +542,15 @@ of data in two facilities
 
 > Lower level of redundancy
 > Use for images and save their thumbnails in S3 standard, transcoded media
-[3:22 PM, 1/23/2020] Manish Agrawal: S3 Reduced Redundancy Storage ( S3 - RRS)
+
 > If an S3 RRS object is lost, AWS will return HTTP 405 error when the object is requested for read
 > S3 can send a notification in case an object is lost
-[3:34 PM, 1/23/2020] Manish Agrawal: ##### Glacier – Archiving Storage 
-> an archiving storage for infrequently accessed data
-> Achieved objects are not available for real time access, you need to submit a retrieval
-request, restore the data first before you can read it (can take few hours),
+=======================================
+##### GLACIER – ARCHIVING STORAGE #####
+
+> IT IS AN ARCHIVING STORAGE FOR INFREQUENTLY ACCESSED DATA
+> Achieved objects are not available for real time access, you need to submit a retrieval request, 
+- It restore the data first before you can read it (can take few hours),
 - Requested archived data will be copied to RRS
 - After data is retrieved, you have up to 24 hours to download it
 
@@ -538,7 +559,7 @@ request, restore the data first before you can read it (can take few hours),
 > 11 9's data durability
 
 > No SLA
-[4:32 PM, 1/23/2020] Manish Agrawal: Glacier - Archiving Storage
+
 > Is designed to sustain data loss in two facilities
 > You need to keep your data for a minimum of 90 days (minimum charge)
 
@@ -548,7 +569,7 @@ secure transfer of your data (In-transit) over Secure Sockets Layer (SSL)
 > Glacier may NOT be available in all AWS regions, check for availability
 
 > Glacier objects are visible and available only through AWS S3 not through AWS Glacier
-[4:35 PM, 1/23/2020] Manish Agrawal: Glacier - Archiving Storage
+
 > Glacier redundantly stores your data to multiple facilities, on multiple devices within each facility
 synchronously
 
@@ -565,7 +586,7 @@ Suitable for:
 Health care information archiving,
 - Regulatory and compliance archiving,
 - A replacement for magnetic tapes
-[4:41 PM, 1/23/2020] Manish Agrawal: Glacier - Archiving Storage
+
 > You can upload archives to Glacier of a size:
 - As small as 1 Byte
 - As large as 40 TB
@@ -582,7 +603,6 @@ upload
 
 > The contents of an archive, once uploaded, can not be updated
 
-## Glacier - Archiving Storage
 > You can upload data to Glacier directly from CLI, SDKS, or through APIS
 
 - You can not do that through the AWS Console
@@ -591,7 +611,6 @@ upload
 data to Glacier
 usually takes 5-7 days
 
-## Glacier - Archiving Storage
 > When transitioning objects to Glacier from other classes (via lifecycle rules),
 - Glacier adds 32KB overheads (indexing and archive metadata) to the object
 -• The number is 40KB overheads if you are using S3 to upload to Glacier
@@ -607,7 +626,6 @@ that allow this (compression techniques that allows the access to individual fil
 • This will enable you to avoid downloading the entire archive to access individual
 files
 
-## Glacier - Archiving Storage
 > Maintaining Client-Side Archive Metadata
 - Amazon Glacier does not support any additional metadata for the archives, except the
 archive description (optional)

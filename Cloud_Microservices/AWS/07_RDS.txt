@@ -14,7 +14,6 @@
 - it will choose one randomly for you that is 30 minute long
 =======================================
 ## AWS is not responsible for
-
 - Managing DB setting 
 - building a relational DB schema 
 - DB performance tuning
@@ -228,6 +227,84 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Use IAM groups to manage/grant permission to multiple user at a time
 > Rotate your IAM credential regularly
 =======================================
+##### v11
+
+RDS Billing – Standalone DB Instance
+> No upfront costs
+
+> You pay for:
+DB instance hours (partial hours charged as full hours)
+Storage GB/mo.
+1/0 requests/mo. - for Magnetic RDS storage Instance only
+Provisioned IOPS/mo. – For RDS Provisioned IOPS SSD instance
+Sttery
+Internet data transfer
+Backup Storage (DB backups, and Active manual Snapshots)
+This increases by increasing DB backups retention period
+Backup storage for automated RDS backups (not the manual snapshots) up to the
+Provisioned RDS instance's EBS volume size (EBS volume) is free of charge
+
+## RDS Billing
+> The DB storage provisioned to your DB instance is in a single AWS AZ
+Since AWS backups your DB to multiple AZs for data durability
+AWS charges for the database storage above the free allocated DB storage for-your
+instance
+Free automated backup storage provided to the client/account is in a single AZ
+
+## RDS Billing – Multi-AZ deployments
+AWS will charge for the following (in addition to the single AZ DB instance charges)
+Multi-AZ DB hours
+Provisioned Storage (Multi-AZ)
+Double write I/0s (writing to the Active/Primary, and-Replication from Primary to
+Standby)
+16,000
+during replication fröm primary to standby
+You are not charged for DB data transfer
+Your DB storage does not change between Standalone and Multi-AZ deployments
+(same DB and same AWS Storage volume for that DB in multiple AZs for durability)
+
+## RDS Billing – Standalone DB Instance
+No upfront costs
+You pay for:
+DB instance hours (partial hours charged as full hours)
+Storage GB/mo.
+1/0 requests/mo. - for Magnetic RDS storage Instance only
+Provisioned IOPS/mo. – For RDS Provisioned IOPS SSD instance
+BOLHNG
+Internet data transfer
+Backup Storage (DB backups, and Active manual Snapshots)
+• This increases by increasing DB backups retention period
+• Backup storage for automated RDS backups (not the manual snapshots) up to the
+Provisioned RDS instance's EBS volume size (EBS volume) is free of charge
+[3:46 PM, 1/25/2020] Manish Agrawal: Free Tier
+Single AZ:
+750 Micro Instance Hours/month for each account for 1 year
+For ORACLE you need to BYOL
+[3:46 PM, 1/25/2020] Manish Agrawal: Reserved DB Instances (RIS)
+Similar to EC2 Reserved Instances
+DB RIs are "region" specific NOT AZ specific
+One or three year term options
+Each reservation must be specific in:
+DOLFINed
+DB Engine
+DB Instance class
+Multi-AZ option
+License Model
+Region
+For RDS RI pricing to apply, an Exact RDS instance must be created on-demand, exact
+on all above (DB Engine, Instance class, Multi AZ option, License model, and region)
+[3:46 PM, 1/25/2020] Manish Agrawal: Reserved DB Instances (RIs)
+You can NOT move RDS RIs between regions
+You can move RDS RIs between AZs in the same region
+You can NOT cancel an RDS RI's reservation
+DOLFINed
+=======================================
+##### v12
+======================================
+##### v13
+=======================================
+##### v14
+=======================================
 ########## AWS RDS SECURITY ########### 
 
 > AWS provides multiple features to provide RDS security: 
@@ -240,3 +317,4 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 6. Network encryption and transparent data encryption (TDE) with Oracle DB instances
 
 
+end

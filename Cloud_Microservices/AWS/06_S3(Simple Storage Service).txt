@@ -546,7 +546,7 @@ encryption key you specified when uploading the object.
 > If an S3 RRS object is lost, AWS will return HTTP 405 error when the object is requested for read
 > S3 can send a notification in case an object is lost
 =======================================
-##### GLACIER – ARCHIVING STORAGE #####
+##### GLACIER – ARCHIVING STORAGE ##### v14
 
 > IT IS AN ARCHIVING STORAGE FOR INFREQUENTLY ACCESSED DATA
 > Achieved objects are not available for real time access, you need to submit a retrieval request, 
@@ -593,9 +593,7 @@ Health care information archiving,
 
 > Glacier file archives of size 1bytes to 4GB can be done in one shot
 
-> Glacier file archives from 100MB up to 40TB, can be uploaded to Glacier using multi-part
-upload
-
+> Glacier file archives from 100MB up to 40TB, can be uploaded to Glacier using multi-part upload
 
 > Uploading archives is Synchronous
 
@@ -619,21 +617,162 @@ usually takes 5-7 days
 indexing/metadata overhead.
 
 
-> It is recommended to group a large number of small objects, into a smaller number of larger
-objects to reduce these overhead charges.
+> It is recommended to group a large number of small objects, into a smaller number of larger objects to reduce these overhead charges.
 - If you need to access individual archived files, make sure that you group them in a way
 that allow this (compression techniques that allows the access to individual files)
 • This will enable you to avoid downloading the entire archive to access individual
 files
 
 > Maintaining Client-Side Archive Metadata
-- Amazon Glacier does not support any additional metadata for the archives, except the
-archive description (optional)
-• You might maintain metadata about the archives on the client-side. The metadata
-can include archive name and some other meaningful information about the
-archive.
+- Amazon Glacier does not support any additional metadata for the archives, except the archive description (optional)
+- You might maintain metadata about the archives on the client-side. The metadata can include archive name and some other meaningful information about the archive.
+
 > After you upload an archive, you cannot update its content or its description.
-- The only way you can update the archive content or its description is by deleting the
-archive and uploading another archive.
-- Note that each time you upload an archive, Amazon Glacier returns to you a unigue
-archive ID.
+- The only way you can update the archive content or its description is by deleting the archive and uploading another archive.
+
+- Note that each time you upload an archive, Amazon Glacier returns to you a unigue archive ID.
+=======================================
+##### Glacier - Archive Retrieval ##### v15
+> You can retrieve data from Glacier in multiple ways:
+
+1. Expedited: 1-5 mts
+- More expensive
+- Use for urgent requests only
+
+2. Standard: 3-5 Hrs
+- Less expensive than Expedited
+- You get 10GB data retrieval free /month
+
+3. Bulk retrieval: 5-12 Hrs
+- Cheapest
+- Use to retrieve large amounts up to Petabytes in a day
+
+> You can retrieve parts of an archive
+> It is common to group multiple objects and compress them using TAR or ZIP format before archiving them
+
+> Archived Data Class does not change when retrieving data from Glacier, because what gets retrieved in a copy of the data, placed into RRS, not the actual Archive in Glacier
+
+> Is an asynchronous job, and you need to submit/initiate a request for that
+- You can NOT use AWS Console for Archive Jobs retrieval
+- You can use AWS SNS to be notified when a retrieval job has completed
+
+> When you restore an archive (or objects therein) from Glacier:
+- You can specify while initiating the restore how long (default is 24 hours) you need the restored copy to be available to you
+- you can also change this after the copy is made available in RRS (you can make it longer or shorter) by re-issuing a restore, AWS will update the same copy's expiration
+
+- A copy of the object is moved into RRS, and the original remains in Glacier
+- While the restoration is in progress, the console shows "restoration in progress"
+- You pay for both Glacier and RRS storage for the duration the archive copy is available in RRS, after which, you only pay for Glacipr storage
+
+- THE ARCHIEVE STORAGE CLASS REMAINS GLACIER 
+
+## GLACIER BYTE RANGES
+
+> S3 and Glacier support HTTP GET requests with Range in HTTP header to identify a specific byte range you may want to-retrieve from your Glacier archived data, instead of retrieving the entire archive
+- This can help you manage the download charges (RRS charges)
+- You can also download the portion your object(s) are within (in case the Glacier archive has many objects)
+- But this also implies, you must maintain a client database (outside of Glacier), which includes information about the archive, the files contained, and the byte ranges
+- This can also help you break a large archive retrieval into multiple jobs 
+
+> Byte range can start as low as 1byte, and ends at increments of 1MByte (archived portion retrieval can end at the archive end, or multiples of 1Mbyte)
+
+=======================================
+########## Glacier – Costs ########## v16
+> No charge for data transferred between EC2 instances and Glacier in the same region
+> If you delete your data from Glacier before for 90 days from when it was archived you will be charged a deletion fee
+
+> When you restore a Glacier archive you pay for :
+- The Glacier archive itself
+- The request(s)
+- The restored copy from Glacier to RRS for the duration you specified in your réstore request
+
+### Glacier - Archiving Storage
+> When transitioning objects to Glacier from other classes (via lifecycle rules),
+- Glacier adds 32KB overheads (indexing and archive metadata) to the object
+- The number is 40KB overheads if you are using S3 to upload to Glacier
+- The 32KB of overhead associated with each archive accounts for system indexing/metadata overhead.
+- You pay for these overheads in addition to your actual data
+
+> It is recommended to group a large number of small objects, into a smaller number of larger archieve to reduce these overhead charges.
+=======================================
+####### S3 Life Cycle Policy ####### v17
+> This is a bucket level sub-resource (configuration).
+- It can be applied to certain objects in a bucket folder, objects with a specific tag, or objects with a specific prefix
+
+> The purpose is to primarily perform desired actions on contents (or some) of the bucket
+
+> You can configure two actions:
+1. Transition actions: to another S3 storage tier after a configured period
+2. Expiration actions: Where an expiration duration for object(s) is set, S3 will then delete the expired objects on your behalf
+
+### S3 Standard to Standard-IA transition
+> Objects less than 128KB will not be transitioned to S3 Standard-IA
+> Objects must be stored in S3-IA for at least 30 days
+> An object must be in S3-Standard for at least 30 days before it can be transitioned to S3-IA
+- The same applies to non-current versions of an object (when versioning is enabled), they must stay in 53-Standard for 30 days before they can be moved to S3-IA
+
+## Moving Objects from Glacier to S3-Standard or S3-IA
+> You can NOT use lifecycle policies to move an archived object from Glacier to S3-Standard or S3-IA
+
+> The workaround to this is:
+- Restore the archived object from Glacier to RRS
+- Copy the Object
+  • While copying specify the new storage class of the copy
+  • Storage class of the original object remains in Glacier
+
+> You can NOT change an object from any storage Class (including S3 Standard and S3-IA) into RRS
+> You can't change from S3-IA to S3-Standard or S3-RRS
+=======================================
+##### S3 Server Side Encryption (SSE)### v18
+
+> This is primarily about encrypting data at rest in S3 buckets
+> There are two main ways to encrypt data stored on S3 buckets:
+
+1. Client side encryption:
+- Where the client encrypts data on the Client side, then transfer the data encrypted to S3 buckets ( hence data is encrypted In-transit and at Rest)
+
+2. Server Side Encryption (SSE):
+- Data is encrypted by the S3 service before it is saved to S3 storage disks
+- Data is decrypted when you download it
+
+> User access to S3 bucket objects is the same whether the data is encrypted or not on S3 buckets (as long as the user has permission to access the data)
+
+> At any given time, you can apply only one encryption type to an S3 Object
+
+> Depending on how you manage encryption keys, there are three types of S3 SSE available:
+1. SSE-S3:
+Server Side Encryption on S3 using S3 managed encryption keys
+
+2. SSE-KMS:
+- Server Side Encryption using AWS KMS keys
+
+3. SSE-C
+- Server Side Encryption using Client provided keys
+
+## S3 Server Side Encryption using AWS S3 Managed Keys (SSE-S3)
+
+> Server Side Encryption on S3 using S3 managed encryption keys
+> Each object is encrypted by a unique key, then the encryption key itself is encrypted using a master key
+> S3 regularly rotates the master key
+> Uses AES-256 bits
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## S3 Server Side Eneryption using AWS KMS Managed Keys (SSE-KMS)
+
+> Server Side Encryption using AWS KMS keys, similar to SSE-S3
+- KMS uses Customer Master Keys (CMKS)to êncrypt your S3 objects
+- You can continue to use the automatically created default CMK key for encryption OR, 
+- You can select a CMK that you created separately using AWS Key Management Service.
+
+> Creating your own CMK will allow you to create, rotate, disable, and define access controls,
+- Also allows you to audit the encryption keys used to protect your data.
+
+> Separate permissions for an envelope key that protects/encrypts your object encryption keys
+
+> Service is chargeable
+
+## S3 Server Side Encryption using Customer Provided Keys (SSE-C)
+> Server Side Encryption using Client provided keys
+> Client manages the keys, S3 service manages encryption
+> AWS does not store the client provided encryption key(s), so if the client looses the key(s), they can't access the abject, başically they loose the data.
+=======================================
+########## v19

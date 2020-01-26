@@ -177,26 +177,26 @@ Routable IP addr
 ======================================= 
 ## What is difference between Security group and NACL? 
 
-> SG operates at the instance level (2nd line of defense i.e defense in depth)
-- NACL operates at the subnet level (1nd line of defense)
+> NACL operates at the subnet level (1nd line of defense)
+- SG operates at the instance level (2nd line of defense i.e defense in depth)
 
-> SG Support allow rules only 
-- NACL supports allow and deny rules 
+> NACL supports allow and deny rules 
+- SG Support allow rules only 
 
-> SG IS STATEFUL i.e return traffic is automatically allowed regardless of any rules 
-- NACL IS STATELESS : return traffic must be explicitly allowed by rule 
+> NACL IS STATELESS : return traffic must be explicitly allowed by rule 
+- SG IS STATEFUL i.e return traffic is automatically allowed regardless of any rules 
 
-> SG, we evaluate all rules before deciding whether to allow traffic 
-- NACL, we process rules in number order when deciding 
+> NACL, we process rules in number order when deciding 
+- SG, we evaluate all rules before deciding whether to allow traffic 
 
-> SG Applies to an instance only if someone specifies the sG when launching the instance or associates the SG with the instance later on 
-- NACL Automatically applies to all instances in the subnet its associated with (backup layer of defense, so you don't have to rely on someone specifying the SG) 
+> NACL Automatically applies to all instances in the subnet its associated with (backup layer of defense, so you don't have to rely on someone specifying the SG) 
+- SG Applies to an instance only if someone specifies the sG when launching the instance or associates the SG with the instance later on 
 
-## Security GROUP format 
+## SECURITY GROUP FORMAT 
 INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
 OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
 
-##NACL format 
+#### NACL FORMAT #### 
 #INBOUND - Rule, Type, Protocol, PortRange, source, Allow/Deny
 #OUTBOUND - Rule, Type, Protocol, PortRange, Destination, Allow/Deny, 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -206,7 +206,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - Here SourcePort could be ephemeral 
 
 =======================================
-############# NAT Instance ############ V15 
+############# NAT INSTANCE ############ V15 
 > NAT instance place at public subnet
 - it is normal EC2 instance but it is loaded with AMI that has NAT functionality 
 
@@ -377,12 +377,12 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > With a vpc, you can create static route to send traffic to the transit gateway
 > With the VPN connection, route are propagated with the transit gateway on your on-premise router using border gateway protocol(BGP)
 
-
-## AWS direct connect benefit
+=======================================
+##### AWS direct connect benefit ###### v22
 > Lower latency and jitter does not use the internet
 > Consistent performance and dedicated bandwidth
 > Using direct connect enables customer to lower their internet service provider bandwidth
-> W charges data rate on direct connect lower than on vpc
+> AWS charges data rate on direct connect lower than on vpc
 > Suitable when transferring high volume of data between a WS and on premise the more the data volume or higher the better the cost reduction compared to internet based VPN
 
 ## Direct current
@@ -393,4 +393,338 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > You can establish public we have to connect to any public it in point in any reason
 > Support both ipv4 and IPv6 requires public VIF
 > All networking traffic must be on the global network backbone regardless of whether you access public Service or vpc in another reason
-> Any data transfer out of a remote reason is build at the remote reason data transfer rate so what
+
+> Any data transfer out of a remote reason is build at the remote reason data transfer rate 
+
+so what is VIF, 802.IQ and what is BGP?
+
+Static vs Dynamic Routing
+• You need routing in order for Routers to
+be able to forward your traffic correctly
+• In simple networks, you can define the
+routing manually, and this is called
+static routing (like we do on AWS Route
+tables)
+• When the network grows, we need a
+dynamic mechanism to take care of
+updating and exchanging routing
+information such that we do not have to
+face the administration challenges of
+static routing at scale (like when we
+enable Route Propagation on AWS route
+tables for VPN or Direct Connect).
+Router 2
+122. 16/16
+Router
+10.18
+Router 5
+RI
+Router 3
+l0.1.1,)
+Router 4
+=======================================
+#### Link Aggregation Groups - LAGS ### v23
+A link aggregation group (LAG) is a logical interface that uses the Link
+Aggregation Control Protocol (LACP) to aggregate multiple connections at a
+single AWS Direct Connect endpoint, allowing you to treat them as a single,
+managed connection.
+o All connections in a LAG operate in active/active mode.
+You can create a LAG from existing connections, or you can provision new
+connections. After you've created the LAG, you can associate existing connections
+(whether standalone or part of another LAG) with the LAG.
+The following rules apply:
+o All connections in the LAG must use the same bandwidth.
+o You can have a maximum of four connections in a LAG.
+o All connections in the LAG must terminate at the same AWS Direct Connect
+endpoint.
+All LAGS have an attribute that determines the minimum number of connections
+in the LAG that must be operational for the LAG itself to be operational.
+o By default, new LAGS have this attribute set to 0.
+o You can update your LAG to specify a different value-doing so means that
+your entire LAG becomes nonoperational if the number of operational
+connections falls below this threshold.
+o This attribute can be used to prevent over-utilization of the remaining
+connections.
+
+## Border Gateway Protocol (BGP)
+Connects different autonomous systems together
+Each Autonomous System (AS) requires an Autonomous
+system number (ASN)
+IkGP
+TCP based sessions between neighbors, on port 179
+The Main internet routing protocol today
+Can carry large number of routes, with granular route control
+Has many route/path attributes to control routing
+Has IBGP (within an AS) and EBGP (between ASs) peering
+types
+AS
+AS
+Transit AS capability
+
+## BGP and Hybrid Connectivity
+> BGP between Corporate Data Center and AWS VPC configured using a direct connect link
+
+> BGP setup, Routing updates are propagated dynamically
+> Each side builds its own route table based on these updates and BGP communities configured, if any.
+
+> BGP is the only routing option on Direct connect links
+=======================================
+##### BGP - Communities and Attributes  ####### v24
+
+> AWS Direct Connect applies inbound and outbound routing policies for a public AWS Direct Connect connection.
+
+• Inbound Policies:
+o Client must own the public prefixes and they
+must be registered as such.
+o Traffic must be destined to Amazon public
+prefixes.
+· Transitive routing between connections is
+not supported.
+o AWS Direct Connect performs inbound packet
+filtering to validate that the source of the traffic
+originated from your advertised prefix.
+
+## AWS DX - BGP Communities in Outbound policies
+
+> AWS Direct Connect advertises all local and remote AWS
+Region prefixes where available and includes on-net prefixes
+from other AWS non-Region points of presence (PoP) where
+available; for example, CloudFront and Route 53.
+-  No access to non-Amazon prefixes (i.e no access to the global internet over the direct links).
+
+> AS_PATH is used to determine the routing path, and AWS
+Direct Connect is the preferred path for traffic sourced from
+Amazon (Preference over HA VPN links)
+
+> Only public ASNS are used internally for route selection.
+• AWS Direct Connect advertises prefixes with a minimum path
+length of 3.
+When multiple AWS Direct Connect connections are there,
+the load-sharing of inbound traffic can be adjusted_by
+advertising prefixes with similar path attributes.
+AWS Direct Connect advertises all public prefixes with the
+well-known NO EXPORT BGP community.
+o The prefixes advertised by AWS Direct Connect must not be
+advertised beyond the network boundaries of your
+connection.
+
+## AWS DX - BGP Communities - On Premise side 
+
+Scope BGP Communities
+BGP community tags can be applied on the public prefixes that you advertise to
+Amazon to indicate how far to propagate your prefixes in the Amazon network
+o For the local AWS Region only, all Regions within a continent, or all public
+Regions.
+o If community tags are applied, prefixes are advertised to all public AWS
+Regions (global) by default.
+172
+Local Preference BGP Communities
+Local preference BGP community tags are supported for private virtual
+interfaces, and transit virtual interfaces.
+Local preference BGP community tags can be used to achieve load balancing
+and route preference for incoming traffic(sourced from AWS).
+For each advertised prefix over a BGP session, a community tag can be applied
+to indicate the priority of the associated path for returning traffic.
+• To load balance traffic across multiple AWS Direct Connect connections, apply
+the same community tag across the prefixes for the connections.
+To support failover across multiple AWS Direct Connect connections, apply a
+community tag with a higher preference to the prefixes for the primary or
+active virtual interface.
+=======================================
+##### ####### v25
+
+## Route Tables and Route Priority - From AWS to on Premise
+
+> Route tables determine where network traffic is directed.
+> A route(s) must be added in the VPC route table (for the CIDRS on premise that will be reached from the VPC), the VGW will be the Target (next hop)
+- This is true for both VPN and Direct Connect VPC connectivity
+
+> Alternatively, route propagation can be enabled for the route table to automatically propagate the on premise CIDRS (received via BGP or configured by Static routes on the VGW (VPN case) to the table.
+
+> If overlapping routes within a Site-to-Site VPN connection and longest prefix match cannot be applied, then AWS prioritize the routes as follows, from most preferred to least preferred:
+- BGP propagated routes from an AWS Direct Connect connection
+- Manually added static routes for a Site-to-Site VPN connection
+- BGP propagated routes from a Site-to-Site VPN connection
+
+
+> When a virtual private gateway (VGW) receives routing information, it uses path
+selection to determine how to route traffic to your remote network.
+
+> First it applies Longest prefix match applies;
+If all routes are of equal length (subnet mask) then, the following rules apply:
+o If any propagated routes from a Site-to-Site VPN connection or AWS Direct
+Connect connection overlap with the local route for your VPC,
+• Forwarding will use the local route is most preferred even if the propagated
+routes are more specific.
+o If any propagated routes from a Site-to-Site VPN connection or AWS Direct
+Connect connection have the same destination CIDR block as other existing
+static routes, AwS prioritizes the static routes whose targets are an Internet
+gateway, a virtual private gateway, a network interface, an instance ID, a VPC
+peering connection, a NAT gateway, or a VPCendpoint.
+
+> Only IP prefixes that are known to the virtual private gateway, whether through BGP advertisements or static route entry, can receive traffic from your VPC.
+o The virtual private gateway does not route any other traffic destined outside of received BGP advertisements, static route entries, or its attached VPC CIDR.
+=======================================
+### AWS Hybrid Connectivity– Routing Use Cases ### v26
+
+
+##Q: Your client hired you as the AWS SME. The client previously configured a heavily used, dynamically routed VPN connection between their on-premises data center and AWS. They recently provisioned a Direct Connect connection and would like to start
+using the new connection. After configuring Direct Connect settings in the AWS Console, which of the following options will provide the most seamless transition for the users?
+
+A. Delete the existing VPN connection to avoid routing loops configure the Direct Connect router with the appropriate settings
+(and verity network traffic is leveraging Direct Connect.
+
+B. Configure the DirectConnect router with a higher BGP priority than the VPN routes, verify network traffic is leveraging
+Directconnect and then delete the existing VPN connection.
+
+C. Update the VPC route tables to point to the Direct Connect connection. Configure the Direet Conneet-router with the
+appropriate settings verify network traffic is leveraging Direct Connect and then delete the VPN connection
+
+D. Configure the Direct Connect router, update the VPC route tables to point to the Direct Connect connection, configure the
+VRN connection with a higher BGP priority. And verify network traffic is leveraging the Direct Connect connection.
+-------------------------------
+##Q: You are implementing AWS Direct Connect. You intend to use AWS public service end points such as Amazon S3, across the AWS Direct Connect link. You want other Internet traffic to use your existing link to an Internet Service Provider. What is the correct way to configure AWS Direct connect for access to services such as Amazon S3?
+
+A. Configure a public Interface on your AWS Direct Connect link Configure a static route via your AWS Direct Connect link that points to Amazon S3 Advertise a default route to AWS using BGP.
+
+B. Create a private interface on your AWS Direct Connect link. Configure a static route via your AWS Direct connect link that points to Amazon S3 Configure specific routes to your network in your VPC.
+
+C. Create a public interface on your AWS Direct Connect link Redistribute BGP routes into your existing routing infrastructure
+advertise specific routes for your network to AWS.
+
+D. Create a private interface on your AWS Direct connect link. Redistribute BGP routes into your existing routing infrastructure
+and advertise a default route to ÁWS
+
+-------------------------------
+Q: A customer has established an AWS Direct Connect connection to AWS. The link is up and routes are being advertised from the customer's end, however the customer is unable to connect from EC2 instances inside its VPC to servers residing in its datacenter.
+Which of the following options provide a viable solution to remedy this situation? (Choose 2 answers)
+
+A. Add a route to the route table with an iPsec VPN connection as the target.
+B. Enable route propagation to the virtual pinnate gateway (VGW).
+C. Enable route propagation to the customer gateway (CGW).
+D. Modify the route table of all Instances using the 'route' command.
+E. Modify the Instances VPC subnet route table by adding a route back to the customer's on-premises environment.
+=======================================
+####### AWS Direct Connect Gateway #### v27
+> A Direct Connect gateway is a globally available resource.
+- You can create the Direct Connect gateway in any public Region and access it from all other public Regions.
+• Use AWS Direct Connect gateway to connect your VPCs.
+
+> You associate an AWS Direct Connect gateway with either of the following gateways:
+A virtual private gateway(s) of the VPC(s) you need to connect to
+o Atransit gateway when you have multiple VPCS in the same Region 4
+
+> Create a private virtual interface (Private VIF) for your AWS Direct Connect connection to the Direct Connect gateway.
+o You can attach multiple private virtual interfaces to your Direct Connect gateway (from different locations or from
+different DX links connected to different Customer Gateways).
+
+> You can associate a VGW from one account with a Direct Connect Gateway from another account, by creating association
+proposal from the Direct Connect Gateway in one account to the VGW in the other account.
+
+## AWS Direct Connect Gateway Limitations
+> The VPCS to which you connect through a Direct Connect gateway
+cannot have overlapping CIDR blocks.
+- If you add an IPV4 CIDR block to a VPC that's associated with a
+Direct Connect gateway, ensure that the CIDR block does not overlap
+with an existing CIDR block for any other associated VPC.
+
+> You cannot create a public virtual interface to a Direct Connect gateway.
+
+> A Direct Connect gateway supports communication between attached
+private virtual interfaces and associated virtual private gateways only. The following traffic flows are not supported:
+- Direct communication between the VPCS that are associated with the
+Direct Connect gateway.
+- Direct communication between the virtual interfaces that are attached
+to the Direct Connect gateway.
+- Direct communication between a virtual interface attached to a Direct Connect gateway and a VPN connection on a virtual private gateway that's associated with the same Direct Connect gateway.
+
+> You cannot associate a virtual private gateway with more than one
+Direct Connect gateway and you cannot attach a private virtual
+interface to more than one Direct Connect gateway.
+
+> A virtual private gateway that you associate with a Direct Connect gateway must be attached to a VPC
+=======================================
+####### v
+
+[1:07 PM, 1/25/2020] Manish Agrawal: VPC EndPoints
+A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC
+endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN
+connection, or AWS Direct Connect connection.
+Instances in your VPC do not require public IP addresses to communicate with resources in the
+service.
+Traffic between your VPC and the other service does not leave the Amazon network.
+Endpoints are virtual devices, They are horizontally scaled, redundant, and highly available VPC
+components that allow communication between instances in your VPC and services without
+imposing availability risks or bandwidth constraints on your network traffic.
+There are two types of VPC endpoints: interface endpoints and gateway endpoints. Create the type
+of VPC endpoint required by tke supported service.
+
+## VPC EndPoints
+An Interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. The following services are
+supported:
+API Gateway, CloudFormation, CloudWatch ,
+CloudWatch Events/Logs, EC2 API, KMS,
+Kinesis Data Streams, ELB, SNS, Systems
+theOLF
+Manager, Endpoint Services hosted by other
+AWS Accounts, STS, Codebuild, AWS Config,
+Service Catalogue, Secrets Manager,
+
+## VPC EndPoint - Gateway Endpoint
+A gateway endpoint is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWs service. The following AWS servicesare supported:
+- Amazon S3
+- DynamoDB
+
+> You need endpoint policy to control who can access what Endpoints are supported within the same region only.
+=======================================
+####### v
+ VPC Flow Logs
+VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to
+and from network interfaces in your VPC.
+ENES
+Flow logs can help you with a number of tasks;
+- To troubleshoot why specific traffic is not reaching an instance, which in turn helps you
+diagnose overly restrictive security group rules.
+You can also use flow logs as a security tool to monitor the traffic that is reaching your
+instance.
+DOLFIN
+You can create a flow log for a VPC, a subnet, or a network interface.
+If you create a flow log for a subnet or VPC, each network interface in the VPC or subnet is
+monitored.
+Flow log data for a monitored network interface is recorded as flow log records, which are log
+events consisting of fields that describe the traffic flow.
+
+[1:29 PM, 1/25/2020] Manish Agrawal: VPC Flow Logs
+Flow log data can be published to Amazon CloudWatch Logs and Amazon S3.
+- After you've created a flow log, you can retrieve and view its data in the chosen destination.
+To create a flow log,
+- You specify the resource for which to create the flow log,
+- The type of traffic to capture (accepted traffic, rejected traffic, or all traffic), and
+- The destinations to which you want to publish the flow log data.
+OLFIN
+CloudWatch Logs charges apply when using flow logs, whether you send them to CloudWatch
+Logs or to Amazon S3.
+After you've created a flow log, it can take several minutes to begin collecting and publishing data.
+
+## VPC DHCP Options Sets
+You can use an on-premise DNS for your AWS VPC environment
+But you can NOT use Route53 as a DNS for your On-premise infrastructure
+The Dynamic Host Configuration Protocol (DHCP) provides a standard for passing configuration
+information to hosts on a TCP/IP network.
+The options field of a DHCP message contains the configuration parameters.
+Some of those parameters are the domain name, domain name server, and the netbios-node-type.
+You can configure DHCP options sets for your virtual private clouds (VPC).
+
+## VPC DHCP Options Sets
+After you create a set of DHCP options, you can't modify them.
+If you want your VPC to use a different set of DHCP options, you must create a new set and
+associate them with your VPC.
+You can also set up your VPC to use no DHCP options at all.
+You can have multiple sets of DHCP options, but you can associate only one set of DHCP options
+with a VPC at a time.
+- If you delete a VPC, the DHCP options set associated with the VPC are also deleted.
+After you associate a new set of DHCP options with a VPC, any existing instances and all new
+instances that you launch in the VPC use these options?
+=======================================
+####### v
+end

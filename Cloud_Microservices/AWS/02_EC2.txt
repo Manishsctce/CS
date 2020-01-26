@@ -166,7 +166,7 @@ Storage		: NVMe SSD
 =======================================
 ###### EC2 EBS OPTIMIZED instance ##### V10
 
-> EBS optimized EC2 instances enable the full luse of an EBS volume provisioned IOPS 
+> EBS optimized EC2 instances enable the full use of an EBS volume provisioned IOPS 
 - They deliver dedicated performance between EC2 instance and their attached EBS volumes
 - Are designed to work will all EBS volume types 
 - This is all about high performance data transfer between EC2 instance and their attached EBS volumes
@@ -541,3 +541,133 @@ You can change from Scope AZ to Scope Region
 > Encrypted EBS volumes are supported in Spot instance
 - If you specify in your launch configuration, it will be honored
 =======================================
+####### Elastic Network Interface ##### v19
+
+[1:38 PM, 1/25/2020] Manish Agrawal: How multiple IP addresses work with Network Interfaces
+Etho is the Primary network interface, ENL
+You can't move/detach the primary (eth0) interface from an
+instance
+App
+Oparati
+By default, Eth is the only ENI created with an EC2 instance when
+launched
+eth1
+You can add more interfaces to your EC2 instance (number of
+additional interfaces is determined by the instance family/type)
+EPU
+An ENÌ is bound to an Availability Zone
+You can specify which subnet/AZ you want the additional ENI be
+added in
+[1:38 PM, 1/25/2020] Manish Agrawal: Elastic Network Interfaces (ENIS)
+You can specify exactly which IP address in the subnet to
+be configured on your instances, or leave AWS assign one
+automatically from the available subnet IPs
+25
+40.0.0.0/24
+Security groups apply to network interfaces not to
+individual IPs on the interface, hence, IP addresses are
+also subject to the interface security group
+FINed
+[1:39 PM, 1/25/2020] Manish Agrawal: Default EC2 virtual network interface (eth0)
+esha
+You can create (optional) only one additional Ethernet interface (eth1) when launching an
+EC2 instance, but you can create and attach more ENIS to the EC2 instance (the number of
+which depends on the Instance family/type)
+Attaching ENI when the instance is running is called "hot attach"
+Attaching ENI when the instance is stopped is called "warm attach"
+Attaching ENI when the instances is launched is called “cold attach"
+[1:39 PM, 1/25/2020] Manish Agrawal: How to Add additional Network Interfaces at Instance Launch
+When launching an EC2 instance, after selecting your VPC and subnet, you will be able to
+"add a device", this is how you can add one more (eth1) interface
+CAUTION:
+you do this, AWS will no longer assigna public IPV4 address to your eth0 (primary
+network interface), and you will have to use an Elastic IP address mapped to your eth0
+(manually) in order to be able to connect from the internet to your instance
+If
+[1:39 PM, 1/25/2020] Manish Agrawal: Elastic Network Interfaces (ENIS)
+By default, network interfaces created "automatically" during EC2 instance launch by AWS
+console, are terminated when the instance is terminated,
+Does not include eth1 that you can add during launch (manually added)
+Network interfaces created by CLI are "NOT" terminated automatically when the Ec2
+instance terminates.
+DOLFINed
+6OLEIN
+In both cases above, you can change the default behavior by changing the "termination
+behavior" from :
+Instances -> Net Interfaces -> Change termination behavior
+=======================================
+####### ENI IP Address #########v20
+
+[1:43 PM, 1/25/2020] Manish Agrawal: Virtual Elastic Network Interfaces (ENI) - Attributes
+Each Elastic Network Interface can have up to:
+A description
+One Primary IPV4 addresses
+One or more secondary IPV4 addresses
+One Elastic IP address corresponding to each IPV4 address (via NAT)
+One Public-IPV4 address (automatically assigned)
+One of more IPV6 addresses DOLFIN
+Up to 5 Security groups
+A MAC address
+- A source/destination check flag o
+[1:43 PM, 1/25/2020] Manish Agrawal: Secondary IP addresses - Benefits
+You can configure secondary IPv4 addresses to your EC2 instance's Interfaces and ENIS
+It can be useful to assign multiple IP addresses to an EC2 instance in your VPC to do the following:
+Hosting multiple websites on a single server (multiple SSL certificates each associated with
+one IP address)
+SCL
+Hmps
+Security and network appliances use in your VPC
+LING
+Redirecting internal traffic to a standby EC2 instance in case your primapy EC2 instance fails,
+• This can be achieved by moving (reassigning) the secondary IPV4-adatess from the failed
+instance to the standby one
+[1:43 PM, 1/25/2020] Manish Agrawal: Secondary IPV4 address Re-Assignment
+When you configure secondary IPV4 addresses, and if you allow re-assignment, they can be
+reassigned to another network interface (moved, transitioned)
+You can reassign etho's secondary private IPV4 address to another network interface
+Comes in handy in failure scenarios if your traffic was directed to the secondary
+IPV4 address, and the instance fails, move it (reassign it) to a standby instance if
+you have one, and the traffic will continue (The Elastic IP to secondary IPV4
+association remains as the secondary is moved)
+[1:44 PM, 1/25/2020] Manish Agrawal: Elastic IP and Secondary IPV4 address Re-Assignment
+Each private IPV4 address can be associated with a single Elastic IP address, and vice versa.
+When a secondary private IPV4 address is reassigned to another interface, the secondary
+private IPV4 address retains its association with an Elastic IP address.
+When a secondary private IPV4 address is unassigned from an interface, an associated Elastic
+IP address is automatically disassociated from the secondary private IPV4 address.
+[1:44 PM, 1/25/2020] Manish Agrawal: Virtual Elastic Network Interfaces (ENIS)
+Any network interface can be assigned a secondary IPV4 address from the same subnet of
+the network interface or EC2 instance
+You can assign/remove IP addresses from EC2 instances while they are running or stopped
+Detaching an ENI
+- Except for Etho, any interface can be detached and áttached to other instances
+- Primary private IPV4, Secondary private IPV4, IPV6, and Elastic IP addresses they
+continue to be with the same network interface even when it is detached, or attached
+to another instance
+[1:45 PM, 1/25/2020] Manish Agrawal: Example Scenario
+You have two instances, EC2-A, is the primary instance with a secondary IPV4 address, and
+an Elastic IP address associated with the Instance's secondary IPV4 address
+The second instance, EC2-B, will be a standby instance with no Elastic IP address, and no
+Secondary IPV4 address
+You can use the secondary IPV4 re-assignment feature to move the Secondary IPV4 address
+and the associated elastic IP, to instance EC2-B, in case of a problem or failure of EC2-A
+happens
+[1:45 PM, 1/25/2020] Manish Agrawal: To attach a network interface in a
+subnet to EC2 instance in another
+subnet, they both "MUST" be in the
+same AWS Region and same AZ
+Network NIC teaming is not achievable
+by adding ENIS to an EC2 instance DOLFIN
+The drawing shows how you can
+establish network management and
+public facing interfaces on the same
+instances using Eth0 and Eth1 ENIS
+=======================================
+####### NAT instance Source Destination Check ## v21
+
+lab
+=======================================
+####### Public IPv4 addr_auto_assignment ## v22
+lab
+=======================================
+## Lab

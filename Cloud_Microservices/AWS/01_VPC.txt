@@ -77,53 +77,71 @@ Q> Is a horizontally scaled, redundant, and highly available VPC component
 192.168.0.0 
 
 Routable IP addr
-
 =======================================
-########## SECURITY GROUPS ############ v6
+Lab 4,5,6
+=======================================
+#### Type of VPC ###### v6
 
-> Any Virtual Server Instance(EC2) created must have a security group for it specified during its launch. you can either choose an existing one, or create a new security group during launch. 
+1. DEFAULT VPC 
+- created in each region when AWS acct is created
+- has default CIDR, SG, NACL, route table and IG 
+ 
+2. Custom VPC (non-default)
+- has default CIDR, SG, NACL, route table but DOESNOT HAVE DEFAULT IG
+=======================================
+########## SECURITY GROUPS ############ 
+> It is a virtual firewall.
+> It controls traffic at the virtual server (EC2 instance) level, specifically at VNI (virtual network interface) level 
+
+> up to 5 SG per EC2 instance 
+> SG is Statefull 
+
+> Any Virtual Server Instance(EC2) created MUST HAVE a security group during its launch. 
+- you can either choose an existing one, or create a new security group during launch. 
 
 > Each VPC created will have a default security group, 
-- we CANNOT delete a default security group.
+- we CANNOT DELETE A DEFAULT SECURITY GROUP.
 
-> SECURITY GROUPS ARE VPC RESOURCES, hence different EC2 instances, in different AZ, belonging to the same VPC, can have the same security group applied to them
+> SECURITY GROUPS ARE VPC RESOURCES, 
+- hence different EC2 instances in different AZ, belonging to the same VPC, can have the same SG applied to them
 
-> Changes to security groups take effect immediately. 
+> Changes to security groups TAKE EFFECT IMMEDIATELY. 
 
 > A Security group can be used in different subnet 
 
-####### TYPE OF SECURITY GROUPS #######
-
-1. Default Security Group in a default or custom VPC, will have:
+####### TYPE OF SECURITY GROUPS ####### v9
+1. DEFAULT SECURITY GROUP in a default or custom VPC, will have:
 - Inbound rules allowing instances assigned the same security group to talk to one another 
 - All outbound traffic is allowed 
 
-2. Custom(Non-default) security groups in a VPC will always have:
+2. CUSTOM(NON-DEFAULT) SECURITY GROUPS in a VPC will always have:
 - No Inbound rules - basically all inbound traffic is denied by default 
 - All outbound traffic is allowed by default 
 
-##### SECURITY GROUP CONFIGURATION ####
-> we can use Security group names as the source or destination in other security group rules. 
-
-> we can use the Security group name as the source in its own inbound security group rules. 
+##### SECURITY GROUP CONFIGURATION #### 
+> we can use SG names as source or destination in other SG rules. 
+> we can use the SG name as source in its own inbound SG rules. 
 
 > Security group are directional and can use allow rules only 
-> A security group set of rules end with an implicit deny any 
+> A security group set of rules END WITH AN IMPLICIT DENY ANY 
 
 > we can use CIDR addr or another security group in the security group. 
+- subnet id cannot be use in source/destination in SG Rule
 
-#### Ques 
-
-## To allow the EC2 instances assigned to a security group to communicate with one another, 
+## SECURITY GROUP FORMAT 
+INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
+OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Q: To allow the EC2 instances assigned to a security group to communicate with one another, 
 - create a security group, apply it to all these instances, and configure a rule that allows any traffic, on any protocol/ports, the source of which is the security group itself. 
 - Be cautious that the security group is a VPC resource, which mean member EC2 instances can be from different subnet and AZs too. 
 
 
-## To allow all EC2 instances on a subnet to communicate with each other,
+##Q: To allow all EC2 instances on a subnet to communicate with each other,
 - create a security group and apply it to those instances, and configure a rule that allows communication on all protocol/ports, the source of which is the subnet CIDR block 
 
 =======================================
-##### NETWORK ACCESS CONTROL LISTS #### 
+##### NETWORK ACCESS CONTROL LISTS #### v10 
 
 > It is a function performed on the implied router (The implied VPC router hosts the NACL function) 
 
@@ -135,19 +153,27 @@ Routable IP addr
 > YOU CAN HAVE "PERMIT" AND "DENY" RULES IN A NACL
 
 > NACL is a set of rules, each has a number  
+> NACL rules are checked for a permit from lower numbered(1st) rules until either a permit is found or an explicit/implicit deny is reached. 
 
-> NACL rules are checked for a permit from lower numbered rules until either a permit is found or an explicit/implicit deny is reached. 
+> you can insert rules (based on the configured rule number spacing) between existing rules, 
+- hence it is recommended to leave a number range between any two rules to allow for edits later. 
 
-> you can insert rules (based on the configured rule number spacing) between existing rules, hence it is recommended to leave a number range between any two rules to allow for edits later. 
-
-> NACL end with an explicit deny any, which we cannot delete. 
+> NACL END WITH AN EXPLICIT DENY any, which we cannot delete. 
 
 > A subnet must be associated with a NACL, if you do not specify the NACL, the subnet will get associated with the default NACL automatically. 
 
 > we can create our own custom NACL, not necessary to use default 
-> Default NACL allows all inbound and outbound traffic 
 
-> A Custom NACL block/denies all inbound and outbound traffic by default 
+######### TYPES OF NACL #########
+1. DEFAULT NACL 
+- ALLOWS ALL INBOUND AND OUTBOUND TRAFFIC 
+
+2. CUSTOM NACL 
+- it BLOCK/DENIES ALL INBOUND AND OUTBOUND TRAFFIC BY DEFAULT 
+
+#### NACL FORMAT #### 
+#INBOUND - Rule, Type, Protocol, PortRange, source, Allow/Deny
+#OUTBOUND - Rule, Type, Protocol, PortRange, Destination, Allow/Deny,
 
 ## NOTE:
 > Inbound in ACL means coming from outside the subnet destined to the subnet. 
@@ -155,6 +181,12 @@ Routable IP addr
 
 > Inbound for security group means inbound from outside the instance destined to the instance. 
 - Outbound means going out of the instance ENI
+
+####### Security Group & NACL ######### v12
+> CHANGES MADE TO NACLS (OR SECURITY GROUP) TAKE EFFECT IMMEDIATELY, so they are both quick to activate/defend as needed. 
+
+> NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
+- SG cannot block a certain range of IP address from internet from getting to your EC2 fleet of instances 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Ques 
 ## If an instance in a VPC is unable to communicate over a certain protocol/ports with anothe instance in the same VPC, then the problem is the security setting of :
@@ -167,14 +199,6 @@ Routable IP addr
 
 >> NACL are stateless, to allow certain traffic through it, it need to be allowed( and the return traffic) in the inbound and outbound rules of the ACL. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-=======================================
-####### Security Group & NACL ######### v12
-
-> CHANGES MADE TO NACLS (OR SECURITY GROUP) TAKE EFFECT IMMEDIATELY, so they are both quick to activate/defend as needed. 
-
-> NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
-- SG cannot block a certain range of IP address from internet from getting to your EC2 fleet of instances 
-======================================= 
 ## What is difference between Security group and NACL? 
 
 > NACL operates at the subnet level (1nd line of defense)
@@ -192,14 +216,15 @@ Routable IP addr
 > NACL Automatically applies to all instances in the subnet its associated with (backup layer of defense, so you don't have to rely on someone specifying the SG) 
 - SG Applies to an instance only if someone specifies the sG when launching the instance or associates the SG with the instance later on 
 
-## SECURITY GROUP FORMAT 
-INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
-OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
-
 #### NACL FORMAT #### 
 #INBOUND - Rule, Type, Protocol, PortRange, source, Allow/Deny
 #OUTBOUND - Rule, Type, Protocol, PortRange, Destination, Allow/Deny, 
+
+## SECURITY GROUP FORMAT 
+INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
+OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+=======================================
 #### TCP/IP PACKET HEADERS #### v13
 
 DestIP - DestPort - SourceIP - SourcePort - payload
@@ -222,14 +247,11 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > Public subnet EC2 instance don't need to go through NAT 
 
-#### NAT INSTANCE SECURITY GROUP ####
 > Private subnet EC2 instances need to access websites on the internet (http/https)
 
 > NAT instance SG must allow :
 - Traffic inbound from the private subnet or the private subnet SG as a source on the ports 80(http) and 443(https) 
-
 - Traffic outbound to 0.0.0.0/0 (internet) on ports 80 and 443 
-
 - Traffic inbound from customer own network on port 22(ssh) to administer the NAT instance
 
 ######## NAT GATEWAY ##########
@@ -254,14 +276,11 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 =======================================
 ############# VPC WIZARD ############## v16 
 
-> VPC with public and private subnets created by a VPC wizard will have: 
+> VPC WITH PUBLIC AND PRIVATE SUBNETS CREATED BY A VPC WIZARD WILL HAVE: 
 - by default, a public subnet associated with a custom route table and IGW
 - by default, a private subnet associated with the main route table 
 - An IGW created and attached to the VPC
-
-- by default the wizard will prefer to create a NAT Gateway for your VPC, but you have the option to choose a NAT instance instead.  
-
-> For launch of NAT instance the wizard need atleast M1 instance
+- by default the wizard will prefer to create a NAT Gateway for your VPC, but you have the option to choose a NAT instance instead. For launch of NAT instance the wizard need atleast M1 small instance
 
 > Main(default) VPC route table is assigned to the private subnet, it has the VPC local subnet routing entry and an entry 0.0.0.0/0 pointing to the NAT instance/gateway
 
@@ -271,12 +290,11 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > VPC created by VPC Wizard, by default creates NAT Gateway/instance 
 
-> VPC with NAT instance cannot be deleted unless the user manually terminate those NAT instance 
+> VPC WITH NAT INSTANCE CANNOT BE DELETED UNLESS THE USER MANUALLY TERMINATE THOSE NAT INSTANCE 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## VPC wizard - public and VPN-only subnet
-
-> Wizard created VPC with public and VPN-only subnet does not have a NAT instance or NAT gateway 
+## VPC with public and VPN-only subnet created by a VPC WIZARD
+> Wizard create VPC does not have a NAT instance or NAT gateway 
 
 > Wizard created VPC will have
 - Main route table associated with the the VPN-only subnet
@@ -301,23 +319,24 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - it will create a VPN connection
 =======================================
 ############ VPC PEERING ############## v18
-> VPC peering connection is a networking connection between 2 vpc that enable you to route traffic between them using private ipv4/IPv6 address
+> VPC peering connection is a networking connection between 2 VPC that enable us to route traffic between them USING PRIVATE IPv4/IPv6 address
 
-> Instance in another vpc can communicate with each other as if they are within same network
+> Instance in another VPC can communicate with each other as if they are within same network
 
-> You can create a vpc peering connection between your own vpc or with vpc in another AWS account within a single or between regions
+>> We can create a VPC peering connection between own VPCs or with another acct VPC.
+- connection can be within a single or between regions(also known as inter-region VPC peering connection).
 
-> AWS use the existing infrastructure of a vpc to create a vpc peering connection
+> AWS use the existing infrastructure of a VPC to create a VPC peering connection
 - it is neither a gateway nor a VPN and connection and does not rely on a separate piece of physical hardware
 
 > There is no single point of failure for communication or a bandwidth bottleneck
 
-> EXAMPLE of vpc peering connection usages:
-- if you have more than one AWS account, you can peer the vpc across those account to create a file sharing network 
-- you can also use a vpc peering connection to allow other VPC to access resources in your own vpc
+> EXAMPLE of VPC peering connection usages:
+- if you have more than one AWS account, you can peer the VPC across those account to create a file sharing network 
+- you can also use a VPC peering connection to allow other VPC to access resources in your own VPC
 
 ## To establish a VPC peering connection you do the following: 
-- the owner of requester VPC (or local vpc) send a request to the owner of peer VPC  
+- the owner of requester VPC (or local VPC) send a request to the owner of peer VPC  
 - EITHER OF VPC SHOULD NOT HAVE OVERLAP CIDR BLOCK 
 
 > To enable the flow of traffic between the peer VPC, 
@@ -326,25 +345,25 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - if require update the SG rules to ensure that traffic to and from the peer VPC is not restricted 
 
 
-> vpc peering connection is a one to one relationship between two vpc 
-- you can create multiple vpc peering connection for each vpc that you own
+> VPC peering connection is a one to one relationship between two VPC 
+- you can create multiple VPC peering connection for each VPC that you own
 
 > TRANSITIVE PEERING RELATIONSHIP ARE NOT SUPPORTED:
-- you do not have any peering relationship with VPC that your vpc is not correctly peered with.
+- you do not have any peering relationship with VPC that your VPC is not correctly peered with.
 
-> Vpc peering does not support edge-to-EDGE routing
+> VPC peering does not support edge-to-EDGE routing
 
-> You have a limit on the number of active(50) and pending vpc peering(25) connection that you can have per vpc
+> You have a limit on the number of active(50) and pending VPC peering(25) connection that you can have per VPC
 
 > we cannot have more than 1 VPC peering connection betw the same 2 VPCs at the same time. 
 
-> A placement group can span period vpc
-> Unicast reverse path forwarding in vpc peering connection is not supported
+> A placement group can span period VPC
+> Unicast reverse path forwarding in VPC peering connection is not supported
 
-> vpc peering is not transitive 
+> VPC peering is not transitive 
 - to allow 4 VPC to talk to each other 
 - we need a full mesh among them 
-- n(n-1)/2 vpc peering i.e 6 peering connection are required 
+- n(n-1)/2 VPC peering i.e 6 peering connection are required 
 - what if there we have 20 or 30 VPC
 
 =======================================
@@ -352,10 +371,10 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > Transit gateway is a network transit hub that you can use to interconnect your VPC and on premise networks 
 
-> it is a regional resource 
+> IT IS A REGIONAL RESOURCE 
 > VPC are allowed to communicate with one another and with on-premise CIDR block by default 
 
-> this can be changed by creating multiple route table, associated different vpc with different routing table to limit/control who talk to whom 
+> this can be changed by creating multiple route table, associated different VPC with different routing table to limit/control who talk to whom 
 
 > transitive gateway can be associated across accounts
 
@@ -365,16 +384,16 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > Transit gateway has a default route table and can optionally have additional route table
 > Route table includes dynamic and static routes that decide the next hop based on destination IP address of the packet
 
-> The target of these rounds can be a vpc or a VPN connection
-> by default the vpc and VPN connection that are attached to a transitwy are associated with the default transit gateway route table.
+> The target of these rounds can be a VPC or a VPN connection
+> by default the VPC and VPN connection that are attached to a transitwy are associated with the default transit gateway route table.
 
 # Association
 > Each attachment is associated with exactly one route table
 > Each route table can be associated with zero or many attachment
 
 # Route propagation
-> A Vpc or VPN connection can dynamically propagate route to a transit gateway route table
-> With a vpc, you can create static route to send traffic to the transit gateway
+> A VPC or VPN connection can dynamically propagate route to a transit gateway route table
+> With a VPC, you can create static route to send traffic to the transit gateway
 > With the VPN connection, route are propagated with the transit gateway on your on-premise router using border gateway protocol(BGP)
 
 =======================================
@@ -382,69 +401,44 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > Lower latency and jitter does not use the internet
 > Consistent performance and dedicated bandwidth
 > Using direct connect enables customer to lower their internet service provider bandwidth
-> AWS charges data rate on direct connect lower than on vpc
+> AWS charges data rate on direct connect lower than on VPC
 > Suitable when transferring high volume of data between a WS and on premise the more the data volume or higher the better the cost reduction compared to internet based VPN
 
-## Direct current
-> Broader gateway routing protocol must be used to draw route between to end of DX connection
+## Direct connect(DX)
+> Broader gateway routing protocol must be used to draw route between then two end of DX connection
 > Customer router must be capable of 802.IQ and BGP
-> You can use the connection to establish private virtual interface to connect to a vpc in the reason
-> You can establish multiple private if 2 multiple vpc in a region
-> You can establish public we have to connect to any public it in point in any reason
-> Support both ipv4 and IPv6 requires public VIF
-> All networking traffic must be on the global network backbone regardless of whether you access public Service or vpc in another reason
+> You can use the connection to establish private virtual interface(VIFs) to connect to a VPC in the region(via the VPC's VGW)
+> You can establish multiple private VIFs to multiple VPCs in a region(1/VPC)
+> You can establish public VIFs to connect to any public AWS endpoints in any region
+> Support both IPv4 and IPv6 (requires public VIFs)
+> All networking traffic must be on the AWS global network backbone, regardless of whether you access public AWS Service or VPC in another region
 
-> Any data transfer out of a remote reason is build at the remote reason data transfer rate 
+> Any data transfer out of a remote region is billed at the remote region data transfer rate 
 
 so what is VIF, 802.IQ and what is BGP?
 
-Static vs Dynamic Routing
-• You need routing in order for Routers to
-be able to forward your traffic correctly
-• In simple networks, you can define the
-routing manually, and this is called
-static routing (like we do on AWS Route
-tables)
-• When the network grows, we need a
-dynamic mechanism to take care of
-updating and exchanging routing
-information such that we do not have to
-face the administration challenges of
-static routing at scale (like when we
-enable Route Propagation on AWS route
-tables for VPN or Direct Connect).
-Router 2
-122. 16/16
-Router
-10.18
-Router 5
-RI
-Router 3
-l0.1.1,)
-Router 4
+## Static vs Dynamic Routing
+> You need routing in order for Routers to be able to forward your traffic correctly
+> In simple networks, you can define the routing manually, and this is called static routing (like we do on AWS Route tables)
+> When the network grows, we need a dynamic mechanism to take care of updating and exchanging routing information such that we do not have to face the administration challenges of static routing at scale (like when we enable Route Propagation on AWS route tables for VPN or Direct Connect).
+
 =======================================
 #### Link Aggregation Groups - LAGS ### v23
-A link aggregation group (LAG) is a logical interface that uses the Link
-Aggregation Control Protocol (LACP) to aggregate multiple connections at a
-single AWS Direct Connect endpoint, allowing you to treat them as a single,
-managed connection.
-o All connections in a LAG operate in active/active mode.
-You can create a LAG from existing connections, or you can provision new
-connections. After you've created the LAG, you can associate existing connections
-(whether standalone or part of another LAG) with the LAG.
-The following rules apply:
-o All connections in the LAG must use the same bandwidth.
-o You can have a maximum of four connections in a LAG.
-o All connections in the LAG must terminate at the same AWS Direct Connect
-endpoint.
-All LAGS have an attribute that determines the minimum number of connections
-in the LAG that must be operational for the LAG itself to be operational.
-o By default, new LAGS have this attribute set to 0.
-o You can update your LAG to specify a different value-doing so means that
-your entire LAG becomes nonoperational if the number of operational
-connections falls below this threshold.
-o This attribute can be used to prevent over-utilization of the remaining
-connections.
+
+> A link aggregation group (LAG) is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple connections at a single AWS Direct Connect endpoint, allowing you to treat them as a single, managed connection.
+- All connections in a LAG operate in active/active mode.
+
+> You can create a LAG from existing connections, or you can provision new connections. After you've created the LAG, you can associate existing connections (whether standalone or part of another LAG) with the LAG.
+
+> The following rules apply:
+- All connections in the LAG must use the same bandwidth.
+- You can have a maximum of four connections in a LAG.
+- All connections in the LAG must terminate at the same AWS Direct Connect endpoint.
+
+> All LAGS have an attribute that determines the minimum number of connections in the LAG that must be operational for the LAG itself to be operational.
+- By default, new LAGS have this attribute set to 0.
+- You can update your LAG to specify a different value-doing so means thatyour entire LAG becomes nonoperational if the number of operational connections falls below this threshold.
+- This attribute can be used to prevent over-utilization of the remaining connections.
 
 ## Border Gateway Protocol (BGP)
 Connects different autonomous systems together
@@ -473,63 +467,40 @@ Transit AS capability
 
 > AWS Direct Connect applies inbound and outbound routing policies for a public AWS Direct Connect connection.
 
-• Inbound Policies:
-o Client must own the public prefixes and they
-must be registered as such.
-o Traffic must be destined to Amazon public
-prefixes.
-· Transitive routing between connections is
-not supported.
-o AWS Direct Connect performs inbound packet
-filtering to validate that the source of the traffic
-originated from your advertised prefix.
+• INBOUND POLICIES:
+- Client must own the public prefixes and they must be registered as such.
+- Traffic must be destined to Amazon public prefixes.
+	- Transitive routing between connections is not supported.
+- AWS Direct Connect performs inbound packet filtering to validate that the source of the traffic originated from your advertised prefix.
 
 ## AWS DX - BGP Communities in Outbound policies
 
-> AWS Direct Connect advertises all local and remote AWS
-Region prefixes where available and includes on-net prefixes
-from other AWS non-Region points of presence (PoP) where
-available; for example, CloudFront and Route 53.
+> AWS Direct Connect advertises all local and remote AWS Region prefixes where available and includes on-net prefixes from other AWS non-Region points of presence (PoP) where available; for example, CloudFront and Route 53.
 -  No access to non-Amazon prefixes (i.e no access to the global internet over the direct links).
 
-> AS_PATH is used to determine the routing path, and AWS
-Direct Connect is the preferred path for traffic sourced from
-Amazon (Preference over HA VPN links)
+> AS_PATH is used to determine the routing path, and AWS Direct Connect is the preferred path for traffic sourced from Amazon (Preference over HA VPN links)
 
 > Only public ASNS are used internally for route selection.
-• AWS Direct Connect advertises prefixes with a minimum path
-length of 3.
-When multiple AWS Direct Connect connections are there,
-the load-sharing of inbound traffic can be adjusted_by
-advertising prefixes with similar path attributes.
-AWS Direct Connect advertises all public prefixes with the
-well-known NO EXPORT BGP community.
-o The prefixes advertised by AWS Direct Connect must not be
-advertised beyond the network boundaries of your
-connection.
+> AWS Direct Connect advertises prefixes with a minimum path length of 3.
+
+> When multiple AWS Direct Connect connections are there, the load-sharing of inbound traffic can be adjusted_by advertising prefixes with similar path attributes. 
+
+> AWS Direct Connect advertises all public prefixes with the well-known NO EXPORT BGP community.
+- The prefixes advertised by AWS Direct Connect must not be advertised beyond the network boundaries of your connection.
 
 ## AWS DX - BGP Communities - On Premise side 
 
-Scope BGP Communities
-BGP community tags can be applied on the public prefixes that you advertise to
-Amazon to indicate how far to propagate your prefixes in the Amazon network
-o For the local AWS Region only, all Regions within a continent, or all public
-Regions.
-o If community tags are applied, prefixes are advertised to all public AWS
-Regions (global) by default.
-172
-Local Preference BGP Communities
-Local preference BGP community tags are supported for private virtual
-interfaces, and transit virtual interfaces.
-Local preference BGP community tags can be used to achieve load balancing
-and route preference for incoming traffic(sourced from AWS).
-For each advertised prefix over a BGP session, a community tag can be applied
-to indicate the priority of the associated path for returning traffic.
-• To load balance traffic across multiple AWS Direct Connect connections, apply
-the same community tag across the prefixes for the connections.
-To support failover across multiple AWS Direct Connect connections, apply a
-community tag with a higher preference to the prefixes for the primary or
-active virtual interface.
+#Scope BGP Communities
+> BGP community tags can be applied on the public prefixes that you advertise to Amazon to indicate how far to propagate your prefixes in the Amazon network
+- For the local AWS Region only, all Regions within a continent, or all public Regions.
+- If community tags are applied, prefixes are advertised to all public AWS Regions (global) by default.
+
+#Local Preference BGP Communities
+> Local preference BGP community tags are supported for private virtual interfaces, and transit virtual interfaces.
+> Local preference BGP community tags can be used to achieve load balancing and route preference for incoming traffic(sourced from AWS).
+> For each advertised prefix over a BGP session, a community tag can be applied to indicate the priority of the associated path for returning traffic.
+> To load balance traffic across multiple AWS Direct Connect connections, apply the same community tag across the prefixes for the connections.
+> To support failover across multiple AWS Direct Connect connections, apply a community tag with a higher preference to the prefixes for the primary or active virtual interface.
 =======================================
 ##### ####### v25
 
@@ -552,18 +523,13 @@ selection to determine how to route traffic to your remote network.
 
 > First it applies Longest prefix match applies;
 If all routes are of equal length (subnet mask) then, the following rules apply:
-o If any propagated routes from a Site-to-Site VPN connection or AWS Direct
-Connect connection overlap with the local route for your VPC,
-• Forwarding will use the local route is most preferred even if the propagated
-routes are more specific.
-o If any propagated routes from a Site-to-Site VPN connection or AWS Direct
-Connect connection have the same destination CIDR block as other existing
-static routes, AwS prioritizes the static routes whose targets are an Internet
-gateway, a virtual private gateway, a network interface, an instance ID, a VPC
-peering connection, a NAT gateway, or a VPCendpoint.
+o If any propagated routes from a Site-to-Site VPN connection or AWS Direct Connect connection overlap with the local route for your VPC,
+- Forwarding will use the local route is most preferred even if the propagated routes are more specific.
+
+o If any propagated routes from a Site-to-Site VPN connection or AWS Direct Connect connection have the same destination CIDR block as other existing static routes, AwS prioritizes the static routes whose targets are an Internet gateway, a virtual private gateway, a network interface, an instance ID, a VPC peering connection, a NAT gateway, or a VPCendpoint.
 
 > Only IP prefixes that are known to the virtual private gateway, whether through BGP advertisements or static route entry, can receive traffic from your VPC.
-o The virtual private gateway does not route any other traffic destined outside of received BGP advertisements, static route entries, or its attached VPC CIDR.
+- The virtual private gateway does not route any other traffic destined outside of received BGP advertisements, static route entries, or its attached VPC CIDR.
 =======================================
 ### AWS Hybrid Connectivity– Routing Use Cases ### v26
 
@@ -644,34 +610,27 @@ interface to more than one Direct Connect gateway.
 
 > A virtual private gateway that you associate with a Direct Connect gateway must be attached to a VPC
 =======================================
-####### v
+######### VPC EndPoints ######### v
 
-[1:07 PM, 1/25/2020] Manish Agrawal: VPC EndPoints
-A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC
-endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN
-connection, or AWS Direct Connect connection.
-Instances in your VPC do not require public IP addresses to communicate with resources in the
-service.
-Traffic between your VPC and the other service does not leave the Amazon network.
-Endpoints are virtual devices, They are horizontally scaled, redundant, and highly available VPC
-components that allow communication between instances in your VPC and services without
-imposing availability risks or bandwidth constraints on your network traffic.
-There are two types of VPC endpoints: interface endpoints and gateway endpoints. Create the type
-of VPC endpoint required by tke supported service.
+
+> A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection.
+
+> Instances in your VPC do not require public IP addresses to communicate with resources in the service.
+> Traffic between your VPC and the other service does not leave the Amazon network.
+> Endpoints are virtual devices, They are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.
+
+> There are two types of VPC endpoints: 
+1. interface endpoints and 
+2. gateway endpoints. 
+Create the type of VPC endpoint required by the supported service.
 
 ## VPC EndPoints
-An Interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. The following services are
-supported:
-API Gateway, CloudFormation, CloudWatch ,
-CloudWatch Events/Logs, EC2 API, KMS,
-Kinesis Data Streams, ELB, SNS, Systems
-theOLF
-Manager, Endpoint Services hosted by other
-AWS Accounts, STS, Codebuild, AWS Config,
-Service Catalogue, Secrets Manager,
+> An Interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. The following services are supported:
+API Gateway, CloudFormation, CloudWatch , CloudWatch Events/Logs, EC2 API, KMS, Kinesis Data Streams, ELB, SNS, Systems Manager, Endpoint Services hosted by other
+AWS Accounts, STS, Codebuild, AWS Config, Service Catalogue, Secrets Manager,
 
 ## VPC EndPoint - Gateway Endpoint
-A gateway endpoint is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWs service. The following AWS servicesare supported:
+> A gateway endpoint is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWs service. The following AWS services are supported:
 - Amazon S3
 - DynamoDB
 

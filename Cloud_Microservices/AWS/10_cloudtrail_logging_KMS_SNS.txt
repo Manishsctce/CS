@@ -96,6 +96,57 @@ Regional edge caches are used for custom origins, but not Amazon S3 origins.
 Dynamic content, as determined at request time (cache-behavior configured to forward all
 headers), does not flow through regional edge caches, but goes directly to the origin.
 =======================================
-#######  #######
+#######  ####### v5
+
+[12:38 AM, 1/27/2020] Manish Agrawal: CloudFront – Configuration Settings
+When you want to use CloudFront to distribute your content, you create a distribution and
+specify configuration settings such as:
+Your origin, which is the Amazon S3 bucket or HTTP server from which CloudFront gets
+the files that it distributes.
+You can specify any combination of up to 25 Amazon S3 buckets and/or HTTP servers as
+your origins
+DOLFIN
+[12:38 AM, 1/27/2020] Manish Agrawal: CloudFront Distributions- Web Distribution
+You can use web distributions to serve the following content over HTTP or HTTPS:
+Static and dynamic download content, for example, .html, .css, .js, and image files, using HTTP or
+HTTPS,
+Multimedia content on demand using progressive download and Apple HTTP Live Streaming
+(HLS).
+You can't serve Adobe Flash multimedia content over HTTP or HTTPS, but you can serve it using a
+CloudFront RTMP distribution
+DOLFIN
+For web distributions, your origin can be either an Amazon S3 bucket or an HTTP server
+A live event, such as a meeting, conference, or concert, in real time.
+For live streaming, you create the distribution automatically by using an AWS CloudFormation
+stack.
+boute
+[12:39 AM, 1/27/2020] Manish Agrawal: CloudFront – Configuration Settings
+Also you need to specify,
+Whether you want the files to be available to everyone or you want to restrict access to
+selected users.
+Whether you want CloudFront to require users to use HTTPS to access your content.
+Whether you want CloudFront to forward cookies and/or query strings to your origin (for
+web distributions only), and if so, whether to cache your content based on all parameters or
+on selected parameters.
+Whether you want CloudFront to prevent users in selected countries from accessing your
+content (Geo Resitrctions with Cloudfront distributions)
+Whether you want CloudFront to create access logs.
+[12:40 AM, 1/27/2020] Manish Agrawal: CloudFront Distribution – RTMP Distribution
+RTMP distributions stream media files using Adobe Media Server and the Adobe Real-Time
+Messaging Protocol (RTMP).
+An RTMP distribution must use an Amazon $3 bucket as the origin.
+DOLFINed
+[12:40 AM, 1/27/2020] Manish Agrawal: CloudFront Distributions – Configuration Propagation
+When you save changes to your distribution configuration,
+CloudFront starts to propagate the changes to all edge locations.
+Until your configuration is updated in an edge location, CloudFront continues to serve your content
+from that location based on the previous configuration.
+Your changes don't propagate to every edge location instantaneously.
+While CloudFront is propagating your changes, AWS can't determine whether a given edge
+location is serving your content based on the previous configuration or the new configuration.
+When propagation is complete, the status of your distribution changes
+from InProgress to Deployed.
+After your configuration is updated in an edge location, CloudFront immediately starts to serve
+your content from that location based on the new configuration.
 =======================================
 #######  #######

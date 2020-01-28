@@ -395,7 +395,40 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > A VPC or VPN connection can dynamically propagate route to a transit gateway route table
 > With a VPC, you can create static route to send traffic to the transit gateway
 > With the VPN connection, route are propagated with the transit gateway on your on-premise router using border gateway protocol(BGP)
+=======================================
+#### Virtual Private Networks (VPN) ### v21
+> VPN CONNECTIONS ARE QUICK, EASY TO DEPLOY, AND COST EFFECTIVE
 
+> A VGW(Virtual Gateway) is required on the VPC side, and a Customer gateway on the client's data center (locations) side 
+
+> An Internet routable IP address is required on your Customer gateway
+
+> Two tunnels are configured for each VPN connection for redundancy
+
+> You can NOT use the NAT gateway in your VPC through the VPN connection
+
+## Enabling Dynamic Route Propagation
+> You need to update your vpn-only subnets' route table(s) to point at the VGW for subnets that are on the other side of the VPN connection
+
+## AWS VPN CloudHub
+> You can have up to 10 IPSec connections per VGW (soft limit can be increased by contacting AWS)
+
+> VPN based Hub and Spoke connectivity to a common VGW
+
+> Can mix DX connections (explained next lecture) with VPN connections
+
+## AWS VPN CloudHub
+> VPN cloud hub can also be used to allow the branches to communicate with one another
+> This can be a redundant connectivity for the branch offices to the main office or data center too
+> IPSec VPN tunnels + BGP need to be used
+> You are charged hourly VPN rates plus data transfer rate for data sent to your spokes
+
+## VPN – Allowed IP Prefixes
+Which IP prefixes can receive/send traffic through the VPN connection?
+- Only IP prefixes that are known to the virtual private gateway,
+- VGW learns about these prefixes through Static or BGP routing
+- VGW does not route any other traffic destined outside of the received BGP advertisements, static route entries, or its attached VPC CIDR
+- You can NOT access Elastic IPs on your VPC side using the VPN tunnel establisheð, Elastic IPs in AWS can only be accessed from the Internet
 =======================================
 ##### AWS direct connect benefit ###### v22
 > Lower latency and jitter does not use the internet
@@ -441,9 +474,8 @@ so what is VIF, 802.IQ and what is BGP?
 - This attribute can be used to prevent over-utilization of the remaining connections.
 
 ## Border Gateway Protocol (BGP)
-Connects different autonomous systems together
-Each Autonomous System (AS) requires an Autonomous
-system number (ASN)
+> Connects different autonomous systems together
+> Each Autonomous System (AS) requires an Autonomous system number (ASN)
 IkGP
 TCP based sessions between neighbors, on port 179
 The Main internet routing protocol today

@@ -149,4 +149,55 @@ from InProgress to Deployed.
 After your configuration is updated in an edge location, CloudFront immediately starts to serve
 your content from that location based on the new configuration.
 =======================================
-#######  #######
+#######  ####### v6
+
+[7:16 AM, 1/28/2020] Manish Agrawal: Using S3 bucket as a CloudFront Origin
+Using Amazon S3 Buckets for Your Origin
+When you use Amazon S3 as an origin for your distribution, you place any objects that you
+want CloudFront to deliver in an Amazon S3 bucket.
+You can use any method that is supported by Amazon S3 to get your objects into Amazon S3
+( the Amazon S3 console or API, or a third-party tool).
+You can create a hierarchy in your bucket to store the objects, just as you would with any
+other Amazon S3 bucket.
+Using an existing Amazon S3 bucket as your CloudFront origin server doesn't change the
+bucket in any way;
+You can still use it as ygu normally would to store and access Amazon S3 objects at the
+standard Amazon S3 price.
+[7:17 AM, 1/28/2020] Manish Agrawal: Using S3 bucket as a CloudFront Origin
+Using Amazon S3 Buckets for Your Origin
+You incur regular Amazon S3 charges for storing the objects in the bucket.
+Upload your content to your origin servers. If you don't want to restrict access to your
+content using CloudFront signed URLS, make the objects publicly readable.
+CAI
+Important
+• You are responsible for ensuring the security of your origin server.
+You must ensure that CloudFront has permission.to access the server and that the security
+settings are appropriate to safeguard your content.
+[7:17 AM, 1/28/2020] Manish Agrawal: Using EC2 Webserver or Private Webserver as a CloudFront Custom Origin Server
+A custom origin is an HTTP server, the HTTP server can be an Amazon EC2 instance or an HTTP server
+that you manage privately.
+When you use a custom origin that is your own HTTP server, you specify the DNS name of the server,
+along with the HTTP and HTTPS ports and the protocol that you want CloudFront to use when
+fetching objects from your origin.
+Most CloudFront features are supported when you use a custom origin with the following
+exceptions:
+[7:18 AM, 1/28/2020] Manish Agrawal: Using EC2 Webserver as a CloudFront Custom Origin Server
+If you use Amazon Elastic Compute Cloud for your custom origins, AWS recommends the
+following:
+Use an Amazon Machine Image that automatically installs the software for a web server.
+Use an Elastic Load Balancing load balancer to handle traffic across multiple Amazon EC2
+instances and to isolate your application from changes to Amazon EC2 instances.
+LEINA
+When you create your CloudFront distribution, specify the URL of the load balancer for the
+domain name of your origin server.
+[7:18 AM, 1/28/2020] Manish Agrawal: Using S3 bucket' static website as CloudFront Custom Origin Server
+You can set up an Amazon S3 bucket that is configured as a website endpoint as custom origin
+with CloudFront.
+When you configure your CloudFront distribution, for the origin, enter the Amazon S3 static
+website hosting endpoint for your bucket.
+- This value appears in the Amazon S3 console, on the Properties page under Static Website
+Hosting. Example:
+• http://bucket-name.s3-website-us-west-2.amazonaws.com
+When you specify the bucket name in this format as your origin, you can use Amazon S3 redirects
+and Amazon S3 custom error documents.
+=======================================

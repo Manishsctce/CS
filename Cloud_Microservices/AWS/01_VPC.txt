@@ -1,10 +1,25 @@
 ###### Virtual Private Cloud #####
 > VPC stands for Virtual Private Cloud
+
 - It is logically isolated area of the AWS cloud
 - We can have complete control over our virtual networking environment, including a selection of our IP address range, the creation of subnets, and configuration of route tables and network gateways.
 - we can provide multiple layers of security, including security groups and NACL, to help control access to Amazon EC2 instances in each subnet.
 
-### Architecture of VPC
+> It is logically isolated from other virtual n/w in the AWS cloud. 
+
+> Max 5 VPC can be created and 200 subnets in 1 VPC. 
+> we can allocate max 5 elastic IP 
+
+> To create VPC, we need to create subnet, internet-gateway, route table 
+
+> DHCP, NACL and SG created be default in a VPC. 
+
+> VPC is region specific, it mean a VPC cannot be in 2 region 
+> Subnet is AZ specific, it mean a Subnet cannot be in 2 AZ
+
+> Once VPC is created, we cannot change its CIDR block 
+
+####### Architecture of VPC ######
 
 =======================================
 ########### IMPLIED ROUTER ############ v2
@@ -410,14 +425,13 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 ## Enabling Dynamic Route Propagation
 > You need to update your vpn-only subnets' route table(s) to point at the VGW for subnets that are on the other side of the VPN connection
 
-## AWS VPN CloudHub
+## AWS VPN CLOUDHUB
 > You can have up to 10 IPSec connections per VGW (soft limit can be increased by contacting AWS)
 
 > VPN based Hub and Spoke connectivity to a common VGW
 
-> Can mix DX connections (explained next lecture) with VPN connections
+> Can mix DX connections with VPN connections
 
-## AWS VPN CloudHub
 > VPN cloud hub can also be used to allow the branches to communicate with one another
 > This can be a redundant connectivity for the branch offices to the main office or data center too
 > IPSec VPN tunnels + BGP need to be used
@@ -430,14 +444,14 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 - VGW does not route any other traffic destined outside of the received BGP advertisements, static route entries, or its attached VPC CIDR
 - You can NOT access Elastic IPs on your VPC side using the VPN tunnel establisheð, Elastic IPs in AWS can only be accessed from the Internet
 =======================================
-##### AWS direct connect benefit ###### v22
+##### AWS Direct Connect benefit ###### v22
 > Lower latency and jitter does not use the internet
 > Consistent performance and dedicated bandwidth
 > Using direct connect enables customer to lower their internet service provider bandwidth
 > AWS charges data rate on direct connect lower than on VPC
 > Suitable when transferring high volume of data between a WS and on premise the more the data volume or higher the better the cost reduction compared to internet based VPN
 
-## Direct connect(DX)
+####### DIRECT CONNECT(DX) ##########
 > Broader gateway routing protocol must be used to draw route between then two end of DX connection
 > Customer router must be capable of 802.IQ and BGP
 > You can use the connection to establish private virtual interface(VIFs) to connect to a VPC in the region(via the VPC's VGW)
@@ -452,8 +466,22 @@ so what is VIF, 802.IQ and what is BGP?
 
 ## Static vs Dynamic Routing
 > You need routing in order for Routers to be able to forward your traffic correctly
+
 > In simple networks, you can define the routing manually, and this is called static routing (like we do on AWS Route tables)
+
 > When the network grows, we need a dynamic mechanism to take care of updating and exchanging routing information such that we do not have to face the administration challenges of static routing at scale (like when we enable Route Propagation on AWS route tables for VPN or Direct Connect).
+
+
+## Border Gateway Protocol (BGP)
+> Connects different autonomous systems together
+> Each Autonomous System (AS) requires an Autonomous system number (ASN)
+> TCP based sessions between neighbors, on port 179
+> The Main internet routing protocol today
+> Can carry large number of routes, with granular route control
+> Has many route/path attributes to control routing
+> Has IBGP (within an AS) and EBGP (between ASs) peering types
+
+> Transit AS capability
 
 =======================================
 #### Link Aggregation Groups - LAGS ### v23
@@ -465,7 +493,7 @@ so what is VIF, 802.IQ and what is BGP?
 
 > The following rules apply:
 - All connections in the LAG must use the same bandwidth.
-- You can have a maximum of four connections in a LAG.
+- You can have a maximum of 4 connections in a LAG.
 - All connections in the LAG must terminate at the same AWS Direct Connect endpoint.
 
 > All LAGS have an attribute that determines the minimum number of connections in the LAG that must be operational for the LAG itself to be operational.
@@ -473,19 +501,6 @@ so what is VIF, 802.IQ and what is BGP?
 - You can update your LAG to specify a different value-doing so means thatyour entire LAG becomes nonoperational if the number of operational connections falls below this threshold.
 - This attribute can be used to prevent over-utilization of the remaining connections.
 
-## Border Gateway Protocol (BGP)
-> Connects different autonomous systems together
-> Each Autonomous System (AS) requires an Autonomous system number (ASN)
-IkGP
-TCP based sessions between neighbors, on port 179
-The Main internet routing protocol today
-Can carry large number of routes, with granular route control
-Has many route/path attributes to control routing
-Has IBGP (within an AS) and EBGP (between ASs) peering
-types
-AS
-AS
-Transit AS capability
 
 ## BGP and Hybrid Connectivity
 > BGP between Corporate Data Center and AWS VPC configured using a direct connect link
@@ -502,7 +517,7 @@ Transit AS capability
 • INBOUND POLICIES:
 - Client must own the public prefixes and they must be registered as such.
 - Traffic must be destined to Amazon public prefixes.
-	- Transitive routing between connections is not supported.
+- Transitive routing between connections is not supported.
 - AWS Direct Connect performs inbound packet filtering to validate that the source of the traffic originated from your advertised prefix.
 
 ## AWS DX - BGP Communities in Outbound policies
@@ -518,7 +533,7 @@ Transit AS capability
 > When multiple AWS Direct Connect connections are there, the load-sharing of inbound traffic can be adjusted_by advertising prefixes with similar path attributes. 
 
 > AWS Direct Connect advertises all public prefixes with the well-known NO EXPORT BGP community.
-- The prefixes advertised by AWS Direct Connect must not be advertised beyond the network boundaries of your connection.
+- The prefixes advertised by AWS Direct Connect must not be advertised beyond the network bo undaries of your connection.
 
 ## AWS DX - BGP Communities - On Premise side 
 
@@ -606,116 +621,109 @@ E. Modify the Instances VPC subnet route table by adding a route back to the cus
 ####### AWS Direct Connect Gateway #### v27
 > A Direct Connect gateway is a globally available resource.
 - You can create the Direct Connect gateway in any public Region and access it from all other public Regions.
-• Use AWS Direct Connect gateway to connect your VPCs.
+
+> Use AWS Direct Connect gateway to connect your VPCs.
 
 > You associate an AWS Direct Connect gateway with either of the following gateways:
-A virtual private gateway(s) of the VPC(s) you need to connect to
-o Atransit gateway when you have multiple VPCS in the same Region 4
+- A virtual private gateway(s) of the VPC(s) you need to connect to
+- A transit gateway when you have multiple VPCS in the same Region
 
 > Create a private virtual interface (Private VIF) for your AWS Direct Connect connection to the Direct Connect gateway.
-o You can attach multiple private virtual interfaces to your Direct Connect gateway (from different locations or from
-different DX links connected to different Customer Gateways).
+- You can attach multiple private virtual interfaces to your Direct Connect gateway (from different locations or from different DX links connected to different Customer Gateways).
 
-> You can associate a VGW from one account with a Direct Connect Gateway from another account, by creating association
-proposal from the Direct Connect Gateway in one account to the VGW in the other account.
+> You can associate a VGW from one account with a Direct Connect Gateway from another account, by creating association proposal from the Direct Connect Gateway in one account to the VGW in the other account.
 
 ## AWS Direct Connect Gateway Limitations
-> The VPCS to which you connect through a Direct Connect gateway
-cannot have overlapping CIDR blocks.
-- If you add an IPV4 CIDR block to a VPC that's associated with a
-Direct Connect gateway, ensure that the CIDR block does not overlap
-with an existing CIDR block for any other associated VPC.
+> The VPCS to which you connect through a Direct Connect gateway cannot have overlapping CIDR blocks.
+- If you add an IPV4 CIDR block to a VPC that's associated with a Direct Connect gateway, ensure that the CIDR block does not overlap with an existing CIDR block for any other associated VPC.
 
 > You cannot create a public virtual interface to a Direct Connect gateway.
 
 > A Direct Connect gateway supports communication between attached
 private virtual interfaces and associated virtual private gateways only. The following traffic flows are not supported:
-- Direct communication between the VPCS that are associated with the
-Direct Connect gateway.
-- Direct communication between the virtual interfaces that are attached
-to the Direct Connect gateway.
+- Direct communication between the VPCS that are associated with the Direct Connect gateway.
+- Direct communication between the virtual interfaces that are attached to the Direct Connect gateway.
 - Direct communication between a virtual interface attached to a Direct Connect gateway and a VPN connection on a virtual private gateway that's associated with the same Direct Connect gateway.
 
-> You cannot associate a virtual private gateway with more than one
-Direct Connect gateway and you cannot attach a private virtual
-interface to more than one Direct Connect gateway.
+> You cannot associate a virtual private gateway with more than one Direct Connect gateway and you cannot attach a private virtual interface to more than one Direct Connect gateway.
 
 > A virtual private gateway that you associate with a Direct Connect gateway must be attached to a VPC
 =======================================
-######### VPC EndPoints ######### v
+######### VPC EndPoints ######### v29 
 
-
-> A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection.
+> A VPC ENDPOINT ENABLES US TO PRIVATELY CONNECT OUR VPC TO SUPPORTED AWS SERVICES AND VPC ENDPOINT SERVICES powered by PrivateLink WITHOUT IGW, NAT device, VPN connection, or AWS Direct Connect connection.
 
 > Instances in your VPC do not require public IP addresses to communicate with resources in the service.
+
 > Traffic between your VPC and the other service does not leave the Amazon network.
-> Endpoints are virtual devices, They are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.
+
+> Endpoints are virtual devices. They are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.
 
 > There are two types of VPC endpoints: 
-1. interface endpoints and 
-2. gateway endpoints. 
+1. Interface Endpoints and 
+2. Gateway Endpoints. 
 Create the type of VPC endpoint required by the supported service.
 
-## VPC EndPoints
-> An Interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. The following services are supported:
-API Gateway, CloudFormation, CloudWatch , CloudWatch Events/Logs, EC2 API, KMS, Kinesis Data Streams, ELB, SNS, Systems Manager, Endpoint Services hosted by other
-AWS Accounts, STS, Codebuild, AWS Config, Service Catalogue, Secrets Manager,
+## INTERFACE ENDPOINT
+> It is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. 
 
-## VPC EndPoint - Gateway Endpoint
-> A gateway endpoint is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWs service. The following AWS services are supported:
+> The following services are supported:
+- API Gateway, CloudFormation, CloudWatch , CloudWatch Events/Logs, 
+- EC2 API, KMS, Kinesis Data Streams, ELB, SNS, 
+- Systems Manager, Endpoint Services hosted by other AWS Accounts, STS, Codebuild, AWS Config, Service Catalogue, Secrets Manager,
+
+## GATEWAY ENDPOINT
+> It is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWs service. The following AWS services are supported:
 - Amazon S3
 - DynamoDB
 
-> You need endpoint policy to control who can access what Endpoints are supported within the same region only.
+> You need endpoint policy to control who can access what 
+> ENDPOINTS ARE SUPPORTED WITHIN THE SAME REGION ONLY.
 =======================================
-####### v
- VPC Flow Logs
-VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to
-and from network interfaces in your VPC.
-ENES
-Flow logs can help you with a number of tasks;
-- To troubleshoot why specific traffic is not reaching an instance, which in turn helps you
-diagnose overly restrictive security group rules.
-You can also use flow logs as a security tool to monitor the traffic that is reaching your
-instance.
-DOLFIN
-You can create a flow log for a VPC, a subnet, or a network interface.
-If you create a flow log for a subnet or VPC, each network interface in the VPC or subnet is
-monitored.
-Flow log data for a monitored network interface is recorded as flow log records, which are log
-events consisting of fields that describe the traffic flow.
+####### VPC Flow Logs ############ v30
+ 
+VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC.
 
-[1:29 PM, 1/25/2020] Manish Agrawal: VPC Flow Logs
-Flow log data can be published to Amazon CloudWatch Logs and Amazon S3.
+> Flow logs can help you with a number of tasks;
+- To troubleshoot why specific traffic is not reaching an instance, which in turn helps you diagnose overly restrictive security group rules.
+- You can also use flow logs as a security tool to monitor the traffic that is reaching your instance.
+
+> You can create a flow log for a VPC, a subnet, or a network interface.
+- If you create a flow log for a subnet or VPC, each network interface in the VPC or subnet is monitored.
+
+> Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow.
+
+> Flow log data can be published to Amazon CloudWatch Logs and Amazon S3.
 - After you've created a flow log, you can retrieve and view its data in the chosen destination.
-To create a flow log,
+
+> To create a flow log,
 - You specify the resource for which to create the flow log,
 - The type of traffic to capture (accepted traffic, rejected traffic, or all traffic), and
 - The destinations to which you want to publish the flow log data.
-OLFIN
-CloudWatch Logs charges apply when using flow logs, whether you send them to CloudWatch
-Logs or to Amazon S3.
-After you've created a flow log, it can take several minutes to begin collecting and publishing data.
 
-## VPC DHCP Options Sets
-You can use an on-premise DNS for your AWS VPC environment
-But you can NOT use Route53 as a DNS for your On-premise infrastructure
-The Dynamic Host Configuration Protocol (DHCP) provides a standard for passing configuration
-information to hosts on a TCP/IP network.
-The options field of a DHCP message contains the configuration parameters.
-Some of those parameters are the domain name, domain name server, and the netbios-node-type.
-You can configure DHCP options sets for your virtual private clouds (VPC).
+> CloudWatch Logs charges apply when using flow logs, whether you send them to CloudWatch Logs or to Amazon S3.
 
-## VPC DHCP Options Sets
-After you create a set of DHCP options, you can't modify them.
-If you want your VPC to use a different set of DHCP options, you must create a new set and
-associate them with your VPC.
-You can also set up your VPC to use no DHCP options at all.
-You can have multiple sets of DHCP options, but you can associate only one set of DHCP options
-with a VPC at a time.
+> After you've created a flow log, it can take several minutes to begin collecting and publishing data.
+
+##### VPC DHCP Options Sets ###### v30
+> You can use an on-premise DNS for your AWS VPC environment
+
+> But you can NOT use Route53 as a DNS for your On-premise infrastructure
+
+> The Dynamic Host Configuration Protocol (DHCP) provides a standard for passing configuration information to hosts on a TCP/IP network.
+
+> The options field of a DHCP message contains the configuration parameters.
+> Some of those parameters are the domain name, domain name server, and the netbios-node-type.
+> You can configure DHCP options sets for your virtual private clouds (VPC).
+
+> After you create a set of DHCP options, you can't modify them.
+- If you want your VPC to use a different set of DHCP options, you must create a new set and associate them with your VPC.
+- You can also set up your VPC to use no DHCP options at all.
+
+> You can have multiple sets of DHCP options, but you can associate only one set of DHCP options with a VPC at a time.
 - If you delete a VPC, the DHCP options set associated with the VPC are also deleted.
-After you associate a new set of DHCP options with a VPC, any existing instances and all new
-instances that you launch in the VPC use these options?
+
+> After you associate a new set of DHCP options with a VPC, any existing instances and all new instances that you launch in the VPC use these options
 =======================================
 ####### v
 end

@@ -776,3 +776,53 @@ Server Side Encryption on S3 using S3 managed encryption keys
 > AWS does not store the client provided encryption key(s), so if the client looses the key(s), they can't access the abject, başically they loose the data.
 =======================================
 ########## v19
+
+=======================================
+######### AWS STORAGE GATEWAY #########
+
+
+> AWS Storage Gateway is a service that CONNECTS AN ON-PREMISES SOFTWARE APPLIANCE WITH CLOUD-BASED STORAGE TO PROVIDE SEAMLESS AND SECURE INTEGRATION between an organization's on-premises IT environment and AWS's Storage infrastructure. The service enables you to securely store data to the AWS cloud for scalable and cost-effective storage.
+
+> AWS STORAGE GATEWAY'S SOFTWARE APPLIANCE is available for download as a virtual machine (VM) image that you INSTALL ON A HOST IN YOUR DATACENTER.
+
+> Storage gateway supports either VMware ESXI or Microsoft Hyper-V. 
+- Once you have installed your gateway associated with your AWS account through the activation process, you can use the AWS management console to create the storage gateway option that is right for you.
+
+##### Types of Storage Gateway #####
+1. File Gateway (NFS)
+2. Volumes Gateway (ISCSI)
+   2a. Stored Volumes
+   2b. Cached Volumes
+3. Tape Gateway (VTL)
+
+#### 1. File Gateway #####
+> Files are stored as object in S3 Buckets, accessed through a Network File System (NFS) mount point. 
+- Ownership, permissions and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. 
+- Once objects are transferred to S3 they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management and cross region replication apply directly to objects stored in bucket.
+
+##### 2. Volume Gateway #####
+> A volume gateway provides cloud-backed storage volumes that you can mount as Internet Small Computer System Interface (ISCSI) devices from your on-premises application servers. The gateway supports the following volume configurations:
+
+2a. Cached volumes 
+- YOU STORE YOUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
+- Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale your storage on-premises. 
+- You also retain low-latency access to your frequently accessed data.
+
+2b. Stored volumes 
+– If you need low-latency access to your entire dataset, first configure your on-premises gateway to store all your data locally. Then ASYNCHRONOUSLY BACK UP POINT-IN-TIME SNAPSHOTS OF THIS DATA TO AMAZON S3. 
+- This configuration provides durable and inexpensive offsite backups that you can recover to your local data center or Amazon EC2. For example, if you need replacement capacity for disaster recovery, you can recover the backups to Amazon EC2.
+
+###### 3. Tape Gateways ######
+> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
+
+> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as an Amazon Elastic Compute Cloud (Amazon EC2) instance. You deploy your gateway on an EC2 instance to provision ISCSI storage volumes in AWS. Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
+
+### Summary
+• File Gateway – For flat files, stored directly on S3.
+• Tape Gateways – Used for backup and uses popular backup applications
+like NetBackup, Backup Exec, Veear etc.
+• Volume Gateway:
+• Stored Volumes – Entire Dataset is stored on site and is
+asynchronously backed up to S3.
+• Cached Volumes – Entire Dataset is stored on S3 and the most
+frequently accessed data is cached on site.

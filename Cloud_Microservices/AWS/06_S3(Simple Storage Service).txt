@@ -470,42 +470,36 @@ The permissions can be granted as follows:
 - The code displayed on an approved physical or SW-based authentication device
 > This provides maximum protection to your objects
 =======================================
-Multipart Upload
-Is used to upload an object (objects) in parts
-Parts are uploaded independently and in parallel, in any order
-It is recommended for objects sizes of 100MB or larger
-However, you can use for object sizes starting from 5MB up to 5TB
-You must use it for Objects larger than 5GB
-This is done through the S3 Multipart upload API
-[9:35 AM, 1/23/2020] Manish Agrawal: Copying S3 Objects
-The copy operation creates a copy of an object that is already stored in Amazon S3
-You can create a copy of your object up to 5 GB in size in a single atomic operation
-However, to copy an object greater than 5 GB, you must use the mu
-art upload API
-You will incur charges if the copy is to a destination that is another AWS region
-[9:36 AM, 1/23/2020] Manish Agrawal: Copying S3 Objects
-Can be done using AWS SDKS or REST API
-ES-315
-Use the copy operation to:
-Generate additional copies of the objects
-Renaming objects (copy to a new name)
-Changing the copy's storage class or encrypt it at rest (these can be done via AWS
-Console now with the new UI)
-$3- and Ss3-RRS
-Move objects across AWS locations/region
-Change object metadata
-Once you upload an objest to S3, you can NOT change some of its metadata, this is
-where the copy comes in handy
-Pedire col
-[9:40 AM, 1/23/2020] Manish Agrawal: Successful Upload Acknowledgement
-When you successfully upload an object (a file) to S3, S3 returns a HTTP 200 OK message
-for a successful PUT Operation
-If uploading an Object and requesting SSE using Customer Provided Keys,and if the PUTPoT
-operation is successful
-Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the
-encryption key you specified when uploading the object.
+######### Multipart Upload ########## v12 
+> Is used to upload an object (objects) in parts
+- Parts are uploaded independently and in parallel, in any order
+- It is recommended for objects sizes of 100MB or larger
+- However, we can use for object sizes starting from 5MB up to 5TB
+- You MUST USE IT FOR OBJECTS LARGER THAN 5GB
+- This is done through the S3 Multipart upload API
+
+## Copying S3 Objects
+> The copy operation creates a copy of an object that is already stored in Amazon S3
+- we can create a copy of your object up to 5 GB in size in a single atomic operation
+- However, to copy an object greater than 5 GB, you must use the multipart upload API
+- You will incur charges if the copy is to a destination that is another AWS region
+
+> Can be done using AWS SDKS or REST API
+
+> Use the copy operation to:
+- Generate additional copies of the objects
+- Renaming objects (copy to a new name)
+- Changing the copy's storage class or encrypt it at rest (these can be done via AWS Console now with the new UI)
+- Move objects across AWS locations/region
+- Change object metadata
+- Once you upload an objest to S3, you can NOT change some of its metadata, this is where the copy comes in handy
+
+## Successful Upload Acknowledgement
+> When you successfully upload an object (a file) to S3, S3 returns a HTTP 200 OK message for a successful PUT Operation
+If uploading an Object and requesting SSE using Customer Provided Keys,and if the PUT operation is successful
+Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the encryption key you specified when uploading the object.
 =======================================
-############ S3 STORAGE CLASS #########
+############ S3 STORAGE CLASS ######### v13
 
 #### S3 STANDARD Storage Class ####
 > Provides for 99.99% availability
@@ -775,105 +769,77 @@ Server Side Encryption on S3 using S3 managed encryption keys
 > Client manages the keys, S3 service manages encryption
 > AWS does not store the client provided encryption key(s), so if the client looses the key(s), they can't access the abject, başically they loose the data.
 =======================================
-########## v19
-[7:08 AM, 2/5/2020] Manish Agrawal: Encryption Model C- S3
-There are three ways of encrypting your data in Amazon S3 using server-side encryption.
-Server-side encryption: SSE-S3
-1.
-2. Server-Side Encryption using Customer Keys (SSE-C)
-Server-Side Encryption using AWS KMS (SSE-KMS)
-3.
-[7:09 AM, 2/5/2020] Manish Agrawal: Encryption Model C – S3
+######## S3 - Encryption Model ######## v19
+
+> There are three ways of encrypting your data in Amazon S3 using server-side encryption.
 1. Server-side encryption: SSE-S3
-- KMS generates this data key and encrypts it using the master key that you specified earlier;
+2. Server-Side Encryption using Customer Keys (SSE-C)
+3. Server-Side Encryption using AWS KMS (SSE-KMS)
+
+#### 1. Server-side encryption: SSE-S3 
+- KMS GENERATES DATA KEY AND ENCRYPTS IT USING THE MASTER KEY THAT YOU SPECIFIED EARLIER;
 - KMS then returns this encrypted data key along with the plaintext data key to Amazon S3.
-Amazon S3 encrypts the object using the plaintext data key first , and then stores the now
-encrypted object (along with the encrypted object key) and deletes the plaintext object key
-from memory.
-- To retrieve this encrypted object, Amazon S3 sends the encrypted data key to AWWS KMS.
-AWS KMS decrypts the data key using the correct master key and returns the decrypted
-(plaintext) object key to S3.
+- Amazon S3 encrypts the object using the plaintext data key first , and then stores the encrypted object (along with the encrypted object key) and deletes the plaintext object key from memory.
+- To retrieve this encrypted object, Amazon S3 sends the encrypted data key to AWS KMS.
+- AWS KMS decrypts the data key using the correct master key and returns the decrypted (plaintext) object key to S3.
 - With the plaintext object key, S3 decrypts the encrypted object and returns it to you.
-Each object is encrypted with a unique data key,
-• This key is encrypted with a periodically rotated key managed by AWS 53.
-• Amazon S3 server-side encryption uses 256-bit Advanced Encryption Standard (AES) keys
-for both object and master keys.
-This feature is offered at no additional cost beyond what you pay for using Amazon S3.
-CMIC
-[7:09 AM, 2/5/2020] Manish Agrawal: Encryption Model C – S3
-2. Server-side encryption using customer provided keys: (SSE-C)
-- Clients can use their own encryption key while uploading an object to Amazon S3.
-- This encryption key is used by Amazon $3 to encrypt your data using AES-256.
-S3 does not store the key, after the object is encrypted, the encryption key supplied by the
-client is deleted from the Amazon S3 system that used it to protect the client's data.
-When the client retrieves this object from Amazon S3, they must provide the same encryption
-key in the request.
-• Amazon S3 verifies that the encryption key matches,
-• Decrypts the object, and returns the object to the requester.
-[7:10 AM, 2/5/2020] Manish Agrawal: Encryption ModelC – 3
-3. Server-side encryption using KMS:
-- You can encrypt the data in Amazon 53 by defining an AWS KMS master key within your
-account that you want to use to encrypt the unique object (data) key that will ultimately
-encrypt your object (data).
-deta
+- Each object is encrypted with a unique data key,
+- This key is encrypted with a periodically rotated key managed by AWS S3.
+- SSE-S3 USES 256-BIT ADVANCED ENCRYPTION STANDARD (AES) KEYS FOR BOTH OBJECT AND MASTER KEYS.
+
+> This feature is offered at no additional cost beyond what you pay for using Amazon S3.
+
+
+### 2. Server-side encryption using customer provided keys: (SSE-C)
+- CLIENTS CAN USE THEIR OWN ENCRYPTION KEY WHILE UPLOADING AN OBJECT TO AMAZON S3.
+- This encryption key is used by Amazon S3 to encrypt your data using AES-256.
+- S3 does not store the key, after the object is encrypted, the encryption key supplied by the client is deleted from the Amazon S3 system that used it to protect the client's data.
+- When the client retrieves this object from Amazon S3, they must provide the same encryption key in the request.
+- Amazon S3 verifies that the encryption key matches, Decrypts the object, and returns the object to the requester.
+
+#### 3. Server-side encryption using KMS:
+- You can encrypt the data in S3 by defining an AWS KMS master key within your account that you want to use to encrypt the unique object/data key that will ultimately encrypt your object (data).
+
 - When you upload your object, a request is sent to KMS to create an object key.
-- The first time you add an SSE-KMS-encrypted object to a bucket in a region, a default CMK is
-created for you automatically. DOLFIN
-• This key is used for SSE-KMS encryption unless you select a CMK that you created
-separately using AWS Key Management Service.
-Creating your own CMK gives you more flexibility, including the ability to create, rotate,
-disable, and define access controls, and to audit the encryption keys used to protect your
-Custo
-data.
-[7:10 AM, 2/5/2020] Manish Agrawal: Encryption Model C – S3
-Server-side encryption SSE-KMS
-- Amazon S3 supports bucket policies that you can use if you require server-side encryption for
-all objects that are stored in your bucket.
-- For SSE to be requested in an API callI, the request has to include the x-amz-server-side-
-encryption header requesting server-side encryption
+- The first time you add an SSE-KMS-encrypted object to a bucket in a region, a default CMK is created for you automatically.
+- This key is used for SSE-KMS encryption unless you select a CMK that you created separately using AWS Key Management Service.
+
+- Amazon S3 supports bucket policies that you can use if you require SSE for all objects that are stored in your bucket.
+- For SSE to be requested in an API callI, the request has to include the "x-amz-server-side-encryption" header requesting SSE
 - If you want SSE-KMS then the x-amz-server-side-encryption Keader has to define SEE-KMS.
 "s3:x-amz-server-side-encryption":"aws:kms"
-=======================================
-########## v20
 
-[7:23 AM, 2/5/2020] Manish Agrawal: S3 Static Website Hosting
-The website S3 endpoint URL is :
+> Creating your own CMK gives you more flexibility, including the ability to create, rotate, disable, and define access controls, and to audit the encryption keys used to protect your data.
+=======================================
+####### S3 Static Website Hosting ##### v20
+
+
+> The website S3 endpoint URL is :
 <S3bucketname>,S3-website-<AWS-Region>.amazonaws.com
-You need to allow read access to all your content on the bucket (website) content that you
-want to make available
-Use bucket policy or ACLS for this
-83 RES API
-$30E5T API
-Requester Pays bucket do not work with website endpoint
-Such a request (requester pays) to an S3 website endpoint will return
-HTTP 403 Access Denied
-[7:23 AM, 2/5/2020] Manish Agrawal: S3 Static Website Hosting – S3 Website Endpoint
-It does not support HTTPS (SSL) connections
-Returns an HTML document
-RESTAPÊ
-welosits
-Endpornt
-Supports object and bucket level redirects
-Support GET & HEAD requests only on
-Sbjectsed
-Supports publicly readable content only
-Wher no specific content is requested by the HTTP GET or HEAD requests, it returns the
-index HTML document that you specify in your configuration
-[7:23 AM, 2/5/2020] Manish Agrawal: S3 Static Website Hosting - Configurations
-Enable website hosting to your bucket, and specify:
-Index document (default web page) -> a MUST do
-Error document (Instead of the standard HTML 4X error messages) -> Optional
-The index/default web page document can be specified also under each folder
-(directory) in your bucket to be used as a response to requests that de not specify
-specific content
-DOLFIN
+
+> You need to allow read access to all your content on the bucket (website) content that you want to make available
+> Use bucket policy or ACLS for this
+> Requester Pays bucket do not work with website endpoint
+> Such a request (requester pays) to an S3 website endpoint will return HTTP 403 Access Denied
+
+> It does not support HTTPS (SSL) connections
+> Returns an HTML document
+> Supports object and bucket level redirects
+> Support GET & HEAD requests only on objects
+> Supports publicly readable content only
+> When no specific content is requested by the HTTP GET or HEAD requests, it returns the index HTML document that you specify in your configuration
+
+## S3 Static Website Hosting - Configurations
+> Enable website hosting to your bucket, and specify:
+- Index document (default web page) -> a MUST do
+- Error document (Instead of the standard HTML 4X error messages) -> Optional
+- The index/default web page document can be specified also under each folder (directory) in your bucket to be used as a response to requests that de not specify specific content
 
 ## S3 Static Website Hosting – Redirection
-If your Amazon S3 bucket is configured for website hosting, you can redirect requests for an
-object to another object in the same bucket or to an external URL.
-You can redirect (re-route) all requests (at the bucket level) to another website
-You can do conditional redirection based on object or prefixes in a request
-You can also redirect requests that would return an error
+> If your Amazon S3 bucket is configured for website hosting, you can redirect requests for an object to another object in the same bucket or to an external URL.
+> You can redirect (re-route) all requests (at the bucket level) to another website
+> You can do conditional redirection based on object or prefixes in a request
+> You can also redirect requests that would return an error
 =======================================
 ########## v21
 
@@ -896,7 +862,6 @@ You can also redirect requests that would return an error
 > Pre-signed URLS can be used for downloading or uploading S3 object(s)
 =======================================
 ########## v22
-
 
 ## S3 Cross Region Replication (CRR)
 > Is a bucket level replication which enables

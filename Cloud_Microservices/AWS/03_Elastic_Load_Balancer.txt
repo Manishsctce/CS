@@ -179,8 +179,8 @@ internal-name-123456789.region.elb.amazonaws.com
 
 Internet-Facing ELB – NACL settings
 
-> These settings are needed if the ELB subnet is associated with a non-default N ACL
-- Fro default NACLS, everything is allowed inbound and outbound
+> These settings are needed if the ELB subnet is associated with a non-default NACL
+- For default NACLS, everything is allowed inbound and outbound
 
 > The NACL settings focus primarily on ELB settings and response traffic
 - You need to make sure that the EC2 instance subnet NACL has any additional rules required for any other inbound or outbound communication aside from the specified rules for ELB
@@ -192,15 +192,16 @@ Internet-Facing ELB – NACL settings
 =======================================
 ###### ###### v11
 
- ELB - Listeners
+## ELB - Listeners
 > Both frontend and backend listeners can listen on ports 1-65535
 
-> The ELB supports Layer 4 TCP/SSL listeners for both frontend and backend, as well as, Layer 7 HTTP/HTTPS listeners for both frontend and backend
+> The ELB supports Layer-4 TCP/SSL listeners for both frontend and backend, as well as, 
+- Layer 7 HTTP/HTTPS listeners for both frontend and backend
 
 ## ELB L4 /TCP Listeners
 > When TCP (layer 4) listeners are used for front-end and back-end connections, the ELB forwards the request to the EC2 registered, back-end, instances without modifying the headers.
 
-> When the ELB receives the request, it tries to open a TCP connection to the EC2, backend, instance on the port specified in the listener configuration.
+> When the ELB receives the request, it tries to open a TCP connection to the EC2 backend instance on the port specified in the listener configuration.
 
 ## ELB L4 – TCP Listeners
 > Because of this interception, EC2 instance logs would show ELB IP address as the source IP at the EC2 instance received packets
@@ -236,20 +237,16 @@ Internet-Facing ELB – NACL settings
 ###### ###### v
 17_ELB Security policy for SSLHTTPS sessions
 
-[10:04 AM, 2/6/2020] Manish Agrawal: ELB – Security Policy for SSL/HT°
+## ELB – Security Policy for SSL/HT°
 SSL Session Negotiation
-Elastic Load Balancing uses a Secure Socket Layer
-(SSL) negotiation configuration, known as a
-security policy, to negotiate SSL connections
-between a client and the load balancer.
-The "Security Policy includes the encryption
-protocol version, Ciphers to be used...etcNed
+> Elastic Load Balancing uses a Secure Socket Layer (SSL) negotiation configuration, known as a security policy, to negotiate SSL connections between a client and the load balancer.
+The "Security Policy includes the encryption protocol version, Ciphers to be used...etc
 - For Front end (Client to ELB) [HTTPS/SSL]
-• You can define your custom security policy
-or use the ELB pre-defined security policies
+• You can define your custom security policy or use the ELB pre-defined security policies
 For backend, encrypted, connections
 Pre-defined security policies are always used
-[10:04 AM, 2/6/2020] Manish Agrawal: ELB – Security Policy Components
+
+## ELB – Security Policy Components
 Security Policy Components:
 SSL protocols
 • SL or TLS, are cryptographic protocols
@@ -260,19 +257,21 @@ encrypt data
 Server Order Preference
 If enabled, the first match in the ELB cipher list with the Client list is used
 By default, the default security policies have Server Order Preference enabled
-[10:04 AM, 2/6/2020] Manish Agrawal: ELB – SSL/ȚLS version support
-The ELB supports
+
+## ELB – SSL/ȚLS version support
+> The ELB supports
 TLS 1.0.
 TLS 1.1
 TLS 1.2
 SSL 3.0
-It does not support TLS 1.3 or 2.0
-[10:05 AM, 2/6/2020] Manish Agrawal: ELB – Security Policy Components
+
+> It does not support TLS 1.3 or 2.0
+
+## ELB – Security Policy Components
 Security Policy Components:
 - AWS ACM certificates include an RSA public key
 • If you want to use AWS ACM X.509 certificates, you need to include a set of ciphers
 that support RSA in your security policy, else, the TLS connection will fail
-PRSA
 If you do not specify otherwise, AWS Elastic Load Balancing service will configure your ELB with
 the current/latest pre-defined security policy
 =======================================
@@ -312,10 +311,9 @@ You can store these logs in an S3 bucket that you specify
 ###### ###### v
 21. ELB Pre-Warming & Scaling
 
-[10:08 AM, 2/6/2020] Manish Agrawal: ELB – Pre-Warming
+## ELB – Pre-Warming
 ELB Scaling:
-The time required for the Elastic Load Balancing to detect the increase in traffic/load and scale
-(or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
+The time required for the Elastic Load Balancing to detect the increase in traffic/load and scale (or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
 ELB is not designed to queue requests,
 • It will return Error 503 (HTTP) if it can't handle the request, any requests above the
 ELB capacity will fail

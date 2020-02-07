@@ -124,30 +124,24 @@ Rebalance is going on
 
 
 > Auto Scaling classifies its EC2 instances health status as either Healthy or Unhealthy
-By default, AS uses EC2 Status Checks only to determine the health status of an Instance
-When you have one or more ELBS defined with the AS Group, you can configure Auto Scaling to
-use "both" the EC2 Health Checks and the ELB Health Checks to determine the Instances health
-status
+> By default, AS uses EC2 Status Checks only to determine the health status of an Instance
+> When you have one or more ELBS defined with the AS Group, you can configure Auto Scaling to use "both" the EC2 Health Checks and the ELB Health Checks to determine the Instances health status
 
-Health Check Grace period:
-By default is 300 seconds
-- Is the time Auto Scaling waits from the time an Instance comes into service (become
-In-Service) before checking its health,status
-A value of "zero" means no grace period and the instance health is checkedonce it is In-
-service
+> Health Check Grace period:
+- By default is 300 seconds
+- Is the time Auto Scaling waits from the time an Instance comes into service (become In-Service) before checking its health,status
+- A value of "zero" means no grace period and the instance health is checkedonce it is In-service
 
-> Until the Grace Period timer expires, any unhealthy status reported by EC2 status checks, or
-the ELB attached to the AS Group, will not be acted upon.
-After Grace Period expires, Auto Scaling would consider an Instancę unhealthy in any of the
-following cases:
+> Until the Grace Period timer expires, any unhealthy status reported by EC2 status checks, or the ELB attached to the AS Group, will not be acted upon.
+
+> After Grace Period expires, Auto Scaling would consider an Instancę unhealthy in any of the following cases:
 • EC2 Status checks report to Auto Scaling an instance status other than running
 - If the instance status is impaired due to a host Hardware or Software Problem
-• If ELB health checks are configured to be used by the Auto Scaling, then if the ELB
-reports the Instance as "Out-of-Service"
-- If you have multiple ELBS attached to the AS Group, if any of them reports the
-EC2 instance status as "Out-of-Service".
-One source reporting the instance as unhealthy is enough for Auto Scaling to mark it for
-replacement
+
+• If ELB health checks are configured to be used by the Auto Scaling, then if the ELB reports the Instance as "Out-of-Service"
+- If you have multiple ELBS attached to the AS Group, if any of them reports the EC2 instance status as "Out-of-Service".
+
+> One source reporting the instance as unhealthy is enough for Auto Scaling to mark it for replacement
 
 ## ASG – Unhealthy Instance Termination
 > Once Auto Scaling identifies an instance as unhealthy, it gets scheduled for termination
@@ -162,153 +156,133 @@ replacement
 =======================================
 ###### ###### v8
 
-[4:07 PM, 1/26/2020] Manish Agrawal: AS and Spot Instance
-You can choose to use Spot instances in your launch configuration, and specify your bid price
-Auto Scaling treats the spot instance the same way it treats on-demand instances
-You can NOT mix and match on-demand with Spot instances in your AS Jaunch configuration
-If you want to change the bid price, you have to create a new launch configuration
-If the AS tries to launch spot instances in an AZ unsuccessfully because of the market price, it
-will try in another AZ if its market price drops below bid price,
-If the original AZ's spot market price drops below the bid price, then the Auto scaling
-process will try to rebalance between the two AZs
-[4:08 PM, 1/26/2020] Manish Agrawal: AS and SNS Notifications
-You can configure Auto Scaling to send a SNS email notification whenever:
-• An Instance is launched
-An Instance is Terminated
-• An Instance fails to launch
-DOLFINed
-An Instance fails to terminate
-[4:08 PM, 1/26/2020] Manish Agrawal: Merging Auto Scaling Groups
-Can only be done from the CLI (not AWS Console)
-ARZ
-You can merge multiple, single AZ, Auto Scaling Groups into a single, one Multi-Az, Auto
-Scaling group
-FASAI
-To do this:
-Re-zone one of the groups to cover/span the other AZs for the other ASGS
-Delete the other ASGS
-This can be used in merging ASGS with/without ELB attached to them
-The resulting ASG must be one of the pre-existing ASGS, not a new one
-DOLFIN
-=======================================
-###### ###### v11
+## AS and Spot Instance
+> You can choose to use Spot instances in your launch configuration, and specify your bid price
+> Auto Scaling treats the spot instance the same way it treats on-demand instances
+> You can NOT mix and match on-demand with Spot instances in your AS Jaunch configuration
+> If you want to change the bid price, you have to create a new launch configuration
+> If the AS tries to launch spot instances in an AZ unsuccessfully because of the market price, it will try in another AZ if its market price drops below bid price,
+- If the original AZ's spot market price drops below the bid price, then the Auto scaling process will try to rebalance between the two AZs
 
-[4:12 PM, 1/26/2020] Manish Agrawal: AS Policy Scaling actions
-Scale-Out :
-Is the process in which more EC2 instances are launched by the scaling policy
-Scale-In
-s the process in which EC2 instances are terminated by the scaling policy
-It is always recommended to create a scale-in event for each scale-out event you create
-[4:12 PM, 1/26/2020] Manish Agrawal: ASG - Scaling Policies
-Scaling Policies:
-- Manual Scaling
-» Maintain a current number of instances all the time
-» Manually change ASG's min/desired/max, attach/detach instances
-Des
-- Cyclic (schedule based) scaling
-» Predictable load change
-DOLFINed
-On-demand/Dynamic (Event based) scaling
-» Scaling in response to an event/alarm
-md 2am
-Tue 1 agmm
-coO7
-An ASG can have multiple policies attached to it at any time
-[4:12 PM, 1/26/2020] Manish Agrawal: ASG – Schedule/Cyclic Scaling
-Use for predictable load change (increase or decrease)
-07
-You need to configure a scheduled action(s) for a scale out at a specified date/time and
-to a required capacity
-You can configure this action to happen once or at a recurring schedule
-10 Tue lu
-A scheduled action must have aunique date/time,
-You can not configure two scheduled activities at the same date/time
-メ
-You can update/edit a scheduled action after you have created it
-Zam
-Tue
-DOLFIN
-You can use AVWS čonsole or CLI for this
-=======================================
-###### ###### v12
+## AS and SNS Notifications
+> You can configure Auto Scaling to send a SNS email notification whenever:
+- An Instance is launched
+- An Instance is Terminated
+- An Instance fails to launch
+- An Instance fails to terminate
 
-[4:17 PM, 1/26/2020] Manish Agrawal: ASG – Dynamic/On-demand Scaling
-Is scaling out, or in, in response to an alarm (demand)
-An alarm is an object that watches over a single metric (CPU utilization, mémory,
-network in/out.etc)
-You need to have a scale-out and a scale-in policy configured, which will instruct Auto
-Scaling what to do (Scale out or in) in response to Alarms -770r.
-DOLFIN
-You can use Cloud Watch to monitor and generate the Alarms
-[4:17 PM, 1/26/2020] Manish Agrawal: Dynamic/On-Demand – Simple Scaling
-Simple ścaling:
-• Single adjustment (up or down) in response to an alarm
-• Waits for a cool down timer to expire before responding to more alarms
-Cool down Period:
-Is the period of time auto scaling waits after a scaling activity (launching a new instance
-or terminating one instance) until the effect of the scaling activity becomes visible
-tEL
-• Default is 300 seconds, the time during which ASG will not respond to any additional
-alarms
-cy chl
-It is not supported for scheduled scaling or step on-demand scaling
-DOLFIN
-=======================================
-###### ###### v13
+## Merging Auto Scaling Groups
+> Can only be done from the CLI (not AWS Console)
+> You can merge multiple, single AZ, Auto Scaling Groups into a single, one Multi-Az, Auto Scaling group
 
-[9:56 AM, 2/6/2020] Manish Agrawal: Dynamic/On-demand - Step Scaling
-Step Scaling:
-• Multiple steps/adjustments
-Does not support/wait for a cool down timer,
+> To do this:
+- Re-zone one of the groups to cover/span the other AZs for the other ASGs
+- Delete the other ASGs
+
+> This can be used in merging ASGs with/without ELB attached to them
+> The resulting ASG must be one of the pre-existing ASGS, not a new one
+=======================================
+###### AS Policy Scaling actions ###### v11
+
+1. Scale-Out :
+- Is the process in which more EC2 instances are launched by the scaling policy
+
+2. Scale-In
+- Is the process in which EC2 instances are terminated by the scaling policy
+
+> It is always recommended to create a scale-in event for each scale-out event you create
+
+######## ASG - SCALING POLICIES #######
+
+1. Manual Scaling
+- Maintain a current number of instances all the time
+- Manually change ASG's min/desired/max, attach/detach instances
+
+2. Cyclic (schedule based) scaling
+- Predictable load change
+
+3. On-demand/Dynamic (Event based) scaling
+- Scaling in response to an event/alarm
+
+> An ASG can have multiple policies attached to it at any time
+
+#### 2. ASG – Schedule/Cyclic Scaling #### v11
+> Use for predictable load change (increase or decrease)
+
+> You need to configure a scheduled action(s) for a scale out at a specified date/time and to a required capacity
+
+> You can configure this action to happen once or at a recurring schedule
+
+> A scheduled action must have a unique date/time,
+- You CAN NOT CONFIGURE TWO SCHEDULED ACTIVITIES at the same date/time
+
+> You can update/edit a scheduled action after you have created it
+> You can use AWS console or CLI for this
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 3. ASG – DYNAMIC/ON-DEMAND SCALING ### v12
+> On-Demand SCALING OUT/IN, IN RESPONSE TO AN ALARM (demand)
+
+> An alarm is an object that watches over a single metric (CPU utilization, mémory, network in/out.etc)
+
+> You NEED TO HAVE SCALE-OUT AND SCALE-IN POLICY CONFIGURED, which will instruct Auto Scaling what to do (Scale out/in) in response to Alarms 
+> You can use Cloud Watch to monitor and generate the Alarms
+
+## 3a. DYNAMIC/ON-DEMAND – SIMPLE SCALING
+> Single adjustment (up or down) in response to an alarm
+> Waits for a cool down timer to expire before responding to more alarms
+
+##COOL DOWN PERIOD:
+> Is the period of time auto-scaling waits after a scaling activity (launching a new instance or terminating one instance) until the effect of the scaling activity becomes visible
+- Default is 300 seconds, the time during which ASG will not respond to any additional alarms
+- It is not supported for scheduled scaling or step on-demand scaling
+---------------------------------
+## 3b. DYNAMIC/ON-DEMAND - STEP SCALING ## v13 
+
+> Multiple steps/adjustments
+> Does not support/wait for a cool down timer,
 - Can respond to multiple alarms and initiate multiple scaling activities
-Supports a warm-up timer
-- The time it will take a newly launched instance to be ready and contribute to
-the watched metricDOLFINed
-Warm-up period:
-The period of time before which a newly created EC2 instance by ASG, using step
-scaling, is not considered/counted toward the ASG metrics
-[9:56 AM, 2/6/2020] Manish Agrawal: On-Demand Scaling in General
-For Simple or Step scaling, a scaling adjustment can't change the capacity of the group
-above the maximum group size or below the minimum group size.
+
+> Supports a warm-up timer
+- The time it will take a newly launched instance to be ready and contribute to the watched metric
+
+## WARM-UP PERIOD:
+> The period of time before which a newly created EC2 instance by ASG, using step scaling, is not considered/counted toward the ASG metrics
+
+## On-Demand Scaling in General
+> For Simple or Step scaling, a scaling adjustment can't change the capacity of the group above the maximum group size or below the minimum group size.
 =======================================
 ###### ###### v14
 lab
 =======================================
 ###### ###### v15
 
-[9:59 AM, 2/6/2020] Manish Agrawal: Monitoring Auto Scaling Groups
--ECZ
-AWS EC2 service sends EC2 metrics to cloud watch about the ASG instances
+## Monitoring Auto Scaling Groups
+
+> AWS EC2 service sends EC2 metrics to cloud watch about the ASG instances
 -Basic Monitoring (Every 5 minutes enabled by default – free of charge)
-You can enable detailed (every 1 minute – chargeable)
-5mine
-metric
-AsG.
-When the launch configuration is done by AWS CEI, detailed monitoring for EC2
-instances in enabled by default
-AŚ leuneh Cantes
-When enabled, Auto Scaling service sends to Cloud watch aggregate metries
-A AS Group itself
-Every minute by default (once enabled),
-ábout the
-Smi
-Ec
-[10:00 AM, 2/6/2020] Manish Agrawal: ASG Monitoring
-If you want to change the Instance monitoring from basic to detailed (using AWS Console),
-you have to create a new Launch configuration and use that for the AS Group
-• newly launched Instances will then use the updated monitoring settings
-pely.
-You have now two settings that need to match:
-AS policy alarm settings for cloud watch (Cloud Watch checking for CPU tilization)
+- You can enable detailed (every 1 minute – chargeable)
+
+> When the launch configuration is done by AWS CEI, detailed monitoring for EC2 instances in enabled by default
+
+> When enabled, Auto Scaling service sends to Cloud watch aggregate metries AS Group itself
+- Every minute by default (once enabled),
+
+## ASG Monitoring
+
+> If you want to change the Instance monitoring from basic to detailed (using AWS Console), you have to create a new Launch configuration and use that for the AS Group
+- newly launched Instances will then use the updated monitoring settings
+
+> You have now two settings that need to match:
+- AS policy alarm settings for cloud watch (Cloud Watch checking for CPU tilization)
 - Ex. If CPU utilization is above 75% for one min, then scale-out
-The actual Cloud Watch metric monitoring frequency for the EC2 service itself (Cloud
-Watch receiving EC2 Status Checks from the EC2 service)
-EC2 CPU metrics are sent to Cloud Watch every 5 minutes (via EC2 status checks)
-The above two need to match or else, Cloud Watch alarm monitoring will a84 reads
-and will not findany data, and with the 5th, it will find the EC2 metric information
-[10:00 AM, 2/6/2020] Manish Agrawal: ASG Monitoring
+
+- The actual Cloud Watch metric monitoring frequency for the EC2 service itself (Cloud Watch receiving EC2 Status Checks from the EC2 service)
+- EC2 CPU metrics are sent to Cloud Watch every 5 minutes (via EC2 status checks)
+
+- The above two need to match or else, Cloud Watch alarm monitoring will do 4 reads and will not findany data, and with the 5th, it will find the EC2 metric information
+
+## ASG Monitoring
 Example:
-If the EC2 monitoring is set to default (basic or 5 min.), then set your ASG Alarm
-period to 300 seconds
-If the EC2 monitoring is detailed (1 min.), then set your ASG alarm to 60 seconds
-• Avoid to have ASG alarm doing 60 seconds when the EC2 monitoring is set to basic
+> If the EC2 monitoring is set to default (basic or 5 min.), then set your ASG Alarm period to 300 seconds
+> If the EC2 monitoring is detailed (1 min.), then set your ASG alarm to 60 seconds
+> Avoid to have ASG alarm doing 60 seconds when the EC2 monitoring is set to basic

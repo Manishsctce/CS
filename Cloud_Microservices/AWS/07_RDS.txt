@@ -227,83 +227,155 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Use IAM groups to manage/grant permission to multiple user at a time
 > Rotate your IAM credential regularly
 =======================================
-##### v11
+##### RDS Billing  ###### v11
 
-RDS Billing – Standalone DB Instance
 > No upfront costs
 
 > You pay for:
-DB instance hours (partial hours charged as full hours)
-Storage GB/mo.
-1/0 requests/mo. - for Magnetic RDS storage Instance only
-Provisioned IOPS/mo. – For RDS Provisioned IOPS SSD instance
-Sttery
-Internet data transfer
-Backup Storage (DB backups, and Active manual Snapshots)
-This increases by increasing DB backups retention period
-Backup storage for automated RDS backups (not the manual snapshots) up to the
-Provisioned RDS instance's EBS volume size (EBS volume) is free of charge
-
-## RDS Billing
-> The DB storage provisioned to your DB instance is in a single AWS AZ
-Since AWS backups your DB to multiple AZs for data durability
-AWS charges for the database storage above the free allocated DB storage for-your
-instance
-Free automated backup storage provided to the client/account is in a single AZ
+- DB instance hours (partial hours charged as full hours)
+- EBS Storage GB/month.
+- I/O requests/month - for Magnetic RDS storage Instance only
+- Provisioned IOPS/month – For RDS Provisioned IOPS SSD instance
+- Internet data transfer
+- Backup Storage that is in S3 (DB backups, and Active manual Snapshots)
+  - This increases by increasing DB backups retention period
+  - Backup storage for automated RDS backups (not the manual snapshots) up to the Provisioned RDS instance's EBS volume size (EBS volume) is free of charge
 
 ## RDS Billing – Multi-AZ deployments
-AWS will charge for the following (in addition to the single AZ DB instance charges)
-Multi-AZ DB hours
-Provisioned Storage (Multi-AZ)
-Double write I/0s (writing to the Active/Primary, and-Replication from Primary to
-Standby)
-16,000
-during replication fröm primary to standby
-You are not charged for DB data transfer
-Your DB storage does not change between Standalone and Multi-AZ deployments
-(same DB and same AWS Storage volume for that DB in multiple AZs for durability)
+> AWS will charge for the following (in addition to the single AZ DB instance charges)
+- Multi-AZ DB hours
+- Provisioned Storage (Multi-AZ)
+- Double write I/0s (writing to the Active/Primary, and-Replication from Primary to Standby)
+- You are not charged for DB data transfer during replication fröm primary to standby
+- Your DB storage does not change between Standalone and Multi-AZ deployments (same DB and same AWS Storage volume for that DB in multiple AZs for durability)
 
-## RDS Billing – Standalone DB Instance
-No upfront costs
-You pay for:
-DB instance hours (partial hours charged as full hours)
-Storage GB/mo.
-1/0 requests/mo. - for Magnetic RDS storage Instance only
-Provisioned IOPS/mo. – For RDS Provisioned IOPS SSD instance
-BOLHNG
-Internet data transfer
-Backup Storage (DB backups, and Active manual Snapshots)
-• This increases by increasing DB backups retention period
-• Backup storage for automated RDS backups (not the manual snapshots) up to the
-Provisioned RDS instance's EBS volume size (EBS volume) is free of charge
-[3:46 PM, 1/25/2020] Manish Agrawal: Free Tier
-Single AZ:
-750 Micro Instance Hours/month for each account for 1 year
-For ORACLE you need to BYOL
-[3:46 PM, 1/25/2020] Manish Agrawal: Reserved DB Instances (RIS)
-Similar to EC2 Reserved Instances
-DB RIs are "region" specific NOT AZ specific
-One or three year term options
-Each reservation must be specific in:
-DOLFINed
-DB Engine
-DB Instance class
-Multi-AZ option
-License Model
-Region
-For RDS RI pricing to apply, an Exact RDS instance must be created on-demand, exact
-on all above (DB Engine, Instance class, Multi AZ option, License model, and region)
-[3:46 PM, 1/25/2020] Manish Agrawal: Reserved DB Instances (RIs)
-You can NOT move RDS RIs between regions
-You can move RDS RIs between AZs in the same region
-You can NOT cancel an RDS RI's reservation
-DOLFINed
+## Free Tier
+
+> Single AZ:
+- 750 Micro Instance Hours/month for each account for 1 year
+- For ORACLE you need to BYOL
+
+##### RESERVED DB INSTANCES (RIs) #####
+> Similar to EC2 Reserved Instances
+> DB RIs ARE "REGION" SPECIFIC NOT AZ SPECIFIC
+> One or three year term options
+
+> Each reservation must be specific in:
+- DB Engine
+- DB Instance class
+- Multi-AZ option
+- License Model
+- Region
+  - For RDS RI pricing to apply, an Exact RDS instance must be created on-demand, exact on all above (DB Engine, Instance class, Multi AZ option, License model, and region)
+
+> You can NOT move RDS RIs between regions
+> You can move RDS RIs between AZs in the same region
+> You can NOT cancel an RDS RI's reservation
 =======================================
-##### v12
+####### Read Replicas ######### v12
+
+> When the required read I/O capacity is reached but still more I/O capacity is required for heavy/intensive read applications, read replicas can come in handy
+
+> Read replica is a replica of the primary RDS DB instance, but they can only be used for read actions
+
+> Primary DB instance becomes the source of the replication to this read replica
+
+> The data is first written to the source/primary DB Instance, then using asynchronous replication, it gets replicated to the read replica i.e there is a time lag between when the data is written to the primary and when it gets replicated to the read replica
+
+> Multi-AZ with read replicas can be combined in one deployment
+- NOT POSSIBLE TO CREATE REPLICA of READ REPLICAS 
+
+> Read replicas can be created from the console or API
+
+> AUTOMATIC BACKUPS (RETENTION PERIOD NOT ZERO) MUST BE ENABLED AND REMAIN ENABLED FOR READ REPLICAS TO WORK
+
+> IS SUPPORTED WITH TRANSACTIONAL DB STORAGE ENGINES, and are supported on InnoDB engines not MYISAM (MYMAPO):
+- MYSQL
+- MariaDB
+- PostegreSQL
+
+> Each of these DB engines support up to 5 read replicas per source/primary DB instance
+
+## Read Replicas – Use cases
+> Shifting read intensive applications such as Business (or Sales) reporting, or Data Warehousing to read from read replicas as opposed to overload the primary DB
+> Scaling beyond the I/O capacity of your main DB instance for read-heavy workloads
+> Service read traffic while the source is unavailable
+
+## Creating Read Replicas
+> It can be done from API or AWS console
+> The AZ where you want the read replica to be can be specified
+> The read replica's storage type or instance class can be different from the source DB instance
+> DB engine type can not be change though, it is inherited from the source (primary) DB instance
+> Connecting to the DB engine on the read replica is possible, the same way (DB console) you connect to the primary DB instance
+> If you scale the source DB instance, you should also scale the Read Replicas
+
+> You cannot have more than four instances involved in a replication chain.
+> If the source instance of a Multi-AZ deployment fails over to the secondary, any associated Read Replicas are switched to use the secondary as their replication source.
+
+> You must explicitly delete Read Replicas, using the same mechanisms for deleting a DB instance.
+ o If you delete the source DB instance without deleting the replicas, each replica is promoted to a stand-alone, single-AZ DB instance. 
+
+> If you promote a MYSQL or MariaDB Read Replica that is in turn replicating to other Read Replicas, those Read Replicas remain active.
+
+> If replication is stopped for more than 30 consecutive days, either manually or due to a Rplication error, Amazon RDS terminates replication between the master DB instance and all Read Replicas
+
 ======================================
 ##### v13
+
+## Cross Region Read Replicas
+> You can create read replicas in another region for MYSQL, MariaDB, PostgreSQL (but not for Aurora DB)
+- Uses Asynchronous replication
+- This can be used in improving DR capabilities by providing a lower RPO in case of a regional failure
+- It can also help in case you have a requirement of Analytics to run in a different region (B) for a DB in region A.
+
+## Read Replicas of Read Replicas
+> MYSQL and MariaDB (MyMa):
+- Allow for creating read replicas of the read replicas (second/third tier read replicas)
+
+## Promoting Read replicas to Standalone DB instance
+> You can promote a read replica into a standalone/single AZ database instance
+- This is true for MYSQL, MariaDB, PostgreSQL (MyMaPo)
+
+> Promotion process takes several minutes because the DB will reboot before the promoted replica becomes available as a standalone DB instance (allow for read/write, snapshots/backups...etc)
+
+> The promoted replica into a standalone DB instance willPretain:
+- Backup retention period
+- Backup window
+- DB parameter group
+
+> In case of multiple read replicas (MYSQL, MariaDB), Promoting one to a standalone DB instance does not affect the other read replicas, those will continue to read from the former primary (source DB instance)
+
 =======================================
 ##### v14
+
+## Storage Scaling
+> You can scale an RDS storage up only, you can not decrease or scale down the storage size
+- You can NOT decrease the allocated storage for an RDS instance
+> You can scale storage and also change storage type for all supported DB engines, except MSSQL server
+
+## Scaling
+> You can scale (Up only, not down) the compute and storage capacity of your existing RDS DB instances
+
+> Scaling storage can happen while the RDS instance is still running, available/accessible
+- This may cause some performance degradations during the change, but will result in enhanced I/O after
+
+> Scaling compute will cause a downtime to DB instance
+
+> You do the required scaling changes, then you can
+- Immediately have the changes take effect ,
+OR
+- Leave it to the default, which will make the changes take effect during thế Maintenance window
+
+## Scaling – MS SQL Server
+> You can NOT change the storage capacity nor type of storage of the MS SQL Server on windows-based RDS instances
+- This is due to extensibility limitations of striped storage attached to windows server
+
+> To work around the above, you can take a snapshot, use it to start a new DB instance with the desired Storage type and capacity (must be an increase, not a decrease)
+- Note that a new instance, will have a new RDS endpoint
+
+## Scaling beyond RDS instance capabilities
+> If you hit the largest RDS DB instance, and you still need to scale, you can;
+- Use partitioning and split your RDS DB over multiple RDS instances
 =======================================
 ########## AWS RDS SECURITY ########### 
 
@@ -316,5 +388,23 @@ DOLFINed
 5. RDS encryption to secure RDS instances and snapshots at rest.
 6. Network encryption and transparent data encryption (TDE) with Oracle DB instances
 
+=======================================
+########## AWS Aurora ########### 
 
-end
+> It is a fully managed relational database engine that's compatible with MySQL and PostgreSQL.
+
+> It can deliver up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL 
+- at a price one-tenth of that Commercial databases while delivering similar performance and availability.
+
+##### Aurora Scaling #####
+> The underlying storage grows automatically as needed, up to 64 tebibytes (TiB)
+-  A tebibyte equals nearly 1.1 TB
+
+> Compute resources can scale up to 64 vCPUs and 488 GB of memory.
+
+> It maintains 2 copies of data in each AZ, with a minimum of three AZ. Therefore, we can say that it maintains 6 copies of your data.
+
+##### Replicas #######
+> There are 2 types of Replicas:
+1. Aurora Replicas(up to 15 Aurora Replicas across AZs).
+2. MySQL Read Replicas (up to 5 Read Replicas across Azs)

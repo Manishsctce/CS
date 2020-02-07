@@ -1,4 +1,3 @@
-
 ####### Elastic Load Balancer ######### v1 
 
 > Internet facing load balancer has an publicly resolvable DNS name
@@ -14,6 +13,9 @@
 > It support ipv4 IPv6 and dual stack
 
 2. Application Load BALANCER (layer7) 
+
+
+> ELB IS REGION SPECIFIC
 =======================================
 ##### ELB Listener ######## v3
 
@@ -26,6 +28,8 @@
 
 > Backend listeners are configured with protocol/port to check for traffic from the ELB to the EC2 instances
 - Backend mean EC2 instance side facing
+
+> You can configure multiple listeners with different protocols/ports both on the front end and backend 
 
 ## ELB
 > It may take sometime for the registration of EC2 instances under the ELB to complete
@@ -40,7 +44,7 @@
 
 #### ELB – HOW IT WORKS
 > If you do not want to be charged or you do not need the ELB anymore, you can delete it
-- Before you delete the ELB, it is recommended that you point the Route53 (or DNS server) to somewhere else other than the ELB
+- BEFORE YOU DELETE THE ELB, it is recommended that you POINT THE ROUTE53 (or DNS server) TO SOMEWHERE ELSE other than the ELB
 
 > Deleting the ELB does not affect/delete the EC2 instances regisțered with it 
 
@@ -52,26 +56,23 @@
 ######## ELB - Scope ######### v4
 > You can add tags to your ELB
 
-> In a VPC, ELBs support IPv4 addresses only
+> In a VPC, ELBs SUPPORT IPV4 ADDRESSES ONLY
 
->> To ensure that the ELB SERVICE CAN SCALE ELB NODES IN EACH AZ, ensure that the subnet defined for the load balancer is at least /27 in size, and has at least 8 available IP addresses the ELB nodes can use to scale
+>> To ensure that the ELB SERVICE CAN SCALE ELB NODES IN EACH AZ, ensure that the subnet defined for the load balancer is at least /27 in size, and has ATLEAST 8 AVAILABLE IP ADDRESSES THE ELB NODES CAN USE TO SCALE
 
-> ELB uses these IP addresses to open/connect with your registered EC2 instances (remember this in ygur Security Group and N. ACL settings for ELB environment in your VPC)
+> ELB uses these IP addresses to open/connect with your registered EC2 instances (remember this in your Security Group and N.ACL settings for ELB environment in your VPC)
 =======================================
 ##### ELB – Health Checks ######### v5
 > For fault tolerance, it is recommended that you distribute your registered EC2 instances across multiple AZs within the VPC region
 • Ideally, have the same number of registered instance in each AZ if possible
 
 > The LOAD BALANCER ALSO MONITORS THE HEALTH OF ITS REGISTERED INSTANCES and ensures that it routes traffic only to healthy instances
-» A healthy instance shows as "In-Service" under the ELB
+- A healthy instance shows as "In-Service" under the ELB
 
 > When the ELB detects an unhealthy instance, it stops routing traffic to that instance
-» On un-healthy instance shows as "Out-of-Service" under the ELB
+- On un-healthy instance shows as "Out-of-Service" under the ELB
 
 > When the ELB service detects the EC2 instance is back healthy, it resumes traffic routing to the Instance again
-
-
-## ELB – Health Checks
 
 > By default
 - AWS console uses ping HTTP (port 80) for health checks
@@ -93,229 +94,187 @@
 - Number of consecutive successful health checks that must occur before the instance is considered healthy
 - Default 10 (Range 2-10)
 =======================================
-######### V6
+#### ELB – Cross-Zone Load Balancing ## V6
 
-[4:20 PM, 1/26/2020] Manish Agrawal: ELB – Cross-Zone Load Balancing
-By default, the ELB_distributes traffic evenly between the AZs it is defined in, without
-consideration to the number of registered EC2 instances in each AZ
-Cross-Zone load balancing:
-• Is disabled by default
-• When enabled, the ELB will distribute traffic evenly between registered EC2
-instances
-- If you have 5 EC2 instances
-zone load balancing, each registered EC2 instance will be getting around the
-same amount of traffic load from the ELB
-nces in one AZ, and 3 in another, and you enable cross-
-[4:20 PM, 1/26/2020] Manish Agrawal: ELB
-ELB service can be configured through AWS console, CLI, SDKS, and Query APIS
-ELB name you choose must be unique within the account ELBS in the AWS region
-ELB is region specific, so all registered EC2 instances must be within the same region,
-but can be in different AZs (Use Route-53 if you want to load balance in different
-regions)
-DOLFINed
-The name can be up to 32 alphanumeric characters, and can NOT start or end with a
-hyphen (-)
-[4:20 PM, 1/26/2020] Manish Agrawal: ELB
-127
-To define your ELB in an AZ, you can select one subnet in that AZ
-Only one subnet can be defined for the ELB in an AZ
-• If you try and select another one in the same AZ, it will replace the former one
-Su52
-If you register instances in an AZ with the ELB but do not define a subnet in that AZ for
-the ELB,
-These instances will not receive traffic f
-from the ELB
-The ELB is most effective if there is one registered instance at least in each ELB defined
-AZ
+
+> By default, the ELB_distributes traffic evenly between the AZs it is defined in, without consideration to the number of registered EC2 instances in each AZ
+
+> Cross-Zone load balancing:
+- Is disabled by default
+- When enabled, the ELB will distribute traffic evenly between registered EC2 instances
+- If you have 5 EC2 instances in one AZ, and 3 in another, and you enable cross-zone load balancing, each registered EC2 instance will be getting around the same amount of traffic load from the ELB
+
+> ELB service can be configured through AWS console, CLI, SDK, and Query APIS
+> ELB name you choose must be unique within the account ELBS in the AWS region
+> ELB IS REGION SPECIFIC, so all registered EC2 instances must be within the same region, but can be in different AZs (Use Route-53 if you want to load balance in different regions)
+
+> The name can be up to 32 alphanumeric characters, and can NOT start or end with a hyphen (-)
+
+> To define your ELB in an AZ, you can select one subnet in that AZ
+- Only one subnet can be defined for the ELB in an AZ
+- If you try and select another one in the same AZ, it will replace the former one
+
+> If you register instances in an AZ with the ELB but do not define a subnet in that AZ for the ELB,
+- These instances will not receive traffic from the ELB
+
+> The ELB is most effective if there is one registered instance at least in each ELB defined AZ
 =======================================
 ###### ###### v7
 
-[4:22 PM, 1/26/2020] Manish Agrawal: ELB -
-An ELB can be Internet facing or Internal load balancer
-- Internet facing:
-• ELB nodes will have public IP addresses,
-- DNS will resolve the ELB DNS name to these
-IP addresses
-It routes traffic to the private IP addresses of your
-registered EC2 instances,
-DOLFINed
-Hence, why your instances do not have to
-have public IP addresses
-• You need one "Public" subnet in each AZ where
-the internet facing ELB will be defined, such that
-the ELB will be able to route internet traffic
-Define this subnęt in the ELB confíguration
-[4:23 PM, 1/26/2020] Manish Agrawal: ELB Internet facing or Internal
-Re Resolve
-Format of the public ELB DNS name of Internet facing ELB: A
+> An ELB can be Internet facing or Internal load balancer
+
+1. INTERNET FACING:
+> ELB nodes will have public IP addresses,
+- DNS will resolve the ELB DNS name to these IP addresses
+
+> It routes traffic to the private IP addresses of your registered EC2 instances,
+- Hence, why your instances do not have to have public IP addresses
+
+> You NEED ONE "PUBLIC" SUBNET IN EACH AZ WHERE THE INTERNET FACING ELB will be defined, such that the ELB will be able to route internet traffic
+- Define this subnęt in the ELB confíguration
+
+> Format of the public ELB DNS name of Internet facing ELB: 
 name-1234567890.region.elb.amazonawz.com
-[4:23 PM, 1/26/2020] Manish Agrawal: ELB - Internal
-Internal ELB:
-• ELB nodes will have private IP addresses, to
-which the DNS resolves ELB DNS name
-• It routes traffic to the Private IP addresses of
-your registered EC2 instances
-Format of the public ELB DNS name for internal ELB:
+- this name represent all the ELB node(i.e 8 nodes)
+
+2. INTERNAL ELB:
+> ELB nodes will have private IP addresses, to which the DNS resolves ELB DNS name
+> It routes traffic to the Private IP addresses of your registered EC2 instances
+
+> Format of the public ELB DNS name for internal ELB:
 internal-name-123456789.region.elb.amazonaws.com
 =======================================
 ###### ###### v9
 
-[4:25 PM, 1/26/2020] Manish Agrawal: ELB – Security Groups
-you
-If you create your ELB in a Non-default VPC, you
-can choose a security group for the ELB.from
-existing. If you do not specify one, the default
-led
-security group of the VPC is assigned to the ELB
-ELB
-[4:25 PM, 1/26/2020] Manish Agrawal: ELB – Security Group & N ACLS
-Aurs Đ Def.
-You must assign a security group to your ELB
-This will control traffic that can reach your ELB's front end listeners
-• It must also allow health check protocol/ports & listener protocol/port (actual
-traffic) to reach your registered EC2 instances in the backepd
-DAWS vpe
-- 4-chede
-You must also ensure that the subnets' N ACLS allow traffic to/from the ELBboth ways
-(on the front and backend side)
-B.END
-DOLFINed
-[4:25 PM, 1/26/2020] Manish Agrawal: ELB – Security Settings
-ELB – ELB Security Group:
-• Allow Inbound :
-Internet facing ELB
-» Source: 0.0.0.0/0 Protocol: TCP Port: ELB Listener (HTTP, HTTPS, TCP, SSL)
-- Internal ELB
-» Source: VPC CIDR Protocol: TCP Port: ELB Listener (HTTP, HTTPS, TCP, SSL)
-DOLFINed
-Allow Outbound (for both):
-Protocol: TCP Port: Health Check
-Destination: EC2 Registered Instances Sec Group
-Destination: EC2 Registered Instances Sec Group
-Protocol: TCP Port: Listener
-bOLFIN
-[4:26 PM, 1/26/2020] Manish Agrawal: Registered EC2 Instances – Security Group Settings
-Registered EC2 Instances Security Group:
-Allow Inbound :
-- Both Internet facing & Internal ELB
-» Source: ELB Sec Group
-» Source: ELB Sec Group
-Protocol: TCP Port: Health Check
-Protocol: TCP Port: Listener
-DOLFINed
-65535
-Allow Outbound (for both internal and internet-facing): 7
-- Destination: ELB Sec Group
-Protocol: TCP Port: Ephemeral
+## ELB – Security Groups
+> If you create your ELB in a Non-default VPC, you can choose a security group for the ELB from existing. If you do not specify one, the default SG of the VPC is assigned to the ELB
+
+## ELB – Security Group & N ACLS
+> You must assign a security group to your ELB
+- This will control traffic that can reach your ELB's front end listeners
+- It must also allow health check protocol/ports & listener protocol/port (actual traffic) to reach your registered EC2 instances in the backend
+
+> You must also ENSURE THAT SUBNETS NACLS ALLOW TRAFFIC TO/FROM THE ELB BOTH WAYS (on the front and backend side)
+
+=======================================
+#### ELB – SECURITY GROUP SETTINGS #### v9
+
+# Allow Inbound :
+1. Internet facing ELB
+- Source: 0.0.0.0/0, Protocol: TCP, Port: ELB Listener(HTTP, HTTPS, TCP, SSL)
+
+1b. If Internal ELB
+- Source: VPC CIDR, Protocol: TCP, Port: ELB Listener (HTTP, HTTPS, TCP, SSL)
+
+2. Allow Outbound :
+- Destination: EC2 Registered Instances SG, Protocol: TCP, Port: Health Check
+
+3. Allow Inbound:
+- Source: ELB SG, Protocol:TCP, Port:EC2 Listener/healthcheck
+
+4. Allow Outbound:
+- Destination: ELB SG, Protocol: TCP, Port: Ephemeral
 =======================================
 ###### ###### v10
 
 Internet-Facing ELB – NACL settings
-These settings are needed if the ELB subnet is associated with a non-default N ACL
-Fro default NACLS, everything is allowed inbound and outbound
-The NACL settings focus primarily on ELB settings and response traffic
-You need to make sure that the EC2 instance subnet NACL has any additional rules required
-for any other inbound or outbound communication aside from the specified rules for ELB
-<-> EC2 communication pOLFINed
-DOLFINed
-ELB subnet in this case is a public subnet
-For internal ELB, replace the 0.0.0.0/0 in the NACL settings with VPC CIDR in all rules ( inbound
-and outbound)
-» ELB subnet is a private subnet in Internal ELB architecture
-DOLFINO
+
+> These settings are needed if the ELB subnet is associated with a non-default N ACL
+- Fro default NACLS, everything is allowed inbound and outbound
+
+> The NACL settings focus primarily on ELB settings and response traffic
+- You need to make sure that the EC2 instance subnet NACL has any additional rules required for any other inbound or outbound communication aside from the specified rules for ELB
+
+> ELB subnet in this case is a public subnet
+
+> For internal ELB, replace the 0.0.0.0/0 in the NACL settings with VPC CIDR in all rules ( inbound and outbound)
+- ELB subnet is a private subnet in Internal ELB architecture
 =======================================
 ###### ###### v11
 
  ELB - Listeners
-Both front end and backend
-Clier
-listeners can listen on ports 1-
-65535
-Layer
-4
-The ELB supports Layer 4 TCP/SSL
-listeners for both front end and
-6OLEN
-back end, as well as, Layer 7
-HTTP/HTTPS listeners for both DOLFINEO
-frontend and backend
-Layer
+> Both frontend and backend listeners can listen on ports 1-65535
 
-[9:43 PM, 1/26/2020] Manish Agrawal: ELB L4 /TCP Listeners
-When TCP (layer 4) listeners are used for
-front-end and back-end connections, the ELB
-forwards the request to the EC2 registered,
-back-end, instances without modifying the
-Clients
-TC
-Layer
-headers.
-When the ELB receives the request, it tries
-to open a TCP connection to the EC2, back-LFINed
-end, instance on the port specified in the
-listener configuration.
-[9:44 PM, 1/26/2020] Manish Agrawal: ELB L4 – TCP Listeners
-Clients
-Because of this interception, EC2 instance
-logs would show ELB IP address as the source
-IP at the EC2 instance received packets
-TCP
-Layer
-SSL
-Enable proxy protocol on the ELB to force the
-ELB to carry the connection request details
-(Actual user source IP, source Port...etc) with_FINed
-the request sent to the EC2 instance
+> The ELB supports Layer 4 TCP/SSL listeners for both frontend and backend, as well as, Layer 7 HTTP/HTTPS listeners for both frontend and backend
+
+## ELB L4 /TCP Listeners
+> When TCP (layer 4) listeners are used for front-end and back-end connections, the ELB forwards the request to the EC2 registered, back-end, instances without modifying the headers.
+
+> When the ELB receives the request, it tries to open a TCP connection to the EC2, backend, instance on the port specified in the listener configuration.
+
+## ELB L4 – TCP Listeners
+> Because of this interception, EC2 instance logs would show ELB IP address as the source IP at the EC2 instance received packets
+
+> Enable proxy protocol on the ELB to force the ELB to carry the connection request details(Actual user source IP, source Port...etc) with the request sent to the EC2 instance
 =======================================
 ###### ###### v12
 
-[9:40 PM, 1/26/2020] Manish Agrawal: ELB – HTTP/HTTPS Listeners
-To use an HTTPS listener, the ELB must have a
-X.509 SSL/TLS server certificate, which will be
-used to terminate the Client to ELB HTTPS
-Clients
-connection.
-Layer
-Using this certificate the ELB will terminate then
-decrypt the client session on the ELB itself before
-sending the request to the Backend EC2
-DOLFINed
-Instances.
-This is called SSL Termination (Offloading)
-The certificate can be generated using AWS
-Certificate Manager (ACM) or you can upload
-your own to IAM
+## ELB – HTTP/HTTPS Listeners
 
-> If you do not want this, you can deploy TCP for
-front-end and back-end listeners, and deploy
-Certificates on the backend EC2 instances to
-terminate the encrypted sessions (basically SSL
-will be end to end, not decrypted by the ELB)
+> To use an HTTPS listener, the ELB must have a X.509 SSL/TLS server certificate, which will be used to terminate the Client to ELB HTTPS connection.
 
-> ELB – HTTP/HTTPS Listeners
-When using HTTP/S for front end listeners, the ELB
-terminates the session, carries the headers in the
-request, and then sends the request to the EC2, back-
-end, Instances
-Clients
-Layer
-Since the ELB intercepts the request, and in order for
-the backend EC2 instances to find the actual source
-information (original headers),
-POLFINed
-You can use HTTP X-Forwarded-For header for the
-request sent from the ELB to the backend instances
-(EC2 instances APPS need to read the X-Forwarded-for
-header)
-To ensure that backend instances are available to
-receive the HTTP/S tequest(s), the ELB establishes one
-or more TCP connections to each backend instance
+> Using this certificate the ELB will terminate then decrypt the client session on the ELB itself before sending the request to the Backend EC2 Instances.
+- This is called SSL Termination (Offloading)
+
+> The certificate can be generated using AWS Certificate Manager (ACM) or you can upload your own to IAM
+
+> If you do not want this, you can deploy TCP for front-end and back-end listeners, and deploy Certificates on the backend EC2 instances to terminate the encrypted sessions (basically SSL will be end to end, not decrypted by the ELB)
+
+## ELB – HTTP/HTTPS Listeners
+> When using HTTP/S for front end listeners, the ELB terminates the session, carries the headers in the request, and then sends the request to the EC2, back-end, Instances
+
+> Since the ELB intercepts the request, and in order for the backend EC2 instances to find the actual source information (original headers),
+
+> You can use HTTP X-Forwarded-For header for the request sent from the ELB to the backend instances (EC2 instances APPS need to read the X-Forwarded-for header)
+
+> To ensure that backend instances are available to receive the HTTP/S tequest(s), the ELB establishes one or more TCP connections to each backend instance
 =======================================
 ###### ###### v16
 16_ELB & Sticky Sessions (Session Affinity)
+
 =======================================
 ###### ###### v
 17_ELB Security policy for SSLHTTPS sessions
+
+[10:04 AM, 2/6/2020] Manish Agrawal: ELB – Security Policy for SSL/HT°
+SSL Session Negotiation
+Elastic Load Balancing uses a Secure Socket Layer
+(SSL) negotiation configuration, known as a
+security policy, to negotiate SSL connections
+between a client and the load balancer.
+The "Security Policy includes the encryption
+protocol version, Ciphers to be used...etcNed
+- For Front end (Client to ELB) [HTTPS/SSL]
+• You can define your custom security policy
+or use the ELB pre-defined security policies
+For backend, encrypted, connections
+Pre-defined security policies are always used
+[10:04 AM, 2/6/2020] Manish Agrawal: ELB – Security Policy Components
+Security Policy Components:
+SSL protocols
+• SL or TLS, are cryptographic protocols
+SSL Ciphers ( a set of ciphers is called a cipher suite)
+Encryption algorithms
+SSL can use different ciphers to
+encrypt data
+Server Order Preference
+If enabled, the first match in the ELB cipher list with the Client list is used
+By default, the default security policies have Server Order Preference enabled
+[10:04 AM, 2/6/2020] Manish Agrawal: ELB – SSL/ȚLS version support
+The ELB supports
+TLS 1.0.
+TLS 1.1
+TLS 1.2
+SSL 3.0
+It does not support TLS 1.3 or 2.0
+[10:05 AM, 2/6/2020] Manish Agrawal: ELB – Security Policy Components
+Security Policy Components:
+- AWS ACM certificates include an RSA public key
+• If you want to use AWS ACM X.509 certificates, you need to include a set of ciphers
+that support RSA in your security policy, else, the TLS connection will fail
+PRSA
+If you do not specify otherwise, AWS Elastic Load Balancing service will configure your ELB with
+the current/latest pre-defined security policy
 =======================================
 ###### ###### v
 18. SSLHTTPS authentication - Client and Server Certificates
@@ -325,9 +284,67 @@ or more TCP connections to each backend instance
 =======================================
 ###### ###### v
 20. ELB Monitoring
+
+[10:06 AM, 2/6/2020] Manish Agrawal: ELB – Monitoring
+ELB monitoring can be achieved by:
+AWS Cloud Watch:
+AWS ELB service sends ELB metrics to cloud watch every “One minute"
+ELB service sends these metrics only if there are requests flowing through the ELB
+AWS Cloud Watch can be used to trigger an SNS notification if a threshold you
+define is reached
+DOLFINed
+Access Logs:
+Disabled by default
+You can obtain request information such as requester, time of request, requester
+IP, request type...etc.
+Optional (disabled by default), you can choose to store the access logs in an S3
+bucket that you specify
+DOLFINed
+[10:06 AM, 2/6/2020] Manish Agrawal: ELB – Monitoring
+Access Logs (Cont.):
+You are not charged extra for enabling access logs,
+» You pay for S3 storage
+- You are not charged for data transfer of access logs from ELB'to the S3 bucket
+AWS Cloud Trail:
+You can use it to capture all API calls for your ELB
+You can store these logs in an S3 bucket that you specify
 =======================================
 ###### ###### v
 21. ELB Pre-Warming & Scaling
+
+[10:08 AM, 2/6/2020] Manish Agrawal: ELB – Pre-Warming
+ELB Scaling:
+The time required for the Elastic Load Balancing to detect the increase in traffic/load and scale
+(or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
+ELB is not designed to queue requests,
+• It will return Error 503 (HTTP) if it can't handle the request, any requests above the
+ELB capacity will fail
+DOLFINed
+ELB service can sçale and keep up with traffic increase, if you traffic increases at 50% in step or
+linear form every 5 minutes
+Lat
+755
+ELB Pre-Warm:
+[10:08 AM, 2/6/2020] Manish Agrawal: ELB Scaling & DNS updates
+When the ELB scales (spins more ELB nodes with new Public IP addresses),
+It updated the ELB's DNS record with the new list of ELB node Public IP addresses (for
+internet facing ELB)
+ELB uses a DNS record TTL of 60 seconds, to ensure that the new ELB node IP addresses
+are used and allow clients to take advantage of the increased capacity
+[10:08 AM, 2/6/2020] Manish Agrawal: ELB Scaling & Load Testing your Applications
+For efficient load testing of your ELB or applications hosted on backend instances
+Use multiple testing instances of client testing & try to launch the tests at the same
+time
+- You can also use global testing sites if possible
+If using a single client for testing, ensure your testing tool will enforce the Re-
+resolving of DNS with each testing/request initiated for testing
+This will ensure that as ELB service launches new ELB nodes, the new nodes will
+be leveraged through DNS re-resolution
+[10:08 AM, 2/6/2020] Manish Agrawal: ELB – Connection timeout
+By default, ELB has an idle connection timeout of 60 seconds
+Go Sec
+Set the idle time out of your applications (those launched on registered EC2 back end
+instances) to at least 60 seconds
 =======================================
 ###### ###### v
 22. Testing you ELB scaling (or applications servers by ELB)

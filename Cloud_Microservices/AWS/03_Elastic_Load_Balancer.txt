@@ -195,22 +195,20 @@ Internet-Facing ELB – NACL settings
 ## ELB - Listeners
 > Both frontend and backend listeners can listen on ports 1-65535
 
-> The ELB supports Layer-4 TCP/SSL listeners for both frontend and backend, as well as, 
-- Layer 7 HTTP/HTTPS listeners for both frontend and backend
+> The ELB supports 
+1. Layer-4 TCP/SSL listeners for both frontend and backend 
+2. Layer 7 HTTP/HTTPS listeners for both frontend and backend
 
-## ELB L4 /TCP Listeners
+##### 1. ELB L4 /TCP Listeners ####
 > When TCP (layer 4) listeners are used for front-end and back-end connections, the ELB forwards the request to the EC2 registered, back-end, instances without modifying the headers.
 
 > When the ELB receives the request, it tries to open a TCP connection to the EC2 backend instance on the port specified in the listener configuration.
 
-## ELB L4 – TCP Listeners
 > Because of this interception, EC2 instance logs would show ELB IP address as the source IP at the EC2 instance received packets
 
 > Enable proxy protocol on the ELB to force the ELB to carry the connection request details(Actual user source IP, source Port...etc) with the request sent to the EC2 instance
-=======================================
-###### ###### v12
 
-## ELB – HTTP/HTTPS Listeners
+### 2. ELB – L7 HTTP/HTTPS Listeners ### v12
 
 > To use an HTTPS listener, the ELB must have a X.509 SSL/TLS server certificate, which will be used to terminate the Client to ELB HTTPS connection.
 
@@ -240,23 +238,26 @@ Internet-Facing ELB – NACL settings
 ## ELB – Security Policy for SSL/HT°
 SSL Session Negotiation
 > Elastic Load Balancing uses a Secure Socket Layer (SSL) negotiation configuration, known as a security policy, to negotiate SSL connections between a client and the load balancer.
-The "Security Policy includes the encryption protocol version, Ciphers to be used...etc
-- For Front end (Client to ELB) [HTTPS/SSL]
-• You can define your custom security policy or use the ELB pre-defined security policies
-For backend, encrypted, connections
-Pre-defined security policies are always used
+
+> The "Security Policy includes the encryption protocol version, Ciphers to be used...etc
+
+> For Front end (Client to ELB) [HTTPS/SSL]
+- You can define your custom security policy or use the ELB pre-defined security policies
+
+> For backend, encrypted, connections
+- Pre-defined security policies are always used
 
 ## ELB – Security Policy Components
-Security Policy Components:
-SSL protocols
-• SL or TLS, are cryptographic protocols
-SSL Ciphers ( a set of ciphers is called a cipher suite)
-Encryption algorithms
-SSL can use different ciphers to
-encrypt data
-Server Order Preference
-If enabled, the first match in the ELB cipher list with the Client list is used
-By default, the default security policies have Server Order Preference enabled
+1. SSL protocols
+- SSL or TLS, are cryptographic protocols
+
+2. SSL Ciphers ( a set of ciphers is called a cipher suite)
+> Encryption algorithms
+> SSL can use different ciphers to encrypt data
+
+3. Server Order Preference
+> If enabled, the first match in the ELB cipher list with the Client list is used
+> By default, the default security policies have Server Order Preference enabled
 
 ## ELB – SSL/ȚLS version support
 > The ELB supports
@@ -268,12 +269,10 @@ SSL 3.0
 > It does not support TLS 1.3 or 2.0
 
 ## ELB – Security Policy Components
-Security Policy Components:
-- AWS ACM certificates include an RSA public key
-• If you want to use AWS ACM X.509 certificates, you need to include a set of ciphers
-that support RSA in your security policy, else, the TLS connection will fail
-If you do not specify otherwise, AWS Elastic Load Balancing service will configure your ELB with
-the current/latest pre-defined security policy
+> AWS ACM certificates include an RSA public key
+- If you want to use AWS ACM X.509 certificates, you need to include a set of ciphers that support RSA in your security policy, else, the TLS connection will fail
+
+> If you do not specify otherwise, AWS Elastic Load Balancing service will configure your ELB with the current/latest pre-defined security policy
 =======================================
 ###### ###### v
 18. SSLHTTPS authentication - Client and Server Certificates
@@ -282,67 +281,59 @@ the current/latest pre-defined security policy
 19. ELB Connection Draining
 =======================================
 ###### ###### v
-20. ELB Monitoring
+## ELB Monitoring
 
-[10:06 AM, 2/6/2020] Manish Agrawal: ELB – Monitoring
-ELB monitoring can be achieved by:
-AWS Cloud Watch:
-AWS ELB service sends ELB metrics to cloud watch every “One minute"
-ELB service sends these metrics only if there are requests flowing through the ELB
-AWS Cloud Watch can be used to trigger an SNS notification if a threshold you
-define is reached
-DOLFINed
-Access Logs:
-Disabled by default
-You can obtain request information such as requester, time of request, requester
-IP, request type...etc.
-Optional (disabled by default), you can choose to store the access logs in an S3
-bucket that you specify
-DOLFINed
-[10:06 AM, 2/6/2020] Manish Agrawal: ELB – Monitoring
-Access Logs (Cont.):
-You are not charged extra for enabling access logs,
-» You pay for S3 storage
+> ELB monitoring can be achieved by:
+1. AWS Cloud Watch:
+> AWS ELB service sends ELB metrics to cloud watch every “One minute"
+> ELB service sends these metrics only if there are requests flowing through the ELB
+> AWS Cloud Watch can be used to trigger an SNS notification if a threshold you define is reached
+
+2. Access Logs:
+> Disabled by default
+
+> You can obtain request information such as requester, time of request, requester IP, request type...etc.
+
+> Optional (disabled by default), you can choose to store the access logs in an S3 bucket that you specify
+
+> You are not charged extra for enabling access logs,
+- You pay for S3 storage
 - You are not charged for data transfer of access logs from ELB'to the S3 bucket
-AWS Cloud Trail:
-You can use it to capture all API calls for your ELB
-You can store these logs in an S3 bucket that you specify
+
+3. AWS Cloud Trail:
+> You can use it to capture all API calls for your ELB
+> You can store these logs in an S3 bucket that you specify
 =======================================
 ###### ###### v
 21. ELB Pre-Warming & Scaling
 
 ## ELB – Pre-Warming
 ELB Scaling:
-The time required for the Elastic Load Balancing to detect the increase in traffic/load and scale (or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
-ELB is not designed to queue requests,
-• It will return Error 503 (HTTP) if it can't handle the request, any requests above the
-ELB capacity will fail
-DOLFINed
-ELB service can sçale and keep up with traffic increase, if you traffic increases at 50% in step or
-linear form every 5 minutes
-Lat
-755
+> The time required for the Elastic Load Balancing to detect the increase in traffic/load and scale (or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
+- ELB is not designed to queue requests,
+- It will return Error 503 (HTTP) if it can't handle the request, any requests above the ELB capacity will fail
+
+> ELB service can sçale and keep up with traffic increase, if you traffic increases at 50% in step or linear form every 5 minutes
+
 ELB Pre-Warm:
-[10:08 AM, 2/6/2020] Manish Agrawal: ELB Scaling & DNS updates
-When the ELB scales (spins more ELB nodes with new Public IP addresses),
-It updated the ELB's DNS record with the new list of ELB node Public IP addresses (for
-internet facing ELB)
-ELB uses a DNS record TTL of 60 seconds, to ensure that the new ELB node IP addresses
-are used and allow clients to take advantage of the increased capacity
-[10:08 AM, 2/6/2020] Manish Agrawal: ELB Scaling & Load Testing your Applications
-For efficient load testing of your ELB or applications hosted on backend instances
-Use multiple testing instances of client testing & try to launch the tests at the same
-time
+
+## ELB Scaling & DNS updates
+> When the ELB scales (spins more ELB nodes with new Public IP addresses),
+- It updated the ELB's DNS record with the new list of ELB node Public IP addresses (for internet facing ELB)
+- ELB uses a DNS record TTL of 60 seconds, to ensure that the new ELB node IP addresses are used and allow clients to take advantage of the increased capacity
+
+## ELB Scaling & Load Testing your Applications
+> For efficient load testing of your ELB or applications hosted on backend instances
+> Use multiple testing instances of client testing & try to launch the tests at the same time
 - You can also use global testing sites if possible
-If using a single client for testing, ensure your testing tool will enforce the Re-
-resolving of DNS with each testing/request initiated for testing
-This will ensure that as ELB service launches new ELB nodes, the new nodes will
-be leveraged through DNS re-resolution
-[10:08 AM, 2/6/2020] Manish Agrawal: ELB – Connection timeout
-By default, ELB has an idle connection timeout of 60 seconds
-Go Sec
-Set the idle time out of your applications (those launched on registered EC2 back end
-instances) to at least 60 seconds
+
+> If using a single client for testing, ensure your testing tool will enforce the Re- resolving of DNS with each testing/request initiated for testing
+
+> This will ensure that as ELB service launches new ELB nodes, the new nodes will be leveraged through DNS re-resolution
+
+## ELB – Connection timeout
+> By default, ELB has an idle connection timeout of 60 seconds
+Go Sec Set the idle time out of your applications (those launched on registered EC2 back end instances) to at least 60 seconds
 =======================================
 ###### ###### v
 22. Testing you ELB scaling (or applications servers by ELB)

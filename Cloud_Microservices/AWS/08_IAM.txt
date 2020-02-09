@@ -68,7 +68,7 @@ AWS Identity and Access Management (IAM)
 - PCI DSS (Payment Card Industry Data Security Standard) is a compliance framework. If you are taking credit card information, then you need to pay for compliance with the framework.
 
 11. Eventually Consistent: 
-- IAM service is eventually consistent as 
+- IAM SERVICE IS EVENTUALLY CONSISTENT as 
 - it achieves high availability by replicating the data across multiple servers within the Amazon's data center around the world.
 
 12. Free to use: AWS IAM is a feature of AWS account which is offered at no additional charge. You will be charged only when you access other AWS services by using IAM user.
@@ -80,168 +80,192 @@ AWS Identity and Access Management (IAM)
 3. Authentication 
 4. Authorisation 
 5. Action
+6. Resources
 
 ## PRINCIPAL
-> A principle is an entity that can take an action on an resource
-> Our administrative IAM user is your first principle
-> AWS principles can be IAM users, Roles, Federated user and application
+> A principle is an entity that can take an action on resource
+> Our administrative IAM user is our 1st principle
+> AWS principles can be IAM users, Roles, Federated user and app
 > we can allow user and service to assume a role
-> We can support federated user or programmatic access to allow an application to access AWS account
+> We can support federated user or programmatic access to allow an app to access AWS account
 
 -----------------------------
 ## REQUEST
 > When Principles send a request via console, CLI, SDK or APIs including the following:
 - Actions (or operation) that the principal wants to perform
 - Resource upon which the actions are performed
-- Principal information including the environment from which the request was made
+- Principal information including the environment from which the request was made like IP addr, date and time
 -----------------------------
 ## REQUEST CONTEXT
 > Before AWS can evaluate and authorize a request, AWS gathers below information:
 - PRINCIPAL(the requester) : which is determined based on the authorisation data
 - AGGREGATE PERMISSION : that are associated with that principle
-- ENVIRONMENT DATA : such as the IP address user agent SSL enabled status at the time of day
+- ENVIRONMENT DATA : such as the IP address useragent, SSL enabled status, or the time of day
 - RESOURCE DATA : this include resource information such as dynamic DB table name, S3 bucket, or tag on an Amazon ec2 instance
 -----------------------------
 ## AUTHENTICATION
 > A principal sending a request must be authentication(sign in to AWS) to send the request to AWS services 
 - some services like S3 allow requests from Anonymous users 
+
+-----------------------------
+## AUTHORIZATION
+> To Authorize requests, IAM uses values from the request context to check for matching policies and determine whether to allow or deny the request.
+- IAM policies are stored in IAM as JSON documents and specify the permissions that are allowed or denied
+1. User-Based Policies: specify permissions allowed/denied for principals
+2. Resource-based policies: specify permissions allowed/denied for resources
+
+> IAM checks each policy that matches the context of your request.
+- IF A SINGLE POLICY INCLUDES A DENIED ACTION, IAM DENIES THE ENTIRE REQUEST AND STOPS EVALUATING. THIS IS CALLED AN EXPLICIT DENY.
+- REQUESTS ARE DENIED BY DEFAULT, thus, IAM authorizes your request only if every part of your request is allowed by the matching policies.
+
+> The EVALUATION LOGIC follows these rules:
+- By default, all requests are denied.
+- An explicit allow overrides this default.
+- An explicit deny overrides any allows.
+
+Note
+> By default, only the AWS account root user has access to all the resources in that account.
+- So if you are not signed in as the root user, you must have permissions granted by a policy.
+-------------------------------
+## IAM Elements - ACTIONS ## v4
+> Actions are defined by a service, and are the things that you can do to a resource, such as viewing, creating, editing, and deleting that resource.
+
+> Any actions or resources that are not explicitly allowed are denied by default.
+
+> After your request has been authenticated and authorized, AWS approves the actions in your request.
+
+> IAM supported actions for a user resource include,
+- CreateUser, DeleteUser, GetUser, UpdateUser
+
+> To allow a principal to perform an action, you must include the necessary actions in a policy that applies to the principal or the affected resource.
+-----------------------------
+## IAM Elements - RESOURCES ## v4
+> A resource is an entity that exists within a service.
+- Examples are, EC2 instances, S3 bucket, IAM user, DynamoDB table
+- Each AWS service defines a set of actions that can be performed on each resource.
+
+> After AWS approves the actions in your request, those actions can be performed on the related resources within your account.
+
+> If you create a request to perform an unrelated action on a resource, that request is denied.
+- For example, if you request to deleteán IAM role)but provide an IAM group resource, the request fails.
+
+> When you provide permissions using an identity-based policy in IAM, then you provide permissions to access resources only within the same account.
+
 =======================================
 ######### v4 
-[9:48 PM, 1/26/2020] Manish Agrawal: IAM Policies –- Creating one
-You can create a new IAM policy in the AWS Management Console using one of the following
-methods:
-Import – You can import a managed policy within your account and then edit the policy to
-customize it to your specific requirements.
-A managed policy can be an AWS managed policy, or a customer managed policy that
-you created previously.
-g த
-Visual editor - You can construct a new policy from scratch in the visual editor. If you use
-the visual editor, you do not have to understand JSON syntax.
-JSON – In the JSON tab, you can create a policy using JSON syntax.
-[9:48 PM, 1/26/2020] Manish Agrawal: IAM Elements - Actions
-Actions are defined by a service, and are the things that you can do to a resource, such as viewing,
-creating, editing, and deleting that resource.
-Any actions or resources that are not explicitly allowed are denied by default.
-After your request has been authenticated and authorized, AWS approves the actions in your
-request.
-DOLFINed
-IAM supported actions for a user resource include,
-CreateUser, DeleteUser, GetUser, UpdateUser
-To allow a principal to perform an action, you must include the necessary actions in a policy that
-applies to the principal or the affected resource.
-[9:48 PM, 1/26/2020] Manish Agrawal: IAM Elements - Resources
-A resource is an entity that exists within a service.
-Examples are, EC2 instances, S3 bucket, IAM user, DynamoDB table
-- Each AWS service defines a set of actions that can be performed on each resource.
-After AWS approves the actions in your request, those actions can be performed on the related
-resources within your account.
-If you create a request to perform an unrelated action on a resource, that request is denied.
-For example, if you request to deleteán IAM role)but provide an IAM group resource, the
-request fails.
-When you provide permissions using an identity-based policy in IAM, then you provide permissions
-to access resources only within the same account.
-[9:49 PM, 1/26/2020] Manish Agrawal: IAM Cross-Account Access
-Identity-based policies is not the way to provide cross-account access
-If you need to make a request in a different account (Account B),
-The resource in that account must have an attached resource-based policy that allows
-access from your accounta
-Otherwise, you must assume a role (Identity based policy) within that account with the
-permissions that you need.
-This role will be created by the other account to allow you required access
-• The IAM user (you as the requester interested to access the resource in the other
-Baccount) will make an API call to assume that role in the other AWS account
-(Account B)
-Rde
+## IAM Policies –- Creating one
+> We can create new IAM policy in console using following methods:
+
+## 1. Import 
+– You can import a managed policy within your account and then edit the policy to customize it to your specific requirements.
+- A managed policy can be an AWS managed policy, or a customer managed policy that you created previously.
+
+## 2. Visual editor 
+- You can construct a new policy from scratch in the visual editor. If you use the visual editor, you do not have to understand JSON syntax.
+
+## 3. JSON 
+– In the JSON tab, you can create a policy using JSON syntax.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## IAM Cross-Account Access
+> IDENTITY-BASED POLICIES IS NOT THE WAY TO PROVIDE CROSS-ACCOUNT ACCESS
+
+> If you need to make a request in a different account (Account B),
+
+1. The resource in that account must have attached "resource-based policy" that allows access 
+
+2. must assume a role (Identity-based-policy) within that account with the permissions that you need.
+
+- This role will be created by the other account to allow you required access
+- The IAM user (you as the requester interested to access the resource in the other account) will make an API call to assume that role in the other AWS account (Account B)
 =======================================
 ######### v5
 =======================================
 ######### v6
 
-[9:53 PM, 1/26/2020] Manish Agrawal: IAM Identities
-Identities (Users, Groups, and Roles)
-IAM identities, is what you create under your AWS account to provide authentication for
-people, applications, and processes in your AWS account.
-Identities represent the user, and can be authenticated and then authorized to perform
-actions in AWS.
-Each of these can be associated with one or more Policies to determine what actions a user,
-role, or member of a group can do with which AWS resources and under what conditions.
-IAM groups, which are collections of IAM users that you can manage as a unit.
-IAM role is very similar to an IAM user but has not password or access keys assigned to it.
-[9:53 PM, 1/26/2020] Manish Agrawal: IAM Identities - IAM Users
-IAM Users:
-An IAM user is an entity that you create in AWS. It represents the person or service who uses the
-IAM user to interact with AWs.
-An IAM user can represent an actual person or an application that requires AWS access to
-perform actions on AWS resources
-Sen
-A primary use for IAM users is to give people the ability to sign in to the AWS Management Console
-for interactive tasks and to make programmatic requests to AWS services using the API or CLI.
-Acces kay
-For any user you can assign them:
-A username and password to access the AWS console
-An access key ID (Access key and Secret Key) that they can use for programmatic access
-(issuing requests) to your AWS resources
-[9:54 PM, 1/26/2020] Manish Agrawal: IAM Identities IAM Groups
-IAM Groups:
-An IAM Group is a collection of lAM users
-It is a way to assign permissions/policies to multiple users at once
-Use groups to specify permissions for a collection of users, which can make those permissions easier
-to manage for those users.
-For example, you could have a group called Administrators and give that group the types of
-permissions that administrators typically need.
-Any user in that group automatically has the permissions that are assigned to the group.
-If a new user joins your organization and should have administrator privileges, you can assign
-the appropriate permissions by adding the user to that group.
-If a person changes jobs in your organization, instead of editing that user's permissions, you can
-remove him or her from the old groups and add him or her to the appropriate new groups.
-[9:54 PM, 1/26/2020] Manish Agrawal: IAM Groups - Limitations
-A group is not truly an "identity" in IAM because it cannot be identified as a Principal in a
-permission policy.
-Groups can't be nested; they can contain only users, not other groups.
-You have a limit of 300 Groups in an AWS account.
-DOLFINed
-[9:55 PM, 1/26/2020] Manish Agrawal: IAM Identities – IAM Roles
-IAM Roles:
-An IAM Role is very similar to a user, in that it is an identity with permission policies that
-determine what the identity can and cannot do in Aws.
-An IAM Role does not have any credentials (password or access keys) associated with it.
-Instead of being uniquely associated with one person, a role is intended to be assumable by
-anyone who needs it (and it authorized to use it).
-An IAM user can assume a role to temporarily take on different permissions for a specific task.
-An IAM Role can be assigned to a Federated user who signs in by using an external identity
-provider instead of IAM.
-• AWS uses details passed by the identity provider to determine which role is mapped to
-the federated user.
-[9:55 PM, 1/26/2020] Manish Agrawal: IAM Identities – IAM Temporary Credentials
-IAM Temporary Credentials:
-Temporary credentials are primarily used with IAM roles, but there are also other uses.
-You can request temporary credentials that have a more restricted set of permissions
-than your standard IAM user.
-• This prevents you from accidentally performing tasks that are not permitted by
-the more restricted credentials.
-vexpire
-A benefit of temporary credentials is that they
-automatically after a set period of
-time.
-You have control over the duration that the credentials are valid.
+## IAM Identities
+## Identities (Users, Groups, and Roles)
+> IAM identities, is what you create under your AWS account to provide authentication for people, applications, and processes in your AWS account.
+
+> Identities represent the user, and can be authenticated and then authorized to perform actions in AWS.
+
+> Each of these can be associated with one or more Policies to determine what actions a user, role, or member of a group can do with which AWS resources and under what conditions.
+
+> IAM groups, which are collections of IAM users that you can manage as a unit.
+
+> IAM role is very similar to an IAM user but has not password or access keys assigned to it.
+
+ ## IAM Identities - IAM Users
+#IAM Users:
+> An IAM user is an entity that you create in AWS. It represents the person or service who uses the IAM user to interact with AWs.
+- An IAM user can represent an actual person or an application that requires AWS access to perform actions on AWS resources
+
+> A primary use for IAM users is to give people the ability to sign in to the AWS Management Console for interactive tasks and to make programmatic requests to AWS services using the API or CLI.
+
+> For any user you can assign them:
+- A username and password to access the AWS console
+- An access key ID (Access key and Secret Key) that they can use for programmatic access (issuing requests) to your AWS resources
+
+## IAM Identities IAM Groups
+#IAM Groups:
+> An IAM Group is a collection of lAM users
+
+> It is a way to assign permissions/policies to multiple users at once
+
+> Use groups to specify permissions for a collection of users, which can make those permissions easier to manage for those users.
+- For example, you could have a group called Administrators and give that group the types of permissions that administrators typically need.
+- Any user in that group automatically has the permissions that are assigned to the group.
+- If a new user joins your organization and should have administrator privileges, you can assign the appropriate permissions by adding the user to that group.
+- If a person changes jobs in your organization, instead of editing that user's permissions, you can remove him or her from the old groups and add him or her to the appropriate new groups.
+
+## IAM Groups - Limitations
+> A group is not truly an "identity" in IAM because it cannot be identified as a Principal in a permission policy.
+
+> Groups can't be nested; they can contain only users, not other groups.
+> You have a limit of 300 Groups in an AWS account.
+> A user can be a member of up to 10 IAM Groups 
+
+## IAM Identities – IAM Roles
+## IAM Roles:
+> An IAM Role is very similar to a user, in that it is an identity with permission policies that determine what the identity can and cannot do in Aws.
+
+> An IAM Role does not have any credentials (password or access keys) associated with it.
+
+> Instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it (and it authorized to use it).
+- An IAM user can assume a role to temporarily take on different permissions for a specific task.
+- An IAM Role can be assigned to a Federated user who signs in by using an external identity provider instead of IAM.
+- AWS uses details passed by the identity provider to determine which role is mapped to the federated user.
+
+
+## IAM Identities – IAM Temporary Credentials
+#IAM Temporary Credentials:
+> Temporary credentials are primarily used with IAM roles, but there are also other uses.
+- You can request temporary credentials that have a more restricted set of permissions than your standard IAM user.
+- This prevents you from accidentally performing tasks that are not permitted by the more restricted credentials.
+
+> A benefit of temporary credentials is that they automatically after a set period of time.
+- You have control over the duration that the credentials are valid.
 =======================================
 ######### v7
 
-[10:02 PM, 1/26/2020] Manish Agrawal: IAM – Access Management
-Permissions and Policies
-The access management portion of AWS Identity and Access Management (IAM) helps you to define
-what a user or other entity is allowed to do in an account, often referred to as authorization.
-Permissions are granted through policies that are created and then attached to users, groups, or
-roles.
-DOLFINed
-Policies and Users
-By default, IAM users can't access anything in your account.
-You grant permissions to a user by creating a policy, which is a document that defines the effect,
-actions, resources, and optional conditions.
-Any actions or resources that are not explicitly allowed are denied by default.
-[10:02 PM, 1/26/2020] Manish Agrawal: IAM – Access Management – User-based policies
-The following example shows a policy that grants permission to Perform Amazon DynamoDB actions
+## IAM – Access Management
+##Permissions and Policies
+> The access management portion of AWS Identity and Access Management (IAM) helps you to define what a user or other entity is allowed to do in an account, often referred to as authorization.
+
+> Permissions are granted through policies that are created and then attached to users, groups, or roles.
+
+#Policies and Users
+> By default, IAM users can't access anything in your account.
+
+> You grant permissions to a user by creating a policy, which is a document that defines the effect, actions, resources, and optional conditions.
+
+> Any actions or resources that are not explicitly allowed are denied by default.
+
+## IAM – Access Management – User-based policies
+
+> The following example shows a policy that grants permission to Perform Amazon DynamoDB actions
 (dynamodb:*) on the Books table in the account 123456789012 within the us-east-2 region.
+{
 "Version": "2012-10-17",
 "Statement": {
 "Effect": "Allow",
@@ -250,47 +274,39 @@ The following example shows a policy that grants permission to Perform Amazon Dy
 boLENad
 }
 }
-When you attach this policy to a user, group, or role, then the IAM entity has those DynamoDB
-ssions.
-peri
-Typically, users in your account have multiple policies that together represent the permissions for
-that user.
-source: aws.amazon.c
-[10:02 PM, 1/26/2020] Manish Agrawal: IAM – Access Management
-For example, if the previous policy is the only policy attached to a user, then that user is
-allowed to perform DynamoDB actions on the Books table only.
-Actions on all other tables are prbhibiteg. X.
-- Similarly, the user is not allowed to perform any actions in Amazon EC2, Amazon S3, or in
-any other AWS service, because permissions to work with those services are not included
-in the policy.
-DOLFINed
-[10:03 PM, 1/26/2020] Manish Agrawal: IAM – Multiple Policies
-Users or groups can have multiple policies attached to them that grant different permissions.
-In the case of multiple policies attached to a user (or a group)
-The users' permissions are calculated based on the combination of policjes.
-The basic principle still applies: If the user has not been granted an explicit
-permission for an action and a resource, the user does not have those permissions.
-DOLFINe
-[10:03 PM, 1/26/2020] Manish Agrawal: IAM - Access management for Federated Users
-Federated Users and Roles
-Federated users don't have permanent identities in your AWS account the way that IAM users do.
-To assign permissions to federated users, you can create an entity referred to as a role and define
-permissions for the role.
-When a federated user signs in to AWS, the user is associated with the role and is granted the
-permissions that are defined in the role.
-[10:04 PM, 1/26/2020] Manish Agrawal: IAM – Resource Based Policies
-In some cases (Like S3 buckets), you can attach a policy to a resource in addition to attaching it to a
-user or group. This is called a resource-based policy
-A resource-based policy contains slightly different information than a user-based policy.
-In a resource-based policy you specify what actions are permitted and what resource is
-affected.
-You also explicitly list who is allowed access to the resource (a Principal)
+> When you attach this policy to a user, group, or role, then the IAM entity has those DynamoDB permission
+
+> Typically, users in your account have multiple policies that together represent the permissions for that user.
+
+## IAM – Access Management
+> For example, if the previous policy is the only policy attached to a user, then that user is allowed to perform DynamoDB actions on the Books table only.
+- Actions on all other tables are prbhibiteg. 
+- Similarly, the user is not allowed to perform any actions in Amazon EC2, Amazon S3, or in any other AWS service, because permissions to work with those services are not included in the policy.
+
+## IAM – Multiple Policies
+> Users or groups can have multiple policies attached to them that grant different permissions.
+- In the case of multiple policies attached to a user (or a group)
+- The users' permissions are calculated based on the combination of policjes.
+- The basic principle still applies: If the user has not been granted an explicit permission for an action and a resource, the user does not have those permissions.
+
+## IAM - Access management for Federated Users
+#Federated Users and Roles
+> Federated users don't have permanent identities in your AWS account the way that IAM users do.
+
+> To assign permissions to federated users, you can create an entity referred to as a role and define permissions for the role.
+
+> When a federated user signs in to AWS, the user is associated with the role and is granted the permissions that are defined in the role.
+
+## IAM – Resource Based Policies
+> In some cases (Like S3 buckets), you can attach a policy to a resource in addition to attaching it to a user or group. This is called a resource-based policy
+
+> A resource-based policy contains slightly different information than a user-based policy.
+- In a resource-based policy you specify what actions are permitted and what resource is affected.
+- You also explicitly list who is allowed access to the resource (a Principal)
 • In a user-based policy, the "who" is established by whomever the policy is attached to.
-[10:04 PM, 1/26/2020] Manish Agrawal: IAM – Resource Based Policies
-Example: An S3 bucket policy that allows an IAM user named bob in AWS account 777788889999 to
-put objects into the bucket called example-bucket. The Principal element is set to the Amazon
-Resource Name (ARN) of the IAM user bob. This indicates that the resource (in this case, the S3
-bucket) is accessible to that ÍAM usekbut no one else.)
+
+## IAM – Resource Based Policies
+Example: An S3 bucket policy that allows an IAM user named bob in AWS account 777788889999 to put objects into the bucket called example-bucket. The Principal element is set to the Amazon Resource Name (ARN) of the IAM user bob. This indicates that the resource (in this case, the S3 bucket) is accessible to that ÍAM usekbut no one else.)
 {
 "Version": "2012-10-17",
 "Statement": {
@@ -301,7 +317,8 @@ bucket) is accessible to that ÍAM usekbut no one else.)
 - "s3:PutObjectAcl"
 ),
 "Resource": "arn:aws:s3:::example-bucket/*"
-source: aws.amazon.co
+}
+}
 =======================================
 ######### v8 
 =======================================
@@ -366,146 +383,121 @@ You can
 =======================================
 ##### v10
 
-[10:08 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Roles
-An IAM Role, is a set of permissions that grant access to actions and resources in AWs.
-These permissions are attached to the role, not to an IAM user or group.
-instead of being uniquely associated with one person, a role is intended to be assumable by
-anyone who needs it.
-A role does not have standard long-term credentials (password or access keys) assaciated with it.
-- Instead, if a user assumes a role, Temporary Security Credentials are created dynamically and
-provided to the user.
-DOLFIN
-Roles can be assumed/used by any of the following:
-An IAM user in the same AWS account as the role
-An IAM user in a different AWS account as the role
-A web service offered by AwS such as Amazon Elastic Compute Cloud (Amazon EC2)
-An extern…
-[10:09 PM, 1/26/2020] Manish Agrawal: Review Topic: AWS IAM
-IAM - Assuming/Using a Role
-ing
-There are two ways to assume/use a role:
-Interactively in the IAM console,
-IAM users in your account using the IAM console can switch to a role to temporarily use the
-permissions of the role in the console.
-The users give up their original permissions and take on the permissions assigned to the role.
-When the users exit the role, their original permissions are restored.
-DÖLFIN
-Programmatically with the AWS CLI, Tools for Windows PowerShell, or API.
-An application or a service offered by AWSS (like Amazon EC2) can assume a role by requesting
-temporary security credentials for a role with which to make programmatic requests to AWs.
-You use a role this way so that you don't have to share or maintain long-ter…
-[10:09 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Role Delegation
-A user who assumes a role temporarily gives up his or her own permissions and instead takes on
-the permissions of the role.
-When the user exits, or stops using the role, the original user permissions are restored.
-DOLFIN
-source: aws.amazon.com
-hudemy
-[10:09 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Role and Resource Based Policies
-How do IAM Roles differ from Resource-based Policies
-Unlike a user-based policy, a resource-based policy specifies who (in the form of a list of AWS
-account ID numbers) can access that resource.
-Cross-account access with a resource-based policy has an advantage over a role.
-With a resource that is accessed through a resource-based policy, the user still works in the
-trusted account and does not have to give up his or her user permissions in place of the role
-permissions.
-• In other words, the user continues to have access to resources in the trusted account at
-the same time as he or she has access to the resource in the trusting account.
-• This is useful for tasks such as copying information to or f…
+## IAM Roles
+> An IAM Role, is a set of permissions that grant access to actions and resources in AWs.
+- These permissions are attached to the role, not to an IAM user or group.
+- instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it.
 
+> A role does not have standard long-term credentials (password or access keys) assaciated with it.
+- Instead, if a user assumes a role, Temporary Security Credentials are created dynamically and provided to the user.
+
+> Roles can be assumed/used by any of the following:
+- An IAM user in the same AWS account as the role
+- An IAM user in a different AWS account as the role
+- A web service offered by AwS such as Amazon Elastic Compute Cloud (Amazon EC2)
+An external user authenticated by an external identity provider(IdP) service that is compatible with SAML 2.0 or OpenID Connect(OIDC), or a custom-built identity broker. 
+
+## IAM - Assuming/Using a Role
+
+> There are two ways to assume/use a role:
+1. Interactively in the IAM console,
+> IAM users in your account using the IAM console can switch to a role to temporarily use the permissions of the role in the console.
+> The users give up their original permissions and take on the permissions assigned to the role.
+> When the users exit the role, their original permissions are restored.
+
+2. Programmatically with the AWS CLI, Tools for Windows PowerShell, or API.
+> An application or a service offered by AWSS (like Amazon EC2) can assume a role by requesting temporary security credentials for a role with which to make programmatic requests to AWs.
+
+> You use a role this way so that you don't have to share or maintain long-term security credential(for example, by creating an IAM user) for each entity that requires access to a resource. 
+
+## IAM Role Delegation
+> A user who assumes a role temporarily gives up his or her own permissions and instead takes on the permissions of the role.
+- When the user exits, or stops using the role, the original user permissions are restored.
+
+## IAM Role and Resource Based Policies
+> How do IAM Roles differ from Resource-based Policies
+- Unlike a user-based policy, a resource-based policy specifies who (in the form of a list of AWS account ID numbers) can access that resource.
+
+> Cross-account access with a resource-based policy has an advantage over a role.
+- With a resource that is accessed through a resource-based policy, the user still works in the trusted account and does not have to give up his or her user permissions in place of the role permissions.
+• In other words, the user continues to have access to resources in the trusted account at the same time as he or she has access to the resource in the trusting account.
+• This is useful for tasks such as copying information to or from the shared resource in the other account. 
+
+> The disadvantage is that not all services support resource-based policies. 
 =======================================
 ######### v11
 
-[10:13 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Role – Service Roles
-Creating a Role to Delegate Permissions to an AWS Service
-Many AWS services require that you use roles to control what that service can access.
-AWS service role
-Is a role that a service assumes to perform actions on your behalf.
-When you set up most AWS service environments, you must define a role for the service to
-assume.
-This service role must include all the permissions required for the service to access the AWS
-resources that it needs.
-Service roles vary from service to service, but many allow you to choose your permissions, as
-long as you meet the documented requirements for that seryice.
-source: aws.mazon.com
-e Dollinl 4e. AllgA raemed
-u udemy
+## IAM Role – Service Roles
+#Creating a Role to Delegate Permissions to an AWS Service
+> Many AWS services require that you use roles to control what that service can access.
 
-[10:13 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Roles for EC2 instances
+> AWS service role
+- Is a role that a service assumes to perform actions on your behalf.
+- When you set up most AWS service environments, you must define a role for the service to assume.
+- This service role must include all the permissions required for the service to access the AWS resources that it needs.
+- Service roles vary from service to service, but many allow you to choose your permissions, as long as you meet the documented requirements for that seryice.
+- you can create, modify, and delete a service role from within IAM.
+
+## IAM Roles for EC2 instances
+#Using an IAM Role to Grant Permissions to Applications Running on Amazon EC2 Instances
+> Applications that run on an EC2 instance must include AWS credentials in their AWS API requests.
+> You could have your developers store AWS credentials directly within the EC2 instance and allow applications in that instance to use those credentials.
+- Cons:
+• Developers would then have to manage the credentials and ensure that they securely pass the credentials to each instance and update each EC2 instance when it's time to rotate the credentials.-
+
+- Alternative:
+• You can and should use an IAM role to manage temporary credentials for applications that run on an EC2 instance.
+- When you use a role, you don't have to distribute long-term credential(such as a user name and password or access keys) to an EC2 instance. 
+- The role would, instead, supply temporary permission that application can use when they make calls to other AWS resources. 
+
+
+## IAM Role for EC2 instances
+> Roles don't have their own permanent set of credentials the way IAM users do.
+> When you launch an EC2 instance, you can specify a role for the instance as a launch parameter.
+- Applications that run on the EC2 instance can use the role's credentials when they access AWS resources.
+> The role's permissions determine what the application is allowed to do.
+
+> In case of Amazon EC2, AWS IAM automatically provides temporary security credentials that are attached to the role and then makes them available for the EC2 instance to use on behalf of its applications._
+
+> The temporary security credentials that are available on the instance are automatically rotated for you, by AWS, before they expire so that a valid set is always available. 
+- AWS makes new credential available at least 5min before the expiration of the old credential.
+
+> For cases other than AWS EC2 roles, you need to request the temporary credentials first. 
+
+## IAM Roles – Instance Profiles
 Using an IAM Role to Grant Permissions to Applications Running on Amazon EC2 Instances
-Applications that run on an EC2 instance must include AWS credentials in their AWS API requests.
-You could have your developers store AWS credentials directly within the EC2 instance and allow
-applications in that instance to use those credentials.
-Cons:
-• Developers would then have to manage the credentials and ensure that they securely
-pass the credentials to each instance and update each EC2 instance when it's time to
-rotate the credentials.-
-DOLFIN
-Alternative:
-• You can and should use an IAM role to manage temporary credentials for applications
-that run on an EC2 instance.
-- When you use a role, you don't have to dist…
+> Using roles to grant permissions to applications that run on EC2 instances requires a bit of extra configuration.
 
-[10:14 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Role for EC2 instances
-Roles don't have their own permanent set of credentials the way IAM users do.
-When you launch an EC2 instance, you can specify a role for the instance as a launch parameter.
-Applications that run on the EC2 instance can use the role's credentials when they access AWS
-STS
-The role's permissions determine what the application is allowed to do.
-resources.
-Motato
-In case of Amazon EC2, AWS IAM automatically provides temporary security credentials that
-are attached to the role and then makes them available for the EC2 instance to use on behalf
-of its applications._
-The temporary security credentials that are available on the instance are automatically
-P rotated for you, by AWS, before they expire so that a valid s…
+#Instance Profiles:
+> Is required to assign an AwS role and its associated permissions to an EC2 instance, and to make them available to applications running on the EC2 instance
 
-[10:14 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-IAM Roles – Instance Profiles
-Using an IAM Role to Grant Permissions to Applications Running on Amazon EC2 Instances
-Using roles to grant permissions to applications that run on EC2 instances requires a bit of extra
-configuration.
-Instance Profiles:
-Is required to assign an AwS role and its associated permissions to an EC2 instance, and to
-make them available to applications running on the EC2 instance
-The instance profile contains the role and can provide the role's temporary credentials to an
-application that runs on the instance.
-Note that only one role can be assigned to an EC2 instance at a time, and all applications on
-the instance share the same role and permissions.
-source: aws.amazon.com
-e Dollinl 4e. AllghtA reeel
-hudemy
+> The instance profile contains the role and can provide the role's temporary credentials to an application that runs on the instance.
 
+> Note that only one role can be assigned to an EC2 instance at a time, and all applications on the instance share the same role and permissions.
 
-[10:15 PM, 1/26/2020] Manish Agrawal: Review Topic: AWS IAM
-IAM Roles – EC2 instance Profile
-If you use the IAM console, the instance profile is managed for you and is mostly transparent to you.
-If you use the AWS CLI or API to create and manage the role and EC2 instance,
-Then you must create the instance profile and assign the role to it as separate steps.
-• When you launch the instance, you must specify the instance profile name instead of the
-role name.
-Using roles in this way has several benefits.LEIN
-You don't have to manage credentials, and you don't have to worry about lang-term security
-risks, Because role credentials are temporary and rotated automatically.
-If you use a single role for multiple instances, you can make a change to that one role and the
-change is propagated automatically …
+## IAM Roles – EC2 instance Profile
 
-[10:15 PM, 1/26/2020] Manish Agrawal: Review Topic : AWS IAM
-the EC2 applications access the Temporary Credentials
-ne EC2 instance can access the temporary security credentials required to make
-tadata, under the IAM/Security-Credentials/Role-name
-The
-APe
-This also includes information about the expiry of the respective temporary security credentials
-Example, if you have a Role named ec2role, the role temporary security credentials can be read
+> If you use the IAM console, the instance profile is managed for you and is mostly transparent to you.
+
+> If you use the AWS CLI or API to create and manage the role and EC2 instance,
+- Then you must create the instance profile and assign the role to it as separate steps.
+- When you launch the instance, you must specify the instance profile name instead of the role name.
+
+> Using roles in this way has several benefits.
+- You don't have to manage credentials, and you don't have to worry about lang-term security risks, Because role credentials are temporary and rotated automatically.
+- If you use a single role for multiple instances, you can make a change to that one role and the change is propagated automatically to all the instances.
+
+> Although a role is usually assigned to an EC2 instance when you launch it, a role can also be attached to an EC2 instance that is already running.
+
+## Review Topic : AWS IAM
+#How the EC2 applications access the Temporary Credentials
+
+The applications on the EC2 instance can access the temporary security credentials required to make API calls from the metadata, under the IAM/Security-Credentials/Role-name
+
+- This also includes information about the expiry of the respective temporary security credentials
+- Example, if you have a Role named ec2role, the role temporary security credentials can be read
 via
 curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
-If the application gets temporary security credentials from the instance metadata and has cached
-them, it should get a refreshed set of credentials every hour, or at least 15 minutes before the current
-set expires.
+
+> If the application gets temporary security credentials from the instance metadata and has cached them, it should get a refreshed set of credentials every hour, or at least 15 minutes before the current set expires.
+

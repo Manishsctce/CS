@@ -916,190 +916,159 @@ must have permission to replicate objects in the destination bucket.
 =======================================
 ########## v23
 
-[7:56 AM, 2/5/2020] Manish Agrawal: S3 Cross Region Replication – What is Replicated
-Any new objects created after you add a replication configuration, and changes to existing objects
-Objects created with SSE-S3 using the AWS S3-managed encryption key.
-The replicated copy of the object is also encrypted using server-side encryption using the AWS
-S3-managed encryption key.
-Amazon S3 replicates only objects in the source bucket for which the bucket owner has permission
-to read objects and read ACLS.
-DOLFINES
-Asyn-
-Any object ACL updates are replicated,
-There can be some delay before Amazon S3 can bring the two in sync.
-This applies only to objects created after you add a replication configuration to the bucket.
-S3 replicates object tags, if any.
-Source: aws.amazon.com
-[7:57 AM, 2/5/2020] Manish Agrawal: S3 Cross Region Replication – What is Replicated (DELETE Operation)
-If you delete an object from the source bucket, the cross-region replication behavior is as follows:
-If a DELETE request is made without specifying an object version ID,
-AWS S3 adds a delete marker, which cross-region replication repticates to the destination
-bucket.
-If a DELETE request specifies a particular object version ID to delete,
-• AWs S3 deletes that object version in the source bucket, but it does not replicate the
-deletion in the destination bucket o
+## S3 Cross Region Replication – What is Replicated
+> Any new objects created after you add a replication configuration, and changes to existing objects
+
+> Objects created with SSE-S3 using the AWS S3-managed encryption key.
+- The replicated copy of the object is also encrypted using server-side encryption using the AWS S3-managed encryption key.
+
+> Amazon S3 replicates only objects in the source bucket for which the bucket owner has permission to read objects and read ACLS.
+
+> Any object ACL updates are replicated,
+- There can be some delay before Amazon S3 can bring the two in sync.
+- This applies only to objects created after you add a replication configuration to the bucket.
+
+> S3 replicates object tags, if any.
+
+## S3 Cross Region Replication – What is Replicated (DELETE Operation)
+ If you delete an object from the source bucket, the cross-region replication behavior is as follows:
+> If a DELETE request is made without specifying an object version ID,
+- AWS S3 adds a delete marker, which cross-region replication repticates to the destination bucket.
+
+> If a DELETE request specifies a particular object version ID to delete,
+- AWs S3 deletes that object version in the source bucket, but it does not replicate the deletion in the destination bucket o
 - It does not delete the same object version from the destination bucket
-[7:57 AM, 2/5/2020] Manish Agrawal: S3 Cross Region Replication – What is Replicated (DELETE Operation)
-If you delete an object from the source bucket, the cross-region replication behavior is as follows:
-If a DELETE request is made without specifying an object version ID,
-AWS S3 adds a delete marker, which cross-region replication repticates to the destination
-bucket.
-If a DELETE request specifies a particular object version ID to delete,
-• AWS S3 deletes that object version in the source bucket, but it does not replicate the
-deletion in the destination bucket
-It does not delete the same object version from the destination bucket
-» This behavior protects data from malicious deletions.
-[7:57 AM, 2/5/2020] Manish Agrawal: S3 Cross Region Replication – What is NOT replicated
-AWS S3 will not replicate objects that existed before you added replication configuration
-You can use Copy API to copy existing bucket data
+- This behavior protects data from malicious deletions.
+
+## S3 Cross Region Replication – What is NOT replicated
+> AWS S3 will not replicate objects that existed before you added replication configuration
+- You can use Copy API to copy existing bucket data
 - Changes to existing objects that happen after CRR is enabled, are replicated
-Objects created with SSE-C or SSE-KMS are not replicated
-Amazon S3 does not keep the encryption keys you provide after the object is created in the
-source bucket so it cannot decrypt the object for replication, and therefore it does not
-replicate the object
-If the object owner is different from the source bucket owner, and bucket owner does not have
-permissions to the object, AWS S3 will not replicate these objects
-Updates to bucket-level sub-resources are not replicated
-This allows you to have different bucket configurations on the source and destination buckets.
-[7:58 AM, 2/5/2020] Manish Agrawal: S3 Cross Region Replication – What is NOT replicated
-53-IA
+
+> Objects created with SSE-C or SSE-KMS are not replicated
+- Amazon S3 does not keep the encryption keys you provide after the object is created in the source bucket so it cannot decrypt the object for replication, and therefore it does not replicate the object
+
+> If the object owner is different from the source bucket owner, and bucket owner does not have permissions to the object, AWS S3 will not replicate these objects
+
+> Updates to bucket-level sub-resources are not replicated
+- This allows you to have different bucket configurations on the source and destination buckets.
+
 Only customer actions are replicated
-Actions performed by lifecycle configuration are not replicated.
-For example, if lifecycle configuration is enabled only on your source bucket, Amazon
-S3 creates delete markers for expired objects, but it does not replicate those markers.
-• However, you can have the same lifecycle configuration on both the source and
-destination buckets if you want the same lifecycle actions to happen to both
-DOLFINe
-buckets.
-Objects in the source bucket that are replicas, created by another cross-region replication,
-are not replicated.
-[7:58 AM, 2/5/2020] Manish Agrawal: S3 Cross Region Replication - Charges
+> Actions performed by lifecycle configuration are not replicated.
+- For example, if lifecycle configuration is enabled only on your source bucket, Amazon S3 creates delete markers for expired objects, but it does not replicate those markers.
+- However, you can have the same lifecycle configuration on both the source and destination buckets if you want the same lifecycle actions to happen to both buckets.
+
+> Objects in the source bucket that are replicas, created by another cross-region replication, are not replicated.
+
+## S3 Cross Region Replication - Charges
 You are charged for :
 - Requests for upload
-Inter-region data transfer
-Storage at the destination bucket
-DOLFINd
+- Inter-region data transfer
+- Storage at the destination bucket
 =======================================
 ########## v24
 
-[9:07 AM, 2/5/2020] Manish Agrawal: S3 Cross -Origin Resource Sharing (CORS)
-Is a way by which a client web application (webpage or a domain) can request resources from
-another webpage (different domain)
-CORS can be used to allow web applications to access resources on your S3 buckets/resources
-As an example:
-You can host web fonts on your S3 bucket, then configure your bucket to allow CORS requests
-DOLFIN
-for webfonts.
-Other domains (web pages) will issue CORS requests to load webfonts from your S3
-bucket
+## S3 Cross -Origin Resource Sharing (CORS)
+> Is a way by which a client web application (webpage or a domain) can request resources from another webpage (different domain)
+> CORS can be used to allow web applications to access resources on your S3 buckets/resources
+
+> As an example:
+- You can host web fonts on your S3 bucket, then configure your bucket to allow CORS requests for webfonts.
+- Other domains (web pages) will issue CORS requests to load webfonts from your S3 bucket
 =======================================
 ########## v25
 
-[9:07 AM, 2/5/2020] Manish Agrawal: S3 Transfer Acceleration
-Is used to accelerate object uploads to S3 buckets from users over long distances
-Typical use case is when uploading objects to your S3 bucket happens from users across the
-world, over the internet
-Transfer acceleration is as secure as direct upload to S3 over the internet
-It utilizes AWS Cloudfront's edge location nearpst to the upload source (user), once data
-arrives at the edge location, it gets routed to the destination S3 bucket over an optimized
-network path
-[9:08 AM, 2/5/2020] Manish Agrawal: S3 Transfer Acceleration
-In order to use it:
-Enable Transfer Acceleration on the S3 bucket
-Once enabled, it can only be suspended, it can NOT be disabled
-- Can only be done by the bucket owner, or a different user with permission
-from the bucket owner
-- After enabling it, it may take up to 30 mts before you notice upload speed
-enhancements
-DOLFINed
-Point your PUT/GET requests to:
-<bucketname>.S3-accelerate.amazonaws.com (for IPV4)
-Bucket names must be DNS compliant, and MUST not have periods (.) in the bucket
-name (between bucket name labels)
-[9:08 AM, 2/5/2020] Manish Agrawal: S3 Transfer Acceleration
-Health}
-Transfer Acceleration is NOT HIPAA Compliant
-Using Transfer acceleration incurs a charge
-AWS checks for speed enhancements, and if no enhancement is provided, client does
-not get charged for using Transfer Acceleration
-No data is saved at Cloudfront edge locations (not cached)
-DOLF
-You can use multipart uploads with Transfer Acceleration
-[9:08 AM, 2/5/2020] Manish Agrawal: S3 Transfer Acceleration – Speed Comparison Tool
-You can use it to compare accelerated and non-accelerated upload speeds across amazon S3
-regions
-Uses multipart upload from your browser to multiple AWS, regions, and demonstrates speed
-enhancements
-DOLEFIN O
+## S3 Transfer Acceleration
+> Is used to accelerate object uploads to S3 buckets from users over long distances
+
+> Typical use case is when uploading objects to your S3 bucket happens from users across the world, over the internet
+
+> Transfer acceleration is as secure as direct upload to S3 over the internet
+
+> It utilizes AWS Cloudfront's edge location nearpst to the upload source (user), once data arrives at the edge location, it gets routed to the destination S3 bucket over an optimized network path
+
+## S3 Transfer Acceleration
+ In order to use it:
+> Enable Transfer Acceleration on the S3 bucket
+- Once enabled, it can only be suspended, it can NOT be disabled
+	- Can only be done by the bucket owner, or a different user with permission from the bucket owner
+	- After enabling it, it may take up to 30 mts before you notice upload speed enhancements
+
+- Point your PUT/GET requests to:
+  <bucketname>.S3-accelerate.amazonaws.com (for IPV4)
+- Bucket names must be DNS compliant, and MUST not have periods (.) in the bucket name (between bucket name labels)
+
+## S3 Transfer Acceleration
+
+> Transfer Acceleration is NOT HIPAA Compliant
+> Using Transfer acceleration incurs a charge
+- AWS checks for speed enhancements, and if no enhancement is provided, client does not get charged for using Transfer Acceleration
+
+> No data is saved at Cloudfront edge locations (not cached)
+> You can use multipart uploads with Transfer Acceleration
+
+## S3 Transfer Acceleration – Speed Comparison Tool
+> You can use it to compare accelerated and non-accelerated upload speeds across amazon S3 regions
+
+> Uses multipart upload from your browser to multiple AWS, regions, and demonstrates speed enhancements
 =======================================
 ########## v26
 
 ## S3 Intensive GET/ PUT
-S3 maintains an index of object key names in each region
-Object keys (names) are stored in an order across multiple partitions of this index
-The object key name dictates which partition the key is stored in
-Sequentially named objects are more likely to be saved in the same partition
-- At high request rates to access sequentially named objects, S3 will place a higher load
-on the available I/O of the partition hosting these keys (names) which will impact
+> S3 maintains an index of object key names in each region
+> Object keys (names) are stored in an order across multiple partitions of this index
+> The object key name dictates which partition the key is stored in
+> Sequentially named objects are more likely to be saved in the same partition
+- At high request rates to access sequentially named objects, S3 will place a higher load on the available I/O of the partition hosting these keys (names) which will impact
 performance
 
 ## S3 Intensive GET / PUT
-If your bucket access (workload) involves only occasional bursts of 100 PUT/LIST/DELETE
-requests per second, and less than 800 GET requests per second, no further actions are
-required to optimize your S3 read/write performance
-If your bucket access routinely exceeds 100 PUT/LIST/DELETE requests per second, or 300
-GET requests per second, then you need to:
-For PUT/LIST/DELETE requests, Introduce prefix randomization in your objects' key
-names such that they will be stored in different partitions
-For intensive GET requests,
+> If your bucket access (workload) involves only occasional bursts of 100 PUT/LIST/DELETE requests per second, and less than 800 GET requests per second, no further actions are required to optimize your S3 read/write performance
+
+> If your bucket access routinely exceeds 100 PUT/LIST/DELETE requests per second, or 300 GET requests per second, then you need to:
+- For PUT/LIST/DELETE requests, Introduce prefix randomization in your objects' key names such that they will be stored in different partitions
+
+- For intensive GET requests,
 • Introduce prefix (name) randomness
 • And use CloudFront distributions to distribute the objects and offload S3
-This will also decrease yours3 request charges, since CloudFront will cache
-and distribute the objects/content
+- This will also decrease yours3 request charges, since CloudFront will cache and distribute the objects/content
 
 ## S3 Intensive GET / PUT
-For steadily increasing request rates, S3 can adjust
-For rapidly increasing request rate where a bucket receives more than 300 PUT/LIST/DELETE
-requests per second, or more than 800 GET requests per second,
-Open a support case with AWS,
-• This will allow to prepare for the workload and avoid any temporary limits on your
-request rate
-DOLFINed
-
+> For steadily increasing request rates, S3 can adjust
+> For rapidly increasing request rate where a bucket receives more than 300 PUT/LIST/DELETE requests per second, or more than 800 GET requests per second,
+- Open a support case with AWS,
+  • This will allow to prepare for the workload and avoid any temporary limits on your request rate
 =======================================
 ########## v27
 
 ## Billing Charges in S3
-No charge for data transferred from/to EC2 to/from S3 in the same region
-This includes data transferred via Copy command
-Data transfer into S3 is free of charge
-Data transfer out of S3 to EC2 instance in the same region is free
-Data transferred out of S3 to EC2 in other regions is charged_
-Data transfer via Copy to other regions is charged at the Internet data transfer rates
-Data transferred from S3 to Cloudfront is free
+> No charge for data transferred from/to EC2 to/from S3 in the same region
+- This includes data transferred via Copy command
+> Data transfer into S3 is free of charge
+> Data transfer out of S3 to EC2 instance in the same region is free
+- Data transferred out of S3 to EC2 in other regions is charged_
+> Data transfer via Copy to other regions is charged at the Internet data transfer rates
+> Data transferred from S3 to Cloudfront is free
 
 ## Billing Charges in S3
-You pay for:
-Per GB/Month storage fee
-Data transferred in/out of S3 (as explained in the last slide)
-Upload requests($0.05/1000 requests)
-Both PUT and GET requests are charged
-Retrieval request fee for S3-IA and Glacier
-DOLFINed
+> You pay for:
+- Per GB/Month storage fee
+- Data transferred in/out of S3 (as explained in the last slide)
+- Upload requests($0.05/1000 requests). Both PUT and GET requests are charged
+- Retrieval request fee for S3-IA and Glacier
 
 ## Requester Pays
-If Requester pays is enabled on a bucket:
-The bucket owner will only pay for Object Storage fees
-The requester will pay for:
-• Requests to S3 to upload/download objects
-• Data transfer charges
-403
-Buckets with Requester Pays enabled do not allow anonymous access & Do not support
-BitTorrent
-DOLFIN
-Requester pays buckets can not be the target for user logging
-You can NOT specify requester pays at the Object level
-Can be enabled from the bucket properties under the AWS Console
+> If Requester pays is enabled on a bucket:
+- The bucket owner will only pay for Object Storage fees
+- The requester will pay for:
+  • Requests to S3 to upload/download objects
+  • Data transfer charges
+
+> Buckets with Requester Pays enabled do not allow anonymous access & Do not support BitTorrent
+
+> Requester pays buckets can not be the target for user logging
+> You can NOT specify requester pays at the Object level
+> Can be enabled from the bucket properties under the AWS Console
 
 
 =======================================
@@ -1119,31 +1088,32 @@ Can be enabled from the bucket properties under the AWS Console
 
 
 ## S3 Monitoring via CloudWatch
-With AWS CloudWatch you can monitor multiple metrics.
-CloudWatch can take actions based on a single metric
-For S3, metrics that can be monitored by CloudWatch include:
-S3 Requests, Bucket Storage, Bucket Size, All requests, HTTP 4XX, 5XX errors among
-others
-DOLFINe
+> With AWS CloudWatch you can monitor multiple metrics.
+
+> CloudWatch can take actions based on a single metric
+
+> For S3, metrics that can be monitored by CloudWatch include:
+- S3 Requests, Bucket Storage, Bucket Size, All requests, HTTP 4XX, 5XX errors among others
 
 ## S3 Monitoring via CloudWatch
-You can configure filters to filter CW data, these are called CloudWatch Dimensions
-You can filter by bucket name, storage type, prefix, tag
-Daily CloudWatch, Bucket-level storage metrics are turned on by default at no additional
-cost.
-1 minute CloudWatch metric can be configured both at the bucket and object levef
-You can have up to 1000 metric configurations per bucket
-DOLFING
+> You can configure filters to filter CW data, these are called CloudWatch Dimensions
+- You can filter by bucket name, storage type, prefix, tag
+
+> Daily CloudWatch, Bucket-level storage metrics are turned on by default at no additional cost.
+- 1 minute CloudWatch metric can be configured both at the bucket and object levef
+- You can have up to 1000 metric configurations per bucket
 
 ## S3 API log monitoring via CloudTrail
-CloudTrail captures all API requests made to S3 API
-By default, AWS CloudTrail logs bucket level actions, however you can configure it to log the
-object level actions (such as DELETE, GET, PUT, POST object events)
-CloudTrail delivers these logs to a S3 bucket that you configure
-CloudTrail collected information includes: FINE
-Who made the request
-When it was made
-For what.etc
+> CloudTrail captures all API requests made to S3 API
+
+> By default, AWS CloudTrail logs bucket level actions, however you can configure it to log the object level actions (such as DELETE, GET, PUT, POST object events)
+
+> CloudTrail delivers these logs to a S3 bucket that you configure
+
+> CloudTrail collected information includes: 
+- Who made the request
+- When it was made
+- For what.etc
 =======================================
 ######### AWS STORAGE GATEWAY #########
 

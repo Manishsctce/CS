@@ -500,6 +500,11 @@ If uploading an Object and requesting SSE using Customer Provided Keys,and if th
 Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the encryption key you specified when uploading the object.
 =======================================
 ############ S3 STORAGE CLASS ######### v13
+1. S3 Standard
+2. Standard-IA
+3. One Zone-IA 
+4. S3-RRS (deprecating) 
+5. S3 Intelligent-Tiering (new)
 
 #### S3 STANDARD Storage Class ####
 > Provides for 99.99% availability
@@ -539,6 +544,19 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 
 > If an S3 RRS object is lost, AWS will return HTTP 405 error when the object is requested for read
 > S3 can send a notification in case an object is lost
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 5. S3 Intelligent Tiering
+
+> It is used when wee don't have deep understanding of our data access patterns.
+
+> It incorporates two access tiers: 
+1. frequent access and 
+2. infrequent access. 
+
+> Both access tiers offer the same low latency as the Standard storage class. 
+For a small monitoring and automation fee, S3 Intelligent-Tiering monitors access patterns and moves objects that have not been accessed for 30 consecutive days to the infrequent access tier.
+- If the data is accessed later, it is automatically moved back to the frequent access tier. 
+- save money, with no performance impact, no operational overhead, and no retrieval fees.
 =======================================
 ##### GLACIER – ARCHIVING STORAGE ##### v14
 

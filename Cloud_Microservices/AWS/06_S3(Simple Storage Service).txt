@@ -143,7 +143,8 @@ S3 is object-based. Objects consist of the following:
 > S3 Provides:
 - READ-AFTER-WRITE (IMMEDIATE OR STRONG) CONSISTENCY of PUTS of new objects (new object loads to S3)
 
-> EVENTUAL CONSISTENCY FOR OVERWRITE data PUTS and DELETES (for Changes/updates to existing Objects in S3)
+> EVENTUAL CONSISTENCY FOR OVERWRITE data (for Changes/updates to existing Objects in S3)
+- It can be PUTS and DELETES operation 
 
 > Updates to an Object are atomic, i.e when you run a PUT for an object then you read (GET) that object, you will either get the updated object or the old one (before the update), you will NEVER GET PARTIAL OR CORRUPT DATA
 =======================================
@@ -171,7 +172,7 @@ S3 is object-based. Objects consist of the following:
 - versioning status 
 - storage classes
 
-#### S3 BUCKET NAMING RULE #####
+######## S3 BUCKET NAMING RULE #######
 > S3 bucket names(keys) are globally unique across all region 
 - bucket name cannot be changed after they created 
 - if a bucket is deleted its name become available again to you or another account to use 
@@ -192,7 +193,8 @@ S3 is object-based. Objects consist of the following:
 - using the Amazon S3 API you can create and manage these resources 
 - you can also use the console or AWS SDK
 
-> By default a bucket its object and related sab resources are all private that is by default only the owner has access to the bucket and storage object
+> BY DEFAULT A BUCKET ITS OBJECT AND RELATED SUB-RESOURCES ARE ALL PRIVATE 
+- i.e. by default only the owner has access to the bucket and storage object
 
 > Sub-resources for S3 bucket includes:
 - LIFECYCLE : to decide and object lifecycle management
@@ -226,7 +228,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 2. Torrent 
 - used by S3 in case bittorrent tries to download the object
 =======================================
-#### S3 RESOURCES AND SUB RESOURCES ### v6
+#### S3 RESOURCES AND SUB-RESOURCES ### v6
 
 > Bucket and object are primary S3 resources 
 - each has its own sub resources
@@ -239,7 +241,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 
 > Operations on S3 are either bucket level operation or object label operation
 
-## S3 RESOURCE OWNER
+#### S3 RESOURCE OWNER
 
 > By default all Amazon S3 resources are private 
 - only a resource owner can access the resources
@@ -276,12 +278,11 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 1. Resource based Policy
 2. User Access Policy 
 
-#### 1. S3 RESOURCE BASED POLICY ####
+#### 1. S3 RESOURCE-BASED POLICY ####
 > bucket policy and access control list are resource-based because you attached them to your Amazon S3 resources
 
 ## 1a. ACL-BASED ACCESS POLICY (buckets and objects ACLs)
-- each BUCKET AND OBJECT CAN HAVE AN ACL associated with it
-
+> each BUCKET AND OBJECT CAN HAVE AN ACL associated with it
 > An ACL is a list of grants i.e. identifying guarantee(who) and permission granted(what)
 > ACL GRANT BASIC READ/WRITE PERMISSION to other AWS account
 
@@ -289,19 +290,18 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 > FOR BUCKET AND OBJECT, we can add a bucket policy to grant other AWS account or IAM user permission 
 - any object permission apply only to the object that the bucket owner creates 
 - bucket policy supplement and in many cases replace ACL based access policy
-
-###### 2. S3 USER ACCESS POLICY #######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 2. S3 USER-ACCESS POLICY #######
 
 > You can use AWS IAM to manage access to your Amazon S3 resources
 
-> Using IAM, you can create IAM user, group and role in your account and attach access policy to them granting them access to AWS resources including Amazon S3
+> Using IAM, we can create IAM user, group and role and attach user-access policy to them granting them access to AWS resources including Amazon S3
 
 > You cannot grant anonymous permissions in any IAM user policy because the policy is attached to a user
 
 > User policy can grant permission to a bucket and object in it
 
 ## How does S3 evaluate (allow/deny) a request for an S3 resource operation (Bucket or Object Operation)
-
 > S3 evaluates:
 
 User Context:
@@ -309,8 +309,7 @@ User Context:
 - If the user is the root account, this validation is skipped
 
 Bucket Context:
-- S3 validates whether the bucket owner (can be the same parent account or another AWS account) has allowed the requested operation to this user
-
+> S3 validates whether the bucket owner (can be the same parent account or another AWS account) has allowed the requested operation to this user
 - Bucket policy, Bucket ACL, and Object (if Object operation) are All checked
 
 Notes:
@@ -386,23 +385,19 @@ Notes:
 =======================================
 ############ v10
 
-## When to use Bucket Policies
-
+## WHEN TO USE BUCKET POLICIES
 > If an AWS account that owns a bucket wants to grant permission to users in its account, it can use either a bucket policy or a user policy.
-
-> If the AWS account that owns the object also owns the bucket, then it can write a bucket policy to manage the object permissions.
 
 > If you want to manage cross-account permissions for all Amazon S3 permissions 
 - For Cross account permissions, when you use to provide another account full S3 permissions, you can only do that via Bucket policies
 
-## When to use User Policies
-> User policies support granting permission for all Amazon S3 operations
-
+## WHEN TO USE USER POLICIES
+> User policies support granting permission for all S3 operations
 > The user policies are for managing permissions for users in your account.
 
 > If the AWS account that owns the object wants to grant permission to a user in its account, it can use a user policy.
 
-> An IAM uset must have permissions from the parent account to which it belongs, and from the AWS account that owns the resource the user wants to access. 
+> An IAM user must have permissions from the parent account to which it belongs, and from the AWS account that owns the resource the user wants to access. 
 The permissions can be granted as follows:
 - Permission from the parent account : The parent account can grant permissions to its user by attaching a user policy.
 - Permission from the resource owner : The resource owner can grant permission to either the IAM user (using a bucket policy) or the parent account (using a bucket policy, bucket ACL, or object ACL).
@@ -558,164 +553,18 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 - If the data is accessed later, it is automatically moved back to the frequent access tier. 
 - save money, with no performance impact, no operational overhead, and no retrieval fees.
 =======================================
-##### GLACIER – ARCHIVING STORAGE ##### v14
-
-> IT IS AN ARCHIVING STORAGE FOR INFREQUENTLY ACCESSED DATA
-> Achieved objects are not available for real time access, you need to submit a retrieval request, 
-- It restore the data first before you can read it (can take few hours),
-- Requested archived data will be copied to RRS
-- After data is retrieved, you have up to 24 hours to download it
-
-> You can NOT specify Glacier as the Storage Class at the time you create an object
-
-> 11 9's data durability
-
-> No SLA
-
-> Is designed to sustain data loss in two facilities
-> You need to keep your data for a minimum of 90 days (minimum charge)
-
-> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports
-secure transfer of your data (In-transit) over Secure Sockets Layer (SSL)
-
-> Glacier may NOT be available in all AWS regions, check for availability
-
-> Glacier objects are visible and available only through AWS S3 not through AWS Glacier
-
-> Glacier redundantly stores your data to multiple facilities, on multiple devices within each facility
-synchronously
-
-> Glacier awaits until the multiple facility upload is completed successfully before confirmting a
-successful upload to the user
-
-> Glacier does NOT archive object metadata, you need to maintain a client-side database to
-maintain this information about the objects 
-- Basically which archives hold which objects 
-
-Suitable for:
--Archive
-- Media asset archiving,
-Health care information archiving,
-- Regulatory and compliance archiving,
-- A replacement for magnetic tapes
-
-> You can upload archives to Glacier of a size:
-- As small as 1 Byte
-- As large as 40 TB
-
-> Glacier file archives of size 1bytes to 4GB can be done in one shot
-
-> Glacier file archives from 100MB up to 40TB, can be uploaded to Glacier using multi-part upload
-
-> Uploading archives is Synchronous
-
-> Downloading archives is Asynchronous
-
-> The contents of an archive, once uploaded, can not be updated
-
-> You can upload data to Glacier directly from CLI, SDKS, or through APIS
-
-- You can not do that through the AWS Console
-
-> AWS Import/Export Snowball comes in handy when you need to upload large amount of
-data to Glacier
-usually takes 5-7 days
-
-> When transitioning objects to Glacier from other classes (via lifecycle rules),
-- Glacier adds 32KB overheads (indexing and archive metadata) to the object
--• The number is 40KB overheads if you are using S3 to upload to Glacier
-- You pay for these overheads in addition to your actual data
-- The 32KB of overhead associated with each archive accounts för system
-indexing/metadata overhead.
-
-
-> It is recommended to group a large number of small objects, into a smaller number of larger objects to reduce these overhead charges.
-- If you need to access individual archived files, make sure that you group them in a way
-that allow this (compression techniques that allows the access to individual files)
-• This will enable you to avoid downloading the entire archive to access individual
-files
-
-> Maintaining Client-Side Archive Metadata
-- Amazon Glacier does not support any additional metadata for the archives, except the archive description (optional)
-- You might maintain metadata about the archives on the client-side. The metadata can include archive name and some other meaningful information about the archive.
-
-> After you upload an archive, you cannot update its content or its description.
-- The only way you can update the archive content or its description is by deleting the archive and uploading another archive.
-
-- Note that each time you upload an archive, Amazon Glacier returns to you a unigue archive ID.
-=======================================
-##### Glacier - Archive Retrieval ##### v15
-> You can retrieve data from Glacier in multiple ways:
-
-1. Expedited: 1-5 mts
-- More expensive
-- Use for urgent requests only
-
-2. Standard: 3-5 Hrs
-- Less expensive than Expedited
-- You get 10GB data retrieval free /month
-
-3. Bulk retrieval: 5-12 Hrs
-- Cheapest
-- Use to retrieve large amounts up to Petabytes in a day
-
-> You can retrieve parts of an archive
-> It is common to group multiple objects and compress them using TAR or ZIP format before archiving them
-
-> Archived Data Class does not change when retrieving data from Glacier, because what gets retrieved in a copy of the data, placed into RRS, not the actual Archive in Glacier
-
-> Is an asynchronous job, and you need to submit/initiate a request for that
-- You can NOT use AWS Console for Archive Jobs retrieval
-- You can use AWS SNS to be notified when a retrieval job has completed
-
-> When you restore an archive (or objects therein) from Glacier:
-- You can specify while initiating the restore how long (default is 24 hours) you need the restored copy to be available to you
-- you can also change this after the copy is made available in RRS (you can make it longer or shorter) by re-issuing a restore, AWS will update the same copy's expiration
-
-- A copy of the object is moved into RRS, and the original remains in Glacier
-- While the restoration is in progress, the console shows "restoration in progress"
-- You pay for both Glacier and RRS storage for the duration the archive copy is available in RRS, after which, you only pay for Glacipr storage
-
-- THE ARCHIEVE STORAGE CLASS REMAINS GLACIER 
-
-## GLACIER BYTE RANGES
-
-> S3 and Glacier support HTTP GET requests with Range in HTTP header to identify a specific byte range you may want to-retrieve from your Glacier archived data, instead of retrieving the entire archive
-- This can help you manage the download charges (RRS charges)
-- You can also download the portion your object(s) are within (in case the Glacier archive has many objects)
-- But this also implies, you must maintain a client database (outside of Glacier), which includes information about the archive, the files contained, and the byte ranges
-- This can also help you break a large archive retrieval into multiple jobs 
-
-> Byte range can start as low as 1byte, and ends at increments of 1MByte (archived portion retrieval can end at the archive end, or multiples of 1Mbyte)
-
-=======================================
-########## Glacier – Costs ########## v16
-> No charge for data transferred between EC2 instances and Glacier in the same region
-> If you delete your data from Glacier before for 90 days from when it was archived you will be charged a deletion fee
-
-> When you restore a Glacier archive you pay for :
-- The Glacier archive itself
-- The request(s)
-- The restored copy from Glacier to RRS for the duration you specified in your réstore request
-
-### Glacier - Archiving Storage
-> When transitioning objects to Glacier from other classes (via lifecycle rules),
-- Glacier adds 32KB overheads (indexing and archive metadata) to the object
-- The number is 40KB overheads if you are using S3 to upload to Glacier
-- The 32KB of overhead associated with each archive accounts for system indexing/metadata overhead.
-- You pay for these overheads in addition to your actual data
-
-> It is recommended to group a large number of small objects, into a smaller number of larger archieve to reduce these overhead charges.
-=======================================
-####### S3 Life Cycle Policy ####### v17
+####### S3 LifeCycle Policy ####### v17
 > This is a bucket level sub-resource (configuration).
 - It can be applied to certain objects in a bucket folder, objects with a specific tag, or objects with a specific prefix
 
 > The purpose is to primarily perform desired actions on contents (or some) of the bucket
 
 > You can configure two actions:
-1. Transition actions: to another S3 storage tier after a configured period
-2. Expiration actions: Where an expiration duration for object(s) is set, S3 will then delete the expired objects on your behalf
+1. Transition actions: 
+- In which we can define object transition to another Storage class after certain time period
+
+2. Expiration actions: 
+> expiration duration for object(s) is set, S3 will then delete the expired objects on your behalf
 
 ### S3 Standard to Standard-IA transition
 > Objects less than 128KB will not be transitioned to S3 Standard-IA
@@ -1132,6 +981,156 @@ performance
 - Who made the request
 - When it was made
 - For what.etc
+=======================================
+##### GLACIER – ARCHIVING STORAGE ##### v14
+
+> IT IS AN ARCHIVING STORAGE FOR INFREQUENTLY ACCESSED DATA
+> Achieved objects are not available for real time access, you need to submit a retrieval request, 
+- It restore the data first before you can read it (can take few hours),
+- Requested archived data will be copied to RRS
+- After data is retrieved, you have up to 24 hours to download it
+
+> You can NOT specify Glacier as the Storage Class at the time you create an object
+
+> 11 9's data durability
+
+> No SLA
+
+> Is designed to sustain data loss in two facilities
+> You need to keep your data for a minimum of 90 days (minimum charge)
+
+> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports
+secure transfer of your data (In-transit) over Secure Sockets Layer (SSL)
+
+> Glacier may NOT be available in all AWS regions, check for availability
+
+> Glacier objects are visible and available only through AWS S3 not through AWS Glacier
+
+> Glacier redundantly stores your data to multiple facilities, on multiple devices within each facility
+synchronously
+
+> Glacier awaits until the multiple facility upload is completed successfully before confirmting a
+successful upload to the user
+
+> Glacier does NOT archive object metadata, you need to maintain a client-side database to
+maintain this information about the objects 
+- Basically which archives hold which objects 
+
+Suitable for:
+-Archive
+- Media asset archiving,
+Health care information archiving,
+- Regulatory and compliance archiving,
+- A replacement for magnetic tapes
+
+> You can upload archives to Glacier of a size:
+- As small as 1 Byte
+- As large as 40 TB
+
+> Glacier file archives of size 1bytes to 4GB can be done in one shot
+
+> Glacier file archives from 100MB up to 40TB, can be uploaded to Glacier using multi-part upload
+
+> Uploading archives is Synchronous
+
+> Downloading archives is Asynchronous
+
+> The contents of an archive, once uploaded, can not be updated
+
+> You can upload data to Glacier directly from CLI, SDKS, or through APIS
+
+- You can not do that through the AWS Console
+
+> AWS Import/Export Snowball comes in handy when you need to upload large amount of
+data to Glacier
+usually takes 5-7 days
+
+> When transitioning objects to Glacier from other classes (via lifecycle rules),
+- Glacier adds 32KB overheads (indexing and archive metadata) to the object
+-• The number is 40KB overheads if you are using S3 to upload to Glacier
+- You pay for these overheads in addition to your actual data
+- The 32KB of overhead associated with each archive accounts för system
+indexing/metadata overhead.
+
+
+> It is recommended to group a large number of small objects, into a smaller number of larger objects to reduce these overhead charges.
+- If you need to access individual archived files, make sure that you group them in a way
+that allow this (compression techniques that allows the access to individual files)
+• This will enable you to avoid downloading the entire archive to access individual
+files
+
+> Maintaining Client-Side Archive Metadata
+- Amazon Glacier does not support any additional metadata for the archives, except the archive description (optional)
+- You might maintain metadata about the archives on the client-side. The metadata can include archive name and some other meaningful information about the archive.
+
+> After you upload an archive, you cannot update its content or its description.
+- The only way you can update the archive content or its description is by deleting the archive and uploading another archive.
+
+- Note that each time you upload an archive, Amazon Glacier returns to you a unigue archive ID.
+=======================================
+##### Glacier - Archive Retrieval ##### v15
+> You can retrieve data from Glacier in multiple ways:
+
+1. Expedited: 1-5 mts
+- More expensive
+- Use for urgent requests only
+
+2. Standard: 3-5 Hrs
+- Less expensive than Expedited
+- You get 10GB data retrieval free /month
+
+3. Bulk retrieval: 5-12 Hrs
+- Cheapest
+- Use to retrieve large amounts up to Petabytes in a day
+
+> You can retrieve parts of an archive
+> It is common to group multiple objects and compress them using TAR or ZIP format before archiving them
+
+> Archived Data Class does not change when retrieving data from Glacier, because what gets retrieved in a copy of the data, placed into RRS, not the actual Archive in Glacier
+
+> Is an asynchronous job, and you need to submit/initiate a request for that
+- You can NOT use AWS Console for Archive Jobs retrieval
+- You can use AWS SNS to be notified when a retrieval job has completed
+
+> When you restore an archive (or objects therein) from Glacier:
+- You can specify while initiating the restore how long (default is 24 hours) you need the restored copy to be available to you
+- you can also change this after the copy is made available in RRS (you can make it longer or shorter) by re-issuing a restore, AWS will update the same copy's expiration
+
+- A copy of the object is moved into RRS, and the original remains in Glacier
+- While the restoration is in progress, the console shows "restoration in progress"
+- You pay for both Glacier and RRS storage for the duration the archive copy is available in RRS, after which, you only pay for Glacipr storage
+
+- THE ARCHIEVE STORAGE CLASS REMAINS GLACIER 
+
+## GLACIER BYTE RANGES
+
+> S3 and Glacier support HTTP GET requests with Range in HTTP header to identify a specific byte range you may want to-retrieve from your Glacier archived data, instead of retrieving the entire archive
+- This can help you manage the download charges (RRS charges)
+- You can also download the portion your object(s) are within (in case the Glacier archive has many objects)
+- But this also implies, you must maintain a client database (outside of Glacier), which includes information about the archive, the files contained, and the byte ranges
+- This can also help you break a large archive retrieval into multiple jobs 
+
+> Byte range can start as low as 1byte, and ends at increments of 1MByte (archived portion retrieval can end at the archive end, or multiples of 1Mbyte)
+
+=======================================
+########## Glacier – Costs ########## v16
+> No charge for data transferred between EC2 instances and Glacier in the same region
+> If you delete your data from Glacier before for 90 days from when it was archived you will be charged a deletion fee
+
+> When you restore a Glacier archive you pay for :
+- The Glacier archive itself
+- The request(s)
+- The restored copy from Glacier to RRS for the duration you specified in your réstore request
+
+### Glacier - Archiving Storage
+> When transitioning objects to Glacier from other classes (via lifecycle rules),
+- Glacier adds 32KB overheads (indexing and archive metadata) to the object
+- The number is 40KB overheads if you are using S3 to upload to Glacier
+- The 32KB of overhead associated with each archive accounts for system indexing/metadata overhead.
+- You pay for these overheads in addition to your actual data
+
+> It is recommended to group a large number of small objects, into a smaller number of larger archieve to reduce these overhead charges.
+
 =======================================
 ######### AWS STORAGE GATEWAY #########
 

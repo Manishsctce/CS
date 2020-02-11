@@ -31,29 +31,21 @@
 
 5. Magnetic (standard)
 =======================================
-###### EBS Block storage ###### V1 
+########## EBS BLOCK STORAGE ########## v1 
 > Two types of Block store devices are supported: 
-1. Elastic Block store (EBS) 
+
+1. ELASTIC BLOCK STORE (EBS) 
 - Persistent 
 - Network attached virtual drives 
+- EBS backed EC2 instance (i.e. root volume of which is EBS) can be stopped, reboot, restart and terminated
 
-2. Instance store 
+2. INSTANCE STORE 
 - Basically the virtual hard drive on the host allocated to this EC2 instance 
 - It is called ephimeral storage or temporary storage
 - Limited to 10GB per device  
-
-
-> There are two type of blocks store available for Amazon easy to instance they are
-
-1. Elastic block store 
-- it is persistence storage
-- EBS backed EC2 instance (i.e. root volume of which is EBS) can be stopped, reboot, restart and terminated
-
-2. Instance store (is a virtual hard drive allocated to the EC2 instance on the host)
-- Instance store-backed EC2 instances boot from an AMI stored on S3
-- Ephemeral storage (non persistent storage)
 - EC2 instance cannot be stopped, can only be rebooted or terminated - reboot will not erase the instance store data
 - Terminate will erase the data
+- Instance store-backed EC2 instances boot from an AMI stored on S3
 
 ### EBS Device Volumes 
 
@@ -68,9 +60,7 @@
 
 > An EBS volume data is replicated by AWS across multiple servers in the same AZ to prevent data loss resulting from any single AWS component failure 
 =======================================
-#V2 
-
-## Difference between Instance Store Vs EBS? 
+## Difference between Instance Store Vs EBS? v2
 
 > IOPS Performance 
 > Use instance store instead of EBS if very high IOPS rate is required
@@ -81,61 +71,62 @@
 ######## EBS Snapshots ########## v3 
 
 > EBS snapshot are point-in-time image/copies of your EBS volume
-> any data returned to the volume after the snapshot process is initiated will not be included in the resulting snapshot (but will be included in future incremental updates)
+
+> any data written to the volume after the snapshot process is initiated will not be included in the resulting snapshot (but will be included in future incremental updates)
+
 > Per add account up to 5,000 EBS volumes can be created
-> Per account up to 10,000 EVS snapshot can be created
-> TVS snapshot are stored on S3 however you cannot access them directly you can only access them through easy to api
-> This is unlikely instant store in EMI where you can specify a S3 bucket of your own
+> Per account up to 10,000 EBS snapshot can be created
+> EBS snapshot are stored on S3, we can only access them through EC2 API not directly
+- This is unlikely instance-store in AMI( where you can specify a S3 bucket of your own)
 
-#### Characteristics
-> Why EVS volume are easy specific snapshot are regional is specific
-> To migrate and EVS from one is easy to another is to another create a snapshot reason is specific and create an EBS volume from the snapshot in the intended ages
-> You can create restore a snapshot to an EBS volume of the same order large size than the original volume size from which the snapshot was created but you cannot restore and EVS volume snapshot to a smaller volume size
+#### CHARACTERISTICS ####
+> Why EBS volume are AZ specific 
+- snapshot are region specific
+- To migrate and EBS from one AZ to another create a snapshot (region specific) and create an EBS volume from the snapshot in the intended AZ
 
-## EVS exercise during snapshot process #
-> You can take a snapshot of a non roti vs volume while the volume is a news on a running easy to instance
-> This menu can still access it while the snapshot is being processed
-> Poverty snapshot will only include data that is already written to your volume
-> Any data cache ID by the operating system OS or in memory will not be included which mean the snapshot cannot be 100% consistent
-=======================================
-#### EBS snapshot ####### v4
+> You can create/restore a snapshot to an EBS volume of the same or large size than the original volume size
+- you cannot restore and EBS volume snapshot to a smaller volume size
 
-> This snapshot is created immediately but it may stay in pending status until the full snapshot is complete(all changed data blocks are copied to S3) the status then change to complete
-- This may take few hours to complete, especially for the first time snapshot of a vol
+## during snapshot process #
+> We can take a snapshot of a non-root EBS volume while the volume is in use on a running EC2 instance
 
-> During the period when snapshot status is pending, you can still access the volume but I/O might be slower because of the snapshot activity
+- This mean we can still access it while the snapshot is being processed
+- however snapshot will only include data that is already written to your volume. Any data cached by the operating system OS or in memory will not be included which mean the snapshot cannot be 100% consistent
+
+> This snapshot is created immediately but it may stay in pending status until the full snapshot is complete
+- we can still access the volume but I/O might be slower 
 
 > While in pending state, an in progress snapshot will not include data from ongoing read and write to the volume 
 - this is why for a complete snapshot you need to stop I/O or unmount the volume if possible(or stop the instance for root volumes)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## EBS snapshot consistency
+## EBS snapshot consistency ## v4
 
-> To take complete(consistent) snapshot of your non-root EBS volume
+> To take complete(consistent) snapshot OF NON-ROOT EBS VOLUME:
 
-1. Pause file write to the desired volume for enough time to take a snapshot
+1. PAUSE FILE WRITE to the desired volume for enough time to take a snapshot
 
-2. if you can't pause file write, you need to unmount detach the volume from the EC2 instance, take the snapshot and then remount the volume to ensure a consistent and complete the snapshot
+2. if you can't pause file write, you need to UNMOUNT detach the volume from the EC2 instance, take the snapshot and then remount the volume to ensure a consistent and complete the snapshot
 
-> you can re-Mount the volume while the snapshot status is pending 
+> WE CAN RE-MOUNT THE VOLUME WHILE THE SNAPSHOT STATUS IS PENDING 
 - this mean the volume does not have to deatached until the snapshot completes
 
 > To create snapshot for root(boot)EBS volume you should stop the instance first and then take the snapshot
-> Be careful if you have any instance-store volume on the EC2 instance, their data will be lost once you stop the instance
+- Be careful if you have any instance-store volume on the EC2 instance, their data will be lost once you stop the instance
 
-## EBS incremental snapshot
+## EBS INCREMENTAL SNAPSHOT
 > EBS snapshots are stored incrementally
-> For low cost storage on S3 and guarantee to be fully restore data from the snapshot
-- What you need is a single snapshot then further snapshots will only carry the changed blocks (incremental updates) 
+- For low cost storage on S3 and guarantee to be fully restore data from the snapshot
+- What you need is a single snapshot then FURTHER SNAPSHOTS WILL ONLY CARRY THE CHANGED BLOCKS (incremental updates) 
 - Therefor you do not need to have multiple full/complete copies of the snapshot(less storage, fastest updates)
 
 > EBS snapshots are asynchronously created 
 - this refer to the fact that updates or changes to snapshot do not have to happen immediately when the respective volume data change
 
 > You are charged for: 
-- data transfer to S3 from your EVS volume you are taking a snapshot 
+- data transfer to S3 from your EBS volume you are taking a snapshot 
 - storage on S3
 =======================================
-##EBS encrypted support
+#### EBS encrypted support ### v6
 
 > EBS encryption is supported on all EBS volume type and all EC2 instance families
 > Snapshots of encrypted volume are also encrypted

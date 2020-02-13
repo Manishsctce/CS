@@ -708,74 +708,63 @@ Server Side Encryption on S3 using S3 managed encryption keys
 > You can do conditional redirection based on object or prefixes in a request
 > You can also redirect requests that would return an error
 =======================================
-########## v21
+############ Pre-Signed URL ########### v21
 
-## Sharing S3 Objects via Pre-Signed URLS
-> Pre-signed URLS can be used to provide temporary access to a specific object, to those who do not have AwS credentials,
+> PRE-SIGNED URL CAN BE USED TO PROVIDE TEMPORARY ACCESS TO A SPECIFIC OBJECT, to those who do not have AwS credentials,
 - Example is customers who bought website subscription, or product subscription online
 
 > By default, all objects are private and only the object owner can access it.
 
 > To share an object you have to either:
-- Make the object public, OR DOLFINE
-- Generate a pre-signed URL to grant.access, for a limited-time, to this object(s), using the object owner's own security credentials
+- Make the object public, OR
+- Generate a pre-signed URL to grant access, for a limited-time, to this object(s), using the object owner's own security credentials
 
-## Sharing S3 Objects via Pre-Signed URLS
 > Expiration date and time must be configured when generating a pre-signed URL,
 - The shared object(s) will be accessible by the signed URL through the expiration date/time
 
-> Pre-signed URLS for S3 objects can be generated using SDKS for Java & .Net, and AWS Explorer for Visual Studio
+> Pre-signed URL for S3 objects can be generated using SDK for Java & .Net, and AWS Explorer for Visual Studio
 
-> Pre-signed URLS can be used for downloading or uploading S3 object(s)
+> Pre-signed URL can be used for downloading or uploading S3 object(s)
 =======================================
-########## v22
+#### Cross Region Replication(CRR) #### v22
 
-## S3 Cross Region Replication (CRR)
-> Is a bucket level replication which enables
+> It is a bucket level replication which enables
 - Automatic, Asynchronous copying of Objects across buckets in different AWS regions
 
 > Can be used for:
 - Compliance requirements, where you need to store copy of your data a distance away
 - Provides for low latency access to your data in other locations
 
-> You can configure it from AWS Console, CLI, SDKS, APIS
+> You can configure it from AWS Console, CLI, SDK, API
 
-> To activate this feature, you add a replication configuration to your source bucket.
-- You need to define,
-- Destination bucket where you want objects replicated to.
-- You can request to replicate all or a subset of objects with specific key name prefixes."
-
-## S3 Cross Region Replication
-> You can configure AWS S3 CRR with S3 Lifecycle management rules
 > The replicas will:
 - Be exact replicas of the source bucket objects.
 - Share the same key names and metadata (Creation time, version ID, ÁCL, Storage Class, User-defined metadata)
 
-> Optional:
-- You can specify a different storage class for object replicas while creating the replication configuration
-- If you did not specify it, the same storage class as the source object class will be used for the replica in the destination bucket
+> To activate this feature, 
+- add a replication configuration to source bucket.
+- Destination bucket where you want objects replicated to.
+- You can request to replicate all or subset of objects with specific key name prefixes."
 
-> AWS S3 will encrypt data in-transit across regions using SSL
+> we can configure CRR with S3 Lifecycle management rules
 
-## S3 Cross Region Replication
+> we can specify a different storage class for object replicas while creating the replication configuration
+
+> S3 will encrypt data in-transit across regions using SSL
+
 > It requires:
 - The source and destination buckets are in different AWS regions
 - Both source and destination buckets MUST have Versioning enabled
 - Replication can happen to only one destination bucket
 - AWS S3 must have permission (IAM Role) to replicate objects from the source bucket to the destination bucket on your behalf.
 
-## S3 Cross Region Replication
-Bucket permissions:
-if the object owner is the same as the bucket owner, the bucket owner has full
-permissions to replicate the object.
-• If not, the source bucket owner must have permission to read the object and
-object ACL
+ Bucket permissions:
+> if the object owner is the same as the bucket owner, the bucket owner has full permissions to replicate the object.
+- If not, the source bucket owner must have permission to read the object and object ACL
 (AWS S3 actions s3:GetObjectVersion and s3:GetObjectVersionACL)
-If you are setting up cross-region replication in a cross-account (Different source &
-destination buckets are owned by different AWS accounts), the source bucket owner
-must have permission to replicate objects in the destination bucket.
 
-## S3 Cross Region Replication – What triggers a replication
+> If you are setting up cross-region replication in a cross-account (Different source & destination buckets are owned by different AWS accounts), the source bucket owner must have permission to replicate objects in the destination bucket.
+
 > After enabling CRR, the following will trigger a replication:
 - Every object upload to the source bucket
 - Every DELETE to an object in the source buckep
@@ -835,7 +824,7 @@ You are charged for :
 =======================================
 ########## v24
 
-## S3 Cross -Origin Resource Sharing (CORS)
+## S3 Cross-Origin Resource Sharing (CORS)
 > Is a way by which a client web application (webpage or a domain) can request resources from another webpage (different domain)
 > CORS can be used to allow web applications to access resources on your S3 buckets/resources
 

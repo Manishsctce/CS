@@ -389,7 +389,7 @@ OR
 6. Network encryption and transparent data encryption (TDE) with Oracle DB instances
 
 =======================================
-############# AWS Aurora ############## 
+############# AWS Aurora ##############
 
 > It is a fully managed relational database engine that's compatible with MySQL and PostgreSQL.
 
@@ -419,6 +419,8 @@ OR
 
 > It is stored in SSD storage.
 
+> It is normally used in conjuction with S3. Ex- after storing image in S3, we can store their metadata in DynamoDB. We can also create 2nrd index for DynamoDB Table.
+
 > It is spread across three geographically data centres
 
 > Because of its availability in three geographically data centres, It consists of two different types of consistency models:
@@ -430,37 +432,42 @@ OR
 > DynamoDB throughput capacity depends on the read/write capacity modes for performing read/write operation on tables.
 
 
-> There are two types of read/write capacity modes:
-
+> There are 2 types of read/write capacity modes:
 1. Provisioned mode
 2. On-demand mode
 
 ##### 1. Provisioned mode
 > It defines the maximum amount of capacity that an application can use from a specified table.
-> In a provisioned mode, you need to specify the number of reads and writes per second required by the application.
+
+> In a provisioned mode, we need to specify the number of reads and writes per second required by the application.
+
 > If the limit of Provisioned mode throughput capacity is exceeded, then this leads to the request throttling.
-> A provisioned mode is good for applications that have predictable and consistent traffic.
+
+> A provisioned mode is GOOD FOR APP THAT HAVE PREDICTABLE AND CONSISTENT TRAFFIC.
 
 > The Provisioned mode consists of two capacity units:
 
 1. Read Capacity unit
 2. Write Capacity unit
 
-###### 1. Read Capacity Unit
+###### 1a. Read Capacity Unit
 
 > The total number of read capacity units depends on the item size, and read consistency model.
-> Read Capacity unit represents two types of consistency models:
-> Strongly Consistent model: Read Capacity Unit represents one strong consistent read per second for an item up to 4KB in size.
-> Eventually Consistent model: Read Capacity Unit represents two eventually consistent reads per second for an item up to 4KB in size.
+
+> Read Capacity unit represents 2 types of consistency models:
+1. Strongly Consistent model: Read Capacity Unit represents one strong consistent read per second for an item up to 4KB in size.
+2. Eventually Consistent model: Read Capacity Unit represents two eventually consistent reads per second for an item up to 4KB in size.
+
 > DynamoDB will require additional read capacity units when an item size is greater than 4KB. For example, if the size of an item is 8KB, 2 read capacity units are required for strongly consistent read while 1 read capacity unit is required for eventually consistent read.
-###### 2. Write Capacity Unit
+
+###### 1b. Write Capacity Unit
 
 > The total number of write capacity unit depends on the item size.
 > Only 1 write capacity unit is required for an item up to size 1KB.
 > DynamoDB will require additional write capacity units when size is greater than 1KB. For example, if an item size is 2KB, two write capacity units are required to perform 1 write per second.
 > For example, if you create a table with 20 write capacity units, then you can perform 20 writes per second for an item up to 1KB in size.
-
-#### On-Demand mode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 2. On-Demand mode
 > DynamoDB on-demand mode has a flexible new billing option which is capable of serving thousands of requests per second without any capacity planning.
 
 > On-Demand mode offers pay-per-request pricing for read and write requests so that you need to pay only for what you use, thus, making it easy to balance costs and performance.
@@ -472,3 +479,26 @@ OR
 > If you do not perform any read/write, then you just need to pay for data storage only.
 
 > On-Demand mode is useful for those applications that have unpredictable traffic and database is very complex to forecast.
+=======================================
+############ AWS Redshift #############
+
+> Redshift is a fast and powerful, fully managed, petabyte-scale data warehouse service
+
+#### REDSHIFT CONFIGURATION ####
+> Redshift consists of two types of nodes:
+1. Single node: 
+> A single node stores up to 160 GB.
+
+2. Multi-node: 
+> It is a node that consists of more than one node. 
+> It is of two types:
+
+2a. LEADER NODE
+> It manages the client connections and receives queries. 
+> A leader node receives the queries from the client applications, parses the queries, and develops the execution plans. 
+- It coordinates with the parallel execution of these plans with the compute node and combines the intermediate results of all the nodes, and then return the final result to the client application.
+
+2b. COMPUTE NODE
+> A compute node executes the execution plans, and then intermediate results are sent to the leader node for aggregation before sending back to the client application. 
+- It can have up to 128 compute nodes.
+

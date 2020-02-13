@@ -1,36 +1,70 @@
 =======================================
+############## CLOUDTRAIL #############
+> It is an AWS service that helps you enable governance, compliance, and operational and risk auditing of AWS account. 
+> Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. 
+- Events include actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs.
+
+> use CloudTrail to view, search, download, archive, analyze, and respond to account activity across your AWS infrastructure
+
+> we can easily view events in the CloudTrail console by going to Event history.
+- Event history allows you to view, search, and download the past 90 days of activity 
+
+## 2 types of trails
+
+1. A trail that applies to all regions(recommended)
+2. A trail that applies to one region
+
+> For both types of trails, we can specify S3 bucket from any region.
+
+#### 1. trail that applies to all regions ###
+> create a trail that applies to all regions
+> CloudTrail records events in each region and delivers the CloudTrail event log files to an S3 bucket that we specify. 
+
+> If a region is added after creating trail then new region will automatically included
+
+### 2. trail that applies to one region
+>> If you create additional single trails, we can have those trails deliver CloudTrail event log files to the same Amazon S3 bucket or to separate buckets.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> By default, CloudTrail event log files are encrypted using Amazon S3 server-side encryption (SSE) but we can choose to encrypt with AWS KMS key. 
+- store log files in bucket as long as we want. 
+- we can define Amazon S3 lifecycle rules to archive or delete log files automatically.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What Are Trails?
+
+> A trail is a configuration that enables delivery of CloudTrail events to an Amazon S3 bucket, CloudWatch Logs, and CloudWatch Events. 
+- we can use a trail to filter the CloudTrail events we want delivered, encrypt your CloudTrail event log files with an AWS KMS key, and set up Amazon SNS notifications for log file delivery. 
+=======================================
 ############## CLOUDFRONT ############# v3
 
 
-Cloudfront is a global (not regional) service.
-It is used Ingress (injection proxy ) to upload objects
+> Cloudfront is a global (not regional) service.
+- It is used Ingress (injection proxy ) to upload objects
 - and egress to distribute content
-Amazon Cloudfront is a web service that speeds up distribution of your static and dynamic web
-content, such as „html, .css, .js, and image files, to your users.
-Cloudfront delivers your content through a
-network of data centers called edge locations.
-When a user requests content that you're serving with Cloudfront, the user is routed (via DNS
-resolution) to the edge location that provides the lowest latency, so that content is delivered with the
-best possible performance.
-[12:20 AM, 1/27/2020] Manish Agrawal: Cloudfront – Faster Response to Client requests
-If the content is already in the edge location with the lowest latency, CloudFront delivers it
-immediately.
-- This dramatically reduces the number of networks that your users' requests must pass through,
-which improves performance.
-If not, CloudFront retrieves it from an Amazon S3 bucket or an HTTP/web server that you have
-identified as the source for the definitive version of your content (Origin Server).
-DOLFING
-CloudFront also keeps persistent connections with origin servers so files are fetched from the origins
-as quickly as possible.
-[12:20 AM, 1/27/2020] Manish Agrawal: Cloudfront Distribution
-You create a CloudFront distribution (this a CDN) to instruct CloudFront where you want content to
-be delivered from, and the details about how to track and manage content delivery.
-Then CloudFront uses edge servers that are close to your viewers (through DNS resolution) to
-deliver that content quickly when someone wants to see it or use it.
-When CloudFront gets a request for your files/objects, it goes to the origin to get the requested
-files that it distributes at edge locations.OLFINe
-You can use any combination of Amazon S3 buckets and HTTP servers as your origin servers.
-[12:20 AM, 1/27/2020] Manish Agrawal: CloudFront Use Cases
+
+> Amazon Cloudfront is a web service that speeds up distribution of your static and dynamic web content, such as „html, .css, .js, and image files, to your users.
+
+> Cloudfront delivers your content through a network of data centers called edge locations.
+
+> When a user requests content that you're serving with Cloudfront, the user is routed (via DNS resolution) to the edge location that provides the lowest latency, so that content is delivered with the best possible performance.
+
+## Cloudfront – Faster Response to Client requests
+> If the content is already in the edge location with the lowest latency, CloudFront delivers it immediately.
+- This dramatically reduces the number of networks that your users' requests must pass through, which improves performance.
+
+> If not, CloudFront retrieves it from an Amazon S3 bucket or an HTTP/web server that you have identified as the source for the definitive version of your content (Origin Server).
+
+> CloudFront also keeps persistent connections with origin servers so files are fetched from the origins as quickly as possible.
+
+## Cloudfront Distribution
+> You create a CloudFront distribution (this a CDN) to instruct CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
+- Then CloudFront uses edge servers that are close to your viewers (through DNS resolution) to deliver that content quickly when someone wants to see it or use it.
+
+> When CloudFront gets a request for your files/objects, it goes to the origin to get the requested files that it distributes at edge locations.
+- You can use any combination of Amazon S3 buckets and HTTP servers as your origin servers.
+
+## CloudFront Use Cases
 Customize user
 Accelerate websites
 experience
@@ -39,8 +73,8 @@ cases
 Stream live and
 on-demand media
 Secure content
-[12:21 AM, 1/27/2020] Manish Agrawal: Accessing Cloudfront - Configuration
-You can access Amazon CloudFront in the following ways:
+## Accessing Cloudfront - Configuration
+> You can access Amazon CloudFront in the following ways:
 AWS Management Console -
 AWS SDKS – If you're using a programming language that AWS provides an SDK for, you can
 use an SDK to access CloudFront. SDKS simplify authentication, integrate easily with your
@@ -98,15 +132,12 @@ headers), does not flow through regional edge caches, but goes directly to the o
 =======================================
 #######  ####### v5
 
-[12:38 AM, 1/27/2020] Manish Agrawal: CloudFront – Configuration Settings
-When you want to use CloudFront to distribute your content, you create a distribution and
-specify configuration settings such as:
-Your origin, which is the Amazon S3 bucket or HTTP server from which CloudFront gets
-the files that it distributes.
-You can specify any combination of up to 25 Amazon S3 buckets and/or HTTP servers as
-your origins
-DOLFIN
-[12:38 AM, 1/27/2020] Manish Agrawal: CloudFront Distributions- Web Distribution
+## CloudFront – Configuration Settings
+> When you want to use CloudFront to distribute your content, you create a distribution and specify configuration settings such as:
+- Your origin, which is the Amazon S3 bucket or HTTP server from which CloudFront gets the files that it distributes.
+- You can specify any combination of up to 25 Amazon S3 buckets and/or HTTP servers as your origins
+
+## CloudFront Distributions- Web Distribution
 You can use web distributions to serve the following content over HTTP or HTTPS:
 Static and dynamic download content, for example, .html, .css, .js, and image files, using HTTP or
 HTTPS,
@@ -190,14 +221,12 @@ instances and to isolate your application from changes to Amazon EC2 instances.
 LEINA
 When you create your CloudFront distribution, specify the URL of the load balancer for the
 domain name of your origin server.
-[7:18 AM, 1/28/2020] Manish Agrawal: Using S3 bucket' static website as CloudFront Custom Origin Server
-You can set up an Amazon S3 bucket that is configured as a website endpoint as custom origin
-with CloudFront.
-When you configure your CloudFront distribution, for the origin, enter the Amazon S3 static
-website hosting endpoint for your bucket.
-- This value appears in the Amazon S3 console, on the Properties page under Static Website
-Hosting. Example:
+
+## Using S3 bucket' static website as CloudFront Custom Origin Server
+> You can set up an Amazon S3 bucket that is configured as a website endpoint as custom origin with CloudFront.
+> When you configure your CloudFront distribution, for the origin, enter the Amazon S3 static website hosting endpoint for your bucket.
+- This value appears in the Amazon S3 console, on the Properties page under Static Website Hosting. Example:
 • http://bucket-name.s3-website-us-west-2.amazonaws.com
-When you specify the bucket name in this format as your origin, you can use Amazon S3 redirects
-and Amazon S3 custom error documents.
+
+> When you specify the bucket name in this format as your origin, you can use Amazon S3 redirects and Amazon S3 custom error documents.
 =======================================

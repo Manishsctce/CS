@@ -272,10 +272,12 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 ######## NAT GATEWAY ##########
 
 > It is a AWS managed service 
-
-> Cannot be assigned a Security group 
+> Cannot assigned Security group 
 > AWS is responsible for its security/patching etc 
+
 > Works only with an Elastic IP, can not use a public IP to do it function 
+
+> We can migrate the NAT instance to the NAT Gateway. NAT Gateway should be in public subnet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## What is difference between NAT Gateway and NAT Instance?
 
@@ -384,7 +386,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 =======================================
 ############ Transit Gateway ########## v19
 
-> Transit gateway is a network transit hub that you can use to interconnect your VPC and on premise networks 
+> Transit gateway is a network transit hub that we can use to interconnect VPC and on-premise networks 
 
 > IT IS A REGIONAL RESOURCE 
 > VPC are allowed to communicate with one another and with on-premise CIDR block by default 
@@ -393,7 +395,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > transitive gateway can be associated across accounts
 
-> A VPC, an AWS direct connect gateway, or a VPN connection can be attached to a transit gateway
+> A VPC, AWS direct connect gateway, or VPN connection can be attached to a transit gateway
 
 ## Transit gateway route table
 > Transit gateway has a default route table and can optionally have additional route table
@@ -412,15 +414,16 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > With the VPN connection, route are propagated with the transit gateway on your on-premise router using border gateway protocol(BGP)
 =======================================
 #### Virtual Private Networks (VPN) ### v21
+
 > VPN CONNECTIONS ARE QUICK, EASY TO DEPLOY, AND COST EFFECTIVE
 
-> A VGW(Virtual Gateway) is required on the VPC side, and a Customer gateway on the client's data center (locations) side 
+> A VGW(Virtual Gateway) is required on VPC side, and Customer gateway on the client's data center (locations) side 
 
-> An Internet routable IP address is required on your Customer gateway
+> An Internet routable IP address is required on Customer gateway
 
 > Two tunnels are configured for each VPN connection for redundancy
 
-> You can NOT use the NAT gateway in your VPC through the VPN connection
+> We can NOT use the NAT gateway in VPC through the VPN connection
 
 ## Enabling Dynamic Route Propagation
 > You need to update your vpn-only subnets' route table(s) to point at the VGW for subnets that are on the other side of the VPN connection
@@ -649,13 +652,14 @@ private virtual interfaces and associated virtual private gateways only. The fol
 
 > A virtual private gateway that you associate with a Direct Connect gateway must be attached to a VPC
 =======================================
-######### VPC EndPoints ######### v29 
+########### VPC EndPoints ############# v29 
 
-> A VPC ENDPOINT ENABLES US TO PRIVATELY CONNECT OUR VPC TO SUPPORTED AWS SERVICES AND VPC ENDPOINT SERVICES powered by PrivateLink WITHOUT IGW, NAT device, VPN connection, or AWS Direct Connect connection.
+> A VPC ENDPOINT ENABLES US TO PRIVATELY CONNECT OUR VPC TO SUPPORTED AWS SERVICES AND VPC ENDPOINT SERVICES powered by PrivateLink 
+- WITHOUT IGW, NAT device, VPN connection, or AWS Direct Connect connection.
 
-> Instances in your VPC do not require public IP addresses to communicate with resources in the service.
+> Instances in VPC do not require public IP addr to communicate with resources in the service.
 
-> Traffic between your VPC and the other service does not leave the Amazon network.
+> Traffic between VPC and the other AWS service does not leave the Amazon network.
 
 > Endpoints are virtual devices. They are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.
 
@@ -665,7 +669,7 @@ private virtual interfaces and associated virtual private gateways only. The fol
 Create the type of VPC endpoint required by the supported service.
 
 ## INTERFACE ENDPOINT
-> It is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service. 
+> It is an elastic network interface(ENI) with a private IP address that serves as an entry point for traffic destined to a supported service. 
 
 > The following services are supported:
 - API Gateway, CloudFormation, CloudWatch , CloudWatch Events/Logs, 
@@ -673,22 +677,23 @@ Create the type of VPC endpoint required by the supported service.
 - Systems Manager, Endpoint Services hosted by other AWS Accounts, STS, Codebuild, AWS Config, Service Catalogue, Secrets Manager,
 
 ## GATEWAY ENDPOINT
-> It is a gateway that is a target for a specified route in your route table, used for traffic destined to a supported AWs service. The following AWS services are supported:
+> It is a gateway that is a target for a specified route in route table, used for traffic destined to a supported AWS service. 
+> The following AWS services are supported:
 - Amazon S3
 - DynamoDB
 
 > You need endpoint policy to control who can access what 
 > ENDPOINTS ARE SUPPORTED WITHIN THE SAME REGION ONLY.
 =======================================
-####### VPC Flow Logs ############ v30
+########### VPC Flow Logs ############# v30
  
-VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC.
+> It is a feature that enables us to capture information about the IP traffic going to and from network interfaces in our VPC.
 
 > Flow logs can help you with a number of tasks;
 - To troubleshoot why specific traffic is not reaching an instance, which in turn helps you diagnose overly restrictive security group rules.
-- You can also use flow logs as a security tool to monitor the traffic that is reaching your instance.
+- use flow logs as a security tool to monitor traffic that is reaching our instance.
 
-> You can create a flow log for a VPC, a subnet, or a network interface.
+> You can create a flowlog for VPC, subnet, or network interface.
 - If you create a flow log for a subnet or VPC, each network interface in the VPC or subnet is monitored.
 
 > Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow.
@@ -704,11 +709,11 @@ VPC Flow Logs is a feature that enables you to capture information about the IP 
 > CloudWatch Logs charges apply when using flow logs, whether you send them to CloudWatch Logs or to Amazon S3.
 
 > After you've created a flow log, it can take several minutes to begin collecting and publishing data.
-
+=======================================
 ##### VPC DHCP Options Sets ###### v30
-> You can use an on-premise DNS for your AWS VPC environment
+> we can use an on-premise DNS for AWS VPC environment
 
-> But you can NOT use Route53 as a DNS for your On-premise infrastructure
+> But we can NOT use Route53 as a DNS for On-premise infrastructure
 
 > The Dynamic Host Configuration Protocol (DHCP) provides a standard for passing configuration information to hosts on a TCP/IP network.
 

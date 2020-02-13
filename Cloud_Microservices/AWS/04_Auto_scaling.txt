@@ -12,7 +12,7 @@ Auto Scaling components:
 
 
 ##### 1. LAUNCH CONFIGURATION ####
-> Is the configuration template used to create new EC2 instances for the ASG, defines parameters like:
+> It is the configuration template used to create new EC2 instances for the ASG, defines parameters like:
 - Instance family, instance type, AMI, Key pair, Block devices, and Sec groups are parameters defined in the launch configurationAs
 
 > Can be created from AWS Console or CLI
@@ -106,26 +106,26 @@ Rebalance is going on
 > If the AS Group had an ELB defined, detaching the instance will also de-register it from the ELB
 - If connection draining was enabled under the ELB, Auto Scaling will honor it
 =======================================
-###### ASG – Health Checks ###### v7
-
+###### ASG – Health Checks(HC) ###### v7
 
 > Auto Scaling classifies its EC2 instances health status as either Healthy or Unhealthy
 > By default, AS uses EC2 Status Checks only to determine the health status of an Instance
-> When you have one or more ELBS defined with the AS Group, you can configure Auto Scaling to use "both" the EC2 Health Checks and the ELB Health Checks to determine the Instances health status
 
-> Health Check Grace period:
+> When we have one or more ELB defined with AS Group, we can configure AS to use "both" the EC2 HC and ELB HC to determine the Instances health status
+
+## GRACE PERIOD:
+> It is the time AS waits from the time an Instance comes into service (become In-Service) before checking its health status
 - By default is 300 seconds
-- Is the time Auto Scaling waits from the time an Instance comes into service (become In-Service) before checking its health,status
-- A value of "zero" means no grace period and the instance health is checkedonce it is In-service
+- A value of "zero" means no grace period and the instance health is checked once it is In-service
 
-> Until the Grace Period timer expires, any unhealthy status reported by EC2 status checks, or the ELB attached to the AS Group, will not be acted upon.
+> Until the Grace Period timer expires, any unhealthy status reported by EC2 status checks, or ELB attached to AS Group, will not be acted upon.
 
-> After Grace Period expires, Auto Scaling would consider an Instancę unhealthy in any of the following cases:
-• EC2 Status checks report to Auto Scaling an instance status other than running
+> After Grace Period expires, AS would consider an Instancę unhealthy in any of the following cases:
+- EC2 Status checks report to AS an instance status other than running
 - If the instance status is impaired due to a host Hardware or Software Problem
 
-• If ELB health checks are configured to be used by the Auto Scaling, then if the ELB reports the Instance as "Out-of-Service"
-- If you have multiple ELBS attached to the AS Group, if any of them reports the EC2 instance status as "Out-of-Service".
+• If ELB HC are configured to be used by the Auto Scaling, then if the ELB reports the Instance as "Out-of-Service"
+- If you have multiple ELB attached to the AS Group, if any of them reports the EC2 instance status as "Out-of-Service".
 
 > One source reporting the instance as unhealthy is enough for Auto Scaling to mark it for replacement
 

@@ -202,59 +202,24 @@ Storage		: NVMe SSD
 
 > Using enhanced networking does not cost extra 
 =======================================
-######### EC2 Placement Groups ######## V11
-> Is a logical grouping (clustering) of EC2 instance in the same AZ or in different Availablity Zones with the goal of providing low latency, and high network throughput for inter-instance communication 
+###### EC2 Placement Groups(PG) ####### V11
+> It is a logical grouping (clustering) of EC2 instance in the same AZ or in different AZ with the goal of providing low latency, and high network throughput for inter-instance communication 
 
 > A placement group, determines how instance are placed on underlying hardware. 
 
-> we can create a placement group by specifying one of 2 strategies :
+> 2 strategies to create placement group :
 1. CLUSTERS INSTANCES into a low-latency group in a single AZ. 
 2. SPREAD INSTANCES across underlying hardware in multiple AZs 
 
-> There is no charge (except for that of the involved EC2 instance) for creating a placement group.
+> Use SR-I/OV(Single Root I/O Virtualization) based enhanced networking instance for PG
 
-> Use SR-I/OV(Single Root I/O Virtualization) based enhanced networking instance for placement group
+> To guarantee availability, try to launch all required instance at the same time(Recommended)
 
-> To guarantee availability, try to launch all required instance at the same time
-
-> we can create placement groups across a VPC peering 
-
-##### CLUSTER Placement group #####
-
-> It is within a single AZ 
-> It is recommended when our app require, and will benefit from, low network latency, high network throughput or both, and if the majority of the network traffic is between the instance in the group 
-
-> To provide the lowest latency and the highest packet-per-second network performance for our placement group, choose an instance type that support enhanced networking (SR-I/OV)  
-
-> It is always recommended to launch the placement group instance at the same time 
-- if you try to add instance to the placement group, and you can't due to availability reasons, try to stop and start all instances.
-- This may result in migration to other hosts that have availability of the specific instance types requested for the group 
-
-> Try to avoid launching more than 1 instance type in the placement group (although possible), we increase our chances of getting an insufficient capacity error. 
-
-> if we stop an instance in a placement group and then start it again, it still runs in the placement group. However the starts fails if there isn't enough capacity for the instance. 
-
-
-##### EC2 Spread Placement groups ###
-> Spread placement group is a group of instances that are each placed on distinct underlying hardware
-
-> Spread placement group are recommended for applications that have a small number of critical instances that should be kept separated from each other
-- Launching instances in a spread placement group reduces the risk of simultaneous failure that might occur when instance share the same underlying hardware
-- spread placement group provide access to distinct hardware and are therefore suitable for mixing instance type or launching instances over time
-
-> Spread placement group can span multiple availability zone 
-- you can have a maximum of seven running instances per availability zone per group
-
-> if you start on launch and instance in a spread placement group and there is insufficient unique hardware to fulfill the request request fails 
-- you can try your request again later
-
-##### EC2 Placement group ####
-
-> Cluster placement group can not span multiple AZ
-> A placement group name must be unique within an account for the region
-> You can use different instance type with placement group however this is not recommended for closure placement groups
-
-> You cannot merge two placement groups
+> we can create PG across a VPC peering 
+> There is no charge for creating PG(except EC2 instance)
+> PG name must be unique within an account for the region
+> You can use different instance type with PG however this is not recommended for closure PG
+> You cannot merge two PG
 
 > you can 
 - move an existing instance to a placement group 
@@ -265,6 +230,36 @@ Storage		: NVMe SSD
 
 > Instances inside a placement group can address each other using private or public IP addresses 
 - best performance is achieved when they use private IP addresses addresses for intra placement group communication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### CLUSTER Placement Group(CPG) ####
+
+> It is within a single AZ and cannot span multiple AZ
+
+> It is recommended when our app require low network latency, high network throughput or both, and if the majority of the network traffic is between the instance in the group 
+
+> To provide the lowest latency and the highest packet-per-second network performance for our placement group, choose an instance type that support enhanced networking (SR-I/OV)  
+
+> It is always RECOMMENDED TO LAUNCH THE PLACEMENT GROUP INSTANCE AT THE SAME TIME 
+- if you try to add instance to PG, and you can't due to availability reason, try to stop and start all instances.
+- This may result in migration to other hosts that have availability of the specific instance types requested for the group 
+
+> TRY TO AVOID LAUNCHING MORE THAN 1 INSTANCE TYPE IN THE PG (although possible), we increase our chances of getting an insufficient capacity error. 
+
+> if we stop an instance in a placement group and then start it again, it still runs in the placement group. 
+- However the starts fails if there isn't enough capacity for the instance. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Spread Placement Groups(SPG) ####
+> It is a group of instances that are each placed on distinct underlying hardware
+
+> SPG are recommended for app that have a small number of critical instances that should be kept separated from each other
+- Launching instances in a SPG reduces the risk of simultaneous failure that might occur when instance share the same underlying hardware
+- spread placement group provide access to distinct hardware and are therefore suitable for mixing instance type or launching instances over time
+
+> SPG can span multiple availability zone 
+- we can have a MAX OF 7 RUNNING INSTANCES PER AZ PER GROUP
+
+> if you start on launch and instance in a spread placement group and there is insufficient unique hardware to fulfill the request request fails 
+- you can try your request again later
 
 =======================================
 ########## EC2 Status checks ########## V12 

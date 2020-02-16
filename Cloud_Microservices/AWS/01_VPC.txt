@@ -112,15 +112,18 @@ Lab 4,5,6
 > SG is Statefull 
 
 > Any Virtual Server Instance(EC2) created MUST HAVE a security group during its launch. 
-- you can either choose an existing one, or create a new security group during launch. 
+- you can either choose an existing one, or create a new SG during launch. 
 
-> Each VPC created will have a default security group, 
+> Each VPC created will have a default SG, 
 - we CANNOT DELETE A DEFAULT SECURITY GROUP.
 
 > SECURITY GROUPS ARE VPC RESOURCES, 
 - hence different EC2 instances in different AZ, belonging to the same VPC, can have the same SG applied to them
 
-> Changes to security groups TAKE EFFECT IMMEDIATELY. 
+> Security groups act at the instance level, not the subnet level. 
+- Therefore, each instance in a subnet in your VPC can be assigned to a different set of security groups.
+
+>> Changes to security groups TAKE EFFECT IMMEDIATELY. 
 
 > A Security group can be used in different subnet 
 

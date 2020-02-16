@@ -523,14 +523,15 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 
 > Data must be kept for at least 30 days in this class
 
-> Suitable for objects greater than 128 KB (Not less than that)
+>> Suitable for objects greater than 128 KB (Not less than that)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 Reduced Redundancy Storage(S3–RRS)
 
 > Designed to sustain the data loss in one facility
 
 > 99.99% availability
-> 99.99% data durability
+>> 99.99% data durability
+- It is the only S3 class that does not offer 11 9's durability
 
 > Use for non-critical, reproducible data
 
@@ -542,7 +543,7 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 5. S3 Intelligent Tiering
 
-> It is used when wee don't have deep understanding of our data access patterns.
+> It is used when we don't have deep understanding of our data access patterns.
 
 > It incorporates two access tiers: 
 1. frequent access and 
@@ -553,7 +554,7 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 - If the data is accessed later, it is automatically moved back to the frequent access tier. 
 - save money, with no performance impact, no operational overhead, and no retrieval fees.
 =======================================
-####### S3 LifeCycle Policy ####### v17
+######### S3 LifeCycle Policy ######### v17
 > This is a bucket level sub-resource (configuration).
 - It can be applied to certain objects in a bucket folder, objects with a specific tag, or objects with a specific prefix
 
@@ -564,14 +565,15 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 - In which we can define object transition to another Storage class after certain time period
 
 2. Expiration actions: 
-> expiration duration for object(s) is set, S3 will then delete the expired objects on your behalf
-
+> expiration duration for object is set, then S3 will then delete the expired objects on our behalf
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### S3 Standard to Standard-IA transition
 > Objects less than 128KB will not be transitioned to S3 Standard-IA
 > Objects must be stored in S3-IA for at least 30 days
-> An object must be in S3-Standard for at least 30 days before it can be transitioned to S3-IA
-- The same applies to non-current versions of an object (when versioning is enabled), they must stay in 53-Standard for 30 days before they can be moved to S3-IA
 
+> An object must be in S3-Standard for at least 30 days before it can be transitioned to S3-IA
+- The same applies to non-current versions of an object (when versioning is enabled), they must stay in S3-Standard for 30 days before they can be moved to S3-IA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Moving Objects from Glacier to S3-Standard or S3-IA
 > You can NOT use lifecycle policies to move an archived object from Glacier to S3-Standard or S3-IA
 
@@ -584,45 +586,58 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 > You can NOT change an object from any storage Class (including S3 Standard and S3-IA) into RRS
 > You can't change from S3-IA to S3-Standard or S3-RRS
 =======================================
-##### S3 Server Side Encryption (SSE)### v18
+#### S3 Server Side Encryption (SSE)### v18
 
 > This is primarily about encrypting data at rest in S3 buckets
 > There are two main ways to encrypt data stored on S3 buckets:
 
 1. Client side encryption:
-- Where the client encrypts data on the Client side, then transfer the data encrypted to S3 buckets ( hence data is encrypted In-transit and at Rest)
+- Where the client encrypts data on the Client side, then transfer the encrypted data to S3 buckets ( hence data is encrypted In-transit and at Rest)
 
 2. Server Side Encryption (SSE):
 - Data is encrypted by the S3 service before it is saved to S3 storage disks
 - Data is decrypted when you download it
 
-> User access to S3 bucket objects is the same whether the data is encrypted or not on S3 buckets (as long as the user has permission to access the data)
+> User access to S3 bucket objects is the same way even through it is encrypted
 
-> At any given time, you can apply only one encryption type to an S3 Object
+> At any given time, we can apply only 1 encryption type to S3 Object
+=======================================
+###### S3 - SS Encryption Model ####### v19
 
-> Depending on how you manage encryption keys, there are three types of S3 SSE available:
-1. SSE-S3:
-Server Side Encryption on S3 using S3 managed encryption keys
+> Depending on how we manage encryption keys, there are 3 types of S3 SSE available:
+1. Server Side Encryption on S3 (SSE-S3):
+- It use S3 managed encryption keys
 
-2. SSE-KMS:
-- Server Side Encryption using AWS KMS keys
+2. Server Side Encryption using AWS Key Management Service keys(SSE-KMS)
+3. Server Side Encryption using Client provided keys (SSE-C)
 
-3. SSE-C
-- Server Side Encryption using Client provided keys
-
-## S3 Server Side Encryption using AWS S3 Managed Keys (SSE-S3)
+####### 1. SSE-S3 ########
 
 > Server Side Encryption on S3 using S3 managed encryption keys
 > Each object is encrypted by a unique key, then the encryption key itself is encrypted using a master key
 > S3 regularly rotates the master key
 > Uses AES-256 bits
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## S3 Server Side Eneryption using AWS KMS Managed Keys (SSE-KMS)
 
-> Server Side Encryption using AWS KMS keys, similar to SSE-S3
-- KMS uses Customer Master Keys (CMKS)to êncrypt your S3 objects
-- You can continue to use the automatically created default CMK key for encryption OR, 
-- You can select a CMK that you created separately using AWS Key Management Service.
+## PROCESS ## not require for SSA
+> KMS GENERATES DATA KEY AND ENCRYPTS IT USING THE MASTER KEY THAT WE SPECIFIED EARLIER;
+- KMS then returns this encrypted datakey along with the plaintext datakey to Amazon S3.
+- Amazon S3 encrypts the object using the plaintext datakey first , and then stores the encrypted object (along with the encrypted datakey) and deletes the plaintext datakey from memory.
+- To retrieve this encrypted object, S3 sends the encrypted datakey to AWS KMS.
+- AWS KMS decrypts the datakey using the correct master key and returns the decrypted (plaintext) object key to S3.
+- With the plaintext datakey, S3 decrypts the encrypted object and returns it to you.
+- Each object is encrypted with a unique datakey,
+- This key is encrypted with a periodically rotated key managed by AWS S3.
+- SSE-S3 USES 256-BIT ADVANCED ENCRYPTION STANDARD (AES) KEYS FOR BOTH OBJECT AND MASTER KEYS.
+
+> This feature is offered at no additional cost beyond what you pay for using Amazon S3.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### 2. SSE-KMS 
+
+> Server Side Encryption using AWS-KMS keys, similar to SSE-S3
+- KMS uses Customer Master Keys (CMK) to encrypt S3 objects
+- we can continue to use automatically created default CMK key for encryption OR, 
+- we can select CMK that we created separately using AWS-KMS.
 
 > Creating your own CMK will allow you to create, rotate, disable, and define access controls,
 - Also allows you to audit the encryption keys used to protect your data.
@@ -631,52 +646,30 @@ Server Side Encryption on S3 using S3 managed encryption keys
 
 > Service is chargeable
 
-## S3 Server Side Encryption using Customer Provided Keys (SSE-C)
+- You can encrypt the data in S3 by defining an AWS KMS master key within your account that you want to use to encrypt the unique object/data key that will ultimately encrypt your object (data).
+
+- When you upload your object, a request is sent to KMS to create an object key.
+- The first time you add an SSE-KMS-encrypted object to a bucket in a region, a default CMK is created automatically.
+- This key is used for SSE-KMS encryption unless you select a CMK that you created separately using AWS-KMS.
+
+- Amazon S3 supports bucket policies that you can use if you require SSE for all objects that are stored in your bucket.
+- For SSE to be requested in an API callI, the request has to include the "x-amz-server-side-encryption" header requesting SSE
+- If you want SSE-KMS then the x-amz-server-side-encryption header has to define SEE-KMS.
+"s3:x-amz-server-side-encryption":"aws:kms"
+
+> Creating your own CMK gives you more flexibility, including the ability to create, rotate, disable, and define access controls, and to audit the encryption keys used to protect your data.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### 3. SSE-C
 > Server Side Encryption using Client provided keys
 > Client manages the keys, S3 service manages encryption
-> AWS does not store the client provided encryption key(s), so if the client looses the key(s), they can't access the abject, başically they loose the data.
-=======================================
-######## S3 - Encryption Model ######## v19
+> AWS does not store the client provided encryption key, so if the client looses the key, they can't access object, başically they loose the data.
 
-> There are three ways of encrypting your data in Amazon S3 using server-side encryption.
-1. Server-side encryption: SSE-S3
-2. Server-Side Encryption using Customer Keys (SSE-C)
-3. Server-Side Encryption using AWS KMS (SSE-KMS)
-
-#### 1. Server-side encryption: SSE-S3 
-- KMS GENERATES DATA KEY AND ENCRYPTS IT USING THE MASTER KEY THAT YOU SPECIFIED EARLIER;
-- KMS then returns this encrypted data key along with the plaintext data key to Amazon S3.
-- Amazon S3 encrypts the object using the plaintext data key first , and then stores the encrypted object (along with the encrypted object key) and deletes the plaintext object key from memory.
-- To retrieve this encrypted object, Amazon S3 sends the encrypted data key to AWS KMS.
-- AWS KMS decrypts the data key using the correct master key and returns the decrypted (plaintext) object key to S3.
-- With the plaintext object key, S3 decrypts the encrypted object and returns it to you.
-- Each object is encrypted with a unique data key,
-- This key is encrypted with a periodically rotated key managed by AWS S3.
-- SSE-S3 USES 256-BIT ADVANCED ENCRYPTION STANDARD (AES) KEYS FOR BOTH OBJECT AND MASTER KEYS.
-
-> This feature is offered at no additional cost beyond what you pay for using Amazon S3.
-
-
-### 2. Server-side encryption using customer provided keys: (SSE-C)
 - CLIENTS CAN USE THEIR OWN ENCRYPTION KEY WHILE UPLOADING AN OBJECT TO AMAZON S3.
 - This encryption key is used by Amazon S3 to encrypt your data using AES-256.
 - S3 does not store the key, after the object is encrypted, the encryption key supplied by the client is deleted from the Amazon S3 system that used it to protect the client's data.
 - When the client retrieves this object from Amazon S3, they must provide the same encryption key in the request.
 - Amazon S3 verifies that the encryption key matches, Decrypts the object, and returns the object to the requester.
 
-#### 3. Server-side encryption using KMS:
-- You can encrypt the data in S3 by defining an AWS KMS master key within your account that you want to use to encrypt the unique object/data key that will ultimately encrypt your object (data).
-
-- When you upload your object, a request is sent to KMS to create an object key.
-- The first time you add an SSE-KMS-encrypted object to a bucket in a region, a default CMK is created for you automatically.
-- This key is used for SSE-KMS encryption unless you select a CMK that you created separately using AWS Key Management Service.
-
-- Amazon S3 supports bucket policies that you can use if you require SSE for all objects that are stored in your bucket.
-- For SSE to be requested in an API callI, the request has to include the "x-amz-server-side-encryption" header requesting SSE
-- If you want SSE-KMS then the x-amz-server-side-encryption Keader has to define SEE-KMS.
-"s3:x-amz-server-side-encryption":"aws:kms"
-
-> Creating your own CMK gives you more flexibility, including the ability to create, rotate, disable, and define access controls, and to audit the encryption keys used to protect your data.
 =======================================
 ####### S3 Static Website Hosting ##### v20
 
@@ -822,11 +815,10 @@ You are charged for :
 - Inter-region data transfer
 - Storage at the destination bucket
 =======================================
-########## v24
+## S3 Cross-Origin Resource Sharing (CORS) ## v24
 
-## S3 Cross-Origin Resource Sharing (CORS)
-> Is a way by which a client web application (webpage or a domain) can request resources from another webpage (different domain)
-> CORS can be used to allow web applications to access resources on your S3 buckets/resources
+> It is a way by which a client web application (webpage or a domain) can request resources from another webpage (different domain)
+> CORS can be used to allow web applications to access resources on S3 buckets/resources
 
 > As an example:
 - You can host web fonts on your S3 bucket, then configure your bucket to allow CORS requests for webfonts.

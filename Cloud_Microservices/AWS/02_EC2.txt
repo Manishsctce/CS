@@ -61,7 +61,7 @@
 - if we launch instance without a key pair, we will not be able to acess it(via RDP/SSH) 
 
 #### EC2 
-> There is 20 EC2 instances soft limit per region, 
+> There is soft limit of 20 EC2 INSTANCES PER REGION, 
 - we can submit request to AWS to increase it 
 
 > Two types of Block store devices are supported: 
@@ -172,27 +172,26 @@ Storage		: NVMe SSD
 - Are designed to work will all EBS volume types 
 - This is all about high performance data transfer between EC2 instance and their attached EBS volumes
 
-#### EC2- Single Root I/O Virtualization (SR-I/OV)
+############ EC2- SR-I/OV ########
+> SR-I/OV mean Single Root I/O Virtualization
 
-> Is a network interface (host interface) virtualization whereby, a guest machine (EC2 instance) has direct access to a virtual network interface without hypervisor being in the middle (emulating a vNIC) 
+> SR-I/OV is a network interface (host interface) virtualization 
+- whereby, a guest machine (EC2 instance) has direct access to virtual network interface without hypervisor being in the middle (emulating a vNIC) 
 - basically, virtualizing the network adaptor on the physical host 
 
 > SR-I/OV
 - Not supported on all instance types 
 - it is supported on R4, X1, P2, C3/4, R3, I2, M4, d2 
 
+###### ADVANTAGE #######
 > For supported instance types, SR-I/OV provides: 
 - higher packet per second (PPS) performance for data transfer
 - Lower latency 
 - very low network jitter 
 
-## EC2 - Enhanced Networking 
 
-> Takes advantage of SR-I/OV on supported EC2 instance types to provide:
-- Higher inter-instance PPS rates & Low latency 
 
-> EC2 enhanced networking can be enabled on EBS-backed or Instance store-backed instance 
-
+> EC2 enhanced networking can be enabled on EBS-backed or Instance-backed instance 
 > EC2 enhanced networking can function across Multi-AZ 
 
 > To use enhanced networking, the EC2 instance need to 
@@ -217,12 +216,12 @@ Storage		: NVMe SSD
 
 > we can create PG across a VPC peering 
 > There is no charge for creating PG(except EC2 instance)
-> PG name must be unique within an account for the region
+> PG NAME MUST BE UNIQUE WITHIN AN ACCOUNT FOR THE REGION
 > You can use different instance type with PG however this is not recommended for closure PG
 > You cannot merge two PG
 
 > you can 
-- move an existing instance to a placement group 
+- move an existing instance to a PG 
 - move an instance from one placement group to another 
 - remove an instance from a placement group
 

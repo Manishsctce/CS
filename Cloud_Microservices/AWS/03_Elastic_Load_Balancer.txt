@@ -280,28 +280,27 @@ SSL 3.0
 ###### ###### v
 19. ELB Connection Draining
 =======================================
-###### ###### v
-## ELB Monitoring
+########### ELB Monitoring ############ v20
 
 > ELB monitoring can be achieved by:
-1. AWS Cloud Watch:
-> AWS ELB service sends ELB metrics to cloud watch every “One minute"
-> ELB service sends these metrics only if there are requests flowing through the ELB
-> AWS Cloud Watch can be used to trigger an SNS notification if a threshold you define is reached
+
+1. AWS CloudWatch:
+> ELB service sends ELB metrics to cloudwatch every “1 minute"
+- ELB sends these metrics only if requests flow through ELB
+> AWS CloudWatch can be used to trigger an SNS notification if  threshold reached
 
 2. Access Logs:
 > Disabled by default
-
 > You can obtain request information such as requester, time of request, requester IP, request type...etc.
 
-> Optional (disabled by default), you can choose to store the access logs in an S3 bucket that you specify
+> access logs can be store in S3 bucket
 
-> You are not charged extra for enabling access logs,
+> You are not extra charged for enabling access logs,
 - You pay for S3 storage
 - You are not charged for data transfer of access logs from ELB'to the S3 bucket
 
-3. AWS Cloud Trail:
-> You can use it to capture all API calls for your ELB
+3. AWS CloudTrail:
+> You can use it to capture all API calls for ELB
 > You can store these logs in an S3 bucket that you specify
 =======================================
 ###### ###### v
@@ -309,7 +308,7 @@ SSL 3.0
 
 ## ELB – Pre-Warming
 ELB Scaling:
-> The time required for the Elastic Load Balancing to detect the increase in traffic/load and scale (or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
+> The time required for the ELB to detect the increase in traffic/load and scale (or add) more ELB nodes can take from 1 to 7 minutes according to traffic profile
 - ELB is not designed to queue requests,
 - It will return Error 503 (HTTP) if it can't handle the request, any requests above the ELB capacity will fail
 
@@ -323,8 +322,8 @@ ELB Pre-Warm:
 - ELB uses a DNS record TTL of 60 seconds, to ensure that the new ELB node IP addresses are used and allow clients to take advantage of the increased capacity
 
 ## ELB Scaling & Load Testing your Applications
-> For efficient load testing of your ELB or applications hosted on backend instances
-> Use multiple testing instances of client testing & try to launch the tests at the same time
+> For efficient load testing of ELB or applications hosted on backend instances
+- Use multiple testing instances of client testing & try to launch the tests at the same time
 - You can also use global testing sites if possible
 
 > If using a single client for testing, ensure your testing tool will enforce the Re- resolving of DNS with each testing/request initiated for testing

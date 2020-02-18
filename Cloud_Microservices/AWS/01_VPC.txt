@@ -1,4 +1,15 @@
-###### Virtual Private Cloud #####
+=======================================
+#### Networking & Content Delivery ####
+
+1. Virtual Private Cloud (VPC)
+2. Virtual Private Network (VPN)
+3. Direct Connect 
+4. Elastic Load Balancer 
+5. Route 53
+6. API Gateway
+7. CloudFront  
+=======================================
+###### Virtual Private Cloud(VPC) #####
 
 > VPC stands for Virtual Private Cloud
 - It is logically isolated area of the AWS cloud
@@ -104,12 +115,12 @@ Lab 4,5,6
 2. Custom VPC (non-default)
 - has default CIDR, SG, NACL, route table but DOESNOT HAVE DEFAULT IG
 =======================================
-########## SECURITY GROUPS ############ 
+######### SECURITY GROUP(SG) ##########
 > It is a virtual firewall.
 > It controls traffic at the virtual server (EC2 instance) level, specifically at VNI (virtual network interface) level 
 
-> up to 5 SG per EC2 instance 
-> SG is Statefull 
+>> up to 5 SG per EC2 instance 
+>> SG is Statefull 
 
 > Any Virtual Server Instance(EC2) created MUST HAVE a security group during its launch. 
 - you can either choose an existing one, or create a new SG during launch. 
@@ -735,3 +746,183 @@ Create the type of VPC endpoint required by the supported service.
 =======================================
 ####### v
 end
+=======================================
+############# API GATEWAY ############# 
+> Amazon API Gateway is an AWS service for creating, publishing, maintaining, monitoring, and securing REST and WebSocket APIs at any scale.
+
+=======================================
+############## CLOUDFRONT ############# v3
+
+> Cloudfront is a global (not regional) service.
+- It is used Ingress (injection proxy ) to upload objects
+- and egress to distribute content
+
+> Amazon Cloudfront is a web service that speeds up distribution of static and dynamic web content, such as html, .css, .js, and image files, to users.
+
+> Cloudfront delivers content through a network of data centers called edge locations.
+
+> When a user requests content that you're serving with Cloudfront, the user is routed (via DNS resolution) to the edge location that provides the lowest latency, so that content is delivered with the best possible performance.
+
+## Cloudfront – Faster Response to Client requests
+> If the content is already in the edge location with the lowest latency, CloudFront delivers it immediately.
+- This dramatically reduces the number of networks that your users' requests must pass through, which improves performance.
+
+> If not, CloudFront retrieves it from an Amazon S3 bucket or an HTTP/web server that you have identified as the source for the definitive version of your content (Origin Server).
+
+> CloudFront also keeps persistent connections with origin servers so files are fetched from the origins as quickly as possible.
+
+## Cloudfront Distribution
+> You create a CloudFront distribution (this a CDN) to instruct CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
+- Then CloudFront uses edge servers that are close to your viewers (through DNS resolution) to deliver that content quickly when someone wants to see it or use it.
+
+> When CloudFront gets a request for your files/objects, it goes to the origin to get the requested files that it distributes at edge locations.
+- You can use any combination of Amazon S3 buckets and HTTP servers as your origin servers.
+
+## CloudFront Use Cases
+Customize user
+Accelerate websites experience
+Customer use cases
+Stream live and on-demand media
+Secure content
+
+## Accessing Cloudfront - Configuration
+> You can access Amazon CloudFront in the following ways:
+1. AWS Management Console -
+2. AWS SDKS – If you're using a programming language that AWS provides an SDK for, you can use an SDK to access CloudFront. SDKS simplify authentication, integrate easily with your development environment, and provide access to CloudFront commands.
+
+3. Cloudfront API – If you're using a programming language that an SDK isn't available for, see for information about API actions and about how to the make API requests.
+
+4. AWS Command Line Interface
+5. AWS Tools for Windows PowerShell
+=======================================
+#######  ####### v4
+
+## CloudFront – Edge Locations
+> Edge locations are not tied to AZ, or Regions.
+
+> Amazon Cloudfront has 116 Points of Presence (105 Edge Locations and 11 Regional Edge Caches) in 56 cities across 24 countries. Whereas current number of AZs is 54 only.
+
+## CloudFront- Regional Edge Cache
+> Amazon CloudFront has added several regional edge cache locations globally, at close proximity to your viewers.
+- They are located between your origin webserver and the global edge locations that serve content directly to your viewers.
+- As objects become less popular, individual edge locations may remove those objects to make room for more popular content.
+- Regional Edge Caches have a larger cache width than any individual edge location, so objects remain in the cache longer at the nearest regional edge caches.
+
+> Regional edge cache locations are currently used only for requests that need to go back to a custom origin; i.e. requests to S3 origins will skip regional edge cache locations.
+
+> Serving less popular content from regional edge caches is enabled by default for all new and existing cloudfront distributions. There are no additional charges to use this feature. 
+
+## CloudFront Regional Edge Cache – How it works
+> When a viewer makes a request on your website or through your application, DNS routes the request to the CloudFront edge location that can best serve the user's request.
+
+> This location is typically the nearest CloudFront edge location in terms of latency.
+
+> In the edge location, CloudFront checks its cache for the requested files.
+- If the files are in the cache, CloudFront returns them to the user.
+- If the files are not in the cache, the edge servers go to the nearest regional edge cache to fetch the object.
+
+## CloudFront Regional Edge Cache
+> Regional edge caches have feature parity with edge locations. For example, a cache invalidation request removes an object from both edge caches and regional edge caches before it expires.
+- The next time a viewer requests the object, CloudFront returns to the origin to fetch the latest version of the object.
+
+> Proxy methods PUT/POȘT/PATCH/OPTIONS/DELETE go directly to the origin from the edge locations and do not proxy through the Regional Edge Caches.
+
+> Regional edge caches are used for custom origins, but not Amazon S3 origins.
+
+> Dynamic content, as determined at request time (cache-behavior configured to forward all headers), does not flow through regional edge caches, but goes directly to the origin.
+=======================================
+#######  ####### v5
+
+## CloudFront – Configuration Settings
+> When you want to use CloudFront to distribute your content, you create a distribution and specify configuration settings such as:
+- Your origin, which is the Amazon S3 bucket or HTTP server from which CloudFront gets the files that it distributes.
+- You can specify any combination of up to 25 Amazon S3 buckets and/or HTTP servers as your origins
+
+## CloudFront Distributions- Web Distribution
+> You can use web distributions to serve the following content over HTTP or HTTPS:
+- Static and dynamic download content, for example, .html, .css, .js, and image files, using HTTP or HTTPS,
+- Multimedia content on demand using progressive download and Apple HTTP Live Streaming (HLS).
+
+> You can't serve Adobe Flash multimedia content over HTTP or HTTPS, but you can serve it using a CloudFront RTMP distribution
+
+> For web distributions, your origin can be either an Amazon S3 bucket or an HTTP server
+> A live event, such as a meeting, conference, or concert, in real time.
+> For live streaming, you create the distribution automatically by using an AWS CloudFormation stack.
+
+## CloudFront – Configuration Settings
+Also you need to specify,
+> Whether you want the files to be available to everyone or you want to restrict access to selected users.
+
+> Whether you want CloudFront to require users to use HTTPS to access your content.
+
+> Whether you want CloudFront to forward cookies and/or query strings to your origin (for web distributions only), and if so, whether to cache your content based on all parameters or on selected parameters.
+
+> Whether you want CloudFront to prevent users in selected countries from accessing your content (Geo Resitrctions with Cloudfront distributions)
+
+> Whether you want CloudFront to create access logs.
+
+## CloudFront Distribution – RTMP Distribution
+> RTMP distributions stream media files using Adobe Media Server and the Adobe Real-Time Messaging Protocol (RTMP).
+
+> An RTMP distribution must use an Amazon $3 bucket as the origin.
+
+> Cloudfront lets you create a total of up to 200 web distribution and 100 RTMP distribute for acct 
+ 
+## CloudFront Distributions – Configuration Propagation
+When you save changes to your distribution configuration,
+> CloudFront starts to propagate the changes to all edge locations.
+
+> Until your configuration is updated in an edge location, CloudFront continues to serve your content from that location based on the previous configuration.
+
+> Your changes don't propagate to every edge location instantaneously.
+- While CloudFront is propagating your changes, AWS can't determine whether a given edge location is serving your content based on the previous configuration or the new configuration.
+- When propagation is complete, the status of your distribution changes from InProgress to Deployed.
+
+> After your configuration is updated in an edge location, CloudFront immediately starts to serve your content from that location based on the new configuration.
+=======================================
+#######  ####### v6
+
+## Using S3 bucket as a CloudFront Origin
+Using Amazon S3 Buckets for Your Origin
+> When you use Amazon S3 as an origin for your distribution, you place any objects that you want CloudFront to deliver in an Amazon S3 bucket.
+
+> You can use any method that is supported by Amazon S3 to get your objects into Amazon S3( the Amazon S3 console or API, or a third-party tool).
+
+> You can create a hierarchy in your bucket to store the objects, just as you would with any other Amazon S3 bucket.
+
+> Using an existing Amazon S3 bucket as your CloudFront origin server doesn't change the bucket in any way;
+- You can still use it as you normally would to store and access Amazon S3 objects at the standard Amazon S3 price.
+
+## Using S3 bucket as a CloudFront Origin
+Using Amazon S3 Buckets for Your Origin
+> You incur regular Amazon S3 charges for storing the objects in the bucket.
+
+> Upload your content to your origin servers. If you don't want to restrict access to your content using CloudFront signed URLS, make the objects publicly readable.
+
+Important
+> You are responsible for ensuring the security of your origin server.
+> You must ensure that CloudFront has permission.to access the server and that the security settings are appropriate to safeguard your content.
+
+## Using EC2 Webserver or Private Webserver as a CloudFront Custom Origin Server
+
+> A custom origin is an HTTP server, the HTTP server can be an Amazon EC2 instance or an HTTP server that you manage privately.
+
+> When you use a custom origin that is your own HTTP server, you specify the DNS name of the server, along with the HTTP and HTTPS ports and the protocol that you want CloudFront to use when fetching objects from your origin.
+
+> Most CloudFront features are supported when you use a custom origin with the following exceptions:
+
+## Using EC2 Webserver as a CloudFront Custom Origin Server
+If you use Amazon Elastic Compute Cloud for your custom origins, AWS recommends the following:
+> Use an Amazon Machine Image that automatically installs the software for a web server.
+
+> Use an Elastic Load Balancing load balancer to handle traffic across multiple Amazon EC2 instances and to isolate your application from changes to Amazon EC2 instances.
+
+> When you create your CloudFront distribution, specify the URL of the load balancer for the domain name of your origin server.
+
+## Using S3 bucket' static website as CloudFront Custom Origin Server
+> You can set up an Amazon S3 bucket that is configured as a website endpoint as custom origin with CloudFront.
+> When you configure your CloudFront distribution, for the origin, enter the Amazon S3 static website hosting endpoint for your bucket.
+- This value appears in the Amazon S3 console, on the Properties page under Static Website Hosting. Example:
+• http://bucket-name.s3-website-us-west-2.amazonaws.com
+
+> When you specify the bucket name in this format as your origin, you can use Amazon S3 redirects and Amazon S3 custom error documents.

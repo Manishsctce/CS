@@ -1,0 +1,84 @@
+=======================================
+###### Management & Governance ########
+
+## Auto Scaling
+## CloudTrail
+## CloudWatch
+## CloudFormation
+=======================================
+############## CLOUDTRAIL #############
+> It is an AWS service that helps you enable governance, compliance, and operational and risk auditing of AWS account. 
+> Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. 
+- Events include actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs.
+
+> use CloudTrail to view, search, download, archive, analyze, and respond to account activity across your AWS infrastructure
+
+> we can easily view events in the CloudTrail console by going to Event history.
+- Event history allows you to view, search, and download the past 90 days of activity 
+
+## 2 types of trails
+
+1. A trail that applies to all regions(recommended)
+2. A trail that applies to one region
+
+> For both types of trails, we can specify S3 bucket from any region.
+
+#### 1. trail that applies to all regions ###
+> create a trail that applies to all regions
+> CloudTrail records events in each region and delivers the CloudTrail event log files to an S3 bucket that we specify. 
+
+> If a region is added after creating trail then new region will automatically included
+
+### 2. trail that applies to one region
+>> If you create additional single trails, we can have those trails deliver CloudTrail event log files to the same Amazon S3 bucket or to separate buckets.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> By default, CloudTrail event log files are encrypted using Amazon S3 server-side encryption (SSE) but we can choose to encrypt with AWS KMS key. 
+- store log files in bucket as long as we want. 
+- we can define Amazon S3 lifecycle rules to archive or delete log files automatically.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What Are Trails?
+
+> A trail is a configuration that enables delivery of CloudTrail events to an Amazon S3 bucket, CloudWatch Logs, and CloudWatch Events. 
+- we can use a trail to filter the CloudTrail events we want delivered, encrypt your CloudTrail event log files with an AWS KMS key, and set up Amazon SNS notifications for log file delivery. 
+
+=======================================
+############# CLOUDWATCH ##############
+
+> It is a service used to monitor your AWS resources and app in real time. 
+> we can choose to create dashboard to display the metrics of app.
+> CloudWatch service is Region wise. 
+
+##### FEATURE
+> Alarm - use to set alarm that notify when thresholds are hit. 
+> CloudWatch Events : use to send system events from AWS resources to AWS Lambda func, SNS topics, stream in Kinesis and other target types. 
+> CloudWatch Logs : use to monitor, store and access log files from EC2 instance, cloudTrail.
+
+> Billing Alarm : setup billing alerts if require
+
+=======================================
+########### CLOUDFORMATION ############
+
+> AWS CloudFormation provides users with a simple way to create and manage a collection of AWS resources by provisioning and updating them in a predictable way
+
+> It is a service that allows us to manage, configure and provision AWS infrastructure as a Code (IAAC)
+
+> Resources are defined using CloudFormation template
+- CloudFormation interprets the template and make API calls to create resource 
+
+> It support YAML or JSON
+
+> AWS CloudFormation template consists of 9 main objects:
+1. Format version
+2. Description
+3. Metadata
+4. Parameters
+5. Mappings
+6. Conditions 
+- Any resources with true condition are created, and invalid conditions are ignored automatically. 
+7. Transform
+8. Resources: Using this section, you can declare the AWS resource that you want to create and specify in the stack, such as an Amazon S3 bucket or AWS Lambda.
+
+9. Output 
+=======================================

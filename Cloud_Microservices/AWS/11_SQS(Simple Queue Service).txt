@@ -13,11 +13,12 @@
 ## What Are the Main Benefits of Amazon SQS?
 
 > Security 
-– You control who can send messages to and receive messages from an Amazon SQS queue.
-- Server-side encryption (SSE) lets you transmit sensitive data by protecting the contents of messages in queues using keys managed in AWS Key Management Service (AWS KMS).
+– You control who can send messages to and receive messages from SQS queue.
+- SSE lets us transmit sensitive data by protecting the contents of messages in queues using keys managed in AWS-KMS.
 
 > Durability 
-– To ensure the safety of your messages, Amazon SQS stores them on multiple servers. Standard queues support at-least-once message delivery, and FIFO queues support exactly-once message processing.
+– To ensure the safety of your messages, Amazon SQS stores them on multiple servers. 
+- Standard queues support at-least-once message delivery, and FIFO queues support exactly-once message processing.
 
 > Availability 
 – Amazon SQS uses redundant infrastructure to provide highly-concurrent access to messages and high availability for producing and consuming messages.
@@ -40,10 +41,11 @@ Customization – Your queues don't have to be exactly alike—for example, you 
 - A message is delivered at least once, but occasionally more than one copy of a message is delivered.
 
 > Best-effort ordering 
-- Occasionally, messages might be delivered in an order different from which they were sent. This is not guaranteed
+- Occasionally, messages might be delivered in an order different from which they were sent. 
+- ORDER IS NOT GUARANTEED
 
 #SCENARIO
-> We can use standard message queue in many scenario, as long as your applications can process messages at arrived more than once and out of order for example decouple
+> We can use standard message queue in many scenario, as long as your app can process messages at arrived more than once and out of order Ex-
 - Decouple leave user request from intensive background work let users upload media while resizing for encoding it
 - Allocate task to multiply workout nodes- process a high number of credit card validation request
 - Batch messages for future processing - schedule multiple entries to be added to a database 

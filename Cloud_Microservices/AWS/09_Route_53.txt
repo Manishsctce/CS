@@ -154,77 +154,72 @@ is allowed in TXT strings
 > Use case: a web server that serves content for the dolfined.com website.
 
 2. Failover routing policy –
-> Use when you want to configure active-passive failover.
+> Use when we want to configure active-passive failover.
 
 3. Geolocation routing policy -
-> Use when you want to route traffic based on the location of your users.
+> Use for routing traffic based on the location of users.
 
 4. Latency routing policy -
 > Use when you have resources in multiple locations and you want to route traffic to the resource that provides the best latency.
 
 5. Weighted routing policy -
-> Use to route traffic to multiple resources in proportions that you specify.
+> Use to route traffic to multiple resources in proportions that we specify.
 
 6. Geoproximity routing policy (Requires Route Flow) –
 - Use when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
 
 7. Multivalue answer routing policy -
-> Use when you want Route 53 to respond to DNS queries with up to eight healthy records selected at random.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## ROUTE53 – Failover Routing
-Failover Routing
-> Failover routing lets you route traffic to a resource when the resource is healthy
+> Use when you want Route 53 to respond to DNS queries with up to 8 healthy records selected at random.
+=======================================
+#### FAILOVER ROUTING POLICY ####
+> it lets us route traffic to a resource when the resource is healthy
 - If the main resource is not healthy, then route traffic to a different resource
 - The primary and secondary records can route traffic to anything from an Amazon S3 bucket that is configured as a website to a complex tree of records.
-
-## ROUTE53 – Geolocation Routing
-> Geolocation routing lets you choose the resources that serve your traffic based on the geographic location of your users, i.e the location that DNS queries originate from.
+=======================================
+###### GEOLOCATION ROUTING POLICY #####
+> It allow us to choose resources that SERVE TRAFFIC BASED ON GEOGRAPHIC LOCATION of users, i.e the location that DNS queries originate from.
 
 > For example, you may have presence in USA and Europe and want users in the US to be served in the US, and those in Europe to be served by servers in Europe.
 
-> Use cases and benefits for using geolocation routing,
-- You can localize your content and present some or all of your website in the language of your users.
-- You can also use geolocation routing to restrict distribution of content to only the locations in which you have distribution rights.
-- Another possible use is for balancing load across endpoints in a predictable, easy-to-manage way, so that each user location is consistently routed to the same endpoint.
+#### USE CASES ####
+- we can localize content 
+- use to restrict distribution of content to specific locations.
+- use to balancing load across endpoints in a predictable, easy-to-manage way, so that each user location is consistently routed to the same endpoint.
 
-## ROUTE53 – Geolocation Routing
-> You can specify geographic locations by continent, by country, or by state in the United States.
-> If you create separate records for overlapping geographic regions-for example, one record for North America and one for Canada-priority goes to the smallest geographic region.
-- This allows you to route some queries for a continent to one resource and to route queries for selected countries on that continent to a different resource.
-- Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, DOLFINe
+> we can specify geographic locations by continent, by country, or by state.
 
-• For those IP addresses, even if you create geolocation records that cover all seven continents, Amazon Route 53 will receive some DNS queries from locations that it can't identify.
+> If we create separate records FOR OVERLAPPING GEOGRAPHIC REGIONS(1 record for North America and 1 for Canada) PRIORITY GOES TO THE SMALLEST GEOGRAPHIC REGION.
+-it works with help of IP addr locations. However, some IP addr aren't mapped.
 
-You can create a default record that handles both queries from IP addresses that aren't mapped to any location and queries that come from locations that you haven't created geolocation records for.
+> We CAN CREATE DEFAULT RECORD that handles queries for unknown location IP addr. 
+- If you don't create default record, Route 53 returns a "no answer" response for queries from those locations.
+=======================================
+##### LATENCY BASED ROUTING POLICY ####
+> If app is hosted in multiple EC2 regions, we can improve performance by serving their requests from EC2 region that provides lowest latency.
 
-If you don't create a default record, Route 53 returns a "no answer" response for queries from those locations.
+> To use latency-based routing, you create latency records for your resources in multiple EC2 Regions.
 
-## ROUTE53 – Latency Based Routing
-> If your application is hosted in multiple Amazon EC2 regions, you can improve performance for your users by serving their requests from the Amazon EC2 region that provides the lowest latency.
-
-> To use latency-based routing, you create latency records.for your resources in multiple EC2 Regions.
-
-> When Amazon Route 53 receives a DNS query for your domain or subdomain,
-- It determines which Amazon EC2 regions you've created latency records for,
-- Determines which region gives the user the lowest latency,
-- Then selects a latency record for that region,
+> When Route 53 receives DNS query for our domain or subdomain,
+- It determines which EC2 regions you've created latency records for,
+- Determines which region gives user the lowest latency,
+- Then selects latency record for that region,
 - Route 53 responds with the value from the selected record, such as the IP address for a web server.
 
-## ROUTE53 – Latency Based Routing
-> For example, suppose you have ELB load balancers in the US West (Oregon) Region and in the Asia Pacific (Singapore) Region.
-- You created a latency record for each load balancer.
+EXAMPLE:
+> Suppose you have ELB in the US West(Oregon) Region and in the Asia Pacific (Singapore) Region.
+- we created a latency record for each load balancer.
 - Here's what happens when a user in London enters the name of your domain in a browser:
-- DNS routes the request to a Route 53 name server.
-- Route 53 refers to its data on latency between London and the Singapore region and between London and the Oregon region.
+- DNS routes the request to Route 53 nameserver.
+- Route 53 refers to its data on latency between London and Singapore region and between London and Oregon region.
 - If latency is lower between the London query with the IP address for the Oregon loadbalancer.
-- If latency is lower between London and the Singapore region, Route 53 responds with the IP address for the Singapore load balancer Singapore.
+- If latency is lower between London and Singapore region, Route 53 responds with the IP address for the Singapore load balancer.
 
-## ROUTE53 – Latency Based Routing
 > Latency between hosts on the internet can change over time as a result of changes in network connectivity and routing.
 
 > Latency-based routing is based on latency measurements performed over a period of time, and the measurements reflect these changes.
+=======================================
+####### WEIGHTED ROUTING POLICY #######
 
-## ROUTE53 – Weighted Routing
 > Weighted routing lets you associate multiple resources with a single domain name , or subdomain name, and choose how much traffic is routed to each resource.
 
 > This can be useful for a variety of purposes, including load balancing and testing new versions of software.

@@ -764,6 +764,7 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 - Any changes to the object, its metadata, or ACL
 =======================================
 ###### S3 CRR - CREATE Operation ###### v23
+
 > Any new objects created after you add a replication configuration, and changes to existing objects
 
 > Objects created with SSE-S3 then 
@@ -776,7 +777,7 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 - This applies only to objects created after you add a replication configuration to the bucket.
 
 > S3 replicates object tags, if any.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### S3 CRR - DELETE Operation #####
 > If we delete an object from the source bucket, the CRR behavior is as follows:
 > If a DELETE request is made without specifying an object version ID,
@@ -786,9 +787,10 @@ For a small monitoring and automation fee, S3 Intelligent-Tiering monitors acces
 - S3 deletes that object version in the source bucket, but it does not replicate the deletion in the destination bucket
 - It does not delete the same object version from the destination bucket
 - This behavior protects data from malicious deletions.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 CRR – What is NOT replicated
-> AWS S3 will not replicate objects that existed before you added replication configuration
+
+> AWS S3 will not replicate objects that existed before we added replication configuration
 - You can use Copy API to copy existing bucket data
 - Changes to existing objects that happen after CRR is enabled, are replicated
 

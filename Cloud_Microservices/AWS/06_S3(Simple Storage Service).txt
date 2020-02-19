@@ -824,31 +824,27 @@ You are charged for :
 - You can host web fonts on your S3 bucket, then configure your bucket to allow CORS requests for webfonts.
 - Other domains (web pages) will issue CORS requests to load webfonts from your S3 bucket
 =======================================
-########## v25
+######## S3 TRANSFER ACCELERATION ##### v25
 
-## S3 Transfer Acceleration
-> Is used to accelerate object uploads to S3 buckets from users over long distances
+> It is USED TO ACCELERATE OBJECT UPLOADS to S3 buckets from users over long distances
 
-> Typical use case is when uploading objects to your S3 bucket happens from users across the world, over the internet
+> Transfer acceleration is secure as direct upload to S3 over the internet
 
-> Transfer acceleration is as secure as direct upload to S3 over the internet
+> It utilizes AWS Cloudfront edge location nearest to the upload source (user), once data arrives at the edge location, it gets routed to the destination S3 bucket over an optimized network path
 
-> It utilizes AWS Cloudfront's edge location nearpst to the upload source (user), once data arrives at the edge location, it gets routed to the destination S3 bucket over an optimized network path
-
-## S3 Transfer Acceleration
- In order to use it:
-> Enable Transfer Acceleration on the S3 bucket
+> Need to Enable Transfer Acceleration on the S3 bucket
 - Once enabled, it can only be suspended, it can NOT be disabled
-	- Can only be done by the bucket owner, or a different user with permission from the bucket owner
-	- After enabling it, it may take up to 30 mts before you notice upload speed enhancements
+- AFTER ENABLING IT, IT MAY TAKE UP TO 30 MIN before we notice upload speed enhancements
+- Can only be done by the bucket owner, or a different user with permission from the bucket owner
+
 
 - Point your PUT/GET requests to:
   <bucketname>.S3-accelerate.amazonaws.com (for IPV4)
-- Bucket names must be DNS compliant, and MUST not have periods (.) in the bucket name (between bucket name labels)
 
-## S3 Transfer Acceleration
+>> BUCKET NAMES must be DNS compliant and MUST NOT HAVE PERIODS (.) in the bucket name (between bucket name labels)
 
-> Transfer Acceleration is NOT HIPAA Compliant
+> Transfer Acceleration is NOT HIPAA Compliant(i.e not use for health data) 
+
 > Using Transfer acceleration incurs a charge
 - AWS checks for speed enhancements, and if no enhancement is provided, client does not get charged for using Transfer Acceleration
 
@@ -871,21 +867,21 @@ You are charged for :
 performance
 
 ## S3 Intensive GET / PUT
-> If your bucket access (workload) involves only occasional bursts of 100 PUT/LIST/DELETE requests per second, and less than 800 GET requests per second, no further actions are required to optimize your S3 read/write performance
+>> If your bucket access (workload) involves 
+- only occasional bursts of 100 PUT/LIST/DELETE RPS, and less than 800 GET RPS, no further actions are required to optimize your S3 read/write performance
 
-> If your bucket access routinely exceeds 100 PUT/LIST/DELETE requests per second, or 300 GET requests per second, then you need to:
-- For PUT/LIST/DELETE requests, Introduce prefix randomization in your objects' key names such that they will be stored in different partitions
+>> If your bucket access routinely exceeds 100 PUT/LIST/DELETE requests per second, or 300 GET requests per second, then you need to:
+- Introduce prefix randomization in objects key names such that they will be stored in different partitions
 
-- For intensive GET requests,
-• Introduce prefix (name) randomness
-• And use CloudFront distributions to distribute the objects and offload S3
-- This will also decrease yours3 request charges, since CloudFront will cache and distribute the objects/content
+> For intensive GET requests,
+- Introduce prefix (name) randomness
+- And use CloudFront distributions to distribute the objects and offload S3
+- This will also decrease request charges, since CloudFront will cache and distribute the objects/content
 
-## S3 Intensive GET / PUT
+
 > For steadily increasing request rates, S3 can adjust
-> For rapidly increasing request rate where a bucket receives more than 300 PUT/LIST/DELETE requests per second, or more than 800 GET requests per second,
-- Open a support case with AWS,
-  • This will allow to prepare for the workload and avoid any temporary limits on your request rate
+> For rapidly increasing request rate where a bucket receives more than 300 PUT/LIST/DELETE RPS, or more than 800 GET RPS,
+- Open a support case with AWS, This will allow to prepare for the workload and avoid any temporary limits on your request rate
 =======================================
 ########## v27
 

@@ -410,7 +410,7 @@ The permissions can be granted as follows:
 =======================================
 ######## S3 BUCKET VERSIONING ######### v11
 
-> Bucket versioning is a S3 bucket sub-resource, used to protect against accidental object/data deletion or overwrites
+> BUCKET VERSIONING is a S3 bucket sub-resource, USED TO PROTECT AGAINST ACCIDENTAL OBJECT DELETION OR OVERWRITES
 
 > Versioning can also be used for data retention and archive
 > once you enable Bucket versioning on a bucket, it can not be disabled, however, it can be suspended
@@ -443,7 +443,7 @@ The permissions can be granted as follows:
 ## Suspended Bucket Versioning
 > While the bucket versioning is suspended:
 - New objects (uploaded after suspension), they will have a version ID "null"
-• If the same object key (name) is used to store another object, It will override the existing one (complete object overwrite)
+- If the same object key (name) is used to store another object, It will override the existing one (complete object overwrite)
 
 - Objects with versions that existed before the versioning suspenion; 
 - a new object with the same object key (name) will replace the curreht/latést version, but will have an ID "null", and becomes the new current version
@@ -452,9 +452,10 @@ The permissions can be granted as follows:
 > An object deletion in a suspended versloning bucket, will only delete the object(s) with ID "null"
 
 > The bucket owner canpermanently delete any versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Bucket Versioning- MFA Delete 
 
-## Bucket Versioning- MFA Delete
-> Multi Factor Authentication (MFA) Delete js a versioning capability that adds another level of security in case your account is compromised
+> Multi Factor Authentication (MFA) Delete is a versioning capability that adds another level of security in case your account is compromised
 
 > This adds another layer of security for the following:
 - Changing your bucket's versioning state
@@ -550,7 +551,7 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 2. infrequent access. 
 
 > Both access tiers offer the same low latency as the Standard storage class. 
-For a small monitoring and automation fee, S3 Intelligent-Tiering monitors access patterns and moves objects that have not been accessed for 30 consecutive days to the infrequent access tier.
+> For a small monitoring and automation fee, S3 Intelligent-Tiering monitors access patterns and moves objects that have not been accessed for 30 consecutive days to the infrequent access tier.
 - If the data is accessed later, it is automatically moved back to the frequent access tier. 
 - save money, with no performance impact, no operational overhead, and no retrieval fees.
 =======================================
@@ -817,12 +818,32 @@ You are charged for :
 =======================================
 ## S3 Cross-Origin Resource Sharing (CORS) ## v24
 
-> It is a way by which a client web application (webpage or a domain) can request resources from another webpage (different domain)
+> IT IS A WAY BY WHICH A CLIENT WEB APPLICATION (WEBPAGE OR A DOMAIN) CAN REQUEST RESOURCES FROM ANOTHER WEBPAGE (different domain)
 > CORS can be used to allow web applications to access resources on S3 buckets/resources
 
-> As an example:
-- You can host web fonts on your S3 bucket, then configure your bucket to allow CORS requests for webfonts.
+> EXAMPLE:
+- You can host web fonts on S3 bucket, then configure bucket to allow CORS requests for webfonts.
 - Other domains (web pages) will issue CORS requests to load webfonts from your S3 bucket
+
+> CORS configuration is an XML document with rules that identify the origins that we will allow to access your bucket, the operations (HTTP methods) that will support for each origin, and other operation-specific information.
+EXAMPLE:
+<CORSConfiguration>
+ <CORSRule>
+   <AllowedOrigin>http://www.example.com</AllowedOrigin>
+   <AllowedMethod>PUT</AllowedMethod>
+   <AllowedMethod>POST</AllowedMethod>
+   <AllowedMethod>DELETE</AllowedMethod>
+   <AllowedHeader>*</AllowedHeader>
+  <MaxAgeSeconds>3000</MaxAgeSeconds>
+  <ExposeHeader>x-amz-server-side-encryption</ExposeHeader>
+  <ExposeHeader>x-amz-request-id</ExposeHeader>
+  <ExposeHeader>x-amz-id-2</ExposeHeader>
+ </CORSRule>
+</CORSConfiguration>
+
+> In the CORS configuration, you can specify the following values for the AllowedMethod element: GET, PUT, POST, DELETE and HEAD
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
 =======================================
 ######## S3 TRANSFER ACCELERATION ##### v25
 
@@ -835,8 +856,6 @@ You are charged for :
 > Need to Enable Transfer Acceleration on the S3 bucket
 - Once enabled, it can only be suspended, it can NOT be disabled
 - AFTER ENABLING IT, IT MAY TAKE UP TO 30 MIN before we notice upload speed enhancements
-- Can only be done by the bucket owner, or a different user with permission from the bucket owner
-
 
 - Point your PUT/GET requests to:
   <bucketname>.S3-accelerate.amazonaws.com (for IPV4)
@@ -866,22 +885,28 @@ You are charged for :
 - At high request rates to access sequentially named objects, S3 will place a higher load on the available I/O of the partition hosting these keys (names) which will impact
 performance
 
-## S3 Intensive GET / PUT
->> If your bucket access (workload) involves 
-- only occasional bursts of 100 PUT/LIST/DELETE RPS, and less than 800 GET RPS, no further actions are required to optimize your S3 read/write performance
+## Occasional <=100PLD and <800 GET RPS
+>> If bucket access (workload) involves 
+- only occasional bursts of 100 PUT/LIST/DELETE RPS, and less than 800 GET RPS, 
+- NO FURTHER ACTIONS are required to optimize S3 read/write performance
 
->> If your bucket access routinely exceeds 100 PUT/LIST/DELETE requests per second, or 300 GET requests per second, then you need to:
-- Introduce prefix randomization in objects key names such that they will be stored in different partitions
+## Routine >100PLD or 300 GET RPS
+>> If your bucket access 
+- routinely exceeds 100 PUT/LIST/DELETE RPS or 300 GET RPS, then we need to:
+- INTRODUCE PREFIX RANDOMIZATION IN OBJECTS KEY NAMES such that they will be stored in different partitions
+
+## Rapid >300PLD or >800 GET RPS
+> For rapidly increasing request rate where 
+- bucket receives more than 300 PUT/LIST/DELETE RPS, or more than 800 GET RPS,
+- OPEN A SUPPORT CASE WITH AWS, This will allow to prepare for the workload and avoid any temporary limits on your request rate
 
 > For intensive GET requests,
-- Introduce prefix (name) randomness
+- Introduce prefix randomize
 - And use CloudFront distributions to distribute the objects and offload S3
 - This will also decrease request charges, since CloudFront will cache and distribute the objects/content
 
-
 > For steadily increasing request rates, S3 can adjust
-> For rapidly increasing request rate where a bucket receives more than 300 PUT/LIST/DELETE RPS, or more than 800 GET RPS,
-- Open a support case with AWS, This will allow to prepare for the workload and avoid any temporary limits on your request rate
+
 =======================================
 ########## v27
 
@@ -973,74 +998,58 @@ performance
 
 > No SLA
 
-> Is designed to sustain data loss in two facilities
-> You need to keep your data for a minimum of 90 days (minimum charge)
+> It is designed to sustain data loss in two facilities
+> We need to keep your data for a minimum of 90 days (minimum charge)
 
-> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports
-secure transfer of your data (In-transit) over Secure Sockets Layer (SSL)
+> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports secure transfer of data (In-transit) over Secure Sockets Layer (SSL)
 
-> Glacier may NOT be available in all AWS regions, check for availability
+> Glacier MAY NOT BE AVAILABLE IN ALL AWS REGIONS, check for availability
 
 > Glacier objects are visible and available only through AWS S3 not through AWS Glacier
 
-> Glacier redundantly stores your data to multiple facilities, on multiple devices within each facility
-synchronously
+> Glacier REDUNDANTLY STORES DATA TO MULTIPLE FACILITIES, on multiple devices within each facility synchronously
 
-> Glacier awaits until the multiple facility upload is completed successfully before confirmting a
-successful upload to the user
+> Glacier awaits until the multiple facility upload is completed successfully before confirmting a successful upload to the user
 
-> Glacier does NOT archive object metadata, you need to maintain a client-side database to
-maintain this information about the objects 
-- Basically which archives hold which objects 
+> Glacier DOES NOT ARCHIVE OBJECT METADATA, need to maintain a client-side database 
 
-Suitable for:
--Archive
+> GLACIER is Suitable for:
+- Archive
 - Media asset archiving,
-Health care information archiving,
+- Health care information archiving,
 - Regulatory and compliance archiving,
 - A replacement for magnetic tapes
 
 > You can upload archives to Glacier of a size:
 - As small as 1 Byte
-- As large as 40 TB
+- As large as 40TB
 
 > Glacier file archives of size 1bytes to 4GB can be done in one shot
-
 > Glacier file archives from 100MB up to 40TB, can be uploaded to Glacier using multi-part upload
-
 > Uploading archives is Synchronous
-
 > Downloading archives is Asynchronous
+
+> We can upload data to Glacier directly from CLI, SDKS, or through APIS
+- we cannot do through Console
 
 > The contents of an archive, once uploaded, can not be updated
 
-> You can upload data to Glacier directly from CLI, SDKS, or through APIS
-
-- You can not do that through the AWS Console
-
-> AWS Import/Export Snowball comes in handy when you need to upload large amount of
-data to Glacier
-usually takes 5-7 days
+> AWS Import/Export Snowball comes in handy when you need to upload large amount of data to Glacier usually takes 5-7 days
 
 > When transitioning objects to Glacier from other classes (via lifecycle rules),
 - Glacier adds 32KB overheads (indexing and archive metadata) to the object
--• The number is 40KB overheads if you are using S3 to upload to Glacier
-- You pay for these overheads in addition to your actual data
-- The 32KB of overhead associated with each archive accounts för system
-indexing/metadata overhead.
+- 40KB overheads for S3 to upload to Glacier (chargeable)
 
 
-> It is recommended to group a large number of small objects, into a smaller number of larger objects to reduce these overhead charges.
-- If you need to access individual archived files, make sure that you group them in a way
-that allow this (compression techniques that allows the access to individual files)
-• This will enable you to avoid downloading the entire archive to access individual
-files
+> It is recommended to GROUP LARGE NUMBER OF SMALL OBJECTS, into a smaller number of larger objects to reduce these overhead charges.
+- If you need to access individual archived files, make sure that you group them in a way that allow this (compression techniques that allows the access to individual files)
+• This will enable you to avoid downloading the entire archive to access individual files
 
 > Maintaining Client-Side Archive Metadata
-- Amazon Glacier does not support any additional metadata for the archives, except the archive description (optional)
+- Glacier does not support any additional metadata for the archives, except the archive description (optional)
 - You might maintain metadata about the archives on the client-side. The metadata can include archive name and some other meaningful information about the archive.
 
-> After you upload an archive, you cannot update its content or its description.
+> After upload an archive, you cannot update its content or its description.
 - The only way you can update the archive content or its description is by deleting the archive and uploading another archive.
 
 - Note that each time you upload an archive, Amazon Glacier returns to you a unigue archive ID.
@@ -1048,13 +1057,13 @@ files
 ##### Glacier - Archive Retrieval ##### v15
 > You can retrieve data from Glacier in multiple ways:
 
-1. Expedited: 1-5 mts
+1. Expedited: 1-5 min
 - More expensive
 - Use for urgent requests only
 
 2. Standard: 3-5 Hrs
 - Less expensive than Expedited
-- You get 10GB data retrieval free /month
+- we get 10GB data retrieval free /month
 
 3. Bulk retrieval: 5-12 Hrs
 - Cheapest

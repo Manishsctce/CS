@@ -47,7 +47,8 @@
 > Upto 4tb for my SQL server
 > upto 6TB for the the rest of supported RDS DB engines
 
-> Both the Oracle and sqL Server database engines have limits to how many databases that can run per instance. Primarily, this is due to the underlying technology being proprietary and reqairing specific licensing to operate. 
+> Both Oracle and sqL Server db engines have limits to how many DB that can run per instance. 
+- Primarily, this is due to the underlying technology being proprietary and reqairing specific licensing to operate. 
 - The database engines based on Open Source technology such as Aurora, MYSQL, MariaDB or PostgresQL have no such limits.
 
 =======================================
@@ -62,14 +63,12 @@
 > you cannot dictate/select which AZ in the region will be chosen to create the standby DB instance 
 - we can view which AZ is selected after the standby is created
 
-## Multi-AZ RDS option
+> depending on the instance class, it may take 1 to few minutes to failover to the standby instance 
+- It is recommended to implement DB connection retries in appl, 
+- App may take few minute to switch to standby in case of failure.
 
-> depending on the instance class it may take 1 to few minutes to failover to the standby instance 
-- It is recommended to implement DB connection retries into your applications, 
-- App may take few minute to switch to standb in case of failure.
-
-> AWS recommendation to use provisioned IOPS instances for multi-AZ RDS instances
-
+> AWS RECOMMENDATION TO USE PROVISIONED IOPS INSTANCES FOR MULTI-AZ RDS INSTANCES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### FAILOVER TRIGGER ######
 
 > Failover may be triggered when
@@ -81,11 +80,11 @@
 - Patching the OS of the DB instance
 
 - Manual failover(reboot with failover on primary)
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## MULTI-AZ FAILOVER LOGISTICS
 
 > during failover the CNAME of the RDS DB instance is updated to map to the standby IP address 
-- this is why it is recommended to use endpoint to reference your DB instance and not its IP addresses
+- this is why it is recommended to use endpoint to reference DB instance and not its IP addresses
 
 > CNAME does not change because the RDS endpoint is not changed
 
@@ -95,24 +94,24 @@
 
 > This is very helpful in a failover scenario the primary will fail to the standby i.e. IP address of RDS instance will change
 - Referencing by endpoint means there is no change(endpoint wise) when a failover happened, so no disruptions or manual intervention to facilitate RDS DB instance access in a failover scenario
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## MULTI-AZ RDS Manual failover and reboot
 > In multi-AZ deployment, you can only initiate a manual RDS DB instance failover(primary to secondary) when rebooting
 - This is by selecting the "reboot with failover" reboot option on the primary RDS DB instance
 
-> A DB instance reboot is required for changes to take effect when you change the DB parameter group or when you change a static DB parameter
-
+> A DB instance reboot is required for changes to take effect when we change the DB parameter group or static DB parameter
 - This reboot restart the DB engine
-> The DB parameter group is a configuration container for the DB engine configuration
 
-###### Multi-AZ RDS event notifications
+> The DB parameter group is a configuration container for the DB engine configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## MULTI-AZ RDS EVENT NOTIFICATIONS 
 > You will be alerted by a DB instance event when a failover occurs
 
 > AWS RDS uses AWS SNS to send RDS event via SNS notification
-- You can use API calls to the RDS service to list the RDS events in the past 14 days(DescribeEvents API)
+- we can use API calls to the RDS service to list the RDS events in the past 14 days(DescribeEvents API)
 - You can view past 14 days events using CLI
 - Using AWS console, you can only view RDS event for the last one day i.e 24 hour
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## PROCESS THAT HAPPENED ON THE STANDBY FIRST
 > The following procedure are done on the standby first then on primary
 - OS patching
@@ -120,10 +119,10 @@
 - DB scaling
 
 > in multi-AZ snapshot and automatic backup are done on the standby instance to avoid I/O suspension on primary instance
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Multi-AZ deployment maintenance
-> The sequence is as follow m
-- aintenance on standby is performed 
+> The sequence is as follow 
+- maintenance on standby is performed 
 - standby promoted to primary 
 - maintain is performed on old primary (current standby)
 
@@ -140,7 +139,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Advised to do during change/maintenance window
 
 ## Security group and NaCl
-> In a multi-AZ scenario make sure that your security group and NACL will allow your app server to communicate with both primary and standby instance 
+> In a multi-AZ scenario make sure that SG and NACL will allow app server to communicate with both primary and standby instance 
 - in case of a failure failover the standby become the primary
 =======================================
 ##### DB AUTOMATIC BACKUP OR MANUAL SNAPSHOT 
@@ -180,16 +179,15 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Automatic backup are currently supported only for InnoDB storage engine for MySQL (and not for myISAM engine)
 > Use to automatic backup with other MySQL DB storage engines including ISAM, may lead to unpredictable behaviour during restoration
 
-## DB retention period
+## DB RETENTION PERIOD
 > The period of time AWS keep the automatic backup before deleting them
-> by default : 
-- 7 days is configured from the AWS console for all DB engine (except Arora default is one day regardless how it was configured)
+- 7 days (by default) is configured from the AWS console for all DB engine (except Arora default is one day regardless how it was configured)
 
 > 1 day is configured from API or CLI (for all DB engine including Arora)
 > You can increase it up to 35 days
 > Value of 0 disabled automatic backup completely
 
-> A DB outage if you change your retention period from zero to non zero value for the other way around from non zero to zero value
+> A DB outage if you change your retention period from 0 to non-zero value for the other way around from non-zero to 0 value
 =======================================
 ##### DB SUBNET GROUP ###### v9
 
@@ -504,6 +502,16 @@ content-type
 
 > Redshift is a fast and powerful, fully managed, petabyte-scale data warehouse service
 
+> Regardless of whether you enable automated snapshots, we can take a manual snapshot whenever we want at any time. 
+- By default, manual snapshots are retained indefinitely, even after we delete cluster. 
+- we can specify the retention period when we create manual snapshot or we can change the retention period by modifying the snapshot. 
+- If you create a snapshot using the Amazon Redshift console, it defaults the snapshot retention period to 365 days.
+
+> Automated snapshots are automatically deleted within the period of 1(Least) to 35(Max) days (Based on the retention period settings). 
+
+> So we have to take care of the Manual snapshots instead of Automated snapshots. 
+- Amazon Redshift never deletes Manual snaphots automatically, like how it does for Automatic Snapshots.
+
 #### REDSHIFT CONFIGURATION ####
 > Redshift consists of two types of nodes:
 1. Single node: 
@@ -521,4 +529,16 @@ content-type
 2b. COMPUTE NODE
 > A compute node executes the execution plans, and then intermediate results are sent to the leader node for aggregation before sending back to the client application. 
 - It can have up to 128 compute nodes.
+=======================================
+########## Amazon ElastiCache #########
+
+> Amazon ElastiCache makes it easy to set up, manage, and scale distributed in-memory cache environments
+> It works with both the Redis and Memcached engines
+
+- Makes it easy to deploy Memcached or Redis protocol-compliant server nodes in the cloud. Primarily, IT IMPROVES APPLICATION PERFORMANCE BY STORING FREQUENTLY ACCESSED INFORMATION INTO MEMORY.
+
+## FEATURE ##
+> Automatic detection of and recovery from cache node failures.
+> Flexible Availability Zone placement of nodes and clusters.
+> Integration with other AWS services such as Amazon EC2, Amazon CloudWatch, AWS CloudTrail, and Amazon SNS to provide a secure, high-performance, managed in-memory caching solution.
 

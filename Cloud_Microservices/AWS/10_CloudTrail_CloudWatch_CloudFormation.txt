@@ -5,6 +5,7 @@
 ## CloudTrail
 ## CloudWatch
 ## CloudFormation
+## Trusted Advisor 
 =======================================
 ############## CLOUDTRAIL #############
 > It is an AWS service that helps you enable governance, compliance, and operational and risk auditing of AWS account. 
@@ -23,25 +24,31 @@
 
 > For both types of trails, we can specify S3 bucket from any region.
 
-#### 1. trail that applies to all regions ###
+#### 1. TRAIL THAT APPLIES TO ALL REGIONS ###
 > create a trail that applies to all regions
 > CloudTrail records events in each region and delivers the CloudTrail event log files to an S3 bucket that we specify. 
 
 > If a region is added after creating trail then new region will automatically included
 
-### 2. trail that applies to one region
->> If you create additional single trails, we can have those trails deliver CloudTrail event log files to the same Amazon S3 bucket or to separate buckets.
+### 2. TRAIL THAT APPLIES TO ONE REGION
+>> If you create additional single trails, we can have those trails deliver CloudTrail event log files to the same S3 bucket or to separate buckets.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> BY DEFAULT, CLOUDTRAIL EVENT LOG FILES ARE ENCRYPTED USING AMAZON S3-SSE but we can choose to encrypt with AWS KMS key. 
+> BY DEFAULT, CLOUDTRAIL EVENT LOG FILES ARE ENCRYPTED USING S3-SSE but we can choose to encrypt with AWS KMS key. 
 - store log files in bucket as long as we want. 
 - we can define Amazon S3 lifecycle rules to archive or delete log files automatically.
+
+## CloudTrail log file integrity validation
+> To determine whether a log file was modified, deleted, or unchanged after CloudTrail delivered it, we can use CloudTrail log file integrity validation. 
+- This feature is built using industry standard algorithms: SHA-256 for hashing and SHA-256 with RSA for digital signing.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What Are Trails?
 
-> A trail is a configuration that enables delivery of CloudTrail events to an Amazon S3 bucket, CloudWatch Logs, and CloudWatch Events. 
-- we can use a trail to filter the CloudTrail events we want delivered, encrypt your CloudTrail event log files with an AWS KMS key, and set up Amazon SNS notifications for log file delivery. 
+> A trail is a configuration that enables delivery of CloudTrail events to S3 bucket, CloudWatch Logs, and CloudWatch Events. 
+- we can use a trail to filter the CloudTrail events we want delivered, encrypt CloudTrail event log files with an AWS KMS key, and set up SNS notifications for log file delivery. 
+
+
 
 =======================================
 ############# CLOUDWATCH ##############
@@ -82,3 +89,12 @@
 
 9. Output 
 =======================================
+########## Trusted Advisor ############
+
+> It is an online tool that provides real time guidance to help provision your resources following AWS best practices.
+
+cost optimization
+Performance
+Security
+Fault tolerance
+Service limit

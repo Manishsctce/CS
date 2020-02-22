@@ -1,3 +1,11 @@
+######## AWS DATABASE SERVICE #########
+
+## RDS
+## Amazon Aurora
+## DynamoDB
+## AWS Redshift
+## Amazon ElastiCache  
+
 =======================================
 ############## AWS RDS ################ v4
 > It is fully managed relational DB engine service where AWS is responsible for below:
@@ -502,10 +510,32 @@ content-type
 
 > Redshift is a fast and powerful, fully managed, petabyte-scale data warehouse service
 
-> Regardless of whether you enable automated snapshots, we can take a manual snapshot whenever we want at any time. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### BENEFITS ###
+
+> Query our Data Lake:
+- can directly query open data formats stored in S3 with Redshift spectrum(a feature of Redshift without need for unnecessary data movement)
+
+> Secure
+- It can be encrypted with AWS KMS or HSM
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### USE CASES ####
+> Accelerated analytics workload 
+> Unified data warehouse and data lake 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> AWS Documentation mentions the following on monitoring Redshift Clusters:
+
+> Amazon CloudWatch metrics help to monitor the physical aspects of cluster, such as CPU utilization, latency, and throughput. 
+- Metric data is displayed directly in the Redshift console. 
+- we can also view it in CloudWatch console, or 
+- we can consume it in any other way such as with CloudWatch CLI OR SDKs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+> Regardless of whether we enable automated snapshots, we can take a manual snapshot whenever we want at any time. 
 - By default, manual snapshots are retained indefinitely, even after we delete cluster. 
 - we can specify the retention period when we create manual snapshot or we can change the retention period by modifying the snapshot. 
-- If you create a snapshot using the Amazon Redshift console, it defaults the snapshot retention period to 365 days.
+- If you create a snapshot using Redshift console, it defaults the snapshot retention period to 365 days.
 
 > Automated snapshots are automatically deleted within the period of 1(Least) to 35(Max) days (Based on the retention period settings). 
 
@@ -514,31 +544,139 @@ content-type
 
 #### REDSHIFT CONFIGURATION ####
 > Redshift consists of two types of nodes:
+
 1. Single node: 
-> A single node stores up to 160 GB.
+- A single node stores up to 160 GB.
 
 2. Multi-node: 
 > It is a node that consists of more than one node. 
 > It is of two types:
 
 2a. LEADER NODE
-> It manages the client connections and receives queries. 
+> IT MANAGES THE CLIENT CONNECTIONS AND RECEIVES QUERIES. 
 > A leader node receives the queries from the client applications, parses the queries, and develops the execution plans. 
 - It coordinates with the parallel execution of these plans with the compute node and combines the intermediate results of all the nodes, and then return the final result to the client application.
 
 2b. COMPUTE NODE
 > A compute node executes the execution plans, and then intermediate results are sent to the leader node for aggregation before sending back to the client application. 
-- It can have up to 128 compute nodes.
+- It can have up to 128 compute nodes in a cluster
+
+
+## Redshift – Performance
+1. Columnar Data Storage:
+- Instead of storing data as series of rows, Amazon Redshift organizes the data by column.
+- Unlike Row-based systems, which are ideal for transaction
+processing's, column-based systems are ideal for data warehousing and analytics, where queries often involve aggregates performed over large data sets.
+- Since only the columns involved in the queries are processed and columnar data is stored sequentially on the storage media, column-based systems require far few I/Os, greatly improving query performance.
+
+Advanced Compression:
+- Columnar data stores can be compressed much more than row-based data stores.
+- Amazon Redshift employs multiple compression techniques and can often achieve significant compression relative to traditional relational data stores.
+When loading data into an empty table, Amazon Redshift automatically samples your data and selects the most appropriate compression technique.
+
+• Massively Parallel processing (MPP):
+- Amazon Redshift automatically distributes data and query load across all nodes. Amazon Redshift makes it easy to add nodes to your data warehouse and enables you to maintain fast query performance as your data warehouse grows.
+
+## Redshift – Security
+Encrypted in transit using SSL
+• Encrypted at rest using AES-256 encryption
+• By Default, Redshift takes care of key management.
+Manage your own keys through HSM
+• AWS Key Management Service
+
+## Redshift – Backup Retention
+• Amazon Redshift automaticallly patches and backup (snapshots) your data warehouse, storing the backups for a user-defined Retention period in AWS S3.
+• It keeps the backup by default for 1 day (24 hours) but you can configure it from 0-35 days.
+• Automatic backups are stopped if you choose retention period of 0
+• You have access to these automatic snapshots during the retention period.
+• If you delete the cluster, your automatic snapshots are deleted as well.
+• Manual backups are not deleted automatically, if you not delete them manually, you will be charged standard S3 storage rates.
+
+##Redshift – Restore
+Amazon Redshift currently supports only one AZ (no Multi-AZ option)
+• You can restore from your backup to a new Redshift cluster in the same
+or different AZ
+
+## Redshift – Monitoring
+• Metrics for compute utilization, storage utilization and read/write
+traffic to your Amazon Redshift data warehouse cluster, are available
+free of charge via AWS Cloudwatch.
+• You can also add additional user-defined, metrics via AWS Cloudwatch
+custom metric functionality.
+
+## Q: An organization is managing a Redshift cluster in AWS. They need to monitor the performance of this Redshift cluster to ensure that it is performing as efficiently as possible. Which of the following services can be used for achieving this requirement? Please select:
+A) Cloudtrail
+B) VPC Flowlogs
+C) Cloudwatch
+D) AWS Trusted advisor
+
+## Q : A company needs to have a columnar structured database storage suitable to perform complex analytics queries against petabyte of structured data, Which of the following can meet this requirement? Please select:
+A) Amazon RDS
+B) Redshift
+C) Elasticache
+D) DynamoDB
+
+## Q: There is a requirement to load a lot of data from your on-premises network to AWS Redshift. Which of the below options can be used for data transfer? Please select two possible answers
+
+A) Direct Connect
+B) Snowball
+C) AWS VPN
+D) Can't transfer huge amount of data to AWS
 =======================================
 ########## Amazon ElastiCache #########
 
+## PURPOSE
+> The primary purpose of in-memory key-value store is to provide
+ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
+> Most data stores have areas of data that are frequently accessed but seldom updated. 
+> Additionally, querying a database will always be slower and more expensive than locating a key in a key-value pair cache.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### ElastiCache #######
 > Amazon ElastiCache makes it easy to set up, manage, and scale distributed in-memory cache environments
-> It works with both the Redis and Memcached engines
 
-- Makes it easy to deploy Memcached or Redis protocol-compliant server nodes in the cloud. Primarily, IT IMPROVES APPLICATION PERFORMANCE BY STORING FREQUENTLY ACCESSED INFORMATION INTO MEMORY.
+> It is AWS fully managed Web service.
+> It is an in-memory key-value data store engine in the cloud.
+> It improves the performance of web applications by allowing for the retrieval of information from a fast, managed, in-memory system (instead of reading it from the DB itself)
 
+> Improves response times for user transactions and queries
+> Can enhance response time for read-intensive And/or compute- intensive workloads.
+> It offloads the read workload from the main DB instances
+> It does this by storing the results of frequently accessed pieces of data in-memory
+
+> ElastiCache is used in between WebServer and Database to store cache. WebServer might response through cache if the request match.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## FEATURE ##
 > Automatic detection of and recovery from cache node failures.
-> Flexible Availability Zone placement of nodes and clusters.
-> Integration with other AWS services such as Amazon EC2, Amazon CloudWatch, AWS CloudTrail, and Amazon SNS to provide a secure, high-performance, managed in-memory caching solution.
+> Flexible AZ placement of nodes and clusters.
+> Integration with other AWS services such as EC2, CloudWatch, CloudTrail, and SNS to provide a secure, high-performance, managed in-memory caching solution.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ElastiCache Supports 2 Caching engines:
+1. Memcached (its not a data store (DB), only cache )
+2. Redis (is the fast NOSQL – can be used as database)
+
+### 1. ElastiCache - Memcached ##
+> Elasticache is not persistent
+> Can not be used as a data store
+> Ideal front-end for data stores (RDS, DynamoDB)
+> Use Cases:
+- cache contents of a DB
+- cache data from dynamically generated webpages
+- Transient session data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 2. Elasticache - Redis #####
+> Redis is persistent
+> It is the fast NoSQL engine 
+> It can be used as a data store.
+> Use cases:
+- Web
+- Mobile Apps
+- Financial Apps
+- Gaming
+- Ad-tech
+- IoT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Elasticache Exam Tip
+• Typically you will be given a scenario where a particular database is under a lot of stress/load. You may be asked which service you should use to alleviate this.
+>>> Elasticache is a good choice if your database is particularly read
+heavy and not prone to frequent changing,

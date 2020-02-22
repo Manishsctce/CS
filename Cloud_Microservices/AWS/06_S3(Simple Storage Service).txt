@@ -1141,28 +1141,29 @@ performance
 - Once objects are transferred to S3 they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management and cross region replication apply directly to objects stored in bucket.
 
 ##### 2. Volume Gateway #####
-> A volume gateway provides cloud-backed storage volumes that you can mount as Internet Small Computer System Interface (ISCSI) devices from your on-premises application servers. The gateway supports the following volume configurations:
+> A volume gateway provides cloud-backed storage volumes that we can mount as Internet Small Computer System Interface (ISCSI) devices from on-premises app servers. The gateway supports the following volume configurations:
 
-2a. Cached volumes 
-- YOU STORE YOUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
+2A. CACHED VOLUMES 
+- WE STORE OUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
 - Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale your storage on-premises. 
 - You also retain low-latency access to your frequently accessed data.
 
 2b. Stored volumes 
-– If you need low-latency access to your entire dataset, first configure your on-premises gateway to store all your data locally. Then ASYNCHRONOUSLY BACK UP POINT-IN-TIME SNAPSHOTS OF THIS DATA TO AMAZON S3. 
+– If you need low-latency access to entire dataset, first configure on-premises gateway to store all data locally. Then ASYNCHRONOUSLY BACK UP POINT-IN-TIME SNAPSHOTS OF THIS DATA TO AMAZON S3. 
 - This configuration provides durable and inexpensive offsite backups that you can recover to your local data center or Amazon EC2. For example, if you need replacement capacity for disaster recovery, you can recover the backups to Amazon EC2.
 
 ###### 3. Tape Gateways ######
-> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
+> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. 
+- A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
 
-> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as an Amazon Elastic Compute Cloud (Amazon EC2) instance. You deploy your gateway on an EC2 instance to provision ISCSI storage volumes in AWS. Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
+> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as EC2 instance. 
+- deploy gateway on EC2 instance to provision ISCSI storage volumes in AWS. 
+- Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
 
 ### Summary
 • File Gateway – For flat files, stored directly on S3.
-• Tape Gateways – Used for backup and uses popular backup applications
-like NetBackup, Backup Exec, Veear etc.
-• Volume Gateway:
-• Stored Volumes – Entire Dataset is stored on site and is
-asynchronously backed up to S3.
-• Cached Volumes – Entire Dataset is stored on S3 and the most
-frequently accessed data is cached on site.
+• Tape Gateways – Used for backup and uses popular backup applications like NetBackup, Backup Exec, Veear etc.
+
+Volume Gateway:
+• Stored Volumes – Entire Dataset is stored on site and is asynchronously backed up to S3.
+• Cached Volumes – Entire Dataset is stored on S3 and the most frequently accessed data is cached on site.

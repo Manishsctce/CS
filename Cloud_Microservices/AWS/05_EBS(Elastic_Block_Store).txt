@@ -1,3 +1,21 @@
+######### AWS STORAGE SERVICE #########
+
+## EBS 
+
+## AWS S3
+- It is Simple Storage service 
+- It is a scalable, high-speed, low-cost web-based service designed for online backup and archiving of data and application programs. 
+- It allows to upload, store, and download any type of files up to 5 TB in size
+
+## AWS Elastic File System(EFS)
+- FULLY MANAGED, scalable, and sharable storage among thousands of EC2 instances.
+
+## Glacier
+- Secure, durable, and extremely low-cost solutions for backup and archiving.
+
+#### Storage Gateway ####
+> hybrid storage service that Seamlessly connect on-premise applications or services with the AWS cloud storage.
+=======================================
 ## EBS Types 
 
 1. General purpose SSD(gp2)  
@@ -233,29 +251,26 @@
 
 > Changes made by the other account(s) to their copies, do not impact the original shared snapshot
 =======================================
-###### v9
-
-## Copying Snapshots ## 9a
-> The following is possible for your own snapshots:
-- You can copy an un-encrypted snapshot
-- During the copy process, you can request encryption for the resulting copy
-- You can also copy an encrypted snapshot
-- During the copy process, you can request to re-encrypt it usinga different key
+########## COPYING SNAPSHOTS ########## 9a
+> The following is possible for our snapshots:
+- we can copy an un-encrypted snapshot
+- During the copy process, we can request encryption for the resulting copy
+- we can also copy an encrypted snapshot
+- During the copy process, you can request to re-encrypt it using different key
 
 > Snapshot copies receive a new Snapshot ID, different from that of the original snapshot
 
-## Copying a Snapshot ## 9b
-> You can copy a snapshot within the same region, or from one region to another
+> We can copy a snapshot within the same region, or from one region to another
 
-> To move a snapshot to another region, you need to copy it to that region
+> To move a snapshot to another region, we need to copy it to that region
 
-> You can only make a copy of the snapshot when it has been fully saved to S3 (its status shows as "complete"), and not during the snapshot's "pending" status (when data blocks are being moved to S3)
+> we can only make a copy of the snapshot when it has been fully saved to S3 (its status shows as "complete"), and 
+- not during "pending" status (when data blocks are being moved to S3)
 
 > Amazon S3's Server Side Encryption (SSE) protects the snapshot data in-transit while copying (Since the snapshot and the copy are both on S3)
 
-## Copying a Snapshot ## 9c 
-> User defined tags are NOT copied from the original snapshot to the copy
-> You can have up to 5 snapshot copy requests running in a single destination per account
+> User defined tags are NOT copied from original snapshot to copy
+> we can have up to 5 snapshot copy requests running in a single destination per account
 
 > You can copy Import/Export service, AWS Marketplace, and AWS storage gateway snapshots (not just the EBS ones)
 
@@ -274,14 +289,7 @@
 - Copy data and logs to another AWS account for auditing
 - This also protects against account compromise
 
-
 =======================================
-###### v10
-lab
-=======================================
-###### v11
-
-
 ## Creating/Registering AMIs ## 11a
 > To create your own AMI, from an Instance-store backed EC2 instance's root volume, you need to:
 - Launch an EC2 instance from an AWS Instance-Store backed AMI
@@ -308,9 +316,6 @@ lab
 > De-registering an AMI will not impact those instances created from the AMI while it was registered
 
 =======================================
-###### v12
-
-
 ## User Created EBS-backed AMI ## 12a
 > For EBS-backed instances, when you want to create an AMI, stop the instance to ensure data consistency and integrity, then create the AMI
 
@@ -367,3 +372,5 @@ lab
 - An EC2 instance's max bandwidth need to be greater or equal to the total I/0 of EBS volume (or RAID array)
 
 > It is not recommended to use a RAID array as the root/boot volume of an instance
+=======================================
+## AWS Elastic File System(EFS)

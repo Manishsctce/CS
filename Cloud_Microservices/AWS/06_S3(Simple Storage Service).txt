@@ -451,11 +451,11 @@ The permissions can be granted as follows:
 
 > An object deletion in a suspended versloning bucket, will only delete the object(s) with ID "null"
 
-> The bucket owner canpermanently delete any versions
+> The bucket owner can permanently delete any versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Bucket Versioning- MFA Delete 
 
-> Multi Factor Authentication (MFA) Delete is a versioning capability that adds another level of security in case your account is compromised
+> Multi Factor Authentication (MFA) Delete is a versioning capability that adds another level of security in case account is compromised
 
 > This adds another layer of security for the following:
 - Changing your bucket's versioning state
@@ -502,14 +502,14 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 4. S3-RRS (deprecating) 
 5. S3 Intelligent-Tiering (new)
 
-#### S3 STANDARD Storage Class ####
+#### 1. S3 STANDARD Storage Class
 > Provides for 99.99% availability
 > 11 9's Data Durability ( 99.999999999%)
 > Data encrypted in-transit and at rest in S3
 > Designed to sustain the concurrent loss of data in two facilities
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## S3 Infrequent Access Class(S3–IA) ##
+## 2. S3 STANDARD_IA(Infrequent Access) (S3–IA) ##
 
 > For long-lived, less frequently accessed data
 > Designed to sustain the concurrent loss of data in two facilities
@@ -526,7 +526,11 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 
 >> Suitable for objects greater than 128 KB (Not less than that)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## S3 Reduced Redundancy Storage(S3–RRS)
+## 3. OneZone-IA 
+> It stores object data in only one Availability Zone, which makes it less expensive than STANDARD_IA. 
+- However, the data is not resilient to the physical loss of the AZ resulting from disasters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 4. S3 Reduced Redundancy Storage(S3–RRS)
 
 > Designed to sustain the data loss in one facility
 
@@ -619,7 +623,7 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 > S3 regularly rotates the master key
 > Uses AES-256 bits
 
-## PROCESS ## not require for SSA
+## PROCESS ## not require for SAA
 > KMS GENERATES DATA KEY AND ENCRYPTS IT USING THE MASTER KEY THAT WE SPECIFIED EARLIER;
 - KMS then returns this encrypted datakey along with the plaintext datakey to Amazon S3.
 - Amazon S3 encrypts the object using the plaintext datakey first , and then stores the encrypted object (along with the encrypted datakey) and deletes the plaintext datakey from memory.
@@ -628,7 +632,7 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 - With the plaintext datakey, S3 decrypts the encrypted object and returns it to you.
 - Each object is encrypted with a unique datakey,
 - This key is encrypted with a periodically rotated key managed by AWS S3.
-- SSE-S3 USES 256-BIT ADVANCED ENCRYPTION STANDARD (AES) KEYS FOR BOTH OBJECT AND MASTER KEYS.
+- SSE-S3 USES 256-BIT AES KEYS FOR BOTH OBJECT AND MASTER KEYS.
 
 > This feature is offered at no additional cost beyond what you pay for using Amazon S3.
 
@@ -665,23 +669,23 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 > Client manages the keys, S3 service manages encryption
 > AWS does not store the client provided encryption key, so if the client looses the key, they can't access object, başically they loose the data.
 
-- CLIENTS CAN USE THEIR OWN ENCRYPTION KEY WHILE UPLOADING AN OBJECT TO AMAZON S3.
-- This encryption key is used by Amazon S3 to encrypt your data using AES-256.
-- S3 does not store the key, after the object is encrypted, the encryption key supplied by the client is deleted from the Amazon S3 system that used it to protect the client's data.
-- When the client retrieves this object from Amazon S3, they must provide the same encryption key in the request.
-- Amazon S3 verifies that the encryption key matches, Decrypts the object, and returns the object to the requester.
+- CLIENTS CAN USE THEIR OWN ENCRYPTION KEY WHILE UPLOADING AN OBJECT TO S3.
+- This encryption key is used by S3 to encrypt data using AES-256.
+- S3 does not store the key, after the object is encrypted, the encryption key supplied by the client is deleted from S3 system that used it to protect the client's data.
+- When the client retrieves this object from S3, they must provide the same encryption key in the request.
+- S3 verifies that the encryption key matches, Decrypts the object, and returns the object to the requester.
 
 =======================================
 ####### S3 Static Website Hosting ##### v20
 
-
 > The website S3 endpoint URL is :
-<S3bucketname>,S3-website-<AWS-Region>.amazonaws.com
+<S3bucketname>.S3-website-<AWS-Region>.amazonaws.com
 
-> You need to allow read access to all your content on the bucket (website) content that you want to make available
-> Use bucket policy or ACLS for this
+> We need to allow read access to all content on the bucket (website) content that we want to make available
+- Use bucket policy or ACLs for this
+
 > Requester Pays bucket do not work with website endpoint
-> Such a request (requester pays) to an S3 website endpoint will return HTTP 403 Access Denied
+- Such a request (requester pays) to an S3 website endpoint will return HTTP 403 Access Denied
 
 > It does not support HTTPS (SSL) connections
 > Returns an HTML document
@@ -690,17 +694,17 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 > Supports publicly readable content only
 > When no specific content is requested by the HTTP GET or HEAD requests, it returns the index HTML document that you specify in your configuration
 
-## S3 Static Website Hosting - Configurations
-> Enable website hosting to your bucket, and specify:
+## S3 Static Website Hosting - CONFIGURATIONS
+> Enable website hosting to bucket, and specify:
 - Index document (default web page) -> a MUST do
 - Error document (Instead of the standard HTML 4X error messages) -> Optional
-- The index/default web page document can be specified also under each folder (directory) in your bucket to be used as a response to requests that de not specify specific content
+- The index/default web page document can be specified also under each folder (directory) in bucket to be used as a response to requests that de not specify specific content
 
-## S3 Static Website Hosting – Redirection
-> If your Amazon S3 bucket is configured for website hosting, you can redirect requests for an object to another object in the same bucket or to an external URL.
-> You can redirect (re-route) all requests (at the bucket level) to another website
-> You can do conditional redirection based on object or prefixes in a request
-> You can also redirect requests that would return an error
+## S3 Static Website Hosting – REDIRECTION
+> If S3 bucket is configured for website hosting, we can redirect requests for an object to another object in the same bucket or to an external URL.
+> We can redirect (re-route) all requests (at the bucket level) to another website
+> We can do conditional redirection based on object or prefixes in a request
+> We can also redirect requests that would return an error
 =======================================
 ############ Pre-Signed URL ########### v21
 
@@ -796,9 +800,9 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 - Changes to existing objects that happen after CRR is enabled, are replicated
 
 > Objects created with SSE-C or SSE-KMS are not replicated
-- Amazon S3 does not keep the encryption keys you provide after the object is created in the source bucket so it cannot decrypt the object for replication, and therefore it does not replicate the object
+- S3 does not keep the encryption keys you provide after the object is created in the source bucket so it cannot decrypt the object for replication, and therefore it does not replicate the object
 
-> If the object owner is different from the source bucket owner, and bucket owner does not have permissions to the object, AWS S3 will not replicate these objects
+> If the object owner is different from the source bucket owner, and bucket owner does not have permissions to the object, S3 will not replicate these objects
 
 > Updates to bucket-level sub-resources are not replicated
 - This allows you to have different bucket configurations on the source and destination buckets.
@@ -823,7 +827,7 @@ You are charged for :
 
 > EXAMPLE:
 - You can host web fonts on S3 bucket, then configure bucket to allow CORS requests for webfonts.
-- Other domains (web pages) will issue CORS requests to load webfonts from your S3 bucket
+- Other domains (web pages) will issue CORS requests to load webfonts from S3 bucket
 
 > CORS configuration is an XML document with rules that identify the origins that we will allow to access your bucket, the operations (HTTP methods) that will support for each origin, and other operation-specific information.
 EXAMPLE:
@@ -875,7 +879,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
 
 > Uses multipart upload from your browser to multiple AWS, regions, and demonstrates speed enhancements
 =======================================
-########## v26
+##### S3 Performance Consideration #### v26
 
 ## S3 Intensive GET/ PUT
 > S3 maintains an index of object key names in each region
@@ -908,9 +912,7 @@ performance
 > For steadily increasing request rates, S3 can adjust
 
 =======================================
-########## v27
-
-## Billing Charges in S3
+######## Billing Charges in S3 ######## v27
 > No charge for data transferred from/to EC2 to/from S3 in the same region
 - This includes data transferred via Copy command
 > Data transfer into S3 is free of charge
@@ -919,7 +921,6 @@ performance
 > Data transfer via Copy to other regions is charged at the Internet data transfer rates
 > Data transferred from S3 to Cloudfront is free
 
-## Billing Charges in S3
 > You pay for:
 - Per GB/Month storage fee
 - Data transferred in/out of S3 (as explained in the last slide)
@@ -941,7 +942,7 @@ performance
 
 
 =======================================
-########## v28
+##### Notification and Monitoring ##### v28
 
 ## S3 & Event Notification
 > When certain bucket events occur, AWS S3 Can be configured to automatically send notifications to one of the following AWS Services:
@@ -949,35 +950,30 @@ performance
 - SQS queue
 - or AWS Lambda function(s)
 
-> This is a bucket level configuration, and you can configure multiple events as required
+> This is a bucket level configuration, and we can configure multiple events as required
 > You need to configure SNS, SQS, Lambda before configuring S3 event notifications
-> No extra charge is incurred for enabling event notifications to your bucket, however, SNS, SQS, Lambda charges apply
+> No extra charge is incurred for enabling event notifications on bucket, however, SNS, SQS, Lambda charges apply
 
 > You can set notifications for, Create object, Object delete, Object Delete marker created.. and many other bucket related events
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 Monitoring via CloudWatch
-> With AWS CloudWatch you can monitor multiple metrics.
-
-> CloudWatch can take actions based on a single metric
-
 > For S3, metrics that can be monitored by CloudWatch include:
 - S3 Requests, Bucket Storage, Bucket Size, All requests, HTTP 4XX, 5XX errors among others
 
-## S3 Monitoring via CloudWatch
 > You can configure filters to filter CW data, these are called CloudWatch Dimensions
-- You can filter by bucket name, storage type, prefix, tag
+- we can filter by bucket name, storage type, prefix, tag
 
 > Daily CloudWatch, Bucket-level storage metrics are turned on by default at no additional cost.
 - 1 minute CloudWatch metric can be configured both at the bucket and object levef
 - You can have up to 1000 metric configurations per bucket
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 API log monitoring via CloudTrail
 > CloudTrail captures all API requests made to S3 API
 
-> By default, AWS CloudTrail logs bucket level actions, however you can configure it to log the object level actions (such as DELETE, GET, PUT, POST object events)
+> BY DEFAULT, CLOUDTRAIL LOGS BUCKET LEVEL ACTIONS, 
+- however we can configure it to log object level actions (such as DELETE, GET, PUT, POST object events)
 
-> CloudTrail delivers these logs to a S3 bucket that you configure
+> CloudTrail delivers logs to a S3 bucket that you configure
 
 > CloudTrail collected information includes: 
 - Who made the request
@@ -989,19 +985,18 @@ performance
 > IT IS AN ARCHIVING STORAGE FOR INFREQUENTLY ACCESSED DATA
 > Achieved objects are not available for real time access, you need to submit a retrieval request, 
 - It restore the data first before you can read it (can take few hours),
-- Requested archived data will be copied to RRS
-- After data is retrieved, you have up to 24 hours to download it
+- Requested archived data will be COPIED TO RRS
+- After data is retrieved, you have up to 24 hours to download it(by default)
 
-> You can NOT specify Glacier as the Storage Class at the time you create an object
+> You can NOT specify Glacier as the Storage Class at the time we create an object
 
 > 11 9's data durability
-
 > No SLA
 
 > It is designed to sustain data loss in two facilities
-> We need to keep your data for a minimum of 90 days (minimum charge)
+> We need to keep data for a minimum of 90 days (minimum charge)
 
-> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports secure transfer of data (In-transit) over Secure Sockets Layer (SSL)
+> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports secure transfer of data (In-transit) over SSL
 
 > Glacier MAY NOT BE AVAILABLE IN ALL AWS REGIONS, check for availability
 
@@ -1055,7 +1050,7 @@ performance
 - Note that each time you upload an archive, Amazon Glacier returns to you a unigue archive ID.
 =======================================
 ##### Glacier - Archive Retrieval ##### v15
-> You can retrieve data from Glacier in multiple ways:
+> We can retrieve data from Glacier in multiple ways:
 
 1. Expedited: 1-5 min
 - More expensive
@@ -1069,18 +1064,18 @@ performance
 - Cheapest
 - Use to retrieve large amounts up to Petabytes in a day
 
-> You can retrieve parts of an archive
+> we can retrieve parts of an archive
 > It is common to group multiple objects and compress them using TAR or ZIP format before archiving them
 
 > Archived Data Class does not change when retrieving data from Glacier, because what gets retrieved in a copy of the data, placed into RRS, not the actual Archive in Glacier
 
-> Is an asynchronous job, and you need to submit/initiate a request for that
-- You can NOT use AWS Console for Archive Jobs retrieval
-- You can use AWS SNS to be notified when a retrieval job has completed
+>  Archive Retrieval is an asynchronous job, we need to submit/initiate request for that
+- we can NOT use AWS Console for Archive Jobs retrieval
+- we can use AWS SNS to be notified when a retrieval job has completed
 
 > When you restore an archive (or objects therein) from Glacier:
-- You can specify while initiating the restore how long (default is 24 hours) you need the restored copy to be available to you
-- you can also change this after the copy is made available in RRS (you can make it longer or shorter) by re-issuing a restore, AWS will update the same copy's expiration
+- we can specify while initiating restore how long (default is 24 hours) we need restored copy to be available
+- we can also change this after the copy is made available in RRS (you can make it longer or shorter) by re-issuing a restore, AWS will update the same copy's expiration
 
 - A copy of the object is moved into RRS, and the original remains in Glacier
 - While the restoration is in progress, the console shows "restoration in progress"
@@ -1088,12 +1083,13 @@ performance
 
 - THE ARCHIEVE STORAGE CLASS REMAINS GLACIER 
 
-## GLACIER BYTE RANGES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### GLACIER BYTE RANGES ######
 
-> S3 and Glacier support HTTP GET requests with Range in HTTP header to identify a specific byte range you may want to-retrieve from your Glacier archived data, instead of retrieving the entire archive
-- This can help you manage the download charges (RRS charges)
-- You can also download the portion your object(s) are within (in case the Glacier archive has many objects)
-- But this also implies, you must maintain a client database (outside of Glacier), which includes information about the archive, the files contained, and the byte ranges
+> S3 and Glacier support HTTP GET requests with Range in HTTP header to identify a specific byte range we may want to-retrieve from your Glacier archived data, instead of retrieving the entire archive
+- This help to manage the download charges (RRS charges)
+- we can download a portion of object (in case the Glacier archive has many objects)
+- But this also implies, we must maintain a client database (outside of Glacier), which includes information about the archive, the files contained, and the byte ranges
 - This can also help you break a large archive retrieval into multiple jobs 
 
 > Byte range can start as low as 1byte, and ends at increments of 1MByte (archived portion retrieval can end at the archive end, or multiples of 1Mbyte)
@@ -1116,54 +1112,8 @@ performance
 - You pay for these overheads in addition to your actual data
 
 > It is recommended to group a large number of small objects, into a smaller number of larger archieve to reduce these overhead charges.
-
-=======================================
-######### AWS STORAGE GATEWAY #########
-
-
-> AWS Storage Gateway is a service that CONNECTS AN ON-PREMISES SOFTWARE APPLIANCE WITH CLOUD-BASED STORAGE TO PROVIDE SEAMLESS AND SECURE INTEGRATION between an organization's on-premises IT environment and AWS's Storage infrastructure. The service enables you to securely store data to the AWS cloud for scalable and cost-effective storage.
-
-> AWS STORAGE GATEWAY'S SOFTWARE APPLIANCE is available for download as a virtual machine (VM) image that you INSTALL ON A HOST IN YOUR DATACENTER.
-
-> Storage gateway supports either VMware ESXI or Microsoft Hyper-V. 
-- Once you have installed your gateway associated with your AWS account through the activation process, you can use the AWS management console to create the storage gateway option that is right for you.
-
-##### Types of Storage Gateway #####
-1. File Gateway (NFS)
-2. Volumes Gateway (ISCSI)
-   2a. Stored Volumes
-   2b. Cached Volumes
-3. Tape Gateway (VTL)
-
-#### 1. File Gateway #####
-> Files are stored as object in S3 Buckets, accessed through a Network File System (NFS) mount point. 
-- Ownership, permissions and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. 
-- Once objects are transferred to S3 they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management and cross region replication apply directly to objects stored in bucket.
-
-##### 2. Volume Gateway #####
-> A volume gateway provides cloud-backed storage volumes that we can mount as Internet Small Computer System Interface (ISCSI) devices from on-premises app servers. The gateway supports the following volume configurations:
-
-2A. CACHED VOLUMES 
-- WE STORE OUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
-- Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale your storage on-premises. 
-- You also retain low-latency access to your frequently accessed data.
-
-2b. Stored volumes 
-– If you need low-latency access to entire dataset, first configure on-premises gateway to store all data locally. Then ASYNCHRONOUSLY BACK UP POINT-IN-TIME SNAPSHOTS OF THIS DATA TO AMAZON S3. 
-- This configuration provides durable and inexpensive offsite backups that you can recover to your local data center or Amazon EC2. For example, if you need replacement capacity for disaster recovery, you can recover the backups to Amazon EC2.
-
-###### 3. Tape Gateways ######
-> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. 
-- A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
-
-> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as EC2 instance. 
-- deploy gateway on EC2 instance to provision ISCSI storage volumes in AWS. 
-- Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
-
-### Summary
-• File Gateway – For flat files, stored directly on S3.
-• Tape Gateways – Used for backup and uses popular backup applications like NetBackup, Backup Exec, Veear etc.
-
-Volume Gateway:
-• Stored Volumes – Entire Dataset is stored on site and is asynchronously backed up to S3.
-• Cached Volumes – Entire Dataset is stored on S3 and the most frequently accessed data is cached on site.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### S3 Glacier Deep Archive ####
+> It is Use for archiving data that rarely needs to be accessed. 
+- Data stored in the S3 Glacier Deep Archive storage class has a minimum storage duration period of 180 days and a default retrieval time of 12 hours. 
+- If you have deleted, overwritten, or transitioned to a different storage class an object before the 180-day minimum, you are charged for 180 days.

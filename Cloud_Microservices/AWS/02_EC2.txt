@@ -36,7 +36,7 @@
 
 > AWS EC2 provides scalable computing capacity in the AWS cloud
 
-> You can use Amazon EC2 to launch as many or as few Virtual servers as you need, configure security and networking and manage storage. 
+> You can use EC2 to launch as many or as few Virtual servers as you need, configure security and networking and manage storage. 
 
 > it enables us to scale up or scale down the instance
 
@@ -51,7 +51,7 @@
 > EC2 availability SLA is 99.95% for each region during any monthly biling period 
 - here 0.05% i.e. 22min per month this much time our EC2 instance might not available
 
-> we can provision our EC2 instance on shared or dedicated hosts(i.e physical servers) 
+> we can provision EC2 instance on shared or dedicated hosts(i.e physical servers) 
 
 ##### EC2 INSTANCE ACCESS 
 > To access an instance we need a key and key pair name 
@@ -61,7 +61,7 @@
 - if we launch instance without a key pair, we will not be able to acess it(via RDP/SSH) 
 
 #### EC2 
-> There is soft limit of 20 EC2 INSTANCES PER REGION, 
+>> There is soft limit of 20 EC2 INSTANCES PER REGION, 
 - we can submit request to AWS to increase it 
 
 > Two types of Block store devices are supported: 
@@ -83,16 +83,16 @@
 - it has an instance-store root volume 
 - it is ephimeral volume
 
+=======================================
+######## EC2 instance families ########
 
-######## EC2 instance families 
-
-#### 1. General Purpose 
+###### 1. General Purpose #######
 - Balanced memory and CPU 
 - suitable for most application
 - Ex- M3, M4, T2 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### 2. COMPUTE OPTIMIZED 
+###### 2. COMPUTE OPTIMIZED #####
 - More CPU than memory 
 - Compute & HPC intensive use 
 
@@ -112,7 +112,7 @@ N_Bandwidth	: 25 Gbps
 
 > C5 use Elastic Network Adapter 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### 3. MEMORY OPTIMIZED ####
+###### 3. MEMORY OPTIMIZED #####
 - More RAM/ memory 
 - Memory intensive apps, DB and caching 
 - R/X/Z series 
@@ -140,7 +140,7 @@ vCPU		: 2 to 48
 RAM			: 16 to 384GB
 Storage		: NVMe SSD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### 4. GPU compute instance 
+#### 4. GPU compute instance ####
 
 > Graphics optimized 
 > High performance and parallel computing 
@@ -160,7 +160,7 @@ Storage		: NVMe SSD
 > It use NVIDIA Tesla GPU 
 > provide high bandwidth networking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### 5. Storage OPTIMIZED 
+###### 5. Storage OPTIMIZED #####
 > Very High, low latency I/O
 > I/O intensive apps, data warehousing, Hadoop
 
@@ -214,37 +214,37 @@ Storage		: NVMe SSD
 
 > To guarantee availability, try to launch all required instance at the same time(Recommended)
 
-> we can create PG across a VPC peering 
+> we can create PG across VPC peering 
 > There is no charge for creating PG(except EC2 instance)
 > PG NAME MUST BE UNIQUE WITHIN AN ACCOUNT FOR THE REGION
-> You can use different instance type with PG however this is not recommended for closure PG
-> You cannot merge two PG
+> We can use different instance type with PG however this is not recommended for closure PG
+> we cannot merge two PG
 
 > you can 
 - move an existing instance to a PG 
-- move an instance from one placement group to another 
-- remove an instance from a placement group
+- move an instance from one PG to another 
+- remove an instance from a PG
 
 > An instance cannot be launched in multiple placement groups at the same time
 
-> Instances inside a placement group can address each other using private or public IP addresses 
-- best performance is achieved when they use private IP addresses addresses for intra placement group communication
+> Instances inside a PG can address each other using private or public IP addresses 
+- best performance is achieved when they use private IP addresses for intra placement group communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### CLUSTER Placement Group(CPG) ####
 
 > It is within a single AZ and cannot span multiple AZ
 
-> It is recommended when our app require low network latency, high network throughput or both, and if the majority of the network traffic is between the instance in the group 
+> It is recommended when app require low network latency, high network throughput or both, and if the majority of the network traffic is between the instance in the group 
 
-> To provide the lowest latency and the highest packet-per-second network performance for our placement group, choose an instance type that support enhanced networking (SR-I/OV)  
+> To provide the lowest latency and the highest packet-per-second network performance for PG, choose instance type that support enhanced networking (SR-I/OV)  
 
-> It is always RECOMMENDED TO LAUNCH THE PLACEMENT GROUP INSTANCE AT THE SAME TIME 
+> It is always RECOMMENDED TO LAUNCH THE PG INSTANCE AT THE SAME TIME 
 - if you try to add instance to PG, and you can't due to availability reason, try to stop and start all instances.
 - This may result in migration to other hosts that have availability of the specific instance types requested for the group 
 
 > TRY TO AVOID LAUNCHING MORE THAN 1 INSTANCE TYPE IN THE PG (although possible), we increase our chances of getting an insufficient capacity error. 
 
-> if we stop an instance in a placement group and then start it again, it still runs in the placement group. 
+> if we stop an instance in a PG and then start it again, it still runs in the PG. 
 - However the starts fails if there isn't enough capacity for the instance. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Spread Placement Groups(SPG) ####
@@ -257,7 +257,7 @@ Storage		: NVMe SSD
 > SPG can span multiple availability zone 
 - we can have a MAX OF 7 RUNNING INSTANCES PER AZ PER GROUP
 
-> if you start on launch and instance in a spread placement group and there is insufficient unique hardware to fulfill the request request fails 
+> if you start on launch and instance in a SPG and there is insufficient unique hardware to fulfill the request request fails 
 - you can try your request again later
 
 =======================================

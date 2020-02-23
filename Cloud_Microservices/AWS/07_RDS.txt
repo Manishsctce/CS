@@ -432,6 +432,7 @@ OR
 - Ex- after storing image in S3, we can store their metadata in DynamoDB. We can also create 2nrd index for DynamoDB Table.
 
 >> The maximum size of a DynamoDB item is 400KB
+> It stores data indexed by a primary key
 > It is spread across 3 geographically data centres
 
 > When interacting with DynamoDB directly, there is a short list of header attributes that are required :
@@ -440,7 +441,11 @@ X-amz-date
 host
 content-type
 
-> Because of its availability in three geographically data centres, It consists of two different types of consistency models:
+> Auto Scaling for DynamoDB help to automate capacity management of tables and global secondary indexes. 
+- we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
+- will be on by default for all new tables and indexes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Because of its availability in 3 geographically data centres, It consists of two different types of consistency models:
 
 1. Eventual Consistent Reads
 2. Strongly Consistent Reads
@@ -505,6 +510,12 @@ content-type
 > If you do not perform any read/write, then you just need to pay for data storage only.
 
 > On-Demand mode is useful for those applications that have unpredictable traffic and database is very complex to forecast.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### SCALABILITY
+> It provides push button scaling where we can increase the read/write throughput without downtime or performance degradations
+
+> we can scale provisioned capacity of DynamoDB table anytime 
+> we can scale down provisioned capacity only 4 time during day. 
 =======================================
 ############ AWS Redshift #############
 

@@ -16,7 +16,7 @@
 #### Storage Gateway ####
 > hybrid storage service that Seamlessly connect on-premise applications or services with the AWS cloud storage.
 =======================================
-## EBS Types 
+############# EBS TYPES ###############
 
 1. General purpose SSD(gp2)  
 > SSD backed (Solid state drives)
@@ -67,10 +67,10 @@
 
 ### EBS Device Volumes 
 
-> EBS volume behave like raw, unformatted, external block storage device that you can attach(Mount) to your EC2 instances
+> EBS volume behave like raw, unformatted, external block storage device that can be attach(Mount) to EC2 instances
 > EBS volume are block storage device suitable for database style data that requires frequent read and write
 
-> EBS volume attached to your instance through the AWS network like virtual hard drive
+> EBS volume attached to instance through the AWS network like virtual hard drive
 > An EBS volume can attach to a single EC2 instance only at a time
 
 > Both EBS volume and EC2 instance must be in the same AZ 
@@ -86,16 +86,16 @@
 - remember that instance store is a virtual hard disk space allocated to the instance on the localhost 
 - it is worth noting that not all newer EC2 instance support instance store volume
 =======================================
-######## EBS Snapshots ########## v3 
+############ EBS Snapshots ############ v3 
 
-> EBS snapshot are point-in-time image/copies of your EBS volume
+> EBS snapshot are point-in-time image/copies of EBS volume
 
 > any data written to the volume after the snapshot process is initiated will not be included in the resulting snapshot (but will be included in future incremental updates)
 
 > Per add account up to 5,000 EBS volumes can be created
 > Per account up to 10,000 EBS snapshot can be created
 > EBS snapshot are stored on S3, we can only access them through EC2 API not directly
-- This is unlikely instance-store in AMI( where you can specify a S3 bucket of your own)
+- This is unlikely instance-store in AMI( where we can specify a S3 bucket of your own)
 
 #### CHARACTERISTICS ####
 > Why EBS volume are AZ specific 
@@ -144,26 +144,26 @@
 - data transfer to S3 from your EBS volume you are taking a snapshot 
 - storage on S3
 =======================================
-#### EBS encrypted support ### v6
+####### EBS encrypted support ######### v6
 
 > EBS encryption is supported on all EBS volume type and all EC2 instance families
 > Snapshots of encrypted volume are also encrypted
-> Creating and EBS volume from an encrypted snapshot will result it an encrypted volume.
+> Creating EBS volume from an encrypted snapshot will result an encrypted volume.
 
-##EBS Data encryption at rest
+## EBS DATA ENCRYPTION AT REST ##
 
-> Data encryption at rest me encrypting data while it is stored on the data storage device
-> There are many ways you can encrypt data on an EBS volume at rest, while the volume is attached to an EC2 instance
+> Data encryption at rest mean encrypting data while it is stored on the data storage device
+> There are many ways you can encrypt data on EBS volume at rest, while the volume is attached to an EC2 instance
 - Use 3rd party EBS volume(SSD or HDD) encryption tool
 - Use encrypted EBS volume
 - Use encryption at the OS level (using data encryption plugin/driver)
-- Encrypt data at the application level before storing it to the volume
+- Encrypt data at the app level before storing it to the volume
 - Use encrypted file system on top of the EBS volume
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## EBS DATA ENCRYPTION IN-TRANSIT
 
-##EBS encryption data in transit
-
-> Remember that EBS volume are not physically attached to the EC2 instance rather they are virtually attached through the AWS infrastructure
-- This means when you encrypt data on an EBS volume, data is actually encrypted on the EC2 instance then transferred encrypted, to be stored on the EBS volume
+> EBS volume are virtually attached to EC2 instance, not physically
+- This means when we encrypt data on EBS volume, data is actually encrypted on EC2 instance then transferred encrypted data, to stored on EBS volume
 - This mean data in transit between EC2 and encrypted EBS volume is also encrypted
 
 > Data at rest in the EBS volume is also encrypted
@@ -171,11 +171,11 @@
 ## EBS encryption
 
 > Encrypted volume are accessed exactly like unencrypted one basically encryption is handle transparently.
-> you can attach an encrypted and unencrypted volume to the same EC2 instance (but the instance has to support encrypted volume)
+> we can attach an encrypted and unencrypted volume to the same EC2 instance (but the instance has to support encrypted volume)
 =======================================
 ########## EBS encryption ######### v7
 > There is no direct way to change the encryption state of a volume
-> To change the state(indirectly) you need to follow either of the following two way
+> To change the state(indirectly) you need to follow either of the following 2 way :
 
 1. Attach in new encrypted EBS volume to the EC2 instance then
 - copy the data from the un-encrypted vol. to the new vol. 
@@ -198,7 +198,7 @@
 - use the encrypted AMI to launch new EC2 instance which will have the EBS root volume encrypted
 
 ### EBS volume/snapshot - encryption key
-> To encrypt volume/Snapshot, we need an encryption key called Customer Master Key(CMK) that is managed by Key Management Service(KMS)
+> To encrypt volume/Snapshot, we need an encryption key called CMK that is managed by KMS
 
 > When encrypting 1st EBS volume, AWS KMS create a default CMK key, 
 - this key is used for your first volume encryption, encryption of a snapshot created from this volume and subsequent volume created from these snapshot
@@ -206,23 +206,23 @@
 > After that, each newly encrypted volume is encrypted with the Unique /separate AES256 bit encryption key 
 - this key is used to encrypt the volume it's snapshot and any volume created from this snapshot
 
-##Changing encryption key
-> You cannot change the encryption key used to encrypt an existing encrypted snapshot or encrypted EBS volume
-- If you want to change the key, copy create a copy of the snapshot and specified during the copy process that you want to re-encrypt the copy with a different key
-- this come in handy when you have a snapshot that was encrypted using your default CMK key and you want to change the key in order to be able to share the snapshot with other account
+## Changing encryption key
+> We cannot change encryption key used to encrypt an existing encrypted snapshot or encrypted EBS volume
+- If you want to change the key, create a copy of the snapshot and specified during the copy process that you want to re-encrypt the copy with a different key
+- this come in handy when you have a snapshot that was encrypted using default CMK key and you want to change key in order to share the snapshot with other account
 
-#### EBS VOLUME MIGRATION ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### EBS VOLUME MIGRATION #####
 > EBS volume are AZ specific(can be used in the AZ where they are created only)
 
-> To move/migrate EBS vol to another AZ in the same region, 
+>> To move/migrate EBS vol to another AZ in the same region, 
 - create a snapshot of the volume 
 - use the snapshot to create a new volume in the new AZ
 
-> To move/migrate EBS vol to another region 
+>> To move/migrate EBS vol to another region 
 - create a snapshot of the volume 
 - copy the snapshot and specify the new region  
 - in the new region, create volume out of the copied snapshot
-
 =======================================
 ######## Sharing EBS Snapshots ######## v8
 
@@ -316,12 +316,12 @@
 > De-registering an AMI will not impact those instances created from the AMI while it was registered
 
 =======================================
-## User Created EBS-backed AMI ## 12a
+#### User Created EBS-backed AMI ## 12a
 > For EBS-backed instances, when you want to create an AMI, stop the instance to ensure data consistency and integrity, then create the AMI
 
-> For EBS backed Instances, AWS registers the created AMIS automatically
+> For EBS backed Instances, AWS registers the created AMI automatically
 
-> During the AMI-creation process, Amazon EC2 creates snapshots of your instance's root volume and any other EBS volumes attached to your instance.
+> During the AMI-creation process, EC2 creates snapshots of instance's root volume and any other EBS volumes attached to the instance.
 - You are charged for storage costs as long as the snapshots are stored in S3
 - In EBS's case, you do not need to specify one of your S3 buckets
 - Once you do not need them anymore, delete them
@@ -373,4 +373,78 @@
 
 > It is not recommended to use a RAID array as the root/boot volume of an instance
 =======================================
-## AWS Elastic File System(EFS)
+##### AWS Elastic File System(EFS) ####
+
+> It provides simple, scalable, elastic file storage for use with AWS Cloud services and on-premises resources.
+> It is easy to use and offers a simple interface that allows you to create and configure file systems quickly and easily.
+> It is built to ELASTICALLY SCALE ON DEMAND without disrupting app, GROWING AND SHRINKING AUTOMATICALLY as you add and remove files
+
+> As a regional service, Amazon EFS is designed for high availability and durability storing data redundantly across multiple Availability Zones.
+> we can MOUNT EFS TO OUR ON-PREMISES DATACENTER servers via NFSv4 Protocol when connected to VPC with AWS Direct Connect.
+> We can mount EFS on on-premises servers to migrate data sets to EFS or backup on-premises data to EFS.
+
+> Highly Available & Durable
+> Secure (Can be encrypted, Security Groups)
+> Can be mount to N no. of Instances
+> Instances from different AZ can be connected to EFS
+> Service is not available in all regions
+> Pricing is $0.30/GB per month and 5GB under free tier account
+
+##### EFS - BENEFITS ####
+> Simple web services interface that allows you to create and configure file systems quickly and easily.
+> MULTIPLE EC2 INSTANCES AND ON-PREMISES SERVERS CAN SIMULTANEOUSLY ACCESS AN EFS.
+> EFS provides the capacity that we need, without having to provision storage in advance. 
+- we pay for what we use, with no minimum commitments or up-front fees.
+
+> EFS provides a simple and secure way to move data from existing on-premises or in-cloud file systems, with the ability to copy files and directories at speeds up to 5x faster than standard Linux copy tools.
+=======================================
+######### AWS STORAGE GATEWAY #########
+
+
+> AWS Storage Gateway is a service that CONNECTS AN ON-PREMISES SOFTWARE APPLIANCE WITH CLOUD-BASED STORAGE TO PROVIDE SEAMLESS AND SECURE INTEGRATION between an organization's on-premises IT environment and AWS's Storage infrastructure. 
+- The service enables you to securely store data to the AWS cloud for scalable and cost-effective storage.
+
+> AWS STORAGE GATEWAY'S SOFTWARE APPLIANCE is available for download as a virtual machine (VM) image that you INSTALL ON A HOST IN DATACENTER.
+
+> Storage gateway supports either VMware ESXI or Microsoft Hyper-V. 
+- Once you have installed gateway associated with AWS account through the activation process, you can use the AWS management console to create the storage gateway option that is right for you.
+
+##### Types of Storage Gateway #####
+1. File Gateway (NFS)
+2. Volumes Gateway (ISCSI)
+   2a. Stored Volumes
+   2b. Cached Volumes
+3. Tape Gateway (VTL)
+
+#### 1. File Gateway #####
+> Files are stored as object in S3 Buckets, accessed through a Network File System (NFS) mount point. 
+- Ownership, permissions and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. 
+- Once objects are transferred to S3 they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management and cross region replication apply directly to objects stored in bucket.
+
+##### 2. Volume Gateway #####
+> A volume gateway provides cloud-backed storage volumes that we can mount as Internet Small Computer System Interface (ISCSI) devices from on-premises app servers. The gateway supports the following volume configurations:
+
+2A. CACHED VOLUMES 
+- WE STORE OUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
+- Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale your storage on-premises. 
+- You also retain low-latency access to your frequently accessed data.
+
+2b. Stored volumes 
+– If you need low-latency access to entire dataset, first configure on-premises gateway to store all data locally. Then ASYNCHRONOUSLY BACK UP POINT-IN-TIME SNAPSHOTS OF THIS DATA TO AMAZON S3. 
+- This configuration provides durable and inexpensive offsite backups that you can recover to your local data center or Amazon EC2. For example, if you need replacement capacity for disaster recovery, you can recover the backups to Amazon EC2.
+
+###### 3. Tape Gateways ######
+> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. 
+- A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
+
+> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as EC2 instance. 
+- deploy gateway on EC2 instance to provision ISCSI storage volumes in AWS. 
+- Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
+
+### Summary
+• File Gateway – For flat files, stored directly on S3.
+• Tape Gateways – Used for backup and uses popular backup applications like NetBackup, Backup Exec, Veear etc.
+
+Volume Gateway:
+• Stored Volumes – Entire Dataset is stored on site and is asynchronously backed up to S3.
+• Cached Volumes – Entire Dataset is stored on S3 and the most frequently accessed data is cached on site.

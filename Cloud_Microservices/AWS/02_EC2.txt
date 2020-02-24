@@ -54,7 +54,7 @@
 > we can provision EC2 instance on shared or dedicated hosts(i.e physical servers) 
 
 ##### EC2 INSTANCE ACCESS 
-> To access an instance we need a key and key pair name 
+> To access an instance we need a key and key-pair name 
 - when we launch a new EC2 instance, we can create a public/private key pair 
 - we can download the private key only once 
 - the public key is saved by AWS to match it to the key pair name, and private key when we login to EC2 instance 
@@ -185,11 +185,9 @@ Storage		: NVMe SSD
 
 ###### ADVANTAGE #######
 > For supported instance types, SR-I/OV provides: 
-- higher packet per second (PPS) performance for data transfer
+- higher PPS performance for data transfer
 - Lower latency 
 - very low network jitter 
-
-
 
 > EC2 enhanced networking can be enabled on EBS-backed or Instance-backed instance 
 > EC2 enhanced networking can function across Multi-AZ 
@@ -254,7 +252,7 @@ Storage		: NVMe SSD
 - Launching instances in a SPG reduces the risk of simultaneous failure that might occur when instance share the same underlying hardware
 - spread placement group provide access to distinct hardware and are therefore suitable for mixing instance type or launching instances over time
 
-> SPG can span multiple availability zone 
+> SPG can span multiple AZ
 - we can have a MAX OF 7 RUNNING INSTANCES PER AZ PER GROUP
 
 > if you start on launch and instance in a SPG and there is insufficient unique hardware to fulfill the request request fails 
@@ -263,58 +261,61 @@ Storage		: NVMe SSD
 =======================================
 ########## EC2 Status checks ########## V12 
 
-> By default AWS EC2 in services perform automatically status check every 1 minute
+> By default EC2 perform automatically status check every 1 minute
 - This is done on every running EC2 instance to identify any hardware or software issues
 - Each status check returns either a pass or a failure status
 - If one or more status check return a fail, the overall EC2 instances status is changed to "impaired"
 
-> Status checks are built in AWS EC2 services
+> once EC2 instances status changes to impaired because of host hardware/software problem, 
+- AWS will schedule stop/start for EBS backed instances to relocate them to a different host 
+- you can also do this manually
+
+> Status checks are built-in EC2 services
 - They cannot be configured, deleted, disabled or changed
 
 > You can configure cloudwatch to initiate actions like reboot or recover on impaired EC2 instances (ie. for failure status check)
 
-> once EC2 instances status changes to impaired because of host hardware or software problem, AWS will schedule stop/start for the EBS backed instances to relocate them to a different host 
-- you can also do this manually
+> AWS EC2 service status checks are very important for ASG too, to determine EC2 instance status
 
-> AWS EC2 service status checks are very important for auto scaling groups too, to determine EC2 instance status
-
-##### EC2 Monitoring ########
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## EC2 Monitoring #########
 
 > EC2 service can send its metric data to AWS cloudwatch every 5 minute(enable by default)
 - This is free of charge 
 - it is called basic monitoring
 
-> you can choose to enable detailed monitoring while launching the instance (or later) where the EC2 service will send it metric data to AWS cloudwatch every 1 minute 
+> you can choose to enable detailed monitoring while launching the instance (or later) where the EC2 will send it metric data to AWS cloudwatch every 1 minute 
 - chargeable 
 - it is called detailed  monitoring
 
 > You can set cloudwatch alarm action on EC2 instance to 
-- stop, restart, terminate or recover your EC2 instance 
-- you can use stop or terminate actions to save cost 
-- you can use the reboot and recover to move your EC2 instance to another host
+- stop, restart, terminate or recover EC2 instance 
+- we can use stop or terminate actions to save cost 
+- we can use the reboot and recover to move your EC2 instance to another host
 
 =======================================
-########### EC2 States ################ v13
-> When you launch an instance, it goes through pending then running state 
-> moving to running state mean, instance has started booting 
-> then the instance receive a private DNS hostname, and possibly a public DNS hostname (depends on whether it is configured to receive a public IP) 
+############# EC2 States ############## v13
+> When we launch instance, it goes through pending then running state 
+- moving to running state mean, instance has started booting 
+- then the instance receive a private DNS hostname, and possibly a public DNS hostname (depends on whether it is configured to receive a public IP) 
 
-> if you reboot an EC2 instance, it is considered as running and does not add additional hour for your bill 
-> stopping and restarting an instance adds an hour to your bill
-
-## EC2 Stopped State 
+> if you reboot EC2 instance, it is considered as running and does not add additional hour for bill 
+- stopping and restarting an instance adds an hour to bill
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### EC2 - STOPPED STATE ######
 > When you stop an instance AWS shuts it down.
 > Stopped instance maintain its instance ID and root volume
 
 > INSTANCE-STORE BACKED INSTANCE CANNOT BE STOPPED they can only be reboot and terminate
 
-> You are not charged for EC2 instance if they are stopped, however attached EBS volumes incur charges
+> We are not charged for EC2 instance if they are stopped, however attached EBS vol incur charges
 
-> For stopped EC2 instance you can, detach/ re-attach their EBS volume including the root volume 
-- when detached, you can attach it to another instance modify it and then re-attached it again to the stopped instance
+> For stopped EC2 instance we can detach/re-attach their EBS vol including root vol
+- when detached, we can attach it to another instance modify it and then re-attached it again to the stopped instance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### STOPPING EC2 INSTANCE #####
 
-## EC2- stopping an EC2 instance
-> When you stop an EBS backed instance, any data in any instance-store volume is lost 
+> WHEN WE STOP AN EBS-BACKED INSTANCE(ROOT VOL), ANY DATA IN INSTANCE-STORE VOL IS LOST 
 - despite the fact that the instance can be restarted, all instance store will be gone
 
 > When you stop an EBS-backed EC2 instance
@@ -323,29 +324,25 @@ Storage		: NVMe SSD
 - EBS volume remain attached to the instance 
 - any data cache in RAM or instance store volume is gone 
 - most probably when restarted again it will restart on a new physical host 
-- instance retain its private ipv4 address, any IPv6 address
-- instance release its public ipv4 address back to AWS pool
+- instance retain its private IPv4 address, any IPv6 address
+- INSTANCE RELEASE ITS PUBLIC IPv4 address back to AWS pool
 - instance retain its elastic IP address
 
-##Stopping and instance
-> if your instance was registered with an ELB, it is recommended that you de-register it from the ELB, such that the ELB will stop healthcheck to the instance 
+> if instance was registered with ELB, it is recommended that de-register it from ELB, such that the ELB will stop healthcheck to the instance 
 - you can re-register it later when used restart
 
-> If your instance was part of an auto scaling group, the ASG would mark it when stopped, as unhealthy, terminated it and replace it
-- if you do not want this to happen you better remove/detach the instance from the auto scaling group before stopping it 
-
-## EC2 reboot
+> If instance was part of ASG, the ASG would mark it when stopped, as unhealthy, terminated it and replace it
+- if you do not want this to happen you better remove/detach the instance from ASG before stopping it 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### EC2 REBOOT ########
 > Rebooting an EC2 instances does not cause a new hourly bill
-> best practice 
-- use EC2 reboot and not the instance operating system reboot
-- 2 reason for this 
+
+> best practice is to use EC2 reboot and not the instance OS reboot because
 1. AWS when it initiates reboot, wait for 4 minutes, then if the instance did not reboot will force a hard reboot
-
-2. AWS Reboot creates an AWS cloudtrail log which is used for forensic, troubleshooting and documentation/audit purpose
+2. AWS Reboot creates cloudtrail log which is used for forensic, troubleshooting and documentation/audit purpose
 =======================================
-########### v14
+###### EC2 - Instance Termination ##### v14
 
-## EC2 - Instance Termination
 > When you terminate a running instance the instance states changes as follows
 Running -> Shutting down -> Terminated
 - During the Shutting down and Terminated states you do not incur charges
@@ -358,7 +355,8 @@ Running -> Shutting down -> Terminated
 
 > You can view EBS root volume DeleteOnTermination, behavior from "Block Device Mapping"
 
-## EC2 Termination Protection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### EC2 TERMINATION PROTECTION ##
 
 > This is a feature you can enable such that an EC2 instance is protected against accidental termination through API, Console, or CLI) SDK
 
@@ -369,8 +367,8 @@ Running -> Shutting down -> Terminated
 > If you want to terminate an instance that has termination protection turned on, you can do so by choosing oS shutdown, and configure AWS to treat OS shutdown as instance termination.
 
 > This can be configured during launch, when the instance is running or stopped (if EBS backed instance)	
-
-## Troubleshooting - Instance Immediate Termination
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Instance Immediate Termination
 
 > AWS recommends that after you launch an EC2 instance, you check its status to confirm that it moved from pending to running, and not to a terminated state.
 
@@ -405,11 +403,10 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 
 > It is data supplied by the user at instance launch in the form of a script to be executed during the instance boot
 
-> Userdata is limited to 16KB
+> USERDATA IS LIMITED TO 16KB
 
 > Userdata can only be viewed from within the instance itself (logon to it)
-> You can change user data
-- To do so, you need to stop the instance first (EBS backed)
+> we can change user data, we need to stop instance first (EBS backed)
   Instance -> actions ->Instance-settings -> View/Change user data
 
 > User data is not protected by encryption, do not include passwords or sensitive data in your user data (scripts)
@@ -445,7 +442,7 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 > Now AWS calls it Remote Desktop for Windows Instances
 
 > BASTION HOST(or jump box/stone) IS USED TO MANAGE AND ADMINISTER PUBLIC/PRIVATE EC2 INSTANCES
-- It make secure connectivity to our VPC
+- It make secure connectivity to VPC
 
 > The Bastion host is an EC2 instance, whose interfaces will have SG allowing inbound SSH/RDP
 
@@ -659,6 +656,89 @@ lab
 3. Super super super cheap: 
 - It is very cheap as you do not require a server.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[9:22 AM, 2/24/2020] Manish Agrawal: What is Lambda
+• AWS Lambda is a compute service where you can upload your code
+and create a lambda function.
+• AWS lambda is a compute service that lets you run the code without
+provisioning or managing servers.
+• You don't have to worry about operating systems, patching, scaling etc.
+• With AWS Lambda, you can run code for virtually any type of
+application or back-end service – all with zero administration.
+• AWS Lambda runs your code on a high-availability compute
+infrastructure.
+• AWS Lambda executes your code only when needed and scales
+automatically, from a few requests per day to thousands of requests per
+second.
+[9:23 AM, 2/24/2020] Manish Agrawal: AWS Lambda
+• You pay only for the compute time you consume- No charge when your
+code is not running.
+• Currently AWS Lambda supports following languages. (i:e Node.js,
+Java, C#, Go and Python)
+• You cannot log into compute instances, or customize the operating
+system or language runtime. If you do want to manage your own
+compute, you can use EC2 or Elastic Beanstalk.
+• Lambda functions can trigger another lambda functions.
+[9:23 AM, 2/24/2020] Manish Agrawal: AWS Lambda - Triggers
+You can use AWS Lambda to run your code in response to:
+- Events such as changes to data in an Amazon S3 bucket or an Amazon
+DynamoDB table.
+- To run your code in response to HTTP/HTTPS requests using Amazon
+API gateways.
+- Invoke your code using API calls made using AWS SDKS.
+[9:23 AM, 2/24/2020] Manish Agrawal: AWS Lambda - Trigger
+• The user creates an object in S3 bucket.
+• Amazon S3 detects the object created event.
+• Amazon S3 invokes your lambda function
+using the permission provided by execution
+role.
+Amazon S3 knows which lambda function to
+invoke based on the event source mapping that
+the
+bucket
+is stored in
+configuration.
+notification
+[9:24 AM, 2/24/2020] Manish Agrawal: AWS Lambda – Building Blocks
+• Lambda Function
+- The foundation, it is compromised of your custom code.
+• Event Source
+- An AWS Service, such as an Amazon SNS, or a custom service that triggers
+your functions and executes its logic.
+• Downstream resources
+- An AWS service, such as DynamoDB tables or Amazon S3 bucket, that your
+lambda function calls once it is triggered.
+• Log Streams
+- While Lambda automatically monitors your function invocations and report
+metrics to cloudwatch, you can annotate your function code with custom logging
+statement that allow you to analyze the performance of you lambda function to
+ensure its working properly.
+[9:24 AM, 2/24/2020] Manish Agrawal: AWS Lambda Function Configurations
+• You only specify the amount of memory you want to allocate for your
+lambda function.
+• You can update the configuration and request additional memory in 64
+MB increments from 128MB to 3008MB.
+• To prevent your lambda function from running indefinitely, you specify a
+timeout.
+When the specified timeout is reached, AWS lambda terminates your
+Lambda function.
+• Maximum execution time of function is 300 Seconds and default is 3
+seconds *
+[9:24 AM, 2/24/2020] Manish Agrawal: AWS Lambda Function Configurations
+• You can also setup AWS Lambda to invoke your code on regular,
+scheduled basis using the AWS Lambda console.
+• You can specify a fixed rate (number of hours, days or weeks) or you can
+specify a cron expression.
+[9:25 AM, 2/24/2020] Manish Agrawal: AWS Event Source Mapping
+In AWS Lambda, Lambda Functions and event sources are the core
+components in AWS Lambda.
+• An event source is the entity that publishes events, and a lambda
+function is the custom code that process the events.
+• Event source mapping basically maps an event source to a lambda
+function.
+• Each event source mapping identifies the type of events to publish and
+the lambda function to invoke when event occurs.
+• The specific lambda function then receives the event information as a
+parameter, your lambda function code can then process the event.
 =======================================
 ########## ELASTIC BEANSTALK ##########
 

@@ -18,7 +18,7 @@
 
 > It is logically isolated from other virtual n/w in the AWS cloud. 
 
-> Max 5 VPC can be created and 200 subnets in 1 VPC. 
+> MAX 5 VPC CAN BE CREATED and 200 subnets in 1 VPC. 
 > we can allocate max 5 elastic IP 
 
 > To create VPC, we need to create subnet, internet-gateway, route table 
@@ -35,9 +35,9 @@
 =======================================
 ########### IMPLIED ROUTER ############ v2
 > It is the central VPC routing function.
-> It connects the different AZ's together and connects the VPC to the internet gateway.
-> Each subnet will have a route table the router uses to forward traffic within the VPC. 
-> The route tables will also have entries to external destinations.
+> It connects different AZ's together and connects the VPC to the internet gateway.
+> Each subnet have a route table. The router uses to forward traffic within the VPC. 
+> route tables also have entries to external destinations.
 
 > Route Table, NACL are part of IMPLIED ROUTER
 
@@ -83,10 +83,11 @@ EXAMPLE: if a subnet X CIDR block is 10.0.0.0/24, it mean last 8 bit assign for 
 10.0.0.3 Reserved for future use
 10.0.0.255 last IP 
 
-#### INTERNET GATEWAY #### 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### INTERNET GATEWAY(IGW) #####
 > Is the gateway through which our VPC communicate with the internet and with other AWS services
 
-Q> Is a horizontally scaled, redundant, and highly available VPC component
+>> It is a horizontally scaled, redundant, and highly available VPC component
 - it is manage be AWS itself 
 
 > only 1 IG per VPC 
@@ -110,10 +111,10 @@ Lab 4,5,6
 
 1. DEFAULT VPC 
 - created in each region when AWS acct is created
-- has default CIDR, SG, NACL, route table and IG 
+- has default CIDR, SG, NACL, route table and IGW 
  
 2. Custom VPC (non-default)
-- has default CIDR, SG, NACL, route table but DOESNOT HAVE DEFAULT IG
+- has default CIDR, SG, NACL, route table but DOESNOT HAVE DEFAULT IGW
 =======================================
 ######### SECURITY GROUP(SG) ##########
 > It is a virtual firewall.
@@ -176,10 +177,10 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 
 > It functions at the subnet level 
 
-> NACL are stateless. 
+> NACL IS STATELESS. 
 - Outbound traffic for an allowed inbound traffic, must be explicitly allowed too 
 
-> YOU CAN HAVE "PERMIT" AND "DENY" RULES IN A NACL
+> IT HAVE "ALLOW" AND "DENY" RULES
 
 > NACL is a set of rules, each has a number  
 > NACL rules are checked for a permit from lower numbered(1st) rules until either a permit is found or an explicit/implicit deny is reached. 
@@ -189,7 +190,9 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 
 > NACL END WITH AN EXPLICIT DENY any, which we cannot delete. 
 
-> A subnet must be associated with a NACL, if you do not specify the NACL, the subnet will get associated with the default NACL automatically. 
+> A subnet must be associated with a NACL, if we do not specify the NACL, the subnet will get associated with default NACL automatically. 
+- subnet cannot be associated with more than 1 NACL but 
+- NACL can be associated with 1 or more subnet. 
 
 > we can create our own custom NACL, not necessary to use default 
 
@@ -215,7 +218,7 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 > CHANGES MADE TO NACLS (OR SECURITY GROUP) TAKE EFFECT IMMEDIATELY, so they are both quick to activate/defend as needed. 
 
 > NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
-- SG cannot block a certain range of IP address from internet from getting to your EC2 fleet of instances 
+- SG cannot block a certain range of IP from internet 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Ques 
 ## If an instance in a VPC is unable to communicate over a certain protocol/ports with anothe instance in the same VPC, then the problem is the security setting of :
@@ -264,7 +267,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > NAT instance place at public subnet
 - it is normal EC2 instance but it is loaded with AMI that has NAT functionality 
 
-> NAT instance is configured in a public subnet 
+>> NAT instance always configured in public subnet 
 
 > NAT instance need to be assigned a security group
 
@@ -285,11 +288,11 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 ######## NAT GATEWAY ##########
 
-> It is a AWS managed service 
+> IT IS A AWS MANAGED SERVICE 
 > Cannot assigned Security group 
-> AWS is responsible for its security/patching etc 
+- AWS is responsible for its security/patching etc 
 
-> Works only with an Elastic IP, can not use a public IP to do it function 
+> WORKS ONLY WITH ELASTIC IP, can not use a public IP to do it function 
 
 > We can migrate the NAT instance to the NAT Gateway. NAT Gateway should be in public subnet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -311,11 +314,11 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - by default, a public subnet associated with a custom route table and IGW
 - by default, a private subnet associated with the main route table 
 - An IGW created and attached to the VPC
-- by default the wizard will prefer to create a NAT Gateway for your VPC, but you have the option to choose a NAT instance instead. For launch of NAT instance the wizard need atleast M1 small instance
+- by default the wizard will prefer to create a NAT Gateway for VPC, but we have the option to choose a NAT instance instead. For launch of NAT instance the wizard need atleast M1 small instance
 
 > Main(default) VPC route table is assigned to the private subnet, it has the VPC local subnet routing entry and an entry 0.0.0.0/0 pointing to the NAT instance/gateway
 
-> Custom route table will have an entry 0.0.0.0/0 pointing to internet gateway as a target
+> Custom route table will have an entry 0.0.0.0/0 pointing to IGW as a target
 
 > NOTE : CREATING A VPC, CREATES ROUTE TABLE AND NOT ROUTING INSTANCE
 
@@ -461,35 +464,33 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 - VGW does not route any other traffic destined outside of the received BGP advertisements, static route entries, or its attached VPC CIDR
 - You can NOT access Elastic IPs on your VPC side using the VPN tunnel establisheð, Elastic IPs in AWS can only be accessed from the Internet
 =======================================
-##### AWS Direct Connect benefit ###### v22
-> Lower latency and jitter does not use the internet
+####### AWS DIRECT CONNECT(DX) ######## v22
+
+> It is a direct connection(not internet based) and provides higher speed bandwidth, low latency and jitter and higher performance.
 > Consistent performance and dedicated bandwidth
-> Using direct connect enables customer to lower their internet service provider bandwidth
-> AWS charges data rate on direct connect lower than on VPC
-> Suitable when transferring high volume of data between a WS and on premise the more the data volume or higher the better the cost reduction compared to internet based VPN
 
-####### DIRECT CONNECT(DX) ##########
-> Broader gateway routing protocol must be used to draw route between then two end of DX connection
+> Broader gateway routing protocol must be used to draw route between the two end of DX connection
 > Customer router must be capable of 802.IQ and BGP
-> You can use the connection to establish private virtual interface(VIFs) to connect to a VPC in the region(via the VPC's VGW)
-> You can establish multiple private VIFs to multiple VPCs in a region(1/VPC)
-> You can establish public VIFs to connect to any public AWS endpoints in any region
+> Virtual Interface(VIF) is basically 802.1Q VLAN mapped from the customer router to the DX router. 
+> we can use the connection to establish private VIF to connect to VPC in the region(via the VPC's VGW)
+> we can establish multiple private VIFs to private subnet with multiple VPCs in a region
+> we can establish public VIF to connect to any public AWS endpoints in any region
 > Support both IPv4 and IPv6 (requires public VIFs)
-> All networking traffic must be on the AWS global network backbone, regardless of whether you access public AWS Service or VPC in another region
+> AWS charges data rate on direct connect lower than on VPC
+> Suitable when transferring high volume of data between AWS and on premise 
 
-> Any data transfer out of a remote region is billed at the remote region data transfer rate 
+> we cannot use NAT instance/gateway in VPC over the DX connection
 
-so what is VIF, 802.IQ and what is BGP?
-
-## Static vs Dynamic Routing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Static vs Dynamic Routing # v22
 > You need routing in order for Routers to be able to forward your traffic correctly
 
 > In simple networks, you can define the routing manually, and this is called static routing (like we do on AWS Route tables)
 
 > When the network grows, we need a dynamic mechanism to take care of updating and exchanging routing information such that we do not have to face the administration challenges of static routing at scale (like when we enable Route Propagation on AWS route tables for VPN or Direct Connect).
 
-
-## Border Gateway Protocol (BGP)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Border Gateway Protocol (BGP) # v22
 > Connects different autonomous systems together
 > Each Autonomous System (AS) requires an Autonomous system number (ASN)
 > TCP based sessions between neighbors, on port 179
@@ -501,7 +502,7 @@ so what is VIF, 802.IQ and what is BGP?
 > Transit AS capability
 
 =======================================
-#### Link Aggregation Groups - LAGS ### v23
+#### Link Aggregation Groups - LAG ### v23
 
 > A link aggregation group (LAG) is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple connections at a single AWS Direct Connect endpoint, allowing you to treat them as a single, managed connection.
 - All connections in a LAG operate in active/active mode.
@@ -527,7 +528,7 @@ so what is VIF, 802.IQ and what is BGP?
 
 > BGP is the only routing option on Direct connect links
 =======================================
-##### BGP - Communities and Attributes  ####### v24
+### BGP - Communities and Attributes ## v24
 
 > AWS Direct Connect applies inbound and outbound routing policies for a public AWS Direct Connect connection.
 
@@ -635,47 +636,16 @@ C. Enable route propagation to the customer gateway (CGW).
 D. Modify the route table of all Instances using the 'route' command.
 E. Modify the Instances VPC subnet route table by adding a route back to the customer's on-premises environment.
 =======================================
-####### AWS Direct Connect Gateway #### v27
-> A Direct Connect gateway is a globally available resource.
-- You can create the Direct Connect gateway in any public Region and access it from all other public Regions.
-
-> Use AWS Direct Connect gateway to connect your VPCs.
-
-> You associate an AWS Direct Connect gateway with either of the following gateways:
-- A virtual private gateway(s) of the VPC(s) you need to connect to
-- A transit gateway when you have multiple VPCS in the same Region
-
-> Create a private virtual interface (Private VIF) for your AWS Direct Connect connection to the Direct Connect gateway.
-- You can attach multiple private virtual interfaces to your Direct Connect gateway (from different locations or from different DX links connected to different Customer Gateways).
-
-> You can associate a VGW from one account with a Direct Connect Gateway from another account, by creating association proposal from the Direct Connect Gateway in one account to the VGW in the other account.
-
-## AWS Direct Connect Gateway Limitations
-> The VPCS to which you connect through a Direct Connect gateway cannot have overlapping CIDR blocks.
-- If you add an IPV4 CIDR block to a VPC that's associated with a Direct Connect gateway, ensure that the CIDR block does not overlap with an existing CIDR block for any other associated VPC.
-
-> You cannot create a public virtual interface to a Direct Connect gateway.
-
-> A Direct Connect gateway supports communication between attached
-private virtual interfaces and associated virtual private gateways only. The following traffic flows are not supported:
-- Direct communication between the VPCS that are associated with the Direct Connect gateway.
-- Direct communication between the virtual interfaces that are attached to the Direct Connect gateway.
-- Direct communication between a virtual interface attached to a Direct Connect gateway and a VPN connection on a virtual private gateway that's associated with the same Direct Connect gateway.
-
-> You cannot associate a virtual private gateway with more than one Direct Connect gateway and you cannot attach a private virtual interface to more than one Direct Connect gateway.
-
-> A virtual private gateway that you associate with a Direct Connect gateway must be attached to a VPC
-=======================================
 ########### VPC EndPoints ############# v29 
 
 > A VPC ENDPOINT ENABLES US TO PRIVATELY CONNECT OUR VPC TO SUPPORTED AWS SERVICES AND VPC ENDPOINT SERVICES powered by PrivateLink 
 - WITHOUT IGW, NAT device, VPN connection, or AWS Direct Connect connection.
 
-> Instances in VPC do not require public IP addr to communicate with resources in the service.
+> Instances in VPC do not require public IP to communicate with resources in the service.
 
 > Traffic between VPC and the other AWS service does not leave the Amazon network.
 
-> Endpoints are virtual devices. They are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.
+> Endpoints are virtual devices. They are HORIZONTALLY SCALED, REDUNDANT, AND HIGHLY AVAILABLE VPC components that allow communication between instances in VPC and services without imposing availability risks or bandwidth constraints on network traffic.
 
 > There are two types of VPC endpoints: 
 1. Interface Endpoints and 

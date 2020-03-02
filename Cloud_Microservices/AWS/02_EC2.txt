@@ -234,7 +234,7 @@ Storage		: NVMe SSD
 
 > It is recommended when app require low network latency, high network throughput or both, and if the majority of the network traffic is between the instance in the group 
 
-> To provide the lowest latency and the highest packet-per-second network performance for PG, choose instance type that support enhanced networking (SR-I/OV)  
+> To provide the lowest latency and the highest PPS network performance for PG, choose instance type that support enhanced networking (SR-I/OV)  
 
 > It is always RECOMMENDED TO LAUNCH THE PG INSTANCE AT THE SAME TIME 
 - if you try to add instance to PG, and you can't due to availability reason, try to stop and start all instances.
@@ -248,11 +248,11 @@ Storage		: NVMe SSD
 #### Spread Placement Groups(SPG) ####
 > It is a group of instances that are each placed on distinct underlying hardware
 
-> SPG are recommended for app that have a small number of critical instances that should be kept separated from each other
+> SPG are recommended for app that have small number of critical instances that should be kept separated from each other
 - Launching instances in a SPG reduces the risk of simultaneous failure that might occur when instance share the same underlying hardware
 - spread placement group provide access to distinct hardware and are therefore suitable for mixing instance type or launching instances over time
 
-> SPG can span multiple AZ
+> SPG CAN SPAN MULTIPLE AZ
 - we can have a MAX OF 7 RUNNING INSTANCES PER AZ PER GROUP
 
 > if you start on launch and instance in a SPG and there is insufficient unique hardware to fulfill the request request fails 
@@ -261,7 +261,7 @@ Storage		: NVMe SSD
 =======================================
 ########## EC2 Status checks ########## V12 
 
-> By default EC2 perform automatically status check every 1 minute
+> By default EC2 perform automatically status check EVERY 1 MINUTE
 - This is done on every running EC2 instance to identify any hardware or software issues
 - Each status check returns either a pass or a failure status
 - If one or more status check return a fail, the overall EC2 instances status is changed to "impaired"
@@ -275,12 +275,12 @@ Storage		: NVMe SSD
 
 > You can configure cloudwatch to initiate actions like reboot or recover on impaired EC2 instances (ie. for failure status check)
 
-> AWS EC2 service status checks are very important for ASG too, to determine EC2 instance status
+> EC2 service status checks are very important for ASG too, to determine EC2 instance status
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## EC2 Monitoring #########
 
-> EC2 service can send its metric data to AWS cloudwatch every 5 minute(enable by default)
+> EC2 SERVICE SEND ITS METRIC DATA TO CLOUDWATCH EVERY 5 MINUTE(enable by default)
 - This is free of charge 
 - it is called basic monitoring
 
@@ -347,9 +347,10 @@ Storage		: NVMe SSD
 Running -> Shutting down -> Terminated
 - During the Shutting down and Terminated states you do not incur charges
 
-> By default, EBS root device volumes (created automatically when the instance is launched) are deleted automatically when the EC2 instance is terminated
+> By default, EBS root vol. (created automatically when the instance is launched) are deleted automatically when the EC2 instance is terminated
 
-> Any additional (non boot/root) volumes attached to the instance (those you attach to the instance during launch or later), by default, persist after the instance is terminated
+> ANY ADDITIONAL NON-ROOT VOL. ATTACHED TO EC2 PERSIST AFTER THE INSTANCE IS TERMINATED BY DEFAULT,
+- here attach vol. to the instance can be during launch or later
 
 > You can modify both behaviors by modifying the "DeleteOnTermination" attribute of any EBS volume during instance launch or while running
 
@@ -358,9 +359,9 @@ Running -> Shutting down -> Terminated
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### EC2 TERMINATION PROTECTION ##
 
-> This is a feature you can enable such that an EC2 instance is protected against accidental termination through API, Console, or CLI) SDK
+> This is a feature we can enable such that an EC2 instance is protected against accidental termination through API, Console, or CLI) SDK
 
-> This can be enabled for Instance-store backed and EBS-Backed Instances
+> This can be enabled for both Instance-backed and EBS-Backed Instances
 
 > CloudWatch can ONLY terminate EC2 instances if they do not have the termination protection
 
@@ -454,14 +455,13 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 > Once logged to the Bastion host, we can connect via RDP/SSH to the EC2 instance(s) we desire to manage
 
 > To configure high available bastion host, we can use ASG as follows:
-1. Create ASG with desired capacity of 2, choose multiple
-Availability zones (2), using Elastic IPs on each (This is the recommended HA way)
+1. Create ASG with desired capacity of 2, choose multi-AZ(2), using Elastic IPs on each (This is the recommended HA way)
 - we can configure number of BH instance at launch 
 
 2. Not an HA but saves on cost. Create an ASG with desired capacity 1, min 1, max 1, such that if the bastion instance fails/or gets terminated, the ASG will launch another one.
 - until ASG launches another one, you may have a down time (this is for management/administration ), where downtime is acceptable
 =======================================
-### EC2 - Instance Purchasing Options # v18
+######## EC2 PURCHASE OPTIONS ######### v18
 
 ####### 1. RESERVED INSTANCE #######
 > You do not actually buy Instances, rather, you reserve long term capacity and pay for it for instance family/configuration, anytime you run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
@@ -485,13 +485,9 @@ Availability zones (2), using Elastic IPs on each (This is the recommended HA wa
 
 > Reserved Instance benefits can only apply to on-demand instances (not Spot or Dedicated)
 
-## EC2 - Reserved Instance Scope
 > By default, a Reserved Instance scope is Region, however, it can bé AZ pr Region
-If AZ, you get guaranteed reserved capacity in the AZ
-You can also sell the reservations with AZ scope on AWS reserved instance market
-place
-If the scope Region, you do not get reserved capacity guarantees
-You can change from Scope AZ to Scope Region
+- If AZ, you get guaranteed reserved capacity in the AZ You can also sell the reservations with AZ scope on AWS reserved instance market place
+- If the scope Region, you do not get reserved capacity guarantees You can change from Scope AZ to Scope Region
 
 #### Modifying EC2 Reserved Instances ####
 > What you can change is:
@@ -503,8 +499,8 @@ You can change from Scope AZ to Scope Region
 - You can modify all or a subset of your reservation
 
 > You need to submit a request for the desired modification, through AWS consate, CLI, or API
-
-## EC2 Spot Instances
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### EC2 SPOT INSTANCES #######
 > AWS Spot Instances allow customers to use compute capacity without upfront commitments, at prices cheaper than on-demand instance pricing
 
 > Customers bid on Spot instances. AWS Off-peak pricing fluctuates, if the price meets the bid price, the instances are allocated for the bidding account
@@ -516,7 +512,7 @@ You can change from Scope AZ to Scope Region
 > Encrypted EBS volumes are supported in Spot instance
 - If you specify in your launch configuration, it will be honored
 =======================================
-####### Elastic Network Interface ##### v19
+#### Elastic Network Interface(ENI) ### v19
 
 ## How multiple IP addresses work with Network Interfaces
 > Eth0 is the Primary network interface, 
@@ -528,13 +524,11 @@ You can change from Scope AZ to Scope Region
 
 > An ENÌ is bound to an Availability Zone
 
-> You can specify which subnet/AZ you want the additional ENI be
-added in
+> You can specify which subnet/AZ you want the additional ENI be added in
 
-## Elastic Network Interfaces (ENIS)
-> You can specify exactly which IP address in the subnet to be configured on your instances, or leave AWS assign one automatically from the available subnet IPs
+> You can specify exactly which IP address in the subnet to be configured on instances, or leave AWS assign one automatically from the available subnet IPs
 
-> Security groups apply to network interfaces not to individual IPs on the interface, hence, IP addresses are also subject to the interface security group
+> SG apply to network interfaces not to individual IPs on the interface, hence, IP addresses are also subject to the interface security group
 
 ## Default EC2 virtual network interface (eth0)
 
@@ -656,7 +650,7 @@ lab
 3. Super super super cheap: 
 - It is very cheap as you do not require a server.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[9:22 AM, 2/24/2020] Manish Agrawal: What is Lambda
+## What is Lambda
 • AWS Lambda is a compute service where you can upload your code
 and create a lambda function.
 • AWS lambda is a compute service that lets you run the code without
@@ -669,7 +663,8 @@ infrastructure.
 • AWS Lambda executes your code only when needed and scales
 automatically, from a few requests per day to thousands of requests per
 second.
-[9:23 AM, 2/24/2020] Manish Agrawal: AWS Lambda
+
+## AWS Lambda
 • You pay only for the compute time you consume- No charge when your
 code is not running.
 • Currently AWS Lambda supports following languages. (i:e Node.js,
@@ -678,14 +673,16 @@ Java, C#, Go and Python)
 system or language runtime. If you do want to manage your own
 compute, you can use EC2 or Elastic Beanstalk.
 • Lambda functions can trigger another lambda functions.
-[9:23 AM, 2/24/2020] Manish Agrawal: AWS Lambda - Triggers
+
+## AWS Lambda - Triggers
 You can use AWS Lambda to run your code in response to:
 - Events such as changes to data in an Amazon S3 bucket or an Amazon
 DynamoDB table.
 - To run your code in response to HTTP/HTTPS requests using Amazon
 API gateways.
 - Invoke your code using API calls made using AWS SDKS.
-[9:23 AM, 2/24/2020] Manish Agrawal: AWS Lambda - Trigger
+
+## AWS Lambda - Trigger
 • The user creates an object in S3 bucket.
 • Amazon S3 detects the object created event.
 • Amazon S3 invokes your lambda function
@@ -698,7 +695,8 @@ bucket
 is stored in
 configuration.
 notification
-[9:24 AM, 2/24/2020] Manish Agrawal: AWS Lambda – Building Blocks
+
+## AWS Lambda – Building Blocks
 • Lambda Function
 - The foundation, it is compromised of your custom code.
 • Event Source
@@ -712,7 +710,8 @@ lambda function calls once it is triggered.
 metrics to cloudwatch, you can annotate your function code with custom logging
 statement that allow you to analyze the performance of you lambda function to
 ensure its working properly.
-[9:24 AM, 2/24/2020] Manish Agrawal: AWS Lambda Function Configurations
+
+## AWS Lambda Function Configurations
 • You only specify the amount of memory you want to allocate for your
 lambda function.
 • You can update the configuration and request additional memory in 64
@@ -723,12 +722,14 @@ When the specified timeout is reached, AWS lambda terminates your
 Lambda function.
 • Maximum execution time of function is 300 Seconds and default is 3
 seconds *
-[9:24 AM, 2/24/2020] Manish Agrawal: AWS Lambda Function Configurations
+
+## AWS Lambda Function Configurations
 • You can also setup AWS Lambda to invoke your code on regular,
 scheduled basis using the AWS Lambda console.
 • You can specify a fixed rate (number of hours, days or weeks) or you can
 specify a cron expression.
-[9:25 AM, 2/24/2020] Manish Agrawal: AWS Event Source Mapping
+
+## AWS Event Source Mapping
 In AWS Lambda, Lambda Functions and event sources are the core
 components in AWS Lambda.
 • An event source is the entity that publishes events, and a lambda

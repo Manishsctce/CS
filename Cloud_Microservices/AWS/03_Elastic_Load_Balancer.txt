@@ -16,6 +16,19 @@
 
 
 > ELB IS REGION SPECIFIC
+- we can use Route-53, if we want to load balance in different regions
+
+> ELB Name CAN NOT START OR END WITH A HYPHEN (-)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Benefit of App LB over Classic Load Balancer
+
+1. ALB support path-based routing
+- we can configure rule on lister to forward request based on URL 
+
+2. ALB support host-based routing 
+- we can configure rule on lister to forward request based on host field in HTTP header. 
+
+
 =======================================
 ##### ELB Listener ######## v3
 
@@ -29,20 +42,18 @@
 > Backend listeners are configured with protocol/port to check for traffic from the ELB to the EC2 instances
 - Backend mean EC2 instance side facing
 
-> You can configure multiple listeners with different protocols/ports both on the front end and backend 
-
-## ELB
-> It may take sometime for the registration of EC2 instances under the ELB to complete
+> we can configure multiple listeners with different protocols/ports both on the front end and backend 
 
 > Registered EC2 instances are those that are defined under the ELB
-
-> ELB HAS "NOTHING" TO DO WITH THE OUTBOUND TRAFFIC that is initiated/generated from the registered EC2 instances destined to the internet, or to any other instances within the VPC.
+> It may take sometime for the registration of EC2 instances under the ELB to complete
 
 > ELB only has to do with Inbound traffic destined to the EC2 registered instances (as the destination) and the respective return traffic
+> ELB HAS "NOTHING" TO DO WITH THE OUTBOUND TRAFFIC that is initiated/generated from the registered EC2 instances destined to the internet, or to any other instances within the VPC.
 
 > You start to be CHARGED HOURLY (also for partial hours) once your ELB is active
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### ELB – HOW IT WORKS #######
 
-#### ELB – HOW IT WORKS
 > If you do not want to be charged or you do not need the ELB anymore, you can delete it
 - BEFORE YOU DELETE THE ELB, it is recommended that you POINT THE ROUTE53 (or DNS server) TO SOMEWHERE ELSE other than the ELB
 
@@ -60,11 +71,12 @@
 
 >> To ensure that the ELB SERVICE CAN SCALE ELB NODES IN EACH AZ, ensure that the subnet defined for the load balancer is at least /27 in size, and has ATLEAST 8 AVAILABLE IP ADDRESSES THE ELB NODES CAN USE TO SCALE
 
-> ELB uses these IP addresses to open/connect with your registered EC2 instances (remember this in your Security Group and N.ACL settings for ELB environment in your VPC)
+> ELB uses these IP addresses to open/connect with registered EC2 instances (remember this in your Security Group and N.ACL settings for ELB environment in your VPC)
 =======================================
-##### ELB – Health Checks ######### v5
-> For fault tolerance, it is recommended that you distribute your registered EC2 instances across multiple AZs within the VPC region
-• Ideally, have the same number of registered instance in each AZ if possible
+######### ELB – Health Checks ######### v5
+
+> For fault tolerance, it is recommended that we distribute registered EC2 instances across multiple AZs within the VPC region
+- Ideally, have the same number of registered instance in each AZ if possible
 
 > The LOAD BALANCER ALSO MONITORS THE HEALTH OF ITS REGISTERED INSTANCES and ensures that it routes traffic only to healthy instances
 - A healthy instance shows as "In-Service" under the ELB
@@ -80,7 +92,7 @@
 
 > Registered instances must respond with a HTTP "200 OK" message within the timeout period, else, it will be considered as unhealthy
 
-> Response timeout is 5 seconds (range 2– 60 seconds)
+> DEFAULT RESPONSE TIMEOUT IS 5 SEC (range 2– 60 seconds)
 
 > Health check interval:
 - Period of time between health checks
@@ -94,21 +106,21 @@
 - Number of consecutive successful health checks that must occur before the instance is considered healthy
 - Default 10 (Range 2-10)
 =======================================
-#### ELB – Cross-Zone Load Balancing ## V6
-
+#### Cross-Zone Load Balancing(CZLB) ## V6
 
 > By default, the ELB_distributes traffic evenly between the AZs it is defined in, without consideration to the number of registered EC2 instances in each AZ
 
-> Cross-Zone load balancing:
-- Is disabled by default
-- When enabled, the ELB will distribute traffic evenly between registered EC2 instances
-- If you have 5 EC2 instances in one AZ, and 3 in another, and you enable cross-zone load balancing, each registered EC2 instance will be getting around the same amount of traffic load from the ELB
+> CZLB is DISABLED BY DEFAULT
+- When enabled, the ELB will DISTRIBUTE TRAFFIC EVENLY between registered EC2 instances
+- If you have 5 EC2 instances in one AZ, and 3 in another, and enable CZLB, each registered EC2 instance will be getting around the same amount of traffic load from the ELB
 
 > ELB service can be configured through AWS console, CLI, SDK, and Query APIS
-> ELB name you choose must be unique within the account ELBS in the AWS region
-> ELB IS REGION SPECIFIC, so all registered EC2 instances must be within the same region, but can be in different AZs (Use Route-53 if you want to load balance in different regions)
 
-> The name can be up to 32 alphanumeric characters, and can NOT start or end with a hyphen (-)
+> ELB IS REGION SPECIFIC, so all registered EC2 instances must be within the same region, but can be in different AZs 
+- Use Route-53, if you want to load balance in different regions
+
+> ELB name you choose must be unique within the account ELB in the AWS region
+> The NAME can be up to 32 alphanumeric characters, and CAN NOT START OR END WITH A HYPHEN (-)
 
 > To define your ELB in an AZ, you can select one subnet in that AZ
 - Only one subnet can be defined for the ELB in an AZ
@@ -147,9 +159,10 @@ internal-name-123456789.region.elb.amazonaws.com
 ###### ###### v9
 
 ## ELB – Security Groups
-> If you create your ELB in a Non-default VPC, you can choose a security group for the ELB from existing. If you do not specify one, the default SG of the VPC is assigned to the ELB
+> If you create ELB in a Non-default VPC, we can choose SG for the ELB from existing. 
+- If you do not specify one, default SG of the VPC is assigned to the ELB
 
-## ELB – Security Group & N ACLS
+## ELB – Security Group & NACLS
 > You must assign a security group to your ELB
 - This will control traffic that can reach your ELB's front end listeners
 - It must also allow health check protocol/ports & listener protocol/port (actual traffic) to reach your registered EC2 instances in the backend

@@ -159,35 +159,36 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > either one create a storage volume snapshot of your entire DB instance not just the individual database
 > You can make copies of automatic backup and of manual snapshot
 
-## DB automated backups
->  Automated backup by AWS, back up your DB data to multiple AZs to provide for data durability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### DB AUTOMATED BACKUPS ######
+
+>  Automated backup by AWS, back up DB data to multi-AZ to provide for data durability
 > Are labelled automated in AWS console (easily distinguishable)
 > Stored in Amazon S3
 > Multi-AZ automatic backup will be taken from the standby instance not the primary
 > The DB instance must be in "active" state for the automatic backup to happen 
 - if in any other state like "storage_full" state the automatic backup will not happen
 
-## DB automated backup
 > Automatic backup (not the manual one) are used for point-in-time DB instance recovery
 
-> It can restore the DB up to 5 minutes in time, using the DB transaction logs and the automated snapshot
+> It can RESTORE THE DB UP TO 5 MIN IN TIME, using the DB transaction logs and the automated snapshot
 
-> RDS automatically backup the DB instance daily, by creating a storage volume snapshot of your DB instance (full daily snapshot), including the DB transaction logs(modifications) which are critical to be able to restore upto last 5 minutes in time
+> RDS automatically backup the DB instance daily, by creating a storage volume snapshot of DB instance (full daily snapshot), including the DB transaction logs(modifications) which are critical to be able to restore upto last 5 minutes in time
 - You can choose when during the day this is done (backup window)
 
-> No additional charge for RDS backing up your DB instance
-> Enabled by default, you can disable it by setting retention period to 0
+> No additional charge for RDS backing up DB instance
+> ENABLED BY DEFAULT, we can disable it by setting retention period to 0
 
-> During your daily backup window, your I/O may be suspended (for standalone RDS deployment)
+> During daily backup window, I/O MAY BE SUSPENDED (for standalone RDS deployment)
 > For multi-AZ deployment, backup are taken from the standby DB instance (true for MariaDB, mySQL, Oracle, PostgreSQL)
 
-> Automatic backup deleted when you delete your RDS DB instance
-> An outage occur if you change the backup retention period from zero to non zero value or the other way around
+>> Automatic backup deleted when we delete RDS DB instance
 
 > Automatic backup are currently supported only for InnoDB storage engine for MySQL (and not for myISAM engine)
 > Use to automatic backup with other MySQL DB storage engines including ISAM, may lead to unpredictable behaviour during restoration
 
-## DB RETENTION PERIOD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### DB RETENTION PERIOD ######
 > The period of time AWS keep the automatic backup before deleting them
 - 7 days (by default) is configured from the AWS console for all DB engine (except Arora default is one day regardless how it was configured)
 
@@ -412,7 +413,8 @@ OR
 
 > Compute resources can scale up to 64 vCPUs and 488 GB of memory.
 
-> It maintains 2 copies of data in each AZ, with a minimum of three AZ. Therefore, we can say that it maintains 6 copies of your data.
+> It maintains 2 copies of data in each AZ, with a minimum of three AZ. 
+- Therefore, we can say that it maintains 6 copies of your data.
 
 ##### Replicas #######
 > There are 2 types of Replicas:
@@ -441,7 +443,8 @@ X-amz-date
 host
 content-type
 
-> Auto Scaling for DynamoDB help to automate capacity management of tables and global secondary indexes. 
+> DynamoDB Auto Scaling uses AWS app AS to dynamically adjust provisioned throughput capacity in response of actual traffic 
+- This help to automate capacity management of tables and global secondary indexes. 
 - we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
 - will be on by default for all new tables and indexes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

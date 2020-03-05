@@ -26,30 +26,34 @@ document.write("JavaScript is a simple language for javatpoint learners");
 Ex - embedded in web pages as 
 <script type="text/javascript" src="message.js"></script> 
 
-----------------------------------------------------
+=======================================
 ##### Comments #####
 1. Single line comments - double forward slashes (//)
 2. Multi line comments - /* */
-----------------------------------------------------
+=======================================
 
-----------------------------------------------------
-##### Variable #####
-> Name MUST START WITH A LETTER (a to z or A to Z), underscore( _ ), or dollar( $ ) sign.
+=======================================
+############# VARIABLE ################
+
+#### NAME STANDARD ####
+> Name MUST START WITH A LETTER (a to z or A to Z), underscore(_), or dollar($).
 > After 1st letter we can use digits (0 to 9), for example value1.
 > JavaScript variables are CASE SENSITIVE
 Ex - var x = 10;
 
 #LOCAL VARIABLE - declared inside block or function
 #GLOBAL VARIABLE - declared outside the function or declared with window object
-Ex - 
+EX: 
 	<script>  
 		var data=200;//gloabal variable  
 		function a(){
 			var localVar = 500;//local variable
+			window.value=100;//declaring global variable by window objec
 			document.writeln(data);  
 		}    
 		a();//calling JavaScript function    
 	</script>
+	
 > To declare JavaScript global variables inside function, you need to use window object
 > When declare a variable outside the function, it is added in the window object internally. You can access it through window object also.
 
@@ -62,8 +66,8 @@ var firstName = "",
     fullPrice = 0,
     myArray = [],
     myObject = {};
-----------------------------------------------------
-##### DATA TYPES #####
+=======================================
+######### DATA TYPES ##########
 
 > There are two types of data types in JavaScript.
 1. Primitive data type
@@ -72,8 +76,12 @@ var firstName = "",
 > JavaScript is a dynamic type language, means you don't need to specify type of the variable bCZ it is dynamically used by JavaScript engine. 
 - we need to use 'var' here to specify the data type
 
-##Primitive datatype
-string, Number, Boolean, Undefined - represent undefine value, Null 
+## 5 Primitive datatype
+1. string, 
+2. Number, 
+3. Boolean, 
+4. Undefined - represent undefine value, 
+5. Null - represents null i.e. no value at all
 
 ##Non-primitive
 Object, Array, RegExp 
@@ -97,13 +105,44 @@ NaN represent Not-a-Number
 EXAMPLE :
 var x = "Hello";     // typeof x is a string
 x = 5;               // changes typeof x to a number
-----------------------------------------------------
-##### CONDITIONAL LOOP #####
+=======================================
+############### OPERATOR ##############
+
+1. Arithmetic Operators( + - * / % ++ --)
+2. Comparison (Relational) Operators (== === != !== > >= < <=)
+3. Bitwise Operators(& | ^ ~ << >> >>>)
+4. Logical Operators (&&  ||  !)
+5. Assignment Operators (=  +=  -=  *=  /=  %=)
+6. Special Operators (?:  ,  delete  in  instanceof  new  typeof  void  yield) 
+
+> Other than java operator it has below operators:-
+===	equal value and equal type
+!=	not equal
+!==	not equal value or not equal type
+
+typeof	: Returns the type of a variable
+instanceof	Returns true if an object is an instance of an object type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### SPECIAL OPERATORS #######
+Th> e following operators are known as JavaScript special operators.
+
+(?:)        - Conditional Operator returns value based on the condition. It is like if-else.
+,           - Comma Operator allows multiple expressions to be evaluated as single statement.
+delete      - Delete Operator deletes a property from the object.
+in	        - In Operator checks if object has the given property
+instanceof	- checks if the object is an instance of given type
+new			- creates an instance (object)
+typeof		- checks the type of object.
+void		- it discards the expression's return value.
+yield		- checks what is returned in a generator by the generator's iterator.
+
+=======================================
+########## CONDITIONAL LOOP ###########
 1. if , if..else, if else if 
 - like java only
 2. switch - like java only
-----------------------------------------------------
-##### LOOPS #####
+=======================================
+############### LOOPS #################
 There are four types of loops in JavaScript.
 
 1. for loop - like java only
@@ -112,15 +151,44 @@ There are four types of loops in JavaScript.
 
 4. for-in loop 
 - used to iterate the properties of an object.
+=======================================
+############# FUNCTION ################
 
+1. JS Simple function 
+SYNTAX- 
+function functionName([arg1, arg2, ...argN]){  
+ //code to be executed  
+} 
+EXAMPLE-
+function getcube(number){  
+alert(number*number*number);  
+} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. JS FUNCTION with Return value 
+EXAMPLE-
+function getInfo(){  
+  return "hello javatpoint! How r u?";  
+} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. JS Function Object
+SYNTAX-
+new Function ([arg1[, arg2[, ....argn]],] functionBody)  
 
-----------------------------------------------------
-##### JavaScript OBJECTS #####
+EXAMPLE-
+var add=new Function("num1","num2","return num1+num2");  
+document.writeln(add(2,5));
+
+EXAMPLE- 
+var pow=new Function("num1","num2","return Math.pow(num1,num2)");  
+document.writeln(pow(2,3));   
+ 
+=======================================
+######### JavaScript OBJECTS ##########
 There are 3 ways to create objects.
 
 1. By object literal
 SYNTAX :
-object={property1:value1,property2:value2.....propertyN:valueN}  
+object={ property1:value1, property2:value2 ..... propertyN:valueN}  
 
 2. By creating instance of Object directly (using new keyword)
 SYNTAX :
@@ -200,7 +268,7 @@ EXAMPLE:
 
 
 
-----------------------------------------------------
+=======================================
 ##### String #####
 There are 2 ways to create string in JavaScript
 
@@ -235,7 +303,7 @@ There are 2 ways to create string in JavaScript
 19. toUpperCase()	Converts a string to uppercase letters
 20. trim() - Removes whitespace from both ends of a string
 21. valueOf() - Returns the primitive value of a String object
-----------------------------------------------------
+=======================================
 #####  #####
 
 use strict; 
@@ -256,13 +324,13 @@ EXAMPLE :
 	var obj = {};
 	Object.defineProperty(obj, "x", {value:0, writable:false});
 	obj.x = 3.14;            // This will cause an error
-----------------------------------------------------
+=======================================
 #####  #####
-----------------------------------------------------
+=======================================
 #####  #####
-----------------------------------------------------
+=======================================
 #####  #####
-----------------------------------------------------
+=======================================
 #####  #####
 
  JavaScript is the programming language of HTML and the Web.
@@ -311,12 +379,4 @@ EXAMPLE:
 var carName = "Volvo";
 var carName;
 - The variable carName will still have the value "Volvo" after the execution of above statements.
-=======================================
-############### OPERATOR ##############
-> Other than java operator it has below operators:-
-===	equal value and equal type
-!=	not equal
-!==	not equal value or not equal type
 
-typeof	: Returns the type of a variable
-instanceof	Returns true if an object is an instance of an object type

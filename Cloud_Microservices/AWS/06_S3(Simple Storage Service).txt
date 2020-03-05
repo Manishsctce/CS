@@ -674,6 +674,11 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 - S3 does not store the key, after the object is encrypted, the encryption key supplied by the client is deleted from S3 system that used it to protect the client's data.
 - When the client retrieves this object from S3, they must provide the same encryption key in the request.
 - S3 verifies that the encryption key matches, Decrypts the object, and returns the object to the requester.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Q: A company’s security team requires that all data stored in the cloud be encrypted at rest at all times using encryption keys stored on-premises.
+- Use Server-Side Encryption with Customer Provided Keys (SSE-C).
+- Use client-side encryption to provide at-rest encryption.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ####### S3 Static Website Hosting ##### v20
@@ -848,6 +853,11 @@ EXAMPLE:
 > In the CORS configuration, you can specify the following values for the AllowedMethod element: GET, PUT, POST, DELETE and HEAD
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##Q: An analytics company is planning to offer a site analytics service to its users. The service will require that the users’ web pages embed a JavaScript file that is hosted in the company’s Amazon S3 bucket.
+> Amazon S3 can be configured with CORS to send HTTP headers that allow the script execution.
 =======================================
 ######## S3 TRANSFER ACCELERATION ##### v25
 

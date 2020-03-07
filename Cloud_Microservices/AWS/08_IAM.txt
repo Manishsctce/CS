@@ -1,10 +1,10 @@
 =======================================
-###### AWS SECURITY services #########
+## AWS SECURITY, IDENTITY & COMPLIANCE SERVICES ##
 
-AWS Identity and Access Management (IAM)
+## AWS Identity and Access Management (IAM)
 - It enables you to manage access to AWS services and resources securely.
 
-=======================================
+## AWS Single Sign on (AWS SSO) 
 =======================================
 ## AWS Account Identifiers
 
@@ -484,4 +484,14 @@ via
 curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 
 > If the application gets temporary security credentials from the instance metadata and has cached them, it should get a refreshed set of credentials every hour, or at least 15 minutes before the current set expires.
+=======================================
+##### AWS Single Sign on (AWS SSO) ####
+> For additional security, AWS sso with two-step verification can be enabled.
+- After two-step verification is enabled, post login with authorized email password, users are prompted for additional verification code which they receive on their registered email address.
 
+> WITH CONTEXT-AWARE 2-step verification, AWS SSO analyzes user sign-in context such as browser, location, and devices.
+- If any deviation is observed, only then it asks for the additional second level of verification code.
+- with this, a user does not have to perform two-step verification repeatedly from the same device
+
+> WITH ALWAYS-ON 2-step verification, each time the user logs in to any cloud application, it would prompt for two-step verification code.
+- This is true even if the user logs in from the same device

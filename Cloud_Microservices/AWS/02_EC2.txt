@@ -463,12 +463,35 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 =======================================
 ######## EC2 PURCHASE OPTIONS ######### v18
 
+1. On-Demand Instances 
+– Pay, by the second, for the instances that you launch.
+
+2. Reserved Instances 
+– Reduce your Amazon EC2 costs by making a commitment to a consistent instance configuration, including instance type and Region, for a term of 1 or 3 years.
+
+3. Spot Instances 
+– Request unused EC2 instances, which can reduce your Amazon EC2 costs significantly.
+
+4. Dedicated Hosts 
+– Pay for a physical host that is fully dedicated to running your instances, and bring your existing per-socket, per-core, or per-VM software licenses to reduce costs.
+- we can control number of cores allocated to the application
+
+5. Dedicated Instances 
+– Pay, by the hour, for instances that run on single-tenant hardware.
+
+Savings Plans – Reduce your Amazon EC2 costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years.
+
+Scheduled Instances – Purchase instances that are always available on the specified recurring schedule, for a one-year term.
+
+
+
+Capacity Reservations – Reserve capacity for your EC2 instances in a specific Availability Zone for any duration.
+
 ####### 1. RESERVED INSTANCE #######
-> You do not actually buy Instances, rather, you reserve long term capacity and pay for it for instance family/configuration, anytime you run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
+> we do not actually buy Instances, rather, we reserve long term capacity and pay for it for instance family/configuration, anytime we run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
 
-> You can purchase it at a significant discount
-
-> Purchased reserved instance are always available
+- You can purchase it at a significant discount
+- Purchased reserved instance are always available
 
 > When purchased with an AZ scope, capacity reservation in the AZ is guaranteed
 > Term options are 1 year or 3 years
@@ -501,11 +524,9 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 > You need to submit a request for the desired modification, through AWS consate, CLI, or API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### EC2 SPOT INSTANCES #######
-> AWS Spot Instances allow customers to use compute capacity without upfront commitments, at prices cheaper than on-demand instance pricing
-
-> Customers bid on Spot instances. AWS Off-peak pricing fluctuates, if the price meets the bid price, the instances are allocated for the bidding account
-
-> SPOT INSTANCES MAYBE TERMINATED AT ANYTIME by AWS when the market prices goes higher than the previous bid price by the client (who got the instances)
+> AWS Spot Instances allow customers to use compute capacity without upfront commitments, AT CHEAPER PRICES than on-demand instance pricing
+- CUSTOMERS BID ON SPOT INSTANCES. AWS Off-peak pricing fluctuates, if the price meets the bid price, the instances are allocated for the bidding account
+- IT MAY TERMINATED AT ANYTIME by AWS when the market prices goes higher than the previous bid price by the client (who got the instances)
 
 > all Instance families are available for spot instances (T2 for example)
 
@@ -589,7 +610,7 @@ Instances -> Net Interfaces -> Change termination behavior
 
 > When a secondary private IPV4 address is unassigned from an interface, an associated Elastic IP address is automatically disassociated from the secondary private IPV4 address.
 
-## Virtual Elastic Network Interfaces (ENIS)
+## Virtual Elastic Network Interfaces (ENIs)
 > Any network interface can be assigned a secondary IPV4 address from the same subnet of the network interface or EC2 instance
 
 > You can assign/remove IP addresses from EC2 instances while they are running or stopped
@@ -612,14 +633,31 @@ Instances -> Net Interfaces -> Change termination behavior
 
 > The drawing shows how you can establish network management and public facing interfaces on the same instances using Eth0 and Eth1 ENIs
 =======================================
-####### NAT instance Source Destination Check ## v21
+##Q: You have just launched an EC2 instance, and get the following error message when you try to connect to it from a workstation running Windows 7.
+Error: Server refused our key or No supported authentication methods available
+What could be the reason for this error? 
 
-lab
-=======================================
-####### Public IPv4 addr_auto_assignment ## v22
-lab
-=======================================
-## Lab
+There are two parts of the error message.
+1. The first part is that ‘Server refused our key’
+
+> Putty: This is a CLI (Command Line Interface) tool in Windows. 
+- To log in to this Putty tool we need to have the keys in the Putty readable format which would have the extension of ‘.ppk’.
+- There is a tool called ‘PuttyGen’ by which we can convert our ‘.pem’ key to the ‘.ppk’ format and 
+- if we feed this key to the Putty tool we can log in to our respective instance.
+
+> Load the ‘.pem’ key in the ‘PuttyGen’ tool and use the ‘Save private key’ in the ‘PuttyGen’ to save the private key in ‘.ppk’ format.
+- Then load this key in the ‘Auth’ section of ‘Putty’ tool as shown below
+- The username should be provided in the ‘Data’ section 
+
+2. The second part of the error message is ‘No supported authentication methods available’.
+- Please refer to the below table for the AMI and their corresponding usernames
+1. Linux : ec2-user
+2. Centos : centos
+3. Debian : admin / root
+4. Fedora : ec2-user / fedora
+5. RHEL : ec2-user / root
+6. SUSE : ec2-user / root
+7. UBUNTU : ubuntu
 =======================================
 ############# AWS LAMBDA ##############
 

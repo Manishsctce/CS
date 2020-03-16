@@ -423,9 +423,8 @@ OR
 =======================================
 ############ AWS DynamoDB #############
 
-> Amazon DynamoDB is a fast and flexible NoSQL database service for all applications that require consistent single-digit millisecond latency at any scale.
-
-> It is a fully managed database that supports both document and key-value data models.
+> Amazon DynamoDB is a fast and flexible NOSQL DB service for all app that require consistent single-digit millisecond latency at any scale.
+> It is a FULLY MANAGED DB that supports both document and key-value data models.
 
 > Its flexible data model and performance makes it a great fit for mobile, web, gaming, ad-tech, IOT, and many other applications.
 
@@ -448,14 +447,13 @@ content-type
 - we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
 - will be on by default for all new tables and indexes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> Because of its availability in 3 geographically data centres, It consists of two different types of consistency models:
+> Because of its availability in 3 geographically DC, It consists of 2 different types of consistency models:
 
 1. Eventual Consistent Reads
 2. Strongly Consistent Reads
 
 ## AWS DynamoDB Throughput Capacity
 > DynamoDB throughput capacity depends on the read/write capacity modes for performing read/write operation on tables.
-
 
 > There are 2 types of read/write capacity modes:
 1. Provisioned mode
@@ -464,14 +462,13 @@ content-type
 ###### 1. PROVISIONED MODE ######
 > It defines the maximum amount of capacity that an application can use from a specified table.
 
-> In a provisioned mode, we need to specify the number of reads and writes per second required by the application.
+> In a provisioned mode, we need to specify the number of reads and writes per second required by the app.
 
 > If the limit of Provisioned mode throughput capacity is exceeded, then this leads to the request throttling.
 
 > A provisioned mode is GOOD FOR APP THAT HAVE PREDICTABLE AND CONSISTENT TRAFFIC.
 
-> The Provisioned mode consists of two capacity units:
-
+> The Provisioned mode consists of 2 capacity units:
 1. Read Capacity unit
 2. Write Capacity unit
 
@@ -488,7 +485,7 @@ content-type
 
 > DynamoDB will require additional read capacity units when an item size is greater than 4KB. 
 - For example, if the size of an item is 8KB, 2 read capacity units are required for strongly consistent read while 1 read capacity unit is required for eventually consistent read.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 #### 1b. WRITE CAPACITY UNIT ####
 
 > The total number of write capacity unit depends on the item size.
@@ -514,7 +511,7 @@ content-type
 
 > On-Demand mode is useful for those applications that have unpredictable traffic and database is very complex to forecast.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### SCALABILITY
+########## SCALABILITY ##########
 > It provides push button scaling where we can increase the read/write throughput without downtime or performance degradations
 
 > we can scale provisioned capacity of DynamoDB table anytime 
@@ -574,37 +571,36 @@ content-type
 2b. COMPUTE NODE
 > A compute node executes the execution plans, and then intermediate results are sent to the leader node for aggregation before sending back to the client application. 
 - It can have up to 128 compute nodes in a cluster
-
-
-## Redshift – Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### REDSHIFT – PERFORMANCE ####
 1. Columnar Data Storage:
 - Instead of storing data as series of rows, Amazon Redshift organizes the data by column.
-- Unlike Row-based systems, which are ideal for transaction
-processing's, column-based systems are ideal for data warehousing and analytics, where queries often involve aggregates performed over large data sets.
+- Unlike Row-based systems, which are ideal for transaction processing's, column-based systems are ideal for data warehousing and analytics, where queries often involve aggregates performed over large data sets.
 - Since only the columns involved in the queries are processed and columnar data is stored sequentially on the storage media, column-based systems require far few I/Os, greatly improving query performance.
 
-Advanced Compression:
+## Advanced Compression:
 - Columnar data stores can be compressed much more than row-based data stores.
 - Amazon Redshift employs multiple compression techniques and can often achieve significant compression relative to traditional relational data stores.
-When loading data into an empty table, Amazon Redshift automatically samples your data and selects the most appropriate compression technique.
+- When loading data into an empty table, Amazon Redshift automatically samples your data and selects the most appropriate compression technique.
 
 • Massively Parallel processing (MPP):
-- Amazon Redshift automatically distributes data and query load across all nodes. Amazon Redshift makes it easy to add nodes to your data warehouse and enables you to maintain fast query performance as your data warehouse grows.
+- Amazon Redshift automatically distributes data and query load across all nodes.
+- Redshift makes it easy to add nodes to data warehouse and enables you to maintain fast query performance as data warehouse grows.
 
 ## Redshift – Security
-Encrypted in transit using SSL
-• Encrypted at rest using AES-256 encryption
-• By Default, Redshift takes care of key management.
-Manage your own keys through HSM
-• AWS Key Management Service
+> Encrypted in transit using SSL
+> Encrypted at rest using AES-256 encryption
+> By Default, Redshift takes care of key management.
+> Manage your own keys through HSM
+> AWS Key Management Service
 
 ## Redshift – Backup Retention
-• Amazon Redshift automaticallly patches and backup (snapshots) your data warehouse, storing the backups for a user-defined Retention period in AWS S3.
-• It keeps the backup by default for 1 day (24 hours) but you can configure it from 0-35 days.
-• Automatic backups are stopped if you choose retention period of 0
-• You have access to these automatic snapshots during the retention period.
-• If you delete the cluster, your automatic snapshots are deleted as well.
-• Manual backups are not deleted automatically, if you not delete them manually, you will be charged standard S3 storage rates.
+> Amazon Redshift automaticallly patches and backup (snapshots) your data warehouse, storing the backups for a user-defined Retention period in AWS S3.
+> It keeps the backup by default for 1 day (24 hours) but you can configure it from 0-35 days.
+> Automatic backups are stopped if you choose retention period of 0
+> You have access to these automatic snapshots during the retention period.
+> If you delete the cluster, your automatic snapshots are deleted as well.
+> Manual backups are not deleted automatically, if you not delete them manually, you will be charged standard S3 storage rates.
 
 ##Redshift – Restore
 Amazon Redshift currently supports only one AZ (no Multi-AZ option)
@@ -612,11 +608,8 @@ Amazon Redshift currently supports only one AZ (no Multi-AZ option)
 or different AZ
 
 ## Redshift – Monitoring
-• Metrics for compute utilization, storage utilization and read/write
-traffic to your Amazon Redshift data warehouse cluster, are available
-free of charge via AWS Cloudwatch.
-• You can also add additional user-defined, metrics via AWS Cloudwatch
-custom metric functionality.
+> Metrics for compute utilization, storage utilization and read/write traffic to your Amazon Redshift data warehouse cluster, are available free of charge via AWS Cloudwatch.
+> You can also add additional user-defined, metrics via AWS Cloudwatch custom metric functionality.
 
 ## Q: An organization is managing a Redshift cluster in AWS. They need to monitor the performance of this Redshift cluster to ensure that it is performing as efficiently as possible. Which of the following services can be used for achieving this requirement? Please select:
 A) Cloudtrail
@@ -639,17 +632,10 @@ D) Can't transfer huge amount of data to AWS
 =======================================
 ########## Amazon ElastiCache #########
 
-## PURPOSE
-> The primary purpose of in-memory key-value store is to provide
-ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
-> Most data stores have areas of data that are frequently accessed but seldom updated. 
-> Additionally, querying a database will always be slower and more expensive than locating a key in a key-value pair cache.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### ElastiCache #######
 > Amazon ElastiCache makes it easy to set up, manage, and scale distributed in-memory cache environments
 
 > It is AWS fully managed Web service.
-> It is an in-memory key-value data store engine in the cloud.
+> It is an in-memory key-value data store engine in the cloud and provide ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
 > It improves the performance of web applications by allowing for the retrieval of information from a fast, managed, in-memory system (instead of reading it from the DB itself)
 
 > Improves response times for user transactions and queries
@@ -682,6 +668,7 @@ ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
 > Redis is persistent
 > It is the fast NoSQL engine 
 > It can be used as a data store.
+
 > Use cases:
 - Web
 - Mobile Apps
@@ -692,5 +679,4 @@ ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Elasticache Exam Tip
 • Typically you will be given a scenario where a particular database is under a lot of stress/load. You may be asked which service you should use to alleviate this.
->>> Elasticache is a good choice if your database is particularly read
-heavy and not prone to frequent changing,
+>>> Elasticache is a good choice if your database is particularly read heavy and not prone to frequent changing,

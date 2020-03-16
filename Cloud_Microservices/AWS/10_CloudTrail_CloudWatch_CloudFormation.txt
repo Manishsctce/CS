@@ -9,7 +9,7 @@
 ## AWS Config
 =======================================
 ############## CLOUDTRAIL #############
-> It is an AWS service that helps you enable governance, compliance, and operational and risk auditing of AWS account. 
+> It is an AWS service that helps to enable governance, compliance, and operational and risk auditing of AWS account. 
 > Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. 
 - Events include actions taken in the Console, AWS CLI, SDKs and APIs.
 
@@ -37,7 +37,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > BY DEFAULT, CLOUDTRAIL EVENT LOG FILES ARE ENCRYPTED USING S3-SSE but we can choose to encrypt with AWS KMS key. 
 - store log files in bucket as long as we want. 
-- we can define Amazon S3 lifecycle rules to archive or delete log files automatically.
+- we can define S3 lifecycle rules to archive or delete log files automatically.
 
 ## CloudTrail log file integrity validation
 > To determine whether a log file was modified, deleted, or unchanged after CloudTrail delivered it, we can use CloudTrail log file integrity validation. 
@@ -89,6 +89,11 @@
 8. Resources: Using this section, you can declare the AWS resource that you want to create and specify in the stack, such as an Amazon S3 bucket or AWS Lambda.
 
 9. Output 
+
+> AWS CloudFormation Drift Detection can be used to detect changes made to AWS resources outside the CloudFormation Templates.
+- It only checks property values that are explicitly set by stack templates or by specifying template parameters. 
+- It does not determine drift for property values that are set by default. 
+- To determine drift for these resources, you can explicitly set property values which can be the same as that of the default value.
 =======================================
 ########## Trusted Advisor ############
 

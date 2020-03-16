@@ -468,7 +468,7 @@ The permissions can be granted as follows:
 - The code displayed on an approved physical or SW-based authentication device
 > This provides maximum protection to your objects
 =======================================
-######### Multipart Upload ########## v12 
+########### Multipart Upload ########## v12 
 > Is used to upload an object (objects) in parts
 - Parts are uploaded independently and in parallel, in any order
 - It is recommended for objects sizes of 100MB or larger
@@ -478,24 +478,23 @@ The permissions can be granted as follows:
 
 ## Copying S3 Objects
 > The copy operation creates a copy of an object that is already stored in Amazon S3
-- we can create a copy of your object up to 5 GB in size in a single atomic operation
+- we CAN CREATE A COPY OF OBJECT UP TO 5 GB IN SIZE IN A SINGLE ATOMIC OPERATION
 - However, to copy an object greater than 5 GB, you must use the multipart upload API
 - You will incur charges if the copy is to a destination that is another AWS region
 
 > Can be done using AWS SDKS or REST API
 
-> Use the copy operation to:
+> USE OF COPY OPERATION to:
 - Generate additional copies of the objects
 - Renaming objects (copy to a new name)
 - Changing the copy's storage class or encrypt it at rest (these can be done via AWS Console now with the new UI)
 - Move objects across AWS locations/region
 - Change object metadata
-- Once you upload an objest to S3, you can NOT change some of its metadata, this is where the copy comes in handy
+- Once you upload an object to S3, you can NOT change some of its metadata, this is where the copy comes in handy
 
 ## Successful Upload Acknowledgement
 > When you successfully upload an object (a file) to S3, S3 returns a HTTP 200 OK message for a successful PUT Operation
-If uploading an Object and requesting SSE using Customer Provided Keys,and if the PUT operation is successful
-Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the encryption key you specified when uploading the object.
+- If uploading an Object and requesting SSE using Customer Provided Keys,and if the PUT operation is successful S3 then returns the HTTP 200 OK, the encryption algorithm, and MD5 of the encryption key you specified when uploading the object.
 =======================================
 ############ S3 STORAGE CLASS ######### v13
 1. S3 Standard
@@ -748,28 +747,26 @@ Amazon S3 then returns the HTTP 200K, the encryption algorithm, and MD5 of the e
 
 > To activate this feature, 
 - add a replication configuration to source bucket.
-- Destination bucket where you want objects replicated to.
-- You can request to replicate all or subset of objects with specific key name prefixes."
+- Destination bucket where we want objects replicated to.
+- we can request to replicate all or subset of objects with specific key name prefixes."
 
+## WHAT WE CAN DO
 > we can configure CRR with S3 Lifecycle management rules
-
 > we can specify a different storage class for object replicas while creating the replication configuration
-
 > S3 will encrypt data in-transit across regions using SSL
-
-> It requires:
+---------------------------------
+## IT REQUIRES:
 - The source and destination buckets are in different AWS regions
 - Both source and dest buckets MUST HAVE VERSIONING ENABLED
 - Replication can happen to only one destination bucket
 - AWS S3 must have permission (IAM Role) to replicate objects from the source bucket to the destination bucket on your behalf.
 
- Bucket permissions:
+> If you are setting up CRR in a cross-account, the source bucket owner must have permission to replicate objects in the destination bucket.
+
 > if the object owner is the same as the bucket owner, the bucket owner has full permissions to replicate the object.
-- If not, the source bucket owner must have permission to read the object and object ACL
-(AWS S3 actions s3:GetObjectVersion and s3:GetObjectVersionACL)
+- If not, the source bucket owner must have permission to read the object and object ACL (AWS S3 actions s3:GetObjectVersion and s3:GetObjectVersionACL)
 
-> If you are setting up cross-region replication in a cross-account (Different source & destination buckets are owned by different AWS accounts), the source bucket owner must have permission to replicate objects in the destination bucket.
-
+---------------------------------
 > After enabling CRR, the following will trigger a replication:
 - Every object upload to the source bucket
 - Every DELETE to an object in the source buckep

@@ -1,4 +1,3 @@
-=======================================
 ######### AWS STORAGE SERVICE #########
 
 ## AWS S3
@@ -13,14 +12,14 @@
 - Secure, durable, and extremely low-cost solutions for backup and archiving.
 
 ## Storage Gateway
-- Seamlessly connect on-premise applications or services with the AWS cloud storage.
+- Seamlessly connect on-premise app or services with the AWS cloud storage.
 
 ## 
 =======================================
 > three different metrics: availability, durability and reliability. 
-## What durability is AWS?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What durability is AWS?
+
 > Durability is used to measure the likelihood of data loss. ... 
 > AWS measures durability as a percentage. 
 - For example, the S3 Standard Tier is designed for 99.999999999% durability. 
@@ -28,7 +27,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is reliability in AWS?
 
-> The reliability pillar includes the ABILITY OF A SYSTEM TO RECOVER FROM INFRASTRUCTURE OR SERVICE DISRUPTIONS, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues.
+> It is the ABILITY OF A SYSTEM TO RECOVER FROM INFRASTRUCTURE OR SERVICE DISRUPTIONS, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Resiliency in AWS?
 
@@ -36,29 +35,59 @@
 =======================================
 ##### SIMPLE STORAGE SERVICE(S3) ######
 
-> S3 is one of the first services that has been produced by aws.
-> S3 provides developers and IT teams with secure, durable, highly scalable object storage.
-- It is easy to use with a simple web services interface to store and retrieve any amount of data from anywhere on the web.
-
 ## What is S3?
-> S3 is a safe place to store the files.
-- It is Object-based storage, i.e., you can store the images, word files, pdf files, etc.
-- The files which are stored in S3 can be from 0 Bytes to 5 TB (i.e unlimited storage)
 
-> Files are stored in Bucket. A bucket is like a folder available in S3 that stores the files.
+> S3 is 1st services that has been produced by aws.
+> S3 is a storage for the internet. 
+- It has a simple web service interface for simple storing and retrieval of any amount of data, anytime, from anywhere on the internet 
 
-> S3 is a universal namespace, i.e., the names must be unique globally. Bucket contains a DNS address. Therefore, the bucket must contain a unique name to generate a unique DNS address.
-If you create a bucket, URL look like:
-https://s3-eu-west-1.amazonaws.com/acloudguru 
+> it is OBJECT-BASED STORAGE AND NOT A BLOCK STORAGE i.e. we can store images/ word files/PDF etc
+> S3 has a DISTRIBUTED DATA-STORE ARCHITECTURE where object are redundant stored in multiple location
 
+#### S3 BUCKETS ####
+> Data is stored in buckets 
+- It can be viewed as a flat container for objects that DOES NOT PROVIDE HIERARCHICAL OF OBJECT
+- We can use object key(name) to mimic folders in a bucket when using the AWS console
+
+> You can store unlimited object in bucket but AN OBJECT CANNOT EXCEED 5TB
+> CAN CREATE FOLDER IN YOUR BUCKET (available through console only)
+> You cannot create nested buckets (a bucket inside another)
+> Bucket ownership is not transferable
+> It is recommended to access S3 through SDK or API (console internally use API too)
+> S3 BUCKET IS REGION SPECIFIC
+> You can have upto 100 buckets (soft limit) per account
 
 > If you upload a file to S3 bucket, then you will receive an HTTP 200 code means that the uploading of a file is successful.
 
+> An S3 bucket has properties including 
+- access permission 
+- versioning status 
+- storage classes
+
+######## S3 BUCKET NAMING RULE #######
+> S3 BUCKET NAMES(KEYS) ARE GLOBALLY UNIQUE ACROSS ALL REGION 
+- bucket name cannot be changed after they created 
+- if a bucket is deleted its name become available again to you or another account to use 
+- bucket names must be >= 3 || <= 63 char long 
+
+> bucket names are part of the URL is to access bucket
+
+> Bucket name must be a series of one or more label(mymain.bucket)
+- Adjacent label are separated by a single period 
+- bucket name can contain lowercase letter, numbers and hyphen
+- each label must start and end with a lowercase letter or a number
+
+> Bucket name must not be formatted as an IP address
+
+EXAMPLE:
+https://s3-eu-west-1.amazonaws.com/acloudguru 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## ADVANTAGES OF AMAZON S3
 
-1. Create Buckets: Firstly, we create a bucket and provide a name to the bucket. Buckets are the containers in S3 that stores the data. Buckets must have a unique name to generate a unique DNS address.
+1. Create Buckets: Buckets are the containers in S3 that stores the data. Buckets must have a unique name to generate a unique DNS address.
 
-2. Storing data in buckets: Bucket can be used to store an infinite amount of data. You can upload the files as much you want into an Amazon S3 bucket, i.e., there is no maximum limit to store the files. Each object can contain upto 5 TB of data. Each object can be stored and retrieved by using a unique developer assigned-key.
+2. It can store an infinite amount of data in bucket.
 
 3. Download data: You can also download your data from a bucket and can also give permission to others to download the same data. You can download the data at any time whenever you want.
 
@@ -68,9 +97,8 @@ https://s3-eu-west-1.amazonaws.com/acloudguru
 5. Standard interfaces: S3 is used with the standard interfaces REST and SOAP interfaces which are designed in such a way that they can work with any development toolkit.
 
 6. Security: Amazon S3 offers security features by protecting unauthorized users from accessing your data.
-
-### S3 is a simple key-value store
-S3 is object-based. Objects consist of the following:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> S3 is object-based. Objects consist of the following:
 
 1. Key: It is simply the name of the object. For example, hello.txt, spreadsheet.xlsx, etc. You can use the key to retrieve the object.
 
@@ -84,8 +112,8 @@ S3 is object-based. Objects consist of the following:
 
 6. Access control information: You can put the permissions individually on your files.
 
-===================================
-### Block versus object storage ###
+=======================================
+####### Block vs Object Storage #######
 
 ## BLOCK STORAGE
 > Block storage is SUITABLE FOR TRANSACTIONAL DATABASES, random read/write loads, and structured database storage
@@ -95,7 +123,7 @@ S3 is object-based. Objects consist of the following:
 > Data blocks stored in block storage would NOT CONTAIN METADATA (date created, date modified, content type...etc)
 
 > Block storage only keeps the address(index) where the data blocks are stored
-
+---------------------------------
 ## OBJECT STORAGE
 > It stores the files as a whole and does not divide them
 
@@ -128,8 +156,8 @@ S3 is object-based. Objects consist of the following:
 > Requires a locking mechanism to block read until the data is propagated and updated on all nodes
 > Is good for transactional database and real time system with consistent writes
 > Has limited scalability and reduced availability
-
-#### EVENTUAL CONSISTENCY #####
+---------------------------------
+###### EVENTUAL CONSISTENCY #####
 > Read from different data stores for the same data result different returns
 > There is no locking mechanism, if data is updated to an object, an immediate read from different note will not return the same data
 - with time and as the changes/updates get propagated and updated on all other storage note, the reads will be will eventually consistent
@@ -138,10 +166,10 @@ S3 is object-based. Objects consist of the following:
 - scalability 
 - availability 
 - data durability
-
-#### S3 CONSISTENCY LEVEL
+---------------------------------
+##### S3 CONSISTENCY LEVEL ######
 > S3 Provides:
-- READ-AFTER-WRITE (IMMEDIATE OR STRONG) CONSISTENCY of PUTS of new objects (new object loads to S3)
+- READ-AFTER-WRITE (IMMEDIATE OR STRONG) CONSISTENCY of PUTS OF NEW OBJECTS (new object loads to S3)
 
 > EVENTUAL CONSISTENCY FOR OVERWRITE data (for Changes/updates to existing Objects in S3)
 - It can be PUTS and DELETES operation 
@@ -150,52 +178,9 @@ S3 is object-based. Objects consist of the following:
 - we will get either updated object or the old one (before the update), 
 - we will NEVER GET PARTIAL OR CORRUPT DATA
 =======================================
-########### S3 ############## v3
-
-> S3 is a storage for the internet. It has a simple web service interface for simple storing and retrieval of any amount of data, anytime, from anywhere on the internet 
-> it is object based storage and not a block storage
-> S3 has a DISTRIBUTED DATA-STORE ARCHITECTURE where object are redundant stored in multiple location
-
-#### S3 BUCKETS ####
-> Data is stored in buckets 
-- It can be viewed as a flat container for objects that DOES NOT PROVIDE HIERARCHICAL OF OBJECT
-- We can use object key(name) to mimic folders in a bucket when using the AWS console
-
-> You can store unlimited object in your bucket but an object cannot exceed 5TB
-> CAN CREATE FOLDER IN YOUR BUCKET (available through console only)
-> You cannot create nested buckets (a bucket inside another)
-> Bucket ownership is not transferable
-> It is recommended to access S3 through SDK or API (console internally use API too)
-> An S3 bucket is region specific
-> You can have upto 100 buckets (soft limit) per account
-
-> An S3 bucket has properties including 
-- access permission 
-- versioning status 
-- storage classes
-
-######## S3 BUCKET NAMING RULE #######
-> S3 bucket names(keys) are globally unique across all region 
-- bucket name cannot be changed after they created 
-- if a bucket is deleted its name become available again to you or another account to use 
-- bucket names must be at least 3 or no more than 63 character long 
-
-> bucket names are part of the URL is to access bucket
-
-> Bucket name must be a series of one or more label(mymain.bucket)
-- Adjacent label are separated by a single period 
-- bucket name can contain lowercase letter, numbers and hyphen
-- each label must start and end with a lowercase letter or a number
-
-> Bucket name must not be formatted as an IP address
-=======================================
 ###### S3 buckets sub resources ####### v4
-> Amazon S3 supports various option for you to configure your bucket 
-- Amazon S3 support subject sources for you to store and manage the bucket configuration information 
-- using the Amazon S3 API you can create and manage these resources 
-- you can also use the console or AWS SDK
 
-> BY DEFAULT A BUCKET ITS OBJECT AND RELATED SUB-RESOURCES ARE ALL PRIVATE 
+> BY DEFAULT A BUCKET & ITS OBJECT AND RELATED SUB-RESOURCES ARE ALL PRIVATE 
 - i.e. by default only the owner has access to the bucket and storage object
 
 > Sub-resources for S3 bucket includes:
@@ -215,10 +200,6 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 =======================================
 ############ S3 objects ############### v5
 
-> An object size stored in S3 bucket can be 0 byte upto 5tb
-> Each object is stored and retrieved by unique key
-> An object is a 330 uniquely identified and address through
-> Service centre point bucketname object key optional ITI object version
 > Object store in S3 bucket in a region will never leave that region
 -  unless you specify move them to another reason or enable cross region replication
 > S3 PROVIDE HIGH DATA DURABILITY, object are redundantly stored on multiple devices across multiple facility in Amazon S3 region where the bucket exist
@@ -271,7 +252,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 - make the resource public, grant permission to everyone (also referred as anonymous access) 
 - or to all authenticated user (user with AWS credentials)
 =======================================
-######### S3 access policy ############ v7
+######### S3 ACCESS POLICY ############ v7
 
 > Access policy describe who has access to what. 
 - You can associate and access policy with a resource (bucket/object) OR user

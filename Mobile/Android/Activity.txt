@@ -1,0 +1,83 @@
+> An activity is a single, focused thing that the user can do. 
+> All activities interact with the user, so the Activity class used for creating a window in which we can place UI with setContentView(View). 
+While activities are often presented to the user as full-screen windows, they can also be used in other ways: as floating windows (via a theme with R.attr.windowIsFloating set), Multi-Window mode or embedded into other windows. There are two methods almost all subclasses of Activity will implement:
+
+##### ACTIVITY LIFECYCLE #########
+> Activities in the system are managed as activity stacks. 
+- When a new activity is started, it is usually placed on the top of the current stack and becomes the running activity 
+- the previous activity always remains below it in the stack
+
+> An activity has essentially 4 states:
+
+1. RUNNING /ACTIVE : If an activity is in the foreground of the screen (at the highest position of the topmost stack), it is active or running.
+
+2. PAUSED : If an activity has lost focus but is still presented to the user, it is visible. 
+- It is possible if a new non-full-sized or transparent activity has focus on top of your activity, another activity has higher position in multi-window mode, or the activity itself is not focusable in current windowing mode. 
+- Such activity is completely alive (it maintains all state and member information and remains attached to the window manager).
+
+3. STOPPED/HIDDEN : If an activity is completely obscured by another activity, it is stopped or hidden. 
+- It still retains all state and member information, however, it is no longer visible to the user so its window is hidden and it will often be killed by the system when memory is needed elsewhere.
+
+4. DESTROY: The system can drop the activity from memory by either asking it to finish, or simply killing its process, making it destroyed. 
+- When it is displayed again to the user, it must be completely restarted and restored to its previous state.
+=======================================
+
+ACTIVITY Lauched --> onCreate() --> onStart() --> onResume() --> ActivityRunning 
+
+ActivityRunning --another acitiviy comes into foreground--> onPause() --activity is no longer visible--> onStop() --> onDestroy() --> ACITIVITY SHUTDOWN 
+
+> if an activity is paused, and again user returns to the activity then onResume() is called.
+
+> if an activity is stopped, and again user navigate to the same acitiviy then onRestart() is called and it further call onStart()  
+> if an activity is stopped, and another App need memory then old App process killed and it start fresh.
+=======================================
+########## ANDROID FRAGMENT ###########
+> Android Fragment is the part of activity, it is also known as sub-activity. 
+- There can be more than one fragment in an activity. 
+- Fragments represent multiple screen inside one activity.
+
+> Android fragment lifecycle is affected by activity lifecycle because fragments are included in activity.
+
+> Each fragment has its own life cycle methods that is affected by activity life cycle because fragments are embedded in activity.
+
+> The FragmentManager class is responsible to make interaction between fragment objects.
+=======================================
+## What is Layout?
+
+> Layout defines how your activity looks. 
+- Your activity displays textboxes, labels, drop-downs, images etc. How these objects are arranged and displayed on the screen is managed by a layout file. 
+- This layout file is an XML file in which you define the controls required for the screen.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to set OnClickListener for TextView?
+
+> TextView is a child class of View, and hence can use the method setOnClickListener() on the object of TextView as
+
+// get reference to textview
+val tv_click_me = findViewById(R.id.tv_click_me) as TextView
+// set on-click listener
+tv_click_me.setOnClickListener {
+    // your code to run when the user clicks on the TextView
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create new TextView programmatically?
+
+> we need the application context to create any new View. 
+- Android prevents any View to be created outside the UI thread by throwing a build error.
+
+override fun onCreate(savedInstanceState: Bundle?) {
+  super.onCreate(savedInstanceState)
+  setContentView(R.layout.activity_main)
+ 
+  // creating TextView programmatically
+  val tv_dynamic = TextView(this)
+  tv_dynamic.textSize = 20f
+  tv_dynamic.text = "This is a dynamic TextView generated programmatically in Kotlin"
+  
+  // add TextView to LinearLayout
+  ll_main_layout.addView(tv_dynamic)
+}
+
+> Here dynamic text is added to LinearLayout in the main activity.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

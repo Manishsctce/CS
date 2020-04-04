@@ -14,7 +14,7 @@ It has added below features:-
 =====================================
 ## What is FUNCTIONAL PROGRAMMING?
 
-> its a style of pgmg where we FOCUS ON TRANSFORMING DATA THROUGH THE USE OF SMALL EXPRESSIONS THAT IDEALLY DON’T CONTAIN SIDE EFFECTS.
+> its a style of pgmg where we FOCUS ON TRANSFORMING DATA THROUGH THE USE OF SMALL EXPRESSIONS.
 
 EXAMPLE = 
 f(x) = x^2
@@ -48,10 +48,10 @@ DECLARATIVE / FUNCTIONAL
 ## What is Lambda expression?
 ## Explain the syntax and characteristics of a Lambda Expression?
 
-> It is an ANONYMOUS FUNCTION THAT CAN BE REFERENCED AND PASSED AROUND AS AN OBJECT & EXECUTED LaTER
-- It comprises of a set of parameters, a lambda operator (->) and a function body.
+> It is an ANONYMOUS FUNCTION THAT CAN BE REFERENCED AND PASSED TO AN OBJECT & EXECUTED LaTER
+- It comprises of a set of parameters, a lambda operator(->) and a function body.
 
-> it represented as objects, and so they must be bound to a particular object type known as a Functional Interface. This is called the target type.
+> it represented as an objects of a particular object type known as Functional Interface. This is called the target type.
 
 #### PARAMETERS ####
 > It can receive zero, one or more parameters.
@@ -103,14 +103,13 @@ Give no parameters prints Hello World! to the main output and returns void.
 - In these cases, We're usually trying to pass functionality as an argument to another method.
 - Lambda expressions enable us to do this, to treat functionality as method argument, or code as data.
 
-
 > lambda expressions are Java's first step into functional programming.
 - Functional programming is very often used to implement event listeners
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why use Lambda expression?
 
 > It is used to define inline implementation of Functional interface.
-> It  eliminates the need of anonymous class
+> It eliminates the need of anonymous class
 > Less coding.
 
 =======================================
@@ -118,14 +117,11 @@ Give no parameters prints Hello World! to the main output and returns void.
 
 ## What is a method reference?
 
-> It is a compact, easy-to-read handle for a method that already has a name. 
-- It is more compact than annonymous class and lambda exp. 
-
 > it can be used for referencing a method of Functional Interface without invoking it. 
 - It is USED FOR TREATING METHODS AS LAMBDA EXPRESSIONS.
 - It is compact and easy form of lambda expression
 
-> it can be identified by a double colon separating a class or object name and the name of the method
+> it is identified by double colon separating a class/object name and the name of method
 (o) -> o.toString(); 
 Object::toString();
 
@@ -168,6 +164,7 @@ class ReferenceDemo {
   }
 
   pv implement() {
+  
     //1. ANONYMOUS CLASS.
     IsReferable demoOne = new IsReferable() {
       @Override
@@ -277,7 +274,7 @@ LongStream longStream = LongStream.rangeClosed(1, 3);
 - Returns a stream consisting of supplied values as elements.
 
 ##
----------------------------------
+----------------------------------
 #### INTERMEDIATE METHOD ####
 
 ## map: 
@@ -309,8 +306,8 @@ List result = names.stream().sorted().collect(Collectors.toList());
 - Returns a stream consisting of elements sorted according to supplied Comparator
 EXAMPLE: 
 names.stream().sorted((String name1, String name2) -> name1.length() - name2.length()).forEach(System.out::println);
-
-#### #### TERMINAL OPERATIONS #### ####
+---------------------------------
+###### TERMINAL OPERATIONS ######
 ## R collect(Collector<T> collector)
 - The collect method is used to return the result of the intermediate operations performed on the stream.
 List number = Arrays.asList(2,3,4,5,3);
@@ -440,32 +437,13 @@ Well, they are called functional interface because they wrap a function as an in
 EXAMPLE:
 String[] languages = {"Java", "Python", "JavaScript"};
 Stream numbers = Stream.of(languages);
-numbers.forEach(System.out::println);
-
-Output:
-Java
-Python
-JavaScript
+numbers.forEach(System.out::println);//Java Python JavaScript
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the parallel Stream? How can you get a parallel stream from a List?
 
 > A parallel stream can parallel execute stream processing task. For example, if you have a parallel stream of 1 million orders and you are looking for orders worth more than 1 million then you can use a filter to do that.
 
 Unlike sequential Stream, the parallel stream can launch multiple threads to search for those orders on the different part of Stream and then combine the result.
-
-=======================================
-############# Collectors ##############
-> It is a final class
-> It provides reduction operations, such as accumulating elements into collections, summarizing elements according to various criteria, etc.
-
-#### METHODS ####
-1. public static <T,K> Collector<T,?,Map<K,List<T>>> groupingBy(Function<? super T,? extends K> classifier)
-- It returns a Collector implementing a "group by" operation on input elements of type T, grouping elements according to a classification function, and returning the results in a Map.
-EXAMPLE - 
-List<String> keys = Arrays.asList("Apple","Ball","Apple","Ball");
-Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k));
-syso(mg); [Apple= {Apple,Apple}, Ball={Ball,Ball}]
-
 
 =======================================
 ######### FUNCTIONAL INTERFACE ########
@@ -598,34 +576,6 @@ public static<T> Stream<T> generate(Supplier<T> s)
 <R> R collect(Supplier<R> supplier,BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)
 
 =====================================
-######### BEST USAGES OF JAVA 8 #####
-
-> Avoid Overloading Methods with Functional Interfaces as Parameters
-EXAMPLE: 
-
-public interface Adder {
-    String add(Function<String, String> f);
-    void add(Consumer<Integer> f);
-}
- 
-public class AdderImpl implements Adder {
- 
-    @Override
-    public  String add(Function<String, String> f) {
-        return f.apply("Something ");
-    }
- 
-    @Override
-    public void add(Consumer<Integer> f) {}
-}
-
-WHILE USING IT String r = adderImpl.add(a -> a + " from lambda"); // IT WILL THROW ERROR add is ambiguous both method
-
-> to solve this problem, we can use methods with different name OR
-- to perform casting manually. This is not preferred.
-String r = Adder.add((Function) a -> a + " from lambda");
-
-=====================================
 ############# OPTIONAL ##############
 - It is introduced in Java 8 and is similar to what Optional is in Guava.
 
@@ -642,7 +592,7 @@ Rule 2 : Never use Optional.get() unless you can prove that the Optional is pres
 
 ######## METHOD ########
 
-## 3 METHODS TO CREATE OPTIONAL INSTANCE 
+### 3 METHODS TO CREATE OPTIONAL INSTANCE 
 1. static <T> Optional<T> empty()
 - Returns an empty Optional instance.
 
@@ -652,7 +602,7 @@ Rule 2 : Never use Optional.get() unless you can prove that the Optional is pres
 
 3. static <T> Optional<T> ofNullable(T value)
 - Returns an Optional describing the specified value, if non-null, otherwise returns an empty Optional.
-
+---------------------------------
 ## METHODS TO DO STH If Optional value is present 
 4. boolean isPresent()
 - Returns true if there is a value present, otherwise false.
@@ -662,7 +612,7 @@ Rule 2 : Never use Optional.get() unless you can prove that the Optional is pres
 
 6. T get()
 - If a value is present in this Optional, returns the value, otherwise throws NoSuchElementException.
-
+---------------------------------
 ## METHODS TO APPLY SOME LOGIC ON Optional
 7. Optional<T> filter(Predicate<? super <T> predicate)
 - If a value is present and the value matches a given predicate, it returns an Optional describing the value, otherwise returns an empty Optional.
@@ -672,7 +622,7 @@ Rule 2 : Never use Optional.get() unless you can prove that the Optional is pres
 
 9. <U>Optional<U> map(Function<? super T,? extends U> mapper)
 - If a value is present, applies the provided mapping function to it, and if the result is non-null, returns an Optional describing the result.
-
+---------------------------------
 ## METHODS FOR DEFAULT/ABSENT VALUES AND ITS ACTIONS
 10. T orElse(T other)
 - Returns the value if present, otherwise returns other.
@@ -682,16 +632,6 @@ Rule 2 : Never use Optional.get() unless you can prove that the Optional is pres
 
 12. <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
 - Returns the contained value, if present, otherwise throws an exception to be created by the provided supplier.
-
-## OTHER
-13. int hashCode()
-- Returns the hash code value of the present value, if any, or 0 (zero) if no value is present.
-
-14. boolean equals(Object obj)
-- Indicates whether some other object is "equal to" this Optional.
-
-15. String toString()
-- Returns a non-empty string representation of this Optional suitable for debugging.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Optional works in JVM?
@@ -722,13 +662,13 @@ public T get() {
 
 If we observe above real-time Retail Domain use-case, we should know that Java Optional construct is useful at the following places.
 
-1. Method Parameter
+1. METHOD PARAMETER
 EXAMPLE: 
 public void setResolution(Optional<ScreenResolution> resolution) {
 	this.resolution = resolution;
 }
 
-2 Method Return Type
+2 METHOD RETURN TYPE
 EXAMPLE: 
 public Optional<ScreenResolution> getResolution() {
 	return resolution;
@@ -750,13 +690,55 @@ private Optional<ScreenResolution> resolution;
 EXAMPLE: 
 public class B
 public class A<T extends Optional<B>> { }
+=====================================
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is StringJoiner[c] in Java8?
 > It is a util class which is used to construct different strings with desired delimiters
+=======================================
+############# Collectors ##############
+> It is a final class
+> It provides reduction operations, such as accumulating elements into collections, summarizing elements according to various criteria, etc.
 
+#### METHODS ####
+1. public static <T,K> Collector<T,?,Map<K,List<T>>> groupingBy(Function<? super T,? extends K> classifier)
+- It returns a Collector implementing a "group by" operation on input elements of type T, grouping elements according to a classification function, and returning the results in a Map.
+EXAMPLE - 
+List<String> keys = Arrays.asList("Apple","Ball","Apple","Ball");
+Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k));
+syso(mg); [Apple= {Apple,Apple}, Ball={Ball,Ball}]
+
+https://www.javabrahman.com/java-8/java-8-finding-maxmin-with-collectors-maxby-minby-methods-tutorial-with-examples/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 What is a @Repeatable annotation?
 What is a StringJoiner?
 What new lock class was added in Java 8 and how does it work (StampedLock)?
 What is a CompletableFuture?
 What is a difference between Future and CompletableFuture?
+
+=======================================
+######### BEST USAGES OF JAVA 8 #######
+
+> Avoid Overloading Methods with Functional Interfaces as Parameters
+EXAMPLE: 
+
+public interface Adder {
+    String add(Function<String, String> f);
+    void add(Consumer<Integer> f);
+}
+ 
+public class AdderImpl implements Adder {
+ 
+    @Override
+    public  String add(Function<String, String> f) {
+        return f.apply("Something ");
+    }
+ 
+    @Override
+    public void add(Consumer<Integer> f) {}
+}
+
+WHILE USING IT String r = adderImpl.add(a -> a + " from lambda"); // IT WILL THROW ERROR add is ambiguous both method
+
+> to solve this problem, we can use methods with different name OR
+- to perform casting manually. This is not preferred.
+String r = Adder.add((Function) a -> a + " from lambda");

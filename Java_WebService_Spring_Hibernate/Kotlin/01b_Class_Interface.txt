@@ -22,4 +22,161 @@ class className constructor(){   // class header
 var obj1 = className()  
 =======================================
 ############ Nested class #############
-> In Kotlin, nested class is by default static, so its data member and member function can be accessed without creating an object of class. Nested class cannot be able to access the data member of outer class.
+> In Kotlin, nested class is by default static, so its data member and member function can be accessed without creating an object of class. 
+- Nested class cannot be able to access the data member of outer class.
+
+class outerClass{  
+    private var name: String = "Ashu"  
+    class nestedClass{  
+		var description: String = "code inside nested class"  
+        private var id: Int = 101  
+        fun foo(){  
+          //  print("name is ${name}") // cannot access the outer class member  
+		  println("Id is ${id}")  
+        }  
+    }  
+}  
+
+#### INNER CLASS ####
+
+> Inner class is a class which is created inside another class with keyword inner.
+
+> The advantage of inner class over nested class is that, it is ABLE TO ACCESS MEMBERS OF OUTER CLASS EVEN IT IS PRIVATE. 
+- Inner class keeps a reference to an object of outer class.
+=======================================
+############ CONSTRUCTOR ##############
+
+## Types of Kotlin constructors
+> There are two types of constructors in Kotlin:
+
+1. Primary constructor
+2. Secondary constructor
+
+> There is only one primary constructor in a Kotlin class whereas 
+- secondary constructor may be one or more.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### 1. Primary constructor ####
+- It is used to initialize the class. It is declared at class header
+- The primary constructor does not contain any code. 
+- Initializer blocks are used to initialization of code. This block is prefixed with init keyword. 
+- At the period of instance initialization, the initialized blocks are executed
+
+EXAMPLE:
+class myClass(name: String, id: Int) {  
+  val e_name: String  
+  var e_id: Int  
+  
+  init{  
+    e_name = name.capitalize()  
+    e_id = id    
+    println("Name = ${e_name}")  
+    println("Id = ${e_id}")  
+  }  
+}
+> Here properties name and id are used without "val" or "var", so they are not properties of myClass class.  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 2 Secondary constructor ####
+
+
+We can also use both primary as well as secondary constructor in a same class. By using primary as well secondary constructor in same class, secondary constructor needs to authorize to primary constructor. Authorization to another constructor in same class is done using this() keyword.
+
+=======================================
+############ INHERITANCE ##############
+> In Kotlin, the derived class inherits a base class using ':' operator in the class header (after the derive class name or constructor)
+
+> All Kotlin classes have a common superclass "Any". It is a default superclass for a class with no supertypes explicitly specified.
+
+> As Kotlin classes are final by default, they cannot be inherited simply. 
+- We use the open keyword before the class to inherit a class and make it to non-final
+
+open class Base(p: Int){  
+  
+}  
+class Derived(p: Int) : Base(p){  
+  
+}  
+=======================================
+########### ABSTRACT CLASS ############
+
+> Like Java, abstract class cannot be instantiated. 
+> Like Java, The method and properties of abstract class are non-abstract unless they are explicitly declared as abstract.
+
+> Abstract class or abstract function does not need to annotate with open keyword as they are open by default.
+
+EXAMPLE:
+
+abstract class Car{  
+    abstract fun run()  
+}  
+class Honda: Car(){  
+   override fun run(){  
+     println("Honda is running safely..")  
+   }  
+} 
+=======================================
+########### INTERFACE ############
+
+> It is similar to Java8 
+
+EXAMPLE:
+interface MyInterface1 {  
+  fun doSomthing() {  
+    println("MyInterface 1 doing some work")  
+  }  
+}  
+interface MyInterface2 {  
+  fun doSomthing(){  
+    println("MyInterface 2 doing some work")  
+  }  
+}  
+class MyClass : MyInterface1, MyInterface2 {  
+  override fun doSomthing() {  
+    super<MyInterface2>.doSomthing()  
+  }   
+}  
+=======================================
+######### KOTLIN DATA CLASS ###########
+
+> Data class is a simple class which is used to hold data/state and contains standard functionality. 
+- A data keyword is used to declare a class as a data class.
+
+EXAMPLE:
+data class User(val name: String, val age: Int)  
+
+## REQUIREMENT
+> Declaring a data class must contains at least one primary constructor with property argument (val or var).
+> Data class cannot be abstract, inner, open or sealed.
+
+> data classes may extend other classes.
+ 
+> Data class internally contains the following functions:
+- equals(): Boolean
+- hashCode(): Int
+- toString(): String  - display data not the hash 
+- component() functions corresponding to the properties
+- copy() - used to create copy (or colon) of object, some or all properties of object can be altered.
+
+> Due to presence of above functions internally in data class, the data class eliminates the boilerplate code.
+
+EXAMPLE:
+
+data class Product(var item: String = "laptop", var price: Int)  
+  
+fun main(agrs: Array<String>) {  
+  val p1 = Product("Lenevo", 25000)  
+  val p2 = Product("Dell", 25000)  
+  println(p1==p2)  // true 
+  println(p1.equals(p2))  //true 
+  
+  val p3 = p1.copy(price=30000) 
+
+}  
+=======================================
+######## KOTLIN SEALED CLASS ##########
+
+> Sealed class is a class which restricts the class hierarchy. 
+- A class can be declared as sealed class using "sealed" keyword before the class name. 
+
+> Sealed class is used when the object have one of the types from limited set, but cannot have any other type.
+
+> The constructors of sealed classes are private in default and cannot be allowed as non-private.

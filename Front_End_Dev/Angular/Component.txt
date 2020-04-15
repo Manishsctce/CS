@@ -1,3 +1,18 @@
+=======================================
+############# decorators ###############
+
+> Angular has following class decorators
+
+@Component
+@Directive
+@Injectable
+@NgModule
+@Pipe
+
+
+=======================================
+############# COMPONENT ###############
+
 ## What is Component?
 
 > It is class that interact with the .html file of the component, which gets displayed on the browser.
@@ -11,11 +26,98 @@
 - HTML template/Template URL
 - @Component decorator with metadata.
 
-> Every Angular app has at least 1 component that is used to display the
-data on the View.
-> The component contains metadata like animation effect, style to apply the components, template, input-output, import etc.
-> These are the main building blocks of an Angular application.
-> When we create any component, it gets defined in NgModule.
-> Angular is a component-based architecture which allows us to work on smaller and more maintainable pieces that can also be used in different places.
+> Every Angular app has at least 1 component that is used to display the data on the View.
+
+> it consists of the following files −
+- app.component.css
+- app.component.html
+- app.component.spec.ts
+- app.component.ts
+- app.module.ts
 
 EXAMPLE:
+import { Component, OnInit } from '@angular/core'; 
+
+@Component({
+   // this is a declarator which starts with @ sign. The component word marked in bold needs to be the same.
+   selector: 'app-new-cmp', //
+   templateUrl: './new-cmp.component.html', 
+   // reference to the html file created in the new component.
+   styleUrls: ['./new-cmp.component.css'] // reference to the style file.
+})
+
+export class NewCmpComponent implements OnInit {
+   constructor() { }
+   ngOnInit() {}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Building block of Component
+1. Template (view) 
+2. Class 
+3. Metadata
+---------------------------------
+1. Template (view) 
+- defines the layout of the View
+- it is created with HTML. we can add Angular directives and bindings on the template.
+
+> 2 ways to specify Angular Template 
+
+1. Defining the Template Inline
+2. Provide an external Template
+---------------------------------
+2. Class 
+---------------------------------
+3. Metadata
+> it Provides additional information about the component to the Angular. 
+- Angular uses this information to process the class. 
+- it is defined with @Component decorator.
+
+> Important Component metadata properties
+1. Selector
+2. Providers - it contains services that our component going to use. 
+3. Directives
+4. Styles/styleUrls - CSS Styles or style sheets. 
+- use either external stylesheet (using styleUrls) or inline styles (using Styles). 
+
+5. template/templateUrl - HTML template that defines our View. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## CLI Command
+
+ng g c <new-cmp>
+- g : generate
+- c : component
+=======================================
+############ DATA BINDING #############
+
+> It is a technique, where the data stays in sync between component and view.
+> It is classified into two groups. 
+1. One way binding : data flows in one direction. Either from view to component or from component to view.
+
+2. two-way binding 
+
+=======================================
+############ EVENT BINDING ############
+> When a user interacts with an application in the form of a keyboard movement, a mouse click, or a mouseover, it generates an event.
+
+EXAMPLE: 
+## app.component.html
+<div>
+   <span *ngIf = "isavailable; then condition1 else condition2">
+      Condition is valid.
+   </span>
+   <ng-template #condition1>Condition is valid</ng-template>
+   <ng-template #condition2>Condition is invalid</ng-template>
+</div>
+
+<button (click)="myClickFunction($event)">
+   Click Me
+</button>
+
+##AppComponent.ts 
+
+myClickFunction(event) { 
+  //just added console.log which will display the event details in browser on click of the button.
+  alert("Button is clicked");
+  console.log(event);
+}
+

@@ -179,4 +179,58 @@ fun main(agrs: Array<String>) {
 
 > Sealed class is used when the object have one of the types from limited set, but cannot have any other type.
 
-> The constructors of sealed classes are private in default and cannot be allowed as non-private.
+> The constructors of sealed classes are private by default and cannot be allowed as non-private.
+
+> The SUBCLASSES OF SEALED CLASSES MUST BE DECLARED IN THE SAME FILE in which sealed class itself.
+
+EXAMPLE:
+
+
+> Sealed classes are commonly used with when expression. As the sub classes of sealed classes have their own types act as a case. Due to this, when expression in sealed class covers all the cases and avoid to add else clause.
+
+EXAMPLE:
+
+sealed class Shape{  
+	class Circle(var radius: Float): Shape()  
+	class Square(var length: Int): Shape()  
+	class Rectangle(var length: Int, var breadth: Int): Shape()  
+	//  object NotAShape : Shape()  
+}  
+
+fun eval(e: Shape) =  
+	when (e) {  
+		is Shape.Circle ->println("Circle area is ${3.14*e.radius*e.radius}")  
+		is Shape.Square ->println("Square area is ${e.length*e.length}")  
+		is Shape.Rectangle ->println("Rectagle area is ${e.length*e.breadth}")  
+		//else -> "else case is not require as all case is covered above"  
+		//  Shape.NotAShape ->Double.NaN  
+	}
+=======================================
+###### KOTLIN EXTENSION FUNCTION ######
+
+> It provides a facility to "add" methods to class without inheriting a class or using any type of design pattern.
+
+SYNTAX:
+fun <class_name>.<method_name>() 
+
+- extension function is declared with a prefix receiver type with method name. 	
+
+EXAMPLE:
+
+class Student{  
+    fun isPassed(mark: Int): Boolean{  
+        return mark>40  
+    }  
+}  
+fun Student.isExcellent(mark: Int): Boolean{  
+  return mark > 90  
+} 
+ 
+fun main(args: Array<String>){  
+  val student = Student()  
+  val passingStatus = student.isPassed(55)  
+  println("student passing status is $passingStatus")  
+    
+  val excellentStatus = student.isExcellent(95)  
+  println("student excellent status is $excellentStatus")  
+}  

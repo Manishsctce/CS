@@ -1,3 +1,45 @@
+## What is Angular ? 
+
+> It is a UI framework for building mobile and desktop web applications. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what are the features of Angular?
+
+> Two-Way Data Binding
+- This is the coolest feature of the Angular. 
+- Data binding is automatic and fast. changes made in the View is automatically updated in the component class and vice versa
+
+> Powerful Routing Support
+- The Angular Powerful routing engine loads the page asynchronously on the same page enabling us to create a Single Page Applications.
+
+> Expressive HTML
+- Angular enables us to use programming constructs like if conditions, for loops, etc to render and control how the HTML pages.
+
+> Modular by Design
+- Angular follows the modular design. You can create Angular modules to better organize and manage our codebase
+
+> Built-in Back End Support
+- Angular has built-in support to communicate with the back-end servers and execute any business logic or retrieve data
+
+> Active Community
+- Angular is Supported by google and has a very good active community of supporters. This makes a lot of difference as your queries are quickly resolved.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the differences between AngularJs & Angular?
+
+> Support for ES6
+- Angular is completely written in Typescript and meets the ECMAScript 6 specification. 
+
+> Components are new controllers
+- In AngularJS we had Controllers. 
+- In Angular Controllers are replaced with Angular Components. 
+
+> Directives
+- AngularJS had a lot of directives.
+- Angular also has directives, but with a different syntax. It has a * before the directive name indicating it as a structural directive
+
+- style directives like ng-style, ng-src & ng-href are all gone. These are now replaced by property binding HTML elements to the class properties
+
+
+https://www.tektutorialshub.com/angular/angular-introduction/#key-differences-between-angularjs-angular
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the building blocks of Angular? 
 
@@ -12,6 +54,94 @@
 - Services
 - Dependency Injection
 - Routing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is NPM?
+
+> It is Node Package Manager
+> It is used to install libraries, Packages & applications from Public repositories.
+- we use to install Angular, Typescript, Webpack, SystemJS and any other packages/modules required by our app, otherwise need to install manually. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Why Module Loader Required?
+
+> Module loader takes a group of modules with their dependencies and merges them into a single file in the correct order. This process is called as Module bundling.
+- for use it bundle multiple JS file into a single file, which is helpful to download at client side 
+
+> Webpack is a powerful module loader
+- It can bundles any kind of file: JavaScript, TypeScript, CSS, SASS, LESS, images, HTML, fonts etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the use of 'ng serve'?
+
+> 'ng serve' does build our app but does not save the compiled application to the disk. It saves it in memory and starts the development server.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a Bootstrapping
+
+> Bootstrapping is a technique of initializing or loading our Angular application
+
+angular.json ->  src/main.ts -> AppModule -> AppComponent
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to make production ready build? 
+
+> 'ng build' : build and copy the output files to the dist folder
+> 'ng build --prod' : build and distribute the app for production
+
+> in dist folder's index.html
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GettingStarted</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+ 
+  <script src="runtime-es2015.js" type="module"></script>
+  <script src="runtime-es5.js" nomodule defer></script>
+  <script src="polyfills-es5.js" nomodule defer></script>
+  <script src="polyfills-es2015.js" type="module"></script>
+  <script src="styles-es2015.js" type="module"></script>
+  <script src="styles-es5.js" nomodule defer></script>
+  <script src="vendor-es2015.js" type="module"></script>
+  <script src="vendor-es5.js" nomodule defer></script>
+  <script src="main-es2015.js" type="module"></script>
+  <script src="main-es5.js" nomodule defer></script></body>
+</html>
+
+> All these files have two versions es5 (for older browsers) & es2015(es6) is for modern browser 
+- nomodule attribute tells the modern browser to ignore the script and do not load it.
+
+> When above index.html is loaded then all lib are loaded 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the entry point of angular application?
+
+> '[root]/angular.json' is the app entry point 
+- it direct angular bootstrapper to load 'src/main.ts'
+
+##main.ts
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+ 
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+ 
+if (environment.production) {
+  enableProdMode();
+}
+
+// loads the root module  
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is platformBrowserDynamic ? 
+
+> platformBrowserDynamic is the module, which is responsible for loading the Angular app in the desktop browser.
+- platformNativeScriptDynamic is used for mobile device 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is component decorators?
 
@@ -39,6 +169,7 @@ In Angular 4, we will have following options to configure.
 - This is the place we are passing the services that we need insider our components.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is compilation in Angular 4? And what are the types of compilation in Angular 4?
+
 > There is actually only one Angular compiler.
 >  There are two types of compilation Angular 4 provides:
 
@@ -52,19 +183,32 @@ In Angular 4, we will have following options to configure.
 - The browser loads executable code so it can render the application immediately, without waiting to compile the app first. 
 - This compilation is BETTER THAN JIT BECAUSE OF FAST RENDERING, SMALLER APPLICATION SIZE, SECURITY AND DETECT TEMPLATE ERRORS EARLIER.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##
+## What is Angular Material?
+
+> It is UI component library
+> It helps in creating attractive, consistent and fully functional web pages as well as web app.
+
+> It does so while following modern web design principles, including browser portability and graceful degradation 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##
+## What is Angular Universal? 
+
+> It is a server-side rendering module for Angular app in various scenarios.
+> This is a community driven project and available under @angular/platform-server package
+
+> Recently it is integrated with Angular CLI. 
 =======================================
 ## What is Transpiling in Angular?
+
 > It is the process of converting the typescript into javascript (using Traceur, a JS compiler). 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the use of @Input and @Output? 
+
 > When it comes to the communication of Angular Components, which are in Parent-Child Relationship; 
 - @Input in Child Component when we are passing data from Parent to Child Component 
 - @Output is used in Child Component to receive an event from Child to Parent Component. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In how many ways the Data Binding can be done?
+
 > Data Binding happens between the HTML (template) and typescript (component). 
 - Data binding can be done in 3 ways:
 
@@ -77,20 +221,48 @@ In Angular 4, we will have following options to configure.
 OnChange()  -  OnInit()  -  DoCheck()  -  AfterContentInit()  -  AfterContentChecked()  -  AfterViewInit()  -  AfterViewChecked()  -  OnDestroy(). 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the Pipes? 
+
 > This feature is used to change the output on the template; 
 - something like changing the string into uppercase and displaying it on the template. 
 - It can also change Date format accordingly. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Differentiate between ng-Class and ng-Style.
+
 > In ng-Class, loading of CSS class is possible; whereas, 
 - in ng-Style we can set the CSS style.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is an AsyncPipe in Angular? 
 When an observable or promise returns something, we use a temporary property to hold the content. Later, we bind the same content to the template. With the usage of AsyncPipe, the promise or observable can be directly used in a template and a temporary property is not required 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Interpolation 
+Sytax {{field_name}}
+
+> use to pass value at runtime 
+- basically it bind data from class to template 
+
+## CAN DO 
+- {{2+2}}, 
+- {{stringName.length}}
+
+
+## CANNOT Do
+- cannot assign value to any variable  EX- {{a=2+2}}
+
+> It cann't access global variable i.e. window, screen etc 
+
+> It is working with string value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Attribute Vs Property
+
+> Both are not the same.
+> Attribute are define by HTML 
+- Property are define by DOM(Document Object Model)
+
+
+> Attribute initialize DOM properties and then they are done.
+- it value doesn't change once they are initialzed.
+
+> Property values however can change 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

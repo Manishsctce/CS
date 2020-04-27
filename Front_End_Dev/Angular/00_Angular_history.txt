@@ -3,30 +3,125 @@
 2016 Dec - Angular 4
 2017 Nov - Angular 5
 =======================================
-## What's New in Angular 6?
+###### What's New in Angular 9? #######
+
+> Angular 9 brought us some new options for dependency injection
+
+> root is the option that was added a while back in Angular 6. Angular CLI uses that option as its default when you create a new service with the command: ng generate service
+
+import { Injectable } from '@angular/core';
+@Injectable({  
+   providedIn: 'root'
+})
+export class MyService { 
+}
+
+> root means that your service is going to be a global singleton that can be injected anywhere in your application.
+
+#Injectable provided in ‘platform’
+> using platform means service is now a global singleton at the platform-level, and is shared between all of the Angular applications on webpage.
+- useful when multiple Angular applications on one web page
+- it allow us to share information between multiple Angular apps running in the same browser tab.
+
+#Injectable provided in ‘any’
+> With any, Angular will provide a unique instance of your service in every module that injects it.
+
 =======================================
-## What's New in Angular 5?
+###### What's New in Angular 8? #######
+
+> Angular 8 supports TypeScript 3.4
+> Angular 8 supports Web Workers
+> The new compiler for Angular 8 is Ivy Rendering Engine
+> Angular 8 provides dynamic imports for lazy-loaded modules.
+=======================================
+###### What's New in Angular 7? #######
+
+> Released on October 2018
+> This is a major release and expanding to the entire platform including-
+— Core framework,
+— Angular Material,
+— CLI
+> CLI Prompts: The CLI will now prompt users as when running common commands likeng new or ng add @angular/material with the intend of getting aid for building a new project using SCSS.
+
+> Added a new interface — UrlSegment[] to CanLoad interface
+> Added a new interface — DoBootstrap interface
+> Angular 7 added a new compiler — Compatibility Compiler (ngcc)
+> Introduce a new Pipe called — KeyValuePipe
+> Angular 7 now supporting to TypeScript 2.9.
+Added a new elements features — enable Shadow DOM v1 and slots
+
+> Added a new router features — warn if navigation triggered outside Angular zone
+
+=======================================
+###### What's New in Angular 6? #######
+
+> No major breaking changes
+> Dependency on RxJS 6 (this upgrade have breaking changes but CLI command helps in migrating from older version of RxJS)
+
+> Synchronizes major version number of the:
+— Angular framework
+— Angular CLI
+— Angular Material + CDK
+All of the above are now version 6.0.0, minor and patch releases though are completely independent and can be changed based on a specific project.
+
+> Remove support for <template> tag and “<ng-template>” should be used.
+
+> CLI Changes: Two new commands have been introduced
+— ng update <package>
+- ng add 
+=======================================
+###### What's New in Angular 5? #######
+
 > Angular 5 supports Typescript version 2.4
+> Build optimizer: It helps to removed unnecessary code from your application
 > Angular 5 supports RxJS 5.5 which has new features like Pipeable Operators
 > A build tool to make the js bundles (files) lighter
+
 > Ahead of Time (AOT) is updated to be on by default
 > Events like ActivationStart and ActivationEnd are introduced in Router
+
+> Preserve White space: 
+- To remove unnecessary new lines, tabs and white spaces we can add below code(decrease bundle size)
+
+// in component decorator you can now add:
+“preserveWhitespaces: false”
+// or in tsconfig.json:
+“angularCompilerOptions”: { “preserveWhitespaces”: false}`
+
+> Angular Universal State Transfer API and DOM Support 
+— By using this feature, we can now share the state of the application between the server side and client side very easily.
+
+> Compiler Improvements: 
+- it improved the support of incremental compilation of an app.
+
+> HttpClient: until Angualar 4.3 @angular/HTTP was been used which is now depreciated and in Angular 5 a new module called HttpClientModule is introduced which comes under @angular/common/http package.
+
+> Few new Router Life-cycle Events being added in Angular 5: In Angular 5 few new life cycle events being added to the router and those are:
+ActivationStart, ActivationEnd, ChildActivationStart, ChildActivationEnd, GuardsCheckStart, GuardsCheckEnd, ResolveStart and ResolveEnd.
 =======================================
-## What's New in Angular 4?
+###### What's New in Angular 4? #######
+
 > Release date 2017
-> It reduce the size of the AOT(Ahead-of-Time) compiler generated code.
+> Lot of performance improvement is made to reduce size of AOT compiler generated code
 > TypeScript 2.1 and 2.2 compatibility
-> Animation features are pulled out of @angular/core and are moved into their own package.
-> New if/else style syntax 	
+
+> Animation features are separated from @angular/core to @angular/animation
+— don’t import @animation packages into the application to reduce bundle size and it gives the performance improvement.
+
+> Else block in *ngIf introduced
+- Instead of writing 2 ngIf for else 
+
 =======================================
-## Why not Angular 3?
-> Because in Angular 2 there router package was at version 3.3.0. So to avoid confusion. Angular version is moved to Angular 4 directly. 
+######### Why not Angular 3? ##########
+> angular router was already in v3 and releasing angular 3 with router 4 will create confusion
 =======================================
-## What's New in Angular 2?
+###### What's New in Angular 2? #######
+
 > Release date 2016
 > It is entirely component base.
 > It is 5 time faster than AngularJS
-> It is built for mobile devices
+> Support for Mobile/Low-end devices
+> ES6 and typescript supported 
 > It has more language choices(JavaScript, TypeScript, Dart, PureScript..etc).
 > In Angular 2, Controllers and $scope are no longer used. They have been replaced by components and directives.
 =======================================

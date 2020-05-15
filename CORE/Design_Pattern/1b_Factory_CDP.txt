@@ -1,0 +1,240 @@
+=======================================
+####### 1b. FACTORY METHOD DP #########
+
+> it is a CREATIONAL PATTERN which uses factory methods to deal with the problem of creating objects 
+- WITHOUT SPECIFYING THE EXACT CLASS OF OBJECT that will be created. 
+
+## INTENT ##
+> creates objects WITHOUT EXPOSING THE INSTANTIATION LOGIC to the client.
+> refers to the newly created object through a common interface or abstract class
+> Defining a "virtual" constructor.
+> The "new" operator considered harmful
+
+
+## FACTORY METHOD / Template Method
+> it is a static method of a class that returns an object of that class' type. 
+- Unlike a constructor, the actual object it returns might be an instance of a subclass. 
+- Unlike a constructor, an existing object might be reused, instead of a new object created. 
+- Unlike a constructor, factory methods can have different and more descriptive names 
+
+Ex- 
+1. Consider we have abstract class or interface
+2. any number of child class extends abstract class or interface
+3. In general, we create object of above classes in client class and call the methods that require
+4. But using Factory Design Pattern, introduce a Factory Class that take user input to create object accordingly
+
+> This pattern introduces loose coupling between classes
+
+=======================================
+####### ADVANTAGE OF FACTORY DP #######
+> it  allows the sub-classes to choose the type of objects to create.
+> It PROMOTES LOOSE-COUPLING by eliminating the need to bind application-specific classes into the code
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why use a factory class to instantiate a class when we can use new operator?
+
+> Factory classes PROVIDE FLEXIBILITY in terms of design. Below are some of the benefits of factory class:
+- it results in more decoupled code as it allows us to hide creational logic from dependant code
+- It allows us to introduce an Inversion of Control container
+- It gives you a lot more flexibility when it comes time to change the app as our creational logic is hidden from dependant code
+=======================================
+########## JAVA EXAMPLES ##############
+
+java.sql.DriverManager#getConnection()
+java.net.URL#openConnection()
+java.lang.Class#newInstance()
+java.lang.Class#forName()
+
+java.util.Calendar#getInstance()
+java.util.ResourceBundle#getBundle()
+java.text.NumberFormat#getInstance()
+java.nio.charset.Charset#forName()
+java.net.URLStreamHandlerFactory#createURLStreamHandler(String) (Returns singleton object per protocol)
+java.util.EnumSet#of()
+javax.xml.bind.JAXBContext#createMarshaller() and other similar methods
+=======================================
+############ EXAMPLE : 1 ##############
+
+public interface Logger {
+  public void log(String message);
+}
+---------------------------------------
+public class XMLLogger implements Logger {
+  public void log(String message) {
+  	System.err.println("logging"); 	//log to xml 
+  }
+}
+---------------------------------------		
+public abstract class AbstractLoggerCreator {
+	//the factory method
+	public abstract Logger createLogger();
+	
+	//the operations that are implemented for all LoggerCreators//like anOperation() in our diagram
+	public Logger getLogger(){
+	
+		//depending on the subclass, we'll get a particular logger.
+		Logger logger = createLogger();
+	
+		//could do other operations on the logger here
+		return logger;
+	}
+}
+---------------------------------------
+//ConcreteCreator
+public class XMLLoggerCreator extends AbstractLoggerCreator{
+	@Overridepublic 
+	Logger createLogger() {
+		XMLLogger logger = new XMLLogger();
+		return logger;
+	}
+}
+---------------------------------------
+public class Client {
+	private void someMethodThatLogs(AbstractLoggerCreator logCreator){
+		Logger logger = logCreator.createLogger();
+		logger.log("message");
+	}
+	public static void main(String[] args){
+		//for the purposes of this example, create an XMLLoggerCreator directly, 
+		//but this would normally be passed to constructor for use.
+		AbstractLoggerCreator creator = new XMLLoggerCreator();
+		Client client = new Client();
+		client.someMethodThatLogs(creator);
+	}
+}	
+=======================================
+############ EXAMPLE : 2 ##############
+
+abstract class Plan{  
+         protected double rate;  
+         abstract void getRate();  
+   
+         public void calculateBill(int units){  
+              System.out.println(units*rate);  
+          }  
+}
+---------------------------------------
+class  DomesticPlan extends Plan{  
+        //@override  
+         public void getRate(){  
+             rate=3.50;              
+        }  
+   }
+   
+ class  CommercialPlan extends Plan{  
+   //@override   
+    public void getRate(){   
+        rate=7.50;  
+   }
+  }
+  
+ class  InstitutionalPlan extends Plan{  
+   //@override  
+    public void getRate(){   
+        rate=5.50;  
+   }  
+ }
+--------------------------------------- 
+class GetPlanFactory{  
+ 
+   //use getPlan method to get object of type Plan   
+	public Plan getPlan(String planType){  
+		if(planType == null){  return null;  }
+			
+        if(planType.equalsIgnoreCase("DOMESTICPLAN")) {  return new DomesticPlan();  }
+		
+        else if(planType.equalsIgnoreCase("COMMERCIALPLAN")){  return new CommercialPlan();  }
+		
+        else if(planType.equalsIgnoreCase("INSTITUTIONALPLAN")) {  return new InstitutionalPlan();  }
+		
+      return null;  
+   }  
+}
+---------------------------------------
+class GenerateBill{  
+    public static void main(String args[])throws IOException{  
+	
+      GetPlanFactory planFactory = new GetPlanFactory();  
+        
+      System.out.print("Enter the name of plan for which the bill will be generated: ");  
+      BufferedReader br=new BufferedReader(new InputStreamReader(System.in));   
+      String planName=br.readLine();  
+	  
+      System.out.print("Enter the number of units for bill will be calculated: ");  
+      int units=Integer.parseInt(br.readLine());  
+  
+      Plan p = planFactory.getPlan(planName);  
+	  
+      //call getRate() method and calculateBill()method of DomesticPaln.  
+       System.out.print("Bill amount for "+planName+" of  "+units+" units is: ");  
+       p.getRate();  
+           p.calculateBill(units);  
+    }  
+}
+
+=======================================
+interface Logger {
+	void info(String arg0);
+	void trace(String arg0);
+	void debug(String arg0);
+	boolean isTraceEnabled();
+	boolean isDebugEnabled();
+	boolean isDebugEnabled(Marker arg0);
+	boolean isInfoEnabled();
+}
+---------------------------------------
+public interface ILoggerFactory {
+	Logger getLogger(String arg0);
+}
+---------------------------------------
+public class CommonLoggingLoggerFactory implements ILoggerFactory {
+	Map<String, Logger> loggerMap;
+
+	public Logger getLogger(String name) {
+		CommonLoggingLoggerAdapter slf4jLogger = null;
+		org.apache.log4j.Logger log4jLogger = LogManager.getLogger(name);
+		slf4jLogger = new CommonLoggingLoggerAdapter(log4jLogger);
+		return slf4jLogger;
+	}
+}
+---------------------------------------
+public final class LoggerFactory {
+  static ILoggerFactory loggerFactory;
+	static {
+		try {
+			loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
+		} catch (NoClassDefFoundError arg1) {
+			String msg = arg1.getMessage();
+			throw arg1;
+		} catch (Exception arg2) {
+			Util.reportFailure("Failed to instantiate logger [" + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]",arg2);
+		}
+	}
+	
+	public static Logger getLogger(String name) {
+		if (loggerFactory == null) {
+			throw new IllegalStateException("Logging factory implementation cannot be null. See also http://www.slf4j.org/codes.html#null_LF");
+		} else {
+			return loggerFactory.getLogger(name);
+		}
+	}
+	
+	public static ILoggerFactory getILoggerFactory() {
+		return loggerFactory;
+	}
+}
+---------------------------------------
+public class StaticLoggerBinder implements LoggerFactoryBinder {
+	public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+	private static final String loggerFactoryClassStr = CommonLoggingLoggerFactory.class.getName();
+	private final ILoggerFactory loggerFactory = new CommonLoggingLoggerFactory();
+
+	public ILoggerFactory getLoggerFactory() {
+		return this.loggerFactory;
+	}
+
+	public String getLoggerFactoryClassStr() {
+		return loggerFactoryClassStr;
+	}
+}
+---------------------------------------

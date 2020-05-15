@@ -1,0 +1,35 @@
+## What's the difference between the Dependency Injection and Service Locator patterns?
+
+> Dependency Injection (DI) seems to use a constructor or setter to "inject" it's dependencies.
+Example of using Constructor Injection:
+
+//Foo Needs an IBar
+public class Foo
+{
+  private IBar bar;
+
+  public Foo(IBar bar)
+  {
+    this.bar = bar;
+  }
+
+  //...
+}
+
+Service Locator seems to use a "container", which wires up its dependencies and gives foo it's bar.
+Example of using a Service Locator:
+//Foo Needs an IBar
+public class Foo
+{
+  private IBar bar;
+
+  public Foo()
+  {
+    this.bar = Container.Get<IBar>();
+  }
+
+  //...
+}
+
+> difference may seem slight, but even with the ServiceLocator, the class is still responsible for creating its dependencies
+------------------------------------------

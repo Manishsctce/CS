@@ -1,0 +1,158 @@
+######## BUILDER DESIGN PATTERN #########
+GoF Definition:
+> It ALLOWS STEP-BY-STEP CREATION OF COMPLEX OBJECTS using the correct sequence of actions. 
+- The construction is controlled by a director object that only needs to know the type of object it is to create.
+
+Intent
+> Builder pattern was introduced TO SOLVE THE PROBLEMS WITH FACTORY AND ABSTRACT FACTORY DESIGN PATTERN WHEN THE OBJECT CONTAINS A LOT OF ATTRIBUTES.
+=======================================
+########## JAVA EXAMPLES ##############
+- java.lang.StringBuilder#append() (unsynchronized)
+- java.lang.StringBuffer#append() (synchronized)
+- java.nio.ByteBuffer#put() (also on CharBuffer, ShortBuffer, IntBuffer, LongBuffer, FloatBuffer and DoubleBuffer)
+- javax.swing.GroupLayout.Group#addComponent()
+- All implementations of java.lang.Appendable
+- java.util.stream.Stream.Builder
+=======================================
+###### ADVANTAGES OF BUILDER DP #######
+
+> It make FLEXIBILE DESIGN AND MUCH MORE READABLE CODE
+- but number of lines of code increase at least to double in builder DP, 
+
+> PARAMETERS TO THE CONSTRUCTOR ARE REDUCED and are provided in highly readable method calls.
+- thus there is no need to pass in null for optional parameters to the constructor. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the major issues with Factory and Abstract Factory DP ?
+
+1. If Too Many args to pass from client pgm to the Factory class that can be error prone 
+- because type of args could be same and its HARD TO MAINTAIN THE ORDER of args from client side.
+
+2. FORCED TO SEND ALL PARAMETERS AND OPTIONAL PARAMETERS NEED TO SEND AS NULL.
+
+3. If the object is heavy and its creation is complex, then all that complexity will be part of Factory classes that is confusing.
+
+> We can solve the issues with large number of parameters by providing a constructor with required parameters and then different setter methods to set the optional parameters. 
+- The problem with this approach is that the Object state will be inconsistent until unless all the attributes are set explicitly
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Difference between Builder and Abstract Factory design pattern ?
+
+> The only difference is builder provides more control over the object creation process and that’s it.
+> abstract factory pattern is the answer to "WHAT" and the builder pattern to "HOW".
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which design pattern will you use to create a complex object?
+
+> Builder design pattern is used to construct a complex object. 
+- It is designed to solve the issues with factory and abstract design pattern.
+=======================================
+############ EXAMPLE : 1 ##############
+
+- Private constructor and have static builder class of the main class
+
+public class User 
+{
+    //All final attributes
+    private final String firstName; // required
+    private final String lastName; // required
+    private final int age; // optional
+    private final String phone; // optional
+    private final String address; // optional
+ 
+    private User(UserBuilder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.age = builder.age;
+        this.phone = builder.phone;
+        this.address = builder.address;
+    }
+ 
+    //All getter, and NO setter to provde immutability
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public int getAge() {
+        return age;
+    }
+    public String getPhone() {
+        return phone;
+    }
+    public String getAddress() {
+        return address;
+    }
+ 
+    @Override
+    public String toString() {
+        return "User: "+this.firstName+", "+this.lastName+", "+this.age+", "+this.phone+", "+this.address;
+    }
+ 
+    public static class UserBuilder 
+    {
+        private final String firstName;
+        private final String lastName;
+        private int age;
+        private String phone;
+        private String address;
+ 
+        public UserBuilder(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        public UserBuilder age(int age) {
+            this.age = age;
+            return this;
+        }
+        public UserBuilder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+        public UserBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+        //Return the finally consrcuted User object
+        public User build() {
+            User user =  new User(this);
+            validateUserObject(user);
+            return user;
+        }
+        private void validateUserObject(User user) {
+            //Do some basic validations to check 
+            //if user object does not break any assumption of system
+        }
+    }
+}
+
+public static void main(String[] args) {
+    User user1 = new User.UserBuilder("Lokesh", "Gupta")
+    .age(30)
+    .phone("1234567")
+    .address("Fake address 1234")
+    .build();
+ 
+    System.out.println(user1);
+ 
+    User user2 = new User.UserBuilder("Jack", "Reacher")
+    .age(40)
+    .phone("5655")
+    //no address
+    .build();
+ 
+    System.out.println(user2);
+ 
+    User user3 = new User.UserBuilder("Super", "Man")
+    //No age
+    //No phone
+    //no address
+    .build();
+ 
+    System.out.println(user3);
+}
+ 
+Output: 
+User: Lokesh, Gupta, 30, 1234567, Fake address 1234
+User: Jack, Reacher, 40, 5655, null
+User: Super, Man, 0, null, null

@@ -1,0 +1,274 @@
+
+
+### Type Annotation in Object
+> we can declare an object with inline annotations for each of the properties of the object.
+
+EXAMPLE:
+var employee : { 
+    id: number; 
+    name: string; 
+}; 
+
+employee = { 
+  id: 100, 
+  name : "John"
+}
+=======================================
+######## TypeScript - Variable ########
+
+> TypeScript follows the same rules as JavaScript for variable declarations.
+- Variables can be declared using: var, let, and const.
+- let is introduce in EC6 i.e ECMA6 in 2015 
+
+## VAR ##
+> Var is used for global scope 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### LET ####
+> scope of let variables is limited to their containing block
+
+## ADVANTAGES of using let over var
+1. Block-scoped let variables cannot be read or written to before they are declared.
+2. Let variables cannot be re-declared
+
+EXAMPLE:
+let num1:number = 1;    
+function varDeclaration() {
+	console.log(num2);//ok, output : undefined 
+    var num2:number = 2; 
+
+    if (num2 > num1) { 
+        var num3: number = 3;
+        num3++; 
+    } 
+
+    while(num1 < num2) {
+		console.log(num4);//Compiler error 	
+        let num4: number = 4;
+        num1++;
+    }
+	
+	console.log(num1);//ok
+
+	console.log(num3);//OK
+	console.log(num4);//Compiler error 
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############ CONST ##############
+> const makes a variable a constant where its value cannot be changed. 
+- Const variables have the same scoping rules as let variables.
+- it must be declared and initialized in a single statement.
+- it allow an object sub-properties to be changed but not the object structure. (Similar to Java)
+=======================================
+########## Inferred Typing ############
+> In this, the compiler will determine the type of the variable on the basis of the value assigned to it.
+
+EXAMPLE:
+var num = 2; // data type inferred as  number 
+num = "12"; //error TS2011: Cannot convert 'string' to 'number'.
+=======================================
+###### Primitive datatype in TS #######
+> number, boolean, string, undefined, null, void
+
+> Number can represent integer, fraction, Binary(Base 2), Octal(Base 8), Decimal(Base 10), Hexadecimal(Base 16) literals.
+let identifier:number = value;
+
+> void is used where no datatype is available. 
+- A variable of type void is not useful because we can only assign undefined or null to them. 
+- Undefined datatype denotes uninitialized variable whereas 
+- null represents a variable whose value is undefined.
+
+EXAMPLE:
+var myArr = {1,2,3,"manish"}; // In javascript
+var numArr: number[]; // In typescript
+numArr.push(1); numArr.pop(1);// In typescript
+
+### ANY type 
+> It is super type of all datatype in TypeScript.
+- It is used to represent any javascript value.
+
+EXAMPLE:
+let iden:any = 'Hi';
+iden = 500;
+iden = true;
+=======================================
+####### USER-DEFINED DATA TYPE ########
+1. Array
+2. Class 
+3. Tuple 
+4. Enum
+5. Interface
+6. Functions
+
+################ ARRAY ################
+> There are two ways to declare an array:
+
+1. Using square brackets:
+EXAMPLE:  let fruits: string[] = ['Apple', 'Orange', 'Banana'];
+
+2. Using a generic array type, Array<elementType>
+EXAMPLE:  let fruits: Array<string> = ['Apple', 'Orange', 'Banana'];
+
+1. push()
+2. pop()
+3. unshift()
+4. splice(i,1) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### Array Methods #########
+01. pop() 
+- Removes the last element of the array and return that element
+
+02. push()	
+- Adds new elements to the array and returns the new array length
+
+03. sort()	
+- Sorts all the elements of the array
+04. concat()	Joins two arrays and returns the combined result
+
+05. indexOf()	
+- Returns the index of the first match of a value in the array (-1 if not found)
+
+06. copyWithin()	
+- Copies a sequence of elements within the array
+
+fill()	Fills the array with a static value from the provided start index to the end index
+shift()	Removes and returns the first element of the array
+splice()	Adds or removes elements from the array
+unshift()	Adds one or more elements to the beginning of the array
+includes()	Checks whether the array contains a certain element
+join()	Joins all elements of the array into a string
+lastIndexOf()	Returns the last index of an element in the array
+slice()	Extracts a section of the array and returns the new array
+toString()	Returns a string representation of the array
+toLocaleString()	Returns a localized string representing the array
+
+
+############## Tuple in TS ############
+> Tuple is a new data type which includes two set of values of different data types.
+
+EXAMPLE1: 
+var myTup : [number, boolean];
+myTup = [1, true];
+myTup = [1, 'manish']; //its wrong
+
+EXAMPLE2:
+var user: [number, string, boolean, number, string];// declare tuple variable
+user = [1, "Steve", true, 20, "Admin"];
+
+> we can declare an array of tuple 
+EXAMPLE:
+var employee: [number, string][];
+employee = [[1, "Steve"], [2, "Bill"], [3, "Jeff"]];
+
+## To compile typescript  
+> tsc <file_name>.ts 
+
+### Implicit type 
+> Implicit type with variable declaration
+var a = 10;
+var b = true;
+var c = "Hello";
+
+a = true; // It is not assignable because TS assign var a an implicit assign a type.
+
+
+> Implicit type with function
+Ex - 
+function greet():string{
+	return "Gm";
+}
+var greeting = greet();// greeting will implicit type with string.
+
+but 
+var greeting ;
+greeting = greet(); // greeting will be 'any' type
+
+### Union type
+var a : number | boolean;
+>It can take either number or boolean but cannot take something else.
+
+
+
+######## Type Assertion #########
+
+> TypeScript allows changing a variable from one type to another. 
+- TypeScript refers to this process as Type Assertion. 
+- The syntax is to put the target type between < > symbols and place it in front of the variable or expression. 
+
+EXAMPLE:
+var str = '1' 
+var str2:number = <number> <any> str   //str is now of type number 
+console.log(typeof(str2))
+
+> Basically it allows the assertion from type S to T succeed if either S is a subtype of T or T is a subtype of S.
+
+> The reason why it's not called "type casting" is that casting generally implies some sort of runtime support 
+- while “type assertions” are purely a compile time construct and 
+- a way for you to provide hints to the compiler on how you want your code to be analyzed.
+
+=======================================
+########### Variable Scope ############
+
+> scope of a variable specifies where the variable is defined
+
+1. Global Scope − 
+> Global variables are declared outside the programming constructs. 
+- These variables can be accessed from anywhere within your code.
+
+2. Class Scope − 
+> These variables are also called fields. 
+> Fields or class variables are declared within the class but outside the methods. 
+- These variables can be accessed using the object of the class. 
+- Fields can also be static. 
+- Static fields can be accessed using the class name.
+
+3. Local Scope 
+> Local variables, as the name suggests, are declared within the constructs like methods, loops etc. 
+- Local variables are accessible only within the construct where they are declared.
+
+EXAMPLE:
+var global_num = 12          //global variable 
+class Numbers { 
+   num_val = 13;             //class variable 
+   static sval = 10;         //static field 
+   
+   storeNum():void { 
+      var local_num = 14;    //local variable 
+   } 
+} 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Identifiers can include both, characters and digits. However, the identifier cannot begin with a digit.
+Identifiers cannot include special symbols except for underscore (_) or a dollar sign ($).
+Identifiers cannot be keywords.
+They must be unique.
+Identifiers are case-sensitive.
+Identifiers cannot contain spaces.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### MISCELLANEOUS OPERATOR ####
+
+1. negation operator (-)
+EXAMPLE : 
+var x:number = 4 
+var y = -x; //-4
+
+2. String Concatenation operator (+)
+EXAMPLE: var msg:string = "hello"+"world" //helloworld
+
+3. Conditional Operator (?)
+EXAMPLE:
+var num:number = -2 
+var result = num > 0 ?"positive":"non-positive" //non-positive
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## TYPE OPERATOR ########
+
+1. typeof operator
+> It is a unary operator. 
+- This operator returns the data type of the operand. 
+EXAMPLE: var num = 12; console.log(typeof num);   //output: numbe
+
+2. instanceof
+> This operator can be used to test if an object is of a specified type or not.

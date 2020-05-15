@@ -1,0 +1,157 @@
+=======================================
+############# COMMAND DP ##############
+
+> it is a data driven design pattern and falls under behavioral pattern category. 
+- A request is wrapped under an object as command and passed to invoker object. 
+- Invoker object looks for the appropriate object which can handle this command and 
+- passes the command to the corresponding object which executes the command
+
+
+GoF Definition:
+
+=======================================
+#### Design Pattern Important Points ##
+
+=======================================
+########## JAVA EXAMPLES ##############
+
+Runnable interface (java.lang.Runnable) and Swing Action (javax.swing.Action) uses command pattern.
+=======================================
+############ EXAMPLE : 1 ##############
+
+public interface FileSystemReceiver {
+	void openFile();
+	void writeFile();
+	void closeFile();
+}
+---------------------------------------
+public class UnixFileSystemReceiver implements FileSystemReceiver {
+
+	public void openFile() {
+		System.out.println("Opening file in unix OS");
+	}
+
+	public void writeFile() {
+		System.out.println("Writing file in unix OS");
+	}
+
+	public void closeFile() {
+		System.out.println("Closing file in unix OS");
+	}
+
+}
+---------------------------------------
+public class WindowsFileSystemReceiver implements FileSystemReceiver {
+
+	@Override
+	public void openFile() {
+		System.out.println("Opening file in Windows OS");
+		
+	}
+
+	@Override
+	public void writeFile() {
+		System.out.println("Writing file in Windows OS");
+	}
+
+	@Override
+	public void closeFile() {
+		System.out.println("Closing file in Windows OS");
+	}
+}
+
+---------------------------------------
+public interface Command {
+	void execute();
+}
+---------------------------------------
+public class OpenFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
+	
+	public OpenFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
+	}
+
+	public void execute() {
+		//open command is forwarding request to openFile method
+		this.fileSystem.openFile();
+	}
+}
+---------------------------------------
+public class CloseFileCommand implements Command {
+	private FileSystemReceiver fileSystem;
+	
+	public CloseFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
+	}
+	public void execute() {
+		this.fileSystem.closeFile();
+	}
+}
+---------------------------------------
+public class WriteFileCommand implements Command {
+
+	private FileSystemReceiver fileSystem;
+	
+	public WriteFileCommand(FileSystemReceiver fs){
+		this.fileSystem=fs;
+	}
+	@Override
+	public void execute() {
+		this.fileSystem.writeFile();
+	}
+}
+
+---------------------------------------
+public class FileInvoker {
+	public Command command;
+	
+	public FileInvoker(Command c){
+		this.command=c;
+	}
+	
+	public void execute(){
+		this.command.execute();
+	}
+}
+---------------------------------------
+public class FileSystemReceiverUtil {
+	
+	public static FileSystemReceiver getUnderlyingFileSystem(){
+		 String osName = System.getProperty("os.name");
+		 System.out.println("Underlying OS is:"+osName);
+		 if(osName.contains("Windows")){
+			 return new WindowsFileSystemReceiver();
+		 }else{
+			 return new UnixFileSystemReceiver();
+		 }
+	}	
+}
+---------------------------------------
+public class FileSystemClient {
+
+	public static void main(String[] args) {
+		//Creating the receiver object
+		FileSystemReceiver fs = FileSystemReceiverUtil.getUnderlyingFileSystem();
+		
+		//creating command and associating with receiver
+		OpenFileCommand openFileCommand = new OpenFileCommand(fs);
+		
+		//Creating invoker and associating with Command
+		FileInvoker file = new FileInvoker(openFileCommand);
+		
+		//perform action on invoker object
+		file.execute();
+		
+		WriteFileCommand writeFileCommand = new WriteFileCommand(fs);
+		file = new FileInvoker(writeFileCommand);
+		file.execute();
+		
+		CloseFileCommand closeFileCommand = new CloseFileCommand(fs);
+		file = new FileInvoker(closeFileCommand);
+		file.execute();
+	}
+
+}
+=======================================

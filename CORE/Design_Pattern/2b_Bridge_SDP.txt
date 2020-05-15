@@ -1,0 +1,105 @@
+######## BRIDGE DESIGN PATTERN ########
+GoF Definition:
+> Decouple the abstraction from its implementation so that the two can vary independently
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Bridge design Pattern?
+
+> It is a structural design pattern.
+> Decouple the abstraction from its implementation
+> USES COMPOSITION OVER INHERITANCE.
+
+> IT HELPS TWO INCOMPATIBLE CLASSES TO WORK TOGETHER
+=======================================
+########## IMPORTANT POINTS ###########
+
+> this pattern decouples implementation class and abstract class by providing a bridge structure between them.
+
+> Creates two different hierarchies. One for abstraction and another for implementation.
+> AVOIDS PERMANENT BINDING by removing the dependency between abstraction and implementation.
+> We create a bridge that coordinates between abstraction and implementation.
+> Abstraction and implementation can be extended separately.
+=======================================
+########### JAVA EXAMPLES #############
+
+> new LinkedHashMap(LinkedHashSet.
+<K>, List<V>) which returns an unmodifiable linked map which doesn't clone the items, but uses them. 
+- The java.util.Collections#newSetFromMap() and singletonXXX() methods however comes close.
+=======================================
+### ELEMENTS OF BRIDGE DESIGN PATTERN ###
+
+1. ABSTRACTION 
+– core of the bridge DP and defines the crux. Ex - Shape[ac] 
+- Contains a reference to the implementer. Ex - Shape[ac] have DrawAPI[i]
+
+2. REFINED ABSTRACTION 
+– Extends the abstraction takes the finer detail one level below. Ex - Circle 
+- Hides the finer elements from implemetors.
+
+3. IMPLEMENTER 
+– This interface is the higer level than abstraction. Just defines the basic operations. Ex - DrawAPI[i]
+
+4. CONCRETE IMPLEMENTATION 
+– Implements the above implementer by providing concrete implementation. Ex - RedCircle and GreenCircle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Adaptor and bridge pattern ?
+
+The major difference between adapter and bridge is when they are used. 
+> Adapter is used when two incompatible interfaces have to be unified together, ie., adapter is a result of existing incompatibilities. 
+- But bridge is used when we actually need to separate interface from implementation.
+
+=======================================
+############ EXAMPLE : 1 ##############
+> bridge implementer interface
+
+public interface DrawAPI {
+   public void drawCircle(int radius, int x, int y);
+}
+---------------------------------
+public class RedCircle implements DrawAPI {
+   @Override
+   public void drawCircle(int radius, int x, int y) {
+      System.out.println("Drawing Circle[ color: red, radius: " + radius + ", x: " + x + ", " + y + "]");
+   }
+}
+---------------------------------
+public class GreenCircle implements DrawAPI {
+   @Override
+   public void drawCircle(int radius, int x, int y) {
+      System.out.println("Drawing Circle[ color: green, radius: " + radius + ", x: " + x + ", " + y + "]");
+   }
+}
+---------------------------------
+public abstract class Shape {
+   protected DrawAPI drawAPI;
+   
+   protected Shape(DrawAPI drawAPI){
+      this.drawAPI = drawAPI;
+   }
+   public abstract void draw();	
+}
+---------------------------------
+public class Circle extends Shape {
+   private int x, y, radius;
+
+   public Circle(int x, int y, int radius, DrawAPI drawAPI) {
+      super(drawAPI);
+      this.x = x;  
+      this.y = y;  
+      this.radius = radius;
+   }
+
+   public void draw() {
+      drawAPI.drawCircle(radius,x,y);
+   }
+}
+---------------------------------
+public class BridgePatternDemo {
+   public static void main(String[] args) {
+      Shape redCircle = new Circle(100,100, 10, new RedCircle());
+      Shape greenCircle = new Circle(100,100, 10, new GreenCircle());
+
+      redCircle.draw();
+      greenCircle.draw();
+   }
+}
+=======================================

@@ -1,0 +1,102 @@
+=======================================
+######### Template method DP ##########
+
+> it is a BEHAVIORAL DP. 
+
+> it is USED TO PROVIDE DEFAULT IMPLEMENTATION THAT MIGHT BE COMMON FOR ALL or some of the subclasses.
+- some steps of impl are deferred to subclasses.
+
+## 4 different types of methods used in the parent class: 
+
+1. CONCRETE METHODS :
+> Standard complete methods that are useful to the subclasses. 
+- These methods are usually utiity methods.
+
+2. ABSTRACT METHODS :
+> Methods containing no implementation that must be implemented in subclasses.
+
+3. HOOK METHODS :
+> Methods containing a DEFAULT IMPLEMENTATION THAT MAY BE OVERIDDEN in some classes. 
+- Hook methods are intended to be overridden, concrete methods are not.
+
+4. TEMPLATE METHODS :
+> A method that calls any of the methods listed above in order to describe the algorithm without needing to implement the details.
+
+=======================================
+########## Important Points ###########
+> Template method should consists of certain steps whose order is fixed and for some of the methods, implementation differs from base class to subclass. 
+- TEMPLATE METHOD SHOULD BE FINAL.
+
+> SUPERCLASS TEMPLATE METHOD CALLS METHODS FROM SUBCLASSES, this is known as Hollywood Principle – “don’t call us, we’ll call you.”.
+
+=======================================
+###### USAGE #######
+
+=======================================
+########### JAVA EXAMPLES #############
+> All non-abstract methods of java.io.InputStream, java.io.OutputStream, java.io.Reader and java.io.Writer.
+
+> All non-abstract methods of java.util.AbstractList, java.util.AbstractSet and java.util.AbstractMap.
+=======================================
+############ EXAMPLE : 1 ##############
+
+public abstract class HouseTemplate {
+
+  //TEMPLATE METHOD, final so subclasses can't override
+  public final void buildHouse(){
+  	buildFoundation();
+  	buildPillars();
+  	buildWalls();
+  	buildWindows();
+  	System.out.println("House is built.");
+  }
+  
+  //HOOK METHOD - default implementation 
+  private void buildWindows() {
+  	System.out.println("Building Glass Windows");
+  }
+  
+  //ABSTRACT METHODS to be implemented by subclasses
+  public abstract void buildWalls();
+  public abstract void buildPillars();
+  
+  //HOOK METHOD
+  private void buildFoundation() {
+  	System.out.println("Building foundation with cement,iron rods and sand");
+  }
+}
+---------------------------------------
+public class WoodenHouse extends HouseTemplate {
+  public void buildWalls() {
+  	System.out.println("Building Wooden Walls");
+  }
+  
+  public void buildPillars() {
+  	System.out.println("Building Pillars with Wood coating");
+  }
+}
+---------------------------------------
+public class GlassHouse extends HouseTemplate {
+  public void buildWalls() {
+  	System.out.println("Building Glass Walls");
+  }
+  
+  public void buildPillars() {
+  	System.out.println("Building Pillars with glass coating");
+  }
+}
+---------------------------------------
+public class HousingClient {
+  public static void main(String[] args) {
+  	
+  	HouseTemplate houseType = new WoodenHouse();
+  	
+  	//using template method
+  	houseType.buildHouse();
+  	System.out.println("************");
+  	
+  	houseType = new GlassHouse();	
+  	houseType.buildHouse();
+  }
+}
+=======================================

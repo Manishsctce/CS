@@ -1,0 +1,206 @@
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Form?
+
+> It can contain large no of input fields, Spanning multiple tabs. 
+- Forms may also contain complex validation logic interdependent on multiple fields.
+
+Some things forms are expected to do
+
+> Initialize the forms fields and present it to the user
+> Capture the data from the user
+> Track changes made to the fields
+> Validate the inputs
+> Display helpful errors to the user
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Angular Forms Module?
+
+> Angular forms module provides many services out of the box like:
+- It binds the form field to the Angular component class. 
+- It tracks changes made to the form fields so that we can respond accordingly. 
+- The Angular forms provide the built-in validators to validate the inputs. we can create custom validator. 
+- It presents the validation errors to the user. 
+- it encapsulates all the input fields into an object structure when the user submits the form.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How many ways can we create Angular Form?
+
+> 2 ways of working with forms - 
+1. Template driven form and 
+2. Reative forms or Model driven forms.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Template-driven form?
+
+> In it we specify behaviors/validations using directives and attributes in our template and let it work behind the scenes. 
+- Every things happen in Templates hence very little code is required in the component class.
+
+- The form is set up using ngForm directive
+- controls are set up using the ngModel directive
+- ngModel also provides the two-way data binding
+- The Validations are configured in the template via directives
+
+
+> ngForm directive makes the Angular template-driven forms work. 
+- But we do not need to add it explicitly. Angular adds it automatically
+- When we include FormsModule, the Angular is going to look out for any <form> tag in HTML template.
+
+1. Binds itself to the <Form> directive
+2. Creates a top-level FormGroup instance
+3. CreatesFormControl instance for each of child control, which has ngModel directive.
+4. CreatesFormGroup instance for each of the  NgModelGroup directive.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is ngForm?
+
+> ngForm directive makes the Angular template-driven forms work. 
+- But we do not need to add it explicitly. Angular adds it automatically
+- When we include FormsModule, the Angular is going to look out for any <form> tag in HTML template.
+
+> We can export the ngForm instance into a local template variable as
+#contactForm="ngForm"
+- This allows us to access the many properties and methods of ngForm using the template variable 'contactForm' like valid, submitted, value of the form element etc
+EXAMPLE: - 
+<pre>Value : {{contactForm.value | json }} </pre>
+<pre>Valid : {{contactForm.valid}} </pre>
+
+value: returns object containing the value of every FormControl
+valid: Returns true if the form is Valid else returns false.
+touched: True if the user has entered a value in at least in one field.
+submitted: Returns true if the form is submitted. else false.
+
+
+> we use ngSubmit event to submit the form to the component class using event binding as 
+ <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is FormControl?
+
+> It is the basic building block of the Angular Forms. 
+- It represents a single input field in an Angular form. 
+- The Angular Forms Module binds the input element to a FormControl. 
+- We use the FormControl instance to track the value, user interaction and validation status of an individual form element. 
+- Each individual Form element is a FormControl
+
+> to bind FormControl instance to HTML element, Add the ngModel directive to each control as
+  <input type="text" name="firstname" #fname="ngModel" ngModel>
+  
+- ngModel will use the name attribute to create the FormControl instance
+- the variable #fname holds the reference to the firstname FormControl. 
+- We can then access the properties of FormControl like value, valid, isvalid, tocuhed etc as 
+<pre>Value    : {{fname.value}} </pre>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is FormGroup?
+
+> FormGroup is a collection of FormControl. It can also contain other FormGroup's
+- ngForm directive creates the top Level FormGroup behind the scene
+- We can add new FormGroup using the ngModelGroup directive
+EXAMPLE:
+
+<div 	="address">
+ 
+    <p>
+      <label for="city">City</label>
+      <input type="text" name="city" ngModel>
+    </p>
+</div>
+- here city will be added into address 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## FORM status 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+There are two ways you can set the value of the form elements
+
+1. Two-way data binding (recommended)
+2. Use the template reference variable
+
+
+> We can get the reference of #contactForm in component.ts, using @viewchild
+@ViewChild('contactForm',null) contactForm: NgForm;
+
+> we can set value individually using 'setValue()' of individual FormControl as 
+EXAMPLE:
+changeCountry() {
+   this.contactForm.controls["country"].setValue("1");
+}
+
+##### METHODS #####
+> setValue()
+
+> patchValue(obj)
+
+> reset()
+> resetForm() 
+=======================================
+########### REATIVE FORMS #############
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are Reactive Forms?
+
+> It is a form where we define the structure of the form in the component class. 
+- we create the form model with Form Groups, Form Controls, and Form Arrays. 
+- We also define the validation rules in the component class. 
+- Then, we bind it to the HTML form in the template.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to use Reactive Forms ? 
+
+1. Import ReactiveFormsModule
+2. Create Form Model in component class using Form Group, Form Control & Form Arrays
+3. Create the HTML Form resembling the Form Model.
+4. Bind the HTML Form to the Form Model
+
+
+
+
+FormGroup
+The FormGroup is created with the following syntax
+
+
+contactForm = new FormGroup({})
+ 
+The FormGroup takes 3 arguments. a collection of a child FormControl, a validator, and an asynchronous validator. The validators are optional.
+
+FormControl
+The first argument to FormGroup is the collection of FormControl. They are added using the FormControl method as shown below
+
+
+contactForm = new FormGroup({
+  firstname: new FormControl(),
+  lastname: new FormControl(),
+  email: new FormControl(),
+  gender: new FormControl(),
+  isMarried: new FormControl(),
+  country: new FormControl()
+})
+
+> we need to associate our model to the Template as
+<form [formGroup]="contactForm">
+
+> need to bind form fields to the FormControl models using FormControlName 
+- need to add this directive to every form field element as 
+<input type="text" id="firstname" name="firstname" formControlName="firstname">
+
+> submit the form data to the component using the ngSubmit as 
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between Template Form and Reactive form?
+
+> In template-driven form, we used ngModel & ngModelGroup directive on the HTML elements. 
+- The FormsModule created the FormGroup & FormControl instances from the template. This happens behind the scene.
+
+> In Reactive Forms approach, It is our responsibility to build the Model using FormGroup, FormControl and FormArray.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is FormBuilder ?
+
+> The FormBuilder is the helper API to build forms in Angular.  
+- It provides shortcuts to create the instance of the FormControl, FormGroup or FormArray. 
+- It reduces the code required to write the complex forms.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

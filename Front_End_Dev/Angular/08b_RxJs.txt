@@ -1,0 +1,112 @@
+
+
+## Disadvantages of using RxJS
+> Debugging the code with observables is little difficult.
+
+npm install --save rxjs-compat
+=======================================
+############# OBSERVABLE ##############
+
+> Observable help us to manage async data. 
+- we can say Observables as an array of items, which arrive asynchronously over time.
+
+> observables maintain a list of dependents. 
+- We call these dependents as observers. 
+- The observable notifies them automatically of any state changes, usually by calling one of their methods.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### OBSERVER ############ 
+> Observer subscribes to an Observable. 
+- The observer reacts when the value of the Observable changes. 
+- An Observable can have multiple subscribers and all the subscribers are notified
+
+> When an Observer subscribes to an observable, it needs to pass (optional) the three callbacks. 
+1. next(),  2. error()  &  3. complete(). 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## OPERATORS ############
+> Operators are methods that operate on an Observable and return a new observable.
+- Each Operator modifies the value it receives. 
+- These operators are applied one after the other in a chain.
+
+> The RxJs provides several Operators, which allows you to filter, select, transform, combine and compose Observables. 
+- Examples of Operators are map, filter, take, merge, etc
+
+01. map() 
+- allows to perform some operations on the value before emitting to the observer
+EXAMPLE:
+ let numbers = [3,9,7];
+ let source = Observable.from(numbers).map(value => {
+   return 2*value;
+ })
+ source.subscribe(value => {
+   console.log(value);
+ })
+
+02. filter() 
+- it filters out the data that meets given criteria.
+EXAMPLE:
+names = ['Ram', 'Tom', 'Hary', 'Hem'];
+ Observable.from(this.names).filter(name => name.startsWith('H'))
+      .subscribe(name => {
+        console.log(name)
+      })
+	  
+	  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### Subject #############
+> A subject is an observable that can multicast i.e. talk to many observers.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are observables?
+
+Observables are declarative which provide support for passing messages between publishers and subscribers in your application. 
+- They are mainly used for event handling, asynchronous programming, and handling multiple values. 
+- In this case, you define a function for publishing values, but it is not executed until a consumer subscribes to it. 
+- The subscribed consumer then receives notifications until the function completes, or until they unsubscribe.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between promise and observable?
+
+> Below are the list of differences between promise and observable,
+Observable	Promise
+> Observable : Declarative: Computation does not start until subscription so that they can be run whenever you need the result	
+- Promise : Execute immediately on creation
+
+> Observable: Provide multiple values over time	
+- Promise:  Provide only one
+
+> Subscribe method is used for error handling which makes centralized and predictable error handling	
+- Push errors to the child promises
+
+> Provides chaining and subscription to handle complex applications	
+- Uses only .then() clause
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

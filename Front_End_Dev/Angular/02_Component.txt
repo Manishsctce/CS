@@ -1,0 +1,458 @@
+=======================================
+############# decorators ###############
+
+> Angular has following class decorators
+
+@Component
+@Directive
+@Injectable
+@NgModule
+@Pipe
+
+
+=======================================
+############# COMPONENT ###############
+
+## What is Component?
+
+> It is the basic building block of Angular.
+- an Angular app is a collection of components, and one component is responsible for handling one view or part of the view.
+- It is class that interact with .html file of the component, which gets displayed on the browser.
+
+> A component encapsulates the data, the HTML markup, and the logic for a View. 
+- You can create as many components as required.
+
+> It is a simple typescript class which contains the following things,
+- Typescript Class
+- HTML template/Template URL
+- @Component decorator with metadata.
+
+> Every Angular app has at least 1 component that is used to display the data on the View.
+
+> it consists of the following files −
+- app.component.css
+- app.component.html
+- app.component.spec.ts
+- app.component.ts
+- app.module.ts
+
+EXAMPLE:
+import { Component, OnInit } from '@angular/core'; 
+
+@Component({
+   selector: 'app-new-cmp', //
+   templateUrl: './new-cmp.component.html', 
+   styleUrls: ['./new-cmp.component.css'] 
+})
+
+export class NewCmpComponent implements OnInit {
+   constructor() { }
+   ngOnInit() {}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Building block of Component
+1. Template (view) 
+2. Class 
+3. Metadata
+---------------------------------
+1. Template (view) 
+- defines the layout of the View
+- it is created with HTML. we can add Angular directives and bindings on the template.
+
+> 2 ways to specify Angular Template 
+
+1. Defining inline Template : using 'template'
+2. Provide external Template : using 'templateUrl'
+---------------------------------
+2. Class 
+---------------------------------
+3. Metadata
+> it Provides additional information about the component to the Angular. 
+- Angular uses this information to process the class. 
+- it is defined with @Component decorator.
+
+> Important Component metadata properties
+1. Selector
+2. Providers - it contains services that our component going to use. 
+3. Directives
+4. Styles/styleUrls - CSS Styles or style sheets. 
+- use either external stylesheet (using styleUrls) or inline styles (using Styles). 
+
+5. template/templateUrl - HTML template that defines our View. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## CLI Command
+
+ng g c <new-cmp>
+- g : generate
+- c : component
+--spec=false : if you don't want spec file 
+--flat=true  : if you don't want separate folder for component.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the differences between Component and Directive?
+
+> component(@component) is a directive-with-a-template.
+- components are subset of directives
+
+> To register a component we use @Component meta-data annotation	
+- To register directives we use @Directive meta-data annotation
+
+> Components are typically used to create UI widgets	
+- Directive is used to add behavior to an existing DOM element
+
+> Component is used to break up the application into smaller components	
+- Directive is use to design re-usable components
+
+> Only one component can be present per DOM element	
+- Many directives can be used per DOM element
+
+> @View decorator or templateurl/template are mandatory	
+- Directive doesn't use View
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a template?
+
+> A template is a HTML view where we can display data by binding properties of an Angular component. 
+- we can store component's template in one of two places. 
+1. inline using the template property, 
+2. define the template as templateUrl in a separate HTML file 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+########### LIFECYCLE HOOKS ###########
+
+## What is the sequence of Angular Lifecycle Hooks?
+
+constructor -> ngOnChanges()  ->  ngOnInit()  ->  ngDoCheck()  ->  ngAfterContentInit()  ->  ngAfterContentChecked()  ->  ngAfterViewInit()  -> ngAfterViewChecked()  -> ngOnDestroy(). 
+
+> Angular application goes through an entire set of processes or has a lifecycle right from its initiation to the end of the application.
+
+The description of each lifecycle method is as below,
+1. constructor
+
+2. ngOnChanges: 
+- When the value of a data bound property changes, then this method is called.
+
+3. ngOnInit: 
+> This is called whenever the initialization of the directive/component after Angular first displays the data-bound properties happens.
+
+4. ngDoCheck: 
+- This is for detection and to act on changes that Angular can't or won't detect on its own.
+
+5. ngAfterContentInit: 
+- This is called in response after Angular projects external content into the component's view.
+
+6. ngAfterContentChecked: 
+- This is called after Angular checks the content projected into the component.
+
+7. ngAfterViewInit: 
+- This is called after Angular initializes the component's views and child views.
+
+8. ngAfterViewChecked: 
+- This is called after Angular checks the component's views and child views.
+
+9. ngOnDestroy: 
+- This is the cleanup phase just before Angular destroys the directive/component.
+=======================================
+############ DATA BINDING #############
+
+> It is a technique, where the data stays in sync between component and view.
+> It is classified into two groups. 
+1. One way binding : data flows in one direction. 
+- from view to component or 
+- from component to view.
+
+2. two-way binding 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### From Component to View ####
+
+## 1. INTERPOLATION
+> It allows us to include expressions as part of any string literal in HTML. 
+- Angular evaluates the expressions into a string and replaces it.
+
+SYNTAX : {{ templateExpression }}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 2. PROPERTY BINDING 
+> It allows us to bind HTML element property to a property in the component
+- Whenever the value of the component changes, the Angular updates the element property in the View
+
+SYNTAX : [binding-target]=”binding-source”
+> Binding-target must be HTML property.
+> The Binding source must be a template expression. 
+- It can be property in the component, method in component, a template reference variable or an expression containing all of them.
+
+## LIMITATION ##
+> Limitation of interpolation. It won't work with boolean and other value. Here incase of 'disable' property
+
+> Both interpolation & property binding does not set the attributes of all the HTML elements. Hence we have an attribute binding to such situations.
+
+EXAMPLE:
+<h1 [innerText]="title"></h1>
+<button [disabled]="isDisabled">I am disabled</button>
+
+export class AppComponent {
+  title="Angular Property Binding Example" 
+  isDisabled= true;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 3. CLASS BINDING
+> It is used to add or remove classes to and from the HTML elements.
+
+> Angular provides 3 ways to add/remove classes to and from the element. 
+1. DOM ClassName Property. 
+2. Class shorthand. 
+3. to use the NgClass directive
+---------------------------------
+1. Class binding with ClassName
+> 'ClassName' is the property name of HTML Element. 
+- Hence we can make use of Property binding to assign the class name to any HTML element.
+
+EXAMPLE1: assign css class red and can assign more than 1 class 
+<div [className]="'red size20'">Test</div>
+
+EXAMPLE2: We can also bind the class name dynamically.
+<div [className]="cssStrVarInComponent">Test</div> 
+
+EXAMPLE3: we can create function, which returns class based on some condition
+<div [className]="getClass()">getClass</div>
+---------------------------------
+2. Class binding with Class
+> It is shorthand way to bind CSS Class to HTML element.
+
+EXAMPLE1: 
+<div [class.<className>]="condition"></div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 4. STYLE BINDING
+
+> Style Binding uses the [] brackets. 
+- Place the CSS Style property (binding target) inside the square bracket. 
+- CSS Style property must begin with ‘Style’ followed by a dot (.) and then style name.
+
+EXAMPLE1:
+<p [style.background-color]="'grey'">some paragraph with grey background</p>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 5. ATTRIBUTE BINDING
+> Sometimes there is no HTML element property to bind to. 
+- Examples : aria (accessibility) Attributes & SVG. 
+- In such cases, we can make use of attribute binding
+
+> The attribute syntax starts with attr followed by a dot and then the name of the attribute as shown below
+
+
+<button [attr.aria-label]="closeLabel" (onclick)="closeMe()">X</button>
+
+=======================================
+######### From View to Component ######
+
+## EVENT BINDING
+> It allows us to bind events such as keystroke, clicks, hover, touch, etc to a method in component.
+
+SYNTAX:
+<htmlTag (target-event)="TemplateStatement"> 
+
+EXAMPLE1: 
+<button (click)="onSave()">Save</button>
+- On click event of button bind onSave() in the component class. 
+
+## $event Payload
+> In this example, DOM Events carries the event payload. I.e the information about the event.
+
+EXAMPLE2: 
+## app.component.html
+<div>
+   <span *ngIf = "isavailable; then condition1 else condition2">
+      Condition is valid.
+   </span>
+   <ng-template #condition1>Condition is valid</ng-template>
+   <ng-template #condition2>Condition is invalid</ng-template>
+</div>
+
+<button (click)="myClickFunction($event)">
+   Click Me
+</button>
+
+##AppComponent.ts 
+
+myClickFunction(event) { 
+  //just added console.log which will display the event details in browser on click of the button.
+  alert("Button is clicked");
+  console.log(event);
+}
+
+## On- 
+> Instead of parentheses, we can also use the "on-" syntax as
+
+EXAMPLE3: 
+<button on-click="clickMe()">Click Me</button>
+
+##Multiple event handlers
+> we can bind multiple event handlers on the same event by separating them with semicolon(;)
+
+EXAMPLE4:
+<h2>Example 2</h2>
+<button (click)="clickMe(); clickCount1=clickCount">Click Me</button>
+<p>You have clicked {{clickCount1}}</p>
+
+- here call clickMe() method and then an assignment clickCount1=clickCount
+=======================================
+############ 2-way binding ############
+> 2-way binding means that changes made to model in component are propagated to view and any changes made in the view are immediately updated in the underlying component
+
+> It is combination of property binding & event binding
+
+> it uses special syntax known as a banana in a box [()]
+
+> It is possible using ngModule which is part of @angular/forms
+EXAMPLE1:
+<input [(ngModel)]="textBinding" type="text"> {{textBinding}} // textBinding will be a property in Component
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In how many ways the Data Binding can be done?
+
+> Data Binding happens between the HTML (template) and typescript (component). 
+- Data binding can be done in 3 ways:
+
+1. Property Binding 
+2. Event Binding 
+3. Two-Way Data Binding. 
+=======================================
+######## COMPONENT INTERACTION ########
+
+> the Parent Component can communicate with child component by setting its Property. 
+- To do that the Child component must expose its properties to the parent component. 
+- Child Component does this by using @Input decorator
+
+#In the Child Component
+> Mark those property, which you need data from parent as input property using @Input decorator
+
+#In the Parent Component
+> Bind the Child component property in the Parent Component when instantiating the Child
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### @Input Decorator ########
+> It is used to configure the input properties of the component. This decorator as also supports change tracking.
+
+> When a property is mark as input property, then the Angular injects values into the component property using Property Binding. 
+- The Property Binding uses the [] brackets. 
+- The Binding Target (Property of the child component) is placed inside the square brackets. 
+- The Binding source is enclosed in quotes. 
+- Property binding is one way from Component to the Target in the template
+
+EXAMPLE1:
+##ChildComponent.ts 
+@Component({
+    selector: 'child-component',
+    template: `<h2>Child Component</h2>
+               current count is {{ count }}
+    `
+})
+export class ChildComponent {
+    @Input() count: number; //this expect count come from parent comp.
+}
+------------------------OR 
+@Component({
+    selector: 'child-component',
+    inputs: ['count'],
+    template: `<h2>Child Component</h2>
+    current count is {{ count }}
+`
+})
+export class ChildComponent {}
+------------------------
+##app.component.ts
+@Component({
+  selector: 'app-root',
+  template: `
+        <h1>Welcome to {{title}}!</h1>
+        <button (click)="increment()">Increment</button>
+        <button (click)="decrement()">decrement</button>
+        <child-component [count]=Counter></child-component>` ,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Component Interaction';
+  Counter = 5;
+ 
+  increment() {
+    this.Counter++;
+  }
+  decrement() {
+    this.Counter--;
+  }
+}
+
+> two ways of detecting when input changes in the child component in Angular
+1. Using OnChanges LifeCycle Hook
+2. Using Input Setter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+#### Pass data to parent component ####
+
+3 ways to pass data 
+1. Parent Listens to Child Event
+2. Parent uses Local Variable to access the child
+3. Parent uses a @ViewChild to get reference to the child component
+
+
+https://www.tektutorialshub.com/angular/angular-pass-data-to-parent-component/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the use of @Input and @Output? 
+
+> When it comes to the communication of Angular Components, which are in Parent-Child Relationship; 
+- @Input in Child Component when we are passing data from Parent to Child Component 
+- @Output is used in Child Component to receive an event from Child to Parent Component. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+https://www.toptal.com/angular/angular-change-detection
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is change detection?
+
+> When we change any of models, Angular detects the changes and immediately updates the views. This is change detection in Angular
+- The purpose of this mechanism is to make sure the underlying views are always in sync with their corresponding models.
+
+> A model in Angular can change as a result of any of the following scenarios:
+
+- DOM events (click, hover over, etc.)
+- AJAX requests
+- Timers (setTimer(), setInterval())
+
+All Angular apps are made up of a hierarchical tree of components. At runtime, Angular creates a separate change detector class for every component in the tree
+
+> it help to trace bugs much more easily and give opportunity to further optimize apps when working with a complex data set.
+
+mplement OnPush strategy for a component? All you need to do is add the changeDetection parameter in their @Component annotation
+@Component({
+  // ...
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OnPushComponent {
+  // ...
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

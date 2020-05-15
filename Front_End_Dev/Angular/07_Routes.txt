@@ -1,0 +1,250 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Routing
+
+> Routing allows you to move from one part of the application to another part or one View to another View.
+
+#### Components of Angular Router Module
+
+## Router
+> The Angular Router is an object that enables navigation from one component to the next component as users perform application tasks like clicking on menus links, buttons or clicking on back/forward button on the browser. 
+- We can access the router object and use its methods like navigate() or navigateByUrl(), to navigate to a route
+
+## Route
+> it tells the Angular Router which view to display when a user clicks a link or pastes a URL into the browser address bar. 
+- Every Route consists of a path and a component it is mapped to. 
+- The Router object parses and builds the final URL using the Route
+
+## Routes
+- Routes is an array of Route objects our application supports
+
+## RouterOutlet
+The outerOutlet is a directive (<router-outlet>) that serves as a placeholder, where the Router should display the view
+
+## RouterLink
+The RouterLink is a directive that binds the HTML element to a Route. Clicking on the HTML element, which is bound to a RouterLink, will result in navigation to the Route. 
+- The RouterLink may contain parameters to be passed to the route’s component.
+
+## RouterLinkActive
+> it is a directive for adding or removing classes from an HTML element that is bound to a RouterLink. 
+- Using this directive, we can toggle CSS classes for active RouterLinks based on the current RouterState
+
+## ActivatedRoute
+> it is an object that represents the currently activated route associated with the loaded Component.
+> To use it, need to import and inject into the component 
+
+
+## RouterState
+> The current state of the router including a tree of the currently activated routes together with convenience methods for traversing the route tree.
+
+## RouteLink Parameters array
+> The Parameters or arguments to the Route. It is an array which you can bind to RouterLink directive or pass it as an argument to the Router.navigate method.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to configure Angular Router?
+
+> To Configure the Router in Angular, you need to follow these steps
+
+1. Set the <base href>
+> HTML <base> element specifies the base URL to use for all relative URLs contained within a document.
+- This is done in app’s index.html file immediately after the head tag.
+
+2. Define routes for the view
+> create an array of route objects. Each route maps path (URL Segment) to the component
+EXAMPLE:  const appRoutes: Routes =[{ path: 'product', component: ProductComponent }]
+
+- It is good practice to create all our route configuration in a separate file like 'app.routes.ts'
+ 
+3. Register the Router Service with Routes
+> Import 'RouterModule' from @angular/router lib in the root module of app 
+- Then, install the routes using the RouterModule.forRoot(), passing the routes as argument
+EXAMPLE:  imports: [RouterModule.forRoot(routes)]
+
+
+4. Map HTML Element actions to Route
+> need to bind the click event of the link, image or button to a route. This is done using the routerlink directive
+- routerLink directive accepts an array of route names along with parameters. This array is called as Link Parameters array.
+
+- When app requests navigation to the route “product”, the router looks in the routes array and activates the component associated with the route “product”, i.e. ProductComponent. 
+- The browser address location & history is also updated to /product
+
+<li><a [routerLink]="['product']">Product</a></li>
+
+5. Choose where you want to display the view using 
+<router-outlet></router-outlet>
+ 
+
+
+
+## Order matters: First one wins
+> order of the route is important. 
+- The Routes are matched in the order they are defined. 
+- The Router always returns the first matching route (first-match-wins strategy)
+- Since the wildcard route (**) matches every URL and should be placed last.
+
+##### Location Strategy ########
+> Location Strategy defines how our URL/Request is resolved. It also determines how your URL will look like
+
+> Angular supports two Location Strategies:
+
+1. HashLocationStrategy
+Where URL looks like http://localhost:4200/#/product
+
+2. PathLocationStrategy
+> Where URL looks like http://localhost:4200/product
+> It is default strategy in Angular
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Client-side routing?
+
+> Client-side routing simply mimics server-side routing by running the process in the browser. 
+- It changes the URL in the browser address bar and updates the browser history, without actually sending the request to the server
+
+> Client-side routing is handled in two ways
+1. Hash style Routing
+2. HTML 5 Routing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Client-side routiing require?
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Hash-Style routing?
+
+> it use anchor tags technique to achieve client-side routing.
+- The anchor tags, when used along with # allows us to jump to a place, within the web page and browser does not send request to the Web server.
+
+EXAMPLE URL: http://www.example.com
+http://www.example.com/#/about
+http://www.example.com/#/contact
+
+> we can use this strategy by providing the "useHash: true" in an object as the 2nd argument of RouterModule.forRoot in the AppModule.
+
+imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true })
+]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by HTML 5 routing?
+
+> HTML5 allows browsers to programmatically alter the browser’s history through the history object 
+- using 'history.pushState()' we can add browser history and change the location/displayURL without triggering a server page request.
+
+> history.pushState method accepts the following three parameters: 
+
+1. State object: A state object is a JavaScript object which is associated with the new history entry created by pushState()
+2. Title: This is an optional title for the state
+3. URL: The new history entry’s URL. The browser won’t jump to that page.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the disadvantage of HTML5 routing approach?
+
+> Not all browsers support HTML 5
+- The older browser does not support HTML5. So if you want to support older browser, you have to stick to the hash style routing
+
+> The server support is needed for HTML5 based routing.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Server Support Needed for HTML 5 routing?
+
+> When user request 'http://www.example.com/ProductList', webserver couldn't understand bcz ProductList doesn't exist 
+- for this, Webserver must redirect it to 'index.html' and then in the Front-end Angular will read the URL and dynamically load the ProductListComponent.
+
+> To make HTML5 routing work you need to send the instruction to the webserver to serve /index.html for any incoming request, no matter what the path is.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which Location Strategy to Use?
+
+> it is recommended to use HTML5 style i.e. PathLocationStrategy because
+
+- It produces clean and SEO Friendly URLs that are easier for users to understand and remember.
+- we can take advantage of server-side rendering, which will make app load faster, by rendering the pages in the server first before delivering it the client
+
+> Use hash location strategy only if you have to support the older browsers.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are Route Parameters?
+> It is a dynamic part of Route and essential in determining the route.
+
+> We can define parameter by adding forward slash followed colon and a placeholder (id) as 
+{ path: 'product/:id', component: ProductDetailComponent }
+
+> If we have more than one parameter, then you can extend it by adding one more forward slash followed colon and a placeholder as 
+{ path: 'product/:id/:id1/:id2', component: ProductDetailComponent }
+
+
+> we need to define similarly in the routerLink with both path and route parameters as 
+<a [routerLink]="['/Product', ‘2’]">{{product.name}} </a>
+
+
+> To retreive the parameter in component, we use 'ActivatedRoute' service from 'angular/router' module
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the ActivatedRoute?
+
+> it is a service, which keeps track of the currently activated route associated with the loaded Component.
+
+> It has paramMap object which is the map all the route parameters
+- We can use get() or getAll() to retrieve the value of the parameters in the component. Use the has() to check if a certain parameter exists.
+
+> 2 ways in which you can use ActivatedRoute to get the parameter value from the ParamMap object.
+
+1. Using Snapshot
+- snapshot property RETURNS THE INITIAL VALUE OF ROUTE.
+
+this.id=this._Activatedroute.snapshot.paramMap.get("id");
+ 
+2. Using observable
+> Use this option if you expect the value of parameter to change over time
+
+this._Activatedroute.paramMap.subscribe(params => { 
+    this.id = params.get('id'); 
+});
+
+#### PROPERTIES ####
+url: This property returns an array of Url Segment objects, each of which describes a single segment in the URL that matched the current route.
+
+params: This property returns a Params object, which describes the URL parameters, indexed by name.
+
+queryParams: This property returns a Params object, which describes the URL query parameters, indexed by name.
+
+fragment: This property returns a string containing the URL fragment.
+
+Snapshot: The initial snapshot of this route
+
+data: An Observable that contains the data object provided for the route
+
+Component: The component of the route. It’s a constant
+
+outlet: The name of the RouterOutlet used to render the route. For an unnamed outlet, the outlet name is primary.
+
+routeConfig: The route configuration used for the route that contains the origin path.
+
+parent: an ActivatedRoute that contains the information from the parent route when using child routes.
+
+firstChild: contains the first ActivatedRoute in the list of child routes.
+
+children: contains all the child routes activated under the current route
+
+pathFromRoot: The path from the root of the router state tree to this route
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why to use Observable?
+
+We usually retrieve the value of the parameter in the ngOninit life cycle hook, when the component initialised.
+
+When the user navigates to the component again, the Angular does not create the new component but reuses the existing instance. In such circumstances, the ngOnInit method of the component is not called again. Hence you need a way to get the value of the parameter.
+
+By subscribing to the observable paramMap property, you will retrieve the latest value of the parameter and update the component accordingly.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Create Child Routes / Nested Routes ?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

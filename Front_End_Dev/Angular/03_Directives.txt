@@ -1,0 +1,275 @@
+############### DIRECTIVE #############
+
+> Directives are used to manipulate the DOM. 
+- By using Angular directives, we can change the appearance, behavior or a layout of a DOM element. It also helps you to extend HTML.
+
+> A directive is a class, which we create using the @Directive class decorator. 
+- It contains the metadata and logic to manipulate the DOM
+
+> It can be classified in 3 categories based on how they behave:
+
+1. Component Directives
+> It is used in main class. 
+- They contain the detail of how the component should be processed, instantiated and used at runtime. Ex - AppComponent
+
+2. Structural Directives
+> It start with a * sign. 
+> These directives are used to manipulate and change the structure of the DOM elements. 
+> For example, *ngIf directive, *ngSwitch directive, and *ngFor directive.
+
+3. Attribute Directives
+> It is used to change the look and behavior of the DOM elements. 
+- For example: ngModel, ngClass, and ngStyle directive etc.
+
+=======================================
+####### STRUCTURAL DIRECTIVE ##########
+
+
+############ ngIf ###############
+> It is used add or remove HTML Elements according to the expression. 
+- The expression must return a Boolean value. 
+- If the expression is false then element is removed, otherwise element is inserted. 
+- It is similar to the ng-if directive of AngularJS.
+
+##SYNTAX
+<p *ngIf="condition">
+    content to render, when the condition is true 
+</p>
+
+
+## Difference between [hidden]='false' and *ngIf='false' ?
+
+> [hidden]='false'  : simply hides the element. 
+- ngIf : removes the element completely from the DOM.
+---------------------------------
+########### ngIf else ###########
+
+> elseBlock template can be defined anywhere using the ng-template.
+
+##SYNTAX
+<div *ngIf="condition; else elseBlock">
+    content to render, when thee condition is true 
+</div>
+ 
+<ng-template #elseBlock>
+    content to render, when the condition is false 
+</ng-template>
+---------------------------------
+######## ngIf then else #########
+
+##SYNTAX
+<div *ngIf="condition; then thenBlock else elseBlock"> 
+    This content is not shown
+</div>
+ 
+<ng-template #thenBlock>
+    content to render when the condition is true.
+</ng-template>
+ 
+<ng-template #elseBlock>
+    content to render when condition is false.
+</ng-template>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############# ngFor #############
+> It repeats a portion of HTML template once per each item from an iterable list (Collection). 
+- The ngFor is similar to ngRepeat in AngularJS
+
+## SYNTAX:
+<li *ngFor="let item of items;”> …. </li>
+
+- let keyword creates a local variable named item.
+
+
+> 'ngFor' provides several exported values to help us manipulate the collection.
+
+1. index 
+
+2. first : This is a boolean value, set to true if the item is the first item in the iteration
+
+3. last : This is a boolean value, set to true if the item is the last item in the iteration
+
+4. even : This is a boolean value, set to true if the item is the even-numbered item in the iteration
+
+5. odd : This is a boolean value, set to true if the item is the odd-numbered item in the iteration
+
+EXAMPLE1:
+<tr *ngFor="let movie of movies; let i=index; let o= odd; let e=even;"
+[ngClass]="{ odd: o, even: e }">
+    <td> {{i}} </td>
+    <td>{{movie.title}}</td>
+    <td>{{movie.director}}</td>
+    <td>{{movie.cast}}</td>
+    <td>{{movie.releaseDate}}</td>
+</tr>
+
+.even { background-color: red; }
+.odd { background-color: green; }
+
+## trackBy
+> Track By clause allows you to specify your own key to identify objects.
+
+> it eliminates the problem of refreshing data(creatin new model while refresh), by telling angular how to identify the similar elements. 
+- The Angular will use the value returned trackBy to match the elements returned by the database and updates the DOM Elements without recreating them.
+
+EXAMPLE1:
+<tr *ngFor="let movie of movies; trackBy:movie?.title;">
+    <td>{{movie.title}}</td>
+    <td>{{movie.director}}</td>
+    <td>{{movie.cast}}</td>
+    <td>{{movie.releaseDate}}</td>
+</tr>
+
+> In case of our model containing composite key that can be handled by first creating
+ a method, which returns the unique identifier and assigning this method to trackBy
+
+EXAMPLE2:  
+ <tr *ngFor="let movie of movies; trackBy:CompositeKey;" >
+    <td>{{movie.title}}</td>
+    <td>{{movie.director}}</td>
+ </tr>
+ 
+ CompositeKey (index,item){
+    return item.title + item.director ;
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### ngSwitch ############
+
+> it allows us to display one or more DOM elements based on some pre-defined condition.
+> It contains three separate directives. ngSwitch, ngSwitchCase & ngSwitchDefault.
+
+##SYNTAX
+<container_element [ngSwitch]="switch_expression">
+    <inner_element *ngSwitchCase="match_expresson_1">...</inner_element>
+    <inner_element *ngSwitchCase="match_expresson_2">...</inner_element>
+    <inner_element *ngSwitchCase="match_expresson_3">...</inner_element>
+    <inner_element *ngSwitchDefault>...</element>
+</container_element>
+
+> elements are not hidden but removed from the DOM.
+=======================================
+######## ATTRIBUTE DIRECTIVE ##########
+1. ngClass
+2. ngStyle
+3. ngModel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############ ngClass ############
+
+> it adds and removes CSS classes on an HTML element.
+
+##SYNTAX
+<element [ngClass]="expression">...</element>
+
+- expression is evaluated and the resulting classes are added/removed from the element. 
+- The expression can be in various formats like string, array or an object.
+
+
+#### ngClass with a String ####
+EXAMPLE:
+<div [ngClass]="'red size20'"> Red Text with Size 20px </div>
+- here app.component.css contain .red , .size20 class  
+
+#### ngClass with Array ####
+EXAMPLE:
+<div [ngClass]="['red','size20']" > Red Text with Size 20px </div>
+
+#### ngClass with Object ####
+EXAMPLE:
+<div [ngClass]="{'red':true,'size20':true}" > Red Text with Size 20px </div>
+
+## Dynamically updating Class names
+> We can dynamically change the CSS Classes from the component.
+EXAMPLE:
+<div class="row">     
+   <div [ngClass]="cssStringVar">Red Text with Size 20px : from component </div> 
+</div>
+- here cssStringVar is component string variable.
+
+EXAMPLE:
+<div class="row">     
+  <div [ngClass]="cssClass"> Red Text with Size 20px : from component as object</div> 
+</div>
+- Here cssClass is an instance of CssClass 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############ ngStyle ############
+
+> ngStyle directive allows us to SET THE MANY INLINE STYLE of a HTML element using expression
+- expression evaluated at run time to dynamically change the style of HTML element
+
+## SYNTAX
+<element [ngStyle]="{'styleNames': styleExp}">...</element>
+
+EXAMPLE1:
+<some-element [ngStyle]="{'font-size': '20px'}">Set Font size to 20px</some-element> 
+
+EXAMPLE2:
+color: string= 'red';// in component
+<div [ngStyle]="{'color': color}">Change my color</div>
+
+EXAMPLE3:
+class StyleClass {
+   'color': string= 'blue';
+   'font-size.px': number= 20;
+   'font-weight': string= 'bold'; 
+}
+styleClass: StyleClass = new StyleClass();
+
+<div [ngStyle]="styleClass">size & Color</div>
+
+=======================================
+############ ng-content ###############
+
+## What is ng-content?
+
+> ng-content tag acts as a placeholder for inserting external content. 
+- The Parent component passes the external content to the child component. 
+- When Angular parses the template, it inserts the external content where ng-content appears in the child component’s template
+
+> We can use this content projection to create a reusable component.
+
+EXAMPLE1:
+#FancyBtnComponent.ts
+@Component({
+ selector: 'app-fancybtn',
+ template: `
+     <button>
+       <ng-content></ng-content>
+     </button> `
+})
+export class FancyBtnComponent {
+}
+
+#app.component.html
+<h2>Button Demo With ng-content</h2>
+<app-fancybtn>Click Me</app-fancybtn>
+<app-fancybtn><b>Submit</b></app-fancybtn>
+
+> we can use any CSS selector as the select attribute. 
+- Like class, element, id attributes, etc in the component template.
+=======================================
+############ ng-template ##############
+=======================================
+############ ng-container ############# 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+## How events are attached to Directive?
+## How do we pass external data into directive?
+## What are structural directives? Name few Angular built-in structural directive?

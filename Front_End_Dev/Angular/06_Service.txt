@@ -1,0 +1,155 @@
+## What is a service?
+
+> Service is a piece of reusable code with a focused purpose. 
+- A code that we can use in many components across app
+
+> it allow greater separation of concerns for app and better modularity by allowing you to extract common functionality out of components. 
+
+EXAMPLE:
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+
+// Injectable decorator is required for dependency injection to work
+@Injectable({ 
+  // providedIn option registers the service with a specific NgModule
+  providedIn: 'root',  // This declares the service with the root app (AppModule)
+})
+export class RepoService{
+  constructor(private http: Http){}
+
+  fetchAll(){
+    return this.http.get('https://api.github.com/repositories');
+  }
+}
+The above service uses Http service as a dependency.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What services are used for
+
+> Features that are independent of components such a logging services
+> Share logic or data across components
+> Encapsulate external interactions like data access
+
+## Advantageous of Service
+Services are easier to test.
+Services are easier to Debug.
+You can reuse the service.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+EXAMPLE:
+export class AppComponent {    
+   products:Product[];    
+ 
+   constructor(private productService:ProductService) { }    
+ 
+   getProducts() {        
+       this.products=this.productService.getProducts();    
+   }
+}
+
+> Here AppComponent does not create the instance of the ProductService. 
+- It just asks for it in its Constructor. This pattern is known as Dependency Injection Pattern.
+- But this is not sufficient enough.
+
+> Angular Dependency Injection framework implements the Dependency injection Pattern in Angular. 
+- It creates & maintains the Dependencies and injects them into the Components or Services which requests for it.
+
+
+> There are five main parts of the Angular Dependency injection Framework.
+
+1. Consumer - The Component that needs the Dependency like AppComponent
+
+2. Dependency - The Service that is being injected like ProductService
+
+3. DI Token - it uniquely identifies a Dependency. We use it to register dependency
+
+4. Provider - it Maintains the list of Dependencies along with their Tokens. The DI Token is used to identify the Dependency.  
+
+5. Injector - it holds the Providers and is responsible for resolving the dependencies and injecting the instance of the Dependency to the Consumer
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Dependency Injection works in Angular?
+
+> The dependencies are registered with the Provider. This is done in the Providers metadata of the Injector.
+- Angular Provides an instance of Injector & Provider to every Consumer.
+
+Consumer when instantiated, It declares the Dependencies it needs in its constructor.
+
+> Injector reads the Dependencies from the constructor of the Consumer and looks for the dependency in the provider. 
+- The Provider provides the instance and injector, then injects it into the consumer.
+- If the instance of the Dependency is already exists, then it is reused making the dependency singleton.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Use Dependency Injection?
+
+> We had created a simple ProductService in our last tutorial. Let us now update it to use Dependency Injection. 
+
+1. we need to register the dependencies with the providers metadata array of @Component decorator.
+
+2. we need to tell angular that our component needs dependency injection. This is done by using the @Injectable() decorator.
+- @Injectable() decorator is not needed, if the class already has other Angular decorators like @Component, @pipe or @directive etc. Because all these are a subtype of Injectible
+
+- Services are usually not added to Providers array of the Component, but to the Providers array of the @NgModule. Then they will be available to be used in all the components in the app
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Injecting Service into Service?
+
+> It is as same as component 
+
+constructor(private loggerService: LoggerService) {
+    this.loggerService.log("Product Service Constructed");
+}
+- need to add it in constructor
+- need to register LoggerService with the Providers metadata.
+
+> Angular  does not have any options add providers in the Service Class. 
+- The Providers must be added to the Component/Directive/Pipe or to the Module.
+- here AppComponent is using ProductService so it need to update providers array to include LoggerService.
+- in this case, it will be only available for AppComponent.
+
+
+> To Make the dependencies available to the entire app, we need to register it in the root module i.e. AppModule
+
+
+> The services injected at the module level are app-scoped, which means that they can be accessed from every component/service within the app.Any service provided in the Child Module is available in the entire application.
+
+> The services is provided in a lazy module are module scoped and available only to the lazy loaded module.
+
+> The services provided in the Component level are available only to the Component & and to the child components.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### @Inject() ###########
+
+> it is a constructor parameter decorator, which tells angular to Inject the parameter with the dependency provided in the given token. 
+- It is a manual way of injecting the dependency
+
+EXAMPLE:
+export class ProductService{
+    constructor(@Inject(LoggerService) private loggerService) {
+        this.loggerService.log("Product Service Constructed");
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are Angular Providers? 
+
+> It is an instruction (or recipe) that describes how an object for a certain token is created. 
+- it is an array of such instruction (Provider). 
+- Each provider is uniquely identified by a token (or DI  Token ) in the Providers Array.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Types of Provider 
+The Angular Dependency Injection provides several types of providers.
+
+Class Provider : useClass
+Value Provider: useValue
+Factory Provider: useFactory
+Aliased Class Provider: useExisting
+
+https://www.tektutorialshub.com/angular/angular-providers/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

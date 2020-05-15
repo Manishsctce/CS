@@ -1,0 +1,92 @@
+=======================================
+############### PIPES #################
+
+> It helps to format or transform data to display in template. 
+- They are similar to Filters in AngularJS.
+
+> angular 2 built-in pipes like currency pipe, date pipe, number pipe, percent pipe, decimal pipe, & slice pipe.
+
+SYNTAX:
+Expression | pipeOperator[:pipeArguments]
+
+EXAMPLE1:
+{{name | lowercase}}
+{{name | titlecase}}
+
+> Pipes can be chained together to make use of multiple pipes in one expression.
+EXAMPLE2:  toDate | date | uppercase
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### CUSTOM PIPES ##########
+> To create custom pipes, create a PipeTransform type class and decorate with @Pipe 
+
+> PipeTransform interface has only one method known as the transform. 
+- This interface takes the value being piped as the first argument.
+
+EXAMPLE1:
+
+import {Pipe, PipeTransform} from '@angular/core';
+ 
+@pipe({
+    name: 'tempConverter'
+})
+export class TempConverterPipe implements PipeTransform {
+    transform(value: number, unit: string) {
+        if(value && !isNaN(value)) {
+            if (unit === 'C') {
+                var temperature = (value - 32) /1.8 ;
+                return temperature.toFixed(2);
+            } else if (unit === 'F'){
+                var temperature = (value * 1.8 ) + 32
+                return temperature.toFixed(2);
+            }
+        }
+        return;
+    }
+}
+ 
+- here 'tempConverter' can be use as pipeOperator
+- EXAMPLE: {{celcius | tempConverter:'F'}}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the purpose of async pipe?
+
+> The AsyncPipe subscribes to an observable or promise and returns the latest value it has emitted. 
+- When a new value is emitted, the pipe marks the component to be checked for changes. 
+
+EXAMPLE: Below is a time observable which continuously updates the view for every 2sec with the current time.
+@Component({
+  selector: 'async-observable-pipe',
+  template: `<div><code>observable|async</code>:
+       Time: {{ time | async }}</div>`
+})
+export class AsyncObservablePipeComponent {
+  time = new Observable(observer =>
+    setInterval(() => observer.next(new Date().toString()), 2000)
+  );
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between pure and impure pipe?
+
+A pure pipe is only called when Angular detects a change in the value or the parameters passed to a pipe. For example, any changes to a primitive input value (String, Number, Boolean, Symbol) or a changed object reference (Date, Array, Function, Object). An impure pipe is called for every change detection cycle no matter whether the value or parameters changes. i.e, An impure pipe is called often, as often as every keystroke or mouse-move.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

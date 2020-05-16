@@ -45,18 +45,20 @@ Ex - String greeting = "Hello world!";// "Hello world!" is a string literal
 > string is represented using the UTF-16 format in Java
 
 
->up-to Java 1.6 String pool is located in permgen area of heap, but in Java 1.7 updates its moved to main heap area. 
+> up-to Java 1.6 String pool is located in permgen area of heap, but in Java 1.7 updates its moved to main heap area. 
 - Earlier since it was in PermGen space, it was always a risk to create too many String object, 
 - because its a very limited space, default size 64 MB and used to store class metadata e.g. .class files. 
 - Creating too many String literals can cause java.lang.OutOfMemory: permgen space. 
 
 - Inside the heap memory, JVM reserves some part of the heap memory to store string objects created using string literals. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Why String is final in Java?
+## Why String is final in Java?
+
 > String class is final so that no other class can override the methods of String class
 > it provide the feature of immutability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### WHY STRING IS IMMUTABLE?
+
 String class is immutable because 
 1. Java use the concept string interning concept to store string literal in a special area called String Intern pool.
 - It state only one copy of distinct string value which must be immutable can store.
@@ -130,9 +132,9 @@ StringBuilder strBuilder = new String("Manish");//ClassCastException
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between StringBuffer and StringBuilder?
 
-> there is only 1 difference between StringBuffer and StringBuilder. Both contain same methods
->> StringBuffer and its method is synchronized but StringBuilder and its method is not synchronized. 
-- So we can say StringBuffer is thread safe but StringBuilder is not.
+> there is ONLY 1 DIFFERENCE between StringBuffer and StringBuilder. Both contain same methods
+>> StringBuffer and its method is synchronized that's why thread-safe 
+- StringBuilder and its method is NOT synchronized that's why NOT thread-safe 
 
 > ALL 3 CLASSES ARE FINAL.
 > Relative performance of StringBuffer is low but other one is high
@@ -185,6 +187,7 @@ Manish
 ########### STRING METHODS ############
 
 ##How to check if the String is null or not?
+
 > Empty String mean string which is not null. But it can be "" or " "
 
 1. boolean public isEmpty() - of String class 
@@ -193,7 +196,9 @@ Manish
 4. using Apache commons then you can also use isEmpty() method to check if String is empty or not.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to remove white space in String line?
-> Use replaceAll("\\s", "") - here \s represent white space that will replace by empty string.
+
+> Use replaceAll("\\s", "") 
+- here \s represent white space that will replace by empty string.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 public String[] split(String regex, int limit);
 public String[] split(String regex);
@@ -225,11 +230,14 @@ Examples:
 > This is improved in JDK 7. In JDK 7, the substring() method actually create a new array in the heap.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## How to resolve the memory leak problem of substring() method in JDK 1.6?
+
 subString = string.substring(3, 10) + "";
-string.substring(3, 10) will return the substring which point to original string array and the substring will not allow the garbage collection for old string (char value[])
+
+> Here string.substring(3, 10) will return the substring which point to original string array and the substring will not allow the garbage collection for old string (char value[])
 - But when we add the empty string to offset, new string will form in constant pool with new char value[] array and we can overcome the problem of garbage collection of old string array.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## TO Primitive datatype or WrapperClass
+
 > WrapperClass.parseXXXX(string); //convert string into primitive datatype. Here XXXX - primitive data type
 > WrapperClass.valueOf(String); //conver String into wrapper class datatype or primitive type.
 
@@ -269,7 +277,7 @@ String s = new String(bytes);
 - any change will lead to new object.
 - IT IS ALWAYS THREAD SAFE
 
-##What is an immutable class?
+## What is an immutable class?
 
 > Immutable class is a class which once created, its contents can not be changed. 
 > IMMUTABLE OBJECTS are the objects whose state can not be changed once constructed. e.g. String class

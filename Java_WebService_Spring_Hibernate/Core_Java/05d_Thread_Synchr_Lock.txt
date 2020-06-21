@@ -472,30 +472,9 @@ it objs similar to Obj wait-notify model
         System.out.println("Monitor deadlocked threads: " + bean.findMonitorDeadlockedThreads());
        long[] ids = bean.getAllThreadIds();
 	   
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is JAVA MEMORY MODEL?
-
-> it describes the communication between the memory of the threads and the main memory of the app.
-> It defines the rules how changes in the memory done by threads are propagated to other threads
-
-> It guarentee that the changes made by one thread should be visible to other. 
-
-Happens-before relationship guarantees :
-
-PROGRAM ORDER RULE : Each action in a thread happens-before every action in that thread that comes later in the program order, this is known as .
-
-MONITOR LOCK RULE : An unlock on a monitor lock happens-before every subsequent lock on that same monitor lock.
-
-A write to a volatile field happens-before every subsequent read of that same field, known as Volatile variable rule.
-A call to Thread.start on a thread happens-before any other thread detects that thread has terminated, either by successfully return from Thread.join() or by Thread.isAlive() returning false, also known as Thread start rule.
-A thread calling interrupt on another thread happens-before the interrupted thread detects the interrupt( either by having InterruptedException thrown, or invoking isInterrupted or interrupted), popularly known as Thread Interruption rule.
-The end of a constructor for an object happens-before the start of the finalizer for that object, known as Finalizer rule.
-
-If A happens-before B, and B happens-before C, then A happens-before C, which means happens-before guarantees Transitivity.
-
-http://www.xyzws.com/Javafaq/can-transient-variables-be-declared-as-final-or-static/0 
 ================================
 
 ##What is Scheduler?
+
 > it is process that implemented with scheduler algo. used to manage process and thread to access critical resource.
 > it provide load balancing bet avail process and thread

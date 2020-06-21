@@ -53,7 +53,7 @@ Host: www.yahoo.com                                            |
 
 > divide HTTP methods into two main categories safe and idempotent. 
 
-1. SAFE METHODS are HTTP methods that do not modify the resource 
+1. SAFE METHODS are HTTP methods THAT DO NOT MODIFY THE RESOURCE 
 - GET request is safe because it doesn't modify the resource you are requesting e.g. data of a Book. 
 - HEAD request is safe because it doesn't change the resource representation on the Server, 
 - but ALL OTHER HTTP METHODS e.g. POST, PUT, or DELETE ARE NON-SAFE.
@@ -116,7 +116,7 @@ name1=value1&name2=value2
 - POST doesn't
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the DIFFERENCE BETWEEN PUT AND POST?
+### What is the DIFFERENCE BETWEEN PUT AND POST?
 
 SIMILARITY
 > PUT and POST methods can be used to perform create and update operation
@@ -130,10 +130,24 @@ DIFFERENCE
 
 > If we replace an existing entity using PUT than you should be aware that if only a subset of data elements is passed then the rest will be replaced by empty or null.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can I use GET request instead of PUT to create resources?
+## Can I use GET request instead of PUT to create resources?
 
 > No, you are not supposed to use POST or PUT.  
 > GET operations should only have view rights 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can I use POST instead of PUT method?
+
+> Yes, you can.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If POST can do work of PUT method, why PUT method is required?
+
+> It didn't used to be. In HTTP/1.0, the specified methods were HEAD, GET, and POST. PUT was added as addition feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## If I use POST method over PUT method, what will be disadvantages?
+
+> PUT is idempotent. POST is not.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
 =====================================
 ########## HTTP RESPONSE CODE #######
 

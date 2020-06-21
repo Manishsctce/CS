@@ -21,16 +21,13 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Deploy Spring Boot Web Applications as Jar and War Files?
 
-Traditionally, we package a web application as a WAR file, then deploy it into an external server. Doing this allows us to arrange multiple applications on the same server. During the time that CPU and memory were scarce, this was a great way to save resources.
+> Traditionally, a webapp is packed as WAR file, then deploy it into an external server. 
+- Doing this allows us to arrange multiple applications on the same server. During the time that CPU and memory were scarce, this was a great way to save resources.
 
 However, things have changed. Computer hardware is fairly cheap now, and the attention has turned to server configuration. A small mistake in configuring the server during deployment may lead to catastrophic consequences.
 
 Spring tackles this problem by providing a plugin, namely spring-boot-maven-plugin, to package a web application as an executable JAR. To include this plugin, just add a plugin element to pom.xml:
 
-1
-2
-3
-4
 <plugin>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -51,11 +48,6 @@ In case we want to build a WAR file, change the packaging element to war:
 <packaging>war</packaging>
 And leave the container dependency off the packaged file:
 
-1
-2
-3
-4
-5
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -110,7 +102,16 @@ spring-boot-starter-web
 ## What is the diff bet @SpringBootApplication and @EnableAutoConfiguration?
 
 @EnableAutoConfiguration is used to enable auto-configuration     
-@SpringBootApplication = @EnableAutoConfiguration + @Configuration + @ComponentScan 
+
+> @SpringBootApplication = @EnableAutoConfiguration + @Configuration + @ComponentScan 
+
+1. @Configuration - It tags the class as a source of bean definitions for the application context.
+
+2. @EnableAutoConfiguration - it tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
+
+3. @ComponentScan - it tells Spring to look for other components, configurations, and services at the package and above this package level 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Tell an Auto-Configuration to Back Away When a Bean Exists?
 
@@ -120,6 +121,13 @@ value: The types of beans to be checked
 name: The names of beans to be checked
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Spring Boot Initializes the Spring MVC Application Context?
+
+> Spring boot application have @SpringBootApplication which is combination of 
+@EnableAutoConfiguration + @Configuration + @ComponentScan 
+
+- basically spring boot look for the spring-mvc lib in classpath and it find @EnableWebMvc which initialize WebMvcConfigurationSupport and it do all the MVC related initialization.
 =======================================
 ######### SPRING BOOT ACTUATOR ########
 

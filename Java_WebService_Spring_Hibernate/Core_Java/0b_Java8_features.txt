@@ -117,7 +117,7 @@ Give no parameters prints Hello World! to the main output and returns void.
 
 ## What is a method reference?
 
-> it can be used for referencing a method of Functional Interface without invoking it. 
+> it is a way to refer method of Functional Interface without invoking it. 
 - It is USED FOR TREATING METHODS AS LAMBDA EXPRESSIONS.
 - It is compact and easy form of lambda expression
 
@@ -142,10 +142,13 @@ Ex - ContainingType::methodName
 4. Reference to a constructor	
 Ex - ClassName::new
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to use method reference?
-- When a Lambda expression is invoking already defined method, you can replace it with reference to that method.
 
+- When a Lambda expression is invoking already defined method, you can replace it with reference to that method.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When you can not use Method reference?
+
 - You CAN NOT PASS ARGUMENTS TO THE METHOD REFERENCE.
 
 > In general, we don't have to pass arguments to method references. However, arguments are treated depending on the type of method reference.
@@ -212,56 +215,92 @@ private static int sumIterator(List<Integer> list) {
 
 > INTERNAL ITERATION PROVIDES SEVERAL FEATURES such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Stream provides following features:
-> Stream does not store elements.
-- It simply conveys elements from a source such as a data structure, an array, or an I/O channel, through a pipeline of computational operations.
+## What is Stream?
 
-> Stream is functional in nature.
-- Operations performed on a stream does not modify it's source.
-- For example, filtering a Stream obtained from a collection produces a new Stream without the filtered elements, rather than removing elements from the source collection.
+> A stream is a sequence of objects from a source such as Collection/Array. 
+- basically, it is a wrapper around the data source.
+- It supports various data processing methods.
 
-> Stream is lazy and evaluates code only when required.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the features of Stream?
 
-> The elements of a stream are only visited once during the life of a stream.
-- Like an Iterator, a new stream must be generated to revisit the same elements of the source.
+> A stream is NOT A DATA STRUCTURE as because it doesn't store the data.
 
-##EMPTY STREAM
+> Stream consume a data source like Collection, Arrays or I/O channels.
+
+> Streams don’t change the original data structure. 
+- it only provide the result as per the pipelined methods.
+
+> Stream has capability to execute PARALLEL
+
+> Stream is lazy 
+- it executes as per the terminal operation invokes. 
+
+> Stream is traverse only once
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create stream?
+
+> There are multiple way to create stream 
+
+## EMPTY STREAM
 Stream<String> streamEmpty = Stream.empty();
 
-##STREAM OF COLLECTION
+## STREAM OF COLLECTION
 Collection<String> collection = Arrays.asList("a", "b", "c");
 Stream<String> streamOfCollection = collection.stream();
 
-##STREAM OF ARRAY
+## STREAM OF ARRAY
 Stream<String> streamOfArray = Stream.of("a", "b", "c");
 
 String[] arr = new String[]{"a", "b", "c"};
 Stream<String> streamOfArrayFull = Arrays.stream(arr);
 
-##Stream of any type
-Stream<String> strStream = Stream.of("a", "b", "c");
-strStream.foreach(System.out::print());
+## STREAM BUILDER
+Stream.Builder<String> builder = Stream.builder(); 
+Stream<String> stream = builder.add("Avul").add("Pakir").add("Jainulabdeen").add("Abdul").add("Kalam").build();
 
-##Stream iterate
-Stream<Integer> streamIterated = Stream.iterate(40, n -> n + 2).limit(20);
+## INFINITE SEQUENTIAL ORDERED STREAM using Stream.iterate()
+Stream.iterate(2, n -> n + 2).limit(25).forEach(i->System.out.print(i+"|"));
+- Here iterate takes 2 arguments: 1. seed, 2. function
+- its like seed, f(seed), f(f(seed)), f(f(f(seed)))
+
+https://www.geeksforgeeks.org/10-ways-to-create-a-stream-in-java/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Stream of Primitives
-> As Stream<T> is a generic interface and there is no way to use primitives as a type parameter with generics,
-- three new special interfaces were created: IntStream, LongStream, DoubleStream.
+## Can we create Stream of primitive?
 
+> No, we cannot create stream of primitive because
+- Stream<T> is a generic interface and there is no way to use primitives as a type parameter with generics.
+- We can use Stream<Integer>, Stream<Long> or Stream<Double> but this is not an efficient way to work with primitive types
+
+> Java8 provides 3 new special interfaces to work with primitive: IntStream, LongStream, DoubleStream.
+- It represents an stream of primitive elements supporting sequential and parallel aggregate operations.
+- we can use IntStream for short, char, byte, and boolean. 
+- For float, DoubleStream can be used
+
+1. IntStream is = IntStream.of(1,2,3,4,5);
+2. Using Arrays.stream() : Arrays.stream(nums_array);
+
+3. Using range() and rangeClosed() 
 IntStream intStream = IntStream.range(1, 3);
 LongStream longStream = LongStream.rangeClosed(1, 3);
+
+4. Transform the Object stream into primitive type stream with the use of below methods of Stream 
+mapToInt, mapToDouble and mapToLong
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is Stream?
+## What is boxed stream?
 
-> A stream is a SEQUENCE OF OBJECTS that SUPPORTS VARIOUS METHODS WHICH CAN BE PIPELINED TO PRODUCE THE DESIRED RESULT.
-> The features of Java stream are –
+> It is way of creating stream of wrapper class with it primitive value. 
+- Bascially it box the elements in their wrapper class
+- All the primitive type Streams have boxed() like DoubleStream has boxed() and it will return Stream<Double>
+EXAMPLE: 
+> if we wan to create stream of primitive then it will give compilation error. 
+IntStream.of(1,2,3,4,5).collect(Collectors.toList());
 
-- A stream is NOT A DATA STRUCTURE instead it takes input from the Collections, Arrays or I/O channels.
-- Streams don’t change the original data structure, they only provide the result as per the pipelined methods.
-- Each intermediate operation is lazily executed and returns a stream as a result, hence various intermediate operations can be pipelined. Terminal operations mark the end of the stream and return the result.
-
-#### #### METHODS #### ####
+> Here we can use boxed stream as 
+IntStream.of(1,2,3,4,5).boxed().collect(Collectors.toList());
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### METHODS #############
 
 #### CREATION METHOD ####
 ## public static<T> Stream<T> empty()
@@ -345,16 +384,49 @@ int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
 ## Stream<T> peek(Consumer<T> action)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the difference between intermediate and terminal operation on Stream? 
+## What is the difference between Intermediate and Terminal operation of Stream? 
 
-> The INTERMEDIATE STREAM OPERATION returns another Stream 
-- Which means we can further call other methods of Stream class to compose a pipeline.
+> The main difference between Intermediate and Terminal operations is that intermediate operations returns a Stream as a result
+- Which can be further call other Stream methods to compose a pipeline.
+- our pipeline may have number of intermediate operations
 
-EXAMPLE - after calling map() or flatMap() we can still call filter() on Stream.
-
-> TERMINAL OPERATION produces a result other than Stream e.g. a value or a Collection.
+> TERMINAL OPERATION return non-stream values like primitive or object or collection or void. 
+- It can not be chained together.
+- There will be only one terminal operation, that too at the end of pipeline.
 
 - Once a terminal method like forEach() or collect() is called we cannot call any other method of Stream or reuse the Stream.
+
+> Intermediate operations are LAZILY LOADED. When we call intermediate operations, it doesn't executed. They are just stored in the memory and executed when the terminal operation is called on the stream.
+
+> Intermediate Operations : map(), filter(), distinct(), sorted(), limit(), skip()
+- Terminal Operations : forEach(), toArray(), reduce(), collect(), min(), max(), count(), anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by Stateless and Stateful operations in Java stream?
+## What do you mean by  non-interfering and stateless Operation?
+
+> A stateful operation is the one whose result depends on any state that might change during the execution of the pipeline. 
+- it maintain some state internally to accomplish the operation.
+- these operation executed horizontally. It mean it will excute on the entire input collection
+EXAMPLE : distinct(), sorted(), limit(), skip() other than this all are stateless operation
+
+> Stateless operations retain no state during the execution of the pipeline.
+- execution of the operation is deterministic i.e. value will not change
+- these operation execute Vertically. It mean it will excute pipeline for each element of input collection
+EXAMPLE:
+Stream.of("s2", "b2", "a1", "d3", "c2")
+		.map(s -> {
+		    System.out.print("\nmap: " + s);
+		    return s.toUpperCase();
+		})
+		.anyMatch(s -> {
+		    System.out.print(" , anyMatch: " + s);
+		    return s.startsWith("A");
+		});
+
+map: s2 , anyMatch: S2
+map: b2 , anyMatch: B2
+map: a1 , anyMatch: A1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is diff bet Stream and Collection?
 
@@ -363,21 +435,32 @@ EXAMPLE - after calling map() or flatMap() we can still call filter() on Stream.
 
 > With Stream.forEach, the order is undefined
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### Difference between map() and flatMap() in Java8 Stream?
+### What is the difference between map() and flatMap() in Java8 Stream?
 
-# map() 
-- it applies a fn on each ele of stream and stores the value returned by the fn into a new Stream. 
+# map() - is used for transformation only
+- it applies the function on each element of stream and stores the value returned by the function into a new Stream. 
 - This way one stream is transformed into another 
-- e.g. a Stream of String is transformed into a Stream of Integer.
+- it take Function which can return any type of Object
+EXAMPLE1:
+Arrays.asList(Arrays.asList(1,2),Arrays.asList(3,4))
+.stream().map(li -> li.stream()).forEach(x-> System.out.print(x+" "));// Stream@12 Stream@1213
 
-> it is used for transformation only
-
-# flatMap() 
+EXAMPLE2:
+Arrays.asList(Arrays.asList(1,2,8),Arrays.asList(3,4,12)).stream().map(i -> i.stream().filter(j->j%2==0).collect(Collectors.toList())).forEach(x-> System.out.print(x+" "));//[2, 8] [4, 12]
+		
+# flatMap() - is used for both transformation and flattening(run foreach loop sequentially).
 - it can take a Stream of List and return Stream of values combined from all those list.
+- it take Function which can return any type of Stream which will be further flatten by flatMap.
+EXAMPLE1:
+Arrays.asList(Arrays.asList(1,2),Arrays.asList(3,4)).stream().flatMap(li -> li.stream()).forEach(x-> System.out.print(x+" "));// 1 2 3 4
 
-> it is used for both transformation and flattening.
+EXAMPLE2:
+Arrays.asList(Arrays.asList(1,2,8),Arrays.asList(3,4,12)).stream().flatMap(i -> i.stream().filter(j->j%2==0)).forEach(x-> System.out.print(x+" "));//2 8 4 12 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Stream.map() works in Java 8?
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Arrays.stream() and Stream.of()
 
@@ -402,6 +485,12 @@ EXAMPLE:
 - For other primitive types, Arrays.stream() won’t work.
 
 > Stream.of() returns a generic Stream of type T (Stream). Hence, it can be used with any type.  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to convert Stream to Array?
+
+EXAMPLE
+List<Integer> number = Arrays.asList(1, 2, 3, 4, 5, 6, 1, 2);
+Object[] x = number.stream().collect(Collectors.toList()).toArray();
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What does peek() does? When should you use it?
  
@@ -444,7 +533,22 @@ numbers.forEach(System.out::println);//Java Python JavaScript
 > A parallel stream can parallel execute stream processing task. For example, if you have a parallel stream of 1 million orders and you are looking for orders worth more than 1 million then you can use a filter to do that.
 
 Unlike sequential Stream, the parallel stream can launch multiple threads to search for those orders on the different part of Stream and then combine the result.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we reuse a stream? If not then is there any way to reuse?
 
+> No, we cannot reuse the stream. As soon as any terminal operation execute the stream is closed.
+- If we reuse any stream, then it will throw IllegalStateException.
+
+> To overcome with this limitation, we can use Supplier interface to create a stream supplier 
+EXAMPLE:
+Supplier<Stream<String>> streamSupplier =
+    () -> Stream.of("d2", "a2", "b1", "b3", "c")
+            .filter(s -> s.startsWith("a"));
+
+streamSupplier.get().anyMatch(s -> true);   // ok
+streamSupplier.get().noneMatch(s -> true);  // ok
+
+https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
 =======================================
 ######### FUNCTIONAL INTERFACE ########
 > It is added in Java8
@@ -742,3 +846,25 @@ WHILE USING IT String r = adderImpl.add(a -> a + " from lambda"); // IT WILL THR
 > to solve this problem, we can use methods with different name OR
 - to perform casting manually. This is not preferred.
 String r = Adder.add((Function) a -> a + " from lambda");
+
+
+What Is Stream Pipelining in Java 8?
+What is the purpose of the sorted method of stream in Java 8?
+What is statistics collector in Java 8?
+What is Java 8 string joiner set used for?
+
+What is a mutable reduction operation?
+What is a Spliterator in Java? Differences between Iterator and Spliterator in Java SE 8?
+ What is Nashorn?
+
+https://java2blog.com/java-8-interview-questions/ 
+ 16) Given a list of employees, you need to filter all the employee whose age is greater than 20 and print the employee names.(Java 8 APIs only)
+17) Given the list of employees, count number of employees with age 25?
+18) Given the list of employees, find the employee with name “Mary”.
+19)Given a list of employee, find maximum age of employee?
+20) Given a list of employees, sort all the employee on the basis of age? Use java 8 APIs only
+21) Join the all employee names with “,” using java 8?
+22) Given the list of employee, group them by employee name?
+
+What is the difference between PermGenSpace and MetaSpace?
+

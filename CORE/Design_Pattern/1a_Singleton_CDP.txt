@@ -1,38 +1,28 @@
 ########## 1. SINGLETON #############
-> Singleton purpose is TO CONTROL OBJECT CREATION, limiting the no. of obj to one only
+
+## What is Singleton Design pattern?
+
+> It is a creational design pattern where we concentrate on the creation of object.
+> In Singleton Design pattern, we control the object creation to one only
 > Singletons often control access to resources such as database connections or sockets using 1 connection only
 - It is used for logging, drivers objects, caching and thread pool.
 
 Ex - window managers, print spoolers, filesystems 
-
-Singleton design consist of a 
-1. PRIVATE CONSTRUCTOR 
-- to prevents any other class from instantiating
-
-2. PUBLIC STATIC SYNCHRONIZED 'INSTANCE' METHOD like getInstance() 
-- to return Singleton class instance and by using synchronized we force every thread to wait for its turn before it can enter the method
-
-3. OTHER PROTECTED STATIC METHOD for processing
-
-class diagram
-|---------------------|
-|  CLASS NAME         |
-|---------------------|
-|static uniqueinstance|
-|---------------------|
-|static getInstance() |
-|---------------------|
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is Singleton class? Have you used Singleton before?
+## When doesn't Singleton remain Singleton in Java?
 
-> Singleton is a class which has ONLY ONE INSTANCE in whole application
-> provides a getInstance() method to access the singleton instance.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Which classes are candidates of singleton? Which kind of class do you make singleton?
+## What are the drawbacks of Singleton?
 
-> When a class is available to whole application and only one instance is required then it can be singleton class
-> Ex - Runtime class - here Java runtime prgmg  	
+> Major drawbacks of using singleton design pattern are:
+
+1. Singleton causes code to be tightly coupled. 
+- The singleton object is exposed globally and is available to a whole application. Thus, classes using this object become tightly coupled; 
+- ANY CHANGE IN THE GLOBAL OBJECT WILL IMPACT ALL OTHER CLASSES using it.
+
+2. They hide dependencies instead of exposing them.
+3. SINGLETON PATTERN DOES NOT SUPPORT INHERITANCE.
+4. Singleton principle can be violated by techniques such as cloning. 
+- If an application is running on multiple JVM’s, then, in this case, Singleton might be broken
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Example of Singleton in Java?
@@ -40,39 +30,206 @@ class diagram
 1 Java.lang.Runtime with getRuntime() 
 - used to get free memory and total memory in Java.
 
-2 Java.awt.Toolkit with getDefaultToolkit()
-3 Java.awt.Desktop with  getDesktop()
-4. java.lang.System.getSecurityManager()
+2. java.lang.System.getSecurityManager()
+3 Java.awt.Toolkit with getDefaultToolkit()
+4 Java.awt.Desktop with  getDesktop()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Is it better to make whole getInstance() method synchronized or just critical section is enough? Which one you will prefer?
+## How to implement Singleton Pattern? 
+
+> To implement Singleton pattern, we have different approaches but all of them have the following common concepts:
+
+1. PRIVATE CONSTRUCTOR 
+- to prevents any other class from instantiating
+
+2. PRIVATE STATIC VARIABLE of the same class that is the only instance of the class.
+
+3. PUBLIC STATIC METHOD that returns the instance of the class, this is the global access point for outer world to get the instance of the singleton class.
+
+CLASS DIAGRAM
++-----------------------------+
+|  private Constructor        |
+|-----------------------------|
+|private static uniqueinstance|
+|-----------------------------|
+|public static getInstance()  |
++-----------------------------+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In how many way Singleton pattern can be implemented?
+
+> There are multiple way to implement Singleton pattern 
+1. Eager Initialization 
+2. Eager Initialization with Static block
+3. Lazy Initialization
+4. Thread Safe Lazy Initialization 
+5. Double Check Lazy Initialization
+6. Bill Pugh Singleton Implementation
+7. Enum Singleton
+=======================================
+######## EAGER INITIALIZATION #########
+
+## What is Eager initialization of Singleton class? How will you implement it? Does it add any advantage?
+ 
+> EAGER/EARLY INITIALIZATION :  In this, object creates when the class is loaded into the JVM. 
+
+public class Singleton {
+  private static final Singleton instance = new Singleton();
+  private Singleton() { }
+  
+  public static Singleton getInstance() {
+    return instance;
+  }
+}
+
+Pros:
+> it is helpful if our application always create and use the Singleton class. 
+- It assure that only 1 instance is created 
+- It is very simple to implement
+
+Cons:
+> instance is created even though we might not be using it
+> Exception Handling is not possible
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Eager Initialization with Static block is implemented? Does it add any advantage?
+
+public class StaticBlockSingleton {  
+  private static StaticBlockSingleton instance;
+  
+  private StaticBlockSingleton(){};
+  
+  static{
+    try{
+      instance = new StaticBlockSingleton();
+    }catch(Exception e){
+      throw new RuntimeException("Exception Error when creating Static Blocking Singleton!");
+    }
+  }
+  public static StaticBlockSingleton getInstance(){
+    return instance;
+  }
+}
+
+Pros:
+> No need to implement getInstance(). Instance can be accessed directly by making it public.
+> Exceptions can be handled in static block.
+
+Cons:
+> instance is created even though we might not be using it
+=======================================
+######### LAZY INITIALIZATION #########
+
+## What is Lazy Initialization? 
+
+> It mean initialize the instance when require. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create Lazy Initialization singleton class?
+
+class LazyIntialization{
+	private static volatile LazyIntialization INSTANCE = null;
+	private LazyIntialization() {}
+	
+	public static LazyIntialization getInstance() {
+		if(INSTANCE == null) {
+			INSTANCE = new LazyIntialization();
+		}
+		return INSTANCE;
+	}
+}
+
+Pros:
+> Instance will create when we need. 
+- Exception handling is also possible.
+
+Cons:
+> Singleton Principal can break 
+- in Multithreading context because instance might be null while initializing new instance.
+
+- using Reflection class 
+- using Serialization
+- using cloning
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to break the Lazy Initialization Singleton pattern in Multithreading context?
+
+> When we run this program multiple time then we can hashCode value will change.
+
+class LazyIntialization{
+	private static volatile LazyIntialization INSTANCE = null;
+	private LazyIntialization() {}
+	
+	public static LazyIntialization getInstance() {
+		if(INSTANCE == null) {
+			INSTANCE = new LazyIntialization();
+		}
+		return INSTANCE;
+	}
+}
+
+public class LazyIntializationSingleton1{
+	public static void main(String[] args) {
+			Thread t1 = new Thread("Thread1") {
+				public void run() {
+					LazyIntialization t = LazyIntialization.getInstance();
+					System.out.println(this.getName()+ " hashcode value: "+t.hashCode());
+				}
+			};
+			Thread t2 = new Thread("Thread2") {
+				public void run() {
+					LazyIntialization t = LazyIntialization.getInstance();
+					System.out.println(this.getName()+ " hashcode value: "+t.hashCode());
+				}
+			};
+			Thread t3 = new Thread("Thread3") {
+				public void run() {
+					LazyIntialization t = LazyIntialization.getInstance();
+					System.out.println(this.getName()+ " hashcode value: "+t.hashCode());
+				}
+			};
+			Thread t4 = new Thread("Thread4") {
+				public void run() {
+					LazyIntialization t = LazyIntialization.getInstance();
+					System.out.println(this.getName()+ " hashcode value: "+t.hashCode());
+				}
+			};
+			t1.start();t2.start();t3.start();t4.start();		
+		System.out.println("Exit");
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create Thread safe Singleton? 
+
+public class ThreadSafeSingleton {
+ private static ThreadSafeSingleton instance = null;
+ private ThreadSafeSingleton() {}
+ 
+ public static synchronized ThreadSafeSingleton getInstance() {
+   if (instance == null) {
+     instance = new ThreadSafeSingleton();
+   }
+   return instance;
+ }
+}
+
+Pros: 
+> It is Lazy Initialized, Thread-safe
+
+Cons:
+> As the getInstance() is synchronized, it causes slow performance as multiple threads can’t access it simultaneously
+- its because if we synchronized static method, the lock will be on the class not on object
+- To improve this performance, we can synchronize only critical section using Double check lazy initialization.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Is it better to make whole getInstance() synchronized or just critical section is enough? Which one you will prefer?
 
 > Since synchroniztion is only needed during initialization of singleton instance, to prevent creating another instance,  
 - Its better to only synchronize critical section and not whole method.
 
 > Singleton pattern is also closely related to factory design pattern
 =====================================
-##How to create thread-safe singleton objects in Java?
-##What is double checked locking in Singleton?
+## How to create thread-safe double checked lazy initialization singleton objects in Java?
 
-> to make the getInstance method synchronized 
-
-public class Singleton {
- private static Singleton instance = null;
- private Singleton() {}
- 
- public static synchronized Singleton getInstance() {
-   if (instance == null) {
-     instance = new Singleton();
-   }
-   return instance;
- }
-} 
-> Above code works fine and provides thread-safety but IT REDUCES PERFORMANCE because of cost associated with the synchronized method. 
-
-> this design is not optimal as every invocation of getInstance() is synchronized while the requirement is only for the first call. 
-
-> A slightly BETTER SOLUTION is to synchronize only the new instance creation instead of the entire method. 
-- This solution requires an additional check for null inside the synchronized block and is termed as DOUBLE CHECK LOCKING OPTIMIZATION.
+> In this solution, getInstance is not synchronized but 
+- the block which creates instance is synchronized 
+- so that minimum number of threads have to wait and that’s only for first time.
+- This is called DOUBLE CHECK LOCKING OPTIMIZATION.
  
 public class Singleton {
   private static Singleton instance = null;
@@ -90,17 +247,19 @@ public class Singleton {
 }
 > It will be best to use the volatile instance variable in Singleton class
 - it will ensure the object is not partially initialized and it is the one.
-as private static volatile Singleton instance =null;
+private static volatile Singleton instance =null;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why you need Double checked Locking of Singleton Class?
 
-> It improve the performance of code and to minimize cost of synchronization in case of multi-threading env.
-- Here instance creation is only 1 time cost and only 1 thread can obtain lock on the class and create instance
-- another thread either wait or will get the instantiated obj.
+> It improve the performance of code as it minimize the cost of synchronization in case of multi-threading env.
+- As bcz we do 1st null check on instance before synchronized the class and 
+- 2nd null check to make sure no other instance is created, in context of multi-threading 
+- As bcz multiple thread can reach upto synchronized the class and then only 1 thread can create instance, if we donot do null check of the instance another thread may create instance.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### PREVENT FROM CLONING ######
 
-##	How do you prevent for creating another instance of Singleton using clone() method?
+## How do you prevent for creating another instance of Singleton using clone() method?
+
 1. By not implementing Clonable interface 
 2. If the class is implementing then throw exception from clone() as 
   @Override
@@ -112,7 +271,8 @@ as private static volatile Singleton instance =null;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### PREVENT FROM REFLECTION ####
 
-##How do you prevent for creating another instance of Singleton using reflection?
+## How do you prevent for creating another instance of Singleton using reflection?
+
 > This can be avoided by throwing Exception from constructor as Singleton already initialized
 
 private Singleton() {
@@ -125,7 +285,7 @@ private Singleton() {
 
 ## How do you prevent for creating another instance of Singleton during serialization?
 
-> can prevent this by using readResolve() in Singleton class which implement Serializable[i], 
+> we can prevent this by using readResolve() in Singleton class which implement Serializable[i], 
 - since during serialization readObject() is used to create instance and it return new instance every time but by using readResolve 
 > we can replace it with original Singleton instance.
 
@@ -144,26 +304,15 @@ class Singleton implements Serializable
       return instance;
   }
 }
-=======================================
-## DIFFERENT APPROACHES OF SINGLETON PATTERN
 
-1. Eager initialization
-2. Static block initialization
-3. Lazy Initialization
-4. Thread Safe Singleton
-5. Bill Pugh Singleton Implementation
-6. Using Reflection to destroy Singleton Pattern
-7. Enum Singleton
-Serialization and Singleton
-
-https://www.journaldev.com/1377/java-singleton-design-pattern-best-practices-examples
 =======================================
 ##### INNER STATIC CLASS APPROACH #####
 
+## How to implement Bill Pugh Singleton Design Pattern?
 ## How to create thread-safe singleton objects in Java without using 'synchronized'?
 
-> Thread-safe singleton class can be created using INNER STATIC CLASS APPROACH.
- 
+> This is used prior Java5, Bill Pugh suggested a concept of inner static classes to use for singleton. It will be Thread-safe.
+
 public class Singleton {   
     private Singleton() {  }
     private static class SingletonHolder {
@@ -179,26 +328,25 @@ public class Singleton {
 > SingletonHolder class gets loaded on first invocation of the getInstance method and creates the Singleton class instance. 
 > Java Language Specification guarantees the CLASS INITIALIZATION PROCESS TO BE SERIAL (NON-CONCURRENT) SO NO SYNCH. is required in the getInstance method. 
 - This solution guarantees single instance and achieves better performance than using synchronized keyword. 
+=======================================
+ singleton using Enum
+ 
+ s Java Enum are global constants and loaded only once. Joshua Bloch suggested that Enum is best candidate for singleton design pattern. Please note that Java Enum does not allow lazy initialazation, so even if you do not use singleton, it will still be loaded.
+ 
+ As Enum does not provide any explicit constructor, you can not create multiple instance of sinlgeton class even with reflection.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is lazy and early loading of Singleton and how will you implement it?
-##Difference between lazy initialization and early initialization ?
-
-> LAZY INITIALIZATION : We create the object of the class only when it is about to use in the program code .
-> We are calling it lazy because we wait till the last moment to have an object.
-
-> EARLY INITIALIZATION :  In this we create the object when the class is getting loaded into the JVM . 
-> it is helpful if our application always create and use the Singleton class .
+public static MusicStore getMusicInstance(){
+ final Lock lockObj=new ReentrantLock();
+  if(musicInstance==null){
+   lockObj.lock();
+   if(musicInstance==null){
+     musicInstance=new MusicStore();
+   }
+   lockObj.unlock();
+ }
+return musicInstance;
+}
+This lock is a mutually Exclusive one(MUTEX).i.e, allows only one thread at a time.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## When doesn't Singleton remain Singleton in Java?
 
-## What are the drawbacks of Singleton?
-
-> major drawbacks of using singleton design pattern are:
-1. Singleton causes code to be tightly coupled. 
-- The singleton object is exposed globally and is available to a whole application. Thus, classes using this object become tightly coupled; 
-- ANY CHANGE IN THE GLOBAL OBJECT WILL IMPACT ALL OTHER CLASSES using it.
-
-2. They hide dependencies instead of exposing them.
-3. SINGLETON PATTERN DOES NOT SUPPORT INHERITANCE.
-4. Singleton principle can be violated by techniques such as cloning. 
-- If an application is running on multiple JVM’s, then, in this case, Singleton might be broken
+=https://medium.com/@kevalpatel2106/how-to-make-the-perfect-singleton-de6b951dfdb0

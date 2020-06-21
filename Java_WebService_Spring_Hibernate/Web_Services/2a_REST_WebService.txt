@@ -156,10 +156,13 @@ Example-
 ### What is Richardson Maturity Model?
 
 > IT DEFINES THE MATURITY LEVEL OF A RESTFUL WEB SERVICE. 
+- Richardson used 3 factors to decide the maturity of a service i.e. URI, HTTP Methods and HATEOAS (Hypermedia). 
+
 Following are the different levels and their characteristics.
 
 LEVEL 0 : 
 - Expose SOAP web services in REST style. 
+- it does not make use of any of URI, HTTP Methods, and HATEOAS capabilities.
 - Expose action based services 
 EXAMPLE-
  http://server/getPosts, 
@@ -167,22 +170,27 @@ EXAMPLE-
  http://server/doThis using REST.
 
 LEVEL 1 : 
-> Expose Resources with proper URI’s (using nouns).
+> Expose Resources with proper URI’s (using nouns) but doesn't use HTTP methods and HATEOAS
 - However, HTTP Methods are not used. 
 - Example-: http://server/accounts, http://server/accounts/10. 
 
 LEVEL 2 : 
-> Resources use proper URI's + HTTP Methods. 
+> Resources use proper URI's + HTTP Methods but doesn't use HATEOAS
 - EXAMPLE
 - to update an account, use PUT 
 - To create an account use POST 
 - Uri’s look like posts/1/comments/5 and accounts/1/friends/1.
 
 LEVEL 3 : HATEOAS (Hypermedia as the engine of application state). 
+- makes use of all three i.e. URIs and HTTP and HATEOAS
 - will all above it also include NEXT POSSIBLE ACTIONS THAT THE SERVICE CONSUMER CAN DO. 
 
 EXAMPLE 
 - When requesting information about a facebook user, a REST service can return user details along with information about how to get his recent posts, how to get his recent comments and how to retrieve his friend’s list.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is HATEOAS?
+
+> Web server provide link based on the client request to make the page dynamic. This is called HATEOAS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between a RESTful web service (on HTTP) and a HTTP Servlet both of which perform the same function?
 

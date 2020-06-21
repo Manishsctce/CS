@@ -2,7 +2,7 @@
 > FUNCTIONAL INTERFACE(1 method) : Comparable[i], Runnable[i], Callable[i]
 
 Externalizable[i], Comparator[i]
-=====================================
+=======================================
 ########## FUNCTIONAL INTERFACE #######
 
 > @FunctionalInterface annotation.
@@ -67,12 +67,14 @@ Interface1 i1 = (s) -> System.out.println(s);
 i1.method1("abc");
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## is Comparator[i] is the FI?
+
 > Yes, It is FI.
 - It contain 2 abstract methods compare() and equals() eventhrough it is FI
 - because equals() is part of Object class
 =====================================
-############### Comparable ##########
+############ Comparable #############
 ##What is Comparable interface?
+
 > java.lang.Comparable interface is used TO ORDER the objects of user-defined class and
 - has only 1 method public int compareTo(Object).
 
@@ -84,13 +86,14 @@ i1.method1("abc");
 > Objects which impl Comparable in java can be used as keys in a SortedMap[i] like TreeMap[c] or SortedSet[i] like TreeSet[c] without implementing any other interface.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to implement compareTo() ?
-> return -ve integer if current object is less than other object,
-- return +ve integer if current object is greater than other object
+
+> return -ve integer if current object is less than given object,
+- return +ve integer if current object is greater than given object
 - return 0 if both objects are equal
 
-> it must be constitent with equals()
+> it must be consistent with equals()
 
-> it must throw NullPointerException if current object get compared to null object as opposed to equals() which return false
+> it must throw NullPointerException, if current object get compared to null object as opposed to equals() which return false
 
 > don't use subtraction for comparing integral values because result of subtraction can overflow as every int operation is modulo 2^32.
 - use either Integer.compareTo() OR logical operators for comparison
@@ -120,10 +123,11 @@ public int compareTo(final HostDesc d){
 =======================================
 ############## Comparator[i] ##########
 ##What is Comparator interface?
+
 > Comparator interface is used to order the objects of user-defined class.
 
 > COMPARATOR HAS 2 METHOD:
-- int compare(Object obj1,Object obj2) &
+- int compare(Object obj1,Object obj2) 
 - boolean equals(Object element)
 
 > Here equals() can be overriden but not necessary because it is implemented by every obj class.
@@ -193,7 +197,7 @@ DESERIALIZATION
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the need of Serialization?
 
-> To send state of one or more objects state over the network through a socket.
+> To transfer objects state over the network through a socket.
 > To save the state of an object in a file.
 > An objects state needs to be manipulated as a stream of bytes.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -203,11 +207,14 @@ DESERIALIZATION
 
 > It is used for version control of object. 
 - IT IS STAMPED ON OBJECT AS VERSION OF CLASS WHEN OBJECT GET SERIALIZED.
-- it is used to REPRESENTS CLASS VERSION. we de-serialize a class if it's SerialVersionUID matches with the serialized instance
-- we should change it if the current version of class is not backwards compatible with its earlier versions.
-- throws java.io.InvalidClassException in case of serialVersionUID mismatch.
+- it is used to REPRESENTS CLASS VERSION. 
+- While de-serialization, SerialVersionUID of that object should matches with the class SerialVersionUID 
+- JVM will throws java.io.InvalidClassException in case of serialVersionUID mismatch.
 
-> If WE DIDN'T DEFINE it then JVM generates serialVersionUID based upon structure of class which depends upon interfaces the class implements and several other factors which is subject to change.
+> we should change it, if the current version of class is not backwards compatible with its earlier versions.
+
+> If WE DIDN'T DEFINE serialVersionUID then JVM generates it based upon structure of class 
+- which depends upon interfaces the class implements and several other factors which is subject to change.
 - In this case, it will not be possible for the already serialized class to recover when a class field is added or modified.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

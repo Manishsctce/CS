@@ -1,0 +1,239 @@
+=====================================
+##### DEADLOCK & RACE CONDITION #####
+
+## What is deadlock?
+
+> When two or more threads waiting for each other to release lock and stuck for infinite time, this situation is called deadlock.
+> It will only happen in multitasking
+
+Deadlock happens if four condition is true 
+1. MUTUAL EXCLUSION CONDITION 
+- The resources involved are non-shareable.
+- At least one resource (thread) must be held in a non-shareable mode,i.e only one process at a time claims exclusive control of the resource. 
+- If another process requests that resource, the requesting process must be delayed until the resource has been released.
+- This means that the resources should be non-sharable.
+
+2. HOLD AND WAIT CONDITION - Requesting process hold already 1 resources while waiting for requested resources that are currently being held by other processes.
+
+3. NO-PREEMPTIVE CONDITION - Resources already allocated to a process cannot be preempted.
+ 
+4. CIRCULAR WAIT CONDITION
+The processes in the system form a circular list or chain where each process in the list is waiting for a resource held by the next process in the list.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Explain a deadlock situation and explain how to fix deadlock?
+
+> Below is a deadlock situation: 
+
+public void method1(){
+  synchronized(String.class){
+  	System.out.println("Aquired lock on String.class object");
+  }
+  synchronized (Integer.class) {
+	System.out.println("Aquired lock on Integer.class object");
+  }
+}
+
+public void method2(){
+	synchronized(Integer.class){
+		System.out.println("Aquired lock on Integer.class object");
+	}
+	synchronized (String.class) {
+		System.out.println("Aquired lock on String.class object");
+	}
+}
+
+> single Ordering of synchronized method/block on which lock occur will avoid deadlock 
+- like in above code locking order of String.class, Integer.class in both method will avoid deadlock
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do you ensure that N threads can access N resources without deadlock ?
+
+> by making all thread and using resources in a sequence
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is diff bet Starvation and Deadlock?
+
+> Starvation and Deadlock are situations that occur when the processes that require a resource are delayed for a long time.
+
+STARVATION
+> It occurs if a process is indefinitely postponed. This may happen if the process requires a resource for execution that it is never alloted.
+
+##COMMON CAUSES OF STARVATION:
+
+1. If a process is never provided the resources it requires for execution because of faulty resource allocation decisions, then starvation can occur.
+
+2. A lower priority process may wait forever if higher priority processes constantly monopolize the processor.
+3. Starvation may occur if there are not enough resources to provide to every process as required.
+4. If random selection of processes is used then a process may wait for a long time because of non-selection.
+
+## SOLUTIONS TO HANDLE STARVATION:
+
+1. An independent manager can be used for allocation of resources. This resource manager distributes resources fairly and tries to avoid starvation.
+2. Random selection of processes for resource allocation or processor allocation should be avoided as they encourage starvation.
+3. The priority scheme of resource allocation should include concepts such as aging, where the priority of a process is increased the longer it waits. This avoids starvation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+DEADLOCK
+> A deadlock occurs when two or more processes need some resource to complete their execution that is held by the other process.
+
+> A deadlock will only occur if the FOUR COFFMAN CONDITIONS hold true. These conditions are not necessarily mutually exclusive. They are given as follows:
+
+1. Mutual Exclusion
+- It implies there should be a resource that can only be held by one process at a time. 
+- This means that the resources should be non-sharable.
+
+2. Hold and Wait
+- A process can hold multiple resources and still request more resources from other processes which are holding them.
+
+3. No preemption
+- A resource cannot be preempted from a process by force. A process can only release a resource voluntarily.
+
+4. Circular wait
+- A process is waiting for the resource held by the second process, which is waiting for the resource held by the third process and so on, till the last process is waiting for a resource held by the first process. This forms a circular chain.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to avoid deadlock?
+
+1. Avoid nested Locks 
+2. Lock specific member variables of class rather than locking whole class
+3. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is RACE CONDITION?
+
+> Race conditions occurs when two thread operate on same object without proper synchronization 
+- for example, if one thread is updating a variable and second thread tries to read the value before it finished.
+
+> we can SOLVE RACE CONDITION BY USING EITHER SYNCHRONIZED BLOCK OR SYNCHRONIZED METHOD. 
+- When no two threads can access same resource at a time phenomenon is also called as mutual exclusion.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What if two threads try to read same resource without synchronization?
+
+> When two threads try to read on same resource without synchronization, it’s never going to create any problem.
+=====================================
+########### THREAD DUMP #############
+
+##What is thread dump? What is the use? How to take thread dump?
+
+> Thread dump is the log file of Thread running.
+> A thread dump is a list of all the Java threads that are currently active in a JVM.
+> It is used to check the thread status. 
+- Mainly USE TO CHECK DEADLOCK STATE.
+
+> JVM dumps state of all threads in log files or standard error console. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In Java, how will you take thread dump?
+
+> we can use "VisualVM" profiler OR "jstack" tool for taking thread dump
+- It prints thread dumps to the command line console. This tool is available in JDK since 5.0
+
+> In windows, you can use Ctrl + Break key combination to take thread dump, 
+- In Linux, you can use kill -3 command for same
+
+> It is highly recommended to take more than 1 thread dump. 
+- A good practice is to take multiple thread dumps at a regular interval. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to read thread dump ?
+
+EXAMPLE1:
+"RMI TCP Connection(3)-10.175.2.71" daemon prio=6 tid=0x0000000011459000 nid=0x3bf4c runnable [0x00000000120ef000]
+
+Here "RMI TCP Connection(3)-10.175.2.71" is thread name
+- daemon : tell whether thread is daemon or not
+- prio : tell what is the thread priority
+- tid : it is the thread id
+- nid : native thread id
+- runnable : state of the thread 
+
+EXAMPLE2:
+"Finalizer" daemon prio=8 tid=0x000000000f6a2000 nid=0x3bfc0 in Object.wait() [0x0000000010b9e000]
+   java.lang.Thread.State: WAITING (on object monitor)
+
+- Finalizer : Gives information about reference objects. Reference objects are implemented in close cooperation with the garbage collector. It helps in freeing memory.   
+
+EXAMPLE3:
+
+http://www.javamadesoeasy.com/2015/03/visualvm-thread-dumps-generating-and_74.html
+=====================================
+### What is Busy Spinning? Why Should You Use It in Java? (6+)
+
+> Busy spinning is a waiting strategy, in which a thread just wait in a loop, without releasing the CPU for going to sleep. 
+- This is a very advanced and specialized waiting strategy used in the high-frequency trading application when wait time between two messages is very minimal.
+
+> By not releasing the CPU or suspending the thread, your thread retains all the cached data and instruction, 
+- which may be lost if the thread was suspended and resumed back in a different core of CPU. 
+
+Ex - 
+private volatile boolean flag = false;
+public void waitTillChange(){
+	while(!flag){
+		Thread.sleep(100);
+	}
+}
+
+public void change(){
+	flag = true;
+}
+=====================================
+=======================================
+########### ThreadLocal[c] ############
+> Since Java2
+
+##### METHOD #####
+1. T get() {..} 
+- it Returns the value in the current thread's copy of this thread-local variable.
+
+2. void set(T value) {..} 
+- Sets the current thread's copy of this thread-local variable to the specified value
+
+3. void remove() {..}
+> Removes the current thread's value for this thread-local variable.  
+
+4. protected T initialValue()
+- returns the current thread's initial value for this thread-local variable
+
+EXAMPLE
+public class ThreadLocalWithUserContext implements Runnable {
+  
+    private static ThreadLocal<Context> userContext = new ThreadLocal<>();
+    private Integer userId;
+    private UserRepository userRepository = new UserRepository();
+ 
+    @Override
+    public void run() {
+        String userName = userRepository.getUserNameForUserId(userId);
+        userContext.set(new Context(userName));
+        System.out.println("thread context for given userId: "
+          + userId + " is: " + userContext.get());
+    }
+     
+    // standard constructor
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is ThreadLocal?
+
+> It is a class in java that ENABLES TO CREATE VARIABLES THAT CAN ONLY BE READ AND WRITTEN BY THE SAME THREAD.
+- Thus even if 2 threads are executing the same code, and the code has a reference to a threadlocal variable then 2 thread cannot see each other threadlocal variables.
+- they can use it’s get() - to get the default value and set() - to change it’s value local to Thread.
+
+> ThreadLocal Variable provide global access i.e can be used from anywhere inside the thread. 
+- it is static and final
+
+> DO NOT USE ThreadLocal WITH ExecutorService
+
+> it improve scalability and performance of application
+
+1. A thread-local variable provides a separate copy of its value for each thread that uses it.
+2. ThreadLocal instances are typically private static fields in classes that wish to associate state with a thread
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When to use ThreadLocal? 
+
+1. If we have shared object and it have some properties which can be updated by diff threads. 
+- but it is required that UPDATED PROPERTY BY 1 THREAD MUST NOT BE REFLECTED IN ANOTHER THREAD and it should remain local to that particular thread. 
+
+2. if we want to avoid synchronization and still want to share variable in multithreading env then , we can use ThreadLocal variables.
+- It is another way TO ACHIEVE THREAD-SAFETY apart from writing immutable classes.
+- it eliminates sharing by providing explicitly COPY OF OBJECT FOR EACH THREAD. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we use ThreadLocal with ExecutorService?
+
+> No, we should not use a TheadLocal together with ExecutorService
+- because we have limited thread in ExecutorService and it can be used to do different runnable action. 
+- because we do not have a guarantee that every Runnable action for a given userId will be handled by the same thread every time it is executed.

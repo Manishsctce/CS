@@ -178,9 +178,10 @@ imports: [
 > it is a service, which keeps track of the currently activated route associated with the loaded Component.
 
 > It has paramMap object which is the map all the route parameters
-- We can use get() or getAll() to retrieve the value of the parameters in the component. Use the has() to check if a certain parameter exists.
+- We can use get() or getAll() to retrieve the value of the parameters in the component. 
+- Use has() to check if a certain parameter exists.
 
-> 2 ways in which you can use ActivatedRoute to get the parameter value from the ParamMap object.
+> There are 2 ways to get parameter value from the ParamMap object of ActivatedRoute
 
 1. Using Snapshot
 - snapshot property RETURNS THE INITIAL VALUE OF ROUTE.
@@ -221,13 +222,14 @@ children: contains all the child routes activated under the current route
 
 pathFromRoot: The path from the root of the router state tree to this route
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Why to use Observable?
+## Why to use Observable while retreiving parameters?
 
-We usually retrieve the value of the parameter in the ngOninit life cycle hook, when the component initialised.
+> We usually retrieve the value of the parameter in the ngOninit lifecycle hook, when the component initialised.
 
-When the user navigates to the component again, the Angular does not create the new component but reuses the existing instance. In such circumstances, the ngOnInit method of the component is not called again. Hence you need a way to get the value of the parameter.
+> When the user navigates to the component again, the Angular does not create the new component but reuses the existing instance. 
+- In such circumstances, the ngOnInit method of the component is not called again. Hence we need a way to get the value of the parameter.
 
-By subscribing to the observable paramMap property, you will retrieve the latest value of the parameter and update the component accordingly.
+> By subscribing to the observable paramMap property, we will retrieve the latest value of the parameter and update the component accordingly.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Create Child Routes / Nested Routes ?
 
@@ -241,9 +243,17 @@ By subscribing to the observable paramMap property, you will retrieve the latest
 
 > Child components always rendered in the <router-outlet> of the parent component.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## What are query parameters? 
+
+> Query parameters are optional parameters that you pass to a route. 
+- The query parameters are added to the end of the URL Separated by Question Mark
+EXAMPLE - /product?page=2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Difference between Query parameter and Route parameter?
+
+> The route parameters are required and is used by Angular Router to determine the route. They are part of the route definition.
+
+- the query parameters are optional. The missing parameter does not stop angular from navigating to the route.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

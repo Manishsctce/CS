@@ -24,10 +24,11 @@
 5. Microservice security (using tokens, JWT)
 6. Method level security
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Authentication 
-> it is the process of knowing and identifying the user that wants to access.
+## Authentication (who are you?)
+> it is the process of knowing and identifying the user.
 
 ## Authorization 
+> It is the process of knowing "what are you allowed to do?"
 > it is the process to allow authority to perform actions in the application.
 - We can apply authorization to authorize web request, methods and access to individual domain.
 
@@ -64,9 +65,20 @@
 14. OAuth 2.0
 - It provides the facility to the user to login into the application by using their existing account at GitHub or Google or any other register server. 
 - This feature is implemented by using the Authorization Code Grant that is specified in the OAuth 2.0 Authorization Framework.
+=======================================
+####### Authentication
 
-=====================================
+> The main strategy interface for authentication is AuthenticationManager which only has one method:
+
+public interface AuthenticationManager {
+
+  Authentication authenticate(Authentication authentication)
+    throws AuthenticationException;
+
+}
+=======================================
 ## What is the use of @EnableWebSecurity in spring? 
+
 > Add this annotation to an @Configuration class to have the Spring Security configuration defined in any WebSecurityConfigurer or 
 - more likely by extending the WebSecurityConfigurerAdapter base class and overriding individual methods
 
@@ -79,7 +91,8 @@ Enables HTTP Basic and Form based authentication
 Spring Security will automatically render a login page and logout success page for you
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between @EnableWebSecurity and @EnableWebMvcSecurity?
-> @EnableWebMvcSecurity actually adds the @EnableWebSecurity annotation in WebMvcSecurityConfiguration. 
+
+> @EnableWebMvcSecurity actually adds the @EnableWebSecurity in WebMvcSecurityConfiguration. 
 - Therefore, @EnableWebMvcSecurity does everything that @EnableWebSecurity does, and a bit more.
 
 > As of Spring Security 4.0, @EnableWebMvcSecurity is deprecated. The replacement is @EnableWebSecurity 
@@ -88,6 +101,7 @@ Spring Security will automatically render a login page and logout success page f
 
 ------------------------------------
 ## How do you control concurrent Session on Java web application using Spring Security?
+
 > we can use Spring Security to control a number of active session in Java web application.
 > need to include following xml snippet in Spring Security Configuration file mostly named as applicaContext-security.xml. 
 

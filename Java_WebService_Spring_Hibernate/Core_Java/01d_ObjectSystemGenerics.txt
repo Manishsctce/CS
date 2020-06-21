@@ -32,6 +32,7 @@ void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Why wait and notify is declared in Object class instead of Thread ?
+
 > It is bcz Java use Locks of Object for mutually exclusive access 
 - locks are associated with Object and not Threads. Hence, it is in Object class.
 
@@ -43,10 +44,12 @@ void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no 
 > Java is based on Hoares monitors idea. In Java all object has a monitor. Threads waits on monitors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is busy Waiting?
+
 > a pgm activily waiting for particular state and do some active computation
 > it can be remove by using Thread.sleep(ms)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is wait()?
+## What is wait()?
+
 >> java.lang.Object.wait(long timeout) 
 - it causes the current running thread move to wait(non-runnable state) until either another thread invokes the notify() or notifyAll() for this object, or
 - a specified amount of time has elapsed.
@@ -55,7 +58,7 @@ void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no 
 > wait() RELEASES LOCK/MONITOR ON OBJECT, and adds the thread to the wait list associated with the lock
 >  Wait is used for ITC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is difference between notify() and notfiyAll()?
+## What is difference between notify() and notfiyAll()?
 > notify() wakes up the 1st thread that called wait() for same object on which notify() called.
 > notifyAll() wakes up all thread tht called wait() for same obj but higher priority thread will run 1st.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,10 +82,11 @@ No,  methods getClass(), notify(), notifyAll() and three wait() methods are fina
 =======================================
 ############# FINALIZE() ##############
 
-## finalize() ? (Ref - 1c)
-> It is called by the garbage collector before reclaiming the memory allocated to the object. 
+## what is finalize() ? (Ref - 1c)
+
+> It is called by garbage collector before reclaiming the memory allocated to the object. 
 > A class overrides the finalize() to dispose of system resources or to perform other cleanup. 
-- it is not recommended because the execution of finalize() is not guaranteed and there is a severe impact on performance.
+- it is not recommended because the EXECUTION of finalize() IS NOT GUARANTEED and there is a severe impact on performance.
 
 > NO GUARANTEE that an object will be garbage collected 
 - i.e no guarantee finalize() will be called on an object bcz 
@@ -99,7 +103,7 @@ No,  methods getClass(), notify(), notifyAll() and three wait() methods are fina
 > It is a way of assigning a unique code to any variable or object
 
 > Hashing is basically a way to calculate an integer value of an object.
-- It is used to generates an address in the table with given key.
+- It is used to generates index for table with given key.
 - In Java, we have hashCode() to calculate it.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is HashCode?
@@ -198,6 +202,7 @@ then Hashcode of TM = [84*31^(2-1) + 77]
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is toString() of Object class?
+
 > this method return the string representation of object in readable form.
 > by default it return getClass().getName() + '@' + Integer.toHexString(hashCode())
 > we must override this method for our string representation of object.
@@ -206,6 +211,7 @@ then Hashcode of TM = [84*31^(2-1) + 77]
 ######### OBJECT CREATION  ############
 
 ### What are all the different ways to create an object in Java?
+
 > There are four different ways to create objects in java:
 
 1. Using new keyword : 
@@ -230,6 +236,7 @@ Employee emp3 = constructor.newInstance();
 - In fact newInstance() of Class[c] internally uses newInstance() of Constructor[c]
 ~~~~~~~~~~~~~~~~~~~~~~~~
 4. Using clone() : 
+
 > The clone() can be used to create a copy of an existing object.
 - It DOES NOT INVOKE ANY CONSTRUCTOR. 
 - To use clone() method on an object we need to implement Cloneable and define the clone() method in it. 
@@ -257,6 +264,7 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 
 =====================================
 ############# MONITOR ###############
+
 > A monitor is like a building that contains one special room that can be occupied by only one thread at a time. The room usually contains some data
 - ENTRY SET is like front hallway of the monitor building
 
@@ -321,7 +329,12 @@ In the Jvm, every object and class is logically associated with a monitor.
 - After a synchronized method completes, whether it completes by returning or by throwing an exception, the virtual machine releases the lock.
 
 https://www.artima.com/insidejvm/ed2/threadsynch3.html	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is the difference between lock and a monitor?
+
+> A lock is kind of data which is logically part of an object’s header on the heap memory.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Mutex Lock?
 
 > A mutex lock is also known as a mutually exclusive lock. It is achieve by means of synchronization. 
@@ -353,11 +366,11 @@ Ex - 1 thread is checking at the same time another thread act on it. This is rac
 
 SYNTAX - public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
 Here 
-> src -- This is the source array.
-> srcPos -- This is the starting position in the source array.
-> dest -- This is the destination array.
-> destPos -- This is the starting position in the destination data.
-> length -- This is the number of array elements to be copied 
+> src -- source array.
+> srcPos -- starting position in the source array.
+> dest -- destination array.
+> destPos -- starting position in the destination data.
+> length -- number of array elements to be copied 
 -------------------------------
 2. getProperties() - return the current system properties
 SYNTAX - public static Properties getProperties() 
@@ -459,6 +472,7 @@ obj1.set(new MyClass());
 > it help to set 'T' with any object and then use it without casting.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How ClassCastException would raise?
+
 > if we have a list of object and we want to get each object and we cann't cast correct object then it can cause ClassCastException
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What do u mean by type-safety?
@@ -492,7 +506,7 @@ boolean same = Util.<Integer, String>compare(p1, p2);
 boolean same = Util.compare(p1, p2);
 
 =====================================
-########## TYPE INTERFACE ###########
+########## TYPE INFERENCE ###########
 > Since Java7
 > Type inference is a Java compiler's ABILITY TO LOOK at each method invocation and corresponding DECLARATION TO DETERMINE THE TYPE ARGUMENT (or arguments) that make the invocation applicable. 
 - The inference algorithm determines the types of the arguments and, if available, the type that the result is being assigned, or returned. 
@@ -591,7 +605,7 @@ class Shape { /* ... */ }
 class Circle extends Shape { /* ... */ }
 class Rectangle extends Shape { /* ... */ }
 
-You can write a generic method to draw different shapes:
+> You can write a generic method to draw different shapes:
 
 public static <T extends Shape> void draw(T shape) { /* ... */ }
 
@@ -671,6 +685,7 @@ class MyNode extends Node {
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If there is no generic information at runtime, what if the legacy code tries to insert a integer into String collections? How to eliminate such dangerous insertions?
+
 > To make sure your collection is type-safe even at runtime, 
 -checkXXX methods in Collections class is to be used.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -731,21 +746,25 @@ Ex - ArrayList<?> m = another list;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is Bounded and Unbounded wildcards in Generics ?
 
-> BOUNDED WILDCARDS are those which impose bound on Type. 
+1. BOUNDED WILDCARDS are those which impose bound on Type. 
 
 > 2 kinds of Bounded wildcards 
-1. <? extends T> which impose an UPPER BOUND by ensuring that type must be sub class of T and 
-2. <? super T> where its imposing LOWER BOUND by ensuring Type must be super class of T. 
+A. UPPER BOUND <? extends T> : type must be subclass of T  
+B. LOWER BOUND <? super T> : type must be super class of T. 
+
 > This Generic Type must be instantiated with Type within bound otherwise it will result in compilation error. 
 
-UNBOUNDED TYPE
+2. UNBOUNDED TYPE
 > <?> represent unbounded type because <?> can be replace with any Type. 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the difference between List<? super T> and List<? extends T> ?
 
-1. List<? extends T> means any class that extends T can be i.e ? can be self or child class
-2. List<? super T> means any class that is super class of T i.e ? cab be self or parent class
+1. List<? extends T> means any class that extends T
+- ? can be self or child class
+
+2. List<? super T> means any class that is super class of T i.e
+-  ? can be self or parent class
 
 Ex- 
 List<? extends Number> foo3 = new ArrayList<Number>();  // Number "extends" Number (in this context)
@@ -757,11 +776,13 @@ List<? super Integer> foo3 = new ArrayList<Number>();   // Number is a superclas
 List<? super Integer> foo3 = new ArrayList<Object>();   // Object is a superclass of Integer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we assign a particular type of object to Super obj ref in Generics?
-No, below give compile error
+
+> No, below give compile error
 private ArrayList<Object> animal = new ArrayList<String>();
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How to write a generic method which accepts generic argument and return Generic Type?
+## How to write a generic method which accepts generic argument and return Generic Type?
+
 > We can write generic method using Generic Type like T, E or K,V instead of using raw type like String, Long
 > E: Element; K: Key; N: Number; T: Type; V: Value
 
@@ -780,6 +801,6 @@ List<String> stringList;
 objectList = stringList;  //compilation error incompatible types
 objectList.add(stringList);//work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can we use Generics with Array?
+## Can we use Generics with Array?
 No
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

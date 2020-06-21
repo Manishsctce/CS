@@ -76,3 +76,76 @@ private int empId;
 
 @JsonIgnore
 private String department;
+
+@JsonIgnore : marks a field in a POJO to be ignored by Jackson during serialization and deserialization.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Ignore Unknown Properties While Parsing JSON in Java?
+
+> when Java class doesn't have all the field corresponding to all JSON properties then jackson 
+- will throw UnrecognizedPropertyException 
+
+1. at the class level use @JsonIgnoreProperties(ignoreUnknown = true) 
+- import com.fasterxml.jackson.annotation.JsonIgnoreProperties.
+
+2. at the ObjectMapper level using configure() method.
+- Ignoring Unknown Property in JSON Globally using Jackson
+- while parsing json, configure ObjectMapper not to fail when it encounters an unknown property as 
+
+ObjectMapper objectMapper = new ObjectMapper();
+objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+####### Bean Validation #########
+
+> Bean Validation works by defining constraints to the fields of a class by annotating them with certain annotations.
+- pass an object of that class into a Validator which checks if the constraints are satisfied.
+ 
+EXAMPLE:
+
+class Input {
+
+  @Min(1)
+  @Max(10)
+  private int numberBetweenOneAndTen;
+
+  @Pattern(regexp = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
+  private String ipAddress;
+  
+  // ...
+} 
+
+import javax.validation.Valid
+@RestController
+class ValidateRequestBodyController {
+
+  @PostMapping("/validateBody")
+  ResponseEntity<String> validateBody(@Valid @RequestBody Input input) {
+    return ResponseEntity.ok("valid");
+  }
+}
+
+> By using @Valid, we’re telling Spring to pass the object to a Validator before doing anything else.
+- @RequestBody to mark that it should be read from the request body 
+- If the validation fails, it will trigger a MethodArgumentNotValidException. By default, Spring will translate this exception to a HTTP status 400 (Bad Request).
+- By default, Spring Data uses Hibernate Validator underneath, which supports Bean Validation out of the box.
+
+> @Validated at the class level controller, use to tell spring to evaluate the constraint annotations on method parameters
+- only @valid at parameter level will not work. 
+
+
+> to disable Bean Validation, use this property:-
+spring.jpa.properties.javax.persistence.validation.mode = none
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

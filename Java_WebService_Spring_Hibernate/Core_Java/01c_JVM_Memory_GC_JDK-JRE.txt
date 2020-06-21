@@ -53,7 +53,35 @@
 > Local variable also called automatic/stack/temporary variable
 > Memory declaration of Object are in heap and class reference in stack. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What KIND OF MEMORY AREA are there in java?
+## What is JAVA MEMORY MODEL?
+
+> it describes the communication between memory of the threads and the main memory of the app.
+> It defines the rules how changes in the memory done by threads are propagated to other threads
+
+> It guarentee that the changes made by one thread should be visible to other. 
+
+Happens-before relationship guarantees :
+
+> PROGRAM ORDER RULE : Each action in a thread will execute sequentially in the program order 
+- Each action in a thread happens-before, than every action in that thread that comes later in the program order.
+
+> MONITOR LOCK RULE : An unlock on a monitor lock happens-before, every subsequent lock on that same monitor lock.
+- An object should be unlocked by the current thread, before locking it again by another thread. 
+
+> VOLATILE VARIABLE RULE: A write to a volatile field happens-before every subsequent read of that same field.
+
+> A call to Thread.start on a thread happens-before any other thread detects that thread has terminated, either by successfully return from Thread.join() or by Thread.isAlive() returning false, also known as Thread start rule.
+
+> A thread calling interrupt on another thread happens-before the interrupted thread detects the interrupt( either by having InterruptedException thrown, or invoking isInterrupted or interrupted), popularly known as Thread Interruption rule.
+
+> The end of a constructor for an object happens-before the start of the finalizer for that object, known as Finalizer rule.
+
+> If A happens-before B, and B happens-before C, then A happens-before C, which means happens-before guarantees Transitivity.
+
+http://www.xyzws.com/Javafaq/can-transient-variables-be-declared-as-final-or-static/0 
+https://www.logicbig.com/tutorials/core-java-tutorial/java-multi-threading/happens-before.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the TYPE OF MEMORY AREA are there in java?
 
 > JVM have following type of memory area:
 
@@ -65,9 +93,9 @@
 2. HEAP: It is the runtime data area in which objects are allocated.
 - it is used for dynamic memory allocation
 
-3. JAVA STACK: it is composed of stack frames (or frames). 
+3. STACK: it is composed of stack frames (or frames). 
 > A stack frame contains the state of one Java method invocation
-> It holds LOCAL VARIABLES,parameter AND PARTIAL RESULTS, and plays a part in method invocation and return. 
+> It holds LOCAL VARIABLES, parameters AND PARTIAL RESULTS, and plays a part in method invocation and return. 
 
 > Each thread has a private JVM stack, created at the same time as thread. 
 - A new frame is created each time a method is invoked. 
@@ -83,7 +111,7 @@
 - The executable code is stored into the code or Text segment
 - The global varlables are stored into data segment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is JAVA HEAP MEMORY?
+## What is JAVA HEAP MEMORY?
 
 > Java objects reside in heap, 
 > JVM uses heap which is a MEMORY AREA FOR THE DYNAMIC MEMORY ALLOCATION.
@@ -279,6 +307,7 @@ EXAMPLE2:
 1. JVisualVM 
 - It create "heapdump-1517824332457.hprof" files and we can do analysis on it. 
 - OR do the analysis in eclipse memory analyzer tool.
++
 
 2. jmap tool 
 - it is simple to use from the command line TO PRODUCE A HEAP DUMP. 

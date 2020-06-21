@@ -91,7 +91,7 @@ INTERNAL IMPLEMENTATION
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to use HashMap over LinkedList or ArrayList and vice-versa?
 
->INSERTION ORDER - When we require to maintain the order of insertion then use List as HashMap does not allow insertion order but its subclass LinkedHashMap does.
+>INSERTION ORDER - When we require to maintain the order of insertion then use List, as HashMap does not allow insertion order but its subclass LinkedHashMap does.
 >
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Map.Entry? How elements are storing in Map?
@@ -337,7 +337,7 @@ Note: that there can only be one null key in HashMap .  Null keys always map to 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How put() method works in HashMap?
 
-> PUT() -> the HashMap calculates the hash value of key and stores the pair in the appropriate index inside the collection. 
+> PUT() -> HashMap calculates the hash value of key and use it as index to stores K-V pair inside Entry[]. 
 > If the key exists, its value is updated with the new value. 
 > HashMap have Entry table to store Map elements in form of entry : transient Entry[] table;
 
@@ -478,6 +478,12 @@ EXAMPLE:
 ## Why do we need LinkedHashMap when we already had TreeMap and HashMap ?
 
 > LinkedHashMap provide insertion order because of double linked list based implementation. As it was not provided by HashMap and TreeMap.
+
+> It has an amazing feature by which we can get the recently used element in the Access order. 
+- For this, we need to create LinkedHahsMap as 
+new LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
+
+> Access order feature of LinkedHashMap is used to build LRU cache.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to use linkedhashmap over hashmap in java?
 
@@ -486,27 +492,28 @@ EXAMPLE:
 ## What is the implementation of LinkedHashMap?
 
 > LinkedHashMap use static inner class Entry<K,V> extends HashMap.Node<K,V>; to store key-value pair
-- it contain 2 more field i.e Entry<K,V> before, after; it is responsible for maintaining the insertion order. 
-- Entry<K,V> head,tail stores the head,tail of this doubly linked list
+- it contain 2 more field i.e 
+1. Entry<K,V> before, after:  it is responsible for maintaining the insertion order. 
+2. Entry<K,V> head,tail : stores the head,tail of this doubly linked list
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What happens if we insert a key which is already present in the LinkedHashMap ? Does the order change ?
 
-> No,It didn't change the order. 
+> No,It doesn't change the order. 
 - It first checks containsKey() before invoking put() method . 
 - If containsKey(K) returns true then the value is replace by new value and return old value.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the time complexity of the add , remove and contains operations in LinkedHashMap ?
+## What is the time complexity of the add, remove and contains operations in LinkedHashMap ?
+
 > Time complexity of the add, remove and contains operations is constant time i.e O(1) .
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Does LinkedHashMap Iterator behaves  like fail fast iterator or fail-safe iterator ?
+## Does LinkedHashMap Iterator behaves like fail-fast iterator or fail-safe iterator ?
 
 > LinkedHashMap iterator behaves like fail-fast iterator. 
-- it will  throw ConcurrentModificationException. 
+- it will throw ConcurrentModificationException. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is similarity & difference bet HashMap & LinkedHashMap?
-
 
 DIFFERENCE
 > HashMap doesn't maintain any order while 
@@ -595,7 +602,7 @@ public V put(K key, V value) {
                 return t.setValue(value);
         } while (t != null);
     }
-    else {
+    else {	
         if (key == null)
             throw new NullPointerException();
         @SuppressWarnings("unchecked")

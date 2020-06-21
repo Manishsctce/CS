@@ -228,8 +228,42 @@ http://www.baeldung.com/spring-mvc-and-the-modelattribute-annotation
 
 https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
 =====================================
-#### @EnableWebMvc ####
+########## @EnableWebMvc ###########
+
 > Adding this annotation to a @Configuration class imports the Spring MVC configuration from WebMvcConfigurationSupport 
 
 > If you are using XML based configuration then use <mvc:annotation-driven/> as an alternative to @EnableWebMvc
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to initialize Spring MVC context?
+
+> we can initialize the Spring MVC context using 
+1. @EnableWebMvc + extending WebMvcConfigurerAdapter and customizing some of the default configurations.
+
+2. Just extend WebMvcConfigurationSupport and customize the default configuration.
+
+3. If we're using Spring Boot, then add @EnableAutoConfiguration (if @SpringBootApplication is not used bcz it has @EnableAutoConfiguration) and extend WebMvcConfigurerAdapter[c] OR implements WebMvcConfigurer. No need to use @EnableMvc.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what are the difference between WebMvcConfigurerAdapter and WebMvcConfigurer?
+
+> In old version of spring before 5.0, WebMvcConfigurerAdapter[c] was used to override some MVC context method 
+- but in Spring 5.0 afterward, WebMvcConfigurer[i] do the same work(bcz of java8 default method)
+
+> By implementing WebMvcConfigurer, it lets you configure Spring MVC configuration. 
+- default values are used, for all unimplemented methods in this interface.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what are the difference between WebMvcConfigurerAdapter and WebMvcConfigurationSupport?
+
+> WebMvcConfigurerAdapter[c], adapter class for customizing some of the default configuration.
+- WebMvcConfigurationSupport, we extend this class to prevent the default configuration imported by the @EnableWebMvc annotation.
+
+> WebMvcConfigurerAdapter[c], If we are extending this class, still required to use @EnableWebMvc annotation, otherwise application will not work.
+- WebMvcConfigurationSupport, In the java configuration file for spring mvc either we could use @EnableWebMvc annotation or extend WebMvcConfigurationSupport class.
+
+> WebMvcConfigurerAdapter[c],
+- WebMvcConfigurationSupport,
+
+> WebMvcConfigurerAdapter[c],
+- WebMvcConfigurationSupport,

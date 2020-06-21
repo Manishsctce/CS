@@ -85,6 +85,7 @@ q.setFirstResult(Nth);
 q.setMaxResults(1);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Select DISTINCT RECORDS from emp table.
+
 select * from emp a where  rowid = (select max(rowid) from emp b where  a.empno=b.empno);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Count of number of employees in  department  wise.
@@ -93,17 +94,20 @@ select count(EMPNO), b.deptno, dname from emp a, dept b  where a.deptno(+)=b.dep
 ## In emp table add comm+sal as total sal .
 select ename,(sal+nvl(comm,0)) as totalsal from emp;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Select all records where dept no of both emp and dept table matches.
+## Select all records where dept no of both emp and dept table matches.
+
 select * from emp where exists (select * from dept where emp.deptno=dept.deptno)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Count the total sal  deptno wise where more than 2 employees exist.
+
 SELECT  deptno, sum(sal) As totalsal FROM emp GROUP BY deptno HAVING COUNT(empno) > 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to find all Emp report to which manager from employee table? 
+
 Employees : employee_id, last_name, email, hire_date, job_id, salary,department_id ,manager_id
 
-Select e1.last_name "Employee", e2.last_name "Report to Manager"
-from employees e1 LEFT OUTER JOIN employees e2
+SELECT e1.last_name "Employee", e2.last_name "Report to Manager"
+FROM employees e1 LEFT OUTER JOIN employees e2
 ON/where e1.manager_id = e2.employee_id
 order by e1.employee_id
 

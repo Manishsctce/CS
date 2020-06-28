@@ -116,10 +116,40 @@ Some of the Mockito annotations are,
 Hamcrest is a framework used for writing customized assertion matchers in the Java programming language. It allows the match rules to be defined declaratively. This makes the hamcrest valuable in UI validation, data filtering, writing flexible tests, etc. It can also be used with mock objects by using adaptors. Hamcrest can also e used with JUnit and TestNG.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is PowerMock?
-PowerMock is a Java framework for unit testing purposes. This framework extends from other mock libraries with more powerful capabilities. It uses custom classloader and bytecode manipulation for mocking the static methods, constructors, final classes, private methods, and more. It normally lets you test the code that is regarded as untestable.
+
+> PowerMock is a Java framework for unit testing purposes. 
+- It provides capabilities to work with the Java Reflection API in a simple way to overcome the problems of Mockito, such as the lack of ability to mock final, static or private methods.
+- It uses custom classloader and bytecode manipulation for mocking the static methods, constructors, final classes, private methods, and more. 
+
+## DEPENDENCY REQUIRED
+<dependency>
+    <groupId>org.powermock</groupId>
+    <artifactId>powermock-module-junit4</artifactId>
+    <version>1.6.4</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.powermock</groupId>
+    <artifactId>powermock-api-mockito</artifactId>
+    <version>1.6.4</version>
+    <scope>test</scope>
+</dependency>
+
+## NEED TO ADD 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(fullyQualifiedNames = "com.baeldung.powermockito.introduction.*")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to work with final/static method using PowerMock?
+
+> In order to mock static methods, we need to register the enclosing class with the PowerMockito API:
+mockStatic(CollaboratorWithStaticMethods.class);
+
+when(CollaboratorWithStaticMethods.firstMethod(Mockito.anyString())).thenReturn("Hello Baeldung!");
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is EasyMock?
-EasyMock is a framework for creating mock objects as it uses Java reflection to create it for a given interface. It relieves the user of hand-writing mock objects as it uses a dynamic mock object generator.
+
+> EasyMock is a framework for creating mock objects as it uses Java reflection to create it for a given interface. 
+- It relieves the user of hand-writing mock objects as it uses a dynamic mock object generator.
 
 Some other perks you get with EasyMock are
 
@@ -130,7 +160,7 @@ annotation support and order check support.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between doReturn and thenReturn.
 
-Answer: Mockito provides two different syntaxes for creating stubs like:
+> Mockito provides two different syntaxes for creating stubs like:
 
 doReturn and thenReturn
 doNothing (no thenNothing)

@@ -1,7 +1,71 @@
+## What is SQL?
+
+> SQL stands for structured query language. 
+- It appeared in 1974.
+
+> It is a database language USED TO PERFORM OPERATION ON THE DATA stored in database like database creation, deletion, fetching rows and modifying rows etc. 
+> SQL depends on relational algebra and tuple relational calculus.
+> It is not case sensitive
+> SQL is supported by almost all database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the subsets of SQL?
+
+> Data definition language (DDL)
+> Data manipulation language (DML)
+> Data control language (DCL)
+
+> DML statements can be rollbacked where DDL are autocommit.
+> DML commands can't be rollback when a DDL command is executed immediately after a DML.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Data Definition Language? (CADT)
+
+> Data Definition Language (DDL) statements are used to define the database structure or schema. Some examples:
+
+CREATE - to create objects in the database
+ALTER - alters the structure of the database
+DROP - delete objects from the database
+TRUNCATE - remove all records from a table, including all spaces allocated for the records are removed
+COMMENT - add comments to the data dictionary
+RENAME - rename an object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is data manipulation language? (SIDU)
+
+> Data Manipulation Language (DML) statements are used for managing data within schema objects. Some examples:
+SELECT - retrieve data from the a database
+INSERT - insert data into a table
+DELETE - deletes all records from a table, the space for the records remain
+UPDATE - updates existing data within a table
+MERGE - UPSERT operation (insert or update)
+CALL - call a PL/SQL or Java subprogram
+EXPLAIN PLAN - explain access path to data
+LOCK TABLE - control concurrency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##What is data control language(DCL)?
+
+> Data control language allows you to control access to the database. 
+> It includes two commands GRANT and REVOKE.
+
+GRANT: to grant specific user to perform specific task.
+REVOKE: to cancel previously denied or granted permissions.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Transaction control(TCL)?
+
+> Transaction Control (TCL) statements are used to manage the changes made by DML statements. 
+- It allows statements to be grouped together into logical transactions.
+
+COMMIT - save work done
+SAVEPOINT - identify a point in a transaction to which you can later roll back
+ROLLBACK - restore database to original since the last COMMIT
+SET TRANSACTION - Change transaction options like isolation level and what rollback segment to use
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## What is the difference between CHAR and VARCHAR2 datatype in SQL?
+
+Both Char and Varchar2 are used for characters datatype but varchar2 is used for character strings of variable length whereas Char is used for strings of fixed length. For example, char(10) can only store 10 characters and will not be able to store a string of any other length whereas varchar2(10) can store any length i.e 6,8,2 in this variable.
 =======================================
 ######### DDL SQL STATEMENTS ##########
 
-##What is data definition language? (CADT)
+## What is data definition language? (CADT)
 Data Definition Language (DDL) statements are used to define the database structure or schema. Some examples:
 
 CREATE - to create objects in the database
@@ -81,7 +145,7 @@ MERGE - UPSERT operation (insert or update)
 
 > Arithmetic operators :   +,-,*,/,%
 > Logical operators    : >, <, =, !=, <> 
-> Comparison operator  : AND,OR,BETWEEN,IN,NOT, EXISTS, LIKE, ALL
+> Comparison operator  : AND, OR, BETWEEN, IN, NOT, EXISTS, LIKE, ALL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### IS NULL or IS NOT NULL #####
 
@@ -116,73 +180,84 @@ WHERE CustomerName LIKE '%or%'	: Finds any values that have "or" in any position
 ## What is CORRELATED SUBQUERY?
 > it is the inner query that refer to outer query tables.
 > inner query is executed iteratively for each row of outer query
+=======================================
+########### SQL CLAUSES ###############
 
-############ CLAUSES ###########
 > BETWEEN operator is used to test a range. 
 > BETWEEN A AND B evaluates to TRUE if the value is greater than or equal to A and less than or equal to B.
 > If NOT BETWEEN is used, the result is the reverse.
------------------
-DISTINCT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### DISTINCT ############
+
 > The output of the query using distinct will be always be in sorted order
 > The sorting will be based on entire row of the output.
------------------
-ORDER BY - [asc|desc]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### ORDER BY - [asc|desc] ######
+
 > it help to sort the data in either ascending or descending order
 > by default it asc order.
 > Column alias names can be used in the ORDER BY clause. 
 > the position of the column in the SELECT clause can be used in the ORDER BY clause. 
 
-Ex - select name,age,sal from emp order by age desc,sal;
-> give desc order of age with sal in any order 
+EXAMPLE - select name,age,sal from emp order by age desc,sal;
+- give desc order of age with sal in any order 
 > if age,sal both are desc, then it give in any order. ??
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GROUP BY
+########### GROUP BY ############
+
 > Related rows can be grouped together by GROUP BY clause by specifying a column as a grouping column.
 > GROUP BY is associated with an aggregate function
 
 >> whatever appear in GROUP BY clause is not necessary to appear in SELECT 
 >> whatever appear in SELECT clause should appear in GROUP BY
+
+EXAMPLE - 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HAVING
+############ HAVING ############# 
 
 > Having condition has to be based on some column that appears in the group by list
 > “HAVING” clause is used to specify filtering criteria for “GROUP BY”
 
-Syntax:
-SELECT column_name(s)
-FROM table_name
-WHERE condition
+SYNTAX:
+SELECT column_name(s) FROM table_name WHERE condition
 GROUP BY column_name(s)
 HAVING condition
 ORDER BY column_name(s);
 
-Ex- 
+EXAMPLE - 
 SELECT Orders.orderid, Orders.CustomerID
 FROM Orders Group by Orders.CustomerID having count(Orders.CustomerID)>2 ;
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between WHERE clause and HAVING clause?
+
 > WHERE and HAVING both filters out records based on one or more conditions. 
 
-> WHERE filters data before grouping; HAVING filters data after grouping
+> WHERE doesn't need any function.
+- HAVING used with the GROUP BY function in a query 
+
+> WHERE filters data before grouping; 
+- HAVING filters data after grouping
 
 > The difference is, 
 - WHERE clause can only be applied on a static non-aggregated column whereas
 - we will need to use HAVING for aggregated columns.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INTO
-> SELECT INTO statement is used mostly to create backups.
+############# INTO ############## 
+> SELECT INTO statement is used mostly TO CREATE BACKUPS.
  
 Ex - to take backup of employee in employeeBackup
 > SELECT * INTO EmployeeBackup FROM Employee;
 > the structure of EmployeeBackup and Employee table should be same. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-EXISTS and NOT EXISTS
+##### EXISTS and NOT EXISTS #####
+
 > it used to check whether sub-query return any row 
 > EXISTS return true. 
 > outer query will show result only if inner query return atleast 1 row.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ALL
+############## ALL ##############
+
 > it is used to compare condition as it compare a value to a list or subquery
 > if the value is true then main query will run accordingly.
 > Here CONDITION SHOULD MATCH FOR ALL VALUES IN LIST
@@ -190,7 +265,7 @@ ALL
 Ex- Select empNo, sal from emp where sal > ALL(2000,3000,4000);
 - Here selection will be of the emp whose sal is greater than all values in list i.e it should be sal > 2000 AND sal> 3000 AND sal>4000;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ANY and SOME
+########## ANY and SOME #########
 > it is used to compare condition as it compare a value to a list or subquery
 > Here CONDITION SHOULD MATCH FOR ANY VALUES IN LIST
 > SOME is similar to ANY and it is interchangable
@@ -420,7 +495,7 @@ Different types of joins are
 > outer join(Right outer join/right join, Left outer join/ left join), Cross join, and full outer join/outer join 
 
 =======================================
-###### INTERSECT ########
+############# INTERSECT ###############
 > An intersection is an AND operation. It retrieves those tuples which are present in both relation
 - returns us only the matching or common rows between 2 result sets.
 
@@ -453,10 +528,9 @@ MINUS operator when used between 2 tables, gives us all the rows from the first 
 - ROW_NUMBER is useful when you have to generate a sequence of number after sorting the data fetch on specified column
 
 EXAMPLE: 
-select * from (
-select e.*, 
-ROW_NUMBER() OVER (ORDER BY salary DESC) rn 
-from Employee e
+select * from ( 
+select e.*, ROW_NUMBER() OVER (ORDER BY salary DESC) rn 
+from Employee e 
 )
 WHERE rn = N; /*N is the nth highest salary*/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -466,15 +540,13 @@ WHERE rn = N; /*N is the nth highest salary*/
 > An Oracle database consists of one or more LOGICAL STORAGE UNITS called tablespaces, 
 - It collectively store all of the database's data. 
 - EACH TABLESPACE in an Oracle database CONSISTS OF ONE OR MORE FILES CALLED DATAFILES(i.e a tablespace can be combination of multiple datafile), 
-- DATAFILES ARE PHYSICAL STRUCTURES that conform to the operating system in which Oracle is running
+- DATAFILES ARE PHYSICAL STRUCTURES that conform to the OS in which Oracle is running
 
 > size of a tablespace is the size of the datafiles that constitute the tablespace. 
 > The size of a database is the COLLECTIVE SIZE OF THE TABLESPACES that constitute the database.
 
-
-
-## to see all data files details
-select tablespace_name, FILE_NAME from  dba_data_files;
+## To see all data files details
+SELECT tablespace_name, FILE_NAME from  dba_data_files;
 
 ## To drop table space 
 DROP TABLESPACE BPM_TABLESPACE_123 INCLUDING CONTENTS CASCADE CONSTRAINTS;
@@ -482,42 +554,50 @@ DROP TABLESPACE BPM_TABLESPACE_123 INCLUDING CONTENTS CASCADE CONSTRAINTS;
 
 ## Query to check database free space
 
-select df.tablespace_name "Tablespace",
-totalusedspace "Used MB",
+SELECT df.tablespace_name "Tablespace", totalusedspace "Used MB",
 (df.totalspace - tu.totalusedspace) "Free MB",
 df.totalspace "Total MB",
 round(100 * ( (df.totalspace - tu.totalusedspace)/ df.totalspace))
 "Pct. Free"
-from
-(select tablespace_name,
-round(sum(bytes) / 1048576) TotalSpace
-from dba_data_files 
-group by tablespace_name) df,
-(select round(sum(bytes)/(1024*1024)) totalusedspace, tablespace_name
-from dba_segments 
-group by tablespace_name) tu
+FROM ( SELECT tablespace_name, ROUND(SUM(bytes) / 1048576) TotalSpace
+FROM dba_data_files GROUP BY tablespace_name) df,
+(SELECT ROUND(SUM(bytes)/(1024*1024)) totalusedspace, tablespace_name
+FROM dba_segments GROUP BY tablespace_name) tu
 where df.tablespace_name = tu.tablespace_name ;
 
 ======================================
 ################ INDEX ###############
-##What are the different index configurations a table can have?
+## What are the different index configurations a table can have?
 
-A table can have one of the following index configurations:
+> A table can have one of the following index configurations:
 
-> No indexes
-> A clustered index
-> A clustered index and many nonclustered indexes
-> A nonclustered index
-> Many nonclustered indexes
+1. No indexes
+
+2. UNIQUE INDEX 
+- This indexing does not allow the field to have duplicate values if the column is unique indexed. 
+- Unique index can be applied automatically when primary key is defined.
+
+3. CLUSTERED INDEX
+- This type of index reorders the physical order of the table and search based on the key values. 
+- Each table can have only one clustered index.
+
+4. NON-CLUSTERED INDEX
+- This Index does not alter the physical order of the table. 
+- It maintains logical order of data. 
+- Each table can have 999 nonclustered indexes.
+
+5. A clustered index and many nonclustered indexes
+6. Many Non-Clustered indexes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the difference between clustered and non clustered index in SQL?
+## What are the differences between Clustered index(CI) and Non-Clustered Index(NCI) in SQL?
 
-There are mainly two type of indexes in SQL, Clustered index and non clustered index. 
-The differences between these two indexes is very important from SQL performance perspective.
+> CI - A table can have only one clustered index but 
+- NCI - a table can have many non clustered index. (approximately 250).
 
-> One table can have only one clustered index but it can have many non clustered index. (approximately 250).
-> clustered index determines how data is stored physically in table. 
+> CI - it determines how data is stored physically in table. 
 - Actually clustered index stores data in cluster, related data is stored together so it makes simple to retrieve data.
 
-> reading from a clustered index is much faster than reading from non clustered index from the same table.
-> clustered index sort and store data rows in the table or view based on their key value, while non cluster have a structure separate from the data row.
+> CI - reading from a clustered index is much faster than NCI reading 
+
+> CI sort and store data rows in the table or view based on their key value, while
+- non cluster have a structure separate from the data row.

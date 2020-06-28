@@ -8,16 +8,56 @@
 
 > AOP takes out the direct dependency of crosscutting tasks from classes 
 - we can’t achieve through normal OOP model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is CROSS-CUTTING CONCERN ?
+=======================================
+#### AOP CONCEPTS AND TERMINOLOGIES ###
 
-> It is a concern(part of prgm) that can affect the whole application and should be centralized in one location 
-- such as transaction management, authentication, logging, security etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is Aspect?
+1. Joinpoint 
+2. Advice
+3. POINTCUT
+4. Introduction
+5. 
 
-> It is a class that implements enterprise application concerns like transaction management, authentication, logging, security etc.
-> we can use Spring AspectJ integration to define a class as Aspect using @Aspect annotation.
+
+EXAMPLE:
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Aspect 
+@Component
+public class LoggingAdvice {
+	Logger log = LoggerFactory.getLogger(LoggingAdvice.class);
+	
+	@Pointcut(value="execution(* com.javatechie.spring.aop.api.*.*.*(..) )")
+	public void myPointcut() {	}
+	
+	//JOINPOINT are method where appLogger will be applied 
+	
+	@Around("myPointcut()") //ADVICE
+	public Object applicationLogger(ProceedingJoinPoint pjp) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		String methodName = pjp.getSignature().getName();
+		String className = pjp.getTarget().getClass().toString();
+		Object[] array = pjp.getArgs();
+		
+		log.info("method invoked " + className + " : " + methodName + "()" + "arguments : "+ mapper.writeValueAsString(array));
+		Object object = pjp.proceed();
+		log.info(className + " : " + methodName + "()" + "Response : " + mapper.writeValueAsString(object));
+		return object;
+	}
+}
+
+1. ASPECT 
+> It is a class that implements enterprise app concerns like transaction management, authentication, logging, security etc.
+> It is applying the advice at the pointcuts
+
+> we can use Spring AspectJ integration to define a class as Aspect using @Aspect.
 
 > aspect is declared using the <aop:aspect> element, and the backing bean is referenced using the ref attribute
 <aop:config>
@@ -28,41 +68,35 @@
  
 <bean id="loggingAspectBean" class="com.howtodoinjava.demo.aop.EmployeeCRUDLoggingAspect" />
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### Where use AOP?
-
-AOP is mostly used in following cases:
-
-> to provide declarative enterprise services such as declarative transaction management.
-> It allows users to implement custom aspects.
-
-=======================================
-#### AOP CONCEPTS AND TERMINOLOGIES ###
-
-1. JOIN POINT (point at begining/end of method)
+2. JOIN POINT (POINT AT BEGINING/END OF METHOD)
 
 > It is a point during the execution of a program, such as the execution of a method or the handling of an exception. 
 - In Spring AOP, a join point always represents a method execution.
 > It is where advice is applied.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-2. ADVICE (ACTION)
-
-> It is the action taken by an aspect at a particular joinpoint. 
+3. POINTCUT 
+- A PREDICATE THAT MATCHES JOIN POINTS ex - myPointcut
+- Advice is associated with a pointcut expression and runs at any join point matched by the pointcut 
+- it is combination of different join points where the advice need to be applied.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. ADVICE (ACTION)
+> It is the ACTION TAKEN BY AN ASPECT at a particular joinpoint. 
 - For ex, apply log(action i.e advice) on a method (joinpoint) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-3. Pointcut 
-- it is combination of different join points where the advice need to be applied.
+5. INTRODUCTION
 
+> It enable an aspect to declare that advised objects implement any additional interface(s) which they don’t have in real, and to provide an implementation of that interface on behalf of those objects.
+
+An introduction is made using the @DeclareParents annotation.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-4. Introduction
-5. Target Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-6. Aspect - It is applying the advice at the pointcuts
-> A MODULE THAT ENCAPSULATE POINTCUTS AND ADVICE.
+6. Target Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 7. Interceptor
 8. AOP Proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 9. WEAVING
+> The process of linking an aspect with other app types or objects to create an advised object is called Weaving
+
 A. Compile time weaving 
 - inject the byte code of the advice at jointpoint during compile-time  
 
@@ -72,12 +106,20 @@ B. Class Load time weaving
 C. Runtime-(Spring way) 
 - target method is covered by proxy bean(created by spring framework) 
 - when caller call target, spring framework invoke the proxy then understand what advices need to be applied and apply advice before/after target execution
+
+
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between concern and cross-cutting concern in Spring AOP?
 
-> Concern is behavior which we want to have in a module of an application. Concern may be defined as a functionality we want to implement to solve a specific business problem. E.g. in any eCommerce application different concerns (or modules) may be inventory management, shipping management, user management etc.
+> CONCERN is behavior which we want to have in a module of an application. 
+- Concern may be defined as a functionality we want to implement to solve a specific business problem. 
+- E.g. in any eCommerce app different concerns (or modules) may be inventory management, shipping management, user management etc.
 
-Cross-cutting concern is a concern which is applicable throughout the application (or more than one module). e.g. logging , security and data transfer are the concerns which are needed in almost every module of an application, hence they are termed as cross-cutting concerns.
+> CROSS-CUTTING CONCERN is a concern which is applicable throughout the app (or more than one module) and should be centralized in one location 
+- Example - logging, transaction management, security and data transfer are the concerns 
+- It is needed in almost every module of an app, hence they are termed as cross-cutting concerns.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between Spring AOP and AspectJ AOP?
 

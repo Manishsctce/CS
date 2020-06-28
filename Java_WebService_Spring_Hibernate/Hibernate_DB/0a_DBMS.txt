@@ -1,19 +1,10 @@
-##What is SQL?
-> SQL stands for structured query language. 
-- It appeared in 1974.
-
-> It is a database language USED TO PERFORM OPERATION ON THE DATA stored in database like database creation, deletion, fetching rows and modifying rows etc. 
-> SQL depends on relational algebra and tuple relational calculus.
-> It is not case sensitive
-> SQL is supported by almost all database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is database?
+
 > It is an organized collection of data
 - main purpose of database is to operate large amount of information by storing, retrieving and managing.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is RDBMS?
+
 > It is Relational Database Management Systems introduce by E.F. Codd in 1972
 > It is use to manage database which is based on relational model.
 > It uses tables to store data. A table is a collection of related data entries and contains rows and columns to store data.
@@ -21,9 +12,7 @@
 Features - 
 > RDBMS defines the integrity constraint for the purpose of ACID (Atomocity, Consistency, Isolation and Durability) property.
 > Normalization is present in RDBMS.
-RDBMS is management system to manage tables and provide Service like
-logging, locking, optimization, security, recovery, data integrity
-which work using Sql.
+> RDBMS is management system to manage tables and provide Service like logging, locking, optimization, security, recovery, data integrity which work using Sql.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between DBMS and RDBMS?
 
@@ -41,30 +30,59 @@ which work using Sql.
 
 > Examples of DBMS are file systems, xml etc.
 - Example of RDBMS are mysql, postgre, sql server, oracle etc.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is Normalization? 
-> It is the process of restructuring a relational database in accordance with a series of so-called normal forms in order 
+
+> It is the process of restructuring a relational database in accordance with a series of so-called Normal Forms in order 
 - TO REDUCE DATA REDUNDANCY AND IMPROVE DATA INTEGRITY
 
-> 1NF - all row must have same no of column
-> 2 NF - all column should have only one primary key
-> 3 NF - eliminate column that not depend on primary key
-> 4NF - isolate independent multiple relation
+> 1NF - all row must have same no of column and each table cell should have single value
+> 2NF - all column should have only one primary key
+> 3NF - eliminate column that not depend on primary key
+>BCNF - isolate independent multiple relation
+- Boy code Normal Form 
+
+> Each NF depends on previous NF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Does SQL support programming?
+## Does SQL support programming?
+
 > No, SQL doesn't have loop or Conditional statement. It is used like commanding language to access databases.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain the SQL Architecture?
+
 SQL query -> Query Language Processor <-(Parser + Optimizer) ->
 DBMS Engine <-(File Management + Transaction Management) -> Physical DB
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which TCP/IP port does SQL Server run on? How can it be changed?
+
 > SQL Server runs on port 1433. 
 > It can be changed from the Network Utility TCP/IP properties.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What do u mean by Data Integrity?
+## What is ACID property in database?
+
+> ACID property is used to ensure that the data transactions are processed reliably in a database system.
+- A single logical operation of a data is called transaction.
+
+ACID is an acronym for Atomicity, Consistency, Isolation, Durability.
+
+1. ATOMICITY: 
+> It ensure that each transaction be "all or nothing": if one part of the txn fails, then the entire txn fails, and the database state is left unchanged. 
+
+2. CONSISTENCY: 
+- It ensure that the data must meet all validation rules. 
+- transaction never leaves your database without completing its state.
+- integrity constraints must be maintained so that the database is consistent before and after the transaction. It refers to correctness of a database
+
+3. ISOLATION: 
+- It ENSURE THAT MULTIPLE TRANSACTIONS CAN OCCUR CONCURRENTLY without leading to inconsistency of database state. 
+- Transactions occur independently without interference. 
+- Changes occurring in a transaction should not be visible to any other transaction
+
+4. DURABILITY: 
+- It means that ONCE A TRANSACTION HAS BEEN COMMITTED, IT WILL REMAIN so, come what may even power loss, crashes or errors.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do u mean by Data Integrity?
+
 Data Integrity:
 The following categories of the data integrity exist with each RDBMS:
 
@@ -97,11 +115,51 @@ CREATE TABLE Persons (
 
 > Bit data-type is used to store Boolean information in SQL- 1 or 0 (signifying true or false)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a constraint? Tell me about its various levels.
+
+> Constraints are representators of a column to enforce data entity and consistency. There are two levels :
+column level constraint
+table level constraint
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are constraints? Mention the different types of constraints?
 
 > Constraints enable the RDBMS to ENFORCE THE INTEGRITY OF THE DATABASE automatically, without the need to create triggers, rule or defaults.
 > Types of Constraints: NOT NULL, CHEQUE, UNIQUE, PRIMARY KEY, FOREIGN KEY
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the different types of keys in the database?
 
+> There are mainly 7 types of Keys
+
+Cutomer_Info 	- CustomerID, CustomerName, PhoneNumber, PanNumber
+Cutomer_Payment - CustomerID, Month_of_Payment, Amount
+
+1. CANDIDATE KEY 
+- This is a set of attributes which can uniquely identify a table. 
+- Each table can have more than a candidate key. 
+- Apart from this, out of all the candidate keys, one key can be chosen as the Primary key.
+- In the above example, since CustomerID and PanNumber can uniquely identify every tuple, they would be considered as a Candidate Key. 
+
+2. PRIMARY KEY 
+– This is a set of attributes which are used to uniquely identify every tuple. 
+
+3. UNIQUE KEY 
+–  The unique key is similar to the primary key, but allows NULL values in the column. 
+- Here the PanNumber can be considered as a unique key.
+
+4. SUPER KEY 
+– This is a set of attributes which can uniquely identify a tuple. 
+- So, a candidate key, primary key, and a unique key is a superkey, but vice-versa isn’t true.
+
+5. ALTERNATE KEY 
+– Alternate Keys are the candidate keys, which are not chosen as a Primary key. 
+- From the above example, the alternate key is PanNumber 
+
+6. FOREIGN KEY 
+– An attribute that can only take the values present as the values of some other attribute, is the foreign key to the attribute to which it refers. 
+- in the above example, the CustomerID from the Customers Table is referred to the CustomerID from the Customer_Payment Table.
+
+7. COMPOSITE KEY 
+– A composite key is a combination of two or more columns that identify each tuple uniquely. Here, the CustomerID and Date_of_Payment can be grouped together to uniquely identify every tuple in the table.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Primary Key?
 
@@ -123,56 +181,6 @@ CREATE TABLE Orders (
     OrderNumber int NOT NULL,
     PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
 );
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the subsets of SQL?
-
-> Data definition language (DDL)
-> Data manipulation language (DML)
-> Data control language (DCL)
-
-> DML statements can be rollbacked where DDL are autocommit.
-> DML commands can't be rollback when a DDL command is executed immediately after a DML.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is Data Definition Language? (CADT)
-
-> Data Definition Language (DDL) statements are used to define the database structure or schema. Some examples:
-
-CREATE - to create objects in the database
-ALTER - alters the structure of the database
-DROP - delete objects from the database
-TRUNCATE - remove all records from a table, including all spaces allocated for the records are removed
-COMMENT - add comments to the data dictionary
-RENAME - rename an object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is data manipulation language? (SIDU)
-
-> Data Manipulation Language (DML) statements are used for managing data within schema objects. Some examples:
-SELECT - retrieve data from the a database
-INSERT - insert data into a table
-DELETE - deletes all records from a table, the space for the records remain
-UPDATE - updates existing data within a table
-MERGE - UPSERT operation (insert or update)
-CALL - call a PL/SQL or Java subprogram
-EXPLAIN PLAN - explain access path to data
-LOCK TABLE - control concurrency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is data control language(DCL)?
-
-> Data control language allows you to control access to the database. 
-> It includes two commands GRANT and REVOKE.
-
-GRANT: to grant specific user to perform specific task.
-REVOKE: to cancel previously denied or granted permissions.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is Transaction control(TCL)?
-
-> Transaction Control (TCL) statements are used to manage the changes made by DML statements. 
-- It allows statements to be grouped together into logical transactions.
-
-COMMIT - save work done
-SAVEPOINT - identify a point in a transaction to which you can later roll back
-ROLLBACK - restore database to original since the last COMMIT
-SET TRANSACTION - Change transaction options like isolation level and what rollback segment to use
 =====================================
 ######## SPECIAL CHARACTERS #########
 ##How does one escape SPECIAL CHARACTERS use when writing SQL queries?
@@ -202,41 +210,11 @@ $ SET SCAN OFF
 $ SELECT '&ABC' x FROM dual;
 =======================================
 ####################################
-##What is "TRIGGER" in SQL?
+## What is "TRIGGER" in SQL?
+
 > Trigger allows you to execute a batch of SQL code when an insert, update or delete command is executed against a specific table.
 
 Actually triggers are special type of stored procedures that are defined to execute automatically in place or after data modifications.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is a constraint? Tell me about its various levels.
-> Constraints are representators of a column to enforce data entity and consistency. There are two levels :
-column level constraint
-table level constraint
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is ACID property in database?
-
-> ACID property is used to ensure that the data transactions are processed reliably in a database system.
-A single logical operation of a data is called transaction.
-
-ACID is an acronym for Atomicity, Consistency, Isolation, Durability.
-
-1. ATOMICITY: 
-> It ensure that each transaction be "all or nothing": if one part of the txn fails, then the entire txn fails, and the database state is left unchanged. 
-
-2. CONSISTENCY: 
-- It ensure that the data must meet all validation rules. 
-- transaction never leaves your database without completing its state.
-- integrity constraints must be maintained so that the database is consistent before and after the transaction. It refers to correctness of a database
-
-3. ISOLATION: 
-- It ENSURE THAT MULTIPLE TRANSACTIONS CAN OCCUR CONCURRENTLY without leading to inconsistency of database state. 
-- Transactions occur independently without interference. 
-- Changes occurring in a transaction should not be visible to any other transaction
-
-4. DURABILITY: 
-- It means that ONCE A TRANSACTION HAS BEEN COMMITTED, IT WILL REMAIN so, come what may even power loss, crashes or errors.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a view?
 
@@ -329,6 +307,7 @@ DATABASE DIALECT is a configuration setting for platform independent software (J
 =======================================
 ######### SQL INJECTION ###############
 ## What is SQL Injection?
+
 > It is a code injection technique that might destroy our database.
 > It is one of the most common web hacking techniques.
 

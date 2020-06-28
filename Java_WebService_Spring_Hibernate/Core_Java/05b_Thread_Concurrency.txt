@@ -65,6 +65,7 @@ Callable task = new CallableEmp(); Thread t = new Thread(task); //don;t compile
 - ExecutorService return Future obj which represent life-cycle of task. 
 =====================================
 ############# FUTURE[i] #############
+> Since Java5
 
 ##What is Future interface?
 
@@ -98,6 +99,20 @@ Callable task = new CallableEmp(); Thread t = new Thread(task); //don;t compile
 
 - if the result of the task isn’t available, waits for the specified time. 
 - If the specified period of time passes and the result isn’t yet available, the method returns a null value.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the limitation of Futures ?
+
+1. It cannot be manually completed with partial results.
+
+2. We cannot perform further action on a Future’s result without blocking
+- it does not notify of its completion. It provides a get() which blocks until the result is available.
+- it don’t have the ability to attach a callback function to the Future and have it get called automatically when the Future’s result is available.
+
+3. Multiple Futures cannot be chained together
+4. we can not combine multiple Futures together.
+5. there is no exception handling. 
+
+- To address this shortcomings, Java 8 introduced CompletableFuture.
 =======================================
 ## What is FutureTask[c]?
 
@@ -121,18 +136,66 @@ class FutureTask<V> implements RunnableFuture<V>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ######## CompletableFuture[c] #########
+> Since Java8
+> belongs to java.util.cocurrent package
 
 class CompletableFuture<T> implements Future<T>, CompletionStage<T> {...}
 
+## What is CompletableFuture?
+
 > it is used for asynchronous programming in Java. 
-- Asynchronous programming is a means of writing non-blocking code by running a task on a separate thread than the main app thread and 
-- notifying the main thread about its progress, completion or failure
+- Asynchronous programming is a means of writing non-blocking code by RUNNING A TASK ON A SEPARATE THREAD than the main app thread and 
+- it notify the main thread about its progress, completion or failure
+- In this way, the main thread does not block or wait for the completion of the task.
+
+- it implements Future and CompletionStage
+
+- it executes these tasks in a thread obtained from the global ForkJoinPool.commonPool().
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is CompletionStage?
+
+> It performs an action and returns a value when another completion stage completes.
+
+> A model for a task that may trigger other tasks.
+Hence, it is an element of a chain.
+
+> When more than one thread attempt to complete - complete exceptionally or cancel a CompletableFuture, only one of them succeeds.
 
 > CompletionStage offers methods, that let you attach callbacks that will be executed on completion.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. To create CompletableFuture using no-args constructor
+CompletableFuture<String> completableFuture = new CompletableFuture<String>();
+
+2. get()
+- CompletableFuture.get() method is blocking. 
+- It waits until the Future is completed and returns the result after its completion.
+
+2. complete()
+
+# static CompletableFuture<Void>  runAsync(Runnable runnable)
+# static CompletableFuture<Void>  runAsync(Runnable runnable, Executor executor)
+- for asynchronous computation
+- it doesn't return anything, just run in background. It takes runnable obj
+
+# static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier)
+# static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier, Executor executor)
+- Run a task asynchronously and return the result 
+- It takes a Supplier<T> and returns CompletableFuture<T>
+
+
+# thenApply()
+- to process and transform the result of a CompletableFuture when it arrives. 
+- It takes a Function<T,R> as an argument.
+
+
+CompletableFuture <T> exceptionally(Function <Throwable, ? extends T> function);  
+CompletableFuture<U> hadle(BiFunction<? super T, Throwable, ? extends U> bifunction);  
+CompletableFuture<T> whenComplete(BiConsumer<? super T, ? super Throwable> action);  
 =======================================
 By default, Future task is run asynchronously, so will be executed in a different Thread from the one which added it by calling the execute method. For example ” Thread1? called execute method , Futuretask will be executed in “Thread2"
 
-> callable by default will be executed on same Thread , unless you are using custom executor that starts a new thread.
+> Callable by default will be executed on same Thread , unless you are using custom executor that starts a new thread.
 
 ## SHUTDOWN HOOK
 > It can be USED TO PERFORM CLEANUP RESOURCE OR SAVE THE STATE when JVM shuts down normally or abruptly. 

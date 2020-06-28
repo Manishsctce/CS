@@ -5,7 +5,7 @@
 > it cannt use in JSP declaration becz code will go at class level
 
 =======================================
-############# 1. OUT	
+############# 1. OUT ##################	
 - object of class "javax.servlet.jsp.JspWriter"
 > out implicit object is used to write content to the client
 
@@ -21,15 +21,17 @@ METHODS -
 
 > int getBufferSize(): This method returns the size of output buffer in bytes.
 =======================================
-############# 2. REQUEST	
+############# 2. REQUEST ##############
+	
 - implicit obj of class javax.servlet.http.HttpServletRequest
 > created for each jsp request by the web container. 
 > used to get the data on a JSP page which has been entered by user
 > It can be used to get request information such as parameter, header information, remote address, server name, server port, content type, character encoding etc.
 
 > getParameter(String name)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between request.getParameter() and request.getAttribute()?
 
-##What is the difference between request.getParameter() and request.getAttribute()?
 > we use request.getParameter() to extract request parameters (i.e. data sent by posting a html form ). 
 > it always returns String value and the data come from client.
 
@@ -38,7 +40,7 @@ METHODS -
 > it extracts a (serialized) Java object from set attribute name
 
 =======================================
-############# 3. response 
+############# 3. response #############
 > It is obj of javax.servlet.http.HttpServletResponse[c]
 > it is created by web container for each jsp request
 > it can be use to add or manipulate response such as redirect response.
@@ -49,7 +51,7 @@ public static final int	SC_BAD_REQUEST = 400;
 public static final int	SC_NOT_FOUND = 404;
 public static final int	SC_OK = 200;
 
-METHODS - below few are imp
+## METHODS ##
 > void addCookie(Cookie cookie); 
 > String encodeURL(String url); 
 > String getHeader(String name); 
@@ -59,10 +61,10 @@ METHODS - below few are imp
 > int getStatus(); 
 > void setStatus(int sc) -  Sets the status code for this response.
 > response.sendRedirect()
-=========================
-##What are the different ways for browser redirection in JSP? (R-JSP2c)
-Answer:
-There are two ways for browser redirection in JSP:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the different ways for browser redirection in JSP? (R-JSP2c)
+
+> There are two ways for browser redirection in JSP:
 1.    Using response.sendRedirect()
 2.    Using <jsp:forward /> element
  
@@ -77,7 +79,8 @@ There are two ways for browser redirection in JSP:
 > The new servlet or JSP page continues to process the same request and the browser is not aware of the fact that more than one servlet or page is involved. 
 > client is not aware that the request is being forwarded anywhere. The URL shown in the browser stays unchanged when you do forward.
 =======================================
-############# 4. CONFIG -	
+############# 4. CONFIG ###############
+	
 >  instance of javax.servlet.ServletConfig implementaion
 > The config object is created by the web container for each jsp page.
 > This object can be used to get initialization parameter in web.xml for a particular JSP page.

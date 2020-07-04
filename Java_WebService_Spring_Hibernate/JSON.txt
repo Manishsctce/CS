@@ -97,44 +97,6 @@ objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 =======================================
 ####### Bean Validation #########
 
-> Bean Validation works by defining constraints to the fields of a class by annotating them with certain annotations.
-- pass an object of that class into a Validator which checks if the constraints are satisfied.
- 
-EXAMPLE:
-
-class Input {
-
-  @Min(1)
-  @Max(10)
-  private int numberBetweenOneAndTen;
-
-  @Pattern(regexp = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
-  private String ipAddress;
-  
-  // ...
-} 
-
-import javax.validation.Valid
-@RestController
-class ValidateRequestBodyController {
-
-  @PostMapping("/validateBody")
-  ResponseEntity<String> validateBody(@Valid @RequestBody Input input) {
-    return ResponseEntity.ok("valid");
-  }
-}
-
-> By using @Valid, we’re telling Spring to pass the object to a Validator before doing anything else.
-- @RequestBody to mark that it should be read from the request body 
-- If the validation fails, it will trigger a MethodArgumentNotValidException. By default, Spring will translate this exception to a HTTP status 400 (Bad Request).
-- By default, Spring Data uses Hibernate Validator underneath, which supports Bean Validation out of the box.
-
-> @Validated at the class level controller, use to tell spring to evaluate the constraint annotations on method parameters
-- only @valid at parameter level will not work. 
-
-
-> to disable Bean Validation, use this property:-
-spring.jpa.properties.javax.persistence.validation.mode = none
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

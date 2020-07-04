@@ -31,10 +31,11 @@ http://java-journal.blogspot.in/2012/08/what-is-applicationcontext-what-are-its.
 #### ContextLoaderListener ####
 ## What is ContextLoaderLinstner? What does it do?
 
-> This listener is RESPONSIBLE TO LOAD THE CONTEXT CONFIGURATION FILES. 
+> This is a servlet listener and it is RESPONSIBLE TO LOAD THE BUSINESS CONTEXT CONFIGURATION FILES. 
+- It helps to split spring configuration across multiple xml files.
 - It reads a “contextConfigLocation” context-param and passes its value to the context instance
 
-> It PERFORMS THE ACTUAL INITIALIZATION WORK FOR THE ROOT APPLICATION CONTEXT. 
+> It PERFORMS THE ACTUAL INITIALIZATION WORK FOR THE ROOT APPLICATION CONTEXT AND SHARE IT WITH CHILD CONTEXTS created by all DispatcherServlet context.
 - it reads the spring configuration file, parse it and loads the beans defined.
 
 > The purpose of the ContextLoaderListener is two-fold:

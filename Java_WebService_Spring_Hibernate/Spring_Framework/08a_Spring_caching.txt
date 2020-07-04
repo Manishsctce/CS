@@ -11,27 +11,36 @@
 - Data access from memory is always faster in comparison to fetching from storage like database, file system or other service calls.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What data should be cached?
-This is mostly opinionated decision about the type of data which should reside in cache and go through cache lifecycle. It varies in different scenario and requirement on how much time we can tolerate stale data.
 
-So caching candidates will vary on each project, still those are few examples of caching –
+> It varies in different scenario and requirement on how much time we can tolerate stale data.
 
-List of products available in an eCommerce store
-Any Master data which is not frequently changed
-Any frequently used database read query, where result does not change in each call at least for a specific period.
+- Any Master data which is not frequently changed
+- Any frequently used database read query, where result does not change in each call at least for a specific period.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ########### TYPES OF CACHE ############
+1. In-memory Caching
+2. Database Caching
+3. Web server caching
+4. CDN caching
 
-#### In-memory caching
-This is the most frequently used area where caching is used extensively to increase performance of the application. In-memory caches such as Memcached and Radis are key-value stores between your application and your data storage. Since the data is held in RAM, it is much faster than typical databases where data is stored on disk.
+#### 1. In-memory caching ####
+> This is the most frequently used area where caching is used extensively to increase performance of the application. 
+- In-memory caches such as Memcached and Radis are key-value stores between your application and your data storage. 
+- Since the data is held in RAM, it is much faster than typical databases where data is stored on disk.
 
-RAM is more limited than disk, so cache invalidation algorithms such as least recently used (LRU) can help invalidate ‘cold’ entries and keep ‘hot’ data in RAM. Memcached is in-momory caching where Redis is more advanced which allows us to backup and restore facility as well as it is distributed caching tool where we can manage caching in distributed clusters.
+- RAM is more limited than disk, so cache invalidation algorithms such as least recently used (LRU) can help invalidate ‘cold’ entries and keep ‘hot’ data in RAM. 
+- Memcached is in-momory caching where Redis is more advanced which allows us to backup and restore facility as well as it is distributed caching tool where we can manage caching in distributed clusters.
 
 ##### Database caching
-Your database usually includes some level of caching in a default configuration, optimized for a generic use case. Tweaking these settings for specific usage patterns can further boost performance. One popular in this area is first level cache of Hibernate or any ORM frameworks.
+- Your database usually includes some level of caching in a default configuration, optimized for a generic use case. 
+- Tweaking these settings for specific usage patterns can further boost performance. 
+- One popular in this area is first level cache of Hibernate or any ORM frameworks.
 
-2.3. Web server caching
-Reverse proxies and caches such as Varnish can serve static and dynamic content directly. Web servers can also cache requests, returning responses without having to contact application servers. In today’s API age, this option is a viable if we want to cache API responses in web server level.
+### Web server caching
+- Reverse proxies and caches such as Varnish can serve static and dynamic content directly. 
+- Web servers can also cache requests, returning responses without having to contact application servers. 
+- In today’s API age, this option is a viable if we want to cache API responses in web server level.
 
 #### CDN caching
 Caches can be located on the client side (OS or browser), server side, or in a distinct cache layer.
@@ -41,13 +50,13 @@ Caches can be located on the client side (OS or browser), server side, or in a d
 > Spring boot provides integration with following cache providers.
 
 JCache (JSR-107) (EhCache 3, Hazelcast, Infinispan, and others)
-EhCache 2.x
-Hazelcast
-Infinispan
-Couchbase
-Redis
-Caffeine
-Simple cache
+- EhCache 2.x
+- Hazelcast
+- Infinispan
+- Couchbase
+- Redis
+- Caffeine
+- Simple cache
 
 spring.cache.infinispan.config=infinispan.xml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,22 +66,16 @@ spring.cache.infinispan.config=infinispan.xml
 spring.cache.type=none
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-What shall I cache?
-Which cache shall I use?
-which data shall I cache?
-how about data-consistency?
-which impact does it have on my infrastructure
-how do i introduce caching 
-how about cahching in spring?
 
 ======================================= 
 > For using standard caching, then use "spring-context-support" which is on top of "spring-context" 
 > For Spring boot app, add "spring-boot-starter-cache" package 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to enable caching in Spring boot? 
 
 > To enable caching in spring boot app, add @EnableCaching to any of the configuration classes
-- we must register a cacheManager
+- we must register a cacheManager otherwise it creates an in-memory cache using concurrent HashMap
 OR <cache:annotation-driven/>
 
 EXAMPLE: 
@@ -99,6 +102,7 @@ public class CachingConfig {
 5. @CacheConfig
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## @Cacheable ###########
+> It is a method level annotation
 > Demarcates cachable methods, can read and write to the cache(s)
 
 > It has more options. Like WE CAN SPECIFY KEY OF THE CACHE from the request. 
@@ -141,8 +145,8 @@ public String getAddress(Customer customer) {...}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### @Caching ############
 
-> if you want to use multiple annotations of the same type for caching a method.
-- compile error since Java does not allow multiple annotations on a method instead use @Caching as 
+> if you want to use multiple annotations at the same time for caching like @CachePut or @CacheEvict then use @Caching
+- Because JAVA DOES NOT ALLOW MULTIPLE ANNOTATIONS ON A METHOD, it cause compile error 
 EXAMPLE:
 
 @Caching(evict = { 
@@ -152,10 +156,24 @@ public String getAddress(Customer customer) {...}
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### @CacheConfig ##########
+> It is class-level annotation.
+- It tells the Spring where to store cache for the class. 
 
-> we can streamline some of the cache configuration into a single place – at the class level – so that you don't have to declare things multiple times:
+> using this, we don't have to declare things multiple times:
 
+EXAMPLE:
 @CacheConfig(cacheNames={"addresses"})
 public class CustomerDataService {
  
     @Cacheable
+	
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What shall I cache?
+Which cache shall I use?
+which data shall I cache?
+how about data-consistency?
+which impact does it have on my infrastructure
+how do i introduce caching 
+how about cahching in spring?
+	

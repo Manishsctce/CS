@@ -1,12 +1,28 @@
 ## What is JDBC(Java Database Connectivity)?
-> It provides a set of Java API for accessing the wide range of relational databases from Java program. 
-- These Java APIs enables Java programs to EXECUTE SQL statements and INTERACT with any SQL compliant database.
 
-> JDBC provides a flexible architecture to write a database independent application 
+> It is a Java API that is used to connect and execute the query to the database. 
+- JDBC API uses JDBC drivers to connect to the database.
+
+
+> It provides a flexible architecture to write DB independent app
 - that can run on different platforms and interact with different DBMS without any modification.
 
 > Before JDBC, ODBC API was the database API to connect and execute query with the database. 
 - But, ODBC API uses ODBC driver which is written in C language
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is JDBC Driver?
+
+> JDBC Driver is a software component that enables Java app to interact with the database. 
+- It implement the defined interfaces in the JDBC API, for interacting with DB.
+- There are 4 types of JDBC drivers:
+
+Type-1: JDBC-ODBC bridge driver
+
+Type-2: Native-API driver (partially java driver)
+Type-3: Network Protocol driver (fully java driver)
+
+TYPE-4: THIN DRIVER (fully java driver)
+- it converts JDBC calls directly into the vendor-specific database protocol
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### JDBC Architecture ########
 
@@ -15,23 +31,22 @@ Java Application -> JDBC API -> JDBC Driver Manager -> JDBC Driver -> Database
 > JDBC API uses a driver manager and database-specific drivers to provide transparent connectivity to heterogeneous databases.
 - JDBC API uses jdbc drivers to connect with the database.
 
-DriverManager: This class manages various database drivers. Matches connection requests from the java app with the proper database driver
+> DriverManager: This class manages various database drivers. Matches connection requests from the java app with the proper database driver
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-EXAMPLE:
+## What are the steps to connect to the database in java?
 
-static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost/EMP";
+//STEP 1: REGISTERING THE DRIVER CLASS
 Class.forName("com.mysql.jdbc.Driver");
 
-//STEP 3: Open a connection
-System.out.println("Connecting to database...");
-conn = DriverManager.getConnection(DB_URL,USER,PASS);
+//STEP 2: Create connection - can throw SQLException
+Connection conn = DriverManager.getConnection(  
+"jdbc:oracle:thin:@localhost:1521:xe","system","password"); 
 
-//STEP 4: Execute a query
-stmt = conn.createStatement();
+//STEP 3: CREATE STATEMENT - can throw SQLException
+Statement stmt = conn.createStatement();
 
-String sql = "SELECT id, first, last, age FROM Employees";
-ResultSet rs = stmt.executeQuery(sql);
+//STEP 4: EXECUTE QUERY 
+ResultSet rs = stmt.executeQuery("select * from emp");
 
 //STEP 5: Extract data from result set
 while(rs.next()){
@@ -42,24 +57,13 @@ while(rs.next()){
    String last = rs.getString("last");
 
 }
-//STEP 6: Clean-up environment
+//STEP 6: CLEAN-UP ENVIRONMENT
 rs.close();
 stmt.close();
 conn.close();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is JDBC Driver?
-
-> JDBC drivers implement the defined interfaces in the JDBC API, for interacting with your database server.
-JDBC Drivers Types
-
-Type-1: JDBC-ODBC bridge driver
-
-Type-2: Native-API driver (partially java driver)
-Type-3: Network Protocol driver (fully java driver)
-Type-4: Thin driver (fully java driver)
 
 =======================================
-######### DriverManager[c] ##########
+########## DriverManager[c] ###########
 > It acts as an interface between user and drivers.
 
 > public static Connection getConnection(String url):	
@@ -69,16 +73,21 @@ Type-4: Thin driver (fully java driver)
 - is used to establish the connection with the specified url, username and password.
 
 =======================================
-########### Connection[i] ############
-> A Connection is the session between java application and database. 
-> It is a factory of Statement, PreparedStatement, and DatabaseMetaData i.e. object of Connection can be used to get the object of Statement and DatabaseMetaData. 
-> It provide many methods for transaction management like commit(), rollback() etc.
+############ Connection[i] ############
+
+> A Connection is the session between java app and DB. 
+- It is a factory of Statement, PreparedStatement, and DatabaseMetaData i.e. object of Connection can be used to get the object of Statement and DatabaseMetaData. 
+- It provide many methods for transaction management like commit(), rollback() etc.
 
 =======================================
 ########### Statement[i] ############
-> It provide methods to execute queries with the database
 
-##METHODS##
+## What are the JDBC statements?
+
+> Statements are used to send SQL commands to the DB and receive data from DB. 
+- It provide below methods to execute queries and helps us to interact with DB.
+
+## METHODS ##
 > public ResultSet executeQuery(String sql): 
 - is used to execute SELECT query. It returns the object of ResultSet.
 
@@ -91,6 +100,60 @@ Type-4: Thin driver (fully java driver)
 > public int[] executeBatch()
 - is used to execute batch of commands.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How many types of Statement are their in JDBC?
+
+> There are 3 type of JDBC statements as below:
+
+1. Statement	
+- It is the factory for resultset. 
+- It is used for general purpose access to the database. 
+- It executes a static SQL query at runtime.
+
+2. PreparedStatement	
+- It is used when we need to provide input parameters to the query at runtime.
+
+3. CallableStatement	
+- It is used when we need to access the database stored procedures. 
+- It can also accept runtime parameters.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### PreparedStatement #######
+> It is used to execute parameterized query.
+> It improve performance bcz work on filter set of data.
+
+## METHOD ##
+> public void setInt(int paramIndex, int value)	
+- sets the integer value to the given parameter index.
+
+> public void setString(int paramIndex, String value)	
+- sets the String value to the given parameter index.
+
+> public void setFloat(int paramIndex, float value)	
+- sets the float value to the given parameter index.
+public void setDouble(int paramIndex, double value)	sets the double value to the given parameter index.
+
+> public int executeUpdate()	
+- executes the query. It is used for create, drop, insert, update, delete etc.
+
+> public ResultSet executeQuery()	
+- executes the select query. It returns an instance of ResultSet.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the differences between Statement and PreparedStatement interface?
+
+> Statement is used for executing a static SQL statement in java JDBC.
+- PreparedStatement is used for executing a precompiled SQL statement in java JDBC.
+
+> java.sql.Statement cannot accept parameters at runtime in java JDBC.
+- PreparedStatement can be executed repeatedly, it can accept different parameters at runtime in java JDBC.
+
+> Statement is slower as compared to PreparedStatement in java JDBC.
+- PreparedStatement is faster because it is used for executing precompiled SQL statement in java JDBC
+
+> Statement is suitable for executing DDL commands - CREATE, drop, alter and truncate 
+- PreparedStatement is suitable for executing DML commands -  SELECT, INSERT, UPDATE and DELETE in java JDBC.
+
+> Statement enforces SQL injection
+- PreparedStatement prevents SQL injection
 =======================================
 ########### ResultSet[i] ############
 
@@ -121,27 +184,7 @@ ResultSet.CONCUR_UPDATABLE);
 9. public String getString(int columnIndex):	is used to return the data of specified column index of the current row as String.
 10) public String getString(String columnName):	is used to return the data of specified column name of the current row as String.
 
-=======================================
-###### PreparedStatement ##########
-> It is used to execute parameterized query.
-> It improve performance bcz work on filter set of data.
 
-## METHOD ##
-> public void setInt(int paramIndex, int value)	
-- sets the integer value to the given parameter index.
-
-> public void setString(int paramIndex, String value)	
-- sets the String value to the given parameter index.
-
-> public void setFloat(int paramIndex, float value)	
-- sets the float value to the given parameter index.
-public void setDouble(int paramIndex, double value)	sets the double value to the given parameter index.
-
-> public int executeUpdate()	
-- executes the query. It is used for create, drop, insert, update, delete etc.
-
-> public ResultSet executeQuery()	
-- executes the select query. It returns an instance of ResultSet.
 
 =======================================
 ########## ResultSetMetaData[i] #######

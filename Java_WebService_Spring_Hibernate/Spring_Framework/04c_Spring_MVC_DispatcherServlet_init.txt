@@ -75,6 +75,7 @@ public class FileUploadController{
 ######### HandlerMapping[i] ###########
 
 ## What is HandlerMapping?
+
 > it is an Interface to be implemented by objects that DEFINE MAPPING BET REQUESTS AND HANDLER OBJECTS.
 - It define as A MAP OF URL AND CONTROLLER
 
@@ -95,8 +96,9 @@ http://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/handler-mappin
 > DispatcherServlet uses the HandlerMappings to select the handler method/object, whereas, 
 - HandlerAdapter is used to actually invoke the handler method.
 
-=======================================
+---------------------------------------
 ###### BeanNameUrlHandlerMapping ######
+
 > This is the default implemenatation used by DispatcherServlet. 
 - Maps from URLs to beans (the controllers) by bean names. 
 - This only works if url starts with "/"
@@ -106,13 +108,13 @@ EXAMPLE:
 <bean name="/helloWorld.htm" class="com.javainterviewpoint.HelloWorldController" />
 <bean name="/hello*" class="com.javainterviewpoint.HelloWorldController" /> 
 <bean name="/welcome.htm" class="com.javainterviewpoint.WelcomeController"/>
-=======================================
-#### DefaultAnnotationHandlerMapping ##
+---------------------------------------
+### DefaultAnnotationHandlerMapping ###
 
 > Mappings declared via the @RequestMapping annotation are mapped via this Handler.
 - This mapping is registered by default, however if we register a custom Handler then the defaults are overridden
-=======================================
-##### RequestMappingHandlerMapping ####
+---------------------------------------
+#### RequestMappingHandlerMapping #####
 > introduced in spring 3.1. 
 > Maps from URLs to handler classes/methods by matching @RequestMapping value element
 
@@ -121,8 +123,8 @@ EXAMPLE:
 - RequestMappingHandlerMapping does both the tasks
 
 
-=======================================
-##### ControllerClassHandlerMapping ###
+---------------------------------------
+#### ControllerClassHandlerMapping ####
 > it uses a convention to map the requested URL to the Controller. 
 - It will take the Controller name and converts them to lower case with a leading “/”
 - there is no need for  bean name
@@ -137,8 +139,9 @@ EXAMPLE:
 - welcome is requested, the DispatcherServlet redirects it to the WelcomeController.
 - welcome123 is requested, the DispatcherServlet redirects it to the WelcomeController.
 - helloWorld is requested, you will get 404 error as “W” is capitalized here
-=======================================
+---------------------------------------
 ###### SimpleUrlHandlerMapping ########
+
 > it allows us to specify URL pattern and handler explicitly.
 > There are two ways of defining SimpleUrlHandlerMapping, using <value> tag and <props> tag. 
 > It has a property called mappings we will be passing the URL pattern to it.
@@ -207,8 +210,8 @@ public interface HandlerAdapter {
 > The handle API is used to handle a particular HTTP request. 
 - This method is responsible for invoking the handler by passing the HttpServletRequest and HttpServletResponse object as the parameter. 
 - The handler then executes the application logic and returns a ModelAndView object, which is then processed by the DispatcherServlet.
-=====================================
-##### Types of HandlerAdapter ####
+---------------------------------------
+####### Types of HandlerAdapter #######
 1. SimpleControllerHandlerAdapter
 
 ##SimpleControllerHandlerAdapter
@@ -311,7 +314,7 @@ public class EmployeeController
 }
 > getAllEmployees() handler method is executed as a catch block if no other matched for any request then this method triggers.
 ~~~~~~~~~~~~~~~~~~~~~~~~
-> @RequestMapping annotations using only HTTP request types
+> @RequestMapping using only HTTP request types
 
 @Controller
 @RequestMapping("/employee-management/employees")
@@ -376,20 +379,23 @@ prefix + view name + suffix = /WEB-INF/pages/WelcomePage.jsp
 
 
 ## What are the different built in ViewResolver implementations available in Spring 3?
-Following are built in ViewResolver implementations available in Spring 3
+
+> Following are built in ViewResolver implementations available in Spring 3
 - UrlBasesViewResolver
 - InternalResourceViewResolver
 - ResourceBundleViewResolver
 - BeanNameViewResolver
 - XmlViewResolver
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-------
-##What is DelegatingVariableResolver?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is DelegatingVariableResolver?
+
 > Spring provides a custom JavaServer Faces VariableResolver implementation that extends the standard Java Server Faces managed beans mechanism which lets you use JSF and Spring together. This variable resolver is called as DelegatingVariableResolver	
 
 ## What does the InternalResourceViewResolver do in Spring MVC?
 
 =======================================
 ######### SPRING MVC INTERCEPTOR ######
+
 > Interceptor is used to intercepts requests
 - just before the controller or
 - just after the controller or

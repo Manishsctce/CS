@@ -366,7 +366,9 @@ required - It is boolean type attribute whether the parameter is required.
 value – It is String type attribute and it is alias for name attribute.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the differences between @RequestParam and @PathVariable?
-@PathVariable: Is is used to pass parameter along with the url, sometimes we need to pass parameters along with the url to get the data. Spring MVC provides support for customizing the URL in order to get data. To achieving this purpose @PathVariable annotation is used in Spring mvc framework.
+
+@PathVariable: 
+- Is is used to pass parameter along with the url, sometimes we need to pass parameters along with the url to get the data. Spring MVC provides support for customizing the URL in order to get data. To achieving this purpose @PathVariable annotation is used in Spring mvc framework.
 
 @RequestParam: It is used to get the request parameters. @RequestParam automatically binds the request parameters to the arguments of your handler method. It also provides auto type conversion for some standard type like int, long, float, string, date 
 =====================================
@@ -429,4 +431,59 @@ in controller, process action method:
 1 HttpServletRequest request1 = PortalUtil.getHttpServletRequest(request);
 2 Obj obj = (Obj)request1.getSession().getAttribute("obj");
 =======================================
+@org.springframework.data.annotation.Transient
+- Object Mapper you are using will not include value, when converting from Java Object to JSON.
+- it applys to Object mapping frameworks only not to JPA, that's why it will save in database
+
+@javax.persistence.Transient is specifically for JPA DB serialization
+- so it will not save in database
+
+~~~~~~~~~~~~~~~~~~~~~
+
+The @DependsOn annotation can force Spring IoC container to initialize one or more beans before the bean which is annotated by @DependsOn annotation.
+
+The @DependsOn annotation may be used on any class directly or indirectly annotated with @Component or on methods annotated with @Bean.
+In Spring framework, the @Primary annotation is used to give higher preference to a bean, when there are multiple beans of same type.
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class BeanOne {
+   @Autowired
+   private BeanTwo beanTwo;
+
+   @Autowired
+   private BeanThree beanThree;
+
+   public BeanOne() {
+      System.out.println("BeanOne Initialized");
+   }
+
+   public void doSomthing() {
+      System.out.println("Inside doSomthing() method of BeanOne");
+      beanTwo.doSomthing();
+      beanThree.doSomthing();
+   }
+}
+
+@Configuration
+public class AppConfig {
+
+   @Bean("beanOne")
+   @DependsOn(value = { "beanTwo", "beanThree" })
+   public BeanOne getBeanOne() {
+      return new BeanOne();
+   }
+
+   @Bean("beanTwo")
+   public BeanTwo getBeanTwo() {
+      return new BeanTwo();
+   }
+
+   @Bean("beanThree")
+   public BeanThree getBeanThree() {
+      return new BeanThree();
+   }
+}
 

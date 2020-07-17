@@ -1,19 +1,22 @@
 ############## M A P ###############
-##What is Map interface?
+## What is Map interface?
 
 > A Map is an object that maps keys to values. Each pair is known as an entry. 
 > A map cannot contain duplicate keys.
-General Map Implementations :
+
+> GENERAL MAP IMPLEMENTATIONS :
 1. HashTable(HT) 2. HashMap(HM) 3. LinkedHashMap(LHM) 4. TreeMap(TM) 5. ConcurrentHashMap(CHM)
 
-1. HashTable - No iteration order, no null key or value, synchr, time perfo O(1), buckets implementation 
-2. HashMap - No iteration order, 1 null key or many null values, not sychro, time perfo O(1), buckets implementation 
-3. LinkedHashMap -Yes iteration order (maintain order of insertion),  subclass of HashMap
-4. TreeMap - maintain natural order of key(i.e ascending), no-yes null key-values, NOT synch,  time perfo O(log n), RB tree implementation 
-5. ConcurrentHashMap - NO iteration order, NO NULL Key or value, thread safe, 
-############ Map[i] METHODS #########
+1. HT  : No iteration order, no null key or value, synchr, time perfo O(1), buckets implementation 
+2. HM  : No iteration order, 1 null key or many null values, not sychro, time perfo O(1), buckets implementation 
+3. LHM : Yes iteration order (maintain order of insertion),  subclass of HashMap
+4. TM  : maintain natural order of key(i.e ascending), no-yes null key-values, NOT synch,  time perfo O(log n), RB tree implementation 
+5. CHM : NO iteration order, NO NULL Key or value, thread safe, 
 
-01. V put(object key,Object val): is used to insert an entry in this map.
+############ Map[i] METHODS ###########
+
+01. V put(object key,Object val): 
+- it is used to insert an entry in this map.
 - if no mapping for the key, it put the <K,V> and return null (mean nothing associated with the key)
 - If old val present for the key, the old value is replaced and return old value
 
@@ -26,8 +29,12 @@ General Map Implementations :
 04. V get(Object key): 
 - return value for the specified key.
 
-05. boolean containsKey(Object key): to search the specified key in this map.
-06. boolean containsValue(Object value): to search the specified value in this map.
+05. boolean containsKey(Object key): 
+- to search the specified key in this map.
+
+06. boolean containsValue(Object value): 
+- to search the specified value in this map.
+
 07. Set keySet(): 
 - returns the Set of all the keys.
 
@@ -62,8 +69,8 @@ ITERATOR
 
 PERFORMANCE & SPEED
 > HASHMAP PROVIDES CONSTANT TIME PERFORMANCE O(1) ONLY WHEN NO COLLISION for both get() and put() 
-- Prior to JDK8, while collision in HashMap, it use linked list to store collided elements and thus performance decrease to O(n)
-- JDK 8 has introduced balanced tree instead of linked list in case of frequent collision in HashMap. 
+- Prior to JDK8, while collision in HashMap, it use LinkedList to store collided elements and thus performance decrease to O(n)
+- JDK 8 has introduced Balanced Tree instead of LinkedList in case of frequent collision in HashMap. 
 - It internally switches to balanced tree from linked list if there are more than 8 entries in one bucket
 
 - TreeMap provides O(log(n)) time for the get(), put(), containsKey() and remove()
@@ -121,7 +128,7 @@ static class Entry<K ,V> implements Map.Entry<K ,V>
     ...//More code goes here
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How to iterate over Map?
+## How to iterate over Map?
 
 EXAMPLE1:
 Set<Map.Entry<String, Double>> set = treemap.entrySet();		
@@ -131,7 +138,7 @@ for(Map.Entry<String, Double> me : set) {
 	System.out.println(me.getValue());
 }
 
-##Using foreach and Map.Entry
+## Using foreach and Map.Entry
 for (Map.Entry<String, String> entry : map.entrySet())
 {
   System.out.println(entry.getKey() + "/" + entry.getValue());
@@ -148,7 +155,7 @@ while (it.hasNext()) {
     System.out.println(pair.getKey() + "/" + pair.getValue());
 }
 
-##Using for and Map.Entry
+## Using for and Map.Entry
 for (Iterator<Map.Entry<Integer, Integer>> entries = map.entrySet().iterator(); entries.hasNext(); ) {
     Map.Entry<Integer, Integer> entry = entries.next();
     System.out.println(entry.getKey() + "/" + entry.getValue());

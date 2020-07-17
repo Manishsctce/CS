@@ -27,8 +27,7 @@ EXAMPLE: <classname>.hbm.xml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is an Entity?
 
-> entity is an object that has some distinct value. 
-- In a persistent storage mechanism, an entity is a business object. 
+> entity is a business object that has some distinct value. 
 - Each entity has an associated table in relational database. 
 - Each instance of the entity represents a row of the table. 
 - Entity class is an annotated POJO
@@ -74,12 +73,12 @@ true/false	: boolean or java.lang.Boolean : CHAR(1) ('T' or 'F')
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to make a immutable class in hibernate?
 
+> use @Immutable to indicate to Hibernate that a table will not be updated from the application.
+
 > If you mark a class as mutable="false", class will be treated as an immutable class. 
 - By default, it is mutable="true".
 
 > Immutable classes may not be updated or deleted by the application.
-
-> We can use the @Immutable to indicate to Hibernate that a table will not be updated from the application.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can hibernate be configured to access an instance variable directly and not through a setter method.
 
@@ -102,7 +101,7 @@ true/false	: boolean or java.lang.Boolean : CHAR(1) ('T' or 'F')
 ###### @Table ######
 > it is used to specify the table to persist the data. 
 - The name attribute refers to the table name. 
-- If @Table annotation is not specified then Hibernate will by default use the class name as the table name.
+- If @Table is not specified then Hibernate will by default use the class name as the table name.
 
 ## @Id 
 > it is used to specify the identifier property of the entity bean. 
@@ -182,6 +181,7 @@ PROS
 Note : if you don't use @Table then hibernate consider that @Entity is your table name by default
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Generator classes in Hibernate?
+
 > it is USED TO GENERATE THE UNIQUE IDENTIFIER FOR THE OBJECTS of persistent class. 
 - There are many generator classes defined in the Hibernate Framework.
 > All the generator classes implements the "org.hibernate.id.IdentifierGenerator" interface.
@@ -220,16 +220,23 @@ Value Object - it doesn't has meaning on its own
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can I have one entity class representing two tables with same structure in hibernate?
 
-> You can merge two different classes into 1 database table. 
-- If you have a scenario such that there are 2 classes : Student and StudentDetail and 
-- you want to save the fields of both these classes to 1 table, then yes, this can be done.
-
-Example:
-- Student and StudentDetail classes will share a HAS-A relation and StudentDetail will be contained as an instance variable inside Student.
+> we can merge 2 different classes into 1 DB table. 
 
 > There are 2 annotations in Hibernate : @Embedded and @Embeddable. 
-- Embedded will be applied over StudentDetail class and 
-- Embeddable will be applied over instance of StudentDetail inside Student class. 
+- Embedded - it will be applied in the Container class member level
+- Embeddable applied to a class that will be embedded by other entity 
 
-Note : here Student will be the main entity class having @Entity
+EXAMPLE:- Student and Address share a HAS-A relationship and 
+- Student will contain Address.
+
+@Embeddable
+class Address {...}
+
+@Entity
+class Student {
+  @Embedded
+  Address address;
+
+Note : Here Student will be the main entity class having @Entity
+- it is used if we don't want separate class for Address
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,158 @@
+> Jackson is used to transformation from Json to Java object and vice versa.
+
+> If we want any behavior based on method invocation then use annotation at that method like
+- if we want to format data will getting the value use @JsonFormat on the getter method 
+
+## NEED TO ADD
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-databind</artifactId>
+	<version>2.2.3</version>
+</dependency>
+
+- jackson-databind jar depends on jackson-core and jackson-annotations 
+
+=======================================
+
+## How to Convert JSON --> Java Object?
+
+//read json file data to String
+byte[] jsonData = Files.readAllBytes(Paths.get("employee.txt"));
+
+ObjectMapper objectMapper = new ObjectMapper();
+Employee emp = objectMapper.readValue(jsonData, Employee.class);
+
+Employee emp1 = createEmployee();
+//configure Object mapper for pretty print
+objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+
+//writing to console, can write to any output stream such as file
+StringWriter stringEmp = new StringWriter();
+objectMapper.writeValue(stringEmp, emp1);
+System.out.println("Employee JSON is\n"+stringEmp);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Convert Java Object to JSON?
+
+EXAMPLE 
+ObjectMapper mapper = new ObjectMapper();
+Staff obj = new Staff();
+
+//Object to JSON in file
+mapper.writeValue(new File("c:\\file.json"), obj);
+
+//Object to JSON in String
+String jsonInString = mapper.writeValueAsString(obj);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to convert JSON string to Map using Jackson API?
+
+String jsonStr = "{\"name\":\"Nataraj\", \"job\":\"Programmer\"}";
+Map<String,String> resultMap = new HashMap<String,String>();
+ObjectMapper mapperObj = new ObjectMapper();
+ 
+System.out.println("Input Json: "+jsonStr);
+resultMap = mapperObj.readValue(jsonStr, 
+        new TypeReference<HashMap<String,String>>(){});
+
+
+=======================================
+########## JSON ANNOTATION ############
+> "org.codehaus.jackson.annotate" package 
+
+=======================================
+## @JsonIgnoreProperties
+
+> We can ignore specific fields at the class level, using the @JsonIgnoreProperties and specifying the fields by name: 	
+
+EXAMPLE:
+@JsonIgnoreProperties(value = { "intValue" })
+public class MyDto {
+ 
+    private String stringValue;
+    private int intValue;
+    private boolean booleanValue;
+ 
+    public MyDto() {
+        super();
+    }
+ 
+    // standard setters and getters are not shown
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Ignore Unknown Properties While Parsing JSON in Java?
+
+> when Java class doesn't have all the field corresponding to all JSON properties then jackson 
+- will throw UnrecognizedPropertyException 
+
+1. at the class level use @JsonIgnoreProperties(ignoreUnknown = true) 
+- import com.fasterxml.jackson.annotation.JsonIgnoreProperties.
+
+2. at the ObjectMapper level using configure() method.
+- Ignoring Unknown Property in JSON Globally using Jackson
+- while parsing json, configure ObjectMapper not to fail when it encounters an unknown property as 
+
+ObjectMapper objectMapper = new ObjectMapper();
+objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=======================================
+######## @JsonIgnore
+
+> it marks a field in a POJO to be ignored by Jackson during serialization and deserialization.
+- can be used at setter, getter or field.
+
+EXAMPLE:
+@JsonIgnore
+private String department;
+=======================================
+#### @JsonInclude(Include.NON_NULL)
+
+> Jackson to ignore null fields when serializing a java class
+- it can be used at class/field level
+
+=======================================
+#### @JsonPropertyOrder
+
+> it is used to serialize fields in an order
+
+@JsonPropertyOrder({ "emp_id", "emp_name", "emp_designation", "department", "salary" })		
+- Similar to JXAB @XmlRootElement(propOrder={'f1','f2'..})
+=======================================
+#### @JsonProperty("strVal") 
+
+> change the name of a field to map to another JSON property on serialization.
+
+
+=======================================
+#### @JsonFormat
+> it is used to specify how to format fields and/or properties for JSON output
+
+EXAMPLE:
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+private Date currentDate;
+
+- Output will be { ... , "currentDate":"2016-12-18", ...}
+
+
+=======================================
+
+
+
+=======================================
+####### Bean Validation #########
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

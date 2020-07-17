@@ -20,8 +20,8 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is RESTFul Web Service?
-> Web services developed using REST style is known as RESTful web services.
 
+> Web services developed using REST style is known as RESTful web services.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### FEATURES OF RESTFUL WEB SERVICES:
 
@@ -58,6 +58,7 @@ Self-descriptive messages: Resources are decoupled from their representation so 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 ## What is JAX-RS? 
+
 > It is Java API for RESTful Web Services (JAX-RS) 
 > it is a Java API spec that provides support in creating RESTful web services.
 > It is packed as javax.ws.rs.jar or jsr311-api.jar
@@ -126,43 +127,28 @@ Example-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How much maximum payload you could do in POST method?
 
-> GET which passes data on URL and thus limited by maximum URL length
 > POST has no such limit. 
 - theoretically WE CAN PASS UNLIMITED DATA AS PAYLOAD to POST method 
 - but sending POST with large payload will consume more bandwidth, take more time and present performance challenge to server.
 
+> GET which passes data on URL and thus limited by maximum URL length
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what tools are required to test your web api?
-> SOAPUI tool for SOAP WS and Firefox “poster” or "postman" plugin for RESTFUL services.
 
-#### BEAN CLASS ####
-> For sending XML response, the beans should be annotated with @XmlRootElement
-=======================================
+> For REST WS - use "postman" or Firefox “poster”
+> For SOAP WS - SOAPUI tool 
 
-
-=======================================
-#### WEB.XML ####
-> "com.sun.jersey.config.property.packages" 
-- it is use to provide package that will be scanned for web service resources and methods
-
-
-=======================================
-## What is WADL in RESTFul?
-
-> WADL is a XML description of a deployed RESTful web application. 
-- It contains model of the deployed resources, their structure, supported media types, HTTP methods and so on
-> It is similar to WSDL which describe SOAP web services.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is Richardson Maturity Model?
 
-> IT DEFINES THE MATURITY LEVEL OF A RESTFUL WEB SERVICE. 
+> IT DEFINES THE MATURITY LEVEL OF A RESTFUL WS. 
 - Richardson used 3 factors to decide the maturity of a service i.e. URI, HTTP Methods and HATEOAS (Hypermedia). 
 
 Following are the different levels and their characteristics.
 
 LEVEL 0 : 
 - Expose SOAP web services in REST style. 
-- it does not make use of any of URI, HTTP Methods, and HATEOAS capabilities.
+- it DOES NOT make use of any of URI, HTTP Methods, and HATEOAS capabilities.
 - Expose action based services 
 EXAMPLE-
  http://server/getPosts, 
@@ -191,8 +177,26 @@ EXAMPLE
 ## What is HATEOAS?
 
 > Web server provide link based on the client request to make the page dynamic. This is called HATEOAS
+
+#### BEAN CLASS ####
+> For sending XML response, the beans should be annotated with @XmlRootElement
+=======================================
+
+
+=======================================
+#### WEB.XML ####
+> "com.sun.jersey.config.property.packages" 
+- it is use to provide package that will be scanned for web service resources and methods
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the difference between a RESTful web service (on HTTP) and a HTTP Servlet both of which perform the same function?
+## What is WADL in RESTFul?
+
+> WADL is a XML description of a deployed RESTful web application. 
+- It contains model of the deployed resources, their structure, supported media types, HTTP methods and so on
+> It is similar to WSDL which describe SOAP web services.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the diff bet RESTful WS (on HTTP) and a HTTP Servlet both of which perform the same function?
 
 > RESTful is more an architecture style than a different technology. 
 - In server perspective, it is designed to be entirely stateless and self-contained on a per-request basis (i.e. there are no sessions). 
@@ -211,7 +215,7 @@ EXAMPLE
 - application deployment and administration, and so on. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How will you migrate from SOAP web service to RESTfull web service?
-a
+
 ======================================
 ########### CACHING ##################
 > Caching refers to storing the server response in the client itself, so that a client need not make a server request for the same resource again and again

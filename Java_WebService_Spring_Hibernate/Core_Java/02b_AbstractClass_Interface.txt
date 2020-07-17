@@ -95,6 +95,77 @@ Ex - Human and Parrot both can Whistle but doesn't have relationship.
 
 > it is used when THE CLASS IS CAPABLE TO show some behavior like bouncing, moving
 > interface Ex - Bounceable , Moveable, 
+
+=======================================
+########## FUNCTIONAL INTERFACE #######
+
+> @FunctionalInterface annotation.
+> Since Java8.
+> A functional interface is any interface that contains ONLY ONE ABSTRACT METHOD.
+- it may contain ONE OR MORE DEFAULT METHODS OR STATIC METHODS.
+
+> it is a facility to avoid accidental addition of abstract methods in the FI.
+> These interfaces are also called Single Abstract Method interfaces (SAM Interfaces)
+
+EXAMPLE :
+
+@FunctionalInterface
+public interface Interface1 {
+     void method1(String str);
+    
+     default void log(String str){
+          System.out.println("I1 logging::"+str);
+     }
+    
+     static void print(String str){
+          System.out.println("Printing "+str);
+     }
+    
+     //compile time error as
+     // default method cannot override a method from java.lang.Object"
+     //     default String toString(){
+     //          return "i1";
+     //     }
+}
+- Once you add another abstract method to the interface then the compiler/IDE will flag it as an error
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> A FI can extend another FI but finally FI should have only 1 abstract method
+- if it extending another FI then it should provide default impl otherwise Compiler error.
+
+EXAMPLE :
+@FunctionalInterface
+interface FunctionalInterface2{
+     public abstract void method2();
+}
+
+@FunctionalInterface
+interface FunctionalInterface23 extends FunctionalInterface2{ // Compiler Error
+     public abstract void method23();
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> MAJOR BENEFITS OF FI is the possibility TO USE LAMBDA EXPRESSIONS to instantiate them.
+- We can instantiate an interface with anonymous class but the code looks bulky.
+
+Runnable r = new Runnable(){
+               @Override
+               public void run() {
+                    System.out.println("My Runnable");
+               }};
+
+## using lambda expression as:
+Runnable r1 = () -> {System.out.println("My Runnable");};
+
+> If you have single statement in method impl, we don’t need curly braces also.
+Interface1 i1 = (s) -> System.out.println(s);
+i1.method1("abc");
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## is Comparator[i] is the FI?
+
+> Yes, It is FI.
+- It contain 2 abstract methods compare() and equals() eventhrough it is FI
+- because equals() is part of Object class
+
 =======================================
 ##### DEFAULT / DEFENDER METHODS ######
 
@@ -126,9 +197,11 @@ public interface oldInterface {
 No
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What if two interface have a default method with same name and a class implements both interfaces?
+
 - in this case, there will be compiler error i.e "Duplicate default method" for class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Why is “final” not allowed in Java 8 interface default methods?
+
 > It will complicate for multiple inheritance impl.
 
 For Example:-
@@ -183,6 +256,7 @@ public interface MyData {
 - boolean result = MyData.isNull("abc");
 =======================================
 ### What is DIFFERENCE BETWEEN ABSTRACT AND INTERFACE?
+
 DIFFERENCE
 > multiple abstract class can not inherit in a class
 - multiple Interface can . 
@@ -204,27 +278,30 @@ DIFFERENCE
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is similarities between an Abstract class and Interface?
+
 > both cannot be instantiate
 > both define abstract method
 =====================================
 ########## RELATIONSHIP #############
-Association > Aggregation > Composition 
+Association[weekest] > Aggregation > Composition[strongest] 
 
 ############ ASSOCIATION ############ 
 > It is Super set of Aggregation
 
-> IT IS RELATIONSHIP BETWEEN TWO SEPARATE CLASSES THROUGH THEIR OBJECTS. 
+> it isn't a 'HAS-A' relationship, none of the objects are parts or members of another.
+- it only means that the objects 'know' each other
 - The relationship can be One-to-One, One-to-Many, Many-to-One and Many-to-Many.
+- It can be uni-directional, bi-directional 
 
 > Composition and Aggregation are the two forms of association.
-=====================================
-############ AGGREGATION ############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## AGGREGATION ##########
 > It is Super set of Composition
 
 > Aggregation is a special form of association which is a unidirectional one way relationship between classes (or entities)
 
 > It represents Has-A relationship.
-> It is a unidirectional association i.e. a one way relationship. 
+> It is a UNIDIRECTIONAL ASSOCIATION i.e. a one way relationship. 
 - For example, department can have students but vice versa is not possible and thus unidirectional in nature.
 
 > In Aggregation, both the entries can survive individually which means ending one entity will not effect the other entity
@@ -232,27 +309,36 @@ Association > Aggregation > Composition
 > The whole class plays a more important role than the part class, but unlike the case of composition.
 - the part class can meaningfully exist on its own without the whole class
 
-> SYMBOL - holo rhombus at Super class and tail at the sub class
-Ex- Employee(Super) having Address(sub)
+> IMPLEMENTATION - both are separate class 
+> EXAMPLE - Employee(Super) having Address(sub)
+> SYMBOL - holo rhombus at Container class and tail at the member class
 
-=====================================
-############ COMPOSITION ############
-## COMPOSITION - For ex Class A contain Class B
 
-> Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
-- IT REPRESENTS PART-OF RELATIONSHIP.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## COMPOSITION ##########
 
-> In Composition, both the entities are dependent on each other.
+## COMPOSITION - Class A contain Class B
+- This means life of Class B is dependent of life of Class A.
 
-> the part class cannot meaningfully exist on its own without the whole class. 
-> This means life of Class B is dependent of life of Class A.
-> SYMBOL-   dark rhomus at Super class and tail at the part class
+> Composition is a restricted form of Aggregation and Association 
+- in this, two entities are highly dependent on each other.
+- the PART OF CLASS CANNOT MEANINGFULLY EXIST ON ITS OWN without the whole class. 
+- IT REPRESENTS 'PART-OF' relationship i.e. a type of 'HAS-A' relationship.
+
+> EXAMPLE : Building[- Rooms] doesn't exist without Room
+- we can Room is part of Building
+
+> IMPLEMENTATION : using non-static inner class
+class Building{ class Room{..} }
+
+> SYMBOL - dark rhomus at Container class and tail at the part/member  class
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Aggregation and Composition?
 
-> Dependency : 
-- Aggregation implies a relationship where the child can exist independently of the parent
-- Composition implies a relationship where the child cannot exist independent of the parent
+> DEPENDENCY : 
+- In Aggregation, child can exist independently of the parent
+- In Composition, child cannot exist independent of the parent
 
 > Type of Relationship: 
 - Aggregation relation is “has-a” and 
@@ -261,16 +347,33 @@ Ex- Employee(Super) having Address(sub)
 > Type of association: 
 - Aggregation is a weak Association.
 - Composition is a strong Association
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between IS-A and HAS-A relationship?
+
+> Inheritance define IS-A relationship
+- Composition define Has-A relationship
+
+> In Inheritance, base class defines the state and behavior common for a given type
+- In Composition, Container class has member class, member class doesn't meaningfully exist on its own. 
+
+> IS-A relationship example : Orange is a Fruit, Car is a Vehicle etc.
+- HAS-A relationship ex : Building has rooms, Car has engine.
 =====================================
 ## What is Cohesion in Java?
-> It refers all about how a single class is designed.
-- It is most closely associated with making sure that a class is designed with a single, well-focused purpose.
 
-> The advantages of high cohesion is that such classes are much easier to maintain (and less frequently changed) and reusable.
+> It defines the degree to which the elements of a module belong together. 
+- Thus, cohesion measures the strength of relationships between pieces of functionality within a given module. 
+- For example, in highly cohesive systems, functionality is strongly related.
+
+- It refers all about how a single class is designed.
+- It is most closely associated with making sure that a CLASS IS DESIGNED WITH A SINGLE, WELL-FOCUSED PURPOSE.
+
+> The ADVANTAGES OF HIGH COHESION is that such classes are much easier to maintain (and less frequently changed) and reusable.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Coupling in Java?
 
-> it is the degree to which one class knows about another class”. 
+> it is the degree to which one class knows about another class. 
 - If one class uses another class, that is coupling. 
 - Coupling is everywhere, but the level of coupling varies.
 
@@ -290,7 +393,7 @@ class Topic {
 }
 - Here Subject and Topic are tightly couple.
 
-2. Loose coupling:
+2. LOOSE COUPLING:
 > If class A knows class B through its interface only i.e it interacts with class B through its API then class A and class B are said to be loosely coupled.
 
 EXAMPLE: 
@@ -313,3 +416,14 @@ public class Subject {
     t.understand();
   }
 }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference bet Coupling and Cohesion?
+
+> Coupling shows the relationship between modules
+- Cohesion shows the relationship within the module.
+
+> Coupling is also called Inter-Module Binding.
+- Cohesion is also called Intra-Module Binding.
+
+> While creating, we SHOULD AIM FOR LOW COUPLING, i.e., dependency among modules should be less.	
+- While creating we SHOULD AIM FOR HIGH COHESION, i.e., a cohesive component/ module focuses on a single function (i.e., single-mindedness) with little interaction with other modules of the system.

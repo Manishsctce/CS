@@ -44,7 +44,7 @@ Unit testing can be done in two ways:-
 ##When are Unit Tests written in Development Cycle?
 Tests are written before the code during development in order to help coders write the best code.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
-##Why not just use System.out.println() for testing?
+## Why not just use System.out.println() for testing?
 
 > Debugging the code using system.out.println() will lead to manual scanning of the whole output every time the program is run to ensure the code is doing the expected operations. Moreover, in the long run, it takes lesser time to code JUnit methods and test them on class files.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
@@ -60,6 +60,7 @@ TestSuite - It is a Composite of Tests.
 Test suite means bundle a few unit test cases and run it together. In JUnit, both @RunWith and @Suite annotation are used to run the suite test. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## Assert Class #########
+
 > The org.junit.Assert class provides methods to assert the program logic.
 
 ## Methods of Assert class ##
@@ -106,13 +107,15 @@ ASSERT which contain a set of assert methods.
 TESTCASE which contain a test case defines the fixture to run multiple tests.
 TESTRESULT which contain methods to collect the results of executing a test case.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What Is Junit TestSuite?
+## What Is Junit TestSuite?
+
 > JUnit TestSuite is a container class under package junit.framework.TestSuite. 
 > It allows us to group multiple test cases into a collection and run them together. 
 > In JUnit, both @RunWith and @Suite annotation are used to run the suite test. 
 (JUnit 4.4 does not support TestSuite class now).
 ---------------------------
-##What Is Junit TestCase?
+## What Is Junit TestCase?
+
 > JUnit TestCase is the base class, junit.framework.TestCase, that allows you to create a test case. 
 (Although, TestCase class is no longer supported in JUnit 4.4.)
 
@@ -124,48 +127,56 @@ TESTRESULT which contain methods to collect the results of executing a test case
 -Clean-up after a test by overriding tearDown
 Each test runs in its own fixture so there can be no side effects among test runs.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What happens if a Junit test method is declared as “private”?
-If a Junit test method is declared as “private”, the compilation will pass ok. 
-But the execution will fail. This is because Junit requires that all test methods must be declared as “public”.
+## What happens if a Junit test method is declared as “private”?
+
+> If a Junit test method is declared as “private”, the compilation will pass ok. 
+- But the EXECUTION WILL FAIL. This is because Junit requires that all test methods must be declared as “public”.
+
 > we can use different approach to test private method:-
  Don't test private methods.
 Give the methods package access.
 Use a nested test class.
 Use reflection.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How do you test a “protected” method?
+## How do you test a “protected” method?
+
 > protected method can only be accessed within the same package where the class is defined. 
 > So, testing a protected method of a target class means we need to define your test class in the same package as the target class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What happens If a Junit test method Is declared to return “String”?
-But the execution will fail. This is because Junit requires that all test methods must be declared to return “void”.
+## What happens If a Junit test method Is declared to return “String”?
+
+> But the execution will fail. This is because Junit requires that all test methods must be declared to return “void”.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Do you need to write a main () method compulsorily in a Junit test case class?
-No. But still developers write the main() method in a JUnit test case class to call a JUnit test runner to run all tests defined in this class 
+## Do you need to write a main() compulsorily in a Junit test case class?
+
+> No, But still developers write the main() in a JUnit test case class to call a JUnit test runner to run all tests defined in this class 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##methods Get () and Set () should be tested for which conditions?
 Genera
 set() and get() methods on complex data types are vulnerable to break
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the @SuitClasses Annotation?
+## What is the @SuitClasses Annotation?
+
 > It is a class annotation define in JUnit 4.4 in org.junit.runners.Suite.SuiteClasses.
 > Using Suite as a runner allows you to manually build a suite containing tests from many classes. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Why not just use debugger for unit testing?
+## Why not just use debugger for unit testing?
+
 > A debugger is designed for manual debugging and manual unit testing, not for automated unit testing.
 > Automated unit testing requires extra time to setup initially. But it will save time, if code requires changes many times in future.
 
 > Debugger are used to step through code and inspect that the variables along the way contain the expected values (i.e. manual process
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Why not just write a main() method for unit testing?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How Often Should You Run Your JUnit Tests?
+
 Run all your unit tests as often as possible, ideally every time the code is changed. 
 Make sure all your unit tests always run at 100%. 
 Frequent testing gives you confidence that your changes didn't break anything and generally lowers the stress of programming in the dark.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can You Explain the Life Cycle of a JUnit 4.4 Test Class?
+### Can You Explain the Life Cycle of a JUnit 4.4 Test Class?
+
 > A JUnit 4.4 test class contains a @Before method, an @After method and multiple @test methods. 
 - When calling a test runner to run this test class, the runner will execute those methods in a specific order giving the test class an execution life cycle like this:
 
@@ -181,8 +192,10 @@ Frequent testing gives you confidence that your changes didn't break anything an
 @Test XXX3
 @After	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can You Explain the Life Cycle of a JUnit 3.8 Test Case Class? 
-A JUnit 3.8 test case class contains a setUp() method, a tearDown() method and multiple testXXX() methods. When calling a test runner to run this test class, the runner will execute those methods in a specific order giving the test case class an execution life cycle like this:
+## Can You Explain the Life Cycle of a JUnit 3.8 Test Case Class(TCC)? 
+
+> A JUnit 3.8 TCC contains a setUp(), a tearDown() and multiple testXXX(). 
+- When calling a test runner to run this test class, the runner will execute those methods in a specific order giving the TCC an execution life cycle like this:
 
 setUp()
 testXXX1()
@@ -197,7 +210,8 @@ testXXX3()
 tearDown()	
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How Many Test Runners Are Supported in JUnit 3.8?
+## How Many Test Runners Are Supported in JUnit 3.8?
+
 JUnit 3.8 supports 3 test runners:
 
 junit.textui.TestRunner 
@@ -213,10 +227,12 @@ junit.swingui.TestRunner - A Swing based user interface to run tests. Enter the 
 All 3 runners can be executed directly by JVM with a class name as an argument	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Do You Have To Write a Test for Everything?
+
 No, just test everything that could reasonably break.
  investments in testing are equal investments in design. If defects aren't being reported and your design responds well to change, then you're probably testing enough. If you're spending a lot of time fixing defects and your design is difficult to grow, you should write more tests.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to test a method that does not return anything?
+
 You need to follow the logic below to answer this question:
 
 > If a method is not returning anything through the "return" statement (void method), it may return data through its arguments. 
@@ -229,7 +245,7 @@ You need to follow the logic below to answer this question:
 > Else if a method is not changing any external resources, it may just doing nothing but holding the thread in a waiting status. In this case, you can test this waiting condition.
 > Else if a method is not holding the thread in waiting status, then this method is really doing nothing. In this case, there is no need to test this method. :-)	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How to launch debugger when a test fails?
+## How to launch debugger when a test fails?
 
 > configure the debugger to catch the java.lang.AssertionError exception and suspend the execution
 > call the TestRunner to run the test under the debugger

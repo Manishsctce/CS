@@ -1,0 +1,131 @@
+######### SORTING ############
+1. Bubble SORT 
+ - Average Time Complexity(n2), 
+ - Worst Time Complexity(n2), 
+ - Memory Complexity (1)		 
+
+2. INSERTION SORT
+ - Worst Time Complexity O(n2)
+ - Best Time Complexity O(n)
+ 
+3. SELECTION SORT 
+ - Average Time Complexity(n2), 
+ - Worst Time Complexity(n2), 
+ - Memory Complexity (1)	
+ 
+4. MERGE SORT 
+ - Average Time Complexity(n log n), 
+ - Worst Time Complexity(n logn), 
+ - Memory Complexity (n)
+	
+5. QUICKSORT 
+ - Average Time Complexity(n log n), 
+ - Worst Time Complexity(n2), 
+ - Memory Complexity (log n)
+
+6. BINARY TREE SORT 
+ - Average Time Complexity(n log n), 
+ - Worst Time Complexity(n logn), 
+ - Memory Complexity (n)
+
+7. HEAP SORT 
+ - Average Time Complexity(n log n), 
+ - Worst Time Complexity(n logn), 
+ - Memory Complexity (1)
+
+=======================================
+############ BUBBLE SORT ##############
+
+> BUBBLE SORT: The simplest sorting algorithm. 
+- It involves the sorting the list in a repetitive fashion. 
+- It compares two adjacent elements in the list, and swaps them if they are not in the designated order. 
+- It continues until there are no swaps needed. 
+- It is ALSO CALLED AS COMPARISON SORT as it uses comparisons
+
+int[] bubbleSort(int a[]){
+  for(int i=0;i<a.length;i++){
+  	for(int j=1;j<a.length-i;j++){
+  	  if(a[j-1]>a[j]){
+  	  	int temp = a[j-1];
+  	  	a[j-1] = a[j];
+  	  	a[j] = temp;
+  	  }
+  	}
+  }
+  return a;
+}
+> Here in each iteration max number is push to right side
+> 2 for-loop is involved therefore time complexity : n2 
+=======================================
+########## INSERTION SORT #############
+
+> select 1 elem, check with all previous elem and insert into right position
+- Avg Time Complexity O(log n)
+
+public static int[] insertionSort(int a[]){
+  int current =0;		
+  for(int i=1;i<a.length;i++){
+  	current = a[i]; //select elem
+  	
+	// this check i-1 elem. and place it a correct position
+  	for(int j=i-1;j>=0 && current < a[j];j--){ 
+  	  a[j+1]= a[j];
+  	  a[j]= current;
+  	}		
+  }		
+  return a;
+}
+=======================================
+########## SELECTION SORT #############
+
+> search for the lowest element and arrange it to the proper location. 
+
+- Average Time Complexity(n2), 
+ - Worst Time Complexity(n2), 
+ - Memory Complexity (1)
+ 
+public static int[] selectionSort(int a[]){
+  for(int i=0;i<a.length-1;i++){
+  	int smallest = i;
+  	//find the smallest element
+  	for(int j=i+1;j<a.length;j++){
+  		if(a[smallest]>a[j]){
+  			smallest = j;
+  		}
+  	}
+  	//if pointer is not same then swap
+  	if(smallest != i){
+  		int temp = a[i];
+  		a[i] = a[smallest];
+  		a[smallest] = temp;
+  	}
+  }
+  return a;
+}
+=======================================
+############# QUICK SORT ##############
+
+## Explain quick sort and merge sort algorithms.
+
+> QUICK SORT employs the ‘divide and conquer’ concept by dividing the list of elements into two sub elements.
+
+The process is as follows:
+
+1. Select an element, pivot, from the list.
+2. Rearrange the elements in the list, so that all elements those are less than the pivot are arranged before the pivot and all elements those are greater than the pivot are arranged after the pivot. Now the pivot is in its position.
+3. Sort the both sub lists – sub list of the elements which are less than the pivot and the list of elements which are more than the pivot recursively.
+
+> MERGE SORT: A comparison based sorting algorithm. The input order is preserved in the sorted output.
+
+Merge Sort algorithm is as follows:
+1. The length of the list is 0 or 1, and then it is considered as sorted.
+2. Other wise, divide the unsorted list into 2 lists each about half the size.
+3. Sort each sub list recursively. Implement the step 2 until the two sub lists are sorted.
+4. As a final step, combine (merge) both the lists back into one sorted list.
+=====================================
+## What is Quick sort?
+
+QUICK SORT: The best sorting algorithm which implements the ‘divide and conquer’ concept. 
+- It first divides the list into two parts by picking an element a ’pivot’. 
+- It then arranges the elements those are smaller than pivot into one sub list and the elements those are greater than pivot into one sub list by keeping the pivot in its original place.
+=====================================

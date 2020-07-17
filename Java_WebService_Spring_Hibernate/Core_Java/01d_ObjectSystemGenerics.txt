@@ -19,13 +19,18 @@ protected native Object clone() throws CloneNotSupportedException
 > 
 =====================================
 #### wait()/ notify() / notifyAll() ###
+
 > These are final methods of Object class.
 > They can only be invoked from within a synchronized method or statement. 
 In other words, the lock associated with an object must already be acquired before any of these methods are invoked.
 
-wait() : Enter a monitor's wait set until notified by another thread
+wait() : 
+- Enter a monitor's wait set until notified by another thread
 - it set the monitor of obj into waiting state 
-void wait(long timeout) : Enter a monitor's wait set until notified by another thread or timeout milliseconds elapses
+
+void wait(long timeout) : 
+- Enter a monitor's wait set until notified by another thread or timeout milliseconds elapses
+
 void wait(long timeout, int nanos):	Enter a monitor's wait set until notified by another thread or timeout milliseconds plus nanos nanoseconds elapses
 void notify():	Wake up one thread waiting in the monitor's wait set. (If no threads are waiting, do nothing.)
 void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no threads are waiting, do nothing.)
@@ -59,6 +64,7 @@ void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no 
 >  Wait is used for ITC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between notify() and notfiyAll()?
+
 > notify() wakes up the 1st thread that called wait() for same object on which notify() called.
 > notifyAll() wakes up all thread tht called wait() for same obj but higher priority thread will run 1st.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,7 +72,7 @@ SCENARIO - wait and notify
 
 > A thread T1 is already running a synchronized block with a lock on object - lets say "lockObject"
 - Another thread T2 comes to execute the synchronized block and find that its already acquired.
-- Now T2 calls lockObject.wait() method for waiting on lock to be release by T1 thread.
+- Now T2 calls lockObject.wait() for waiting on lock to be release by T1 thread.
 - T1 thread finishes all its synchronized block work.
 - T1 thread calls lockObject.notifyAll() to notify all waiting threads that its done using the lock.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,8 +83,9 @@ SCENARIO - wait and notify
 - when you call notify() on a monitor, you have no control over which waiting thread gets notified.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Can we override wait() or notify() methods?
-No,  methods getClass(), notify(), notifyAll() and three wait() methods are final, so you cant override them.
+## Can we override wait() or notify() methods?
+
+> No, methods getClass(), notify(), notifyAll() and three wait() methods are final, so you cant override them.
 =======================================
 ############# FINALIZE() ##############
 
@@ -98,8 +105,10 @@ No,  methods getClass(), notify(), notifyAll() and three wait() methods are fina
 > it is use to perform clean up activity
 > define in Object class as protected void finalize(){}
 =====================================
-########### HASHCODE & EQUAL ########
-##What is Hashing?
+######### HASHCODE & EQUAL ##########
+
+## What is Hashing?
+
 > It is a way of assigning a unique code to any variable or object
 
 > Hashing is basically a way to calculate an integer value of an object.
@@ -113,10 +122,10 @@ No,  methods getClass(), notify(), notifyAll() and three wait() methods are fina
 > It can have 2^32 different value. 
 > It is used while inserting value in HashMap, HashSet.
 
-> CONTRACT - Objects that are equal must have the same hash code within a running process
-- but vice versa is not true
+> CONTRACT - OBJECTS THAT ARE EQUAL MUST HAVE THE SAME HASH CODE within a running process
+- but vice versa is not true i.e. if two object have same hashCode then they are equals.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the importance of hashCode() and equals() methods ?
+## What is the importance of hashCode() and equals() methods ?
 
 > They are used to compare object equality and finding the memory location in hash based Collection 
 - It use for detecting duplicates obj
@@ -127,8 +136,8 @@ No,  methods getClass(), notify(), notifyAll() and three wait() methods are fina
 - Unequal objects must have different hash codes  WRONG!
 - Objects with the same hash code must be equal  WRONG!
 
-> equals() return TRUE IF two reference variable are pointing to SAME MEMORY LOCATION i.e. they are same object.
-> hashCode() method of objects is used when you insert them into a HashTable, HashMap or HashSet
+> equals() return TRUE if 2 reference variable are pointing to SAME MEMORY LOCATION i.e. they are same object.
+> hashCode() of objects is used when you insert them into a HashTable, HashMap or HashSet
 - both are used to determine the index at the time of storing key-value pair storage in HashMap, HashTable
 
 > In HashMap, When two key return same hashcode, they end-up in same bucket. 
@@ -136,15 +145,15 @@ No,  methods getClass(), notify(), notifyAll() and three wait() methods are fina
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When do you override hashcode and equals() ?
 
-> It is used when custom object are need to store in different Collection classes which depends on Hashing principle.
+> It is used for custom object are need to store in Collection classes which depends on Hashing principle.
 > Its require to implement both to maintain the contract between these 2 methods
 
-Contract - Two equal object have same hashValue but it is not necessary that if two object have same hashValue then they are equals.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How hashCode and equals are implemented?
-> Consider there is class called UserId having userId,password as instance variable.
+## How hashCode and equals are implemented?
 
-- in hashcode, use prime number to generate uniquely distributed hashCode to avoid collision.
+> Consider UserId[c] - userId, password 
+
+> IN HASHCODE, use prime number to generate uniquely distributed hashCode to avoid collision.
 public int hashCode() {
 	final int prime = 31;
 	int result = 1;
@@ -153,6 +162,14 @@ public int hashCode() {
 	result = prime * result + ((userid == null) ? 0 : userid.hashCode());
 	return result;
 } 
+
+# STEPS TO OVERRIDE EQUALS()
+1. Do this check 
+2. Do null check 
+3. Do the instanceof check
+4. Type cast the object; note the sequence instanceof check must be prior to casting object.
+5. Compare individual attribute starting with numeric attribute because 
+- comparing numeric attribute is fast and use short circuit operator for combining checks.
 
 public boolean equals(Object obj) {
 	if (this == obj)
@@ -172,25 +189,23 @@ public boolean equals(Object obj) {
 	return true;
 }
 
-Equal object should have following property:-
-1. Reflexive: Always, a = a. In Java, a.equals(a) should always be true.
-2. Symmetric: If a = b, then b = a. In Java, if a.equals(b) is true, then b.equals(a) should be true.
-3. Transitive: If a = b and b = c, then a = c. In Java, if a.equals(b) and b.equals(c) is true, then a.equals(c) should be true.
+> Equal object should have following property:-
+1. REFLEXIVE 
+> Always, a = a. In Java, a.equals(a) should always be true.
+
+2. SYMMETRIC
+> If a = b, then b = a. In Java, if a.equals(b) is true, then b.equals(a) should be true.
+
+3. TRANSITIVE: 
+> If a = b and b = c, then a = c. In Java, if a.equals(b) and b.equals(c) is true, then a.equals(c) should be true.
+
 4. Consistent in nature, 
 5. Null comparison should be false and not throw NullPointerException Ex- a.equals(null) must be false
 
 > String, Integer class overrides equals()
 > clone of object is not equal to object: x.clone() != x
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Steps to Override equals method in Java
-1. Do this check
-2. Do null check 
-3. Do the instanceof check
-4. Type cast the object; note the sequence instanceof check must be prior to casting object.
-5. Compare individual attribute starting with numeric attribute because comparing numeric attribute is fast and use short circuit operator for combining checks.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is HashCode of string?
+## What is HashCode of string?
 
 > Typicaly it is calculate using below formula 
    s[0]*31^(n-1) + s[1]*31^(n-2) + ... + s[n-1]
@@ -219,6 +234,7 @@ then Hashcode of TM = [84*31^(2-1) + 77]
 ># Ex - MyObject object = new MyObject();
 ~~~~~~~~~~~~~~~~~~~~~~~~
 2. Using Class.forName()
+
 > If we know the name of the class & IF IT HAS A PUBLIC DEFAULT CONSTRUCTOR 
 - This newInstance() method calls the no-arg constructor to create the object.
 
@@ -226,6 +242,7 @@ then Hashcode of TM = [84*31^(2-1) + 77]
 ># MyClass myClsObj = (MyClass)MyClass.class.getClassLoader().loadClass("packageName.MyClass").newInstance();
 ~~~~~~~~~~~~~~~~~~~~~~~~
 3. Using newInstance() of Constructor class 
+
 > can also call parameterized constructor, and private constructor by using this newInstance()
 
 EXAMPLE- 
@@ -357,6 +374,7 @@ Ex - 1 thread is checking at the same time another thread act on it. This is rac
 - use of Atomic operation
 =====================================
 ############ SYSTEM CLASS ###########
+
 > System.out is a PrintStream which by default flushes whenever a newline is written
 - bcz docs says output buffer will be flush whenever a byte array is written
 - But we need to explitly flush if we write binary out
@@ -364,8 +382,8 @@ Ex - 1 thread is checking at the same time another thread act on it. This is rac
 #### Methods
 1. System.arraycopy() - to copy an array
 
-SYNTAX - public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-Here 
+SYNTAX - psv arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+
 > src -- source array.
 > srcPos -- starting position in the source array.
 > dest -- destination array.
@@ -475,10 +493,11 @@ obj1.set(new MyClass());
 
 > if we have a list of object and we want to get each object and we cann't cast correct object then it can cause ClassCastException
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What do u mean by type-safety?
+## What do u mean by type-safety?
+
 > It is a check does by compiler that correct type is used at correct place.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is type parameter or Type Variable?
+## What is type parameter or Type Variable?
 
 > It is used as placeholders to INDICATE THAT A TYPE IS ASSIGNED TO THE CLASS AT RUNTIME. 
 > There may be ONE OR MORE TYPE PARAMETERS, and they can be utilized throughout the class, as needed. 
@@ -526,13 +545,13 @@ Ex- class Box<T>
  Box<Integer> box1 = new Box<>();
  Box rawBox = new Box(); //raw type 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##How Generics works in Java ? What is type erasure ?
+## How Generics works in Java ? What is type erasure ?
 
 > Generic type information is present only at compile time.
 > At compilation, compiler ensures all the checks are met then it erases all the generic information.
 > As a result the code looks like the traditional code. Which means that the ArrayList<Integer> becomes ArrayList at runtime.
 
-> This is done TO ENSURE BINARY COMPATIBILITY WITH OLDER JAVA LIBRARIES and applications that were created before generics.
+> This is done TO ENSURE BINARY COMPATIBILITY WITH OLDER JAVA LIBRARIES and app that were created before generics.
 =====================================
 ########## TYPE ERASURE #############
 

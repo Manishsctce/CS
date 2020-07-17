@@ -111,7 +111,6 @@ spring-boot-starter-web
 
 3. @ComponentScan - it tells Spring to look for other components, configurations, and services at the package and above this package level 
 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Tell an Auto-Configuration to Back Away When a Bean Exists?
 
@@ -128,6 +127,116 @@ name: The names of beans to be checked
 @EnableAutoConfiguration + @Configuration + @ComponentScan 
 
 - basically spring boot look for the spring-mvc lib in classpath and it find @EnableWebMvc which initialize WebMvcConfigurationSupport and it do all the MVC related initialization.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=====================================
+######## READ PROPERTY FILE #########
+
+> @ConfigurationProperties supports both .properties and .yml file.
+- we can map to a class and add validation 
+- It is used for complex properties like below 
+
+##application.yml
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.mkyong: DEBUG
+email: test@mkyong.com
+thread-pool: 10
+app:
+  menus:
+    - title: Home
+      name: Home
+      path: /
+    - title: Login
+      name: Login
+      path: /login
+  compiler:
+    timeout: 5
+    output-folder: /temp/
+  error: /error/
+
+OR
+## application.properties
+#Logging
+logging.level.org.springframework.web=ERROR
+logging.level.com.mkyong=DEBUG
+
+#Global
+email=test@mkyong.com
+thread-pool=10
+
+#App
+app.menus[0].title=Home
+app.menus[0].name=Home
+app.menus[0].path=/
+app.menus[1].title=Login
+app.menus[1].name=Login
+app.menus[1].path=/login
+
+app.compiler.timeout=5
+app.compiler.output-folder=/temp/
+
+## AppProperties.java 
+
+@Component
+@ConfigurationProperties("app") // prefix app, find app.* values
+public class AppProperties {
+
+    private String error;
+    private List<Menu> menus = new ArrayList<>();
+    private Compiler compiler = new Compiler();
+
+    public static class Menu {
+		@Pattern(regexp="^[a-zA-Z]{1,30}", message="invalid name")
+        private String name;
+        private String path;
+        private String title;
+
+        //toString, getters and setters
+    }
+
+    public static class Compiler {
+        private String timeout;
+        private String outputFolder;
+
+        //toString, getters and setters
+    }
+    //getters and setters
+}
+
+EXAMPLE: 
+my.properties
+mail.hostname=host@mail.com
+mail.port=9000
+mail.from=mailer@mail.com
+
+@Configuration // NOT require in SpringBoot2.2
+@ConfigurationProperties(prefix = "mail")
+public class ConfigProperties {
+     
+    private String hostName;
+    private int port;
+    private String from;
+ 
+    // standard getters and setters
+}
+
+@SpringBootApplication
+@EnableConfigurationProperties(ConfigProperties.class)
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+> In SpringBoot 2.1, If we don't use @Configuration in the POJO, then we need to add @EnableConfigurationProperties(ConfigProperties.class) in the main Spring application class to bind the properties into the POJO.
+
+> In Springboot 2.2, Spring finds and registers @ConfigurationProperties classes via classpath scanning. 
+- Therefore, there is no need to annotate such classes with @Component (and other meta-annotations like @Configuration) or 
+- even use the @EnableConfigurationProperties
+
+> @ConfigurationPropertiesScan to scan custom locations for configuration property classes
 =======================================
 ######### SPRING BOOT ACTUATOR ########
 

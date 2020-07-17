@@ -65,120 +65,21 @@ Following are built in Controller implementations available in Spring Web MVC
 
 > URI Template Patterns may contain regex
 
-EXAMPLE1:
-@RequestMapping(value="/method0")
-@ResponseBody
-public String method0(){
-	return "method0";
+EXAMPLE: 
+@RequestMapping( value={"/employee-management/employee/{userId}/remove","/employee-management/employee/deleteAcct"},
+method = DELETE,
+produces = {"application/json","application/xml"}, 
+consumes = "text/html"
+)
+ public String remove( @PathVariable("userId") String userId,
+	@Valid @Pattern(regexp = "^[a-zA-Z0-9_%=]{1,100}$") 
+    @RequestParam(value = "acctNum", required = true) String acctNum
+	){       
+	return "employeesList";
 }
 
-EXAMPLE2: multiple URL
-@RequestMapping(value={"/employee-management/employees/remove","/employee-management/employees/delete"})
- public String removeEmployee(@RequestParam("id") String employeeId){       
-   return "employeesList";
- }
-
-EXAMPLE3: @PathVariable i.e PATH VARIABLE
-> we can define template variable name (i.e method parameter name) other than URI param
-
-@RequestMapping("/emp/{userId}")
-public void handle( @PathVariable("userId") String userIds) {..}
-
-- Here URL would be [appContext]/emp/1 , [appContext]/emp/2
-
-EXAMPLE4: with regex
-Ex - @RequestMapping("/emp/{userId:[0-9]+}") 
-- Request URL : [appContext]/emp/1 , [appContext]/emp/2
-- if we use "/emp/abc" then throw exception ?
-
-EXAMPLE 5A: REQUEST PARAM
-> it bind request parameters of query string to the controller method parameters
-
-@RequestMapping(value = "/ex/bars", method = GET)
-@ResponseBody
-public String getBarBySimplePathWithRequestParam(
-  @RequestParam("id") long id) {
-    return "Get a specific Bar with id=" + id;
-}
-- Request URL : spring-rest/ex/bars?id=100
-
-EXAMPLE 5B: RequestParam
-@RequestMapping(
-  value = "/ex/bars", 
-  params = { "id", "second" }, 
-  method = GET)
-@ResponseBody
-public String getBarByExplicitRequestParams(
-  @RequestParam("id") long id) {
-    return "Narrow Get a specific Bar with id=" + id;
-}
-- Request URL : spring-rest/ex/bars?id=100&second=something
 ~~~~~~~~~~~~~~~~~~~~~~~~
-2. HTTP Methods[] - GET, POST, DELETE, TRACE, OPTIONS, HEAD, PUTS. 
-- Defaults method supported is GET
-
-> it can handle multiple Http method together but it is not good design
-EXAMPLE1:
-@RequestMapping(value="/method2", method=RequestMethod.POST)
-@ResponseBody
-public String method2(){
-	return "method2";
-}
-
-EXAMPLE2:
-@RequestMapping(value="/method3", method={RequestMethod.POST,RequestMethod.GET})
-@ResponseBody
-public String method3(){
-	return "method3";
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-3. params[] : 
-> used to check if a request parameter matches with a value and only if the conditions passes the method or controller processes the request.
-(eg. @RequestMapping params=”myName=guest” )
-
-~~~~~~~~~~~~~~~~~~~~~~~~
-4. headers[]
-> We can specify the headers that should be present to invoke the handler method
-- used to check IF A REQUEST HEADER MATCHES WITH A VALUE then only controller processes the request
-
-EXAMPLE1:
-@RequestMapping headers=”myheader=guestHadder”)
-
-EXAMPLE2:
-@RequestMapping(value="/method5", headers={"name=pankaj", "id=1"})
-
-~~~~~~~~~~~~~~~~~~~~~~~~
-5. WITH PRODUCES AND CONSUMES
-> We can use header "Content-Type" and "Accept" to find out request contents and what is the mime message it wants in response.
-
-EXAMPLE1:
-@RequestMapping(value="/method6", 
-  produces={"application/json","application/xml"}, 
-  consumes="text/html")
-@ResponseBody
-public String method6(){
-	return "method6";
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-6. 
-~~~~~~~~~~~~~~~~~~~~~~~~
-## @RequestMapping annotations at only method level
-
-@Controller
-public class EmployeeController
-{
-    @RequestMapping("/employee-management/employees")
-    public String getAllEmployees(Model model){
-        return "employeesList";
-    }     
-	
-    @RequestMapping(value={"/employee-management/employees/remove","/employee-management/employees/delete"})
-    public String removeEmployee(@RequestParam("id") String employeeId){       
-        return "employeesList";
-    }
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-## @RequestMapping annotations at class level as well as method levels
+## @RequestMapping at class level as well as method levels
 
 @Controller
 @RequestMapping("/employee-management/employees/*")
@@ -373,15 +274,12 @@ value – It is String type attribute and it is alias for name attribute.
 @RequestParam: It is used to get the request parameters. @RequestParam automatically binds the request parameters to the arguments of your handler method. It also provides auto type conversion for some standard type like int, long, float, string, date 
 =====================================
 ######### @SessionAttributes ########
-> it indicates the session attributes that a specific handler uses
-> it typically list the names of model attributes which should be transparently stored in the session
+
+> it indicates the session attributes
+> it has list of names of model attributes which are stored in the session
 
 > it is used on class level. Typically it's used on the @Controller class. 
-- It's 'value' element is of type String[] whose values are the matching names used in @ModelAttribute either on method level or on handler's method parameter level.
-
-> when a request comes in, the first thing Spring will do is to notice @SessionAttributes('visitor') and then attempt to find the value of 'visitor' in javax.servlet.http.HttpSession. 
-- If it doesn't find the value, then the method with @ModelAttribute having the same name 'visitor' (method getVisitor()) will be invoked. 
-- The returned value from such method will be used to populate the session with name 'visitor'
+- It has 'value' element is of type String[] whose values are the matching names used in @ModelAttribute either on method level or on handler's method parameter level.
 
 
 http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
@@ -486,4 +384,6 @@ public class AppConfig {
       return new BeanThree();
    }
 }
-
+~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+HttpMessageConverter is a strategy interface that specifies a converter that can convert from and to HTTP requests and responses in Spring REST Restful web services. Internally Spring MVC uses it to convert the Http request to an object representation and back

@@ -59,20 +59,19 @@ SORT
 ########## CASCADE ##############
 ## Define cascade option in mapping relationship?
 
-> cascade attribute TRANSFERS OPERATIONS DONE ON ONE OBJECT ONTO ITS RELATED CHILD OBJECTS
-cascase="none"
+> Cascade attribute used to TRANSFERS OPERATIONS DONE ON ONE OBJECT ONTO ITS RELATED CHILD OBJECTS
 
 Cascade having the values
-1. none (default)
+1. NONE (default)
 - it means no operations will be transfers to the child class
 
-2. save
+2. SAVE
 - it mean it save child object if parent is saved. 
 
-3. update
+3. UPDATE
 - it mean it update child object if parent is update.
 
-4. save-update
+4. SAVE-UPDATE
 5. delete
 6. all
 
@@ -138,8 +137,39 @@ FetchType.EAGER: it fetches the child entities along with parent.
 5. Adding a filter for session management and keep the session open till request completion.
 =======================================
 ########## ONE-TO-ONE MAPPING #########
+
 > A "one-to-one" association is similar to "many-to-one" association with a difference that the column will be set as unique.
 
+> by default fetch type is EAGER in OneToOne Mapping. 
+- it mean when User class is queried then vehicle will also Fetch 
+
+EXAMPLE: a user have vehicle
+Vehicle : id ,name
+User : id, name, Vehicle
+
+class User{
+  @Id @GeneratedValue(strategy=GenerationType.AUTO)
+  int id;
+  String name;
+  
+  @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+  @PrimaryKeyJoinColumn //specifies primary key col is used as a foreign key to join
+  Vehicle vehicle;
+  
+  setter-getter
+}
+
+> If we use PrimaryKeyJoinColumn, then we don't need to define column name, it will take primary key of vehicle for creating extra column in User table.
+- we can also use @JoinColumn(name="vehicleId") for creating extra column in User table.
+
+> If we use 
+@JoinTable(name="User_vehicles_table", 
+joinColumns = @JoinColumn(name="userId"), 
+inverseJoinColumns = @JoinColumn(name="vehicle_id"))
+- then HB will not create extra column but it will create another table called User_vehicles_table[userId, vehicle_id]
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE - the same address can be associated with single employee.
 Employee[c] : address
 Address[c] : define its property
@@ -148,22 +178,6 @@ Address[c] : define its property
   ...
   <many-to-one name="address" unique="true" column="address" class="Address" not-null="true"/>
 </class>
-~~~~~~~~~~~~~~~~~~~~~~~~
-EXAMPLE: a user have vehicle
-Vehicle : id ,name
-User : id,name, Vehicle
-
-class User{
-  @Id @GeneratedValue(strategy=GenerationType.AUTO)
-  int id;
-  String name;
-  
-  @OneToOne(cascade=CascadeType.ALL)
-  @PrimaryKeyJoinColumn //specifies primary key col is used as a foreign key to join
-  Vehicle vehicle;
-  
-  setter-getter
-}
 =======================================
 ######### ONE-TO-MANY MAPPING #########
 > 
@@ -379,3 +393,16 @@ public class Stock implements Serializable{
 	public Set<StockDailyRecord> getStockDailyRecords() {
 		return this.stockDailyRecords;
 	}
+	
+=======================================
+
+## @ElementCollection 
+> It is used to declare an element-collection mapping. 
+- All the records of the collection are stored in a separate table.
+- The configuration for this table is specified using the @CollectionTable.
+
+## @CollectionTable 
+> it is used to specify the name of the table that stores all the records of the collection, and 
+- the JoinColumn that refers to the primary table.
+
+Moreover, When you’re using an Embeddable type with Element Collection, you can use the @AttributeOverrides and @AttributeOverride annotations to override/customize the fields of the embeddable type.

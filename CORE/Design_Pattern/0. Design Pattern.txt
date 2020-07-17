@@ -69,8 +69,18 @@
 
 =======================================
 ##### SOFTWARE DESIGN PRINCIPLES ######
+
 ## What are Software Design Principles?
 
+> it means to handle the complexity of the design process effectively.
+- It reduce the effort needed for design but can also reduce the scope of introducing errors during design.
+
+Following are the principles of Software Design
+1. Problem partitioning
+2. Abstraction
+3. Modularity
+4. Top-Down and Bottom-up strategy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a DRY principle?
 
 DRY stand for "Don't Repeat Yourself," a basic principle of software development aimed at reducing repetition of information. The DRY principle is stated as, "Every piece of knowledge or logic must have a single, unambiguous representation within a system."
@@ -172,7 +182,7 @@ Example: JPA
 - we could replace the existing implement with its subtype which has enhanced features.
 
 ## Interface Segregation Principle (ISP)
-> a client should not implement an interface if it doesn't use that
+> It states that no client should be forced to depend on methods it does not use.
 
 ## Dependency Inversion Principle.
 > do not hard code the dependent obj 
@@ -229,6 +239,24 @@ class GraphicEditor{
 > There are many design patterns that help us to extend code without changing it.
 - Decorator pattern help us to follow Open Close principle
 
+=======================================
+### INTERFACE-SEGREGATION PRINCIPLE ###
+
+> it state that no client should be forced to depend on methods it does not use.
+EXAMPLE:
+interface ISmartDevice {
+    void Print();
+    void Fax();
+    void Scan();
+}
+
+class AllInOnPrinter implements ISmartDevice{
+	implement all methods
+}
+
+> Now suppose we need to handle a dumb device (EconomicPrinter class) that can only print. We're forced to implement the Whole interface.
+
+> To avoid this we can have 3 smaller interfaces: IPrinter, IFax, and IScanner.
 =====================================
 ###### STRATEGY DESIGN PATTERN ######
 > It is quite useful for implementing set of related algorithms e.g. compression algorithms, filtering strategies etc
@@ -305,6 +333,7 @@ Ex- Employee(Super) having Address(sub)
 - Composition is a strong Association
 =====================================
 ## What is Cohesion in Java?
+
 > It refers all about how a single class is designed.
 - It is most closely associated with making sure that a class is designed with a single, well-focused purpose.
 

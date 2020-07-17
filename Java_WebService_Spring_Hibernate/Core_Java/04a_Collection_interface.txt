@@ -201,7 +201,7 @@ public iterface Iterator {
 - void set(Obj), void add(Obj)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is FAIL-FAST ITERATOR?
+## What is FAIL-FAST ITERATOR?
 
 > Fail fast is behavior of an iterator 
 > while iterating through the collection, it throws ConcurrentModificationException if there is structural modification of the col. 
@@ -311,9 +311,11 @@ for (Enumeration<E> e = v.elements(); e.hasMoreElements();)
 > Enumeration - boolean hasMoreElement(); Object nextElement(), N/A
 > Iterator - boolean hasNext(), E next(), void remove()
 
-=====================================
-###### COMPARABLE & COMPARATOR ######
-##What is Comparable interface?
+=======================================
+####### COMPARABLE & COMPARATOR #######
+
+## What is Comparable interface?
+
 > java.lang.Comparable[i] is used TO ORDER the objects of user-defined class and 
 - has only 1 method : public int compareTo(Object).
 
@@ -327,7 +329,7 @@ for (Enumeration<E> e = v.elements(); e.hasMoreElements();)
 ## What is Comparator[i]?
 
 > Comparator interface is used to order the objects of user-defined class.
-> Comparator has 2method: 
+> it has 2method: 
 - int compare(Object obj1,Object obj2) & 
 - boolean equals(Object element)
 Note: that it is always safe not to override Object.equals(Object).
@@ -358,7 +360,9 @@ EXAMPLE:
 > compareTo() : 0 for equal, -1 for smaller, 1 for greater
 =====================================
 ######### COLLECTIONS CLASS #########
-##What is COLLECTIONS CLASS?
+
+## What is COLLECTIONS[c]?
+
 > it is introduce in jdk1.2
 > java.util.Collections class is a utility class that is use to operate on collection. 
 > hving private constructor so not initialize
@@ -385,7 +389,7 @@ Collections methods:-
 	- Searches the obj1 in the list list1. Returns the index number of the element obj1. 
 	- elements must be sorted earlier with sort() method; else unexpected results with execu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the difference between Collection and Collections?
+## What is the difference between Collection and Collections?
 
 > java.util.Collection is an interface whereas java.util.Collections is a class. 
 > Collections class is use to sort and synchronize collection elements as 
@@ -395,6 +399,7 @@ Collections methods:-
 > All wrapper class implements comparable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to make a collection read only?
+
 > Collections class provide 6 methods 1 for each of Collection, List, Map, Set, SortedMap, and SortedSet. As below :
 
 - Collections.unmodifiableList(list); return List
@@ -415,15 +420,17 @@ collection.add("String"); // throw UnsupportedOperationException
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between Collections.sort() and Arrays.sort()?
+
 > Collections.sort() internally call Arrays.sort() so algorithm wise both are same.
 > Only difference is the input 
 > Merge sort algo is used
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Arrays class?
+
 > utility class hving private constructor so not initialize
 > contains various method like binarySearch(), sort(), fill(), hashCode(), toString() etc to enhance the spead
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### EMPTY COLLECTION #####
+####### EMPTY COLLECTION ########
 > returning an instance of list/set is adding an extra cost without any elements. Its better to return EMPTY_LIST/EMPTY_SET/EMPTY_MAP 
 
 > EMPTY_LIST/EMPTY_SET/EMPTY_MAP return the empty list/set/map
@@ -436,12 +443,10 @@ collection.add("String"); // throw UnsupportedOperationException
 ### Why Collection doesnt extend Cloneable[i] and Serializable[i]?
 
 > Collection is an ABSTRACT REPRESENTATION of a group of objects. 
-- The details of how the group of elements is maintained is left up to the concrete implementations of Collection.  For example, List allow duplicate ele whereas Set don't
-- However, it does't really make sense to include it in all implementations of Collection. This is because Collection is an abstract representation
-- the concrete implementation should decide how it should be cloned or serialized, or even if it can be cloned or serialized
+- The details of how the group of elements is maintained is left on the concrete impls of Collection.  
+- For example, List allow duplicate ele whereas Set don't
+- the concrete impl should decide how it should be cloned or serialized, or even if it can be cloned or serialized
 
 > So MANDATING it will be actually LESS FLEXIBLE AND MORE RESTRICTIVE. 
 > A lot of the Collection implementations have a public clone method.  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are Collection related features in Java 8?
-> 

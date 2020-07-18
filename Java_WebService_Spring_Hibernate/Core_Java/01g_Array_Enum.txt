@@ -40,27 +40,27 @@ dataType arrayRefVar[]; //works but not preferred way.
 2. dataType[] arrayRefVar = {value0, value1, ..., valuek}; // Array Literals
 3. dataType[] arrayRefVar = new dataType[]{value0, value1, ..., valuek}; 
 - 2,3 are similar
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you use Generics with array?
 
 > No, we cannot use Generic with array, that's why sometime List is better choice over array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we return array like {3,4,5} directly??
 No
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between a[] and []a in Java?
 > we can declare an array in Java by either prefixing or suffixing[] with variable. There is NOT MUCH DIFFERENCE between them 
 - But if we are creating more than one variable in one line, then it creates different types of variables.
 EXAMPLE :
 int a[], b; // first is int array, second is just int variable
 int[] c, d; // both c and d are integer array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is class name of java array?
 
 > In java, ARRAY IS AN OBJECT. 
 > For array object, an proxy class is created whose name can be obtained by getClass().getName() method on the object
 > It is of [I
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you store String in an array of Integer in Java? compile time error or runtime exception?
 
 int[] primes = new int[10]; 
@@ -68,16 +68,16 @@ primes[0] = "a"; //compile time error
 
 Object[] names = new String[3]; 
 names[0] = new Integer(0); // ArrayStoreException at runtime
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you make array volatile in Java?
 
 http://jeremymanson.blogspot.in/2009/06/volatile-arrays-in-java.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we copy array to another array?
 
 > We can copy an array to another by the arraycopy method of System class.
 > public static void System.arraycopy(Object src, int srcPos,Object dest, int destPos, int length) 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we join two array?
 
 > Here we have 2 array i.e nodeIdentifiersForAppId, nodeIdentifierForAdminNodes
@@ -86,7 +86,7 @@ http://jeremymanson.blogspot.in/2009/06/volatile-arrays-in-java.html
  
  System.arraycopy(nodeIdentifiersForAppId, 0, nodeIdentifiers, 0, nodeIdentifiersForAppId.length);
  System.arraycopy(nodeIdentifierForAdminNodes, 0, nodeIdentifiers, nodeIdentifiersForAppId.length, nodeIdentifierForAdminNodes.length);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 20. Resize an Array in Java
 /**
 * Reallocates an array with a new size, and copies the contents
@@ -115,7 +115,7 @@ public static void main (String[] args) {
    for (int i=0; i<a.length; i++)
       System.out.println (a[i]); 
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Convert Array to Map in Java?
 
 String[][] countries = { { "United States", "New York" }, { "United Kingdom", "London" },
@@ -143,7 +143,7 @@ public abstract class Enum <E extends Enum<E>>
       throw new InvalidObjectException("can't deserialize enum");
   }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why Enum is require?
 
 public class CurrencyDenom {
@@ -167,7 +167,7 @@ Ex- when you print NICKLE it will print "5" instead of "NICKLE"
 
 3) NO NAMESPACE: to access the currencyDenom constant we need to prefix class name 
 Ex- CurrencyDenom.PENNY instead of just using PENNY though this can also be achieved by using static import in JDK 1.5
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Enum?
 
 > Enum is a DATA TYPE THAT CONTAINS FIXED SET OF INSTANCES
@@ -197,7 +197,7 @@ IMPORTANCE OF ENUM
 - throw IllegalArgumentException: No enum const class" if you supply any string other than enum values.
 
 >> Enum HAVE PRIVATE CONSTRUCTOR so we can not create instance of enums by using new operator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can Enum implement interface in Java? If yes, How?
 
 > Yes, Enum can implement interface in Java. 
@@ -216,11 +216,11 @@ enum Currency implements Runnable{
 };
 
 new Thread(Currency.DIME).start();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can Enum extends class in Java?
 > No, Enum can not extend class in Java. 
 - Since all Enum by default extend abstract base class java.lang.Enum, it can not extend another class,
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do you create Enum without any instance? Is it possible without compile time error?
 
 > Since Enum is viewed as a collection of well defined fixed number of instances 
@@ -234,7 +234,7 @@ public enum MessageUtil{
 		throw new UnsupportedOperationException("Not supported yet."); 
 	} 
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we create instance of Enum outside of Enum itself? If Not, Why?
 
 > NO, WE CAN NOT CREATE ENUM INSTANCES OUTSIDE OF ENUM BOUNDRY, 
@@ -242,7 +242,7 @@ public enum MessageUtil{
 - Since compiler generates lot of code in response to enum type declaration, it doesn’t allow public constructors inside Enum, which enforces declaring enum instances inside Enum itself.
 
 - default access specifier for constructor is allow but stil we cannot create an enum instance outside enum
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by enum type-safety? How enums in java are type-safe?
 
 > Enum type-safety means we CAN'T ASSIGN ANY VALUE TO THE ENUM CONSTANT. 
@@ -252,7 +252,7 @@ Example
 - public enum Currency {PENNY, NICKLE, DIME, QUARTER};
 - Currency coin = Currency.PENNY;
 - coin = 1; //compilation error
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do you specify values to enum constant?
 > We can specify values of enum constants at the creation time
 Ex - we can define enum with value like this  
@@ -265,7 +265,7 @@ public enum Currency {
 	}
 };
 > Constructor of enum must be private any other access modifier will result in compilation error. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to use enum in Switch?
 > it can be used as argument on switch statement and with case constant like int or char.
 
@@ -273,7 +273,7 @@ Ex -
 switch(cur){
 	case(PENNY): ...
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do I compare two enum in Java? Should I use == operator or equals() method? What is difference between comparing enum with == and equals()?
 
 > for Enum using == is better than using equals
@@ -282,7 +282,7 @@ switch(cur){
 - equals() method will also return false but at runtime.
 
 > == for comparing Enum can prevent NullPointerException
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does enum implements abstract method?
 enum Currency {
     PENNY(1) {
@@ -317,7 +317,7 @@ System.out.println("Color: " + Currency.DIME.color());
 --------------------------------------
 ## What is difference between ordinal() and compareTo() in Enum?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we use Enum with TreeSet or TreeMap in Java?
 > By default Enum implements Comparable[i] 
 - we can use it in TreeSet or TreeMap
@@ -378,7 +378,7 @@ public class PARAMETER_STYLE {
 		return null;
 	}
 } //PARAMETER_STYLE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 ENUM 
 
 public enum PARAMETER_STYLE {

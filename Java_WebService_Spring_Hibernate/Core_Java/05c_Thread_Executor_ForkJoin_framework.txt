@@ -13,7 +13,7 @@
 
 > java.util.concurrent.Executors provide implementation of java.util.concurrent.Executor[i] to create the thread pool in java.
 - ExecutorService executor = Executors.newFixedThreadPool(5);//creating a pool of 5 threads 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How thread pool works in java?
 
 > A thread pool is a collection of pre-initialized threads
@@ -26,7 +26,7 @@
 1. Get a new task to execute
 2. Execute it
 3. Go back to waiting for next task
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why Thread Pools?
 
 > In many server app, we may want to process each client request in parallel. 
@@ -38,7 +38,7 @@ DISADVANTAGE of one thread per task approach
 > The overhead of creating a new thread for each request is significant. 
 - Server that processing requests can spend more time and 
 - consume more system resources in creating and destroying threads than it would processing actual client requests.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ############# HIERARCHY ###############
@@ -52,7 +52,7 @@ ScheduledExecutorService[i] <--- ThreadPoolExecutor[c] <--- ScheduledThreadPoolE
 > AbstractExecutorService[ac] implements ExecutorService[i]
 > ThreadPoolExecutor[c] extends AbstractExecutorService[ac]
 > ScheduledThreadPoolExecutor[c] extends ThreadPoolExecutor[c] impl ScheduledExecutorService[i]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Executor[i]?
 
 > Executor[i] hv only 1 method 
@@ -74,7 +74,7 @@ ScheduledExecutorService[i] <--- ThreadPoolExecutor[c] <--- ScheduledThreadPoolE
 
 > It provides us mechanisms to manage the end and detect progress of the asynchronous tasks
 - run in background. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create instance of ExecutorService?
 
 > create an ExecutorService depends on the impl we use.
@@ -155,11 +155,11 @@ List<Future> invokeAll(Collection tasks, timeOut, timeUnit)
 
 > These methods define in AbstractExecutorService[C]
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Executor framework?
 
 > it is a framework for standardizing invocation, scheduling, execution, and control of asynchronous tasks according to a set of execution policies.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the benefits of Executor framework?
 
 > The framework mainly separates task creation and execution. 
@@ -170,13 +170,13 @@ List<Future> invokeAll(Collection tasks, timeOut, timeUnit)
 > EXECUTOR INTERNALLY MAINTAIN a (configurable) THREAD POOL TO IMPROVE APP PERFORMANCE by avoiding the continuous spawning of threads.
 
 > Executor is responsible for executing the tasks, running them with the necessary threads from the pool.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is diff bet ExecutorService.submit() and Executor.execute()?
 
 > submit() : is used to invoke runnable/callable thread and return Future object.
 - execute(): is used to invoke only Runnable task only and it doesn't return anything.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a ScheduledExecutorService[i] ?
 
 > it extends ExecutorService[i]
@@ -292,7 +292,7 @@ ThreadPoolExecutor.DiscardOldestPolicy: It removes the oldest task in the queue 
 
 > It provides a lot of methods to obtain information about its status. 
 EXAMPLE : getPoolSize(), getActiveCount(), and getCompletedTaskCount() 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create ThreadPoolExecutor[c]?
 
 > ThreadPoolExecutor[c] has 4 different constructors with adjustable parameters 
@@ -315,7 +315,7 @@ ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newSingleThreadExec
 
 5. Work stealing thread pool executor 
 ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newWorkStealingPool(4);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ############# EXECUTORS ############
@@ -332,7 +332,7 @@ ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newWorkStealingPool
 > We can create following 5 types of thread pool executors with pre-built methods in java.util.concurrent.Executors[i]
 > it is only class that support execution of Callable impl.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### METHODS #############
 > It contains below public static methods 
 
@@ -366,7 +366,7 @@ ExecutorService es = Executors.newSingleThreadExecutor();
 - execute a task, REPEATEDLY N TIMES, EITHER N FIXED NUMBER OF TIMES OR INFINITIVELY AFTER FIXED DELAY.
 
 ScheduledExecutorService ses = Executors.newScheduledThreadPool(int corePoolSize);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### METHODS #############
 > It provides 4 methods which provide different capabilities to execute the tasks in repeated manner.
 
@@ -437,7 +437,7 @@ ForkJoinPool pool = new ForkJoinPool(numberOfProcessors);
 
 - If no-argument pass then by default, it creates a pool of size that equals the number of available processors obtained.
 - pool adjusts its size dynamically in an attempt to maintain enough active threads 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How ForkJoinPool work?
 
 > Each thread has a special kind of queue, Deques, where all its tasks are placed
@@ -452,7 +452,7 @@ In other words, if the current task cannot proceed (as it performs a join on a s
 - A thread will always steal oldest tasks from some other thread’s queue
 
 http://www.javacreed.com/java-fork-join-example/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between ForkJoinPool and other ExecutorService?
 
 > main difference between Fork/Join and Executor frameworks is the work-stealing algorithm. 
@@ -464,7 +464,7 @@ three different ways of submitting a task to the ForkJoinPool.
 1) execute() method //Desired asynchronous execution; call its fork method to split the work between multiple threads.
 2) invoke() method: //Await to obtain the result; call the invoke method on the pool.
 3) submit() method: //Returns a Future object that you can use for checking status and obtaining the result on its completion.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is there existing Implementations in JDK which use Fork-Join framework?
 
 > In Java8, for parallelSort() of java.util.Arrays[c]

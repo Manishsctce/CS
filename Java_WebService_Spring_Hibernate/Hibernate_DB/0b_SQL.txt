@@ -7,7 +7,7 @@
 > SQL depends on relational algebra and tuple relational calculus.
 > It is not case sensitive
 > SQL is supported by almost all database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the subsets of SQL?
 
 > Data definition language (DDL)
@@ -16,7 +16,7 @@
 
 > DML statements can be rollbacked where DDL are autocommit.
 > DML commands can't be rollback when a DDL command is executed immediately after a DML.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Data Definition Language? (CADT)
 
 > Data Definition Language (DDL) statements are used to define the database structure or schema. Some examples:
@@ -27,7 +27,7 @@ DROP - delete objects from the database
 TRUNCATE - remove all records from a table, including all spaces allocated for the records are removed
 COMMENT - add comments to the data dictionary
 RENAME - rename an object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is data manipulation language? (SIDU)
 
 > Data Manipulation Language (DML) statements are used for managing data within schema objects. Some examples:
@@ -39,7 +39,7 @@ MERGE - UPSERT operation (insert or update)
 CALL - call a PL/SQL or Java subprogram
 EXPLAIN PLAN - explain access path to data
 LOCK TABLE - control concurrency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is data control language(DCL)?
 
 > Data control language allows you to control access to the database. 
@@ -47,7 +47,7 @@ LOCK TABLE - control concurrency
 
 GRANT: to grant specific user to perform specific task.
 REVOKE: to cancel previously denied or granted permissions.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Transaction control(TCL)?
 
 > Transaction Control (TCL) statements are used to manage the changes made by DML statements. 
@@ -57,7 +57,7 @@ COMMIT - save work done
 SAVEPOINT - identify a point in a transaction to which you can later roll back
 ROLLBACK - restore database to original since the last COMMIT
 SET TRANSACTION - Change transaction options like isolation level and what rollback segment to use
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## What is the difference between CHAR and VARCHAR2 datatype in SQL?
 
@@ -121,7 +121,7 @@ MERGE - UPSERT operation (insert or update)
 > it does not free the space containing by the table
 
 ># SYNTAX:  DELETE FROM table_name [WHERE condition];  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the difference between DELETE and TRUNCATE statement in SQL?
 
 > DELETE is a DML command.
@@ -146,7 +146,7 @@ MERGE - UPSERT operation (insert or update)
 > Arithmetic operators :   +,-,*,/,%
 > Logical operators    : >, <, =, !=, <> 
 > Comparison operator  : AND, OR, BETWEEN, IN, NOT, EXISTS, LIKE, ALL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### IS NULL or IS NOT NULL #####
 
 > It is not possible to test for NULL values with comparison operators, such as =, <, or <>.
@@ -157,13 +157,13 @@ WHERE column_name IS NULL;
 
 SELECT column_names FROM table_name
 WHERE column_name IS NOT NULL;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain 3 different rules that apply to NULLs when doing comparison?
 
 1. For all operators except for concatenation(||), if a value of expr. is null then expres evaluate to NULL.
 2. NULL is never equal or not equal to another value.
 3. NULL is never TRUE or FALSE.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ############# LIKE ##############
 > it is used in a WHERE clause to search for a specified pattern in a column.
 
@@ -186,12 +186,12 @@ WHERE CustomerName LIKE '%or%'	: Finds any values that have "or" in any position
 > BETWEEN operator is used to test a range. 
 > BETWEEN A AND B evaluates to TRUE if the value is greater than or equal to A and less than or equal to B.
 > If NOT BETWEEN is used, the result is the reverse.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### DISTINCT ############
 
 > The output of the query using distinct will be always be in sorted order
 > The sorting will be based on entire row of the output.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### ORDER BY - [asc|desc] ######
 
 > it help to sort the data in either ascending or descending order
@@ -202,7 +202,7 @@ WHERE CustomerName LIKE '%or%'	: Finds any values that have "or" in any position
 EXAMPLE - select name,age,sal from emp order by age desc,sal;
 - give desc order of age with sal in any order 
 > if age,sal both are desc, then it give in any order. ??
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### GROUP BY ############
 
 > Related rows can be grouped together by GROUP BY clause by specifying a column as a grouping column.
@@ -212,7 +212,7 @@ EXAMPLE - select name,age,sal from emp order by age desc,sal;
 >> whatever appear in SELECT clause should appear in GROUP BY
 
 EXAMPLE - 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ############ HAVING ############# 
 
 > Having condition has to be based on some column that appears in the group by list
@@ -228,7 +228,7 @@ EXAMPLE -
 SELECT Orders.orderid, Orders.CustomerID
 FROM Orders Group by Orders.CustomerID having count(Orders.CustomerID)>2 ;
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between WHERE clause and HAVING clause?
 
 > WHERE and HAVING both filters out records based on one or more conditions. 
@@ -242,20 +242,20 @@ FROM Orders Group by Orders.CustomerID having count(Orders.CustomerID)>2 ;
 > The difference is, 
 - WHERE clause can only be applied on a static non-aggregated column whereas
 - we will need to use HAVING for aggregated columns.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ############# INTO ############## 
 > SELECT INTO statement is used mostly TO CREATE BACKUPS.
  
 Ex - to take backup of employee in employeeBackup
 > SELECT * INTO EmployeeBackup FROM Employee;
 > the structure of EmployeeBackup and Employee table should be same. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### EXISTS and NOT EXISTS #####
 
 > it used to check whether sub-query return any row 
 > EXISTS return true. 
 > outer query will show result only if inner query return atleast 1 row.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ############## ALL ##############
 
 > it is used to compare condition as it compare a value to a list or subquery
@@ -264,7 +264,7 @@ Ex - to take backup of employee in employeeBackup
 
 Ex- Select empNo, sal from emp where sal > ALL(2000,3000,4000);
 - Here selection will be of the emp whose sal is greater than all values in list i.e it should be sal > 2000 AND sal> 3000 AND sal>4000;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## ANY and SOME #########
 > it is used to compare condition as it compare a value to a list or subquery
 > Here CONDITION SHOULD MATCH FOR ANY VALUES IN LIST
@@ -290,7 +290,7 @@ LEN(c) :- returns length of a text
 > The COUNT function returns the number of rows in the query. 
 > The asterisk (*) is a special quantity – it counts all rows in the result set, regardless of NULLs.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the highest no. of nesting is possible in aggregate function inside select?
 
 
@@ -306,12 +306,12 @@ LEN(c) :- returns length of a text
 1.Joins using Operators -> Equi Join,Non Equi Join
 
 2.Joins using Concept-> Inner Join,Outer Join,Cross Join,Self Join
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain Equi Join with example?
 
 > When two or more tables has been joined using equal to operator then this category is called as equi join.
 - it make use of WHERE clause to apply the condition between two tables.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain Non-Equi Join with example?
 
 > When two or more tables are joining without Equal to condition then that join is known as Non-Equi join
@@ -338,7 +338,7 @@ Type2:
 SELECT o.OrderID, c.CustomerName, o.OrderDate
 FROM Orders o, Customers c
 WHERE o.CustomerID=c.CustomerID;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which types of join is used in SQL widely?
 
 > INNER JOIN is the most common type of Join which is used to combine the rows from two tables and 
@@ -347,7 +347,7 @@ WHERE o.CustomerID=c.CustomerID;
 SELECT dept.name DEPARTMENT, emp.name EMPLOYEE 
 FROM DEPT dept, EMPLOYEE emp
 WHERE emp.dept_id = dept.id;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can Inner join happens between two table without where condition?
 
 Yes, it can happens
@@ -440,7 +440,7 @@ Cartesian product
 > The columns must also have similar data types
 > The columns in each SELECT statement must also be in the same order
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between UNION and UNION ALL?
 
 > UNION merges the contents of TWO STRUCTURALLY-COMPATIBLE TABLES into a single combined table. 
@@ -456,7 +456,7 @@ UNION ALL
 SELECT * FROM EMPLOYEE WHERE ID = 5
 - it will return multiple duplicate row.
 - but using UNION it will return unique row.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Customers : CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country
 Suppliers : SupplierID, SupplierName, ContactName, Address, City, PostalCode, Country
 
@@ -469,7 +469,7 @@ select SupplierID,SupplierName, City, Country, PostalCode from Suppliers
 UNION 
 select CustomerID,CustomerName, City, Country, PostalCode from Customers
 - it will execute and return data but it will be difficult to find which is supplier and customer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the difference between JOIN and UNION?
 
 > UNION : 
@@ -533,7 +533,7 @@ select e.*, ROW_NUMBER() OVER (ORDER BY salary DESC) rn
 from Employee e 
 )
 WHERE rn = N; /*N is the nth highest salary*/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ############ TABLESPACE ###############
 
@@ -588,7 +588,7 @@ where df.tablespace_name = tu.tablespace_name ;
 
 5. A clustered index and many nonclustered indexes
 6. Many Non-Clustered indexes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the differences between Clustered index(CI) and Non-Clustered Index(NCI) in SQL?
 
 > CI - A table can have only one clustered index but 

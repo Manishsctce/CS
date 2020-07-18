@@ -55,7 +55,7 @@ SORT
 - the Certificate object must have a Employee parent associated with it. 
 - we can either use <one-to-one>, <many-to-one> or <many-to-many> elements based on requirement
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## CASCADE ##############
 ## Define cascade option in mapping relationship?
 
@@ -80,7 +80,7 @@ Cascade having the values
 
 ## what is orphan record?
 > it is a record in child table but it doesn’t have association with its parent in the application.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is “inverse” ?
 
 > “inverse” keyword is always declare in one-to-many and many-to-many relationship (many-to-one doesn’t has inverse keyword), 
@@ -88,7 +88,7 @@ Cascade having the values
 
 > By default, inverse="false" : it mean it will update the relationship
 > inverse="true" : it mean it will not update the relationship
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How many type of relationship exist in hibernate?
 
 > 4 types of relationships
@@ -96,7 +96,7 @@ Cascade having the values
 2. One-To-One
 3. One-To-Many
 4. Many-To-Many
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is it possible to perform collection mapping with One-to-One and Many-to-One?
 
 > No, collection mapping can only be performed with One-to-Many and Many-to-Many.
@@ -123,7 +123,7 @@ FetchType.LAZY:
 > It fetches the child entities lazily, that is, at the time of fetching parent entity it just fetches proxy (created by cglib or any other utility) of the child entities and when you access any property of child entity then it is actually fetched by hibernate.
 
 FetchType.EAGER: it fetches the child entities along with parent.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the ways to avoid LazyInitializationException ?
 
 1. Set lazy=false in the hibernate config file.
@@ -270,7 +270,7 @@ Address[c] : define its property
 @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
 @PrimaryKeyJoinColumn
 private List<Vehicle> vehicles = new ArrayList<Vehicle>();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do we have 2 different annotation @OneToMany & @ManyToOne?
 
 > 2 different annotations is needed because using this we can tell Hibernate which object is the child/many part of the relationship and 
@@ -331,14 +331,14 @@ public class Project {
 - an ordered collection uses database's order by clause for ordering. 
 
 > For large data set it's BETTER TO USE ORDERED COLLECTION to avoid any OutOfMemoryError in Java, by trying to sort them in memory.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## difference between @JoinColumn and @PrimaryKeyJoinColumn?
 
 @JoinColumn : Specifies a column for joining an entity association
 - also used to change the name of column while joining.
 
 @PrimaryKeyJoinColumn : specifies a primary key column is used as a foreign key to join to another table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## How do you specify a one to many unidirectional relationship with Hiberate?
 ## How do you specify a one-to-many bidirectional relationship with Hibernate?

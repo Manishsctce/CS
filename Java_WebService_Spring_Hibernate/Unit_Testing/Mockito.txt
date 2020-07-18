@@ -28,11 +28,11 @@
 
 ## NEED TO ADD AT TEST CLASS
 @RunWith(MockitoJUnitRunner.class)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Hamcrest ?
 
 Hamcrest is a framework used for writing customized assertion matchers in the Java programming language. It allows the match rules to be defined declaratively. This makes the hamcrest valuable in UI validation, data filtering, writing flexible tests, etc. It can also be used with mock objects by using adaptors. Hamcrest can also e used with JUnit and TestNG.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is PowerMock?
 
 > PowerMock is a Java framework for unit testing purposes. 
@@ -56,14 +56,14 @@ Hamcrest is a framework used for writing customized assertion matchers in the Ja
 ## NEED TO ADD AT TEST CLASS
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(fullyQualifiedNames = "com.baeldung.powermockito.introduction.*")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to work with final/static method using PowerMock?
 
 > In order to mock static methods, we need to register the enclosing class with the PowerMockito API:
 mockStatic(CollaboratorWithStaticMethods.class);
 
 when(CollaboratorWithStaticMethods.firstMethod(Mockito.anyString())).thenReturn("Hello Baeldung!");
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is EasyMock?
 
 > EasyMock is a framework for creating mock objects as it uses Java reflection to create it for a given interface. 
@@ -75,7 +75,7 @@ exception support,
 return value support,
 refactoring scale,
 annotation support and order check support.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## List some limitations of Mockito?
 
 Some limitations of the mockito are,
@@ -83,7 +83,7 @@ Some limitations of the mockito are,
 > It cannot mock constructors or static methods.
 > It requires Java version 6 plus to run.
 > It also cannot mock equals(), hashCode() methods.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ############ MOCKITO MOCK #############
@@ -93,7 +93,7 @@ Some limitations of the mockito are,
 2. @InjectMocks
 3. @Spy 
 4. @Captor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ############  @Mock #############
 
 > we can create mock objects using either @Mock or mock() static method.
@@ -138,13 +138,13 @@ public class CalcService2Test {
 		assertEquals(expected, actual);
 	}
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is use of mock() in Mockito?
 
 > The Mock() method is used to create and inject the mocked instances. 
 - It gives you boilerplate assignments to work with these instances. 
 - The other way of creating the instances is using the @mock annotations. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## 2. @InjectMocks ########
 > It is used When we want to INJECT A MOCKED OBJECT INTO ANOTHER MOCKED OBJECT.
 
@@ -158,7 +158,7 @@ public class CalcService2Test {
 > Mockito @InjectMocks, allow us to inject mocked dependencies in the annotated class mocked object.
 
 > If there is more than one mocked object of the same class, then mock object name is used to inject the dependencies.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### 3. @Spy  ############
 
 > It is USED TO CREATE A REAL OBJECT and spy on that real object
@@ -168,19 +168,19 @@ public class CalcService2Test {
 - If the class doesn’t have it then it will throw MockitoException 
 
 - Mockito cannot instantiate inner classes, local classes, abstract classes, and interfaces.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference betn Mockito Spy vs doCallRealMethod()
 
 > use doCallRealMethod() on a mock object to call the real method, however, it’s recommended to use Spy to create partial mocks. 
 - Because in Spy, we are instantiating an object, whereas when we create a mock object, Mockito creates a bare-minimum instance of the object. Chances are that the required dependencies are not initialized when mock is being created, leading to erroneous results.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## 4. @Captor ###########
 > It is used to create an ArgumentCaptor instance which is used to capture method argument values for further assertions.
 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is ArgumentCaptor in Mockito?
 
 > ArgumentCaptor is a class that is used to capture the argument values for future assertions. 
@@ -238,7 +238,7 @@ void test() {
 	//it will pass if size() is called only once on the mockList
 	verify(mockList, times(1)).size();
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mockito.verify(T mock, VerificationMode mode)
 
 > It can be used to test number of method invocations.
@@ -250,7 +250,7 @@ verify(mockList, atLeastOnce()).size(); // must be called at least once
 verify(mockList, atMost(2)).size(); // must be called at most 2 times
 verify(mockList, atLeast(1)).size(); // must be called at least once
 verify(mockList, never()).clear(); // must never be called
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mockito.verifyNoMoreInteractions(Object...mocks)
 
 > It can be used after all the verify methods to make sure that all the interactions are verified. It will fail the test if there are any unverified interactions on the mocked object.
@@ -260,7 +260,7 @@ EXAMPLE:
 verifyNoMoreInteractions(mockList);// all interactions are verified, it will pass 
 mockList.isEmpty(); // isEmpty() is not verified, so test will fail
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## public static InOrder inOrder(Object... mocks)
 
 > It is used to verify the order of invocation. 
@@ -273,7 +273,7 @@ inOrder.verify(mockList, calls(1)).size();
 inOrder.verify(mockList).isEmpty();
 inOrder.verify(mockMap).isEmpty();
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Assert and Verify in mockito?
 
 > Both statements are used to add validations to the test methods in the test suites but they differ in the following.
@@ -317,7 +317,7 @@ doAnswer((i) -> {
 	return null;
 }).when(mockEmp).setName(anyString());
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### 2. doThrow() 
 - use when we want to stub a void method that throws exception.
 
@@ -422,7 +422,7 @@ public class JUnit4PowerMockitoStaticTest{
 }
 =======================================
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between doReturn and thenReturn.
 
 > Mockito provides two different syntaxes for creating stubs like:
@@ -431,13 +431,13 @@ doReturn and thenReturn
 doNothing (no thenNothing)
 doThrow and thenThrow
 Both these methods setup stubs and can be used to create/setup stubs and could be used interchangeably at times.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 TDD - test-driven development

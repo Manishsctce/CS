@@ -20,11 +20,11 @@ EXAMPLE: <classname>.hbm.xml
       <property name="salary" column="salary" type="int"/>
    </class>
 </hibernate-mapping>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Should all the mapping files of hibernate have .hbm.xml extension to work properly?
 
 > No, having .hbm.xml extension is a convention and not a requirement for hibernate mapping file names. We can have any extension for these mapping files.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is an Entity?
 
 > entity is a business object that has some distinct value. 
@@ -70,7 +70,7 @@ boolean 	: boolean/java.lang.Boolean : BIT
 yes/no	boolean or java.lang.Boolean	CHAR(1) ('Y' or 'N')
 true/false	: boolean or java.lang.Boolean : CHAR(1) ('T' or 'F')
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to make a immutable class in hibernate?
 
 > use @Immutable to indicate to Hibernate that a table will not be updated from the application.
@@ -79,12 +79,12 @@ true/false	: boolean or java.lang.Boolean : CHAR(1) ('T' or 'F')
 - By default, it is mutable="true".
 
 > Immutable classes may not be updated or deleted by the application.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can hibernate be configured to access an instance variable directly and not through a setter method.
 
 > By mapping the property with access="field" in hibernate metadata. 
 - This force hibernate to bypass the setter method and access the instance variable directly while initializing a newly loaded object.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =====================================
 ######### ANNOTATION MAPPING ########
@@ -160,7 +160,7 @@ public class Book {
     ...
 }
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is pros & cons of Hibernate annotation Vs Mapping file?
 
 CONS
@@ -171,15 +171,15 @@ PROS
 - clear and precise 
 - uses and supports the JPA 2 persistence annotations that give freedom to use any other ORM that support JPA2 
 - it reduce to the risk of a missing or stale mapping file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is @UniqueConstraint and @Column Unique attribute.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between @Entity(name="Emp") and @Table(name="Emp") in Hibernate?
 - @Entity(name="XYZ") : used to name Entity
 - @Table(name=”XYZ”) : to create table with name XYZ instead of class name.
 
 Note : if you don't use @Table then hibernate consider that @Entity is your table name by default
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Generator classes in Hibernate?
 
 > it is USED TO GENERATE THE UNIQUE IDENTIFIER FOR THE OBJECTS of persistent class. 
@@ -209,7 +209,7 @@ Integer getId(){..};
 
 @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_GEN")
 Integer getId(){..};
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Entity Object - has meaning on its own
 Value Object - it doesn't has meaning on its own
 
@@ -217,7 +217,7 @@ Value Object - it doesn't has meaning on its own
 
 > The properties that are not mapped to a column, but calculated at runtime by evaluation of an expression are called derived properties. 
 - The expression can be defined using the formula attribute of the element.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can I have one entity class representing two tables with same structure in hibernate?
 
 > we can merge 2 different classes into 1 DB table. 
@@ -239,4 +239,4 @@ class Student {
 
 Note : Here Student will be the main entity class having @Entity
 - it is used if we don't want separate class for Address
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

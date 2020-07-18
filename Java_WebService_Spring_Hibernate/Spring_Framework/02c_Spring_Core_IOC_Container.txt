@@ -15,7 +15,7 @@
 
 > it is a xml file that contain classes info and describe how classes are configured and introduce each other.
 > it PROVIDE INSTRUCTION TO THE SPRING CONTAINER
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do you provide configuration metadata to the Spring Container?
 
 > There are 3 ways to provide configuration metadata to the Spring Container:
@@ -35,7 +35,7 @@
 
 > A Spring XML Configuration uses Spring namespaces to make available the sets of XML tags used in the configuration; 
 - the main Spring namespaces are: context, beans, jdbc, tx, aop, mvc, aso
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### XML-BASED CONFIGURATION METADATA ###
 
 > use the application context constructor which takes multiple Resource locations. 
@@ -54,7 +54,7 @@ ApplicationContext context = new ClassPathXmlApplicationContext(
     <bean id="bean1" class="..."/>
     <bean id="bean2" class="..."/>
 </beans>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### XML-centric ###########
 > We can use @Configuration inside XML configuration as like 
 
@@ -112,7 +112,7 @@ public class AppConfig {
 	<constructor-arg index="1" value="username"/>
 	<constructor-arg index="2" value="password"/>
 </bean>	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### In case of Annotation, use @import in place of <import resource="..."/>
 Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
 =======================================
@@ -169,7 +169,7 @@ Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
 -------------------------
 6. String[] getAliases(String): 
 - Return the aliases for the given bean name, if any were defined in the bean definition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### BeanFactory IMPLEMENTATIONS ####
 
 #### XmlBeanFactory[c] ####
@@ -206,7 +206,7 @@ EXAMPLE -
 ClassPathXmlApplicationContext appCtx = new ClassPathXmlApplicationContext(
 		new String[] {"com/tibco/amf/admin/server/applicationContext.xml"}, false);
 appCtx.setClassLoader(classLoader);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 2. FileSystemXmlApplicationContext[c]
 - it is used to load XML configuration files from the file system or from URLs
 - This is similar to ClassPathXmlApplicationContext except that the xml configuration file can be loaded from anywhere in the file system.
@@ -263,14 +263,14 @@ public static void main(String[] args) {
    helloWorld.setMessage("Hello World!");
    helloWorld.getMessage();
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE2:
 
 @Configuration
 @Import({JdbcConfig.class, BusinessConfig.class})
 public class MyAppConfig {
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > XmlWebApplicationContext and XmlPortletApplicationContext can be used in web and portal applications only
 > AnnotationConfigWebApplicationContext and XmlWebApplicationContext for web applications
 =======================================
@@ -323,7 +323,7 @@ http://java-journal.blogspot.in/2012/08/what-is-applicationcontext-what-are-its.
 
 OR 
 <context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to ignore PlaceHolder Exception ?
 
 > If we have removed the password entry from our jdbc.properties file and we will get the exception like below
@@ -336,7 +336,7 @@ Could not resolve placeholder ‘jdbc.password’ in string value “${jdbc.pass
   <property name="ignoreUnresolvablePlaceholders" value="true"/>
 </bean>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to ignore FileNotFoundException ?
 
 > Suppose the required property files is not present in the specified location, then spring will throw java.io.FileNotFoundException, 
@@ -344,7 +344,7 @@ Could not resolve placeholder ‘jdbc.password’ in string value “${jdbc.pass
 
 <property name="ignoreResourceNotFound" value="true"/>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Loading Multiple Property files?
 
 <bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

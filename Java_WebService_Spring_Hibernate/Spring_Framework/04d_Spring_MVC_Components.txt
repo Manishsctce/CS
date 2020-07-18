@@ -12,7 +12,7 @@
 - it only looks for annotations on beans in the same application context it is defined in. 
 - This means that, if we put <context:annotation-config/> in a WebApplicationContext for a DispatcherServlet, 
 - it only checks for @Autowired beans in your controllers, and not in services
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between <context:annotation-config> vs <context:component-scan>?
 
 <context:annotation-config> 
@@ -27,7 +27,7 @@
 > it is used to specify the base packages to scan for spring components.
 
 > It is equivalent to <context:component-scan base-package="com.newjava4world.spring"/>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to filter components in auto scanning?
 
 > it can be done by enabling auto component scanning level as 
@@ -79,7 +79,7 @@ EXAMPLE2: use of "exclude-filter" tag.
 
 > it require AutowiredAnnotationBeanPostProcessor to be configured in spring.xml 
 - otherwise use <context:annotation-config/>, it will avoid the use of other AnnotationBeanPostProcessor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## @Qualifier ########
 ## What is the Role of the @Qualifier?
 
@@ -100,7 +100,7 @@ EXAMPLE:
 @Autowired
 @Qualifier("person1")
 private Person person;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bet @Qualifier and @Resource?
 
 > @Autowired and @Qualifier are the spring annotation while 
@@ -149,12 +149,12 @@ public class SpringDemo {
 - Error creating bean with name 'paymentGateway' defined in class path resource [applicationContext.xml]: 
 - Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanInitializationException: 
 - Property 'order' is required for bean 'paymentGateway
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### @Order #####
 > Defines ordering, as an alternative to implementing the org. springframework.core.Ordered interface.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### @Configurable #####
 > Used with <context:springconfigured> to declare types whose properties should be injected, even if they are not instantiated by Spring. 
 - Typically used to inject the properties of domain objects.
@@ -167,6 +167,8 @@ public class SpringDemo {
 
 > To enable this scanning, we need to use “context:component-scan” tag in applicationContext.xml i.e *-servlet.xml (WebApplicationContext)
 - it requires a base-package attribute, which specify a starting point for a recursive component search
+
+> A stereotype allows a framework developer to identify such a role and declare some common metadata for beans with that role in a central place. A bean may declare zero, one or multiple stereotypes, by applying the stereotype annotation to the bean class or producer method or field.
 
 =====================================
 ########### @Component ##############
@@ -202,16 +204,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 > @Component and @Controller are same with respect to bean creation and dependency injection but it may not work with respect to request mapping.
 - @Controller can use another annotation i.e. @RequestMapping; to map URLs to instance methods of a class.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can you create a controller without an annotation?
 
 > @Controller annotation indicates that a particular class serves the role of a controller. 
 - Spring does not require you to extend any controller base class or reference the Servlet API.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to use @Component, @Repository, @Service and @Controller Annotations?
 
 > Always use these annotations over concrete classes; not over interfaces.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does Component Scanning work in Spring?
 
 @Service, @Repository, @Controller are scanned because they themselves are annotated with @Component annotation
@@ -237,7 +239,7 @@ https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
 
 > If you are using XML based configuration then use <mvc:annotation-driven/> as an alternative to @EnableWebMvc
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to initialize Spring MVC context?
 
 > we can initialize the Spring MVC context using 
@@ -247,7 +249,7 @@ https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
 
 3. If we're using Spring Boot, then add @EnableAutoConfiguration (if @SpringBootApplication is not used bcz it has @EnableAutoConfiguration) and extend WebMvcConfigurerAdapter[c] OR implements WebMvcConfigurer. No need to use @EnableMvc.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what are the difference between WebMvcConfigurerAdapter and WebMvcConfigurer?
 
 > In old version of spring before 5.0, WebMvcConfigurerAdapter[c] was used to override some MVC context method 
@@ -256,7 +258,7 @@ https://blog.trifork.com/2009/05/14/simple-forms-with-spring-mvc-2-5/
 > By implementing WebMvcConfigurer, it lets you configure Spring MVC configuration. 
 - default values are used, for all unimplemented methods in this interface.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what are the difference between WebMvcConfigurerAdapter and WebMvcConfigurationSupport?
 
 > WebMvcConfigurerAdapter[c], adapter class for customizing some of the default configuration.
@@ -307,7 +309,7 @@ public class EmployeeValidator implements Validator
 2) Alternatively, you can register the validator class bean directly in context file.
 <bean id="employeeValidator" class="com.howtodoinjava.demo.validator.EmployeeValidator" />
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to do Bean Validation in Spring 5?
 
 > Bean Validation works by defining constraints to the fields of a class by annotating them with certain annotations.

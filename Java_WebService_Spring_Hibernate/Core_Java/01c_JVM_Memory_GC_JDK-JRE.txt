@@ -4,7 +4,7 @@
 - file that once compiled code will run on any platform without recompiling or any kind of modification 
 - i.e. “ WRITE ONCE RUN ANYWHERE” . It make possible by the use of Java Virtual Machine(JVM)
 - JVM needs to translate bytecode into machine language code.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain the architecture of java?
 
 > Java source file(.java) --give to--> compiler(javac) --generate--> bytecode(.class)
@@ -34,7 +34,7 @@
 > it enhance the performance of JVM by REDUCING THE LINE BY LINE COMPILATION of critical code(i.e compile multiple time) to compile once into machine lang.
 > it remove the compilation for unused code.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between JIT and JVM?
 
 > main goal of JVM is to provide platform independence while 
@@ -52,7 +52,7 @@
 - The local varlables are stored into the stack
 > Local variable also called automatic/stack/temporary variable
 > Memory declaration of Object are in heap and class reference in stack. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is JAVA MEMORY MODEL?
 
 > it describes the communication between memory of the threads and the main memory of the app.
@@ -80,7 +80,7 @@ Happens-before relationship guarantees :
 
 http://www.xyzws.com/Javafaq/can-transient-variables-be-declared-as-final-or-static/0 
 https://www.logicbig.com/tutorials/core-java-tutorial/java-multi-threading/happens-before.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the TYPE OF MEMORY AREA are there in java?
 
 > JVM have following type of memory area:
@@ -110,7 +110,7 @@ https://www.logicbig.com/tutorials/core-java-tutorial/java-multi-threading/happe
 > During execution of a program, the storage of program and data is as follows:
 - The executable code is stored into the code or Text segment
 - The global varlables are stored into data segment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is JAVA HEAP MEMORY?
 
 > Java objects reside in heap, 
@@ -131,7 +131,7 @@ Heap is divided into three parts(eden,survivor,old) or generations FOR SAKE OF G
 2. OLD GENERATION OR TENURED GENERATION - it stores object that persist longer.
 - After major garbage collection, objects moved to old or tenured generation.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Permanent Generation memory or PermGen?
 
 > It is a Non-Heap memory area i.e not part of heap
@@ -156,7 +156,7 @@ Heap is divided into three parts(eden,survivor,old) or generations FOR SAKE OF G
 - -XX:MaxMetaspaceSize=1024m : allowing you to limit the amount of native memory used for class metadata
 
 http://java-latte.blogspot.in/2014/03/metaspace-in-java-8.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## PERMGEN REMOVAL SUMMARY 
 
@@ -184,7 +184,7 @@ http://java-latte.blogspot.in/2014/03/metaspace-in-java-8.html
 ## Metaspace monitoring
 > Metaspace usage is available from the HotSpot 1.8 verbose GC log output.
 - Jstat & JVisualVM have not been updated at this point based on our testing with b75 and the old PermGen space references are still present.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference bet Java PermGen and Metaspace?
 
 > metadata is now stored in a native memory are called as "MetaSpace". 
@@ -203,7 +203,7 @@ http://java-latte.blogspot.in/2014/03/metaspace-in-java-8.html
 > Comparatively ineffiecient Garbage collection. Frequent GC pauses and no concurrent deallocation.	
 - Comparatively effiecient Garbage collection. Deallocate class data concurrently and not during GC pause.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is DIFFERENCE BETWEEN JAVA HEAP SPACE AND STACK?
 
 > Java Heap space is used by java runtime to allocate memory to Objects and JRE classes
@@ -223,7 +223,7 @@ http://java-latte.blogspot.in/2014/03/metaspace-in-java-8.html
 
 > We can use -Xms and -Xmx JVM option to define the startup size and maximum size of heap memory. 
 - We can use -Xss to define the stack memory size.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does Java allocate stack and Heap memory?
 ## How the program get executed using Heap and Stack Memory?
 
@@ -252,7 +252,7 @@ public class Memory {
 > A string is created in line 7, it goes in the String Pool in the heap space and a reference is created in the foo() stack space for it.
 > foo() method is terminated in line 8, at this time memory block allocated for foo() in stack becomes free
 > In line 9, main() method terminates and the stack memory created for main() method is destroyed. Also the program ends at this line, hence Java Runtime frees all the memory and end the execution of the program.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ======================================
 ########## MEMORY LEAKAGE ############
@@ -314,7 +314,7 @@ EXAMPLE2:
 - it create dustin.bin file which can be analyse by jhat.
 
 jmap -dump:live, file=/location/of/heap_dump.hprof  PID
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Thread dump and Heap dump?
 
 > A thread dump is a dump of the stacks of all live threads. 
@@ -344,7 +344,7 @@ jmap -dump:live, file=/location/of/heap_dump.hprof  PID
 ADVANTAGE
 > It makes java memory efficient because garbage collector removes the unreferenced objects from HEAP MEMORY.
 > It is automatically done by the garbage collector so we don't need to make extra efforts.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How Garbage Collector works??
 
 > JVM use "MARK AND SWEEP" algorithm for GC. 
@@ -374,7 +374,7 @@ ADVANTAGE
 3. Parallel Old GC (-XX:+UseParallelOldGC)
 4. Concurrent Mark Sweep (CMS) Collector (-XX:+UseConcMarkSweepGC)
 5. G1 Garbage Collector(-XX:+UseG1GC)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### SERIAL GC ###########
 
 > It can be enable using -XX:+UseSerialGC
@@ -385,7 +385,7 @@ ADVANTAGE
 > It is the default for client style machines in Java SE 5 and 6. 
 
 > Turn on the -XX:+UseSerialGC JVM argument to use the serial garbage collector.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## PARALLEL GC ##########
 
 > It can be enable using -XX:+UseParallelGC
@@ -401,12 +401,12 @@ ADVANTAGE
 > By default on a host with N CPUs, use N garbage collector threads in the collection.
 
 > It also freezes all the app threads while performing garbage collection.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### PARALLEL OLD GC #########
 > It can be enable using -XX:+UseParallelOldGC
 
 > It is same as Parallel GC except that it USES MULTIPLE THREADS FOR BOTH MINOR AND MAJOR GC
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### CMS Collector #########
 > It can be enable using -XX:+UseConcMarkSweepGC
 
@@ -416,7 +416,7 @@ ADVANTAGE
 
 > This garbage collector is suitable for responsive app where we can’t afford longer pause times
 > We can limit the number of threads in CMS collector using -XX:ParallelCMSThreads=n JVM option.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### G1 Garbage Collector ######
 
 > The Garbage First or G1 garbage collector is available in Java 7 and is designed to be the long term replacement for the CMS collector. 
@@ -434,7 +434,7 @@ ADVANTAGE
 Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
 
 > By creating annonymous object etc.  ex - new ClassName(); <--anonymous obj--
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is finalize()? (Ref - 1d.)
 
 > it is invoke each time before the object is gc 
@@ -451,12 +451,12 @@ Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
 > even once the finalize() is called by the gc, it is still possible to prevent the object from garbage collection
 > it is use to perform clean up activity
 > define in Object class as protected void finalize(){}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to enable/disable call of finalize() of exit of the application?
 
 > Runtime.getRuntime().runFinalizersOnExit(boolean value) . 
 - Passing the boolean value will either disable or enable the finalize() call
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can the Garbage Collection be requested?
 
 1. by calling System.gc() 
@@ -467,14 +467,14 @@ Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
 - getRuntime() returns a singleton instance of the Runtime class
 
 > Its not guaranteed that GC will run immediately as result of calling these method
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Do static member variables ever get garbage collected?
 
 > Objects referenced by static variable will be garbage collected at the time of class unloading.
 
 > Class can be unloaded is if the Classloader used is garbage collected.
 > OSGi platform strives to do just this, as each bundle has a different classloader
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When the ClassLoader is eligible for garbage-collection?
 
 > A class can be garbage-collected when nothing references it. 
@@ -487,14 +487,14 @@ Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
 - other classes loaded by the ClassLoader are still reachable
 
 When none of those are true, then the ClassLoader and all classes it loaded are eligible for GC.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which part of the memory is involved in Garbage Collection? Stack or Heap?
 > Heap 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What happens if an uncaught exception is thrown from during the execution of the finalize() method of an object?
 
 >  exception will be ignored and the garbage collection (finalization) of that object terminates.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to ensure that instance is never garbage collected?
 
 > you can store a reference somewhere in your finalizer.
@@ -514,7 +514,7 @@ protected void finalize() throws Throwable {
 -verbose:gc => Reports on each garbage collection event.
 
 -Djava.compiler=NONE => disable the JIT compiler (by default enabled)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Options that begin with -X are non-standard (not guaranteed to be supported on all VM implementations), 
 - these are subject to change without notice in subsequent releases of the JDK.
 
@@ -536,7 +536,7 @@ When we say MaxPermSize = 1024M does it mean that it is taken from 3072M that I 
 
 > No, PermSize is additional to the -Xmx value set by the user on the JVM options. 
 - MaxPermSize allows JVM to be able to grow the PermSize to the amount specified.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 http://javarevisited.blogspot.in/2011/11/hotspot-jvm-options-java-examples.html
 
 =====================================
@@ -609,7 +609,7 @@ CLASSPATH - %PATH%;%JAVA_HOMES%\lib\tools.jar
 
 SYSTEM VARIABLE :
 Path : C:\jdk1.7\bin;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### WHAT IS DIFFERENCE BETWEEN JRE AND JDK?
 
 JRE (Java Run-time Envirn) - 
@@ -633,7 +633,7 @@ JDK(Java Development kit) - It is software development kit. it include
 
 > we can use either 1 for running java appl
 > JDK ships with the "jps" command which lists all java process ids.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is difference between java.exe and javaw.exe?
 
 > jvm.dll is actual JVM implementation in window envirn. 

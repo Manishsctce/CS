@@ -91,7 +91,7 @@
 - suitable for most application
 - Ex- M3, M4, T2 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 2. COMPUTE OPTIMIZED #####
 - More CPU than memory 
 - Compute & HPC intensive use 
@@ -111,7 +111,7 @@ Storage		: EBS only & NVMe SSD,
 N_Bandwidth	: 25 Gbps 
 
 > C5 use Elastic Network Adapter 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 3. MEMORY OPTIMIZED #####
 - More RAM/ memory 
 - Memory intensive apps, DB and caching 
@@ -139,7 +139,7 @@ Storage		: Instance storage & NVMe SSD
 vCPU		: 2 to 48
 RAM			: 16 to 384GB
 Storage		: NVMe SSD
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### 4. GPU compute instance ####
 
 > Graphics optimized 
@@ -159,7 +159,7 @@ Storage		: NVMe SSD
 ## P2/P3 
 > It use NVIDIA Tesla GPU 
 > provide high bandwidth networking
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 5. Storage OPTIMIZED #####
 > Very High, low latency I/O
 > I/O intensive apps, data warehousing, Hadoop
@@ -227,7 +227,7 @@ Storage		: NVMe SSD
 
 > Instances inside a PG can address each other using private or public IP addresses 
 - best performance is achieved when they use private IP addresses for intra placement group communication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### CLUSTER Placement Group(CPG) ####
 
 > It is within a single AZ and cannot span multiple AZ
@@ -245,7 +245,7 @@ Storage		: NVMe SSD
 
 > if we stop an instance in a PG and then start it again, it still runs in the PG. 
 - However the starts fails if there isn't enough capacity for the instance. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Spread Placement Groups(SPG) ####
 > It is a group of instances that are each placed on distinct underlying hardware
 
@@ -278,7 +278,7 @@ Storage		: NVMe SSD
 
 > EC2 service status checks are very important for ASG too, to determine EC2 instance status
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## EC2 Monitoring #########
 
 > EC2 SERVICE SEND ITS METRIC DATA TO CLOUDWATCH EVERY 5 MINUTE(enable by default)
@@ -302,7 +302,7 @@ Storage		: NVMe SSD
 
 > if you reboot EC2 instance, it is considered as running and does not add additional hour for bill 
 - stopping and restarting an instance adds an hour to bill
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### EC2 - STOPPED STATE ######
 > When you stop an instance AWS shuts it down.
 > Stopped instance maintain its instance ID and root volume
@@ -313,7 +313,7 @@ Storage		: NVMe SSD
 
 > For stopped EC2 instance we can detach/re-attach their EBS vol including root vol
 - when detached, we can attach it to another instance modify it and then re-attached it again to the stopped instance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### STOPPING EC2 INSTANCE #####
 
 > WHEN WE STOP AN EBS-BACKED INSTANCE(ROOT VOL), ANY DATA IN INSTANCE-STORE VOL IS LOST 
@@ -334,7 +334,7 @@ Storage		: NVMe SSD
 
 > If instance was part of ASG, the ASG would mark it when stopped, as unhealthy, terminated it and replace it
 - if you do not want this to happen you better remove/detach the instance from ASG before stopping it 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### EC2 REBOOT ########
 > Rebooting an EC2 instances does not cause a new hourly bill
 
@@ -357,7 +357,7 @@ Running -> Shutting down -> Terminated
 
 > You can view EBS root volume DeleteOnTermination, behavior from "Block Device Mapping"
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### EC2 TERMINATION PROTECTION ##
 
 > This is a feature we can enable such that an EC2 instance is protected against accidental termination through API, Console, or CLI) SDK
@@ -369,7 +369,7 @@ Running -> Shutting down -> Terminated
 > If you want to terminate an instance that has termination protection turned on, you can do so by choosing oS shutdown, and configure AWS to treat OS shutdown as instance termination.
 
 > This can be configured during launch, when the instance is running or stopped (if EBS backed instance)	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Instance Immediate Termination
 
 > AWS recommends that after you launch an EC2 instance, you check its status to confirm that it moved from pending to running, and not to a terminated state.
@@ -521,7 +521,7 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 - You can modify all or a subset of your reservation
 
 > You need to submit a request for the desired modification, through AWS consate, CLI, or API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### EC2 SPOT INSTANCES #######
 > AWS Spot Instances allow customers to use compute capacity without upfront commitments, AT CHEAPER PRICES than on-demand instance pricing
 - CUSTOMERS BID ON SPOT INSTANCES. AWS Off-peak pricing fluctuates, if the price meets the bid price, the instances are allocated for the bidding account
@@ -675,7 +675,7 @@ There are two parts of the error message.
 - These events could be changes to data in S3 bucket OR DynamoDB table.
 
 > It can be used as a compute service to run our code in response to HTTP requests using Amazon API calls made using AWS SDKs.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the benifit of Lambda?
 
 1.  No Servers 
@@ -686,7 +686,7 @@ There are two parts of the error message.
 
 3. Super super super cheap: 
 - It is very cheap as you do not require a server.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Lambda
 • AWS Lambda is a compute service where you can upload your code
 and create a lambda function.

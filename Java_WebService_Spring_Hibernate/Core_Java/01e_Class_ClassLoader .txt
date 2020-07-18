@@ -7,7 +7,7 @@ There are several kinds of variables:
 1. Member variables in a class—these are called fields.
 2. Variables in a method or block of code are called local variables.
 3. Variables in method declarations are called parameters.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do member variables have default values whereas local variables don't have any default value ?
 
 > member variable are loaded into heap, so they are initialized with default values when an instance of a class is created. 
@@ -63,18 +63,18 @@ There are several kinds of variables:
 
 > STATIC INITIALIZER BLOCK IS EXECUTED BEFORE CONSTRUCTOR because they are executed when class is loaded into memory 
 - while constructors are executed when you create instance 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Constructor Overloading?
 
 > multiple constructors with a different signature inside one Class is called Constructor Overloading
 > if an overloaded constructor called using 'this()', it must be the first statement of constructor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Constructor Chaining? 
 
 > Calling one constructor from another constructor in Java is called Constructor chaining. 
 > we can use keyword 'this' for calling constructor of same class and 'super' for calling constructor of super class. 
 > Call to constructor must be on the first line of any constructor or else you will get compilation error.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## if we doesn't maintain Constructor Chaining, does it affect?
 
 > Constructor chaining is always require, even if we didn't maintain by ourself, it will be maintain by compiler, by adding super() 
@@ -101,14 +101,14 @@ class C extends B{
 > Here class B doesn't maintain constructor chaining i.e doesn't call its super class constructor explicitly as like in class C
 - in this case compiler add super() in class B constructor
 - here if we don't have class A default constructor then it will throw compiler error "Must explicitly invoke another constructor"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##WHAT IS DEFAULT CONSTRUCTOR?
 > It is the no-argument constructor automatically generated unless you define another constructor. 
 > It initialises any uninitialised fields to their default values.
 
 > It always better to provide no argument constructor in Java. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##WHAT IS COPY CONSTRUCTOR?
 > Copy constructors are special constructors in a class which TAKES ONLY 1 ARGUMENT OF ITS OWN CLASS TYPE.
 > So, when you pass an instance of class to copy constructor, then constructor will return a new instance of class with values copied from argument instance
@@ -144,7 +144,7 @@ There are 4 TYPES OF INNER CLASS
 > File creation
 EnclosingOuter.class 
 EnclosingOuter$Inner.class
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Where should you use nested class in Java? 
 
 Reasons for using inner classes,
@@ -205,14 +205,14 @@ public class AnonymousClassDemo {
 	}
 
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the purpose of an anonymous inner class?
 
 > by creating an anonymous inner class, we can override one or more methods of a superclass and it is fast way
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##we could have do the method overiding using a normal, separate class and extending super class then why anonymous class?
 > it is fast way to override superclass method and created only once thats why it use
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =====================================
 ########### LOCAL INNER CLASS #######
 
@@ -320,7 +320,7 @@ EXAMPLE2: - OuterClass.InnerClass innerObject = new OuterClass().new InnerClass(
 
 > Static nested class can be use directly if imported 
 - inner class cannot be imported
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Difference between ANONYMOUS CLASS AND LOCAL INNER CLASS
 ##How is local inner class different from anonymous class and which one you should chose?
 
@@ -331,12 +331,12 @@ EXAMPLE2: - OuterClass.InnerClass innerObject = new OuterClass().new InnerClass(
 - anonymous class is accessible only at the point of its declaration i.e only once
 
 > if you need a named constructor and/or an overloaded constructor then use Local inner class 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do you get a reference to outer class in inner class ?
 
 > Inside inner class, 'this' would refer to inner class itself, 
 - TO ACCESS THE OUTER CLASS in Inner class as OuterClassName.this
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Where should you use inner classes?
 > Code without inner classes is more maintainable and readable.
 > When you access private data members of the outer class, the JDK compiler creates package-access member func in the outer class for the inner class to access the private members. This leaves a security hole. 
@@ -405,7 +405,7 @@ EXAMPLES:
 - non static fields are initialized when instance of class is created. 
 - It means static fields are initialized before non static fields in Java.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Describe what happens when an object of a class is created?
 
 1. Memory is allocated in heap to hold all instance variables and implementation-specific data of the object and its superclasses.
@@ -427,7 +427,7 @@ JAVA CLASS LOADER
 > java class loader throws ClassNotFoundException, if it cannot loads or fails to get Java class.
 > Java class loaders are used to load classes at runtime. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the principle on which classloader works?
 
 >ClassLoader in Java works on three principle: 
@@ -443,7 +443,7 @@ JAVA CLASS LOADER
 
 
 > Correct understanding of class loader is must to resolve issues like NoClassDefFoundError in Java and java.lang.ClassNotFoundException, which are related to class loading. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is classloader in java? How many type of default classloader are there?
 
 > It is a class which is used to load class and interface file in java. So that JVM can execute the byte codes
@@ -464,7 +464,7 @@ JAVA CLASS LOADER
 - Class-Path attribute of Manifest file inside JAR.
 - Application class loader is a child of Extension ClassLoader and its implemented by sun.misc.Launcher$AppClassLoader class
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Example of Visibility principle?
 
 public class ClassLoaderTest {
@@ -501,7 +501,7 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
         at java.lang.Class.forName(Class.java:247)
         at test.ClassLoaderTest.main(ClassLoaderTest.java:29)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### How to load class explicitly in Java?
 
 > Java provides API to explicitly load a class by 
@@ -510,7 +510,7 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 
 > Class is loaded by calling loadClass() of java.lang.ClassLoader class which calls findClass() to locate bytecodes for corresponding class
 - If findClass() does not found the class than it throws java.lang.ClassNotFoundException and if it finds it calls defineClass() to convert bytecodes into a .class instance which is returned to the caller.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Where to use ClassLoader in Java?
 
 > By using separate ClassLoader you can also loads SAME CLASS FROM MULTIPLE SOURCES and they will be treated as different class in JVM. 
@@ -519,7 +519,7 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 - Some web server also supports hot deploy functionality which is implemented using ClassLoader. 
 - You can also use ClassLoader to load classes from database or any other persistent store.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between ClassLoader:loadClass and Class.forName ?
 
 > loadClass only loads the class but doesn't initialize the object whereas 
@@ -528,7 +528,7 @@ java.lang.ClassNotFoundException: test.ClassLoaderTest
 ClassLoader cl = ClassLoader.getSystemClassLoader();
 cl.loadClass("MyClass");
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between static vs. dynamic class loading?
 
 > STATIC LOADING - Classes are statically loaded with Java new operator.
@@ -536,10 +536,10 @@ cl.loadClass("MyClass");
 > DYNAMIC CLASS LOADING 
 - It is a technique for programmatically invoking the functions of a classloader at runtime. 
 Class.forName (Test className);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between NoClassDefFoundError and ClassNotFoundException?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to maintain multiple version of class in a JVM?
 ## Many times during the development you will need to work with different libraries versions which not always backward compatible or from some reason you need to support multiple versions of the same library. 
 
@@ -560,7 +560,7 @@ method.invoke(null, (Object) params);
 
 2. custom class loader: 
 https://dzone.com/articles/java-classloader-handling
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 What is a superclass of all classes?
 What access modifiers do you know?
 What is a difference between protected and package-private access modifiers?

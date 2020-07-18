@@ -1,6 +1,6 @@
 ######### LOGGER INTRODUCTION #########
 > There are various logging lib like java.util.logging, Apache log4j, logback, SLF4J (Simple logging facade for Java)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between SLF4J and Log4j?
 
 > Simple Logging Facade for Java provides a Java logging API by means of a simple facade pattern.
@@ -14,20 +14,20 @@ SLF4J:  place holder and represented as {} in code
 logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);
 
 > SLF4J reduce cost of constructing logging messages (String) and thus reduce memory and CPU efficiency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what is Log4j?
 
 > Log4j is a fast, flexible and reliable logging framework  written in Java developed in early 1996. 
 - It is distributed under the Apache software license and can be used for small to large scale projects. 
 - It has been ported to the languages like C, C++, C#, Python, etc.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain why to use Apache Log4j?
 
 > Being open-source its completely free to use.
 > You can easily save log information into either files or even databases.
 > Can be used for projects of any sizes small or large.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How we can initialize Log4j properly?
 
 1. By adding BasicConfigurator.configure();
@@ -48,7 +48,7 @@ log4j.appender.theConsoleAppender=org.apache.log4j.ConsoleAppender
 log4j.appender.theConsoleAppender.layout=org.apache.log4j.PatternLayout
 log4j.appender.theConsoleAppender.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
 >>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the three principal components of Log4j?
 
 > The three principal components of Log4j are
@@ -75,7 +75,7 @@ log4j.appender.theConsoleAppender.layout.ConversionPattern=%-4r [%t] %-5p %c %x 
 
  // generic printing method:
  public void log(Level l, Object message);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the two static methods for obtaining a logger object?
 
 > We have to initialize one Logger object for each Java class.
@@ -153,7 +153,7 @@ X			Px				Px
 X.Y			none			Px
 X.Y.Z		Pxyz			Pxyz
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Inside logger component what are the different log levels?
 
 > Different log levels inside logger components are
@@ -168,23 +168,23 @@ TRACE   7
 ALL	    7  lowest
 
 > if logger level is INFO, then info, warn, error, fatal (all above it will display)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what are Appenders in Log4j?
 
 > Appenders are used to deliver LogEvents to their destination. 
 - In simple words, it is USED TO WRITE LOGS in the file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the different types of Appenders?
 
 Some of the Appenders type include
 > ConsoleAppender logs to standard output
 > FileAppender prints logs to some file
 > Rolling file appender to a file with maximum size
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what is layouts in log4j?
 
 > Layout in log4j is responsible for FORMATTING LOGGING INFORMATION in different styles.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the other support objects in Log4j?
 
 There are other support objects in Log4j framework they are
@@ -193,36 +193,36 @@ Level Object
 Filter Object
 Object Renderer
 Log Manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How log4j file is defined?
 
 > Log4j file is defined by the name log4j.properties, it keeps properties in key-value pairs. 
 - By default, the log manager looks for a file name log4j.properties in the CLASSPATH.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what is the command to write your logging information into a file?
 
 > To write your logging information into a file, you would need to use a command org.apache.log4j.FileAppender
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what are the logging methods provided by logger class?
 
 Logger class provides a variety of methods to handle logging activities.  To obtain a logger object it provides two static methods
 
 Public static logger getRootLogger();
 Public static logger getLogger(String name);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In log4j how can you log into the database?
 
 > The log4j API provides the object org.apache.log4j.jdbc.JDBCAppender object can put logging information in a particular database.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain whether log4j is a thread safe?
 
 > Log4j is a thread safe, log4j components are built to be used in multi-thread systems.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain whether a log output format can be customized?
 
 > Yes, you can extend the layout class to create your own customized log format. 
 - Appenders can be parameterized to use the layout of your choice.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what are the system properties checked by log4j?
 
 > The system properties checked by log4j are
@@ -241,32 +241,32 @@ Public static logger getLogger(String name);
 
 5. ignoreTCL
 - if true, the thread class loader will be overlooked when loading classes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what is the role of filter in log4j?
 
 > Filter objects in log4j decide whether logging request should be handled by a particular Appender or ignored.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain how can you get multiple processes to log to the same file?
 
 You may have each process log to a socket Appender. The receiving socket server can receive all the events and send them to a single log file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what is the difference between Threshold and LevelRangeFilter in log4j?
 
 Both Threshold and LevelRangeFilter does the same thing. However threshold should be faster. Filters enable you to implement your own logic, and you can also link them together if required. If you need a basic threshold functionality, then “threshold” function will be enough.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what does .class mean in log4j context?
 
 > In log4j context, .class is used to get the full name of your class and that string is used to configure this logger object.  
 For example, logger.getlogget (Myclass.class)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what is package level logging in log4j?
 
 > Package level logging is the standard logging of log4j, with this you would determine the package and the associated level.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what does WARN and TRACE level indicates in log4j?
 
 Log4j level WARN gives a warning about an unpredicted event to the user. The messages coming out of this level may not stop the progress of the system.  The TRACE level provides more detailed information than the DEBUG level, and it will stay on the top of the hierarchy.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain what are the format characters used in log4j?
 
 The format characters used in log4j are
@@ -276,11 +276,11 @@ m- It is used to output the application supplied message related with the loggin
 p-It is used to output the priority of the logging event
 C- It is used to output the class name of the caller issuing the logging request
 When any number is used along with the character it means the priority of the logging event should be justified to a width of 4 characters.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Mention what is the best way to migrate from java.util logging to log4j?
 
 The best way to migrate from java.util  logged to log4j is to use global file search/replace method.  It will replace with “org.apache.log4j.Logger”
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain why do you get multiple copies of the message in log file sometime?
 
 There could be two reasons why this may happen

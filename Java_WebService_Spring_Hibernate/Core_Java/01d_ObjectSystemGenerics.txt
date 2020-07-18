@@ -35,7 +35,7 @@ void wait(long timeout, int nanos):	Enter a monitor's wait set until notified by
 void notify():	Wake up one thread waiting in the monitor's wait set. (If no threads are waiting, do nothing.)
 void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no threads are waiting, do nothing.)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Why wait and notify is declared in Object class instead of Thread ?
 
 > It is bcz Java use Locks of Object for mutually exclusive access 
@@ -47,12 +47,12 @@ void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no 
 
 
 > Java is based on Hoares monitors idea. In Java all object has a monitor. Threads waits on monitors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is busy Waiting?
 
 > a pgm activily waiting for particular state and do some active computation
 > it can be remove by using Thread.sleep(ms)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is wait()?
 
 >> java.lang.Object.wait(long timeout) 
@@ -62,12 +62,12 @@ void notifyAll(): Wake up all threads waiting in the monitor's wait set. (If no 
 > Before wait() is called, the current thread must be synchronize on the lock object;
 > wait() RELEASES LOCK/MONITOR ON OBJECT, and adds the thread to the wait list associated with the lock
 >  Wait is used for ITC
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between notify() and notfiyAll()?
 
 > notify() wakes up the 1st thread that called wait() for same object on which notify() called.
 > notifyAll() wakes up all thread tht called wait() for same obj but higher priority thread will run 1st.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SCENARIO - wait and notify
 
 > A thread T1 is already running a synchronized block with a lock on object - lets say "lockObject"
@@ -75,14 +75,14 @@ SCENARIO - wait and notify
 - Now T2 calls lockObject.wait() for waiting on lock to be release by T1 thread.
 - T1 thread finishes all its synchronized block work.
 - T1 thread calls lockObject.notifyAll() to notify all waiting threads that its done using the lock.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A monitor called mon has 5 threads in its waiting pool; all these waiting threads have the same priority. One of the threads is thread1. 
 ## How can you notify thread1 so that it alone moves from Waiting state to Ready State?
 
 > You cannot specify which thread will get notified
 - when you call notify() on a monitor, you have no control over which waiting thread gets notified.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we override wait() or notify() methods?
 
 > No, methods getClass(), notify(), notifyAll() and three wait() methods are final, so you cant override them.
@@ -114,7 +114,7 @@ SCENARIO - wait and notify
 > Hashing is basically a way to calculate an integer value of an object.
 - It is used to generates index for table with given key.
 - In Java, we have hashCode() to calculate it.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is HashCode?
 
 > HashCode is integer value assigned to object. 
@@ -124,7 +124,7 @@ SCENARIO - wait and notify
 
 > CONTRACT - OBJECTS THAT ARE EQUAL MUST HAVE THE SAME HASH CODE within a running process
 - but vice versa is not true i.e. if two object have same hashCode then they are equals.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the importance of hashCode() and equals() methods ?
 
 > They are used to compare object equality and finding the memory location in hash based Collection 
@@ -142,13 +142,13 @@ SCENARIO - wait and notify
 
 > In HashMap, When two key return same hashcode, they end-up in same bucket. 
 - Now, in order to find the correct value, we use keys.equals() method to compare with key stored in each Entry of linked list.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When do you override hashcode and equals() ?
 
 > It is used for custom object are need to store in Collection classes which depends on Hashing principle.
 > Its require to implement both to maintain the contract between these 2 methods
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How hashCode and equals are implemented?
 
 > Consider UserId[c] - userId, password 
@@ -204,7 +204,7 @@ public boolean equals(Object obj) {
 
 > String, Integer class overrides equals()
 > clone of object is not equal to object: x.clone() != x
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is HashCode of string?
 
 > Typicaly it is calculate using below formula 
@@ -215,7 +215,7 @@ Ex - T decimal value = 84
 M decimal value = 77; A decimal value = 65; space =32 ; #=35; a = 97; @=64
 then Hashcode of TM = [84*31^(2-1) + 77] 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is toString() of Object class?
 
 > this method return the string representation of object in readable form.
@@ -346,12 +346,12 @@ In the Jvm, every object and class is logically associated with a monitor.
 - After a synchronized method completes, whether it completes by returning or by throwing an exception, the virtual machine releases the lock.
 
 https://www.artima.com/insidejvm/ed2/threadsynch3.html	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is the difference between lock and a monitor?
 
 > A lock is kind of data which is logically part of an object’s header on the heap memory.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Mutex Lock?
 
 > A mutex lock is also known as a mutually exclusive lock. It is achieve by means of synchronization. 
@@ -364,7 +364,7 @@ https://www.artima.com/insidejvm/ed2/threadsynch3.html
 > lock is based on a specific object and not on any particular method
 
 > The scope of a lock is defined as the period of time between when the lock is grabbed and released.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Race condition?
 
 > It occurs when two or more threads can access shared data and they try to change it at the same time.
@@ -474,7 +474,7 @@ EXAMPLE:
 void add(Set<Integer> ii){}
 void add(Set<String> ss){}
 - these method will give CE bcz after Type Erasure both are methods are same.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### Generic class ####
 > 
 public class Box<T> {
@@ -488,15 +488,15 @@ Box<MyClass> obj1 = new Box<MyClass>();
 obj1.set(new MyClass());
 
 > it help to set 'T' with any object and then use it without casting.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How ClassCastException would raise?
 
 > if we have a list of object and we want to get each object and we cann't cast correct object then it can cause ClassCastException
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do u mean by type-safety?
 
 > It is a check does by compiler that correct type is used at correct place.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is type parameter or Type Variable?
 
 > It is used as placeholders to INDICATE THAT A TYPE IS ASSIGNED TO THE CLASS AT RUNTIME. 
@@ -512,7 +512,7 @@ N: Number
 T: Type
 V: Value
 S, U, V, and so on: Second, third, and fourth types in a multiparameter situation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Example: 
 <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) 
 
@@ -535,7 +535,7 @@ Example:
 Map<String, List<String>> myMap = new HashMap<>();
 - here inference algorithm determines the types of the arguments in <> (diamond)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by "Raw Types"?
 
 > when we create object without specifying any type of Generic class then it is raw type object.
@@ -544,7 +544,7 @@ Map<String, List<String>> myMap = new HashMap<>();
 Ex- class Box<T> 
  Box<Integer> box1 = new Box<>();
  Box rawBox = new Box(); //raw type 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Generics works in Java ? What is type erasure ?
 
 > Generic type information is present only at compile time.
@@ -619,7 +619,7 @@ public class Node {
     // ...
 }
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class Shape { /* ... */ }
 class Circle extends Shape { /* ... */ }
 class Rectangle extends Shape { /* ... */ }
@@ -630,7 +630,7 @@ public static <T extends Shape> void draw(T shape) { /* ... */ }
 
 > The Java compiler replaces T with Shape:
 public static void draw(Shape shape) { /* ... */ }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### BRIDGE METHOD #####
 > It is synthetic method generated by compiler while type erasure process. 
 - It PRESERVE THE POLYMORPHISM i.e overriding method in subclass
@@ -702,12 +702,12 @@ class MyNode extends Node {
 
     // ...
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If there is no generic information at runtime, what if the legacy code tries to insert a integer into String collections? How to eliminate such dangerous insertions?
 
 > To make sure your collection is type-safe even at runtime, 
 -checkXXX methods in Collections class is to be used.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Mixing Generics and Legacy code
 
 ALLOWED
@@ -720,7 +720,7 @@ NOT ALLOWED
 - List<Number> a= new ArrayList<Integer>();
 
 - instanceof does not work with generics.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### Multiple Bounds ######
 > type parameter can have multiple bounds:
 
@@ -736,12 +736,12 @@ class D <T extends A & B & C> { /* ... */ }
 If bound A is not specified first, you get a compile-time error:
 
 class D <T extends B & A & C> { /* ... */ }  // compile-time error
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to write a generic method which accepts generic argument and return Generic Type?
 
 > Set<?> represents SetOfUnknownType and you can assign SetOfString or SetOfInteger to Set<?> 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Y<? extends X>
 > it mean that Y can hold any obj of X and its subclass
 
@@ -750,19 +750,19 @@ Ex - ArrayList<? extends Number> list = new ArrayList<Integer>();
 - list.add(123) not possible //Compilatin err 
 - list.remove(0); // compile
 - list.get(1); // compile 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Y<? super X>
 > it allow all obj of X and its super class
 > it allow all all operation including add
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Y<?>
 > short form of <? extends Object>
 > reference of ArrayList<?> can hold any type of Object but cannot be used for adding elements
 Ex - ArrayList<?> m = another list;
 - m.add(1);// compiler err
 - System.out.println(m.get(1));//compile
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is Bounded and Unbounded wildcards in Generics ?
 
 1. BOUNDED WILDCARDS are those which impose bound on Type. 
@@ -776,7 +776,7 @@ B. LOWER BOUND <? super T> : type must be super class of T.
 2. UNBOUNDED TYPE
 > <?> represent unbounded type because <?> can be replace with any Type. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the difference between List<? super T> and List<? extends T> ?
 
 1. List<? extends T> means any class that extends T
@@ -793,13 +793,13 @@ List<? extends Number> foo3 = new ArrayList<Double>();  // Double extends Number
 List<? super Integer> foo3 = new ArrayList<Integer>();  // Integer is a "superclass" of Integer (in this context)
 List<? super Integer> foo3 = new ArrayList<Number>();   // Number is a superclass of Integer
 List<? super Integer> foo3 = new ArrayList<Object>();   // Object is a superclass of Integer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we assign a particular type of object to Super obj ref in Generics?
 
 > No, below give compile error
 private ArrayList<Object> animal = new ArrayList<String>();
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to write a generic method which accepts generic argument and return Generic Type?
 
 > We can write generic method using Generic Type like T, E or K,V instead of using raw type like String, Long
@@ -809,7 +809,7 @@ Ex-
 public V put(K key, V value) {
         return cache.put(key, value);
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can you pass List<String> to a method which accepts List<Object>?
 No
 
@@ -819,7 +819,7 @@ List<String> stringList;
       
 objectList = stringList;  //compilation error incompatible types
 objectList.add(stringList);//work
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we use Generics with Array?
 No
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

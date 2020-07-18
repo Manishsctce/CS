@@ -3,20 +3,20 @@
 > Caching is a mechanism to enhance the performance of a system. 
 - It is a temporary memory that lies between the app and the persistent database. 
 - Cache memory stores recently used data items in order to reduce the number of database hits as much as possible.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why we need caching?
 
 > Caching of frequently used data in application is a very popular technique TO INCREASE PERFORMANCE OF APP 
 - With caching, we store such frequently accessed data in memory to avoid hitting the costly backends every time. 
 - Data access from memory is always faster in comparison to fetching from storage like database, file system or other service calls.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What data should be cached?
 
 > It varies in different scenario and requirement on how much time we can tolerate stale data.
 
 - Any Master data which is not frequently changed
 - Any frequently used database read query, where result does not change in each call at least for a specific period.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ########### TYPES OF CACHE ############
 1. In-memory Caching
@@ -44,7 +44,7 @@
 
 #### CDN caching
 Caches can be located on the client side (OS or browser), server side, or in a distinct cache layer.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to register a cache engine with spring boot?
 
 > Spring boot provides integration with following cache providers.
@@ -59,19 +59,19 @@ JCache (JSR-107) (EhCache 3, Hazelcast, Infinispan, and others)
 - Simple cache
 
 spring.cache.infinispan.config=infinispan.xml
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Disable cache? 
 
 > to disable the cache no need to remove all the annotations just add the below line in the application.properties file.
 spring.cache.type=none
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ======================================= 
 > For using standard caching, then use "spring-context-support" which is on top of "spring-context" 
 > For Spring boot app, add "spring-boot-starter-cache" package 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to enable caching in Spring boot? 
 
 > To enable caching in spring boot app, add @EnableCaching to any of the configuration classes
@@ -100,7 +100,7 @@ public class CachingConfig {
 
 4. @Caching 
 5. @CacheConfig
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## @Cacheable ###########
 > It is a method level annotation
 > Demarcates cachable methods, can read and write to the cache(s)
@@ -124,7 +124,7 @@ EXAMPLE:
 @Cacheable(value="book", condition="#name.length < 50")
 public Book findStoryBook (String name)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## @CacheEvict ##########
 
 - Demarcates methods that perform cache eviction, i.e. method that act as triggers for removing data from the cache Ex- removeEmployee()
@@ -133,7 +133,7 @@ public Book findStoryBook (String name)
 @CacheEvict(value="addresses", allEntries=true)
 public String getAddress(Customer customer) {...}
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## @CachePut ##########
 
 > based on the output of the method rather than the input – via the unless parameter:
@@ -142,7 +142,7 @@ public String getAddress(Customer customer) {...}
 public String getAddress(Customer customer) {...}
 
 > It's important to know that the condition and unless parameters can be used in conjunction with all the caching annotations.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### @Caching ############
 
 > if you want to use multiple annotations at the same time for caching like @CachePut or @CacheEvict then use @Caching
@@ -154,7 +154,7 @@ EXAMPLE:
   @CacheEvict(value="directory", key="#customer.name") })
 public String getAddress(Customer customer) {...}
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### @CacheConfig ##########
 > It is class-level annotation.
 - It tells the Spring where to store cache for the class. 
@@ -168,7 +168,7 @@ public class CustomerDataService {
     @Cacheable
 	
 	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 What shall I cache?
 Which cache shall I use?
 which data shall I cache?

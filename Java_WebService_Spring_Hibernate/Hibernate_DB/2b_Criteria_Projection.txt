@@ -42,14 +42,14 @@ List list() :
 Criteria setProjection(Projection projection)
 > specifies the projection.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Criteria in Hibernate ?
 
 > Criteria is a simplified API for retrieving entities by composing Criterion objects.
 
 EXAMPLE - session.createCriteria(Employee.class).add( Restrictions.like("name", "A%") ).list();
 - will return all employee objects having name starting with A.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do we specify the criteria if it involves mapping between two entities or join between tables ?
 
 > The following code returns the list of Employee objects having employee name starting with A and Dept Name ( Department , Employee Mapped ). 
@@ -59,11 +59,11 @@ session.createCriteria(Employee.class,"emp")
 .add(Restrictions.like("name", "A%"))
 .add(Restrictions.eq("dept.name","Finance")
 .list();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Name few Restriction Methods ?
 
  eq, ge, gt , between, in , isNull, isEmpty, isNotnull, ne , like, lt , or , not 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In Hibernate, While defining Criteria, Have you ever faced any problem while adding restrictions with user defined types or Enums ?
 
 > Yes, with Enum I was getting an exception while doing equality check for enum field.
@@ -112,7 +112,7 @@ EXAMPLE:
 Crietria c=session.createCriteria(Emp.class);  
 c.addOrder(Order.asc("salary"));  
 List list=c.list();  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### Projections class ######
 > it is used to fetch data of a particular column by projection such as name etc.
 
@@ -142,7 +142,7 @@ productCriteria.list();//will return list of Product name
 > It can also be use to specify distinct clauses and aggregate functions like max, sum and so on
 Ex - Projection productByNameProjection = Projections.property("proName");
 Projection distinctProductByNameProjection = Projections.distinct(productByNameProjection);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between projections and restrictions in Hibernate framework?
 
 > Projections are used for the which part, like what part of an entity you want to retrieve such as -
@@ -151,11 +151,11 @@ criteria.setProjection(Projections.property("employeeName"));
 > Restrictions are for the how/what part, like what subset of the data you want your criteria query to fetch. 
 - More specifically Restrictions fill the from and where part in the query.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ## When to use projections and when to use criteria?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Difference between HQL and HCQL (Criteria Query) ?
 > HQL is to perform both select and non-select operations on the data,  but 
 - Criteria is only for selecting the data, we cannot perform non-select operations using criteria
@@ -171,12 +171,12 @@ criteria.setProjection(Projections.property("employeeName"));
 > With Criteria we are safe with SQL Injection because of its dynamic query generation but 
 - in HQL as your queries are either fixed or parametrized, there is no safe from SQL Injection
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to do pagination in Hibernate using Criteria api ?
 
 > For pagination, maxresults and first result need to be set as follows :
 
 criteria.setMaxResults(10);
 criteria.setFirstResult(1);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 OOA - Object Oriented Approach

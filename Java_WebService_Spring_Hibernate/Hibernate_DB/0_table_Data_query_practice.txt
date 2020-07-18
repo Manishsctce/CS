@@ -77,11 +77,11 @@ Bonus - worker_ref, bonus_amount, bonus_date
 Title - worker_ref, worker_title, affected_from;
 
 https://www.techbeamers.com/sql-query-questions-answers-for-practice/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Fetch The List Of Employees With The Same Salary?
 
 select w1.worker_id, w1.first_name, w1.salary from Worker w1, worker w2 where w1.salary = w2.salary and w1.worker_id != w2.worker_id;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Fetch Three Max Salaries From A Table.
 
 mysql> SELECT distinct Salary from worker a WHERE 3 >= (SELECT count(distinct Salary) from worker b WHERE a.Salary <= b.Salary) order by a.Salary desc;
@@ -90,7 +90,7 @@ oracle> select a.salary from (select distinct salary from worker order by salary
 
 mysql> select a.salary from (select distinct salary from worker order by salary desc) as a LIMIT 3;
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Write an SQL query to print details of the Workers who are also Managers.
 
 SELECT DISTINCT W.FIRST_NAME, T.WORKER_TITLE
@@ -98,56 +98,56 @@ FROM Worker W
 INNER JOIN Title T
 ON W.WORKER_ID = T.WORKER_REF_ID
 AND T.WORKER_TITLE in ('Manager'); 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Write an SQL query to fetch duplicate records having matching data in some fields of a table.
 
 SELECT WORKER_TITLE, AFFECTED_FROM, COUNT(*)
 FROM Title
 GROUP BY WORKER_TITLE, AFFECTED_FROM
 HAVING COUNT(*) > 1;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Write an SQL query to show only odd rows from a table.
 
 SELECT * FROM Worker WHERE MOD(WORKER_ID, 2) <> 0;
 
 Oracle> select * from (select worker_id, first_name, salary, rownum rn from worker order by worker_id) where  mod (rn, 2) <> 0;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Write an SQL query to show only even rows from a table.
 
 SELECT * FROM Worker WHERE MOD (WORKER_ID, 2) = 0;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Write an SQL query to show the top n (say 10) records of a table.
 
 mySql> SELECT * FROM Worker ORDER BY Salary DESC LIMIT 10;
 
 Oracle> SELECT * FROM (SELECT * FROM Worker ORDER BY Salary DESC) WHERE ROWNUM <= 10;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Write an SQL query to determine the nth (say n=5) highest salary from a table
 
 mySql> SELECT Salary FROM Worker ORDER BY Salary DESC LIMIT n-1,1;
 
 SqlServer> SELECT TOP 1 Salary FROM ( SELECT DISTINCT TOP n Salary FROM Worker ORDER BY Salary DESC) ORDER BY Salary ASC;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 =======================================
 
@@ -184,52 +184,52 @@ INSERT INTO EmployeeSalary
 (106,'Account',200000),
 (107,'Account',75000),
 (108,'Admin',  90000);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Employee       - emp_id, ename, managerid, joining_date
 EmployeeSalary - emp_id, project, salary
 
 ## How to find ename having salary greater than 100000?
 
 select ename from employee where emp_id in (select emp_id from EmployeeSalary where salary> 100000);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to find employees who is managing someone.[SELF-JOIN]
 
 > select distinct e.emp_id, e.ename from Employee e, Employee m where e.emp_id = m.managerid;
 
 > select distinct e1.emp_id, e1.ename from Employee e1 INNER JOIN Employee e2 on e1.emp_id = e2.managerid;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Find out employee who has not assigned any project
 
 > select distinct e.emp_id, e.ename from employee e where e.emp_id not in (select emp_id from employeesalary);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Find out all employee who has/hasn't assigned any project and display "No Project Assigned"
 
 > select e.emp_id, e.ename, IfNULL(es.project,'NO Project Assigned') AS pro_name from employee e left outer join employeesalary es ON e.emp_id = es.emp_id;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Find out employees assigned to more than 1 projects?
 
 mysql> select e.emp_id, e.ename, es.project from employee e inner join  employeesalary es ON e.emp_id=es.emp_id WHERE e.emp_id in (select d.emp_id from employeesalary d group by d.emp_id having count(d.emp_id)>=2);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## To fetch only odd rows from the employee table.
 
 mySql>  SELECT * FROM (
 		SELECT *, @rowNumber := @rowNumber+ 1 rn FROM Employee JOIN (SELECT @rowNumber:= 0) r
 					  ) t WHERE rn % 2 = 1;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  to create an empty table with the same structure as some other table.
 
 CREATE TABLE NewTable SELECT * FROM Employee where 1=0;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

@@ -46,7 +46,7 @@ Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 6. hibernate.connection.pool_size - Limits the number of connections waiting in the Hibernate database connection pool.
 
 7. hibernate.connection.autocommit- Allows autocommit mode to be used for the JDBC connection.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 ## If we are using a DB along with an appl server and JNDI then we would have to configure the following properties:
 
 1. hibernate.connection.datasource
@@ -57,16 +57,16 @@ Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 4. hibernate.jndi.url - Provides the URL for JNDI.
 5. hibernate.connection.username - The database username.
 6. hibernate.connection.password - The database password.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is dialect class in Hibernate?
 
 > TO CONNECT TO ANY DATABASE WITH HIBERNATE, we need to specify the SQL dialect class in hibernate.cfg.xml
 - Dialect is used to convert HQL statements to data base specific statements.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create the table dynamically in hibernate?
 
 hibernate.hbm2ddl.auto=update
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the use of "hibernate.hbm2ddl.auto" in configuration file??
 
 > it automatically validates or exports DDL schema(table structure) to the database when the SessionFactory is created. 
@@ -78,10 +78,10 @@ VALIDATE: validate the schema, makes no changes to the database.
 UPDATE: update the schema.
 CREATE: creates the schema, destroying previous data.
 CREATE-DROP: drop the schema when the SessionFactory is closed explicitly, typically when the application is stopped.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
 ## Is it safe to use "hbm2ddl.auto=update" in production?
 No
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
 ## How to log hibernate generated sql queries in log files?
 
 > We can set below property for hibernate configuration to log SQL queries.
@@ -91,7 +91,7 @@ No
 ########## 2. SessionFactory[i] #######
 > org.hibernate.SessionFactory
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is SessionFactory in Hibernate? is SessionFactory thread-safe?
 
 > it is USED TO GET THE SESSION OBJECTS.
@@ -104,7 +104,7 @@ No
 
 > It also provide methods to get the Class metadata 
 > It can HOLD AN OPTIONAL (SECOND-LEVEL) CACHE OF DATA that is reusable between transactions at a process, or cluster, level. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create session Object from SessionFactory?
 
 Configuration cfg = new Configuration().configure("hibernate.cfg.xml"); 
@@ -124,7 +124,7 @@ SessionFactory sessionFactory =cfg.buildSessionFactory();
 
 > It is used where we are loading bulk data into database and we don’t want hibernate session to hold huge data in first-level cache memory.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between openSession() and getCurrentSession()?
 
 > SessionFactory getCurrentSession() RETURNS THE SESSION BOUND TO THE CONTEXT. 
@@ -137,7 +137,7 @@ SessionFactory sessionFactory =cfg.buildSessionFactory();
 > SessionFactory openSession(): ALWAYS OPENS A NEW SESSION. 
 - We should close this session object once we are done with all the database operations. 
 - We should OPEN A NEW SESSION FOR EACH REQUEST in multi-threaded environment.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we get hibernate statistics?
 
 > We can get hibernate statistics using getStatistics() method of SessionFactory class as shown below:
@@ -254,7 +254,7 @@ TRANSIENT STATE --session.save() or session.saveOrUpdate()-->PERSISTENT STATE
 PERSISTENT STATE --session.evict()/clear()/close()--> DETACH STATE
 DETACH STATE --session.saveOrUpdate/merge/update--> PERSISTENT STATE
 PERSISTENT STATE --session.delete()--> Object Removed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Difference between Transient and Detached States?
 
 > Transient objects do not have association with the databases and session objects. 
@@ -262,7 +262,7 @@ PERSISTENT STATE --session.delete()--> Object Removed
 
 > The detached object have corresponding entries in the database. 
 - These are persistent and not connected to the Session object.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference between session.save() and session.saveOrUpdate() ?
 
 > save() generates a new identifier and INSERT record into database while 
@@ -276,7 +276,7 @@ Long id1 = (Long) session.save(person);
  
 session.evict(person);
 Long id2 = (Long) session.save(person);//create a new entry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the difference between session.save() and session.persist()?
 
 > Hibernate persist() is similar to save (with transaction)
@@ -299,7 +299,7 @@ Long id2 = (Long) session.save(person);//create a new entry
 > sesssion.save() : If there are other objects mapped from the primary object (like Employee having Addr)
 - here Addr will not save with save(employee)
 - they gets saved at the time of committing transaction or when we flush the session.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between session.get() and session.load()?
 
 > get() : involves database hit if object doesn't exists in Session Cache and 
@@ -321,7 +321,7 @@ Long id2 = (Long) session.save(person);//create a new entry
 
 > get() : It returns real object not proxy.
 - load() : It returns proxy object.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between session.update() and session.merge()?
 
 > BOTH ARE USED TO CONVERT DETACHED STATE OBJ INTO PERSISTENCE STATE.
@@ -365,11 +365,11 @@ session2.update(emp1);//It occurs the exception NonUniqueObjectException because
 session2.merge(emp1); //it merge the object state with emp2
 session2.update(emp1); //Now it will work with exception
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What’s the use of session.lock() in hibernate?
 
 session.lock() method of session class is used to reattach an object which has been detached earlier. This method of reattaching doesn’t check for any data synchronization in database while reattaching the object and hence may lead to lack of synchronization in data.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between clear() and evict()?
 
 > session.evict(Object obj) : 
@@ -379,17 +379,17 @@ session.lock() method of session class is used to reattach an object which has b
 > session.clear():  
 - it is used to remove all cached objects associated with session.
 - it will internally call evict() for all the objects from the session.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 > session.flush ():- It tells Hibernate to execute the SQL statements needed to synchronize the JDBC connection's state with the state of objects held in the session-level cache. 
 - it will save the object instances to the database.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Hibernate createCriteria, createQuery, createSQLQuery.
 > createSQLQuery - used to create native sql query.
 > createCriteria - used to create criteria 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What’s the use of session.lock() in hibernate?
 
 > It can be used to ASSOCIATE A DETACHED OBJECT TO A SESSION and put the object back into a persistence context.  
@@ -440,7 +440,7 @@ System.out.println("completed the update call");
 trx.commit();
 sess.close();
 System.out.println("vehicle synchronized again: " + v);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is hibernate proxy and when proxy is generated ?
 
 > In hibernate, proxies are placeholder that are generated at runtime to help lazy loading.

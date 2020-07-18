@@ -2,7 +2,7 @@
 
 > Concurrency is the ability of a program to EXECUTE SEVERAL COMPUTATIONS SIMULTANEOUSLY(i.e at same time). 
 > This can be achieved by distributing the computations over the available CPU cores of a machine or even over different machines within the same network.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is problem of using Concurrency?
 
 > There are TWO BASIC PROBLEMS, visibility and access problems.
@@ -21,7 +21,7 @@ Visibility and access problem can lead to
 
 > SAFETY FAILURE: 
 - The program creates incorrect data.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Concurrency and Parallelism?
 
 > Concurrency means MULTIPLE TASKS WHICH START, RUN, AND COMPLETE IN OVERLAPPING TIME PERIODS, IN NO SPECIFIC ORDER. 
@@ -50,7 +50,7 @@ Visibility and access problem can lead to
 public interface Callable<V> {
     V call() throws Exception;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Callable[i] and Runnable[i]?
 
 > Runnable has run() that accepts no args and returns no value
@@ -99,7 +99,7 @@ Callable task = new CallableEmp(); Thread t = new Thread(task); //don;t compile
 
 - if the result of the task isn’t available, waits for the specified time. 
 - If the specified period of time passes and the result isn’t yet available, the method returns a null value.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the limitation of Futures ?
 
 1. It cannot be manually completed with partial results.
@@ -133,7 +133,7 @@ class FutureTask<V> implements RunnableFuture<V>
 - bcz we need not to impl. run() in our subclass. 
 - Basic impl will work define in FutureTask[c]
 - while in Runnable subclass we need to impl run()  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ######## CompletableFuture[c] #########
 > Since Java8
@@ -151,7 +151,7 @@ class CompletableFuture<T> implements Future<T>, CompletionStage<T> {...}
 - it implements Future and CompletionStage
 
 - it executes these tasks in a thread obtained from the global ForkJoinPool.commonPool().
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is CompletionStage?
 
 > It performs an action and returns a value when another completion stage completes.
@@ -162,7 +162,7 @@ Hence, it is an element of a chain.
 > When more than one thread attempt to complete - complete exceptionally or cancel a CompletableFuture, only one of them succeeds.
 
 > CompletionStage offers methods, that let you attach callbacks that will be executed on completion.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. To create CompletableFuture using no-args constructor
 CompletableFuture<String> completableFuture = new CompletableFuture<String>();
@@ -203,7 +203,7 @@ By default, Future task is run asynchronously, so will be executed in a differen
 > So if you want to execute some code before JVM shuts down, use shutdown hook.
 
 ## What is difference bet JVM Shutdownhook and Finalize()?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##When does the JVM shut down?
 > The JVM shuts down when:
 	-user presses ctrl+c on the command prompt

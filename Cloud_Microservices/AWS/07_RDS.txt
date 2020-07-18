@@ -76,7 +76,7 @@
 - App may take few minute to switch to standby in case of failure.
 
 > AWS RECOMMENDATION TO USE PROVISIONED IOPS INSTANCES FOR MULTI-AZ RDS INSTANCES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### FAILOVER TRIGGER ######
 
 > Failover may be triggered when
@@ -88,7 +88,7 @@
 - Patching the OS of the DB instance
 
 - Manual failover(reboot with failover on primary)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## MULTI-AZ FAILOVER LOGISTICS
 
 > during failover the CNAME of the RDS DB instance is updated to map to the standby IP address 
@@ -102,7 +102,7 @@
 
 > This is very helpful in a failover scenario the primary will fail to the standby i.e. IP address of RDS instance will change
 - Referencing by endpoint means there is no change(endpoint wise) when a failover happened, so no disruptions or manual intervention to facilitate RDS DB instance access in a failover scenario
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## MULTI-AZ RDS Manual failover and reboot
 > In multi-AZ deployment, you can only initiate a manual RDS DB instance failover(primary to secondary) when rebooting
 - This is by selecting the "reboot with failover" reboot option on the primary RDS DB instance
@@ -111,7 +111,7 @@
 - This reboot restart the DB engine
 
 > The DB parameter group is a configuration container for the DB engine configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## MULTI-AZ RDS EVENT NOTIFICATIONS 
 > You will be alerted by a DB instance event when a failover occurs
 
@@ -119,7 +119,7 @@
 - we can use API calls to the RDS service to list the RDS events in the past 14 days(DescribeEvents API)
 - You can view past 14 days events using CLI
 - Using AWS console, you can only view RDS event for the last one day i.e 24 hour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## PROCESS THAT HAPPENED ON THE STANDBY FIRST
 > The following procedure are done on the standby first then on primary
 - OS patching
@@ -127,7 +127,7 @@
 - DB scaling
 
 > in multi-AZ snapshot and automatic backup are done on the standby instance to avoid I/O suspension on primary instance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Multi-AZ deployment maintenance
 > The sequence is as follow 
 - maintenance on standby is performed 
@@ -159,7 +159,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > either one create a storage volume snapshot of your entire DB instance not just the individual database
 > You can make copies of automatic backup and of manual snapshot
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### DB AUTOMATED BACKUPS ######
 
 >  Automated backup by AWS, back up DB data to multi-AZ to provide for data durability
@@ -187,7 +187,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Automatic backup are currently supported only for InnoDB storage engine for MySQL (and not for myISAM engine)
 > Use to automatic backup with other MySQL DB storage engines including ISAM, may lead to unpredictable behaviour during restoration
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### DB RETENTION PERIOD ######
 > The period of time AWS keep the automatic backup before deleting them
 - 7 days (by default) is configured from the AWS console for all DB engine (except Arora default is one day regardless how it was configured)
@@ -446,7 +446,7 @@ content-type
 - This help to automate capacity management of tables and global secondary indexes. 
 - we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
 - will be on by default for all new tables and indexes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Because of its availability in 3 geographically DC, It consists of 2 different types of consistency models:
 
 1. Eventual Consistent Reads
@@ -458,7 +458,7 @@ content-type
 > There are 2 types of read/write capacity modes:
 1. Provisioned mode
 2. On-demand mode
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 1. PROVISIONED MODE ######
 > It defines the maximum amount of capacity that an application can use from a specified table.
 
@@ -472,7 +472,7 @@ content-type
 1. Read Capacity unit
 2. Write Capacity unit
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### 1a. READ CAPACITY UNIT #####
 
 > The total number of read capacity units depends on the item size, and read consistency model.
@@ -495,7 +495,7 @@ content-type
 > DynamoDB will require additional write capacity units when size is greater than 1KB. 
 - For example, if an item size is 2KB, two write capacity units are required to perform 1 write per second.
 - For example, if you create a table with 20 write capacity units, then you can perform 20 writes per second for an item up to 1KB in size.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 2. ON-DEMAND MODE ########
 > DynamoDB on-demand mode has a flexible new billing option which is capable of serving thousands of requests per second without any capacity planning.
 
@@ -510,7 +510,7 @@ content-type
 > If you do not perform any read/write, then you just need to pay for data storage only.
 
 > On-Demand mode is useful for those applications that have unpredictable traffic and database is very complex to forecast.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## SCALABILITY ##########
 > It provides push button scaling where we can increase the read/write throughput without downtime or performance degradations
 
@@ -521,7 +521,7 @@ content-type
 
 > Redshift is a fast and powerful, fully managed, petabyte-scale data warehouse service
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### BENEFITS ###
 
 > Query our Data Lake:
@@ -530,18 +530,18 @@ content-type
 > Secure
 - It can be encrypted with AWS KMS or HSM
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### USE CASES ####
 > Accelerated analytics workload 
 > Unified data warehouse and data lake 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > AWS Documentation mentions the following on monitoring Redshift Clusters:
 
 > Amazon CloudWatch metrics help to monitor the physical aspects of cluster, such as CPU utilization, latency, and throughput. 
 - Metric data is displayed directly in the Redshift console. 
 - we can also view it in CloudWatch console, or 
 - we can consume it in any other way such as with CloudWatch CLI OR SDKs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 > Regardless of whether we enable automated snapshots, we can take a manual snapshot whenever we want at any time. 
 - By default, manual snapshots are retained indefinitely, even after we delete cluster. 
@@ -571,7 +571,7 @@ content-type
 2b. COMPUTE NODE
 > A compute node executes the execution plans, and then intermediate results are sent to the leader node for aggregation before sending back to the client application. 
 - It can have up to 128 compute nodes in a cluster
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### REDSHIFT – PERFORMANCE ####
 1. Columnar Data Storage:
 - Instead of storing data as series of rows, Amazon Redshift organizes the data by column.
@@ -644,13 +644,13 @@ D) Can't transfer huge amount of data to AWS
 > It does this by storing the results of frequently accessed pieces of data in-memory
 
 > ElastiCache is used in between WebServer and Database to store cache. WebServer might response through cache if the request match.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## FEATURE ##
 > Automatic detection of and recovery from cache node failures.
 > Flexible AZ placement of nodes and clusters.
 > Integration with other AWS services such as EC2, CloudWatch, CloudTrail, and SNS to provide a secure, high-performance, managed in-memory caching solution.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > ElastiCache Supports 2 Caching engines:
 1. Memcached (its not a data store (DB), only cache )
 2. Redis (is the fast NOSQL – can be used as database)
@@ -663,7 +663,7 @@ D) Can't transfer huge amount of data to AWS
 - cache contents of a DB
 - cache data from dynamically generated webpages
 - Transient session data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### 2. Elasticache - Redis #####
 > Redis is persistent
 > It is the fast NoSQL engine 
@@ -676,7 +676,7 @@ D) Can't transfer huge amount of data to AWS
 - Gaming
 - Ad-tech
 - IoT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Elasticache Exam Tip
 • Typically you will be given a scenario where a particular database is under a lot of stress/load. You may be asked which service you should use to alleviate this.
 >>> Elasticache is a good choice if your database is particularly read heavy and not prone to frequent changing,

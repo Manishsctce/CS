@@ -80,7 +80,7 @@ Following are the principles of Software Design
 2. Abstraction
 3. Modularity
 4. Top-Down and Bottom-up strategy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a DRY principle?
 
 DRY stand for "Don't Repeat Yourself," a basic principle of software development aimed at reducing repetition of information. The DRY principle is stated as, "Every piece of knowledge or logic must have a single, unambiguous representation within a system."
@@ -88,7 +88,7 @@ DRY stand for "Don't Repeat Yourself," a basic principle of software development
 Divide your code and logic into smaller reusable units and use that code by calling it where you want. 
 
 It saves time and effort, is easy to maintain, and also reduces the chances of bugs.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a KISS principle?
 
 > It stand for "Keep It Simple, Stupid"
@@ -132,9 +132,9 @@ public String weekday2(int day) {
     };
     return days[day - 1];
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is an ACID?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a CAP theorem?
 
 > It is a tool used to makes system designers aware of the trade-offs while designing networked shared-data systems.
@@ -240,6 +240,30 @@ class GraphicEditor{
 - Decorator pattern help us to follow Open Close principle
 
 =======================================
+##### LISKOV SUBSTITUTION PRINCIPLE ###
+
+> it state that if S is a subtype of T, then objects of type T may be replaced with objects of type S
+
+BAD EXAMPLE:
+public class Bird{
+    public void fly(){}
+}
+public class Duck extends Bird{}
+
+- The duck can fly because of it is a bird, But what about this:
+
+public class Ostrich extends Bird{}
+- Ostrich is a bird, But it can't fly, Ostrich class is a subtype of class Bird, But it can't use the fly method, that means that we are breaking LSP principle.
+
+GOOD EXAMPLE:
+public class Bird{
+}
+public class FlyingBirds extends Bird{
+    public void fly(){}
+}
+public class Duck extends FlyingBirds{}
+public class Ostrich extends Bird{} 
+=======================================
 ### INTERFACE-SEGREGATION PRINCIPLE ###
 
 > it state that no client should be forced to depend on methods it does not use.
@@ -266,7 +290,7 @@ One of a good example of Strategy pattern from JDK itself is a Collections.sort(
 - Here Comparator is a strategy interface and defines a strategy for comparing objects. 
 - Because of this pattern, we don't need to modify sort() method (closed for modification) to compare any object, 
 - at the same time we can implement Comparator interface to define new comparing strategy (open for extension). 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Strategy and State design Pattern?
 
 > both Strategy and State pattern has the same structure, but their intent is totally different.
@@ -287,7 +311,7 @@ Association > Aggregation > Composition
 - The relationship can be One-to-One, One-to-Many, Many-to-One and Many-to-Many.
 
 > Composition and Aggregation are the two forms of association.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## AGGREGATION ##########
 > It is Super set of Composition
 
@@ -305,7 +329,7 @@ Association > Aggregation > Composition
 > SYMBOL - holo rhombus at Super class and tail at the sub class
 Ex- Employee(Super) having Address(sub)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## COMPOSITION ##########
 ## COMPOSITION - For ex Class A contain Class B
 
@@ -317,7 +341,7 @@ Ex- Employee(Super) having Address(sub)
 > the part class cannot meaningfully exist on its own without the whole class. 
 > This means life of Class B is dependent of life of Class A.
 > SYMBOL-   dark rhomus at Super class and tail at the part class
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Aggregation and Composition?
 
 > Dependency : 
@@ -338,7 +362,7 @@ Ex- Employee(Super) having Address(sub)
 - It is most closely associated with making sure that a class is designed with a single, well-focused purpose.
 
 > The advantages of high cohesion is that such classes are much easier to maintain (and less frequently changed) and reusable.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Coupling in Java?
 
 > it is the degree to which one class knows about another class”. 
@@ -384,9 +408,9 @@ public class Subject {
     t.understand();
   }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a difference between composite and composition?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What design pattern is String.intern()?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What design pattern is Collections.sort()?

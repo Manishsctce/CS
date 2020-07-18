@@ -3,12 +3,12 @@
 > Maven is a project management and comprehension tool. 
 - It provides developers a complete build lifecycle framework. 
 - Development team can automate the project's build infrastructure in almost no time as Maven uses a standard directory layout and a default build lifecycle.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What does it mean when you say Maven uses Convention over Configuration?
 
 > Maven uses Convention over Configuration which means developers are not required to create build process themselves. 
 - Developers do not have to mention each and every configuration details.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the phases of a Maven Build Lifecycle?
 
 validate 
@@ -21,7 +21,7 @@ install
 deploy
 
 > if we use "install" command then all commands above it will execute like validate,compile,test...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the aspects Maven manages?
 
 Maven provides developers ways to manage following −
@@ -34,12 +34,12 @@ SCMs
 Releases
 Distribution
 mailing list
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do you know the version of mvn you are using?
 
 Type the following command −
 mvn --version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is POM?
 
 > POM stands for Project Object Model. 
@@ -47,7 +47,7 @@ mvn --version
 - It always RESIDES IN THE BASE DIRECTORY OF THE PROJECT as pom.xml. 
 - It contains information about the project and various configuration details used by Maven to build the project(s).
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What information does POM contain?
 
 > POM contains the some of the following configuration information −
@@ -59,7 +59,7 @@ mvn --version
 5. project version
 6. developers
 7. mailing list
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### NAMING CONVENTIONS ##########
 
 ## groupId 
@@ -82,7 +82,7 @@ EXAMPLE - spring-boot-demo-1.0-SNAPSHOT.jar
 
 
 ## mvn archetype:generate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Maven artifact?
 
 > An artifact is a file, usually a JAR that gets deployed to a Maven repository. 
@@ -96,12 +96,12 @@ EXAMPLE - spring-boot-demo-1.0-SNAPSHOT.jar
 
 > A project's dependencies are specified as artifacts. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is transitive dependencies in maven?
 
 > a third party jar might be dependent on some other library. This dependency of dependency is called Transitive dependencies
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If we want to exclude any transitive dependency then how we can do it?
 
 > We can use <exclusions> and <exclusion> tags under the main dependency and 
@@ -123,7 +123,7 @@ EXAMPLE:
 	
   <dependency>	
 </dependencies>  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is scope in the dependency?
 
 > To limit the scope of the dependency to the given scope
@@ -151,16 +151,16 @@ EXAMPLE:
 6. test
 - indicates that the dependency is ONLY AVAILABLE FOR THE TEST COMPILATION AND EXECUTION PHASES.
 - it mean the dependency is limited to test source file not to compile source file 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What phases does a Clean Lifecycle consist?
 
 > The clean lifecycle consists of the following phases −
 - pre-clean
 - clean
 - post-clean
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What phases does a Site Lifecycle consist?
 
 > The phases in Site Lifecycle are −
@@ -168,12 +168,12 @@ EXAMPLE:
 - site
 - post-site
 - site-deploy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Build Profile?
 
 > A Build profile is a set of configuration values which can be used to set or override default values of Maven build. 
 - Using a build profile, you can customize build for different environments such as Production v/s Development environments.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are different types of Build Profiles?
 
 Build profiles are of three types −
@@ -183,7 +183,7 @@ Build profiles are of three types −
 2. Per User − Defined in Maven settings xml file (%USER_HOME%/.m2/settings.xml).
 
 3. Global − Defined in Maven global settings xml file (%M2_HOME%/conf/settings.xml)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can you activate profiles?
 
 A Maven Build Profile can be activated in various ways −
@@ -193,11 +193,11 @@ A Maven Build Profile can be activated in various ways −
 3. Based on environment variables (User/System variables).
 4. OS Settings (for example, Windows family).
 5. Present/missing files.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a Maven Repository?
 
 > A repository is a place i.e. directory where all the project jars, library jar, plugins or any other project specific artifacts are stored and can be used by Maven easily.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What types of Maven repository?
 
 > Maven repository are of three types: local, central, remote
@@ -218,7 +218,7 @@ A Maven Build Profile can be activated in various ways −
 - Sometimes, Maven does not find a mentioned dependency in central repository as well then it stops the build process and output error message to console. 
 - To prevent such situation, Maven provides concept of REMOTE REPOSITORY, IT IS DEVELOPER'S OWN CUSTOM REPOSITORY CONTAINING REQUIRED LIBRARIES or other project jars.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the sequence in which Maven searches for dependency libraries?
 
 Following is the search pattern −
@@ -231,7 +231,7 @@ Step 3 − If a remote repository has not been mentioned, Maven simply stops the
 
 Step 4 − Search dependency in remote repository or repositories, if found then it is downloaded to local repository for future reference otherwise Maven as expected stop processing and throws error (Unable to find dependency).
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why are Maven Plugins used?
 Maven Plugins are used to −
 
@@ -241,7 +241,7 @@ compile code files.
 unit testing of code.
 create project documentation.
 create project reports.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the types of Maven Plugins?
 
 > Maven provides following two types of Plugins −
@@ -251,13 +251,13 @@ create project reports.
 
 2. Reporting plugins 
 − They execute during the site generation and they should be configured in the <reporting/> element of the pom.xml
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When does Maven use External Dependency concept?
 
 > Maven dependency management using concept of Maven Repositories (Local, Central, Remote). 
 - Suppose dependency is not available in any of remote repositories and central repository; 
 - in such scenarios Maven uses concept of External Dependency.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the things you need to define for each external dependency?
 
 External dependencies (library jar location) can be configured in pom.xml in same way as other dependencies.
@@ -266,17 +266,17 @@ Specify groupId same as name of the library.
 Specify artifactId same as name of the library.
 Specify scope as system.
 Specify system path relative to project location.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Archetype?
 Archetype is a Maven plugin whose task is to create a project structure as per its template.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the command to create a new project based on an archtype?
 
 Type the following command −
 
 mvn archetype:generate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is SNAPSHOT in Maven?
 
 > SNAPSHOT is a special version that indicates a current development copy. Unlike regular versions, Maven checks for a new SNAPSHOT version in a remote repository for every build.
@@ -295,7 +295,7 @@ It means to directly specify the versions of artifacts to be used when they are 
 How Maven handles and determines what version of dependency will be used when multiple version of an artifact are encountered?
 Maven determines what version of a dependency is to be used when multiple versions of an artifact are encountered. If two dependency versions are at the same depth in the dependency tree, the first declared dependency will be used. This is called dependency mediation.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is dependency scope? Name all the dependency scope.
 
 Dependency scope includes dependencies as per the current stage of the build. Various Dependency Scopes are −
@@ -309,19 +309,19 @@ To reference a property defined in your pom.xml, the property name uses the name
 
 So ${pom.name} refers to the name of the project, ${pom.version} refers to the version of the project, ${pom.build.finalName} refers to the final name of the file created when the built project is packaged, etc.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the default values for packaging element? If there is no packaging element defined? What is the default value for that?
 
 > Some of the valid packaging values are jar, war, ear and pom. 
 - If no packaging value has been specified, it will default to jar.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the value for packaging element in pom for a project that is purely meta-data?
 pom
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the use of execution element in pom file?
 The <execution> element contains information's required for the execution of a plugin.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a project's fully qualified artifact name?
 
 <groupId>:<artifactId>:<version>
@@ -347,28 +347,28 @@ Use the command −
 mvn o package.
 How do you exclude dependency?
 Using the exclusion element.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is a system dependency?
 
 Dependency with scope system are always available and are not looked up in repository, they are usually used to tell Maven about dependencies which are provided by the JDK or the VM. Thus, system dependencies are especially useful for resolving dependencies on artifacts which are now provided by the JDK.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the use of optional dependency?
 
 Any transitive dependency can be marked as optional using "optional" element. As example, A depends upon B and B depends upon C. Now B marked C as optional. Then A will not use C.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is dependency exclusion ?
 Any transitive dependency can be exclude using "exclusion" element. As example, A depends upon B and B depends upon C then A can mark C as excluded.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can you run the clean plugin automatically during the build?
 You can put the clean plugin inside the execution tag in pom.xml file.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to stop the propagation of plugins to child POMs?
 set <inherited> to false.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What does the "You cannot have two plugin executions with the same (or missing) elements" message mean?
 
 > It means that you have executed a plugin multiple times with the same <id>. Provide each <execution> with a unique <id> then it would be ok.

@@ -51,12 +51,12 @@ Ex - String greeting = "Hello world!";// "Hello world!" is a string literal
 - Creating too many String literals can cause java.lang.OutOfMemory: permgen space. 
 
 - Inside the heap memory, JVM reserves some part of the heap memory to store string objects created using string literals. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why String is final in Java?
 
 > String class is final so that no other class can override the methods of String class
 > it provide the feature of immutability
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### WHY STRING IS IMMUTABLE?
 
 String class is immutable because 
@@ -69,7 +69,7 @@ String class is immutable because
 2. Since String is immutable, it is safe for multi-threading and a single String instance can be shared across different threads.
 
 3. Strings are USED IN JAVA CLASSLOADER and immutability provides security that correct class is getting loaded by Classloader. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## what is difference between String literal and String object in Java?
 ##How many object will create with String str = new String("hello"); ??
 
@@ -83,7 +83,7 @@ Which is reference by non.
 To make reference of str here to "hello" in string const pool we need to call String.intern() explicitly
 
 Note : Each time an object will be created with "new" operator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why character array is better than String for Storing password in Java?
 
 > Strings are immutable in java. So while storing in string may cause SECURITY RISK as password will be in string const pool which can be read by sb.
@@ -115,11 +115,11 @@ StringBuffer append(value of any type) ;
 StringBuffer insert();
 StringBuffer reverse();
 public StringBuffer(int capacity); throw NegativeArraySizeException - if the capacity argument is less than 0.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 STRINGBUILDER
 >
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > String literal are store in string intern pool but string obj store in heap
 - StringBuffer and StringBuilder store in heap 
 
@@ -129,7 +129,7 @@ EXAMPLE - StirngBuffer strBuff = new StringBuffer();
 StringBuilder strBuilder = new String("Manish");//ClassCastException
 
 > strBuff += "Manish";//Compiler error String cannot covert to StringBuffer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between StringBuffer and StringBuilder?
 
 > there is ONLY 1 DIFFERENCE between StringBuffer and StringBuilder. Both contain same methods
@@ -162,7 +162,7 @@ hasMoreTokens()
 tok.nextToken()
 
 > StringTokenizer class is DEPRECATED now. It is recommended to use split() method of String class or regex (Regular Expression).	 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bet split and StringTokenizer?
 
 > in StringTokenizer, we can use more than 1 exp to split the string but in split we cannot.
@@ -194,12 +194,12 @@ Manish
 - but it will throw NullPointerException if String is null.
 
 4. using Apache commons then you can also use isEmpty() method to check if String is empty or not.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to remove white space in String line?
 
 > Use replaceAll("\\s", "") 
 - here \s represent white space that will replace by empty string.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 public String[] split(String regex, int limit);
 public String[] split(String regex);
 Here 
@@ -211,7 +211,7 @@ str = "Welcome-to-Tutorialspoint.com"
 str.split("-",2) => give 2 string array i.e Welcome , to-Tutorialspoint.com
 
 str.split("-",3) => give 3 string array i.e Welcome , to, Tutorialspoint.com
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does substring() inside String works?
 
 public String substring(int beginIndex) Ex: "unhappy".substring(2) returns "happy"
@@ -220,7 +220,7 @@ Examples:
  "hamburger".substring(4, 8) returns "urge"
  "smiles".substring(1, 5) returns "mile"
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How substring() method of String class create memory leaks in jdk1.6 and below?
 
 > substring() would build a new String object keeping a reference to the whole char array, to avoid copying it. 
@@ -228,14 +228,14 @@ Examples:
 - Here char array actually hold the complete string character and cause memory leak. 
 
 > This is improved in JDK 7. In JDK 7, the substring() method actually create a new array in the heap.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## How to resolve the memory leak problem of substring() method in JDK 1.6?
 
 subString = string.substring(3, 10) + "";
 
 > Here string.substring(3, 10) will return the substring which point to original string array and the substring will not allow the garbage collection for old string (char value[])
 - But when we add the empty string to offset, new string will form in constant pool with new char value[] array and we can overcome the problem of garbage collection of old string array.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## TO Primitive datatype or WrapperClass
 
 > WrapperClass.parseXXXX(string); //convert string into primitive datatype. Here XXXX - primitive data type
@@ -244,12 +244,12 @@ subString = string.substring(3, 10) + "";
 ## To String
 > WrapperClass.toString(primitive datatype); //convert primitive datatype into String
 > String.valueOf(<primitive_datatype>);//convert primitive datatype into String
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert String to Integer in Java?
 
 1> int a = Integer.parseInt("123");//return Integer upto 10digit
 2> int a = Integer.valueOf("1234");//return Integer upto 10digit after that NumberFormatException
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Convert Date to String ?
 
 > In Date, small case “m” represent minutes while “M” represent Month
@@ -259,7 +259,7 @@ String myDate = "20-12-1987";
 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 System.out.println(dateFormat.parse(myDate));//Sun Dec 20 00:00:00 IST 1987
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## String getBytes
 ##byte getBytes()
 > Encodes this String into a sequence of bytes using the platform's default charset, storing the result into a new byte array.
@@ -292,12 +292,12 @@ String s = new String(bytes);
 > The class is final so we cannot create the subclass.
 > There is NO SETTER METHODS i.e. we have no option to change the value of the instance variable.
 > IMMUTABLE OBJECTS ARE BY DEFAULT THREAD SAFE, can be shared without synchronization in concurrent environmen
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Does all property of immutable object needs to be final?
 
 > It's not necessary but non-final variable should be private and not modify them except in constructor
 > 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How to create an immutable class?
 
 > To create an immutable class following steps should be followed:
@@ -437,10 +437,10 @@ public class ImmutableBuilderTest {
     System.out.println(immutableClass1.getProperties());
   }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##are all final class is immutable?
 No
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the advantages of immutability?
 
 > IMMUTABLE OBJECTS ARE THREAD-SAFE, 
@@ -454,7 +454,7 @@ No
 
 > The BEST USE OF THE IMMUTABLE OBJECTS IS AS THE KEYS OF A MAP.   
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ###### CODING INTERVIEW QUESTION ######
 SYM ASCI HEX  

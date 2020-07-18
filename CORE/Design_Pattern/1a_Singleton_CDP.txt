@@ -8,7 +8,7 @@
 - It is used for logging, drivers objects, caching and thread pool.
 
 Ex - window managers, print spoolers, filesystems 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When doesn't Singleton remain Singleton in Java?
 
 ## What are the drawbacks of Singleton?
@@ -24,7 +24,7 @@ Ex - window managers, print spoolers, filesystems
 4. Singleton principle can be violated by techniques such as cloning. 
 - If an application is running on multiple JVM’s, then, in this case, Singleton might be broken
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Example of Singleton in Java?
 
 1 Java.lang.Runtime with getRuntime() 
@@ -33,7 +33,7 @@ Ex - window managers, print spoolers, filesystems
 2. java.lang.System.getSecurityManager()
 3 Java.awt.Toolkit with getDefaultToolkit()
 4 Java.awt.Desktop with  getDesktop()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to implement Singleton Pattern? 
 
 > To implement Singleton pattern, we have different approaches but all of them have the following common concepts:
@@ -54,7 +54,7 @@ CLASS DIAGRAM
 |public static getInstance()  |
 +-----------------------------+
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## In how many way Singleton pattern can be implemented?
 
 > There are multiple way to implement Singleton pattern 
@@ -89,7 +89,7 @@ Pros:
 Cons:
 > instance is created even though we might not be using it
 > Exception Handling is not possible
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Eager Initialization with Static block is implemented? Does it add any advantage?
 
 public class StaticBlockSingleton {  
@@ -121,7 +121,7 @@ Cons:
 ## What is Lazy Initialization? 
 
 > It mean initialize the instance when require. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create Lazy Initialization singleton class?
 
 class LazyIntialization{
@@ -147,7 +147,7 @@ Cons:
 - using Reflection class 
 - using Serialization
 - using cloning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to break the Lazy Initialization Singleton pattern in Multithreading context?
 
 > When we run this program multiple time then we can hashCode value will change.
@@ -194,7 +194,7 @@ public class LazyIntializationSingleton1{
 		System.out.println("Exit");
 	}
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create Thread safe Singleton? 
 
 public class ThreadSafeSingleton {
@@ -216,7 +216,7 @@ Cons:
 > As the getInstance() is synchronized, it causes slow performance as multiple threads can’t access it simultaneously
 - its because if we synchronized static method, the lock will be on the class not on object
 - To improve this performance, we can synchronize only critical section using Double check lazy initialization.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is it better to make whole getInstance() synchronized or just critical section is enough? Which one you will prefer?
 
 > Since synchroniztion is only needed during initialization of singleton instance, to prevent creating another instance,  
@@ -248,14 +248,14 @@ public class Singleton {
 > It will be best to use the volatile instance variable in Singleton class
 - it will ensure the object is not partially initialized and it is the one.
 private static volatile Singleton instance =null;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why you need Double checked Locking of Singleton Class?
 
 > It improve the performance of code as it minimize the cost of synchronization in case of multi-threading env.
 - As bcz we do 1st null check on instance before synchronized the class and 
 - 2nd null check to make sure no other instance is created, in context of multi-threading 
 - As bcz multiple thread can reach upto synchronized the class and then only 1 thread can create instance, if we donot do null check of the instance another thread may create instance.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### PREVENT FROM CLONING ######
 
 ## How do you prevent for creating another instance of Singleton using clone() method?
@@ -268,7 +268,7 @@ private static volatile Singleton instance =null;
   }
  
 3. If you dont want to throw exception we can also return the same instance from clone method. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### PREVENT FROM REFLECTION ####
 
 ## How do you prevent for creating another instance of Singleton using reflection?
@@ -280,7 +280,7 @@ private Singleton() {
         throw new InstantiationError( "Creating of this object is not allowed." );
     }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### PREVENT FROM SERIALIZATION ###
 
 ## How do you prevent for creating another instance of Singleton during serialization?
@@ -334,7 +334,7 @@ public class Singleton {
  s Java Enum are global constants and loaded only once. Joshua Bloch suggested that Enum is best candidate for singleton design pattern. Please note that Java Enum does not allow lazy initialazation, so even if you do not use singleton, it will still be loaded.
  
  As Enum does not provide any explicit constructor, you can not create multiple instance of sinlgeton class even with reflection.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 public static MusicStore getMusicInstance(){
  final Lock lockObj=new ReentrantLock();
   if(musicInstance==null){
@@ -347,6 +347,6 @@ public static MusicStore getMusicInstance(){
 return musicInstance;
 }
 This lock is a mutually Exclusive one(MUTEX).i.e, allows only one thread at a time.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =https://medium.com/@kevalpatel2106/how-to-make-the-perfect-singleton-de6b951dfdb0

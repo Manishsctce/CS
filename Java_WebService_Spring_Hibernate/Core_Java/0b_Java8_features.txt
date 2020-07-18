@@ -96,7 +96,7 @@ Given a string s prints the string to the main output and returns void.
 
 () -> { System.out.println("Hello World!"); };
 Give no parameters prints Hello World! to the main output and returns void.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > It is replacement for anonymous classes as method arguments
 > One issue with anonymous classes is that if the implementation of your anonymous class is very simple, such as an interface that contains only one method, 
 - then the syntax of anonymous classes may seem unwieldy and unclear. 
@@ -105,7 +105,7 @@ Give no parameters prints Hello World! to the main output and returns void.
 
 > lambda expressions are Java's first step into functional programming.
 - Functional programming is very often used to implement event listeners
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why use Lambda expression?
 
 > It is used to define inline implementation of Functional interface.
@@ -214,14 +214,14 @@ private static int sumIterator(List<Integer> list) {
 - We can use Java STREAM API TO IMPLEMENT INTERNAL ITERATION, that is better because java framework is in control of the iteration.
 
 > INTERNAL ITERATION PROVIDES SEVERAL FEATURES such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Stream?
 
 > A stream is a sequence of objects from a source such as Collection/Array. 
 - basically, it is a wrapper around the data source.
 - It supports various data processing methods.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the features of Stream?
 
 > A stream is NOT A DATA STRUCTURE as because it doesn't store the data.
@@ -237,7 +237,7 @@ private static int sumIterator(List<Integer> list) {
 - it executes as per the terminal operation invokes. 
 
 > Stream is traverse only once
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create stream?
 
 > There are multiple way to create stream 
@@ -265,7 +265,7 @@ Stream.iterate(2, n -> n + 2).limit(25).forEach(i->System.out.print(i+"|"));
 - its like seed, f(seed), f(f(seed)), f(f(f(seed)))
 
 https://www.geeksforgeeks.org/10-ways-to-create-a-stream-in-java/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we create Stream of primitive?
 
 > No, we cannot create stream of primitive because
@@ -287,7 +287,7 @@ LongStream longStream = LongStream.rangeClosed(1, 3);
 4. Transform the Object stream into primitive type stream with the use of below methods of Stream 
 mapToInt, mapToDouble and mapToLong
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is boxed stream?
 
 > It is way of creating stream of wrapper class with it primitive value. 
@@ -299,7 +299,7 @@ IntStream.of(1,2,3,4,5).collect(Collectors.toList());
 
 > Here we can use boxed stream as 
 IntStream.of(1,2,3,4,5).boxed().collect(Collectors.toList());
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### METHODS #############
 
 #### CREATION METHOD ####
@@ -383,7 +383,7 @@ int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
 
 ## Stream<T> peek(Consumer<T> action)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between Intermediate and Terminal operation of Stream? 
 
 > The main difference between Intermediate and Terminal operations is that intermediate operations returns a Stream as a result
@@ -401,7 +401,7 @@ int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
 > Intermediate Operations : map(), filter(), distinct(), sorted(), limit(), skip()
 - Terminal Operations : forEach(), toArray(), reduce(), collect(), min(), max(), count(), anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by Stateless and Stateful operations in Java stream?
 ## What do you mean by  non-interfering and stateless Operation?
 
@@ -427,14 +427,14 @@ Stream.of("s2", "b2", "a1", "d3", "c2")
 map: s2 , anyMatch: S2
 map: b2 , anyMatch: B2
 map: a1 , anyMatch: A1
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is diff bet Stream and Collection?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## is there any difference bet Stream.forEach() and Collection.forEach()?
 
 > With Stream.forEach, the order is undefined
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the difference between map() and flatMap() in Java8 Stream?
 
 # map() - is used for transformation only
@@ -456,12 +456,12 @@ Arrays.asList(Arrays.asList(1,2),Arrays.asList(3,4)).stream().flatMap(li -> li.s
 
 EXAMPLE2:
 Arrays.asList(Arrays.asList(1,2,8),Arrays.asList(3,4,12)).stream().flatMap(i -> i.stream().filter(j->j%2==0)).forEach(x-> System.out.print(x+" "));//2 8 4 12 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Stream.map() works in Java 8?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Arrays.stream() and Stream.of()
 
 > Even if Stream.of() is a wrapper over the Arrays.stream()
@@ -485,26 +485,26 @@ EXAMPLE:
 - For other primitive types, Arrays.stream() won’t work.
 
 > Stream.of() returns a generic Stream of type T (Stream). Hence, it can be used with any type.  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert Stream to Array?
 
 EXAMPLE
 List<Integer> number = Arrays.asList(1, 2, 3, 4, 5, 6, 1, 2);
 Object[] x = number.stream().collect(Collectors.toList()).toArray();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What does peek() does? When should you use it?
  
 > The peek() of Stream class allows you to see through a Stream pipeline. 
 - we can peek through each step and print meaningful messages on the console. 
 - It's generally used for debugging issues related to lambda expression and Stream processing.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by saying Stream is lazy?
 
 > It mean methods in Stream[c] is lazy, it will not work by just including them on Stream pipeline.
 
 - It will only work when we call a terminal method on the Stream and 
 - finish as soon as they find the data they are looking for rather than scanning through the whole set of data.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between a normal and functional interface in Java? 
 
 > The normal interface in Java can contain any number of the abstract method while the functional interface can only contain just one abstract method.
@@ -512,12 +512,12 @@ Object[] x = number.stream().collect(Collectors.toList()).toArray();
 You might be thinking why they are called functional interface? Once you know the answer, it might be a little easier for you to remember the concept.
 
 Well, they are called functional interface because they wrap a function as an interface. The function is represented by the single abstract method on the interface.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between findFirst() and findAny() method? 
 
 > findFirst()  will return the first element meeting the criterion i.e. Predicate 
 - findAny() will return any element meeting the criterion, very useful while working with a parallel stream. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you convert an array to Stream? How? (answer)
 
 > Yes, we can convert an array to Stream in Java. 
@@ -527,13 +527,13 @@ EXAMPLE:
 String[] languages = {"Java", "Python", "JavaScript"};
 Stream numbers = Stream.of(languages);
 numbers.forEach(System.out::println);//Java Python JavaScript
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the parallel Stream? How can you get a parallel stream from a List?
 
 > A parallel stream can parallel execute stream processing task. For example, if you have a parallel stream of 1 million orders and you are looking for orders worth more than 1 million then you can use a filter to do that.
 
 Unlike sequential Stream, the parallel stream can launch multiple threads to search for those orders on the different part of Stream and then combine the result.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can we reuse a stream? If not then is there any way to reuse?
 
 > No, we cannot reuse the stream. As soon as any terminal operation execute the stream is closed.
@@ -611,7 +611,7 @@ https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
 4. <A> A[] toArray(IntFunction<A[]> generator)
 
 5. <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 > Function Descriptor is T -> R. 
 - This means an object of type T is input to the lambda and an object of type R is obtained as return value
@@ -737,7 +737,7 @@ Rule 2 : Never use Optional.get() unless you can prove that the Optional is pres
 12. <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
 - Returns the contained value, if present, otherwise throws an exception to be created by the provided supplier.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Optional works in JVM?
 
 > Inside Optional, value holds is defined as:
@@ -761,7 +761,7 @@ public T get() {
     }
     return value;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Where does Java Optional fits?
 
 If we observe above real-time Retail Domain use-case, we should know that Java Optional construct is useful at the following places.
@@ -812,7 +812,7 @@ Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k)
 syso(mg); [Apple= {Apple,Apple}, Ball={Ball,Ball}]
 
 https://www.javabrahman.com/java-8/java-8-finding-maxmin-with-collectors-maxby-minby-methods-tutorial-with-examples/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 What is a @Repeatable annotation?
 What is a StringJoiner?
 What new lock class was added in Java 8 and how does it work (StampedLock)?

@@ -48,7 +48,7 @@ Block < Method < Object < Class
 byte -> short -> int -> long -> float -> double.
 char can be promoted to int,long,float or double etc
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE1:
 class MO{	
   public double sum(int i1, double d1){
@@ -178,7 +178,7 @@ EXAMPLE:
 static void doStuff(int x, int... doArgs) { }
 > Here doArgs is the array
 > It enables the compiler to assemble the array like above
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ########## METHOD OVERRIDING ##########
@@ -206,11 +206,11 @@ static void doStuff(int x, int... doArgs) { }
 ## METHOD OVERRIDING EXCEPTION RULE
 > If the superclass method does not declare an exception, subclass overridden method cannot declare the checked exception but it can declare unchecked exception.
 > If the superclass method declares an exception, subclass overridden method can declare same, subclass exception or no exception but cannot declare parent exception.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Name some built-in classes that doesn't override?
 
 > String, StringBuffer, StringBuilder are built-in class whose methods cannot override bcz all the methods are final
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is CO-VARIANT METHOD OVERRIDING?
 
 > return type of overriding method must be same this restriction is relaxed little bit from Java 1.5 and 
@@ -219,7 +219,7 @@ static void doStuff(int x, int... doArgs) { }
 
 EXAMPLE:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is difference between method overloading and method overriding?
 
 > Method overloading is used to increase the readability of pgm
@@ -230,7 +230,7 @@ EXAMPLE:
 
 - overloading, parameter must be different.
 - overriding,  parameter must be same.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is METHOD HIDING?
 
 > If a method is define in a Parent class as private/static and same method also define in child class with same signature. It is called METHOD HIDING
@@ -243,10 +243,10 @@ EXAMPLE:
 Parent p = new Child(); 
 p.staticMethod(); // call parent class static method
 p.normalMethod();// call subclass normalMethod
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## can you override static method in Java?
 No. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## static method inherit in the subclasses
 
 EXAMPLE:
@@ -259,7 +259,7 @@ class Y extends X {}
 
 Y y = new Y();
 y.m1();// print m1
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## We cannot change the return type of overridden method only co-variant is allowed
 
 EXAMPLE:
@@ -269,7 +269,7 @@ class A{
 class B extends A{
   int method1(){}//CE: return type is incompatible with A.method1()
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## METHOD OVERRIDING based on Return Type
 
 Number <- Byte, Short, Integer, Long, Float, Double
@@ -290,7 +290,7 @@ class B extends A{
   Integer method1(){"B method"}
 }
 main() -> A a = new B(); a.method1();//B method
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## METHOD OVERRIDING based on Member Variable
 EXAMPLE:
 > Member variables cannot be overridden. Variables are resolved at compile-time and methods at run-time.
@@ -303,7 +303,7 @@ class Circle extends Shape{
 main(){
   Shape s = new Circle();
   s.name;// print Shape
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 ## METHOD OVERRIDING based on Method Parameters  
 
 class Parent{ 
@@ -321,7 +321,7 @@ class Child extends Parent{
 
 Parent p = new Child();      
 p.m2("Hello");// Parent: Hello
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## METHOD OVERRIDING based on Access specifier
 EXAMPLE:
 class R {
@@ -335,7 +335,7 @@ class S extends R {
   public static void main(String[] args) {
     new S().printS1S2();//R.printS1 S.printS2 
 }}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =========================================
 ########## T H I S ############
@@ -355,14 +355,14 @@ class S extends R {
 - because this is refer as current instance of object but static method/block have no instance, it is for class
 > this can be used to REFER STATIC MEMBER of class but its NOT BEST PRACTICE
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## SUPER ############
 > super cannot be used to call static methods
 > super() is added in each class constructor automatically by compiler.
 > super() i.e constructor call should be 1st statement
 
 >> we cann't use this() and super() together as both should be in 1st line.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How are this() and super() used with constructors
 > Constructors use this to refer to another constructor in the same class with a different parameter list.
 > Constructors use super to invoke the superclass's constructor. If a constructor uses super, it must use it in the first line; otherwise, the compiler will complain.
@@ -381,7 +381,7 @@ class S extends R {
 - the change will be reflected in all instances
 
 >
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the significance of STATIC VARIABLE?
 
 > Static variable is variable that belongs to whole class rather than individual object of class. 
@@ -392,14 +392,14 @@ class S extends R {
 > its value is keep across the class i.e shared by all objects
 > it get memory once i.e only one copy of static variable present in heap 
 >> static variable CANNOT DEFINE LOCALLY bcz it is define for class and local variable belongs to the particular method
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Does static variables get garbage collected?
 
 > No, STATIC VARIABLES CANNOT BE ELECTED FOR GARBAGE COLLECTION.
 > They can be collected when the respective class loader (that was responsible for loading this class) is itself collected for garbage. 
 > Static variables are referenced by Class objects which are referenced by Class loaders 
 -so unless the ClassLoader itself becomes eligible for collection  the static variables  won't be collected.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When the ClassLoader is eligible for garbage-collection? [more detail in GC]
 
 > A class can be garbage-collected when nothing references it. 
@@ -414,7 +414,7 @@ class S extends R {
 >> static block is CALLED BEFORE THE CONSTRUCTOR
 >> static block loaded only once
 >  java.lang.NoClassDefFoundError can be thrown
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can static block throw exception?
 
 > No, Static code blocks cannot throw Checked Exceptions, 
@@ -458,7 +458,7 @@ class D extends C {
   public static void main (String args[]) {
     C c = new D(); c.printS1(); c.printS2();
 }}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > If you try to override a static method with a non-static method in sub class you will get compilation error.
 EXAMPLE2:
 class C {
@@ -472,7 +472,7 @@ class D extends C {
     C c = new D(); c.printS1(); 
     c.printS2();// C.printS2
 }}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE3:
 class P {
   static void printS1(){System.out.print("P.printS1 ");}
@@ -485,11 +485,11 @@ class Q extends P {
   public static void main(String[] args) {
     new Q().printS1S2();//P.printS1 Q.printS2
 }}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you override private or static method in Java ?
 > A user cannot override static methods in Java, because method overriding is based upon dynamic binding at runtime and static methods are statically binded at compile time. 
 > A static method is not associated with any instance of a class so the concept is not applicable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you access non static variable in static context ? 
 
 > NO, if we try to access non-static variable in static context without any instance, the COMPILER WILL COMPLAIN 
@@ -501,12 +501,12 @@ class Q extends P {
 Ex - StaticDemo demo1 = new StaticDemo(200);
 StaticDemo demo2 = new StaticDemo(100);
 StaticDemo.changeCounter(); //this method access nonostatic variable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why can't we define an abstract static method?
 
 > No, "abstract" means: "Implements no functionality", and "static" means: "There is functionality even if you don't have an object instance". 
 - And that's a logical contradiction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between static and non-static variable in Java?
 
 > static variable belongs to Java class while 
@@ -515,7 +515,7 @@ StaticDemo.changeCounter(); //this method access nonostatic variable
 > one static variable is shared between all object in Java
 > in a multi-threading environment access to static variable must be synchronized 
 - ITS NOT SUGGEST TO USE STATIC VARIABLE IN MULTI-THREADING and concurrent application because some time it create subtle bugs which is hard to find and debug
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EXAMPLE:
 class Shape{
  public static void draw(){
@@ -540,7 +540,7 @@ public class PumpkinDemo {
 > Adv - less coding is require
 > Disadv - heavy use of it MAKE PGM UNREADABLE
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between import and static import?
 
 > import allow to access classes of the package without package qualification
@@ -558,7 +558,7 @@ main(){
 }
 > it can import static variable/methods and class
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ################ FINAL ################
@@ -566,7 +566,7 @@ main(){
 > It means Once you make an entity final you are NOT ALLOWED TO CHANGE that 
 - and compiler will verify this and raise a compilation error
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### FINAL VARIABLE ########
 
 > FINAL VARIABLE CANNOT MODIFY. its value being constant through out class.
@@ -589,7 +589,7 @@ CONSTANT_ARRAY[2] = "always"; //work perfectly.
 2. final ArrayList<String> names = new ArrayList<String>(); 
 names = anotherList;//compiler error 
 names.add("Manish");//work perfectly.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## FINAL METHOD ###########
 > FINAL METHOD cannot override Compile time will throw error.
 
@@ -600,7 +600,7 @@ names.add("Manish");//work perfectly.
 2. INCREASING EFFICIENCY OF COMPILER by allowing the compiler to turn calls to the method into inline Java code.
 
 > all compilers will treat private methods as final because compiler will not allow any private method to be overridden. Likewise, all compilers will prevent subclasses from overriding final methods.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### FINAL CLASS ###########
 > it cannot be inherit 
 - compiler error "cannot subclass the final class"
@@ -609,13 +609,13 @@ names.add("Manish");//work perfectly.
 
 >> It is illegal to declare a class as both abstract and final.
 > Constructor CANNOT be declare as final because it never get inherited
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What could be the reasons for restricting inheritance using final class ?	Core Java	2018-07-16 06:52:00
 	
 1. Enforcing composition over inheritance
 2. Restricting overriding of certain methods
 3. Final methods are faster than regular instance methods
 4. Enforcing Immutability
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > we cannot use FINAL with INTERFACE 
 - it opposite to the use of final

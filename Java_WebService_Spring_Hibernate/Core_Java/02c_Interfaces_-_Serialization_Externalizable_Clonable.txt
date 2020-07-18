@@ -15,7 +15,7 @@ Externalizable[i], Comparator[i]
 - Arrays.sort(List);
 
 > Objects which impl Comparable in java can be used as keys in a SortedMap[i] like TreeMap[c] or SortedSet[i] like TreeSet[c] without implementing any other interface.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to implement compareTo() ?
 
 > return -ve integer if current object is less than given object,
@@ -83,7 +83,7 @@ Collections.sort(targetListToSort,
 > Marker Interface is thread - safe
 
 > From java 1.5, the need for marker interface is eliminated by the introduction of the java annotation feature
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we develop our own marker interface? if Yes How?
 Yes
 EXAMPLE:
@@ -97,7 +97,7 @@ public class TestCollege {
   }
 }
 > Just like here "AGradeCollegeMarker" is Marker interface does nothing. But in tester() we test any class implementing is able to do some process.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Cann't we indicate JVM or compiler with flag or string?
 
 > We can but it has advantage over polymorphism.
@@ -125,13 +125,13 @@ DESERIALIZATION
 
 > super class is Serializable than all its subclasses will be serializable by default
 > serializable variables that are stored must be restored in the same order in which they were saved.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the need of Serialization?
 
 > To transfer objects state over the network through a socket.
 > To save the state of an object in a file.
 > An objects state needs to be manipulated as a stream of bytes.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is serialVersionUID? What would happen if you don't define this?
 
 > private static final long serialVersionUID is an ID
@@ -148,7 +148,7 @@ DESERIALIZATION
 - which depends upon interfaces the class implements and several other factors which is subject to change.
 - In this case, it will not be possible for the already serialized class to recover when a class field is added or modified.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is use of serialVersionUID?
 
 > when the object is serialize, serialVersionUID stamped to the object,
@@ -165,22 +165,22 @@ DESERIALIZATION
 - After de-serialization transient fields and non-final static fields will be null.
 
 > Final static fields still have values since they are part of the class data.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If a class is serialized with serialVersionId in class and then modified the class(added parameter), now while de-serialization will it fail?
 
 > No, its because the serialVersionId is same after modification
 - while modifying the class, if the serialVersionId we change then it will fail with InvalidClassException  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If a class is serialized without serialVersionId and then modified the class(added parameter), now while de-serialization will it fail?
 
 > Yes, its because the serialVersionId got changed after modification by JVM
 - that's why it always better to have serialVersionId in serializable class 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to generate and view serialVersionUID?
 
 > In Eclipse, just click on class which implement Serializable[i] and generate serialVersionUID.
 > To view serialVersionUID of java class there is a tool serialver. Use serialver -show to start the gui version of the tool
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to serialize obj of Employee class it implement Serializable?
 
 EXAMPLE: FOR SERIALIZATION
@@ -196,7 +196,7 @@ ObjectInputStream ois = new ObjectInputStream(fis);
 emp = (Employee) ois.readObject(); 
 
 > In both case, it can throw FileNotFoundException, IOException
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How de-serialization works?
 ## How JVM creates the object without calling the constructor during de-serialization??
 
@@ -214,7 +214,7 @@ emp = (Employee) ois.readObject();
 > After the readObject() method is completed, the deserialization process is done and you are ready to work with new deserialized instance.
 
 https://howtodoinjava.com/core-java/serialization/how-deserialization-process-happen-in-java/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the COMPATIBLE CHANGE that can be done on Serializable class?
 
 > Following changes to a serializable class are compatible it does not require to compile again
@@ -227,7 +227,7 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 
 3. Changing the access to a field
 - its bcz they are not reflected in the serialized object stream
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the INCOMPATIBLE CHANGE that cannot be done on Serializable class?
 
 1. Deleting fields
@@ -235,11 +235,11 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 3. changing a non-static field to static or a non-transient to transient
 4. changing the declared type of a primitive field
 5. changing a class from serializable to externizable or vice-versa
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## While serializing you want some of the members not to serialize? How do you achieve it?
 
 > declare static / transient member
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why static variables are not serialized?
 
 > STATIC VARIABLES ARE NOT PART OF THE STATE OF AN OBJECT since they are shared by all instances of that class.
@@ -247,24 +247,24 @@ https://howtodoinjava.com/core-java/serialization/how-deserialization-process-ha
 > Saving static variables with each serialized object would have following problems
   a> IT WILL MAKE REDUNDANT COPY OF SAME VARIABLE in multiple objects which makes it in-efficient.
   b> The static variable can be modified by any object and a serialized copy would be stale or not in sync with current value.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to suppress the compiler warning msg for serialVersionId ?
 
 @SuppressWarnings(“serial”)
 - Once used, compiler will stop complaining about the missing serialVersionUID.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How many methods Serializable[i] has? If no method then what is the purpose of Serializable[i]?
 
 > Serializable[i] exists in java.io package.
 > It doesn't have any method that's why called Marker Interface
 > It is use to mark a class as serializable and gives compiler an indication that use Java Serializable mechanism to serialize the object.
 > java.lang.Cloneable, java.util.EventListener etc
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What will happen if one of the members in the class doesn't implement Serializable[i]?
 
 > it throw "NotSerializableException" at runtime
 - If a Serializable class is having a non-serializable class reference as its member then while serializing an object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can a sub-class of Serializable super class avoid serialization?
 ## If serializable interface is implemented by the super class of a class, how can the serialization of the class be avoided?
 
@@ -282,20 +282,20 @@ class MySubClass extends SomeSerializableSuperClass {
        throw new NotSerializableException(Can not serialize this class);
   }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If a class is Serializable but its super class in not, what will be the state of the instance variables inherited from super class after deserialization?
 
 > values of superclass will be set with default value
 > superclass must have a no-argument constructor
 > The values of the instance variables inherited from superclass will be reset to the values they were given during the original construction of the object as the non-serializable super-class constructor will run.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you Customize Serialization process or can you override default Serialization process in Java?
 
 > we can write writeObject() and readObject() in our class
 > these methods are present in ObjectOutputStream, ObjectInputStream
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Suppose super class of a new class implement Serializable interface, how can you avoid new class to being serialized?
 
 Notes: -
@@ -303,7 +303,7 @@ Notes: -
 > The .ser extension is conventionally used for files representing serialized objects.
 
 > whenever any final field/reference is evaluated as constant expression, it is serialized by JVM ignoring the presence of transient keyword.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are the Limitations of Serialization?
 
 1. File size is very high
@@ -317,12 +317,12 @@ public interface Externalizable extends java.io.Serializable {
      void writeExternal(ObjectOutput out) throws IOException;
      void readExternal(ObjectInput in) throws IOException, ClassNotFoundException;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Externalization?
 
 > It is a process used to convert object state into a binary format which can be save on disk file or sent over network to other JVM
 - It is similar to Serialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between Serializable and Externalizable[i] in Java?
 
 > Externalizable interface has 2 method - writeExternal() and readExternal()
@@ -333,12 +333,12 @@ public interface Externalizable extends java.io.Serializable {
 
 http://www.jusfortechies.com/java/core-java/externalization.php
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When will you use Serializable or Externalizable interface? and why?
 
 > if we want to do a selective attribute serialization we can use Serializable[i] with transient modifier for variables not to be serialized but
 > use of Externalizable[i] can be really effective in cases when we have TO SERIALIZE ONLY SOME DYNAMICALLY SELECTED ATTRIBUTES OF A LARGE OBJECT.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How we make attribute externalize by writeExternal() & readExternal()?
 
 > we hv different types of method as per data as below
@@ -377,9 +377,9 @@ FileOutputStream fos = new FileOutputStream("object.ser");
 ObjectOutputStream oos = new ObjectOutputStream(fos);
 oos.writeObject(settings);
 oos.close();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 http://www.beingjavaguys.com/2013/11/inheritance-in-java-serialization_30.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What happen when we change the generated file and then deserialize?
 
 > StreamCorruptedException will throw if we change the byte stream generated while serialization and then deserializing
@@ -392,7 +392,7 @@ http://www.beingjavaguys.com/2013/11/inheritance-in-java-serialization_30.html
 > It is use to make a clone of an object using clone()
 > clone() is define in object class.
 > it is not guarented the cl
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is clone object?
 
 > A clone of an object is an object with DISTINCT IDENTITY AND EQUAL CONTENTS i.e
@@ -414,7 +414,7 @@ protected Object clone() throws CloneNotSupportedException {
 > If you override the clone method in a non final class, you should return an object obtained by invoking super.clone
 > If we don't implement Cloneable interface, clone() method generates CloneNotSupportedException.
 > default implementation of Object.clone() performs a shallow copy.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How cloning works?
 
 > By default, java CLONING IS FIELD BY FIELD COPY i.e.
@@ -426,10 +426,10 @@ protected Object clone() throws CloneNotSupportedException {
 
 2. If the class contains members of any class type then
 - only the object references are copied and hence the member references in BOTH THE ORIGINAL OBJECT AS WELL AS THE CLONED OBJECT REFER TO THE SAME OBJECT.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the need of cloning?
 > to make a copy of object and that can be use to modify for further processing without affecting original copy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between Shallow copy and deep copy?
 
 > In SHALLOW COPY, the cloned object also refers to the same object to which the original object refers as only the object references gets copied and not the referred objects themselves.

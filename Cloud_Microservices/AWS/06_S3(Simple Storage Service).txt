@@ -17,18 +17,18 @@
 ## 
 =======================================
 > three different metrics: availability, durability and reliability. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What durability is AWS?
 
 > Durability is used to measure the likelihood of data loss. ... 
 > AWS measures durability as a percentage. 
 - For example, the S3 Standard Tier is designed for 99.999999999% durability. 
 - This means that if you store 100 billion objects in S3, you will lose one object at most.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is reliability in AWS?
 
 > It is the ABILITY OF A SYSTEM TO RECOVER FROM INFRASTRUCTURE OR SERVICE DISRUPTIONS, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Resiliency in AWS?
 
 > The ability for a system to recover from a failure induced by load, attacks, and failures.
@@ -82,7 +82,7 @@
 EXAMPLE:
 https://s3-eu-west-1.amazonaws.com/acloudguru 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## ADVANTAGES OF AMAZON S3
 
 1. Create Buckets: Buckets are the containers in S3 that stores the data. Buckets must have a unique name to generate a unique DNS address.
@@ -97,7 +97,7 @@ https://s3-eu-west-1.amazonaws.com/acloudguru
 5. Standard interfaces: S3 is used with the standard interfaces REST and SOAP interfaces which are designed in such a way that they can work with any development toolkit.
 
 6. Security: Amazon S3 offers security features by protecting unauthorized users from accessing your data.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > S3 is object-based. Objects consist of the following:
 
 1. Key: It is simply the name of the object. For example, hello.txt, spreadsheet.xlsx, etc. You can use the key to retrieve the object.
@@ -273,7 +273,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 > FOR BUCKET AND OBJECT, we can add a bucket policy to grant other AWS account or IAM user permission 
 - any object permission apply only to the object that the bucket owner creates 
 - bucket policy supplement and in many cases replace ACL based access policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 2. S3 USER-ACCESS POLICY #######
 
 > You can use AWS IAM to manage access to your Amazon S3 resources
@@ -435,7 +435,7 @@ The permissions can be granted as follows:
 > An object deletion in a suspended versloning bucket, will only delete the object(s) with ID "null"
 
 > The bucket owner can permanently delete any versions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Bucket Versioning- MFA Delete 
 
 > Multi Factor Authentication (MFA) Delete is a versioning capability that adds another level of security in case account is compromised
@@ -490,7 +490,7 @@ The permissions can be granted as follows:
 > Data encrypted in-transit and at rest in S3
 > Designed to sustain the concurrent loss of data in two facilities
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 2. S3 STANDARD_IA(Infrequent Access) (S3–IA) ##
 
 > For long-lived, less frequently accessed data
@@ -507,11 +507,11 @@ The permissions can be granted as follows:
 > Data must be kept for at least 30 days in this class
 
 >> Suitable for objects greater than 128 KB (Not less than that)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 3. OneZone-IA 
 > It stores object data in only one Availability Zone, which makes it less expensive than STANDARD_IA. 
 - However, the data is not resilient to the physical loss of the AZ resulting from disasters
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 4. S3 Reduced Redundancy Storage(S3–RRS)
 
 > Designed to sustain the data loss in one facility
@@ -527,7 +527,7 @@ The permissions can be granted as follows:
 
 > If an S3 RRS object is lost, AWS will return HTTP 405 error when the object is requested for read
 > S3 can send a notification in case an object is lost
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 5. S3 Intelligent Tiering
 
 > It is used when we don't have deep understanding of our data access patterns.
@@ -553,14 +553,14 @@ The permissions can be granted as follows:
 
 2. Expiration actions: 
 > expiration duration for object is set, then S3 will then delete the expired objects on our behalf
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### S3 Standard to Standard-IA transition
 > Objects less than 128KB will not be transitioned to S3 Standard-IA
 > Objects must be stored in S3-IA for at least 30 days
 
 > An object must be in S3-Standard for at least 30 days before it can be transitioned to S3-IA
 - The same applies to non-current versions of an object (when versioning is enabled), they must stay in S3-Standard for 30 days before they can be moved to S3-IA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Moving Objects from Glacier to S3-Standard or S3-IA
 > You can NOT use lifecycle policies to move an archived object from Glacier to S3-Standard or S3-IA
 
@@ -618,7 +618,7 @@ The permissions can be granted as follows:
 
 > This feature is offered at no additional cost beyond what you pay for using Amazon S3.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### 2. SSE-KMS 
 
 > Server Side Encryption using AWS-KMS keys, similar to SSE-S3
@@ -645,7 +645,7 @@ The permissions can be granted as follows:
 "s3:x-amz-server-side-encryption":"aws:kms"
 
 > Creating your own CMK gives you more flexibility, including the ability to create, rotate, disable, and define access controls, and to audit the encryption keys used to protect your data.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### 3. SSE-C
 > Server Side Encryption using Client provided keys
 > Client manages the keys, S3 service manages encryption
@@ -656,11 +656,11 @@ The permissions can be granted as follows:
 - S3 does not store the key, after the object is encrypted, the encryption key supplied by the client is deleted from S3 system that used it to protect the client's data.
 - When the client retrieves this object from S3, they must provide the same encryption key in the request.
 - S3 verifies that the encryption key matches, Decrypts the object, and returns the object to the requester.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Q: A company’s security team requires that all data stored in the cloud be encrypted at rest at all times using encryption keys stored on-premises.
 - Use Server-Side Encryption with Customer Provided Keys (SSE-C).
 - Use client-side encryption to provide at-rest encryption.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ####### S3 Static Website Hosting ##### v20
@@ -767,7 +767,7 @@ The permissions can be granted as follows:
 - This applies only to objects created after you add a replication configuration to the bucket.
 
 > S3 replicates object tags, if any.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### S3 CRR - DELETE Operation #####
 > If we delete an object from the source bucket, the CRR behavior is as follows:
 > If a DELETE request is made without specifying an object version ID,
@@ -777,7 +777,7 @@ The permissions can be granted as follows:
 - S3 deletes that object version in the source bucket, but it does not replicate the deletion in the destination bucket
 - It does not delete the same object version from the destination bucket
 - This behavior protects data from malicious deletions.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 CRR – What is NOT replicated
 
 > AWS S3 will not replicate objects that existed before we added replication configuration
@@ -835,7 +835,7 @@ EXAMPLE:
 https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Q: An analytics company is planning to offer a site analytics service to its users. The service will require that the users’ web pages embed a JavaScript file that is hosted in the company’s Amazon S3 bucket.
 > Amazon S3 can be configured with CORS to send HTTP headers that allow the script execution.
 =======================================
@@ -945,7 +945,7 @@ performance
 > No extra charge is incurred for enabling event notifications on bucket, however, SNS, SQS, Lambda charges apply
 
 > You can set notifications for, Create object, Object delete, Object Delete marker created.. and many other bucket related events
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 Monitoring via CloudWatch
 > For S3, metrics that can be monitored by CloudWatch include:
 - S3 Requests, Bucket Storage, Bucket Size, All requests, HTTP 4XX, 5XX errors among others
@@ -956,7 +956,7 @@ performance
 > Daily CloudWatch, Bucket-level storage metrics are turned on by default at no additional cost.
 - 1 minute CloudWatch metric can be configured both at the bucket and object levef
 - You can have up to 1000 metric configurations per bucket
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 API log monitoring via CloudTrail
 > CloudTrail captures all API requests made to S3 API
 
@@ -1073,7 +1073,7 @@ performance
 
 - THE ARCHIEVE STORAGE CLASS REMAINS GLACIER 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### GLACIER BYTE RANGES ######
 
 > S3 and Glacier support HTTP GET requests with Range in HTTP header to identify a specific byte range we may want to-retrieve from your Glacier archived data, instead of retrieving the entire archive
@@ -1102,7 +1102,7 @@ performance
 - You pay for these overheads in addition to your actual data
 
 > It is recommended to group a large number of small objects, into a smaller number of larger archieve to reduce these overhead charges.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### S3 Glacier Deep Archive ####
 > It is Use for archiving data that rarely needs to be accessed. 
 - Data stored in the S3 Glacier Deep Archive storage class has a minimum storage duration period of 180 days and a default retrieval time of 12 hours. 

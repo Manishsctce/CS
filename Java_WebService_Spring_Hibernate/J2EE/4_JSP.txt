@@ -3,7 +3,7 @@
 > JSP Stands for Java server pages
 > use for developing web pages that support dynamic content 
 > In JSP, java code is inserted in HTML pages by making use of special JSP tags
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are advantages of using JSP?
 
 > The JSP pages are easier to maintain than servlet because we can separate designing and development. 
@@ -18,7 +18,7 @@
 - which is not possible in a servlet. 
 
 > There is automatic deployment of a JSP, recompilation is done automatically when changes are made to JSP pages. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the JSP lifecycle phases?
 
 JSP pages follows these phases:
@@ -41,38 +41,38 @@ extends Servlet {
 public interface HttpJspPage extends JspPage{
   public void _jspService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are JSP lifecycle methods?
 
 Note - jspInit(), _jspService() and jspDestroy() are the life cycle methods of JSP.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the jspInit() method?
 
 > jspInit() method of the javax.servlet.jsp.JspPage interface is similar to the init() method of javax.servlet.Servlet interface 
 > This method is invoked by the container only once when a JSP page is initialized. 
 > It can be overridden by a page author to initialize resources such as database and network connections, and to allow a JSP page to read persistent configuration data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the _jspService() method?
 
 > The _jspService() method of the javax.servlet.jsp.HttpJspPage interface is invoked every time a new request comes to a JSP page. 
 > This method takes the HttpServletRequest and HttpServletResponse objects as its arguments. 
 
 > A PAGE AUTHOR CANNOT OVERRIDE _jspService(), AS ITS IMPLEMENTATION IS PROVIDED BY THE CONTAINER.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the jspDestroy() method?
 
 >  jspDestroy() of the javax.servlet.jsp.JspPage[i] is invoked by the container when a JSP page is about to be destroyed. 
 > This method is similar to the destroy() of servlets. 
 
 > It CAN BE OVERRIDDEN BY A PAGE AUTHOR TO PERFORM ANY CLEANUP OPERATION SUCH AS CLOSING A DATABASE CONNECTION.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can I override the jspInit() and jspDestroy() within a JSP page?
 
 > these method can be declare in declare section to override as below
 <%! public void jspInit() {	. . . } 
 	public void jspDestroy() {. . . } 
 %>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What are implicit objects in JSP?
 
 > Implicit objects in JSP are the Java objects that the JSP Container makes available at the time of translation. 
@@ -81,7 +81,7 @@ Note - jspInit(), _jspService() and jspDestroy() are the life cycle methods of J
 > They are available only within the jspService method and not in any declaration becz code will go at class level.
 > There are 9 IMPLICIT OBJECT 
 - out, request, response, page, pageContext, application, exception, config, session
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between JspWriter and Servlet PrintWriter?
 
 TWO DIFFERENCES: 
@@ -89,11 +89,11 @@ TWO DIFFERENCES:
 - PrintWriter should not do so. 
 
 2. JspWriter uses a PrintWriter behind the scene, but since by default JSP pages are buffered, the PrintWriter won't be created until the buffer is flushed 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which implicit object is not available in normal JSP pages?
 
 exception
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is application in jsp?
 
 > Application implicit object is an instance of javax.servlet.ServletContext.
@@ -129,10 +129,10 @@ http://www.journaldev.com/1907/java-servlet-session-management-tutorial-with-exa
 [web-app(context-root)]--> [WEB-INF],jsp,static resources(eg. html,images,css etc)
 
 [WEB-INF] --> [classes]-->class file, [lib], web.xml
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Is it possible for one JSP to extend another java class if yes how?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is < jsp:usebean >tag why it is used?
 
 > tag is used to create a instance of java bean
@@ -148,7 +148,7 @@ SYNTAX :
 
 > Her class must not be abstract and must be public , no-argument constu
 > If you use type without class or beanName, no Bean is instantiated.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to disable caching on back button of the browser?
 
 > Caching in JSP pages can be prevented by setting the appropriate HTTP header attributes.
@@ -165,37 +165,37 @@ response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
 response.setDateHeader("Last-Modified", (new Date()).getTime() ); //prevents caching at the proxy server
 %>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between directives and actions tags
 
 > Directives are used during translation phase while actions are used during request processing phase
 > Unlike Directives Actions are re-evaluated each time the page is accessed.
 >
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we handle the exceptions in JSP ?
 
 > There are two ways to perform exception handling:
 1. By errorPage and isErrorPage attributes of page directive
 2. By <error-page> element in web.xml file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between GET and POST method in HTTP protocol?
 > GET method sends the encoded user information appended to the page request. The page and the encoded information are separated by the ? Character.	
 > POST method packages the information in exactly the same way as GET methods, but instead of sending it as a text string after a ? in the URL it sends it as a separate message
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are filters?
 > JSP Filters are Java classes that can be used in JSP Programming for the following purposes:
 > To intercept requests from a client before they access a resource at back end.
 > To manipulate responses from server before they are sent back to the client.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How do you define filters?
 > Filters are defined in the deployment descriptor file web.xml and then mapped to either servlet or JSP names or URL patterns in your application's deployment descriptor.
 
 > When the JSP container starts up your web application, it creates an instance of each filter that you have declared in the deployment descriptor. The filters execute in the order that they are declared in the deployment descriptor.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  What are cookies?
 >  a small amount of information sent by a servlet to a Web browser, saved by the browser, and later sent back to the server
 > A cookie's value can uniquely identify a client, so cookies are commonly used for session management.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  How to delete cookies with JSP?
 > to delete a cookie three steps:
 
@@ -210,7 +210,7 @@ Cookie can be deleted by setting setMaxAge(0) on the cookie object. A cookie, de
      delCookie.setPath("/");
      response.addCookie(delCookie);
 %>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## Session Management ##########
 ##  How is Session Management done in JSP?
 Session management can be achieved by the use of:
@@ -225,7 +225,7 @@ This implies that when the form is submitted, the specified name and value will 
 3. URL Rewriting: In URL rewriting some extra information is added on the end of each URL that identifies the session. This URL rewriting can be useful where a cookie is disabled.
 
 4. The session Object: JSP makes use of servlet provided HttpSession Interface which provides a way to identify a user across more than one page request or visit to a Web site and to store information about that user.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the options in JSP to include files? (R- JSP2b/c)
 > In JSP, we can perform inclusion in the following ways:
 1. By include directive: For example:
@@ -244,12 +244,12 @@ This implies that when the form is submitted, the specified name and value will 
  RequestDispatcher rd = request.getRequestDispatcher(“/header.jsp”);
   Rd.include(request,response);
 %>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ##How can we avoid direct access of JSP pages from client browser?
 > anthing inside WEB-INF directory can't be accessed directly in web appl.
 > we will place our JSP pages in WEB-INF directory to avoid direct access to JSP page from client browser. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are different types of comments in JSP?
 
 > HTML COMMENTS: Since JSP pages are like HTML, we can use HTML comments like <-- HTML Comment -->. 
@@ -259,13 +259,13 @@ This implies that when the form is submitted, the specified name and value will 
 > JSP COMMENTS: JSP Comments are written using scriptlets like <%-- JSP Comment --%>. 
 > jsp comments are present in the generated servlet source code and doesn’t sent to client. 
 > For any code level or debugging information comments we should use JSP comments.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Why use of scripting elements in JSP is discouraged?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we define a class in a JSP Page?
 > It’s not a good practice though, but we can define a class inside a JSP Page
 > can't be public
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How can we disable java code or scripting in JSP page?
 > We can disable scripting elements in JSP pages through deployment descriptor configuration like 
 <jsp-config>
@@ -291,24 +291,24 @@ This implies that when the form is submitted, the specified name and value will 
 > We can define the page encoding for URL pattern.
 To define the buffer size to be used in JSP page out object.
 To denote that the group of resources that match the URL pattern are JSP documents, and thus must be interpreted as XML documents.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##When will Container initialize multiple JSP/Servlet Objects?
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can we use JavaScript with JSP Pages?
 > JSP is a server side technology, 
 > it’s used to generate client side response and we can add javascript or CSS code like any other HTML page.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How can we prevent implicit session creation in JSP?
 > use JSP page directive session attribute to indicate compiler to not create session by default.
 <%@ page session ="false" %>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to import content from an external url to jsp?
 > use JSTL tag to import content from an external URL to jsp at the request time our include directive and include action will not work as bcz they include content from same webapp.
 <c:import url="http://javahash.com/reasons-behind-the-success-of-hadoop/" />
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##if u havea .class file ,how can u say whether it is servlet 
 or not ,dont use java decompliler
 > Just Use Reflection to get its SuperClass. If this super
@@ -316,9 +316,9 @@ class is Any of Servlet class like HttpServlet or
 GenericServlet then this class is a servlet.
 
 String superClassName = MyClass.class.getSuperClass().getClassName();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##
 
 ===========================
@@ -327,7 +327,7 @@ String superClassName = MyClass.class.getSuperClass().getClassName();
 > It is a xml file naming web.xml inside WEB_INF folder of <Projects>/WebContent 
 > It contain multiple statement that give instruction to the web container for deploying web application.
 > grammer of xml tags i.e xsd,dtd is necessary otherwise appli will not run.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In Servlet 2.3, using dtd file to validate xml content in web.xml
 In servlet 2.4 onwards, using xsd file to validate xml content in web.xml
 
@@ -344,12 +344,12 @@ Ex -
 	<servlet-name>Servlet_login</servlet-name>
 	<url-pattern>/signin.do</url-pattern>//with internal mapping "Servlet_login" map external url
 </servlet-mapping>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <context-param> //use to set the context parameter it must have name and value
 	<param-name>...</>
 	<param-value>...</>
 </>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How do we configure init params for JSP?
 ##Difference between servlet init and servlet context parameter
 > We can configure init params for JSP similar to servlet in web.xml file
@@ -383,7 +383,7 @@ Ex -
   
 > it can call from anywhere within the application 
 > use application.getInitParameter("name")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to handle runtime exceptions in JSP?
 
 > In JSPs there are multiple ways to handle the exceptions :
@@ -419,7 +419,7 @@ For example: <%@ page errorPage="error.jsp" %>
 > This approach is the traditional way of handling exceptions. 
 > This is not considered to be the best way of handling exception but used in case fast debugging is required. 
 > In this approach the developer can simply use the try ... catch .. format within the scriptlet like any normal Java code.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How are web applications packaged in Java?
 
 Answer:
@@ -456,14 +456,14 @@ The web.xml is the deployment descriptor for WAR file which is located in the WE
 The first entry, under the root servlet element in web.xml, defines a name for the servlet and specifies the compiled class that executes the servlet. The servlet element also contains definitions for initialization attributes and security roles for the servlet.
  
 The second entry in web.xml, under the servlet-mapping element, defines the URL pattern that calls this servlet.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How can you make a Servlet/JSP Threadsafe?
  
 > To make sure that a servlet is thread safe, the service() method SHOULD NOT ACCESS ANY MEMBER VARIABLES, unless these member variables are thread safe themselves. 
 > The service() method SHOULD NOT REASSIGN MEMBER VARIABLES, as this may affect other threads executing inside the service() method. 
 > If there is a compelling need to reassign a member variable, make sure this is done inside a synchronized block. 
 > If there are any local variables in service methods, no need to worry because LOCAL VARIABLES ARE ALWAYS THREAD SAFE.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is difference between ServletResponse sendRedirect() and RequestDispatcher forward() ?(R-Jsp2e)
 
 > RequestDispatcher forward() : it is used to forward the same request to another resource whereas 
@@ -493,7 +493,7 @@ The forward() can’t be used to invoke a servlet in another context, we can only 
 	HttpSession session = request.getSession();
 	session.setMaxInactiveInterval(20*60);
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What are the new features in Servlet 3.0?
 
 > Servlet 3.0 specification introduced several new features like ease of development through annotations, Pluggability and extensions support for adding third party framework and asynchronous processing that made Servlet development easy and simple.
@@ -504,7 +504,7 @@ The features are:
 > Pluggability through Web Frameworks -  Pluggability provides fewer configurations and a good modularity for web applications. Pluggability is achieved with the introduction of web module deployment descriptor fragments, shortly referred as ‘web fragments’. A web fragment is part of web.xml that is specified and included in the framework specific jars META-INF directory.
  
 > Asynchronous Processing in Servlet - In many situations, Servlet has to interact with a resource for processing data– it could be database resource, a web service or a message resource.  While interacting with these resources, the Servlet has to wait until it gets a response from the resource before it actually generates a response. This makes the Servlet call to the resource as a blocking call and results in the inefficiency of the Servlet response. Servlet 3.0 specification addresses this issue of Servlet thread being blocked with the introduction of asynchronous processing of Servlet. This asynchronous processing allows the thread to issue a call to the resource and return back to the container without getting blocked so that it can perform other tasks which results in the increase in efficiency of Servlet performance.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Where JSP fit in MVC structure?
 > JSP can be used independently or as the view component of a server-side model–view–controller design, 
 > normally with JavaBeans as the model and 

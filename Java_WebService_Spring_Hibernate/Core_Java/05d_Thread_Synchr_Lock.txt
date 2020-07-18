@@ -6,7 +6,7 @@
 2. Mutual Exclusion (synchronization)
 3. Thread Local
 4. Atomic operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by thread-safety?
 
 > A class is thread-safe if it behaves correctly when accessed from multiple threads, 
@@ -22,7 +22,7 @@
 > synchronization is BASED ON OBJECT MONITOR.
 - TWO KINDS OF MONITOR REGIONS: synchronized statements and synchronized methods. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do we need Synchronization?
 
 > we need synchronization for objects, which are shared among multiple threads, 
@@ -39,7 +39,7 @@ The synchronization is mainly used to
 > To prevent memory consistency problem.
 
 http://javarevisited.blogspot.in/2011/04/synchronization-in-java-synchronized.html#axzz4sZOoYUxv
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There are two types of synchronization
 > Process Synchronization 
 > Thread Synchronization
@@ -58,7 +58,7 @@ There are two types of synchronization
 - it enables threads to work together towards a common goal.
 
 https://www.artima.com/insidejvm/ed2/threadsynch.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between a synchronized method and a synchronized block ?
 
 > Scope of synchronized block is smaller than the method
@@ -81,32 +81,32 @@ public void demoMethod(){
   }
 }
 - here if "this" can be any object and if object is null then NPE.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Where does object lock store in memory?
 
 > synchronized keyword involve locking and unlocking. 
 - before entering into synchronized method or block thread needs to acquire the lock,
 - at this point it READS DATA FROM MAIN MEMORY THAN CACHE AND WHEN IT RELEASE THE LOCK, IT FLUSHES WRITE OPERATION INTO MAIN MEMORY which eliminates memory inconsistency errors.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can a thread hold multiple locks at the same time?
 
 > YES. A THREAD CAN HOLD MULTIPLE LOCKS AT THE SAME TIME. 
 > Once a thread acquires a lock and enters into the synchronized method/block, it may call another synchronized method and acquire a lock on another object.
 - each time when thread aquire lock, lock count increase and decrease when the lock release. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can a thread call multiple synchronized methods on the object of which it hold the lock?
 
 > Yes. Once a thread acquires a lock in some object, it may call any other synchronized method of that same object using the lock that it already holds.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What happens when I make a static method as synchronized?
 
 > If you make any static method as synchronized, the lock will be on the class not on object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Can two threads call two different static synchronized methods of the same class?
 
 > No. The static synchronized methods of the same class always block each other as only one lock per class exists. 
 > So 2 STATIC SYNCHRONIZED METHODS CANN'T EXECUTE AT THE SAME TIME.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Does a static synchronized method block a non-static synchronized method?
 ## Can both static and nonstatic java synchronized method running in parallel?
 
@@ -148,7 +148,7 @@ public class Counter{
 
 > It is MAINLY USED IN SERVER SIDE CORE JAVA APPLICATION WHICH USES SERVICES ARCHITECTURE 
 - where multiple services is provided by multiple threads and application can not start processing until all services have started successfully 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How CountDownLatch works?
 
 > defines one constructor : CountDownLatch(int count) 
@@ -234,7 +234,7 @@ CyclicBarrier newBarrier = new CyclicBarrier(numberOfThreads);
 - waits until all parties have invoked await on this barrier. 
 - it returns the arrival index of the current thread 
 - Here 1 indicates the first to arrive and zero indicates the last to arrive. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## BrokenBarrierException
 
 > A barrier breaks when any of the waiting thread leaves the barrier. 
@@ -245,7 +245,7 @@ newBarrier.await(1000, TimeUnit.MILLISECONDS);
 // methods waits for only 1000 milliseconds.
 
 When the barrier breaks due to one of more participating threads, the await() of all the other threads throws a BrokenThreadException. Whereas, the threads that are already waiting in the barriers have their await() call terminated.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference bet CountDownLatch and CyclicBarrier?
 
 SIMILARITY
@@ -273,7 +273,7 @@ DIFFERENCE
 - each release() will return back the permit (ticket) back to the semaphore. 
 - If permits (tickets) are not available, acquire() will block until one is available.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Scenerio where we can use Semaphore?
 
 > It is used to limit the number of concurrent threads accessing a specific resource.
@@ -283,13 +283,13 @@ DIFFERENCE
 2) To put a bound on collection classes. by using semaphore you can implement bounded collection whose bound is specified by counting semaphore.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bet Semaphore and Mutex?
 
 > Semaphores – Restrict the number of threads that can access a resource. Example, limit max 10 connections to access a file simultaneously.
 
 > Mutex – Only one thread to access a resource at once. Example, when a client is accessing a file, no one else should have access the same file at the same time.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ############## ATOMIC #################
 ## What is atomic operation? What are atomic classes in Java Concurrency API?
@@ -339,7 +339,7 @@ DIFFERENCE
 
 ## void unlock() 
 – unlocks the Lock instance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =======================================
 ########### ReadWriteLock[i] ###########
@@ -364,7 +364,7 @@ DIFFERENCE
 - if a thread has lock on the monitor object and if another synchronized block requires to have the lock on the same monitor object then 
 - thread can enter that code block
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between ReentrantLock and Synchronized block(SB) ?
 
 > The main difference is ability to trying for lock interruptibly, and with timeout. 
@@ -387,14 +387,14 @@ DIFFERENCE
 - tryLock() with timeout can also be use
 
 > it provide methods to get List of all thread waiting for lock.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the DISADVANTAGE OF REENTRANTLOCK?
 
 > wrapping method body inside try-finally block make code unreadable and hide business logic.
 
 > Aquiring and releasing lock is in hand of prgmr, it need to be use efficiently otherwise may cause bug.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--
 > Synchronized use intrinsic locks or monitor of obj
 LIMITATIONS of intrinsic locking mechanism:
 

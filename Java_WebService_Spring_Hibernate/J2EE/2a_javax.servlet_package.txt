@@ -40,13 +40,13 @@ METHODS - Only 4 method
 > ServletContext getServletContext(); 
 > String getInitParameter(java.lang.String name)
 > Enumeration<java.lang.String> getInitParameterNames()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to get the object of ServletConfig?
 > Every servlet class either implements Servlet or extends GenericServlet/HttpServlet, so 
 - getServletConfig() of Servlet interface returns the object of ServletConfig
 Ex- 
 this.getServletConfig().getInitParameter("sname"));
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Explain about ServletConfig and its uses?
 
 > An object of ServletConfig is created by the web container for each servlet. Its scope is JSP
@@ -102,13 +102,13 @@ public void service(ServletRequest resquest, ServletResponse response) throws Se
 > String getServerInfo()
 > String getMajorVersion()
 > String getMinorVersion()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to get the object of ServletContext interface?
 
 > Every servlet class either implements Servlet or extends GenericServlet/HttpServlet, so 
 - getServletConfig() of Servlet interface returns the object of ServletConfig
 > We can get the ServletContext object from ServletConfig object  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 > context-param element, subelement of web-app, is used to define the initialization parameter in the application scope.
 EXAMPLE: 
@@ -121,7 +121,7 @@ EXAMPLE:
  ......  
 </web-app>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference between ServletConfig and ServletContext?
 > ServletConfig is a unique object per servlet whereas 
 - ServletContext is a unique object for complete application.
@@ -149,7 +149,7 @@ METHODS - many methods few are imp
 > ServletInputStream getInputStream() :
 Returns an input stream for reading binary data in the request body.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference in using request.getRequestDispatcher() and context.getRequestDispatcher()?
 
 > request.getRequestDispatcher(“url”) 
@@ -208,12 +208,12 @@ FileOutputStream fout = new FileOutputStream(viewActionFile);
 
 fout.write(customResponse.getOutput().getBytes());	
 fout.flush();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to get the object of RequestDispatcher?
 > getRequestDispatcher() of ServletRequest[i] returns the object of RequestDispatcher.
 EXAMPLE: 
 RequestDispatcher rd=request.getRequestDispatcher("servlet2");  //request obj of servlet1
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is difference between forward() and sendRedirect()?
 SEND REDIRECT
 > void sendRedirect(String url) is declared in HttpServletResponse[i]
@@ -244,7 +244,7 @@ rd.forward(request, response);
 - So maintenance cost will be less
 
 > One filter doesn't have dependency on another filter.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the usages of Filter?
 > recording all incoming requests
 > logs the IP addresses of the computers from which the requests originate
@@ -252,12 +252,12 @@ rd.forward(request, response);
 > data compression
 > encryption and decryption
 > input validation etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Advantage of Filter
 > Filter is pluggable.
 > One filter don't have dependency onto another resource.
 > Less Maintenance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to create Filter and what its Life Cycle?
 > For creating any filter implement the Filter interface. 
 > Filter interface provides the life cycle methods for a filter.
@@ -272,7 +272,7 @@ Advantage of Filter
 
 3. public void destroy()	
 > This is invoked only once when filter is taken out of the service.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to define Filter?
 > We can define filter same as servlet. Let's see the elements of filter and filter-mapping.
 
@@ -324,7 +324,7 @@ ServletContextAttributeEvent
 ServletException
 UnavailableException
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1.1 public abstract class GenericServlet
 	extends java.lang.Object
 	implements Servlet, ServletConfig, java.io.Serializable {
@@ -334,5 +334,5 @@ and other inherit mrthod
 }
 > GenericServlet class can handle any type of request so it is protocol-independent
 > It is abstract class with abstract service() 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

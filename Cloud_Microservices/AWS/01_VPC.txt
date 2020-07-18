@@ -83,7 +83,7 @@ EXAMPLE: if a subnet X CIDR block is 10.0.0.0/24, it mean last 8 bit assign for 
 10.0.0.3 Reserved for future use
 10.0.0.255 last IP 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### INTERNET GATEWAY(IGW) #####
 > Is the gateway through which our VPC communicate with the internet and with other AWS services
 
@@ -161,7 +161,7 @@ Lab 4,5,6
 ## SECURITY GROUP FORMAT 
 INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
 OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Q: To allow the EC2 instances assigned to a security group to communicate with one another, 
 - create a security group, apply it to all these instances, and configure a rule that allows any traffic, on any protocol/ports, the source of which is the security group itself. 
 - Be cautious that the security group is a VPC resource, which mean member EC2 instances can be from different subnet and AZs too. 
@@ -219,7 +219,7 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 
 > NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
 - SG cannot block a certain range of IP from internet 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Ques 
 ## If an instance in a VPC is unable to communicate over a certain protocol/ports with anothe instance in the same VPC, then the problem is the security setting of :
 
@@ -230,7 +230,7 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 
 
 >> NACL are stateless, to allow certain traffic through it, it need to be allowed( and the return traffic) in the inbound and outbound rules of the ACL. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## What is difference between Security group and NACL? 
 
 > NACL operates at the subnet level (1nd line of defense)
@@ -255,7 +255,7 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 ## SECURITY GROUP FORMAT 
 INBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Source 
 OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 =======================================
 #### TCP/IP PACKET HEADERS #### v13
 
@@ -295,7 +295,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > WORKS ONLY WITH ELASTIC IP, can not use a public IP to do it function 
 
 > We can migrate the NAT instance to the NAT Gateway. NAT Gateway should be in public subnet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## What is difference between NAT Gateway and NAT Instance?
 
 > NAT Instance we manage it and launch it 
@@ -326,7 +326,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > VPC WITH NAT INSTANCE CANNOT BE DELETED UNLESS THE USER MANUALLY TERMINATE THOSE NAT INSTANCE 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## VPC with public and VPN-only subnet created by a VPC WIZARD
 > Wizard create VPC does not have a NAT instance or NAT gateway 
 
@@ -336,7 +336,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - IGW created for the VPC
 - VGW with VPN connection
 - Route propagation enable for the main route table for exchanging route with the VGW dynamically
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Routing to on premise network
 > A public and VPN-only subnet VPC created by the VPC wizard refer to the fact that no NAT instance(or gateway) will be created as part of the wizard configuration
 - VPN-only mean a subnet that does not require access to the internet
@@ -481,7 +481,7 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 
 > we cannot use NAT instance/gateway in VPC over the DX connection
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Static vs Dynamic Routing # v22
 > You need routing in order for Routers to be able to forward your traffic correctly
 
@@ -489,7 +489,7 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 
 > When the network grows, we need a dynamic mechanism to take care of updating and exchanging routing information such that we do not have to face the administration challenges of static routing at scale (like when we enable Route Propagation on AWS route tables for VPN or Direct Connect).
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Border Gateway Protocol (BGP) # v22
 > Connects different autonomous systems together
 > Each Autonomous System (AS) requires an Autonomous system number (ASN)
@@ -651,7 +651,7 @@ E. Modify the Instances VPC subnet route table by adding a route back to the cus
 1. VPC Interface Endpoints and 
 2. VPC Gateway Endpoints. 
 Create the type of VPC endpoint required by the supported service.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### VPC INTERFACE ENDPOINT ####
 > It is an elastic network interface(ENI) with a private IP address that serves as an entry point for traffic destined to a supported service. 
 
@@ -659,7 +659,7 @@ Create the type of VPC endpoint required by the supported service.
 - API Gateway, CloudFormation, CloudWatch , CloudWatch Events/Logs, 
 - EC2 API, KMS, Kinesis Data Streams, ELB, SNS, 
 - Systems Manager, Endpoint Services hosted by other AWS Accounts, STS, Codebuild, AWS Config, Service Catalogue, Secrets Manager,
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### VPC GATEWAY ENDPOINT ######
 > It is a gateway that is a target for a specified route in route table, used for traffic destined to a supported AWS service. 
 > The following AWS services are supported:

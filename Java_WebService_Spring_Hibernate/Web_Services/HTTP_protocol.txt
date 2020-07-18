@@ -15,7 +15,7 @@
 > It is CONNECTIONLESS means after the http request, client disconnects from server and waits for the response
 - HTTP is a pull protocol, a client pulls a page from the server (instead of server pushes pages to the clients).
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference bet HTTP/1.0 and HTTP/1.1?
 
 > HTTP/1.0 uses a new connection for each request/response exchange, where as 
@@ -61,7 +61,7 @@ Host: www.yahoo.com                                            |
 2. IDEMPOTENT METHODS: 
 - they are HTTP methods which can be called multiple times and they will PRODUCE THE SAME RESULT.
 - GET, PUT, and PATCH are idempotent HTTP Method
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the HTTP request methods?
 
 HTTP request methods are
@@ -102,8 +102,10 @@ name1=value1&name2=value2
 - Asks for a list of the HTTP methods to which the thing at the request URL can respond
 
 8. PATCH: Unsafe, Non-Idempotent
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- HTTP PATCH requests are to make partial update on a resource
+- it is not supported but all browser
+- Request payload of PATCH request is not straightforward
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##What is the DIFFERENCE BETWEEN GET AND POST?
 
 > In Get, only LIMITED amount of data can be sent because data is SENT IN HEADER
@@ -115,7 +117,7 @@ name1=value1&name2=value2
 > GET request is idempotent. It means that each request will give same result.
 - POST doesn't
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the DIFFERENCE BETWEEN PUT AND POST?
 
 SIMILARITY
@@ -133,31 +135,40 @@ DIFFERENCE
 > REQUEST URI
 - POST requests are made on resource collections, whereas 
 - PUT requests are made on an individual resource.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can I use GET request instead of PUT to create resources?
 
 > No, you are not supposed to use POST or PUT.  
 > GET operations should only have view rights 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can I use POST instead of PUT method?
 
 > Yes, you can.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If POST can do work of PUT method, why PUT method is required?
 
 > It didn't used to be. In HTTP/1.0, the specified methods were HEAD, GET, and POST. PUT was added as addition feature
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If I use POST method over PUT method, what will be disadvantages?
 
 > PUT is idempotent. POST is not.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between PATCH and PUT?
+
+> PATCH method is the correct choice for partially updating an existing resource and 
+- PUT should only be used if you are replacing a resource in its entirety.
+
+> Request payload of PATCH request is not straightforward
+PUT : produces below response:  {id: 1, username: 'admin', email: 'email@example.org'}
+PATCH :  [{ "op":  "replace", "path": "/email", "value": "new.email@example.org" }]
+
+
 =====================================
 ########## HTTP RESPONSE CODE #######
 
 100 – Continue (Request received, continuing process)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### 2xx Success code #########
 200 – Ok (Success)
 
@@ -170,7 +181,7 @@ DIFFERENCE
 204 (No Content) 
 - server send 204 response to say no content is return but it process successfully. For example, a DELETE request.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 3xx URL Redirection #######
 
 301 – Moved Permanently (Redirection)
@@ -179,7 +190,7 @@ DIFFERENCE
 - used to reduce network bandwidth usage in case of conditional GET requests. Response body should be empty. Headers should have date, location, etc
 
 307 - Temporary redirect
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ######## 4xx HTTP Error ##########
 
 400 – Bad Request (Client Error)
@@ -205,15 +216,16 @@ DIFFERENCE
 - For example, adding duplicate entry.
 
 415 Unsupported media type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### Server Error #########
 
 500 – Internal Server Error (Server Error)
 
 503 Service Unavailable
 - The server is currently unavailable (because it is overloaded or down for maintenance). 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Explain the format of Http Response?
+
 > The first line of the Response is called the status line
 > The status line should contain the HTTP version, Status Code and a Status Description
 
@@ -258,4 +270,4 @@ There are many Content-Type & Accept :-
 - audio/mp3
 - video/mp4
 - video/quicktime etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

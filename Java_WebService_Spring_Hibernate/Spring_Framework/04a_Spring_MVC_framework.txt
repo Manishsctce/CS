@@ -7,9 +7,9 @@
 
 > MVC pattern separate the different aspects of the application (input logic, business logic, and UI logic), and provide loose coupling between model, view and controller. 
 
-##ADVANTAGES OVER OTHER MVC frameworks
+## ADVANTAGES OVER OTHER MVC FRAMEWORKS
 > Clear separation of roles – controller, validator, command object, form object, model object, DispatcherServlet, handler mapping, view resolver, etc. 
--Each role can be fulfilled by a specialized object.
+- Each role can be fulfilled by a specialized object.
 
 > Reusable business code 
 > Customizable binding and validation
@@ -33,19 +33,20 @@
 
 > By default, DispatcherServlet loads its configuration file using <servlet_name>-servlet.xml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### FLOW OF SPRING WEB MVC #######
+#### FLOW OF SPRING WEB MVC ###
+
 Request --1-> DispatcherServlet --2-> HandlerMapping
 					|-------------3-> Controller
 					|<-4---ModelAndView---|
 					|-------------5-> ViewResolver
 					|-------------6-> View
 
-> all the incoming request is intercepted by the DispatcherServlet					
-> DispatcherServlet gets entry of handler mapping from the xml file and 
-> DispatcherServlet forwards the request to the controller. 
-- The controller returns an object of ModelAndView.
-> The DispatcherServlet checks the entry of view resolver in the xml file and
-> DispatcherServlet invokes the specified view component.
+1. all the incoming request is intercepted by the DispatcherServlet					
+2. DispatcherServlet gets entry of handler mapping from the xml file and 
+3. DispatcherServlet forwards the request to the controller. 
+4. The controller returns an object of ModelAndView.
+5. The DispatcherServlet checks the entry of view resolver in the xml file and
+6. DispatcherServlet invokes the specified view component.
 - if dispatcher doesn't found the page then 404 page not found error.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > DispatcherServlet initialize below component if available in sequencial manner:-
@@ -106,46 +107,9 @@ org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver
 org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping
 
 ## Is the DispatcherServlet instantiated via an application context?
+
 > No. ApplicationContext instantiated via DispactcherServlet.
   
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the differences between Model, ModelMap, and ModelAndView?
-
-##Model: 
-- It is an Interface. 
-- It defines a holder for model attributes and primarily designed for adding attributes to the model.
-
-EXAMPLE:
-@RequestMapping(method = RequestMethod.GET)
-public String printHello(Model model) {
-  model.addAttribute("message", "Hello World!!");
-  return "hello";
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-## ModelMap: 
-- Implementation of Map for use when building model data for use with UI tools.
-- Supports chained calls and generation of model attribute names.
-
-EXAMPLE:
-@RequestMapping("/helloworld")
-public String hello(ModelMap map) {
-    String helloWorldMessage = "Hello world!";
-    String welcomeMessage = "Welcome!";
-    map.addAttribute("helloMessage", helloWorldMessage);
-    map.addAttribute("welcomeMessage", welcomeMessage);
-    return "hello";
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
-##ModelAndView: 
-> ModelAndView is just a container for both a ModelMap and a view object. 
-- This class merely holds both to make it possible for a controller to return both model and view in a single return value.
-
-EXAMPLE:
-@RequestMapping("/welcome")
-public ModelAndView helloWorld() {
-  String message = "Hello World!";
-  return new ModelAndView("welcome", "message", message);
-}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PropertyPlaceholderConfigurer

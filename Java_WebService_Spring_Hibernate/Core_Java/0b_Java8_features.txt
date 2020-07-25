@@ -322,7 +322,7 @@ List numbers = Arrays.asList(2,3,4,5);
 List square = numbers.stream().map(x->x*x).collect(Collectors.toList());
 
 ## filter(Predicate<T> predicate): Stream<T> 
-- it is used to select elements as per the Predicate passed as argument.
+- it is used to select elements as per the Predicate passed in arg.
 EXAMPLE:
 List names = Arrays.asList("Reflection","Collection","Stream");
 List result = names.stream().filter(s->s.startsWith("S")).collect(Collectors.toList());
@@ -331,10 +331,12 @@ List result = names.stream().filter(s->s.startsWith("S")).collect(Collectors.toL
 - return stream of unique ele 
 
 ## limit(long maxSize): Stream<T> 
-- return stream containing first n ele 
+- it return stream containing first n ele 
+- it is short-circuit opr when it is presented with infinite stream bcz it make it finite.
 
-## skip(long n): Stream<T> 
-- Returns a stream after skipping first n elements.
+## skip(long n): Stream<T>
+- it discards the first n elements of a stream. 
+- it is a stateful operation
 
 ## sorted(): Stream<T> 
 - it is used to sort the stream.
@@ -347,18 +349,19 @@ EXAMPLE:
 names.stream().sorted((String name1, String name2) -> name1.length() - name2.length()).forEach(System.out::println);
 ---------------------------------
 ###### TERMINAL OPERATIONS ######
+
 ## R collect(Collector<T> collector)
-- The collect method is used to return the result of the intermediate operations performed on the stream.
+- it is used to return the result of the intermediate opr performed on the stream.
 List number = Arrays.asList(2,3,4,5,3);
 Set square = number.stream().map(x->x*x).collect(Collectors.toSet());
 
-## forEach: The forEach method is used to iterate through every element of the stream.
+## forEach: it is used to iterate through every element of the stream.
 List number = Arrays.asList(2,3,4,5);
 number.stream().map(x->x*x).forEach(y->System.out.println(y));
 
 ## T reduce(T identity, BinaryOperator<T> accumulator) 
-- The reduce method is used to reduce the elements of a stream to a single value.
-- The reduce method takes a BinaryOperator as a parameter.
+- it is used to reduce the elements of a stream to a single value.
+- it takes a BinaryOperator as a parameter.
 EXAMPLE
 List number = Arrays.asList(2,3,4,5);
 int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
@@ -429,7 +432,16 @@ map: b2 , anyMatch: B2
 map: a1 , anyMatch: A1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is diff bet Stream and Collection?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is difference between skip() and limit()?
 
+DIFFERENCE
+> skip()- it consumes the entire stream
+- limit() - as soon as stream reaches the maximum number of items, it doesn't consume any more items and simply returns the resulting stream. Hence, we say that limit() is a short-circuiting operation.
+
+SIMILARITY
+> both are stateful operation
+> 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## is there any difference bet Stream.forEach() and Collection.forEach()?
 
@@ -494,9 +506,19 @@ Object[] x = number.stream().collect(Collectors.toList()).toArray();
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What does peek() does? When should you use it?
  
-> The peek() of Stream class allows you to see through a Stream pipeline. 
+SYNTAX: Stream peek(Consumer<? super T> action) 
+
+> peek() of Stream class allows you to see through a Stream pipeline. 
 - we can peek through each step and print meaningful messages on the console. 
-- It's generally used for debugging issues related to lambda expression and Stream processing.
+- It's generally USED FOR DEBUGGING ISSUES related to lambda expression and Stream processing.
+
+EXAMPLE:
+GetUtility.getNameList().stream()
+			.filter(e -> e.length() > 3)
+			.peek(e -> System.out.println("Filtered value: " + e))
+			.map(String::toUpperCase)
+			.peek(e -> System.out.println("Mapped value: " + e))
+			.collect(Collectors.toList());	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What do you mean by saying Stream is lazy?
 

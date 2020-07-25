@@ -432,14 +432,27 @@ class S extends R {
 > It is used in class if the method doesn't depend on the instance variable and methods i.e not belong to particular object state.
 > Utility methods are good candidate of making static
 
+> We CAN DEFINE PRIVATE STATIC METHOD in cls but its NOT GUD PRACTICE. As it violate the OOP. 
+- As Static method does not use data member(state) so what the use to be in class.
+
 > STATIC METHOD DOESNOT OVERRIDE. It call with reference class
 - it inherit in the child class
 
+EXAMPLE1 : allowed 
+class P { public static void staticMethod(){..} }
+class C extends P { public static void staticMethod(){..} }
+
+EXAMPLE2 : not allowed to override static method
+class P { public static void staticMethod(){..} }
+class C extends P { public void staticMethod(){..} }
+
+EXAMPLE3 : allowed to do this. P method is hidden to C that's why allowed
+class P { private static void staticMethod(){..} }
+class C extends P { private void staticMethod(){..} }
+
+
 > It can access non-static variable/method of class with the object reference of class but not directly
 > it DOESN'T CONTAIN THIS OR SUPER KEYWORD becz this is use to refer the object instance which is called with static
-
-> We CAN DEFINE PRIVATE STATIC METHOD in cls but its NOT GUD PRACTICE. As it violate the OOP. 
-- As Static method does not use data member(state) so what the use to be in class.
 
 > When static modifier is removed from the signature of the main method, it will throws an error at "NoSuchMethodError runtime
 
@@ -487,6 +500,7 @@ class Q extends P {
 }}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you override private or static method in Java ?
+
 > A user cannot override static methods in Java, because method overriding is based upon dynamic binding at runtime and static methods are statically binded at compile time. 
 > A static method is not associated with any instance of a class so the concept is not applicable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

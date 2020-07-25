@@ -29,6 +29,11 @@ Following are built in Controller implementations available in Spring Web MVC
 - WizardFormController [deprecated]
 - MultiActionController[deprecated]
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How can you create a controller without an annotation?
+
+> We can even create a controller without @Controller by annotating the Spring MVC Controller classes using @Component annotation. 
+- The real job of request mapping to the handler method is done using @RequestMapping annotation.
 =======================================
 ### ANNNOTATION USED WITH CONTROLLER ###
 
@@ -47,6 +52,7 @@ Following are built in Controller implementations available in Spring Web MVC
 =======================================
 ############ @RequestMapping ##########
 
+> It is used to intercept a HttpServletRequest
 > It can be applied at both class and method level 
 - It is USED TO MAP A URL to either an entire class or a particular handler method.
 
@@ -195,9 +201,9 @@ public ModelAndView helloWorld() {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between RestController and Controller?
 
-> traditional MVC controller relies on the View technology, 
-- the RESTful web service controller simply returns the object and the object data is written directly to the HTTP response as JSON/XML.
-
+> Job of @Controller is to create a Map of the model object and find a view but
+- @RestController simply returns the object and object data is directly written into HTTP response as JSON or XML
+- and this possible in RestController bcz it is combination of @Controller + @ResponseBody
 
 EXAMPLE:
 @RestController
@@ -272,6 +278,33 @@ value – It is String type attribute and it is alias for name attribute.
 - Is is used to pass parameter along with the url, sometimes we need to pass parameters along with the url to get the data. Spring MVC provides support for customizing the URL in order to get data. To achieving this purpose @PathVariable annotation is used in Spring mvc framework.
 
 @RequestParam: It is used to get the request parameters. @RequestParam automatically binds the request parameters to the arguments of your handler method. It also provides auto type conversion for some standard type like int, long, float, string, date 
+
+=====================================
+########### @RequestHeader ##########
+
+> It is used to read headers individually as well as all together.
+
+## How to Read HTTP Headers in Spring REST Controllers?
+
+EXAMPLE1: 
+@GetMapping("/greeting")
+public ResponseEntity<String> greeting(@RequestHeader("accept-language") String language) {
+    // code that uses the language variable
+    return new ResponseEntity<String>(greeting, HttpStatus.OK);
+}
+
+EXAMPLE2:
+
+@GetMapping("/listHeaders")
+public ResponseEntity<String> listAllHeaders( @RequestHeader Map<String, String> headers) {
+    headers.forEach((key, value) -> {
+        LOG.info(String.format("Header '%s' = %s", key, value));
+    });
+ 
+    return new ResponseEntity<String>(
+      String.format("Listed %d headers", headers.size()), HttpStatus.OK);
+}
+ 
 =====================================
 ######### @SessionAttributes ########
 

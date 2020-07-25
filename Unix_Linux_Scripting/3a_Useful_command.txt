@@ -120,13 +120,12 @@ find / -mtime 1
 If we want files that were accessed in less than a day ago, we can type:
 
 find / -atime -1
-==========================================================
+=======================================
+######### FILE COMPRESSION ############
+# gzip filename - compress files and give .gz file
+# gunzip filename - uncompress files compressed by gzip
 
-############# FILE COMPRESSION ##############
-#gzip filename - compress files and give .gz file
-#gunzip filename - uncompress files compressed by gzip
-
-#gzcat filename -  look at a gzipped file without actually having to gunzip it (same as gunzip -c). You can even print it directly, using gzcat filename | lpr
+# gzcat filename -  look at a gzipped file without actually having to gunzip it (same as gunzip -c). You can even print it directly, using gzcat filename | lpr
 ----------------------
 #jar tvf <fileName.jar>
 
@@ -177,9 +176,10 @@ Ex - unzip demo.zip -x bar.txt
  
 -d : Extract files into given directory i.e in current dir
 Ex - unzip demo.zip -d /tmp/data
-==========================================================
-############ CHMOD ##############
-># chmod augo+rwx filenames
+=====================================
+############## CHMOD ################
+> chmod augo+rwx filenames
+
 > Here augo is user types i.e a = all, u - user, g - group, o - other
 -# rwx = read,write,execute
 -# +,-,=   operations are available
@@ -192,13 +192,15 @@ if user can all then 4+2+1 = 7 then chmod 700 filenames
 ##Change file access recursively in sub-directories
 chmod -R 777 .
 chmod -R 777 *
-------------------------------------------
-################## CHOWN #################
-=> chown command is used to change the owner and group of a file. 
+
+=====================================
+############### CHOWN ###############
+> it is used to change the owner and group of a file. 
 => chown [-R] owner:group filename
 [-R] = recursively
-==========================================
-######### PROCESS & Port #########
+
+=====================================
+########## PROCESS & Port ###########
 > ps command comes with an unusual set of 2 syntax styles. That is BSD and UNIX both.
 1. BSD style - its syntax are not preceded with a dash.
 2. Unix/linux style -  preceded by a dash
@@ -265,8 +267,8 @@ EXAMPLE :
 - nohup: ignoring input and redirecting stderr to stdout
 
 ># $ tail -f custom-out.log
-==========================================================
-######### Check Disk #########
+=====================================
+############ Check Disk #############
 
 > df -[k/h/T] disk free
 [-h] = human readable format i.e in MB,GB
@@ -285,13 +287,15 @@ du -hs * | sort -h
 ## To know memory usage 
 > cat /proc/meminfo
 > free -m 
-==========================================================
-######### Delete Files Older Than x Days ##########
+=====================================
+### Delete Files Older Than x Days ##
+
 find /path/to/files* -mtime +5 -exec rm {} \;
 
 find . -mtime +20 | xargs rm -Rf
-==========================================================
+=====================================
 ######### LINE MODE COMMAND #########
+
 > Any command that begins with a ":" is called a line mode command and performs its duty on the line the cursor is currently on.
 :s/search_string/replacement_string/g
 
@@ -316,8 +320,8 @@ find . -mtime +20 | xargs rm -Rf
 
 :set number       Turns on line numbering
 :set nonumber     Turns off line numbering
-==========================================================
-DAILY USAGE COMMAND
+=====================================
+####### DAILY USAGE COMMAND #########
 => mkdir -p =  make directory with all parent dir
 => rmdir -f = forcefully delete dir only not file
 => rm -rf = remove dir and all it contains i.e file/dir forcefully
@@ -328,7 +332,7 @@ DAILY USAGE COMMAND
 -l	lines
 -m	characters
 -w	words
------------------------------------------
+=====================================
 ######### DATE #########
 ****
 date +%X = give time only
@@ -336,19 +340,19 @@ date +%A = give day only
 date +%B = give month only
 date +%C = give century only for 2014 give 20
 date +%D = give Date only
-------------------------------------------
+=====================================
 ######### tail #########
 $ tail file.txt = Print the last 10 lines of a file by default
 $ tail -n N file.txt  = Print N number of lines from the file
 ># $ tail -f file.txt = print if file is appended
-------------------------------------------
+=====================================
 ######### less #########
 > less is very efficient while viewing huge log files, as it doesn’t need to load the full file while opening.
 
 $ less filename.txt
 CTRL+F – forward one window
 CTRL+B – backward one window
------------------------------------------
+=====================================
 ######### CUT #########
 $ cut -[c/d/f] filename
 > [-c] = specify char

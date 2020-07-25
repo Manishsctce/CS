@@ -70,9 +70,11 @@ public class LoggingAdvice {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 2. JOIN POINT (POINT AT BEGINING/END OF METHOD)
 
-> It is a point during the execution of a program, such as the execution of a method or the handling of an exception. 
-- In Spring AOP, a join point always represents a method execution.
-> It is where advice is applied.
+> The point where an aspect can be introduced in the app is known as a joinpoint. 
+- This point could be a field being modified, a method being called or even an exception being thrown. 
+- At these points, the new aspect's code can be added to introduce a new behavior to the application.
+
+- It is where advice is applied.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 3. POINTCUT 
 - A PREDICATE THAT MATCHES JOIN POINTS ex - myPointcut
@@ -82,6 +84,7 @@ public class LoggingAdvice {
 4. ADVICE (ACTION)
 > It is the ACTION TAKEN BY AN ASPECT at a particular joinpoint. 
 - For ex, apply log(action i.e advice) on a method (joinpoint) 
+- Advice is the implementation of an aspect
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 5. INTRODUCTION
 
@@ -106,9 +109,6 @@ B. Class Load time weaving
 C. Runtime-(Spring way) 
 - target method is covered by proxy bean(created by spring framework) 
 - when caller call target, spring framework invoke the proxy then understand what advices need to be applied and apply advice before/after target execution
-
-
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between concern and cross-cutting concern in Spring AOP?

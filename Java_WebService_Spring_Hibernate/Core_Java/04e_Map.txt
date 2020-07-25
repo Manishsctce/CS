@@ -96,9 +96,15 @@ INTERNAL IMPLEMENTATION
 > TreeMap is Red-Black tree based NavigableMap impl, it use compareTo(Object) or compare(Object o1,Object o2) for comparision.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## is there any impact on iteration performance when the size of map increase?
+
+> Yes, Iteration over collection views requires time proportional to the "capacity" of the HashMap instance (the number of buckets) plus its size (the number of key-value mappings). 
+- Thus, it's very important not to set the initial capacity too high (or the load factor too low) if iteration performance is important.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When to use HashMap over LinkedList or ArrayList and vice-versa?
 
->INSERTION ORDER - When we require to maintain the order of insertion then use List, as HashMap does not allow insertion order but its subclass LinkedHashMap does.
+> INSERTION ORDER - When we require to maintain the order of insertion then use List, as HashMap does not allow insertion order but its subclass LinkedHashMap does.
+
 >
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Map.Entry? How elements are storing in Map?
@@ -323,8 +329,8 @@ It have 4 constructor :-
 - it is define as transient as 'transient Entry[] table';
 
 > It is because HM DOESNOT GUARANTEES THE ORDER OF MAP ELEMENTS and while serializing in form of normal Entry table[] we are serializing in a particular order that is the contradiction.
-> so Entry table[] is define as transient and all the related field are mark as transient ( i.e calculated at run time)
-> so while serializing HashMap, writeObject() serializing it as key1-value1,key2-value2 and so on form. Not in table[]
+- so Entry table[] is define as transient and all the related field are mark as transient ( i.e calculated at run time)
+- so while serializing HashMap, writeObject() serializing it as key1-value1,key2-value2 and so on form. Not in table[]
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Explain how HashMap works?
@@ -344,9 +350,10 @@ Note: that there can only be one null key in HashMap .  Null keys always map to 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How put() method works in HashMap?
 
-> PUT() -> HashMap calculates the hash value of key and use it as index to stores K-V pair inside Entry[]. 
-> If the key exists, its value is updated with the new value. 
-> HashMap have Entry table to store Map elements in form of entry : transient Entry[] table;
+> HashMap calculates hash value of key and use it as index to stores K-V pair inside Entry[]. 
+- If the key exists, its value is updated with the new value. 
+- HashMap have Entry table to store Map elements in form of entry like
+  transient Entry[] table;
 
  public V put(K key, V value) {
    if(key == null)
@@ -366,20 +373,20 @@ Note: that there can only be one null key in HashMap .  Null keys always map to 
    addEntry(hash, key, value, i);
    return null;
  }
-1. It check the key if it is null then at index 0 value will insert
-2. if key is not null then it CALCULATE DOUBLE HASHVALUE OF KEY to avoid poor hashing(just use byte shifting)
+1. check if key == null then at index 0 value will insert
+2. if key != null then it CALCULATE DOUBLE HASHVALUE OF KEY to avoid poor hashing(just use byte shifting)
 3. It calculate the bucketIndex i.e combination of hash value of key & length of table i.e bucket for storing Entry object.
 
-4. Now it check the hashvalue of key and content of key using equals()
- > if key's hashvalue is different and content are null then at the bucketIndex  entry object will store.
+4. Now check the hashvalue of key and content of key using equals()
+- if key's hashvalue is different and content are null then at the bucketIndex  entry object will store.
  
- > if key's hashvalue is same but content are different then the entry will store in Linked list form and previous entry is the next node.
+- if key's hashvalue is same but content are different then the entry will store in Linked list form and PREVIOUS ENTRY IS THE NEXT NODE.
  
- > if key's hashvalue and content are same then new value replace the old one.
+- if key's hashvalue and content are same then new value replace the old one.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How get(Object key) works in HashMap?
 
-> GET(OBJECT KEY) -> call hashCode() on key object and applies returned hashValue to its own static hash function to find a bucket location(backing array) where keys and values are stored in form of a nested class called Entry (Map.Entry) .
+> GET(OBJECT KEY) -> use hashCode() on key to find bucket location(backing array) where K-V are stored in form of Entry (Map.Entry) 
 
 1 public V get(Object key)
 2 {
@@ -398,7 +405,7 @@ Note: that there can only be one null key in HashMap .  Null keys always map to 
 > There can be at most one such mapping
 > At line 5, hash() called with hashvalue of key object to find hash value again to defend poor quality hash functions.
 > A return value of "null" does not necessarily indicate that the map contains no mapping for the key; 
-- it's also possible that the map explicitly maps the key to "null"
+- it's also possible that thec map explicitly maps the key to "null"
 > e.hash at line 6 is the hash value of the entry that is the instance variable of HashMap.Entry class 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -441,8 +448,8 @@ In Rehashing process,
 - This rehashing is the process of creating a new memory area, and copying all the already present key-value pairs in new memory are. 
 
 > WHEN 2 THREAD WRITING IN MAP AND AT THE SAME TIME RESIZE IT THEN IT WILL OCCUR.
-- Lets say Thread A TRIED TO PUT A K-V PAIR AND THEN REHASHING STARTED. 
-- At the same time, thread B came and started manipulating the buckets using put operation.
+- Lets say Thread-A TRIED TO PUT K-V PAIR AND THEN REHASHING STARTED. 
+- At the same time, thread-B came and started manipulating the buckets using put operation.
 
 - Here while rehashing process, there are chances to generate the cyclic dependency where one element in linked list [in any bucket] can point to any previous node in same bucket. 
 - This will result in infinite loop, because rehashing code contains a “while(true) { //get next node; }” block and in cyclic dependency it will run infinite.
@@ -454,6 +461,7 @@ http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html
 
 > using Collections.synchronizedMap(hashmap)  
 - it returns a thread-safe map backed up by the specified HashMap
+- internally it is implemented by SynchronizedMap[c] where all methods of Map is in synchronized block with mutex object and the instance of SynchronizedMap[c] is returned.
 
 > It is also mandatory that the user MANUALLY SYNCHRONIZES ON THE RETURNED MAP WHILE ITERATING over any of its collection views:
 EXAMPLE: 
@@ -470,7 +478,12 @@ EXAMPLE:
 ## Difference between HashTable and Collections.synchronized(HashMap)?
 
 > Both are blocking in nature i.e. multiple threads will need to wait for getting the lock on instance before putting/getting anything out of it.
-> NO MAJOR DIFFERENCE
+
+> Initial capacity of HashTable is 11 and HashMap is 16 and loadfactor = 0.75
+
+> LHM is subclass of HM, we can easily switch 
+- but it is not the case with HT 
+
 =====================================
 ########## LinkedHashMap ############
 - TreeMap and HashMap classes were added in java 1.2 , while 
@@ -481,6 +494,8 @@ EXAMPLE:
 
 > LinkedHashMap can be used to create LRU(Least Recently Used) cache in Java. 
 
+> Access order is affected by calling get(key), put(key, value) or putAll().
+- When a particular entry is accessed, it moves towards end of the doubly linked list, maintained by LinkedHashMap.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why do we need LinkedHashMap when we already had TreeMap and HashMap ?
 
@@ -492,21 +507,37 @@ new LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
 
 > Access order feature of LinkedHashMap is used to build LRU cache.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## When to use linkedhashmap over hashmap in java?
+## When to use LHM over HM in java?
+
+> LHM is used when we want insertion order of K-V pair. 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How LinkedHashMap insertion order is maintained ?
 ## What is the implementation of LinkedHashMap?
 
-> LinkedHashMap use static inner class Entry<K,V> extends HashMap.Node<K,V>; to store key-value pair
-- it contain 2 more field i.e 
-1. Entry<K,V> before, after:  it is responsible for maintaining the insertion order. 
-2. Entry<K,V> head,tail : stores the head,tail of this doubly linked list
+Entry extends HashMap.Node{
+  Entry<K, V> before, after;
+  final K key; // inherited from Node
+  V value; // inherited from Node
+  HashMapEntry<K, V> next; // inherited from Node
+  int hash; // inherited from Node
+}
+
+EXPLANATION 
+before: points to the node inserted before this node
+after: points to the node inserted after this node
+key: key as provided
+value: value as provided
+next: points to the next node in the same bucket of array table(like in HashMap)
+hash: hashcode to calculate the index of this node, and check for equality.
+
+> LinkedHahsMap Entry is inserted into Entry table (i.e. Entry[]) based on the hashValue of key
+- LHM maintain insertion order using before, after data for each new entry 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What happens if we insert a key which is already present in the LinkedHashMap ? Does the order change ?
 
-> No,It doesn't change the order. 
+> No, It doesn't change the order. 
 - It first checks containsKey() before invoking put() method . 
 - If containsKey(K) returns true then the value is replace by new value and return old value.
 
@@ -530,6 +561,12 @@ DIFFERENCE
 - LinkedHashMap uses doubly LinkedList to keep order of elements.
 
 > LinkedHashMap actually extends HashMap and implements Map interface. 
+
+SIMILARITY
+
+> No major difference in terms of performance
+
+> 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does Java HashMap or LinkedHahsMap handles collisions?
 

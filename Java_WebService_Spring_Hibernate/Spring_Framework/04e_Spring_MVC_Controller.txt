@@ -314,6 +314,10 @@ public ResponseEntity<String> listAllHeaders( @RequestHeader Map<String, String>
 > it is used on class level. Typically it's used on the @Controller class. 
 - It has 'value' element is of type String[] whose values are the matching names used in @ModelAttribute either on method level or on handler's method parameter level.
 
+> when a request comes in, the first thing Spring will do is to notice @SessionAttributes('visitor') and then attempt to find the value of 'visitor' in javax.servlet.http.HttpSession. 
+- If it doesn't find the value, then the method with @ModelAttribute having the same name 'visitor' (method getVisitor()) will be invoked. 
+- The returned value from such method will be used to populate the session with name 'visitor'
+
 
 http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
 

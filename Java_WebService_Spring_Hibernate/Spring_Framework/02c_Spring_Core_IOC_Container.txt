@@ -4,14 +4,14 @@
 
 > It is also called Spring Context.
 > Spring IoC container is the program that injects dependencies into an object and make it ready for our use.
-> it is USE/REPONSIBLE TO CREATE OBJECT OF APP CLASS, WIRE THEM TOGETHER, CONFIGURE THEM, AND MANAGE THEIR COMPLETE LIFE CYCLE.
-> it uses DI to manage the components
+- it is USE/REPONSIBLE TO CREATE OBJECT OF APP CLASS, WIRE THEM TOGETHER, CONFIGURE THEM, AND MANAGE THEIR COMPLETE LIFE CYCLE.
+- it uses DI to manage the components
 
 > Spring IoC container classes are part of "org.springframework.beans" and "org.springframework.context" packages
-> Spring IoC container gets initialized when application starts and when a bean is requested, the dependencies are injected automatically.
-> beans can be configure through XML files, properties files, annotations, or even APIs.
+> Spring IoC container gets initialized when app starts and when a bean is requested, the dependencies are injected automatically.
+- beans can be configure through XML files, properties files, annotations, or even APIs.
 =====================================
-##What is Spring configuration file?
+## What is Spring configuration file?
 
 > it is a xml file that contain classes info and describe how classes are configured and introduce each other.
 > it PROVIDE INSTRUCTION TO THE SPRING CONTAINER
@@ -55,7 +55,7 @@ ApplicationContext context = new ClassPathXmlApplicationContext(
     <bean id="bean2" class="..."/>
 </beans>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### XML-centric ###########
+######### XML-centric #########
 > We can use @Configuration inside XML configuration as like 
 
 @Configuration
@@ -114,36 +114,37 @@ public class AppConfig {
 </bean>	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### In case of Annotation, use @import in place of <import resource="..."/>
+
 Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
 =======================================
 ####### TYPES OF IOC CONTAINERS #######
 
 ## What are types of IoC containers? Explain them.
 
-> There are two types of IoC containers: 
+> There are 2 types of IoC containers: 
 1. BeanFactory container 
 2. ApplicationContext Container
-3. AnnotationConfigApplicationContext
-3. WebApplicationContext container for web application
+  2a. AnnotationConfigApplicationContext
+  2b. WebApplicationContext container for web application
 =======================================
 ####### 1. BeanFactory CONTAINER ######
 > org.springframework.beans.factory.BeanFactory[i]
 
 ## What is BeanFactory[i]?
+
 > It is a type of Spring container. 
-> It is used to instantiate bean and manage the life cycle of bean.
-> it provide IoC to separate the application’s configuration and dependencies from the actual app code.
-> BeanFactory implementation is BASED ON FACTORY PATTERN. 
+- It is used to instantiate bean and manage the life cycle of bean.
+- it provide IoC to separate the app configuration and dependencies from the actual app code.
+- BeanFactory implementation is BASED ON FACTORY PATTERN. 
 
 > it is prefer when limited resource are PREFER FOR LIGHT WEIGHT APP. like mobile where data and speed matter.
 > most commonly use BeanFactory implementation is XmlBeanFactory
 
-> BeanFactory enables us to read bean definitions and access them using the bean factory
-
-> The BeanFactory holds Bean Definitions of multiple beans within itself and then instantiates the bean whenever asked for by clients.
+> it enables us to read bean definitions and access them using the bean factory
+- it holds Bean Definitions of multiple beans within itself and then instantiates the bean whenever asked for by clients.
 
 ####### BEANFACTORY METHODS #########
-> it has ONLY SIX METHODS 
+> it has ONLY 6 METHODS 
 
 1. boolean containsBean(String): 
 - returns true if the BeanFactory contains a bean definition or bean instance that matches the given name
@@ -169,8 +170,8 @@ Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
 -------------------------
 6. String[] getAliases(String): 
 - Return the aliases for the given bean name, if any were defined in the bean definition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### BeanFactory IMPLEMENTATIONS ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### BeanFactory IMPLEMENTATIONS ####
 
 #### XmlBeanFactory[c] ####
 > most commonly used BeanFactory implementation is the XmlBeanFactory class
@@ -178,11 +179,13 @@ Ex - @Import({ServiceConfig.class, RepositoryConfig.class})
 
 Resource res = new ClassPathResource(“./mypackage/Spring1.xml”);
 BeanFactoty factory = new XmlBeanFactory(res);
-=======================================
-#### 2. ApplicationContext CONTAINER ##
+
+=====================================
+## 2. ApplicationContext CONTAINER ##
 > org.springframework.context.ApplicationContext[i] 
 
 ## What is ApplicationContext?
+
 > It is a type of Spring container like BeanFactory
 > It is built upon BeanFactory interface
 > it provide more enterprise-specific functionality such as JNDI access, EJB integration, internationalization, validation and scheduling functionality
@@ -213,7 +216,8 @@ appCtx.setClassLoader(classLoader);
 =======================================
 ###### JAVA BASED CONFIGURATION #######
 
-### 3.AnnotationConfigApplicationContext[c] ###
+## 3.AnnotationConfigApplicationContext[c]
+
 > it is used when we are using Java-based configuration for the bean definitions instead of Xml files.
 - it enables us to write most of Spring configuration without XML
 - use to initialize the container and get the bean objects.
@@ -235,8 +239,11 @@ public class MyConfig{
   }
 }
 
-> @Configuration : Annotating a class with it INDICATES THAT THE CLASS can be used by the Spring IoC container as a SOURCE OF BEAN DEFINITIONS. 
-> @Bean : USED WITH METHODS THAT RETURN AN OBJECT that should be registered as a bean in the Spring application context. 
+> @Configuration : 
+- Annotating a class with this INDICATES THAT THE CLASS can be used by the Spring IoC container as a SOURCE OF BEAN DEFINITIONS. 
+
+> @Bean : 
+- USED WITH METHODS THAT RETURN AN OBJECT that should be registered as a bean in the Spring application context. 
 
 EXAMPLE1:
 import org.springframework.context.annotation.*;
@@ -271,88 +278,20 @@ EXAMPLE2:
 public class MyAppConfig {
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> XmlWebApplicationContext and XmlPortletApplicationContext can be used in web and portal applications only
-> AnnotationConfigWebApplicationContext and XmlWebApplicationContext for web applications
+
 =======================================
 ### What is the DIFFERENCE between BeanFactory and ApplicationContext ?  
 
-> main difference is that BeanFactory only instantiate bean when we call getBean() while 
+> BeanFactory only instantiate bean when we call getBean() while 
 - ApplicationContext instantiates Singleton bean when the container is started,  It doesn't wait for getBean to be called. 
 
 > ApplicationContext allows more than one config files to exist
 - BeanFactory permits only one configuration file.
 
 > ApplicationContext is superset of BeanFactory
-> it provide more enterprise-specific functionality such as JNDI access, EJB integration, internationalization, validation and scheduling functionality
+- it provide more enterprise-specific functionality such as JNDI access, EJB integration, internationalization, validation and scheduling functionality
 - It can publish events to beans that are registered as listeners.
 - It provide a generic way to load file resources, such as images.
 
 > Application contexts can publish events to beans that are registered as listeners.
 - BeanFactory doesn’t support publishing of events to beans.
-=======================================
-## 3. WebApplicationContext Container
-
-> it represent Spring Container for web applications
-> it loads bean definitions from an XML file contained within a web application. 
-- By default it loads the configuration from file "/WEB-INF/applicationContext.xml".
-
-########## IMPLEMENTATIONS ############
-#### 1. XmlWebApplicationContext[c]
-
-##2. AnnotationConfigWebApplicationContext[c]
-> it create application context for web applications by using java clases as input for bean definitions instead of xml files.
-
-http://java-journal.blogspot.in/2012/08/what-is-applicationcontext-what-are-its.html
-
-=======================================
-##### PropertyPlaceholderConfigurer ###
-
-## How to load any property file in applicationContext?
-
-> We can make use of PropertyPlaceholderConfigurer as below:
-
-<bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-   <property name="location" value="classpath:jdbc.properties"/>
-</bean>
-
-<bean id="jdbc" class="com.javainterviewpoint.JDBC_Example">
-  <property name="url" value="${jdbc.url}"></property>
-  <property name="username" value="${jdbc.username}"></property>
-  <property name="password" value="${jdbc.password}"></property>
-</bean>
-
-OR 
-<context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to ignore PlaceHolder Exception ?
-
-> If we have removed the password entry from our jdbc.properties file and we will get the exception like below
-Could not resolve placeholder ‘jdbc.password’ in string value “${jdbc.password}”
-
-> If we wanted to ignore this property check and if we want to prevent the Spring container to check whether all the property is present or not then 
-
-<bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-  <property name="location" value="classpath:jdbc.properties"/>
-  <property name="ignoreUnresolvablePlaceholders" value="true"/>
-</bean>
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to ignore FileNotFoundException ?
-
-> Suppose the required property files is not present in the specified location, then spring will throw java.io.FileNotFoundException, 
-- if we want to ignore it and proceed then use “ignoreResourceNotFound” property as
-
-<property name="ignoreResourceNotFound" value="true"/>
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to Loading Multiple Property files?
-
-<bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-  <property name = "locations">
-    <list>
-     <value>classpath:jdbc.properties</value>
-     <value>classpath:ftp.properties</value>
-    </list> 
-  </property>
-</bean>
-=======================================

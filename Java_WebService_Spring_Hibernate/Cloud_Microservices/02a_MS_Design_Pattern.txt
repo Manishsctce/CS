@@ -1,0 +1,230 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is fault tolerance?
+
+> Fault tolerance refers to the ability of a system (computer, network, cloud cluster, etc.) to continue operating without interruption when one or more of its components fail.
+
+> The objective of creating a fault-tolerant system is to prevent disruptions arising from a single point of failure.
+-  it ensure the high availability and business continuity of mission-critical apps or systems.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is High availability?
+
+> It refers to a system’s ability to avoid loss of service by minimizing downtime. 
+- It’s expressed in terms of a system’s uptime, as a percentage of total running time. 
+- Five nines, or 99.999% uptime, is considered the “holy grail” of availability.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+1. Application Metrics - App Monitoring
+- Instrument a service to gather statistics about individual operation. Aggregate metrics for alerting and reporting. 
+
+2. Audit Logging - App Monitoring
+- Audit logging captures each user's actions. It is useful for customer support, for compliance and to detect suspicious behaviour
+
+3. Back end for front end - App security, scalability
+- Create separate backend services to be consumed by specific frontend applications or interfaces. 
+This pattern is useful when you want to avoid customizing a single backend for multiple interfaces.
+
+4. Blue-green deployment - App deployment, App availability, Resilience
+- Technique that reduces downtime and risk by running two identical production environments called Blue and Green
+
+5. Bulkheads - App availability, Resilience
+- Isolate elements of an application into pools so that if one fails, the others will continue to function.
+
+6. Cache aside / Inmemory DB - App performance
+- Load data on domand into a cache from a data store. This can improve performance and also helps to maintain consistency between data hold in the cache and data in the underlvirg data store.
+
+7. Caching - App performance, Scalability
+- Temporarily copy frequently accessed data to fast storage that's located close to the application
+
+
+8. Canary - App deployment, App availability, Resilience
+- Slowly rolling out the change to a small subset of users before rolling it out to the entire infrastructure and making it available to everybody
+
+9. Circuit break - App availability, Resilience
+- Handle faults that might take a variable amount of time to recover from, when connecting to a remote service or resource
+
+10. Consumer-driven contract - App integration
+- Inspire providers with insight into their consumer obligations, and focuses service evolution around the delivery of the key business functionality demanded by consumers
+=======================================
+############### CQRS ##################
+
+## What is CQRS?
+
+> It is a design pattern for Microservice Cloud Application
+> Command Query Responsibility Segregation
+
+Problem Statement : How to implement a query that retrieves data from multiple services in a microservice architecture?
+
+> it separates read and update operations for a data store
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+####### BLUE & GREEN DEPLOYMENT #######
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What's the difference between a blue/green deployment and a rolling deployment?
+  
+> In Blue Green Deployment, you have TWO complete environments. 
+- One is Blue environment which is running and 
+- the Green environment to which you want to upgrade. 
+- Once you swap the environment from blue to green, the traffic is directed to your new green environment. 
+- You can delete or save your old blue environment for backup until the green environment is stable.
+
+> In Rolling Deployment, you have only ONE complete environment. 
+- The code is deployed in the subset of instances of the same environment and moves to another subset after completion.
+=======================================
+####### CANARY DEPLOYMENT #######
+
+
+=======================================
+###### Domain Driven Design(DDD) ######
+
+## What is Domain Driven Design(DDD)?
+
+> It is a way of looking at software from top down. 
+
+Aims to ease the creation of complex app.
+
+> DDD focus on 3 principles:
+1. Focus on the core domain and domain logic
+2. Find ccomplex design on models of the domain
+3. Constantly collaborate with domain experts to improve the app model and to resolve any domain-related issues.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why there is a need for Domain Driven Design (DDD)?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is 12 Factor App?
+
+> The twelve-factor app is a methodology for building software-as-a-service app.
+
+1. Codebase - ONE CODEBASE, MULTIPLE DEPLOYS.
+- We should have only one repository for each microservice in our source control such as git, subversion. 
+- All the microservice deployment should be from that repository.
+
+2. Dependencies - EXPLICITLY DECLARE AND ISOLATE DEPENDENCIES.
+- We should use dependency manager in our microservice such as maven (pom.xml) or gradle (build.gradle) for Java. 
+- Benefit is new developer can check out code onto their machine, requiring only language runtime and dependency manager as prerequisite.
+
+3. Config - Store config in the environment.
+> We should create a Spring Cloud Config Server to manage configurations of all microservices across all environments like dev, staging, prod.
+- We SHOULD NOT DECLARE CONFIGURATION INSIDE SOURCE CODE because configuration varies across deployments but code does not.
+
+4. Backing services - TREAT BACKING SERVICES AS ATTACHED RESOURCES.
+> We should integrate microservice with resources like datastores, messaging systems, caching system or other microservices from the configuration only. 
+- All the resource URL, locator, credentials should come from configuration no matter if it is a thirdparty resource or developed by your organization.
+
+5. Build, Release & Run - Strictly separate build and run stages.
+- We should use release management tools like Jenkins to CREATE PIPELINES TO SEPARATE the BUILD (building executable by compiling source code), RELEASE (executable with configuration) and RUN (deployment of release to specific environment) stages.
+- Release should have a unique id such as timestamp or version like v1.0.0 which can not be mutated. Any change must be a new release.
+
+6. Processes - Execute the app as one or more stateless processes.
+> Microservice SHOULD BE STATELESS and should not rely on in-memory cache or filesystem to store data since it usually wiped out on restart. 
+- Any data that need to be persist must be stored in backing service like database. 
+- However distributed cache like memcache, ehcache or Redis can be used.
+- We should also never use and rely on “sticky sessions”.
+
+7. PORT BINDING - EXPORT SERVICES VIA PORT BINDING like spring boot.
+- We should always create a standalone microservice using spring boot which is having embedded Tomcat or Jetty webserver. 
+- As soon as service starts, it is ready to serve over HTTP by binding to a port. 
+- We should not rely on creating a war and then deploying to webserver.
+
+8. Concurrency - Scale out via the process model.
+- Each microservice in app should be able to handle more load by SCALING OUT (deploying multiple copies on microservice behind load balancer).
+
+9. Disposability - Maximize robustness with fast startup and graceful shutdown
+> We should try to minimize the startup time of microservice and handle the shutdown gracefully. 
+- Microservice should be able to start and stop at moment’s notice to facilitate fast elastic scaling, rapid deployment of code or config changes.
+
+10. Dev/Prod parity - KEEP DEVELOPMENT, STAGING, AND PRODUCTION AS SIMILAR AS POSSIBLE.
+> We should adapt CI/CD (Continuous Integration/Continuos Delivery) by combining DevOps automation tools like Jenkins to build pipelines, Docker to containerize build with all dependencies, Chef and Puppet to automate delivery process. 
+- CI/CD process minimize the gap between development, testing, staging and production environments.
+
+11. Logs - Treat logs as event streams
+> Microservice should not manage log files itself, instead treat it as event stream and route it to a centralized log indexing and analysis system such as Splunk or ELK (Elastic logstash Kibana) or data warehousing system such as Hadoop/Hive.
+
+12. Admin processes - Run admin/management tasks as one-off processes
+> All admin/management tasks for a microservice like database migration should be deployed and run separately.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Domain Driven Design?
+
+> It is a way of looking at software from top down.
+
+> When we develop a software our focus shouldn't be primarily on technology, 
+- it should be primarily on business or whatever activity we are trying to assist with the software, the domain.
+- we much try to develop models of that domain.
+
+> DDD give us "Strategic Design tools" 
+
+Principles of DDD
+1. Focuses on core domain logic 
+2. Find Complex design on models of the domain
+3. Constantly collaborate with domain experts to improve app model and to resolve domain related issues. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Why Domain Driven design is require?
+
+> We need DDD bcz 
+- it helps to map the software as per domain 
+- it reduce complexity
+- Testability 
+- Mantainability
+- Knowledge rich design 
+- Bring business & service together 
+- context focussed 
+- it use ubiquitous language.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Ubiquitous language?
+
+> it is a common language used by developers and users of a specific domain through which the domain can be explained easily.
+
+> The ubiquitous language has to be crystal clear so that it brings all the team members on the same page and also translates in such a way that a machine can understand.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Bounded Context?
+
+> Bounded Context is a central pattern in Domain-Driven Design. 
+- It is the focus of DDD’s strategic design section which is all about dealing with large models and teams. 
+- DDD DEALS WITH LARGE MODELS BY DIVIDING THEM INTO DIFFERENT BOUNDED CONTEXTS and being explicit about their inter-relationships.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Canary Releasing?
+
+> Canary Releasing is a technique to reduce the risk of introducing a new software version in production. 
+- This is done by slowly rolling out the change to a small subset of users before giving it out to the entire infrastructure, i.e. making it available to everybody.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  Can we create State Machines out of Microservices?
+
+> Each Microservice has its own database is an independently deployable program unit. 
+- So we can say we can create a State Machine out of it. 
+- we can specify different states and events for a particular microservice.
+
+For Example, we can define an Order microservice. An Order can have different states. The transitions of Order states can be independent events in the Order microservice.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is DRY in Microservices architecture?
+
+> DRY stands for Don’t Repeat Yourself. 
+- It basically promotes the concept of reusing the code. 
+- This results in developing and sharing the libraries which in turn result in tight coupling.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is a Consumer-Driven Contract (CDC)?
+
+> This is basically a pattern for developing Microservices so that they can be used by external systems. When we work on microservices, there is a particular provider who builds it and there are one or more consumers who use Microservice.
+
+Generally, providers specify the interfaces in an XML document. But in Consumer Driven Contract, each consumer of service conveys the interface expected from the Provider.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Blue deployment and Green deployment?
+
+> When an app is deployed for the 1st time, it is Blue deployment
+
+> When any services is already existing and we are deploying with another version it is called Green deployment
+- with the help of router we can redirect few users to this version 
+- all user doesn't affect with this type of deployment 
+
+https://www.edureka.co/blog/interview-questions/microservices-interview-questions/

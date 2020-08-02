@@ -1,0 +1,161 @@
+=====================================
+######## READ PROPERTY FILE #########
+
+=======================================
+##### PropertyPlaceholderConfigurer ###
+
+## How to load any property file in applicationContext?
+
+> We can make use of PropertyPlaceholderConfigurer as below:
+
+<bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+   <property name="location" value="classpath:jdbc.properties"/>
+</bean>
+
+<bean id="jdbc" class="com.javainterviewpoint.JDBC_Example">
+  <property name="url" value="${jdbc.url}"></property>
+  <property name="username" value="${jdbc.username}"></property>
+  <property name="password" value="${jdbc.password}"></property>
+</bean>
+
+OR 
+<context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to ignore PlaceHolder Exception ?
+
+> If we have removed the password entry from our jdbc.properties file and we will get the exception like below
+Could not resolve placeholder ‘jdbc.password’ in string value “${jdbc.password}”
+
+> If we wanted to ignore this property check and if we want to prevent the Spring container to check whether all the property is present or not then 
+
+<bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  <property name="location" value="classpath:jdbc.properties"/>
+  <property name="ignoreUnresolvablePlaceholders" value="true"/>
+</bean>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to ignore FileNotFoundException ?
+
+> Suppose the required property files is not present in the specified location, then spring will throw java.io.FileNotFoundException, 
+- if we want to ignore it and proceed then use “ignoreResourceNotFound” property as
+
+<property name="ignoreResourceNotFound" value="true"/>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Loading Multiple Property files?
+
+<bean id="jdbcproperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  <property name = "locations">
+    <list>
+     <value>classpath:jdbc.properties</value>
+     <value>classpath:ftp.properties</value>
+    </list> 
+  </property>
+</bean>
+=======================================
+
+> @ConfigurationProperties supports both .properties and .yml (YAML Ain't Markup Language) file.
+- we can map to a class and add validation 
+- It is used for complex properties like below 
+
+##application.yml
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.mkyong: DEBUG
+email: test@mkyong.com
+thread-pool: 10
+app:
+  menus:
+    - title: Home
+      name: Home
+      path: /
+    - title: Login
+      name: Login
+      path: /login
+  compiler:
+    timeout: 5
+    output-folder: /temp/
+  error: /error/
+
+OR
+## application.properties
+#Logging
+logging.level.org.springframework.web=ERROR
+logging.level.com.mkyong=DEBUG
+
+#Global
+email=test@mkyong.com
+thread-pool=10
+
+#App
+app.menus[0].title=Home
+app.menus[0].name=Home
+app.menus[0].path=/
+app.menus[1].title=Login
+app.menus[1].name=Login
+app.menus[1].path=/login
+
+app.compiler.timeout=5
+app.compiler.output-folder=/temp/
+
+## AppProperties.java 
+
+@Component
+@ConfigurationProperties("app") // prefix app, find app.* values
+public class AppProperties {
+
+    private String error;
+    private List<Menu> menus = new ArrayList<>();
+    private Compiler compiler = new Compiler();
+
+    public static class Menu {
+		@Pattern(regexp="^[a-zA-Z]{1,30}", message="invalid name")
+        private String name;
+        private String path;
+        private String title;
+
+        //toString, getters and setters
+    }
+
+    public static class Compiler {
+        private String timeout;
+        private String outputFolder;
+
+        //toString, getters and setters
+    }
+    //getters and setters
+}
+
+EXAMPLE: 
+my.properties
+mail.hostname=host@mail.com
+mail.port=9000
+mail.from=mailer@mail.com
+
+@Configuration // NOT require in SpringBoot2.2
+@ConfigurationProperties(prefix = "mail")
+public class ConfigProperties {
+     
+    private String hostName;
+    private int port;
+    private String from;
+ 
+    // standard getters and setters
+}
+
+@SpringBootApplication
+@EnableConfigurationProperties(ConfigProperties.class)
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+> In SpringBoot 2.1, If we don't use @Configuration in the POJO, then we need to add @EnableConfigurationProperties(ConfigProperties.class) in the main Spring application class to bind the properties into the POJO.
+
+> In Springboot 2.2, Spring finds and registers @ConfigurationProperties classes via classpath scanning. 
+- Therefore, there is no need to annotate such classes with @Component (and other meta-annotations like @Configuration) or 
+- even use the @EnableConfigurationProperties
+
+> @ConfigurationPropertiesScan to scan custom locations for configuration property classes

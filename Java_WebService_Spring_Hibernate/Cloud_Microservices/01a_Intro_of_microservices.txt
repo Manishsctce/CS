@@ -21,62 +21,77 @@
 > Fault Isolation
 - 1 MS fail it will not affect other
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## DISADVANTAGE OF MICROSERVICES
+## What are the FEATURES AND CHARACTERISTICS OF MICROSERVICES?
 
-> Complex networking
-> Overhead databases and servers
+01. HIGH COHESION 
+- Small and focussed on doing one thing well. 
+- it means the smallest functional area that a single microservices caters to.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the features of Microservices?
+02. LOOSE COUPLING - AUTONOMOUS 
+- the ability to deploy different services independently, and 
+- reliability due to the ability for a service to run even if another service is down.
+– Services within a system are decoupled. So that app as a whole can be easily built, replaced, altered/upgrade, and scaled
+– Developers and teams can work independently of each other, thus increasing speed
 
-1. Decoupling 
-– Services within a system are largely decoupled. So the app as a whole can be easily built, altered, and scaled
+03. BOUNDED CONTEXT 
+- A Microservice serves a bounded context in a domain. 
+- It communicates with the rest of the domain by using an interface for that Bounded context.
 
-2. COMPONENTIZATION – Microservices are treated as independent components that can be easily replaced and upgraded
+04. Organisation around business capabilities instead of around technology.
 
-3. BUSINESS CAPABILITIES – Microservices are very simple and focus on a single capability
+05. CONTINOUS DELIVERY AND INFRASTRUCTURE AUTOMATION
+– Allows frequent releases of software, through systematic automation of software creation, testing, and approval
 
-4. AUTONOMY – Developers and teams can work independently of each other, thus increasing speed
+06. VERSIONING FOR BACKWARD COMPATIBILITY 
+- Even multiple versions of same microservices can exist in a production environment.
 
-5. CONTINOUS DELIVERY – Allows frequent releases of software, through systematic automation of software creation, testing, and approval
+07. FAULT TOLERANCE 
+- if one service fails, it will not affect the rest of the system. \
+- For example, if a microservices serving the comments and reviews for e-commerce fails, the rest of the website should run fine.
 
-6. RESPONSIBILITY – Microservices do not focus on applications as projects. Instead, they treat applications as products for which they are responsible
+08. RESPONSIBILITY 
+– Microservices do not focus on applications as projects. 
+- Instead, they treat apps as products for which they are responsible
 
-7. DECENTRALIZED GOVERNANCE – The focus is on using the right tool for the right job. That means there is no standardized pattern or any technology pattern. Developers have the freedom to choose the best useful tools to solve their problems
+09. DECENTRALIZED GOVERNANCE / DATA MANAGEMENT
+– The focus is on using the right tool for the right job. 
+- That means there is no standardized pattern or any technology pattern.
+- Developers have the freedom to choose the best useful tools to solve their problems
+- each service owning its database rather than a single shared database.
+- Every microservice has the freedom to choose the right type of database appropriate for its business use-case (for example, RDBMS for Order Management, NoSql for catalogue management for an e-commerce website)
 
-8. AGILITY – Microservices support agile development. Any new feature can be quickly developed and discarded again
+10. SECURITY 
+- Every microservice should have the capability to protect its own resources from unauthorized access. 
+- This is achieved using stateless security mechanisms like JSON Web Token (JWT pronounced as jot) with OAuth2.
+
+11. AGILITY 
+– Microservices support agile development. 
+- Any new feature can be quickly developed and discarded again
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the CHALLENGES IN MICROSERVICES based application ?
 
 The challenges with microservices are as follows:-
 
-> Require good investment for infrastructure setup.
-> DIFFICULT TO TROUBLESHOOT or debug an issue spanning across multiple microservices.
+01. Require good investment for infrastructure setup.
 
-> Overhead of inter communication between microservices
-> Challenges in development and testing where two or more microservices are involved.
-> Difficult to make configuration change across large fleet of microservices.
-> Operation and maintenance overhead.
-> Challenges comes with distributes system such as Network latency, fault tolerance, distributed transactions, unreliable networks, handling asynchronous operations.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the challenges you face while working Microservice Architectures?
-
-> Developing a number of smaller microservices sounds easy, but the challenges often faced while developing them are as follows.
-
-DEBUGGING: 
+02. DIFFICULT TO TROUBLESHOOT OR DEBUG 
+- as issue can span across multiple microservices.
 - Difficult to find out each and every service for an error. 
 - It is essential to maintain centralized logging and dashboards to debug problems.
 
-Perceptibility: 
-- Maintaining a large number of components together becomes difficult to deploy, maintain, monitor and identify problems. 
+03. Overhead of inter communication between microservices
+
+04. CHALLENGES IN TESTING AND AUTOMATION where two or more microservices are involved.
+
+05. Difficult to make configuration change across large fleet of microservices.
+
+06. DIFFICULT TO DEPLOY, MAINTAIN, MONITOR AND IDENTIFY PROBLEMS. 
 - It requires great perceptibility around all the components.
 
-Configuration Management: 
-- Maintaining the configurations for the components across the various environments becomes tough sometimes.
+07. Challenges comes with distributes system such as NETWORK LATENCY, FAULT TOLERANCE, distributed transactions, unreliable networks, handling asynchronous operations.
 
-AUTOMATE THE COMPONENTS: 
-- Difficult to automate because there are a number of smaller components. 
-- So for each component, we have to follow the stages of  Build, Deploy and, Monitor.
+> Operation and maintenance overhead.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to troubleshoot an issue in microservices based application using logs?
 
@@ -84,6 +99,29 @@ AUTOMATE THE COMPONENTS:
 - we can use their dashboards to deep-dive in logs for debugging.
 
 > while make a request, request-correlationId is generated which is used to track the request in logs.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is polyglot persistence? Can this idea be used in monolithic applications as well?
+
+> Polyglot persistence is all about USING DIFFERENT DATABASES FOR DIFFERENT BUSINESS NEEDS within a single distributed system. 
+
+> Benefits of Polyglot Persistence can be used in both monolithic as well as microservices architecture. 
+
+> Below are some database for specific business need:
+
+1. RDBMS 
+- it is use for transactional needs (storing financial data, reporting requirements, etc.) 
+
+2. MongoDB 
+- Documented oriented databases are schema-free so changes in the schema can be accommodated into the app without much headache.(for e.g. Product Catalog)
+
+3. Cassandra/Amazon DynamoDB
+- Key-value pair based database (User activity tracking, Analytics, etc.). - DynamoDB can store documents as well as key-value pairs.
+
+4. Redis
+In memory distributed database (user session tracking), its mostly used as a distributed cache among multiple microservices.
+
+4. Neo4j 
+Graph DB (social connections, recommendations, etc) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the BEST PRACTICES TO DESIGN MICROSERVICES?
 
@@ -125,7 +163,7 @@ AUTOMATE THE COMPONENTS:
 > Microservice Architecture 
 - it is an architectural style that structures an application as a collection of small autonomous services, modeled around a business domain.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the key differences between SOA and Microservices Architecture?
+## What are the key DIFFERENCES BETWEEN SOA AND MICROSERVICES Architecture?
 
 SOA	Microservices
 
@@ -158,6 +196,47 @@ SOA	Microservices
 
 > DevOps / Continuous Delivery is becoming popular, but not yet mainstream	S
 - trong focus on DevOps / Continuous Delivery
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## On what basis should microservices be defined?
+
+> it should be based on the following criteria.
+
+- Business functionalities that change together in bounded context
+- Service should be testable independently.
+- Changes can be done without affecting clients as well as dependent services.
+- It should be small enough that can be maintained by 2-5 developers.
+- Reusability of a service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to convert the large application into microservices architecture?
+
+> Microservices should be autonomous and divided based on business capabilities. 
+- Each software component should have single well-defined responsibility (a.k.a Single Responsibility Principle) and the principle of Bounded Context (as defined by Domain Driven Design) should be used to create highly cohesive software components. 
+
+> FOR EXAMPLE, an e-commerce site can be partitioned into following microservices based on its business capabilities:
+
+Product catalogue - Responsible for product information, searching products, filtering products & products facets.
+
+Inventory - (stock/quantity and facet). 
+Product review and feedback 
+Orders - Responsible for creating and managing orders.
+Payments - Process payments both online and offline (Cash On Delivery).
+Shipments - Manage and track shipments against orders.
+Demand generation - Market products to relevant users.
+User Accounts - Manage users and their preferences.
+Recommendations - Suggest new products based on the user’s preference or past purchases.
+Notifications - Email and SMS notification about orders, payments, and shipments.
+
+The client application (browser, mobile app) will interact with these services via API gateway and render the relevant information to the user.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How big a single microservice should be?
+
+> A good, albeit non-specific, rule of thumb is as small as possible but as big as necessary to represent the domain concept they own said by Martin Fowler
+
+> SIZE SHOULD NOT BE A DETERMINING FACTOR IN MICROSERVICES, instead 
+- bounded context principle and single responsibility principle should be used to isolate a business capability into a single microservice boundary.
+
+> Microservices are usually small but not all small services are microservices.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does Microservice Architecture work?
 
@@ -193,6 +272,32 @@ Client <-- CDN  <--------------- Static Content
 > it is the pipelines of the internet.
 - it significantly improve site’s load time
 - CDN is virtually shorten the physical distance bet user and server by making cache 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How do microservices communicate with each other?
+
+> Microservices are often integrated using a simple protocol like REST over HTTP. Other communication protocols can also be used for integration like AMQP, JMS, Kafka, etc.
+
+> The communication protocol can be broadly divided into two categories- synchronous communication and asynchronous communication.
+
+1. SYNCHRONOUS COMMUNICATION
+> RestTemplate, WebClient, FeignClient can be used for synchronous communication between two microservices. 
+- Ideally, we should minimize the number of synchronous calls between microservices because networks are brittle and they introduce latency. Ribbon - a client-side load balancer can be used for better utilization of resource on the top of RestTemplate. 
+- Hystrix circuit breaker can be used to handle partial failures gracefully without a cascading effect on the entire ecosystem. 
+- Distributed commits should be avoided at any cost, instead, we shall opt for eventual consistency using asynchronous communication.
+
+2. Asynchronous Communication
+In this type of communication, the client does not wait for a response, instead, it just sends the message to the message broker. 
+- AMQP (like RabbitMQ) or Kafka can be used for asynchronous communication across microservices to achieve eventual consistency.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the preferred type of communication between Microservices? Synchronous or Asynchronous? 
+
+> You must use asynchronous communication while handling HTTP POST/PUT (anything that modifies the data) requests, using some reliable queue mechanism (RabbitMQ, AMQP, etc.) 
+
+> It's fine to use synchronous communication for Aggregation pattern at API Gateway Level. 
+- But this aggregation should not include any business logic other than aggregation. 
+- Data values must not be transformed at Aggregator, otherwise, it defeats the purpose of Bounded Context. 
+- In Asynchronous communication, events should be published into a Queue. Events contain data about the domain, it should not tell what to do (action) on this data. 
+> If microservice to microservice communication still requires synchronous communication for GET operation, then seriously reconsider the partitioning of your microservices for bounded context, and create some tasks in backlog/technical debt.
 =======================================
 ############ API GATEWAY ##############
 
@@ -204,7 +309,12 @@ Client <-- CDN  <--------------- Static Content
 > An API gateway takes all API calls from clients, then routes them to the appropriate microservice with request routing, composition, and protocol translation. 
 - Typically it handles a request by invoking multiple microservices and aggregating the results, to determine the best path
 
+> It can use a client-side load balancer library (Ribbon) to distribute load across instances based on round-robin fashion. 
+
 > It might have other responsibilities such as authentication, monitoring, load balancing, caching, request shaping and management, and static response handling.
+- It can also do protocol translation i.e. HTTP to AMQP if necessary.
+- Request Rate Limiting
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the benefits of API Gateway?
 ## API Gateway capabilities
@@ -383,14 +493,12 @@ So, this packaged product is called a Container and since it is done by Docker, 
 ## Is it a good idea to provide a Tailored Service Template for Microservices development in an organization?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the disadvantages of using Shared libraries approach to decompose a monolith application?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What are the characteristics of a Good Microservice?
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the points to remember during integration of Microservices?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Is it a good idea for Microservices to share a common database?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the preferred type of communication between Microservices? Synchronous or Asynchronous?
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the difference between Orchestration and Choreography in Microservices architecture?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -459,3 +567,49 @@ Usage in Microservices:
     <version>3.5.0</version>
     <scope>test</scope>
 </dependency>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How will you implement caching for microservices?
+
+> Caching is a technique of performance improvement for getting query results from a service. 
+- It helps minimize the calls to network, database, etc. 
+- We can use caching at multiple levels in microservices architecture - 
+
+1. Server-Side Caching 
+- Distributed caching software like Redis/MemCache/etc are used to cache the results of business operations. 
+- The cache is distributed so all instances of a microservice can see the values from the shared cache. This type of caching is opaque to clients.
+
+2. Gateway Cache 
+- central API gateway can cache the query results as per business needs and provide improved performance. 
+- This way we can achieve caching for multiple services at one place.
+- Distributed caching software like Redis or Memcache can be used in this case.
+
+3. Client-Side Caching 
+- We can set cache-headers in http response and allow clients to cache the results for a pre-defined time. 
+- This will drastically reduce the load on servers since the client will not make repeated calls to the same resource. 
+- Servers can inform the clients when information is changed, thereby any changes in the query result can also be handled. 
+- E-Tags can be used for client-side load balancing. If the end client is a microservice itself, then Spring Cache support can be used to cache the results locally. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+https://www.knowledgehut.com/interview-questions/microservices

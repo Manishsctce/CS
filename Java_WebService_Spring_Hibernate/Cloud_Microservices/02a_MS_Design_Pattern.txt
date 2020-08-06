@@ -14,8 +14,60 @@
 - It’s expressed in terms of a system’s uptime, as a percentage of total running time. 
 - Five nines, or 99.999% uptime, is considered the “holy grail” of availability.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## What is Immutability in Microservices?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is 8 Fallacies of Distributed Computing?
 
+> In 1994, Peter Deutsch and James Gosling defined the 8 fallacies of distributed computing. 
+- These are FALSE ASSUMPTIONS that many developers make about distributed systems. 
+- These are usually proven wrong in the long run, leading to hard to fix bugs.
+
+The 8 fallacies are:
+
+1. The network is reliable.
+ Problem : Calls over a network will fail.
+ Solution: automatically retry with Queuing
+ 
+2. Latency is zero.
+ Problem : Calls over a network are not instant.
+ Solution: Bring Back All the Data You Might Need
+ Solution: Move the Data Closer to the Clients
+ Solution: Invert the Flow of Data
+ 
+3. Bandwidth is infinite.
+ Problem : it is limited (bandwidth is nt capacity to send data over period of time) 
+ Solution: 
+
+4. The network is secure.
+ Solution: Defense in Depth - use layered approach to secure system.
+ Solution: Keep Security mind designing system.
+ 
+5. Topology doesn't change.
+ Problem : 
+ Solution: 
+
+6. There is one administrator.
+ Problem : 
+ Solution: 
+
+7. Transport cost is zero.
+ Problem : 
+ Solution: 
+
+8. The network is homogeneous.
+ Problem : 
+ Solution: 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is CAP Theorem?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to maintain ACID in microservice architecture?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
 1. Application Metrics - App Monitoring
 - Instrument a service to gather statistics about individual operation. Aggregate metrics for alerting and reporting. 
 
@@ -58,6 +110,12 @@ This pattern is useful when you want to avoid customizing a single backend for m
 Problem Statement : How to implement a query that retrieves data from multiple services in a microservice architecture?
 
 > it separates read and update operations for a data store
+
+> CQRS means splitting the domain model in two:
+
+1. WRITE MODEL - it will ensure invariant hold true and the data is consistent. Since the write model doesn't care about view concerns, it can be kept small and focused.
+
+2. READ MODEL is optimized for view concerns, so we can retrieve all the data that is required for a specific view (e.g. a screen in our app).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ####### BLUE & GREEN DEPLOYMENT #######
@@ -191,6 +249,19 @@ Principles of DDD
 - It is the focus of DDD’s strategic design section which is all about dealing with large models and teams. 
 - DDD DEALS WITH LARGE MODELS BY DIVIDING THEM INTO DIFFERENT BOUNDED CONTEXTS and being explicit about their inter-relationships.
 
+> bounded context mean that an object whose meaning will change based on the context. 
+- Example - BE can be differ based on the consumer.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Context Map?
+
+> The relationship between bounded contexts is called contextmap
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Domain Model?
+
+> it is refer to the abstraction of the sub-domain
+- it is an interpretation of reality, every aspect of model cannot be part of reality
+=====================================
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Canary Releasing?
 
@@ -228,3 +299,51 @@ Generally, providers specify the interfaces in an XML document. But in Consumer 
 - all user doesn't affect with this type of deployment 
 
 https://www.edureka.co/blog/interview-questions/microservices-interview-questions/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to maintain ACID in microservice architecture?
+
+ACID is an acronym for four primary attributes namely atomicity, consistency, isolation, and durability ensured by the database transaction manager. 
+
+Atomicity 
+In a transaction involving two or more entities, either all of the records are committed or none are. 
+
+Consistency 
+A database transaction must change affected data only in allowed ways following specific rules including constraints/triggers etc. 
+
+Isolation 
+Any transaction in progress (not yet committed) must remain isolated from any other transaction. 
+
+Durability 
+Committed records are saved by a database such that even in case of a failure or database restart, the data is available in its correct state. 
+
+In a distributed system involving multiple databases, we have two options to achieve ACID compliance: 
+
+One way to achieve ACID compliance is to use a two-phase commit (a.k.a 2PC), which ensures that all involved services must commit to transaction completion or all the transactions are rolled back.
+Use eventual consistency, where multiple databases owned by different microservices become eventually consistent using asynchronous messaging using messaging protocol. Eventual consistency is a specific form of weak consistency. 
+2 Phase Commit should ideally be discouraged in microservices architecture due to its fragile and complex nature. We can achieve some level of ACID compliance in distributed systems through eventual consistency and that should be the right approach to do it.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Saga pattern?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Database per service pattern?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

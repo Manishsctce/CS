@@ -1,0 +1,459 @@
+http://www.thegeekstuff.com/2010/11/50-linux-commands/
+
+####### cat [ catenate file] ########
+
+$ cat > filename.txt = create file and enter data [ctrl+c : to end], overwrite the file if present.
+
+$ cat >> file.txt = create file,enter data and append if already present 
+
+sed -p 5,8f filename 
+## zcat - decompression to stdout.
+--------------------------------------
+######### MOUNT DRIVE #########
+
+Ex - 
+sudo mount 10.97.101.56:/home/installers  /mnt/
+=====================================
+########### LIST COMMAND ############
+ls 
+-rw-r--r-- = indicate file permission
+1 = indicate no. of memory block
+root = file owner
+other = group of the owner
+512 = file size in byte
+timestamp
+file name
+
+> ls -l  : To show long listing information about the file/directory
+> ls -t  : sorts the file by modification time, showing the last edited file first
+> ls -r : To sort the file names in the last modification time in reverse order. This will be showing the last edited file in the last line which will be handy when the listing goes beyond a page.
+
+># ls -a or ls -A = Display Hidden Files 
+ls -lh = (h stands for human readable form), to display file size in easy to read format. i.e M for MB, K for KB, G for GB.
+
+># ls -F =  classifies the file with different special character for different kind of files.
+Here / - directory, nothing - normal file, @-link file, * - executable file
+># ls --color=auto => for visualizing different file in different color
+
+Ex - ls -lurt | grep ^d = for finding directory 
+
+###### lsof COMMAND ######
+> lsof : list all open files by all process
+lsof /dir1/path/filename : list all process which has opened a file
+
+-c : to provide name of command and list down all the files opened by that command
+- p : 
+=====================================
+############## GREP  ################
+GREP : Global regular Expression Print
+
+grep - find the given pattern in the file 
+
+SYNTAX - grep [-v][-c][] pattern filename
+[-v] - exclude from the file Ex- grep -v Linux example.txt[find at end]
+[-c] - count the pattern 
+[-C]/[--context = number] - to print lines around matching pattern Ex- grep -C 2 'hello' example.txt
+[-w] - find whole word instead of just pattern
+[-i] = case insensitive
+[-r] = recursively 
+[-o] = to show only the matched string not even line
+[-n] = To show the line number of file with the line matched
+
+grep "REGEX" filename 
+Ex - grep "lines.*empty" demo_file = it find every line that start with lines and end with empty
+
+>## $ grep [-A/B/C] <N> "string" FILENAME
+[-A] is the option which prints the specified N lines after the match
+[-B] is the option which prints the specified N lines before the match.
+[-C] is the option which prints the specified N lines both before and after the match
+
+##egrep - extended grep
+Ex - egrep -i 'Linux|unix' exp.txt - either linux or unix in exp.txt
+> instead of egrep we can use [grep -E ] command
+
+##Print the matched line, along with the 3 lines after it.
+> $ grep -A 3 -i "example" demo_text
+
+##Search for a given string in all files recursively
+$ grep -r "ramesh" *
+
+##zgrep - search compressed files
+=====================================
+########### FIND COMMAND ############
+
+$ find -name "MyFile.c" = find file with given name in the current directory and all its sub-directories
+
+$ find -iname "myfile.c" = find the file with given name(ignoring case) in the current directory and all its sub-directories
+
+$ find -maxdepth 2 -name passwd
+Find the passwd file under root and one level down. (i.e root  level 1, and one sub-directory  level 2)
+
+$ find / -maxdepth 3 -name passwd
+Find the passwd file under root and two levels down. (i.e root  level 1, and two sub-directories  level 2 and 3 )
+
+find -mindepth 2 -maxdepth 5 -name "sum.java"
+to print the files in the subdirectories between level 1 and 4
+
+> 'locate' command you can quickly search for the location of a specific file
+
+## To find the directory of particular name 
+find / -type d -name "directoryName"
+find / -type f -name "*.conf"
+find / -type f -iname "myClass.java"  #ignore case 
+
+
+Here 
+f: regular file
+d: directory
+l: symbolic link
+c: character devices
+b: block devices
+
+Linux stores time data about access times, modification times, and change times.
+Access Time: Last time a file was read or written to.
+Modification Time: Last time the contents of the file were modified.
+Change Time: Last time the file's inode meta-data was changed.
+
+ "-atime", "-mtime", and "-ctime" parameters. T
+ 
+ To find files that have a modification time of a day ago, type:
+
+find / -mtime 1
+If we want files that were accessed in less than a day ago, we can type:
+
+find / -atime -1
+=====================================
+######### FILE COMPRESSION ##########
+# gzip filename - compress files and give .gz file
+# gunzip filename - uncompress files compressed by gzip
+
+# gzcat filename -  look at a gzipped file without actually having to gunzip it (same as gunzip -c). You can even print it directly, using gzcat filename | lpr
+----------------------
+#jar tvf <fileName.jar>
+
+----------------------
+#tar - tape archieve. 
+> It simply combine a few files into a single file, for easy storage and distribution.
+
+## For making an archive file of a directory
+> $ tar -cvf archive_name.tar dirname/
+[-c] = create a new archive
+[-v] = verbosely list files which are processed.
+[-f] = following is the archive file name
+
+## For Extract from an existing tar archive.
+> $ tar -xvf archive_name.tar
+[x] = extract files from archive
+
+## View an existing tar archive.
+> $ tar -tvf archive_name.tar
+
+##  to separate a tar archive that was compressed by gzip
+> $   gunzip -c file.tar.gz | tar -xvf -
+> $ tar -xvf file.tar.gz
+
+## to create compressed archives use
+> $ tar -cvzf file.tar.gz inputfile1 inputfile2
+
+## Adding a file or directory to an existing archive using option -r
+> $ tar -rvf archive_name.tar [newfile/newdir]
+
+> You cannot add file or directory to a compressed archive
+
+##Estimate the tar archive size
+> $ tar -cf - /directory/to/archive/ | wc -c
+------------------------------
+#### unzip
+
+unzip [-OPTION1] fileName.zip/.jar [-OPTION2] files/dir
+
+## OPTION1 ##
+-o : force overwrite existing files
+-l : list all files stored in the zip file without unzipping it.
+-n : never overwrite existing files
+
+## OPTION2 ##
+-x : Extract all files except given file name 
+Ex - unzip demo.zip -x bar.txt
+ 
+-d : Extract files into given directory i.e in current dir
+Ex - unzip demo.zip -d /tmp/data
+=====================================
+############## CHMOD ################
+> chmod augo+rwx filenames
+
+> Here augo is user types i.e a = all, u - user, g - group, o - other
+-# rwx = read,write,execute
+-# +,-,=   operations are available
+
+$ chmod abc filenames
+> here abc can be any number
+> read = 4, write = 2, execute 1
+if user can all then 4+2+1 = 7 then chmod 700 filenames
+
+##Change file access recursively in sub-directories
+chmod -R 777 .
+chmod -R 777 *
+
+=====================================
+############### CHOWN ###############
+> it is used to change the owner and group of a file. 
+=> chown [-R] owner:group filename
+[-R] = recursively
+
+=====================================
+########## PROCESS & Port ###########
+> ps command comes with an unusual set of 2 syntax styles. That is BSD and UNIX both.
+1. BSD style - its syntax are not preceded with a dash.
+2. Unix/linux style -  preceded by a dash
+- It is okay to mix both the syntax styles on linux systems
+
+> For running a process in background use "&" in command line.
+> For bringing it back in foreground use command "fg jobid" 
+> for getting job id you use command "jobs", 
+> for killing that process find PID and use kill -9 PID command. 
+
+
+># ps - By default, it will show us 4 columns of information.
+
+1. PID is a Process ID of the running command (CMD)
+2. TTY is a place where the running command runs
+3. TIME tell about how much time is used by CPU while running the command
+4. CMD is a command that run as current process
+
+># ps -p $ANY_PID - show detail of given PID
+># ps -ef # list all the process
+># [-e]/[a] = select every process
+># [-f]/[u] = to display detailed info
+># [-l] = long format like multiple col.
+># [-u] = to filter process of the user
+EXAMPLE - ps -f -u manish  : display all process of user manish.
+
+> [-a] = display all process except session leaders i.e not associated with a terminal
+		- identical to [-e]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> netstat command execute netstat -a | grep "port" and it will list the entire host which is connected to this host on port 10123.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## To find the port in use 
+> sudo netstat -ln --program |grep <port_number>
+
+-it will return as below:-
+Proto Recv-Q Send-Q Local_Address Foreign_Address  State  PID/Program name
+tcp     0      0    127.0.0.1:631    0.0.0.0:*     LISTEN   11121/cupsd
+tcp     0      0    127.0.0.1:6010   0.0.0.0:*     LISTEN   27818/10
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the command for seeing a long listing of all the processes running on your unix box?
+
+ps -aef top these two commands gives the processors details ps -elf | head -1; ps -elf | tail +2| sort -k10rn | head -20
+
+Read more: http://javarevisited.blogspot.com/2011/05/unix-command-interview-questions.html#ixzz3BHIgn42p
+==========================================
+######### nohup (No Hang Up)  #########
+> it is command to execute any process without hang up like batch job
+> nohup.out will contain both standard output and error messages
+> When we execute a Unix job in the background ( using &, bg command), and logout from the session, our process will get killed
+
+># SYNTAX: nohup command-with-options &
+
+EXAMPLE : 
+># $ nohup sh custom-script.sh &
+  [1] 12034
+- nohup: ignoring input and appending output to `nohup.out'
+
+># $ tail -f nohup.out
+
+EXAMPLE : 
+># $ nohup sh custom-script.sh > custom-out.log &
+  [1] 11069
+- nohup: ignoring input and redirecting stderr to stdout
+
+># $ tail -f custom-out.log
+=====================================
+############ Check Disk #############
+
+> df -[k/h/T] disk free
+[-h] = human readable format i.e in MB,GB
+[-k] = in byte
+[-T] = type of file system
+[-x] = skip directories on different file systems.
+[-s] = show only a total for each arg
+># du -sh . | grep G => it list down all directory having GIGS in size
+
+## Find The Largest Top 10 Files and Directories 
+du -hsx * | sort -rh | head -10
+
+## in sorted order 
+du -hs * | sort -h
+
+## To know memory usage 
+> cat /proc/meminfo
+> free -m 
+=====================================
+### Delete Files Older Than x Days ##
+
+find /path/to/files* -mtime +5 -exec rm {} \;
+
+find . -mtime +20 | xargs rm -Rf
+=====================================
+######### LINE MODE COMMAND #########
+
+> Any command that begins with a ":" is called a line mode command and performs its duty on the line the cursor is currently on.
+:s/search_string/replacement_string/g
+
+> if I wanted to replace guy with gal on lines 32 through 56 I would type
+    :32,56s/guy/gal/g
+	Omitting the g would cause only the first occurrence of guy in each line to be replaced.
+	
+>"." indicates the current line, and "$" indicates the last line of the file. Therefore, if I wanted to delete1 from the current line to the end of the file 
+	:.,$d
+>  1,$ and % both indicate all the lines in the file
+	:%s/search_string/replacement_string/g
+	
+> :set nu = to set line no. in file
+:w                Write the current file.
+:w new.file       Write the file to the name 'new.file'.
+:w! existing.file Overwrite an existing file with the file currently being edited. 
+:wq               Write the file and quit.
+:q                Quit.
+:q!               Quit with no changes.
+
+:e filename       Open the file 'filename' for editing.
+
+:set number       Turns on line numbering
+:set nonumber     Turns off line numbering
+=====================================
+####### DAILY USAGE COMMAND #########
+> mkdir -p =  make directory with all parent dir
+> rmdir -f = forcefully delete dir only not file
+> rm -rf = remove dir and all it contains i.e file/dir forcefully
+> mv = to rename or move from 1 path to other
+> link source_file link_file # Any changes that occurred with either of these files would affect the other file or link.
+
+> wc -l : line count
+-c	bytes
+-l	lines
+-m	characters
+-w	words
+=====================================
+######### DATE #########
+****
+date +%X = give time only
+date +%A = give day only
+date +%B = give month only
+date +%C = give century only for 2014 give 20
+date +%D = give Date only
+=====================================
+######### tail #########
+$ tail file.txt = Print the last 10 lines of a file by default
+$ tail -n N file.txt  = Print N number of lines from the file
+># $ tail -f file.txt = print if file is appended
+=====================================
+######### less #########
+> less is very efficient while viewing huge log files, as it doesn’t need to load the full file while opening.
+
+$ less filename.txt
+CTRL+F – forward one window
+CTRL+B – backward one window
+=====================================
+############### CUT #################
+
+$ cut -[c/d/f] filename
+> [-c] = specify char
+> [-f] = specify field
+> [-d] = delimiter
+
+EXAMPLE - 
+> cut -c2 test.txt    #it extract 2nd char from test.txt
+> cut -c1-3 test.txt  #it extract 3 char from test.txt
+> cut -c3- test.txt   # extracts from 3rd character to end of each line from test.txt file.
+> cut -c-8 test.txt   #extracts 8 characters from the beginning of each line from test.txt file.
+> cut -c- test.txt    #whole line
+> cut -d' ' -f1-3 test #extract first 3 fields delimited by space
+> cut -d' ' -f1,2,3 test #extract 3 fields delimited by space
+-------------------------------------
+######### diff #########
+##zdiff - compare compressed file
+=====================================
+########## NETWORK COMMAND ##########
+
+## wget command
+> quick and effective method to download 
+
+EX - wget http://myfile.mp3 
+-------------------------------------
+######### sleep #########
+m-min ; s- sec d-day
+uname -a 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### OTHER USEFULL COMMAND ####
+=> $ history = use to find the last used command on unix
+=> $ rev filename = use to rev the line completly
+=> $ su - username = to switch to different user
+=> $ su - username [-c] 'command' = to switch to given username exec command and comeback to current user
+
+#### TO copy file from remote machine ####
+scp /file/to/send username@remote:/where/to/put
+Ex - scp TIB_amx-jre-updater_1.0.0_linux24gl23_x86_64.zip tibco@10.107.174.50:/home/tibco
+------------------
+> use Progra~1 in unix to call Program File
+------------------
+=====================================
+############# VI EDITOR #############
+
+> } = end of paragraph
+
+ZZ = to save n exit
+G = to go file last line
+$ = to go end of any line
+
+~ 	for empty line
+: 	for entry in ex command mode
+h - mov cursor one left, can use like 3h
+l - mov cursor one right , can use like 3l
+j - mov cursor one down , can use like 3j
+k - mov cursor one up , can use like 3k
+
+nG - move the cursor to the beginning of nth line
+. - for repeating action perform by last command
+
+CTRL + f/b - scroll the screen frwd/backward 
+ctrl + l = to clear and redraw t window
+Ctl+G  = to check the name of the file click 
+
+> For copy paste a particular line click “yy” for coping and paste it using “p” 
+- If you want 10 lines to copy press 10yy and paste it using p
+
+> For cut paste a particular line click “dd” for coping and paste it using “p” 
+- If you want 10 lines to copy press 10dd and paste it using p
+
+> If you opened 2 files, if u want to go to second file press :n, again if u want to go to first file :N
+
+------------------
+> semicolon(;) is used to separate more than one command in the same command line
+
+/usr directories contain all the Alias created by a user, including his login directory
+------------------
+FTP command
+=> ftp IP/hostname
+=> ls *.txt = to list all file with .txt
+------------------
+=> Tee command is used to store and view (both at the same time) the output of any other command
+
+Ex -
+1. echo 'anything that manish like' | tee t.txt #write d echo text to t.txt file
+***************************************
+example.txt
+hello
+UNIX operating system
+UNIX and Linux operating system
+Linux operation system
+-------------------------------
+#### stty - set or display terminal option
+Ex 
+- stty columns 80
+- stty rows 80
+
+###################################
+## uname -a => give detail of underline system architecture

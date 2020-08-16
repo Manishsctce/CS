@@ -1,0 +1,261 @@
+## How to change the root context path in Spring boot?
+
+> Spring Boot, by default, serves content on the root context path (“/”).
+
+> In SpringBoot 2.x, by setting a property we can change it
+server.servlet.context-path = /api
+=======================================
+#### SPRING BOOT AUTO-CONFIGURATION ###
+
+## What is auto-configuration in Spring boot? how does it help? Why Spring Boot is called opinionated?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the diff bet @SpringBootApplication and @EnableAutoConfiguration?
+
+> @EnableAutoConfiguration is used to enable auto-configuration     
+
+> @SpringBootApplication = @EnableAutoConfiguration + @Configuration + @ComponentScan 
+
+1. @Configuration - It tags the class as a source of bean definitions for the application context.
+
+2. @EnableAutoConfiguration - it tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
+
+3. @ComponentScan - it tells Spring to look for other components, configurations, and services at the package and above this package level 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## @ConditionalOnBean
+> to load a bean only if a certain other bean is available in the application context
+
+@ConditionalOnResource
+- If we want to load a bean depending on a certain resource is available on the class path.
+EXAMPLE: @ConditionalOnResource(resources = "/logback.xml")
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to Tell an Auto-Configuration to Back Away When a Bean Exists?
+
+> @ConditionalOnMissingBean 
+- it is used to load a bean only if a given bean is missing
+- we can create bean based on the absence of a 
+- Type of bean
+- name of a bean
+- value of bean 
+- annotation 
+
+- Its attributes are 
+value: The types of beans to be checked
+name: The names of beans to be checked
+
+#EXAMPLE:
+@Configuration
+public class SpringConfig {
+	@Bean
+	@ConditionalOnMissingBean(type = "SpringService")
+	public SpringService springService() {
+		return new SpringService();
+	}
+}
+- SpringService bean is going to be created if no bean of type SpringService is already contained in the ApplicationContext.
+
+#EXAMPLE: - annotation 
+@Bean
+@ConditionalOnMissingBean(annotation = Service.class)
+public SpringService springService() {
+	return new SpringService();
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Spring Boot Initializes the Spring MVC Application Context?
+
+> Spring boot application have @SpringBootApplication which is combination of 
+@EnableAutoConfiguration + @Configuration + @ComponentScan 
+
+- basically spring boot look for the spring-mvc lib in classpath and it find @EnableWebMvc which initialize WebMvcConfigurationSupport and it do all the MVC related initialization.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is @Condition? Where to use?
+
+> It supports the “if-then-else ” conditional checking for bean registration. 
+- It offers a higher support level than the existing @Profile
+
+> For the class annotated with @Conditional, developers need to have a separate class that implements the Condition interface. 
+- This interface has matches(..) and the app’s conditional logic goes inside this method. 
+
+public class EverydayCondition implements Condition {
+    @Override
+    public boolean matches(final ConditionContext context, final AnnotatedTypeMetadata metadata) {
+        return true;
+    }
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between @Profiles and @Conditional annotation?
+
+> Both annotations support the “if-then-else” conditional checking. 
+- However, using @Conditional annotation provides some more features –
+
+> @Profiles offer checking based on environment variables i.e. loading the application configuration based on environments
+
+> @Conditional annotation offer checking based on user-defined strategies and can be used for conditional bean registration
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## @ConditionalOnExpression
+
+> If we have complex condition based on multiple properties to create bean then use this annotation
+
+#EXAMPLE
+@ConditionalOnExpression(
+    "${module.enabled:true} and ${module.submodule.enabled:true}"
+)
+class SubModule {
+  ...
+}
+> SubModule is only loaded if both properties 'module.enabled' and 'module.submodule.enabled' have the value true
+- By appending :true to the properties, we tell Spring to use true as a default value in the case the properties have not been set.
+=====================================
+###### PROFILES & ENVIRONMENT #######
+
+## What do you think is the need for Profiles?
+
+Profiles are used to provide a way to segregate the different parts of the application configuration and make it available for various environments. So, basically, any @Component or a @Configuration can be marked with a @Profile to limit as it is loaded. Consider you have multiple environments,
+
+Dev
+QA
+Stage
+Production
+Now, let’s say, you want to have different application configuration in each of the environments, you can use profiles to have different application configurations for different environments. So, basically, Spring and Spring Boot provide features through which you can specify:
+
+The active profile for a specific environment
+The configuration of various environments for various profiles.
+
+> Use spring.profiles.active=prod in application.properties
+
+#EXAMPLE: Configuring Profile Specific Beans
+class BeanClass{
+  @Profile("dev")
+  @Bean
+  public String devBean() {
+  	return "dev";
+  }
+  
+  @Profile("qa")
+  @Bean
+  public String qaBean() {
+  	return "qa";
+  }
+  
+  @Profile("prod")
+  @Bean
+  public String prodBean() {
+  	return "prod";
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Environment[i] 
+> it representing the env in which the current app is running.
+
+=====================================
+#### SPRING CLOUD CONFIG SERVER #####
+
+## What Is Spring Cloud Config Server?
+
+> Spring Cloud Config provides server and client-side support for externalized configuration in a distributed system.
+
+1. 
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+
+2. Use @EnableConfigServer to create a config server at Configuration class
+
+3. Define git url in application.properties
+spring.cloud.config.server.git.uri=${HOME}/Desktop/mcg-config
+
+1. Client may access any value in the Config Server using the standard Spring ways, such as @ConfigurationProperties or @Value(“${…}”).
+
+2. default configuration only allows the values to be read on the client’s startup and not again. 
+- So, using @RefreshScope we force the bean to refresh its configuration, which means it will pull updated values from the Config Server, and then trigger a refresh event.
+
+URL : <host>/<file-name>/<profile>
+- by default, profile is 'default'
+=====================================
+##### ASYNCHRONOUS PROGRAMMING ######
+
+## How to execute a method asynchronous in Spring?
+
+> enabling annotation-driven async processing for an entire Spring application context using @EnableAsync as 
+@Configuration
+ @EnableAsync
+ public class AppConfig {
+
+ }
+- @EnableAsync - look for methods marked with @Async and run in background thread pools.  
+> annotating a method of a bean with @Async will make it execute in a separate thread i.e. the caller will not wait for the completion of the called method. 
+
+> @Async has two limitations:
+
+1. it must be applied to public methods only
+- so that it can be proxied
+
+2. self-invocation – calling the async method from within the same class – won’t work
+- because it bypasses the proxy and calls the underlying method directly.
+
+
+> annotated METHODS HAVING A VOID RETURN TYPE CANNOT TRANSMIT ANY EXCEPTION back to the caller. By default, such uncaught exceptions are only logged.
+
+> By default, Spring will be searching for an associated thread pool definition: either a unique TaskExecutor bean in the context, or an Executor bean named "taskExecutor" otherwise. If neither of the two is resolvable, a SimpleAsyncTaskExecutor will be used to process async method invocations.
+
+ @Configuration
+ @EnableAsync
+ public class AppConfig implements AsyncConfigurer {
+
+     @Override
+     public Executor getAsyncExecutor() {
+         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+         executor.setCorePoolSize(7);
+         executor.setMaxPoolSize(42);
+         executor.setQueueCapacity(11);
+         executor.setThreadNamePrefix("MyExecutor-");
+         executor.initialize();
+         return executor;
+     }
+
+     @Override
+     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+         return new MyAsyncUncaughtExceptionHandler();
+     }
+ }
+=====================================
+###### LOGGING IN SPRING BOOT #######
+
+## Can you control logging in Spring boot app? how?
+
+> Yes, we can control logging with Spring boot. 
+
+> "Spring-jcl" module is required for logging and it get imported while using "spring-boot-starter-web" or "spring-boot-starter-*". 
+- "Logback" is used here for logging by default.
+- Logback is successor of Log4j. Log4j is not in active development.
+
+spring-boot-starter-web --pull--> spring-boot-starter-logging --pull--> spring-jcl --pull--> logback
+
+> By default logging level is INFO. 
+- To check the trace/debug logs, need to pass --trace --debug in CMD or set below property in application.properties
+logging.level.root = TRACE 
+
+EXAMPLE:
+public class EmpService{
+	org.slf4j.Logger logger =  org.slf4j.LoggerFactory.getLogger(EmpService.class);
+	
+	public String getEmpDetails(){
+		logger.info("get Emp details");
+	}
+}
+
+> We need to customize default logging configuration :-
+
+1. by adding logback.xml to the app classpath(src/main/resources). 
+- It will override the default logging conf. 
+
+=====================================
+https://www.baeldung.com/spring-boot-interview-questions#questions
+https://career.guru99.com/spring-boot-interview-questions/
+
+https://www.springboottutorial.com/spring-boot-interview-questions

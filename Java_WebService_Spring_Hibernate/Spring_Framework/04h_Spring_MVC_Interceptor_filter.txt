@@ -36,7 +36,8 @@ This HandlerInterceptor interceptor method is called when HandlerAdapter has inv
 > If there are multiple spring interceptors configured, preHandle() method is executed in the order of configuration whereas postHandle() and afterCompletion() methods are invoked in the reverse order.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### HandlerInterceptorAdaptor[c] ###
-> it is an implementation class of HandlerInterceptor interface provided by Spring as a convenient class. 
+
+> it is an implementation class of HandlerInterceptor[i] provided by Spring as a convenient class. 
 > By extending this we can override only the necessary methods out of the three.
 
 > Interceptor classes must be declared in spring context xml configuration file within the tag <mvc:interceptors>
@@ -65,3 +66,30 @@ EXAMPLE:-
 
 
 http://www.studytrails.com/frameworks/spring/spring-mvc-handler-adapter/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet Filter and Interceptor?
+
+> Interceptor are used to manipulate entities (input and output stream)
+- Filters are used to manipulate request and response params(headers, URIs etc)
+
+> Two kinds of interceptor : ReaderInterceptor , WriterInterceptor
+- 2 kinds of filter  - ContainerRequestFilter , ContainerResponseFilter
+
+> Example of Interceptor : encoding an entity response
+- Example of filter : logging, security
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### ORDER OF FILTER AND INTERCEPTOR
+
+JAX-RS CLIENT -> ClientRequestFilter -> WriterInterceptor -> MessageBodyWriter 
+
+ContainerRequestFilter -> ReaderInterceptor -> MessageBodyReader -> SERVER
+---------------------
+JAX-RS SERVER -> ContainerResponseFilter -> WriterInterceptor -> MessageBodyWriter
+
+ClientResponseFilter -> ReaderInterceptor -> MessageBodyReader --> CLIENT
+
+https://www.youtube.com/watch?v=WjzMZoBEvRY
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

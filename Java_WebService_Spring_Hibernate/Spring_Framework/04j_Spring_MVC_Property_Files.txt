@@ -53,6 +53,9 @@ Could not resolve placeholder ‘jdbc.password’ in string value “${jdbc.pass
   </property>
 </bean>
 =======================================
+###### @ConfigurationProperties #######
+
+## how to inject a map from a YAML file in Spring Boot?
 
 > @ConfigurationProperties supports both .properties and .yml (YAML Ain't Markup Language) file.
 - we can map to a class and add validation 
@@ -152,6 +155,8 @@ public class DemoApplication {
     }
 }
 
+> we need to register @ConfigurationProperties annotated beans like ConfigProperties using @EnableConfigurationProperties(ConfigProperties.class)
+
 > In SpringBoot 2.1, If we don't use @Configuration in the POJO, then we need to add @EnableConfigurationProperties(ConfigProperties.class) in the main Spring application class to bind the properties into the POJO.
 
 > In Springboot 2.2, Spring finds and registers @ConfigurationProperties classes via classpath scanning. 
@@ -159,3 +164,19 @@ public class DemoApplication {
 - even use the @EnableConfigurationProperties
 
 > @ConfigurationPropertiesScan to scan custom locations for configuration property classes
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the advantages of YAML file over Properties file and the different ways to load YAML file in Spring boot?
+
+> The advantages of the YAML file than a properties file is that the DATA IS STORED IN A HIERARCHICAL FORMAT
+
+> use the SnakeYAML library on classpath. The different ways to load a YAML file in Spring Boot is as follows:
+- Use YamlMapFactoryBean to load YAML as a Map
+- Use YamlPropertiesFactoryBean to load YAML as Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## @ConfigurationProperties vs @Value
+
+> @Value allows us to inject directly a particular property value by its key.
+- @ConfigurationProperties binds multiple properties to a particular object and provides access to the properties through the mapped object.
+
+> @ConfigurationProperties offers a great way to centralize and group configuration properties in a structured object that we can inject later into other beans. It is prefer way.

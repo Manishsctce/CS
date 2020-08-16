@@ -1,11 +1,13 @@
-############ HTTP PROTOCOL ############
-##What is HTTP Protocol?
+########### HTTP PROTOCOL ###########
+
+## What is HTTP Protocol?
+
 > It is the APPLICATION-LAYER PROTOCOL that allows web servers and browsers to exchange data over the web.
 
 > it runs over TCP/IP. 
 - The IP provides support for routing and addressing (via an unique IP address for machines on the Internet); 
 - while TCP supports multiplexing via 64K ports from port number 0 to 65535. 
-- The default port number assigned to HTTP is TCP port 80.
+- The default port number of HTTP is TCP port 80.
 
 > HTTP is an ASYNCHRONOUS request-response protocol which is based on client/server based architecture.
 - A client sends a request message to the server in a special format. 
@@ -28,10 +30,11 @@
 
 1. HTTP Method(i.e Verb)  URI  HTTP Version
 
-2. Request Header : Contains metadata for the HTTP Request message as key-value pairs. 
-For example, client (or browser) type, format supported by the client, format of the message body, cache settings, etc.
+2. REQUEST HEADER : 
+- Contains metadata for the HTTP Request message as key-value pairs. 
+- For example, client (or browser) type, format supported by the client, format of the message body, cache settings, etc.
 
-3. Request Body
+3. REQUEST BODY
 
 EXAMPLE:
 GET http://www.yahoo.com/ HTTP/1.0   
@@ -42,14 +45,14 @@ User-Agent: Mozilla/4.0(compatible; MSIE 6.0; Windows NT 5.1)  |
 Host: www.yahoo.com                                            |
 
 > other than 1st line all are optional header and last blank line indicate end of header
-=======================================
-########### HTTP RESPONSE ##############
+=====================================
+########### HTTP RESPONSE ###########
 
 1. Response code  Http Version
 2. Response Header: contain metadata like Content-Length, Content-Type, response date, server type, etc.
 3. Response Body : 
-=======================================
-########### HTTP METHODS ##############
+=====================================
+########### HTTP METHODS ############
 
 > divide HTTP methods into two main categories safe and idempotent. 
 
@@ -106,7 +109,7 @@ name1=value1&name2=value2
 - it is not supported but all browser
 - Request payload of PATCH request is not straightforward
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is the DIFFERENCE BETWEEN GET AND POST?
+## What is the DIFFERENCE BETWEEN GET AND POST?
 
 > In Get, only LIMITED amount of data can be sent because data is SENT IN HEADER
 - In POST, large amount of data can be sent bcz data is SENT IN BODY
@@ -168,41 +171,43 @@ PATCH :  [{ "op":  "replace", "path": "/email", "value": "new.email@example.org"
 
 100 – Continue (Request received, continuing process)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### 2xx Success code #########
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### 2xx Success code ######
+
 200 – Ok (Success)
 
 201 - CREATED 
 − when a resource is successfully created using POST or PUT request. Returns link to the newly created resource using the location header.
 
-202 Accepted
+202 : Accepted
 > The request has been accepted for processing, but the processing has not been completed
 
-204 (No Content) 
+204 : No Content
 - server send 204 response to say no content is return but it process successfully. For example, a DELETE request.
+- there will be no body in this case.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### 3xx URL Redirection #######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### 3xx URL Redirection #####
 
-301 – Moved Permanently (Redirection)
-302 - Found
-304 NOT MODIFIED
+301 : Moved Permanently (Redirection)
+302 : Found
+304 : NOT MODIFIED
 - used to reduce network bandwidth usage in case of conditional GET requests. Response body should be empty. Headers should have date, location, etc
 
-307 - Temporary redirect
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-######## 4xx HTTP Error ##########
+307 : Temporary redirect
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+######## 4xx HTTP Error #######
 
-400 – Bad Request (Client Error)
+400 : Bad Request (Client Error)
 − states that an invalid input is provided. For example, validation error, missing data.
 
-401 – Unauthorized
+401 : Unauthorized
 − states that user is using invalid or wrong authentication token.
 
-403 – Forbidden
-- − states that the user is not having access to the method being used. For example, Delete access without admin rights.
+403 : Forbidden
+− states that the user is not having access to the method being used. For example, Delete access without admin rights.
 
-404 – Not Found
+404 : Not Found
 − states that the method is not available.
 
 405 : Method not allowed
@@ -215,16 +220,19 @@ PATCH :  [{ "op":  "replace", "path": "/email", "value": "new.email@example.org"
 − states conflict situation while executing the method. 
 - For example, adding duplicate entry.
 
+412 Pre-Condition Failed
+
 415 Unsupported media type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-########### Server Error #########
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## Server Error #########
 
-500 – Internal Server Error (Server Error)
+500 : Internal Server Error (Server Error)
 
-503 Service Unavailable
+503 : Service Unavailable
 - The server is currently unavailable (because it is overloaded or down for maintenance). 
+=====================================
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Explain the format of Http Response?
+## Explain the format of Http Response?
 
 > The first line of the Response is called the status line
 > The status line should contain the HTTP version, Status Code and a Status Description
@@ -245,7 +253,8 @@ Content-Disposition: attachment
 Content-Disposition: attachment; filename="filename.jpg"
 
 =====================================
-######## ACCEPT & CONTENT TYPES ######
+####### ACCEPT & CONTENT TYPES ######
+
 ##Content-Type : 
 > used to tell server what is the FORMAT OF DATA BEING SENT IN THE REQUEST
 - It is also known as MIME (Multipurpose Internet Mail Extension) Type.

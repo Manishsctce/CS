@@ -94,43 +94,6 @@ spring-boot-starter-test
 spring-boot-starter-web
 - starter for building web, including RESTful, applications using Spring MVC
 =======================================
-#### SPRING BOOT AUTO-CONFIGURATION ###
-
-## What is auto-configuration in Spring boot? how does it help? Why Spring Boot is called opinionated?
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is the diff bet @SpringBootApplication and @EnableAutoConfiguration?
-
-@EnableAutoConfiguration is used to enable auto-configuration     
-
-> @SpringBootApplication = @EnableAutoConfiguration + @Configuration + @ComponentScan 
-
-1. @Configuration - It tags the class as a source of bean definitions for the application context.
-
-2. @EnableAutoConfiguration - it tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
-
-3. @ComponentScan - it tells Spring to look for other components, configurations, and services at the package and above this package level 
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to Tell an Auto-Configuration to Back Away When a Bean Exists?
-
-> we can use @ConditionalOnMissingBean 
-- Its attributes are 
-value: The types of beans to be checked
-name: The names of beans to be checked
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How Spring Boot Initializes the Spring MVC Application Context?
-
-> Spring boot application have @SpringBootApplication which is combination of 
-@EnableAutoConfiguration + @Configuration + @ComponentScan 
-
-- basically spring boot look for the spring-mvc lib in classpath and it find @EnableWebMvc which initialize WebMvcConfigurationSupport and it do all the MVC related initialization.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-=======================================
 ######### SPRING BOOT ACTUATOR ########
 
 ## What is Spring actuator?
@@ -157,53 +120,7 @@ liquibase- used to show any Liquibase database migrations that have been applied
 
 <groupId>org.springframework.boot</groupId>  
 <artifactId>spring-boot-starter-actuator</artifactId>  
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=======================================
-## How to execute a method asynchronous in Spring?
-
-> enabling annotation-driven async processing for an entire Spring application context using @EnableAsync as 
-@Configuration
- @EnableAsync
- public class AppConfig {
-
- }
-- @EnableAsync - look for methods marked with @Async and run in background thread pools.  
-> annotating a method of a bean with @Async will make it execute in a separate thread i.e. the caller will not wait for the completion of the called method. 
-
-> @Async has two limitations:
-
-1. it must be applied to public methods only
-- so that it can be proxied
-
-2. self-invocation – calling the async method from within the same class – won’t work
-- because it bypasses the proxy and calls the underlying method directly.
-
-
-> annotated METHODS HAVING A VOID RETURN TYPE CANNOT TRANSMIT ANY EXCEPTION back to the caller. By default, such uncaught exceptions are only logged.
-
-> By default, Spring will be searching for an associated thread pool definition: either a unique TaskExecutor bean in the context, or an Executor bean named "taskExecutor" otherwise. If neither of the two is resolvable, a SimpleAsyncTaskExecutor will be used to process async method invocations.
-
- @Configuration
- @EnableAsync
- public class AppConfig implements AsyncConfigurer {
-
-     @Override
-     public Executor getAsyncExecutor() {
-         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-         executor.setCorePoolSize(7);
-         executor.setMaxPoolSize(42);
-         executor.setQueueCapacity(11);
-         executor.setThreadNamePrefix("MyExecutor-");
-         executor.initialize();
-         return executor;
-     }
-
-     @Override
-     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-         return new MyAsyncUncaughtExceptionHandler();
-     }
- }
 =======================================
 ######## SPRING CLOUD SLEUTH ##########
 
@@ -246,20 +163,25 @@ EXAMPLE LOG:
 – This property is a boolean that indicates whether or not this log was exported to an aggregator like Zipkin/Splunk.
 - Aggreator is used to analyze logs 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Can you control logging with Spring boot? how?
+=====================================
+############ SWAGGER ################
 
-> Yes, we can control logging with Spring boot. 
-> "Spring-jcl" module is required for logging and it get imported while using spring boot starter. 
-- Logback is used for logging by default.
+## what is Swagger?
 
-> By default logging level is INFO. To check the trace/debug logs, need to pass --trace --debug in CMD.
+> It is a tool to 
+- Develop APIs
+- Interact with APIs
+- Document APIs 
 
+> it is a specification which has multiple implementations like "springfox-swagger2", "springfox-swagger-ui"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to add Swagger to Spring boot?
 
-We need to customize default logging configuration :-
-
-1. by adding logback.xml to the app classpath(src/main/resources). It will override the default logging conf. 
-
-=======================================
+> Add "springfox-swagger2", "springfox-swagger-ui" dependencies in pom.xml 
+- Enable Swagger in code using @EnableSwagger2 
+- Configure Swagger - using Docket 
+- Add details as annotation to APIs using @ApiOperation
+=====================================
 https://www.baeldung.com/spring-boot-interview-questions#questions
 https://career.guru99.com/spring-boot-interview-questions/
 

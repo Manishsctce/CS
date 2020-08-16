@@ -1,8 +1,38 @@
 =======================================
+######### Java SE 14(jdk1.14 ##########
+> Release date : 17 March 2020
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Pattern Matching for instanceOf
+> This saves us from defining a new variable, OR explicitly casting it
+> The scope of the pattern variable is limited. If you try to access it in the else block, you receive an error.
+
+# in old way 
+void outputValue(Object obj) {
+  if (obj instanceof String) {               
+      String s = (String) obj;                
+      System.out.println(s.toUpperCase());    
+  }
+}
+
+# on and above jdk14
+void outputValue(Object obj) {
+  if (obj instanceof String s) {                
+      System.out.println(s.toUpperCase());    
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Records
+> instead of creating class with hashcode/equals/parameterise constructor
+- we can create record as
+
+public record Employee(int id, String name){
+}
+=======================================
 ######### Java SE 12(jdk1.12 ##########
 > Release date : 19 March 2019
 
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## ENHANCED SWITCH 
 int numLetters;
 switch (day) {

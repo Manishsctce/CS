@@ -345,6 +345,8 @@ EXAMPLE:
 =====================================
 ############## SCOPES ###############
 
+## What are the scopes of Spring beans ?
+
 > There are five scopes defined for Spring Beans.
 - also we can create a custom scope.
 
@@ -444,6 +446,7 @@ public EmployeeManager getEmployeeManager(){
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## if we declare bean with same class but different ID's then ? 
+
 Example:
 <bean id="scopeTest" class="com.example.Scope" scope="singleton">
         <property name="name" value="Shamik Mitra"/>    
@@ -478,9 +481,11 @@ https://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/beans.h
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to Injecting a Prototype Bean into a Singleton Bean?
+
 > expectation (per prototype specifications) that a new prototype bean will be created and be injected into SingletonBean every time.
 
 > It can be done by multiple way
+
 1. Implementing the ApplicationContextAware interface
 - instead of direct injecting bean using appContext.xml
 - implement ApplicationContextAware in the Singleton bean and there inject the prototype bean using 
@@ -656,6 +661,8 @@ public class FooService {
 - Simple properties such as primitives, Strings and Classes can’t be autowired.
 
 3. CONFUSING NATURE: Always prefer using explicit wiring because autowiring is less precise.
+
+
 =======================================
 ############ INNER BEANS ##############
 > Bean define inside another bean is called Inner Bean
@@ -673,60 +680,40 @@ EXAMPLE:
   </property>
 </bean>
 =======================================
-#### COLLECTION DEF. IN XML METADATA ##
-<list/>, <set/>, <map/>, and <props/> elements allow properties and argument
-<null> element may be used to indicate a null value
+############## @Primary ###############
 
+## What is the need of @Primary?
+
+> It is used to give higher preference to a bean when there are multiple beans of the same type.
+- if we not use this then NoUniqueBeanDefinitionException 
+
+#EXAMPLE:
+
+@Configuration
+public class Config {
+ 
+    @Bean
+    public Employee JohnEmployee() {
+        return new Employee("John");
+    }
+ 
+    @Bean
+    @Primary
+    public Employee TonyEmployee() {
+        return new Employee("Tony");
+    }
+}
+> Here TonyEmployee bean preferentially over the JohnEmployee.
+=======================================
+#### @Autowired in Abstract Classes ###
+
+> abstract class isn't component-scanned since it can't be instantiated without a concrete subclass.
+
+> When we use @Autowired on setter method of Abstract class, we should use final keyword, so that the subclass can't override it. 
+
+> We can't use @Autowired on a constructor of an abstract class.
+- Spring doesn't evaluate it. 
+- The subclass should provide the necessary args to the super constructor.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### PROPERTY INJECTION #######
-
-<bean id="moreComplexObject" class="example.ComplexObject">
-  <!-- results in a setAdminEmails(java.util.Properties) call -->
-  <property name="adminEmails">
-    <props>
-        <prop key="administrator">administrator@somecompany.org</prop>
-        <prop key="support">support@somecompany.org</prop>
-        <prop key="development" value="development@somecompany.org" />
-    </props>
-  </property>
-</bean>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######## LIST INJECTION #########  
-
-<!-- results in a setSomeList(java.util.List) call -->
-<property name="someList">
-  <list>
-      <value>a list element followed by a reference</value>
-      <ref bean="myDataSource" />
-  </list>
-</property>
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### MAP INJECTION #########
-
-<!-- results in a setSomeMap(java.util.Map) call -->
-<property name="someMap">
-  <map>
-      <entry>
-          <key >
-              <value>yup an entry</value>
-          </key>
-          <value>just some string</value>
-      </entry>
-      <entry key="key1" value="value1"/>            
-  </map>
-</property>
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### SET INJECTION #########  
-<!-- results in a setSomeSet(java.util.Set) call -->
-<property name="someSet">
-  <set>
-      <value>just some string</value>
-      <ref bean="myDataSource" />
-  </set>
-</property>
-</bean>
-
->  container also supports the merging of collections of parent object to child object. it can be enable with "merge=true" attribute
-- if inappropriate object merge then throw exceptions
+> Spring gives us an ability to collect all beans that are implementations of the specific interface into a Map
+- Spring supports injection of generic types since version 3.2.

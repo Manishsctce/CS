@@ -277,16 +277,17 @@ Client <-- CDN  <--------------- Static Content
 
 > Microservices are often integrated using a simple protocol like REST over HTTP. Other communication protocols can also be used for integration like AMQP, JMS, Kafka, etc.
 
-> The communication protocol can be broadly divided into two categories- synchronous communication and asynchronous communication.
+> Communication protocol is broadly divided into 2 categories- 
 
 1. SYNCHRONOUS COMMUNICATION
-> RestTemplate, WebClient, FeignClient can be used for synchronous communication between two microservices. 
-- Ideally, we should minimize the number of synchronous calls between microservices because networks are brittle and they introduce latency. Ribbon - a client-side load balancer can be used for better utilization of resource on the top of RestTemplate. 
+> RestTemplate, WebClient, FeignClient can be used for synchronous comm bet 2 microservices. 
+- Ideally, we should minimize the num of synchronous calls bet MS because networks are brittle and they introduce latency. 
+- Ribbon - a client-side load balancer can be used for better utilization of resource on the top of RestTemplate. 
 - Hystrix circuit breaker can be used to handle partial failures gracefully without a cascading effect on the entire ecosystem. 
-- Distributed commits should be avoided at any cost, instead, we shall opt for eventual consistency using asynchronous communication.
+- Distributed commits should be avoided at any cost, instead, we shall opt for eventual consistency using asynchronous comm.
 
-2. Asynchronous Communication
-In this type of communication, the client does not wait for a response, instead, it just sends the message to the message broker. 
+2. ASYNCHRONOUS COMMUNICATION
+- In this type of communication, the client does not wait for a response, instead, it just sends the message to the message broker. 
 - AMQP (like RabbitMQ) or Kafka can be used for asynchronous communication across microservices to achieve eventual consistency.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the preferred type of communication between Microservices? Synchronous or Asynchronous? 

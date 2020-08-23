@@ -135,15 +135,16 @@ SessionFactory sessionFactory =cfg.buildSessionFactory();
 <property name="hibernate.current_session_context_class">thread</property>
 
 > SessionFactory openSession(): ALWAYS OPENS A NEW SESSION. 
-- We should close this session object once we are done with all the database operations. 
+- We should close this session object once we are done with all DB ops. 
 - We should OPEN A NEW SESSION FOR EACH REQUEST in multi-threaded environment.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we get hibernate statistics?
 
-> We can get hibernate statistics using getStatistics() method of SessionFactory class as shown below:
+> We can get hibernate statistics using getStatistics() of SessionFactory class as shown below:
  SessionFactory.getStatistics()
 =====================================
-########### 3. Session[i] ###########
+########## 3. Session[i] ############
+
 > Session is USED TO GET A PHYSICAL CONNECTION WITH A DATABASE. 
 > The Session object is lightweight and designed to be INSTANTIATED EACH TIME an interaction is needed with the database. 
 > It PROVIDE METHODS TO PERFORM CREATE, READ, UPDATE AND DELETE operations for a persistent object. .
@@ -243,11 +244,11 @@ Update the persistent instance with the identifier of the given detached instanc
 - Instance can be returned by a session.get()/ session.load() / Query.uniqueResult() / Query.iterate() / Query.scroll() are in persistent state.
 
 3. DETACHED: 
-> if we close the Hibernate Session, the persistent instance will become a detached instance: 
+> if we close the Hibernate Session, the persistent instance will become a detached instance
 - it isn't attached to a Session anymore (but can still be modified and reattached to a new Session later though)
 
-> Detached instances may be made persistent by calling update(), saveOrUpdate(), lock() or replicate(). 
-- The state of a transient or detached instance may also be made persistent as a new persistent instance by calling merge().
+> Detached instances can be persist by calling update(), saveOrUpdate(), lock() or replicate(). 
+- The state of a transient or detached instance can be persist as a new persistent instance by calling merge().
 
 new Object Create --> TRANSIENT STATE
 TRANSIENT STATE --session.save() or session.saveOrUpdate()-->PERSISTENT STATE 
@@ -266,7 +267,8 @@ PERSISTENT STATE --session.delete()--> Object Removed
 ### What is difference between session.save() and session.saveOrUpdate() ?
 
 > save() generates a new identifier and INSERT record into database while 
-- saveOrUpdate() can either INSERT or UPDATE based upon existence of record. 
+
+> saveOrUpdate() can either INSERT or UPDATE based upon existence of record. 
 - it is more flexible in terms of use but it INVOLVES AN EXTRA PROCESSING to find out record exist or not.
 
 EXAMPLE:

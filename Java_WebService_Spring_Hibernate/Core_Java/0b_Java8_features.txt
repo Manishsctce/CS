@@ -621,9 +621,10 @@ https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
 - ToIntBiFunction, ToLongBiFunction, ToDoubleBiFunction, 
 - LongToIntFunction, LongToDoubleFunction, IntToLongFunction, IntToDoubleFunction etc.
 
-##Stream methods where Function or it’s primitive specialization is used are:
+## Stream methods where Function or it’s primitive specialization is used are:
 
 1. <R> Stream<R> map(Function<? super T, ? extends R> mapper)
+
 2. IntStream mapToInt(ToIntFunction<? super T> mapper) 
 – similarly for long and double returning primitive specific stream.
 
@@ -826,8 +827,11 @@ public class A<T extends Optional<B>> { }
 > It provides reduction operations, such as accumulating elements into collections, summarizing elements according to various criteria, etc.
 
 #### METHODS ####
-1. public static <T,K> Collector<T,?,Map<K,List<T>>> groupingBy(Function<? super T,? extends K> classifier)
-- It returns a Collector implementing a "group by" operation on input elements of type T, grouping elements according to a classification function, and returning the results in a Map.
+1. public static Collector groupingBy(Function classifier)
+- returns a Collector implementing a "group by" oper on input ele, 
+- grouping ele as per classification function, and 
+- returning the results in a Map.
+
 EXAMPLE - 
 List<String> keys = Arrays.asList("Apple","Ball","Apple","Ball");
 Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k));

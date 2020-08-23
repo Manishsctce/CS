@@ -13,7 +13,7 @@
 - Automatic backup for DB instance (defaults setting)
 - Software update for the DB engine
 - Easy scaling for storage and compute as required
-- If selected multiple-AZ with synchronous replication between the active and standby DB instance
+- If selected multi-AZ with synchronous replication between the active and standby DB instance
 - Automatic failover if multiple-AZ options was selected
 - Providing the ability to create DB read replicas for DB read scaling( intensive free deployment)
 
@@ -29,10 +29,10 @@
 ## Supported relational DB engine
 - MS SQL server, 
 - Oracle 
-- postgreSQL 
+- postgreSQL - Highly Reliable & stable
 - mariaBD, 
-- aws Aurora, 
-- mysql
+- AWS Aurora - High Throughput
+- mysql - support 64TB of DB
 
 ## 2 Licensing model
 1. Bring your own licence
@@ -44,14 +44,20 @@
 
 > Under BYOL model, all 40 can be any DB engine you need 
 
-##RDS instance storage
-> Amazon RDS use EBS volume not instance store for DB and logs storage
+## RDS instance storage
+> Amazon RDS USE EBS VOLUME (not instance store) for DB and logs storage
 
-> General purpose storage used for DB works with moderate I/O requirements
-> Provision IOPS RDS storage use for high performance OLTP workload
-> Magnetic RDS storage used for small DB workloads
+1. General purpose storage 
+- it used for DB works with moderate I/O requirements
+Limits - 20GB (min) - 16TB (max)
 
-##Maximum storage capacity for RDS DB instances
+2. Provision IOPS RDS storage 
+- use for high performance OLTP workload
+- Limits - 100GB (min) - 16TB (max)
+
+> Magnetic RDS storage used for small DB workloads (No Any more)
+
+## Maximum storage capacity for RDS DB instances
 > Upto 4tb for my SQL server
 > upto 6TB for the the rest of supported RDS DB engines
 
@@ -104,8 +110,9 @@
 - Referencing by endpoint means there is no change(endpoint wise) when a failover happened, so no disruptions or manual intervention to facilitate RDS DB instance access in a failover scenario
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## MULTI-AZ RDS Manual failover and reboot
-> In multi-AZ deployment, you can only initiate a manual RDS DB instance failover(primary to secondary) when rebooting
-- This is by selecting the "reboot with failover" reboot option on the primary RDS DB instance
+
+> In multi-AZ deployment, you can only initiate a MANUAL RDS DB instance FAILOVER(primary to secondary) when rebooting
+- This is BY SELECTING THE "REBOOT WITH FAILOVER" reboot option on the primary RDS DB instance
 
 > A DB instance reboot is required for changes to take effect when we change the DB parameter group or static DB parameter
 - This reboot restart the DB engine
@@ -636,7 +643,7 @@ D) Can't transfer huge amount of data to AWS
 
 > It is AWS fully managed Web service.
 > It is an in-memory key-value data store engine in the cloud and provide ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
-> It improves the performance of web applications by allowing for the retrieval of information from a fast, managed, in-memory system (instead of reading it from the DB itself)
+> It improves the performance of web app by allowing for the retrieval of information from a fast, managed, in-memory system (instead of reading it from the DB itself)
 
 > Improves response times for user transactions and queries
 > Can enhance response time for read-intensive And/or compute- intensive workloads.

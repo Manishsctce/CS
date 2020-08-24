@@ -205,26 +205,27 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 
 > A DB outage if you change your retention period from 0 to non-zero value for the other way around from non-zero to 0 value
 =======================================
-##### DB SUBNET GROUP ###### v9
+######### DB SUBNET GROUP ########## v9
 
-> Is a collection of subnet in a vpc that you want to allocated for DB instance launched in the vpc
-> Is DB subnet group must have at least one subject in each easy in a reason
-> Even if you are starting with standalone RDS instance configure the subnet group with the subnet in each easy in the reason
-> This will facilitate launching your standby instance in the subnet group when you opt for multiple easy deployment
-> during creating your RDS instance you can select a preferred easy and specify which subnet group and subnet group of TAT group for your RDS DB instance
-> 10 audio service will allocate an IP address in that subnet to your RDS instance
-> And then audio service will create and attached to the RDS instance and assign the above IP address to it
+> It is a collection of subnet in a VPC that we want to allocated for DB instance launched in the VPC
+- Each DB subnet group must have at least one subnet in each AZ in a region
+- Even if you are starting with standalone RDS instance, configure the subnet group with the subnet in each AZ in the region
+- This will facilitate launching your standby instance in the subnet group when you opt for multi-AZ deployment
+
+> During creating RDS instance we can select a preferred AZ and specify which subnet group and subnet of that group for RDS DB instance
+- then RDS service will allocate an IP address in that subnet to your RDS instance
+- then RDS service will create an ENI and attached to the RDS instance and assign the above IP address to it
 =======================================
 ### ENCRYPTION OF EXISTING UNENCRYPTED RDS INSTANCE v10
  
-> You cannot encrypt an existing unencrypted DB instance
+> we cannot encrypt an existing unencrypted DB instance
 
 > To do that 
 1. you need to create a new encrypted instance and migrate you data to it (from the unencrypted to the encrypted)
 2. Restore from backup/snapshot into a new encrypted RDS instance
 
 ### App to DB instances encryption
-> RDS supports SSL encryption for communication between the app instance and the RDS DB instance
+> RDS supports SSL encryption for communication bet app instance and the RDS DB instance
 - RDS generates a certificate for the instance which is used to encrypt this communication
 - RDS service supports encryption at rest for all DB engine using AWS KMS
 
@@ -245,7 +246,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Use IAM groups to manage/grant permission to multiple user at a time
 > Rotate your IAM credential regularly
 =======================================
-##### RDS Billing  ###### v11
+########### RDS Billing  ########### v11
 
 > No upfront costs
 
@@ -255,7 +256,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 - I/O requests/month - for Magnetic RDS storage Instance only
 - Provisioned IOPS/month – For RDS Provisioned IOPS SSD instance
 - Internet data transfer
-- Backup Storage that is in S3 (DB backups, and Active manual Snapshots)
+- Backup Storage that is in S3 (for DB backups, and Active manual Snapshots)
   - This increases by increasing DB backups retention period
   - Backup storage for automated RDS backups (not the manual snapshots) up to the Provisioned RDS instance's EBS volume size (EBS volume) is free of charge
 
@@ -263,7 +264,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > AWS will charge for the following (in addition to the single AZ DB instance charges)
 - Multi-AZ DB hours
 - Provisioned Storage (Multi-AZ)
-- Double write I/0s (writing to the Active/Primary, and-Replication from Primary to Standby)
+- Double write I/O (writing to the Active/Primary, and-Replication from Primary to Standby)
 - You are not charged for DB data transfer during replication fröm primary to standby
 - Your DB storage does not change between Standalone and Multi-AZ deployments (same DB and same AWS Storage volume for that DB in multiple AZs for durability)
 
@@ -294,11 +295,11 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 
 > When the required read I/O capacity is reached but still more I/O capacity is required for heavy/intensive read applications, read replicas can come in handy
 
-> Read replica is a replica of the primary RDS DB instance, but they can only be used for read actions
+> READ REPLICA is a replica of the primary RDS DB instance, but they CAN ONLY BE USED FOR READ actions
 
-> Primary DB instance becomes the source of the replication to this read replica
+- Primary DB instance becomes the source of the replication to this read replica
 
-> The data is first written to the source/primary DB Instance, then using asynchronous replication, it gets replicated to the read replica i.e there is a time lag between when the data is written to the primary and when it gets replicated to the read replica
+> The data is first written to the source/primary DB Instance, then using asynchronous replication, it gets replicated to the read replica i.e there is a TIME LAG BETWEEN when the data is written to the PRIMARY AND when it gets replicated to the READ REPLICA
 
 > Multi-AZ with read replicas can be combined in one deployment
 - NOT POSSIBLE TO CREATE REPLICA of READ REPLICAS 
@@ -319,10 +320,11 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > Scaling beyond the I/O capacity of your main DB instance for read-heavy workloads
 > Service read traffic while the source is unavailable
 
-## Creating Read Replicas
+#### CREATING READ REPLICAS ######
 > It can be done from API or AWS console
-> The AZ where you want the read replica to be can be specified
-> The read replica's storage type or instance class can be different from the source DB instance
+> We can specify AZ in which we want our read replica
+
+> READ REPLICA'S STORAGE TYPE OR INSTANCE CLASS CAN BE DIFFERENT from the source DB instance
 > DB engine type can not be change though, it is inherited from the source (primary) DB instance
 > Connecting to the DB engine on the read replica is possible, the same way (DB console) you connect to the primary DB instance
 > If you scale the source DB instance, you should also scale the Read Replicas

@@ -65,6 +65,7 @@
 - storage classes
 
 ######## S3 BUCKET NAMING RULE #######
+
 > S3 BUCKET NAMES(KEYS) ARE GLOBALLY UNIQUE ACROSS ALL REGION 
 - bucket name cannot be changed after they created 
 - if a bucket is deleted its name become available again to you or another account to use 
@@ -74,7 +75,7 @@
 
 > Bucket name must be a series of one or more label(mymain.bucket)
 - Adjacent label are separated by a single period 
-- bucket name can contain lowercase letter, numbers and hyphen
+- bucket name can contain lowercase letter (not capital), numbers and hyphen
 - each label must start and end with a lowercase letter or a number
 
 > Bucket name must not be formatted as an IP address
@@ -160,14 +161,14 @@ https://s3-eu-west-1.amazonaws.com/acloudguru
 ###### EVENTUAL CONSISTENCY #####
 > Read from different data stores for the same data result different returns
 > There is no locking mechanism, if data is updated to an object, an immediate read from different note will not return the same data
-- with time and as the changes/updates get propagated and updated on all other storage note, the reads will be will eventually consistent
+- with time and as the changes/updates get propagated and updated on all other storage node, the reads will be will eventually consistent
 
 > Eventually consistent can virtually provide unlimited 
 - scalability 
 - availability 
 - data durability
----------------------------------
-##### S3 CONSISTENCY LEVEL ######
+=======================================
+######## S3 CONSISTENCY LEVEL #########
 > S3 Provides:
 - READ-AFTER-WRITE (IMMEDIATE OR STRONG) CONSISTENCY of PUTS OF NEW OBJECTS (new object loads to S3)
 
@@ -178,17 +179,17 @@ https://s3-eu-west-1.amazonaws.com/acloudguru
 - we will get either updated object or the old one (before the update), 
 - we will NEVER GET PARTIAL OR CORRUPT DATA
 =======================================
-###### S3 buckets sub resources ####### v4
+###### S3 BUCKETS SUB-RESOURCES ####### v4
 
 > BY DEFAULT A BUCKET & ITS OBJECT AND RELATED SUB-RESOURCES ARE ALL PRIVATE 
 - i.e. by default only the owner has access to the bucket and storage object
 
 > Sub-resources for S3 bucket includes:
-- LIFECYCLE : to decide and object lifecycle management
-- WEBSITE : to hold configuration related to static website hosted in it
-- VERSIONING: keep object version as it change
-- Access control list(ACLs) 
-- bucket policies
+1. LIFECYCLE : to decide and object lifecycle management
+2. WEBSITE : to hold configuration related to static website hosted in it
+3. VERSIONING: keep object version as it change
+4. Access control list(ACLs) 
+5. Bucket policies
 
 ## S3 bucket DNS names
 > The name is simply two parts 
@@ -201,7 +202,8 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 ############ S3 objects ############### v5
 
 > Object store in S3 bucket in a region will never leave that region
--  unless you specify move them to another reason or enable cross region replication
+-  unless you specify move them to another reason or enable cross region replication(CRR)
+
 > S3 PROVIDE HIGH DATA DURABILITY, object are redundantly stored on multiple devices across multiple facility in Amazon S3 region where the bucket exist
 
 ## S3 object sub resources
@@ -232,7 +234,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 > resource owner refer to the account that create the resources.
 - for example account that you use to create buckets and objects owns those resources
 
-> If you create an AWS IAM user in your AWS account you are the parent owner 
+> If you create an AWS IAM user in AWS account you are the parent owner 
 - if the IAM USER UPLOAD AN OBJECT, THE PARENT ACCOUNT OWNS THE OBJECT
 
 > A bucket owner can grant cross-account permissions to another AWS account(or user in another account) upload object. 
@@ -241,7 +243,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 > The bucket owner does not have permission on the object that other account own with the following exception
 - The bucket owner pays the bill. He can deny access to any object regardless of who owns them
 - The bucket owner can delete any object in the bucket, regardless of who owns them.
-- The bucket owner  can archive any objects or restore archive object regardless of who owns them
+- The bucket owner can archive any objects or restore archive object regardless of who owns them
 
 ## Managing access to resources(access policy option)
 > managing access refers to granting other (AWS account and user) permission to perform the resources operations by writing an access policy
@@ -255,14 +257,14 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 ######### S3 ACCESS POLICY ############ v7
 
 > Access policy describe who has access to what. 
-- You can associate and access policy with a resource (bucket/object) OR user
+- we can associate 'access policy' with a resource (bucket/object) OR user
 
 >  Amazon S3 access policy are as follow: 
 1. Resource based Policy
 2. User Access Policy 
 
 #### 1. S3 RESOURCE-BASED POLICY ####
-> bucket policy and access control list are resource-based because you attached them to your Amazon S3 resources
+> bucket policy and access control list(ACL) are resource-based because it attached to Amazon S3 resources
 
 ## 1a. ACL-BASED ACCESS POLICY (buckets and objects ACLs)
 > each BUCKET AND OBJECT CAN HAVE AN ACL associated with it
@@ -276,7 +278,7 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 2. S3 USER-ACCESS POLICY #######
 
-> You can use AWS IAM to manage access to your Amazon S3 resources
+> You can use AWS IAM to manage access of Amazon S3 resources
 
 > Using IAM, we can create IAM user, group and role and attach user-access policy to them granting them access to AWS resources including Amazon S3
 
@@ -308,7 +310,7 @@ Notes:
 =======================================
 ####### Bucket ACL permissions ######## v8
 
-> S3 access control list(ACL) enable you to manage access to bucket and object
+> S3 access control list(ACL) help to manage access to bucket and object
 
 > Each bucket and object has an ACL attached to it as a sub-resources
 - It DEFINE WHICH ACCOUNT(GRANTEE) OR PRE-DEFINED S3 GROUPS ARE GRANTED ACCESS AND THE TYPE OF ACCESS
@@ -396,7 +398,7 @@ The permissions can be granted as follows:
 > BUCKET VERSIONING is a S3 bucket sub-resource, USED TO PROTECT AGAINST ACCIDENTAL OBJECT DELETION OR OVERWRITES
 
 > Versioning can also be used for data retention and archive
-> once you enable Bucket versioning on a bucket, it can not be disabled, however, it can be suspended
+> once enabled Bucket versioning on a bucket, it CAN NOT BE DISABLED, HOWEVER, IT CAN BE SUSPENDED
 
 > When enabled, bucket versioning will protect existing and new objects, and maintains their versions as they are updated (edited, written to...)
 - Updating objects refers to PUT, POST, COPY, DELETE actions on objects
@@ -405,13 +407,13 @@ The permissions can be granted as follows:
 > Only S3 bucket owner can permanently delete objects once versioning is enabled
 
 ###### S3 Delete markers #####
-> When versioning is enabled, and you try to delete an object, a DELETE marker is placed on the object
-- You can still view the object and the delete marker
+> When versioning is enabled, and we try to delete an object, a DELETE marker is placed on the object
+- we can still view the object and the delete marker
 
-> If you reconsider deleting the object, you can delete the "DELETE Marker", and the object will be available again
+> If we want deleted object back then delete the "DELETE Marker", the object will be available again
 
-> You will be charged for all S3 storage costs for all Object versions stored
-- You can use versioning with S3 lifecycle policies to delete older versions, OR, you can move them to a cheaper S3 storage (or Glacier)
+> charges will be applicable for all S3 storage for all Object versions stored
+- we can use versioning with S3 lifecycle policies to delete older versions, OR, we can move them to a cheaper S3 storage (or Glacier)
 
 > Bucket versioning states:
 - Enabled
@@ -449,23 +451,25 @@ The permissions can be granted as follows:
 - The code displayed on an approved physical or SW-based authentication device
 > This provides maximum protection to your objects
 =======================================
-########### Multipart Upload ########## v12 
+########### MULTIPART UPLOAD ########## v12 
 > Is used to upload an object (objects) in parts
 - Parts are uploaded independently and in parallel, in any order
-- It is recommended for objects sizes of 100MB or larger
+
+> It is recommended for objects sizes of 100MB or larger
 - However, we can use for object sizes starting from 5MB up to 5TB
-- You MUST USE IT FOR OBJECTS LARGER THAN 5GB
+
+> WE MUST USE IT FOR OBJECTS LARGER THAN 5GB
 - This is done through the S3 Multipart upload API
 
 ## Copying S3 Objects
 > The copy operation creates a copy of an object that is already stored in Amazon S3
 - we CAN CREATE A COPY OF OBJECT UP TO 5 GB IN SIZE IN A SINGLE ATOMIC OPERATION
-- However, to copy an object greater than 5 GB, you must use the multipart upload API
-- You will incur charges if the copy is to a destination that is another AWS region
+- However, to copy an object greater than 5 GB, we must use the multipart upload API
+- we will incur charges if the copy is to a destination that is another AWS region
 
 > Can be done using AWS SDKS or REST API
 
-> USE OF COPY OPERATION to:
+## USE OF COPY OPERATION :
 - Generate additional copies of the objects
 - Renaming objects (copy to a new name)
 - Changing the copy's storage class or encrypt it at rest (these can be done via AWS Console now with the new UI)
@@ -710,6 +714,9 @@ The permissions can be granted as follows:
 > Pre-signed URL for S3 objects can be generated using SDK for Java & .Net, and AWS Explorer for Visual Studio
 
 > Pre-signed URL can be used for downloading or uploading S3 object(s)
+
+COMMAND
+aws s3 presign --expires-in 10 s3://mybucket/s3.png
 =======================================
 #### Cross Region Replication(CRR) #### v22
 
@@ -755,7 +762,7 @@ The permissions can be granted as follows:
 =======================================
 ###### S3 CRR - CREATE Operation ###### v23
 
-> Any new objects created after you add a replication configuration, and changes to existing objects
+> Any new objects created after adding replication configuration, and changes to existing objects
 
 > Objects created with SSE-S3 then 
 - The replicated copy will also encrypted using same key

@@ -11,13 +11,19 @@
 =======================================
 ###### Virtual Private Cloud(VPC) #####
 
+## What is VPC?
+
 > VPC stands for Virtual Private Cloud
-- It is logically isolated area of the AWS cloud
-- We can have complete control over our virtual networking environment, including a selection of our IP address range, the creation of subnets, and configuration of route tables and network gateways.
-- we can provide multiple layers of security, including security groups and NACL, to help control access to EC2 instances in each subnet.
+> It is logically isolated area from other virtual n/w in the AWS cloud
 
-> It is logically isolated from other virtual n/w in the AWS cloud. 
+> We can have complete control over our virtual networking env including 
+- a selection of IP address range, 
+- the creation of subnets, and 
+- configuration of route tables and network gateways.
 
+> we can provide multiple layers of security, including security groups and NACL, to help control access to EC2 instances in each subnet.
+
+## IMPORTANT POINTS ##
 > MAX 5 VPC CAN BE CREATED and 200 subnets in 1 VPC. 
 > we can allocate max 5 elastic IP 
 
@@ -31,9 +37,43 @@
 > Once VPC is created, we cannot change its CIDR block 
 
 ####### Architecture of VPC ######
-
+ 
+ +---------------------------+
+ | myVPC in mumbai region    |
+ | +-----------------------+ |
+ | |                       | | 
+ | | public subnet in AZ-1 | |
+ | | +------------------+  | |
+ | | |                  |  | |
+ | | | +-----+ +-----+  |  | |
+ | | | |EC2  | |NAT  |  |  | |
+ | | | |inst1| |Gate |	|  | |
+ | | | |     | |     |  |  | | 
+ | | | +-----+ +-----+  |  | |
+ | | |Subnet-10.0.0.0/24|  | | 
+ | | +------------------+  | |
+ | |                       | | 
+ | |        #ImpliedRouter#| #IGW#
+ | |                       | | 
+ | | private subnet in AZ2 | |
+ | | +------------------+  | | 
+ | | |                  |  | | 
+ | | | +-------------+  |  | |
+ | | | |EC2 inst2    |  |  | |
+ | | | |             |  |  | | 
+ | | | +-------------+  |  | |
+ | | |Subnet-10.0.1.0/24|  | | 
+ | | +------------------+  | |
+ | |                       | |  
+ | |VPC - 10.0.0.0/16      | |
+ | +-----------------------+ |
+ +---------------------------+
+ 
 =======================================
 ########### IMPLIED ROUTER ############ v2
+
+## What is Implied Router?
+
 > It is the central VPC routing function.
 > It connects different AZ's together and connects the VPC to the internet gateway.
 > Each subnet have a route table. The router uses to forward traffic within the VPC. 
@@ -123,17 +163,17 @@ Lab 4,5,6
 >> up to 5 SG per EC2 instance 
 >> SG is Statefull 
 
-> Any Virtual Server Instance(EC2) created MUST HAVE a security group during its launch. 
-- you can either choose an existing one, or create a new SG during launch. 
-
+> Any Virtual Server Instance(EC2) created MUST HAVE a SG during its launch. 
+- either we can choose an existing one, or create a new SG during launch. 
+ 
 > Each VPC created will have a default SG, 
 - we CANNOT DELETE A DEFAULT SECURITY GROUP.
 
 > SECURITY GROUPS ARE VPC RESOURCES, 
 - hence different EC2 instances in different AZ, belonging to the same VPC, can have the same SG applied to them
 
-> Security groups act at the instance level, not the subnet level. 
-- Therefore, each instance in a subnet in your VPC can be assigned to a different set of security groups.
+> SG act at the instance level, not the subnet level. 
+- Therefore, each instance in a subnet in a VPC can be assigned to a different set of SG.
 
 >> Changes to security groups TAKE EFFECT IMMEDIATELY. 
 
@@ -141,7 +181,7 @@ Lab 4,5,6
 
 ####### TYPE OF SECURITY GROUPS ####### v9
 1. DEFAULT SECURITY GROUP in a default or custom VPC, will have:
-- Inbound rules allowing instances assigned the same security group to talk to one another 
+- Inbound rules allowing instances assigned the same SG to talk to one another 
 - All outbound traffic is allowed 
 
 2. CUSTOM(NON-DEFAULT) SECURITY GROUPS in a VPC will always have:

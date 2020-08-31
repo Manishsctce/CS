@@ -41,8 +41,9 @@ Unit testing can be done in two ways:-
 > the test case code can be reuseable
 > Regression testing can be done easily 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##When are Unit Tests written in Development Cycle?
-Tests are written before the code during development in order to help coders write the best code.
+## When are Unit Tests written in Development Cycle?
+
+> Tests are written before the code during development in order to help coders write the best code.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 ## Why not just use System.out.println() for testing?
 
@@ -75,18 +76,19 @@ The common methods of Assert class are as follows:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What Is a JUnit Test Fixture?
 
-> A test fixture is a fixed state of a set of objects used as a baseline for running tests. 
-- The purpose of a test fixture is to ensure that there is a well known and fixed environment in which tests are run so that results are repeatable. Examples of fixtures:
+> A test fixture is a FIXED STATE OF A SET OF OBJECTS USED AS A BASELINE FOR RUNNING TESTS. 
+- The purpose of a test fixture is to ensure that there is a well known and fixed env in which tests are run so that results are repeatable. 
 
-* Loading a database with a specific, known set of data
-* Copying a specific known set of files
-* Preparation of input data and setup/creation of fake or mock objects
+Examples of fixtures:
+> Loading a database with a specific, known set of data
+> Copying a specific known set of files
+> Preparation of input data and setup/creation of fake or mock objects
 
-In other word, creating a test fixture is to create a set of objects initialized to certain states.
+> If a group of tests requires diferent test fixtures then 
+- we can write code inside the test method to create its own test fixture.
 
-If a group of tests requires diferent test fixtures, you can write code inside the test method to create its own test fixture.
-
-If a group of tests shares the same fixtures, you should write a separate setup code to create the common test fixture.	
+> If a group of tests shares the same fixtures then 
+- we should write a separate setup code to create the common test fixture.	
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 It have different testing Features like
@@ -110,8 +112,9 @@ TESTRESULT which contain methods to collect the results of executing a test case
 ## What Is Junit TestSuite?
 
 > JUnit TestSuite is a container class under package junit.framework.TestSuite. 
-> It allows us to group multiple test cases into a collection and run them together. 
-> In JUnit, both @RunWith and @Suite annotation are used to run the suite test. 
+- It allows us to group multiple test cases into a collection and run them together. 
+
+> In JUnit, both @RunWith and @Suite are used to run the suite test. 
 (JUnit 4.4 does not support TestSuite class now).
 ---------------------------
 ## What Is Junit TestCase?
@@ -169,7 +172,12 @@ set() and get() methods on complex data types are vulnerable to break
 
 > Debugger are used to step through code and inspect that the variables along the way contain the expected values (i.e. manual process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Why not just write a main() method for unit testing?
+## Why not just write a main() for unit testing?
+
+> It is possible to write a main() in each class that need to be tested for unit testing. But this is not recommended :
+- class will be cluttered with test code and it will be packed into final product.
+- if lots of classes then need to run each classes. So cnt automate 
+- if any method fails, then next method won't call.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How Often Should You Run Your JUnit Tests?
 
@@ -228,22 +236,29 @@ junit.swingui.TestRunner - A Swing based user interface to run tests. Enter the 
 
 All 3 runners can be executed directly by JVM with a class name as an argument	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##Do You Have To Write a Test for Everything?
+## Do You Have To Write a Test for Everything?
 
-No, just test everything that could reasonably break.
- investments in testing are equal investments in design. If defects aren't being reported and your design responds well to change, then you're probably testing enough. If you're spending a lot of time fixing defects and your design is difficult to grow, you should write more tests.
+> No, just test everything that could reasonably break.
+- investments in testing are equal investments in design. If defects aren't being reported and your design responds well to change, then you're probably testing enough. 
+- If we spend lot of time fixing defects and our design is difficult to grow, we should write more tests.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to test a method that does not return anything?
+## How to test a method that does not return anything i.e. void ?
 
-You need to follow the logic below to answer this question:
+> we need to check what it is doing and accordingly we can test.
 
-> If a method is not returning anything through the "return" statement (void method), it may return data through its arguments. 
-- In this case, you can test the data returned in any argument.
+EXAMPLE:
+> void method may return data through its arguments then 
+- we can test the data returned in any argument.
 
-> Else if a method is not returning any data through its arguments, it may change values of its instance variables. 
-- In this case, you can test changes of any instance variables.
-> Else if a method is not changing any instance variable, it may change values of its class variables. In this case, you can test changes of any class variables.
-> Else if a method is not changing any class variable, it may change external resources. In this case, you can test changes of any external resources.
+> if the method change values of its instance variables then
+- we can test changes of any instance variables.
+
+> if the method change values of its class variables then 
+- we can test changes of any class variables.
+
+> if void() change external resources then 
+- we can test changes of any external resources.
+
 > Else if a method is not changing any external resources, it may just doing nothing but holding the thread in a waiting status. In this case, you can test this waiting condition.
 > Else if a method is not holding the thread in waiting status, then this method is really doing nothing. In this case, there is no need to test this method. :-)	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,12 +269,21 @@ You need to follow the logic below to answer this question:
 > When test fails again, the dubugger will suspend the execution and start the debug mode.
 > now we can use debugger commands to find the code issue.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What happens if a test method throws an exception?
+## How Do You Test an Expected Exception with JUnit?
+
+> "expected" parameter of @Test allows us to test expected exception raised inside the test method. 
+- If it doesn't throw an exception or if it throws a different exception than the one declared, the test fails.
+
+EXAMPLE:
+@Test(expected=exception_class) 
+public void testMethod() {
+   ...
+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 JUnitCore is an inbuilt class in Junit package. It is based on Facade design pattern. This class is used to run only specified test classes.
-=========================================
-######## Annotation #########
+=====================================
+############ Annotation #############
 
 #### Annotations for Junit testing 
 > The Junit 4.x framework is annotation based, so let's see the annotations that can be used while writing the test cases.
@@ -283,6 +307,7 @@ The Ignore annotation is used to ignore the test and that test will not be execu
 http://www.artima.com/suiterunner/privateP.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~---------
 ## What Are JUnit 3.8 Naming Conventions?
+
 JUnit 3.8 suggests the following naming conventions:
 
 > Test Case Class: Named as [classname]Test.java, where "classname" is the name of the class that is being tested. 

@@ -1,0 +1,176 @@
+############# EC2 #############
+
+## You have been asked to migrate a 10GB unencrypted EBS vol. to an encrypted vol. for security purposes. What are 3 key steps required as part of the migration? (ShaunHummel-2)
+
+A. pause the unencrypted instance
+B. create a new encrypted volume of the same size and availability zone
+C. create a new encrypted volume of the same size in any availability zone
+D. start converter instance
+E. shutdown and detach the unencrypted instance
+
+Answer (B,D,E)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which class of EC2 instance type is recommended for running data analytics?
+(ShaunHummel-7)
+
+A. memory optimized
+B. compute optimized
+C. storage optimized
+D. general purpose optimized
+
+Answer (B)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What class of EC2 instance type is recommended for database servers?
+(ShaunHummel-8)
+
+A. memory optimized
+B. compute optimized
+C. storage optimized
+D. general purpose optimized
+
+Answer (A)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##
+===============================
+############# ECS #############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following are features of AWS ECS? (Choose 3 options) [WL-EC2-1]
+
+A. Task Definition
+B. Tasks
+C. Container Registery      
+D. Cluster
+E. Source Image Storage  
+
+Answer - A,B,D
+
+Option C is not part of ECS. Amazon Elastic Container Registry (Amazon ECR) is a fully managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following statement defines task definition? [WL-EC2-2]
+
+A. JSON template that describes containers which forms your application.
+B. Template for a program that runs inside AWS ECS Cluster.
+C. AWS managed service that launches ECS clusters.
+D. Template that defines actions for each IAM user on the ECS cluster and its containers.
+
+Answer : A
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
+
+> A task definition is required to run Docker containers in Amazon ECS. It is a text file in JSON format that describe 1 or more containers, up to 10(max).
+- it will be blueprint of app.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization is planning to use AWS ECS for docker applications. However, they would like to apply 3rd party monitoring tools on the ECS instances. They approached you asking for a recommendation. What do you suggest? [WL-EC2-3]
+
+A. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use CloudWatch for monitoring metrics
+B. Customers will have control over AWS ECS instances and can setup monitoring like a normal EC2 instance.
+C. Raise a case with AWS to install 3rd party software on ECS. AWS will review the case and install if 3rd party software is in their trusted software entries
+D. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use application level monitoring.
+
+Answer : B
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_instances.html
+Options A and D are not correct. AWS ECS uses EC2 instances with ECS-optimized AMI. You will have root access to the instances and you can manage them.	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following is a correct statement in relation to ECS instances when accessing Amazon ECS service endpoint? [WL-EC2-4]
+
+A. Create an Interface VPC Endpoint for ECS service and attach to VPC subnet’s route table in which ECS instances are running.
+B. ECS intances are launched with ECS-optimized AMI which contains an inbuilt mechanism to communicate with ECS service endpoints through AWS network.
+C. Create a NAT Gateway and attach it to VPC subnet’s route table in which ECS instances are running.
+D. AWS service endpoints are accessible internally across VPCs. You need to enable IAM role access on the service which needs to be accessed
+
+Answer : C
+The container agent runs on each infrastructure resource within an Amazon ECS cluster. It sends information about the resource's current running tasks and resource utilization to Amazon ECS, and starts and stops tasks whenever it receives a request from Amazon ECS.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have launched an ECS cluster with 5 EC2 instances with its task definitions. However, ECS is not getting any status information back from the container agent in each ECS instance. What could be the reason? (choose 3 options) [WL-EC2-5]
+
+A. IAM role used to run ECS instance does not have ecs:Poll action in its policy
+B. Key-pair information is missing in ECS cluster
+C. ECS  Instance  security  groups’  outbound  rules  are  not  allowing  traffic  to  ECS  service endpoint
+D. Interface VPC endpoint is not configured for ECS service
+E. You are running ECS on t2.micro instance type which is not supported
+
+Answer: A, C, D
+
+Option A is correct. The Amazon ECS container agent makes calls to the Amazon ECS API on your behalf. Container instances that run the agent require an IAM policy and role for the service to know that the agent belongs to you. Before you can launch container instances and register them into a cluster, you must create an IAM role for those container instances to use when they are launched. This requirement  applies  to  container  instances  launched  with  the  Amazon  ECS-optimized  AMI provided by Amazon, or with any other instances that you intend to run the agent on.
+
+Option B is not correct. Amazon ECS container instance, has no password to use for SSH access; you use a key pair to log in to your instance securely. You specify the name of the key pair when you launch your container instance, then provide the private key when you log in using SSH.
+
+Option C is correct. Security groups act as a firewall to ECS container instances. If outbound rules are not allowing any traffic to ECS service endpoints, container agent will not be able to report the status back to ECS.
+
+Option E is not correct. T2.micro is supported for container instance.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following can be used with Amazon ECS to run Containers without having to manage servers or clusters of Amazon EC2 instances?
+
+AWSVPC
+FARGATE
+AWS ECR
+Docker
+
+Answer : B
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

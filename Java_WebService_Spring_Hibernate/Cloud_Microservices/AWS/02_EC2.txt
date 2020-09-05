@@ -36,15 +36,16 @@
 
 > AWS EC2 provides scalable computing capacity in the AWS cloud
 
-> You can use EC2 to launch as many or as few Virtual servers as you need, configure security and networking and manage storage. 
+> we can use EC2 to launch as many Virtual servers as we need, configure security and networking and manage storage. 
 
 > it enables us to scale up or scale down the instance
 
 > it is having 2 storage options i.e EBS & instance store 
 > Preconfigured templates are available known as Amazon Machine Image. 
-> By default, when you create an EC2 account with amazon, your acct is limited to a maximum  of 20 instances per EC2 region with 2 default high I/O instance.
 
-> EC2 service provides resizeable compute capacity in cloud. 
+> By default, we can create max 20 EC2 instance per region per account.
+- we can submit request to AWS to increase it
+
 > we have root access to each EC2 instance 
 > we can stop, restart, reboot or terminate our EC2 instance
 > EC2 availability SLA is 99.95% for each region during a month
@@ -52,20 +53,20 @@
 
 > we can provision EC2 instance on shared or dedicated hosts(i.e physical servers) 
 
-##### EC2 INSTANCE ACCESS 
+##### EC2 INSTANCE ACCESS #####
+
+## How to Access EC2 Instance?
+
 > To access an instance we need a key and key-pair name 
 - when we launch a new EC2 instance, we can create a public/private key pair 
 - we can download the private key only once 
-- the public key is saved by AWS to match it to the key pair name, and private key when we login to EC2 instance 
+- the public key is saved by AWS to match it with key-pair name and private key when we login to EC2 instance 
 - if we launch instance without a key pair, we will not be able to acess it(via RDP/SSH) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### EC2 - ROOT/BOOT VOLUME ###
 
->> There is soft limit of 20 EC2 INSTANCES PER REGION, 
-- we can submit request to AWS to increase it 
+> 2 types of Block store devices are supported: 
 
-
-#### EC2 - Root/Boot volume 
-
-> Two types of Block store devices are supported: 
 1. Elastic Block store (EBS) (Bootable)
 - Persistent mean if we stop EC2 then data will not lost
 - Network attached virtual drives i.e. it is not part of EC2
@@ -76,9 +77,8 @@
 - Limited to 10GB per device  
 - Instance-store backed EC2 instance has an instance-store root volume 
 
-
-=======================================
-######## EC2 instance families ########
+=====================================
+####### EC2 instance families #######
 
 ###### 1. General Purpose #######
 - Balanced memory and CPU 
@@ -158,8 +158,8 @@ Storage		: NVMe SSD
 > Very High, low latency I/O
 > I/O intensive apps, data warehousing, Hadoop
 
-=======================================
-###### EC2 EBS OPTIMIZED instance ##### V10
+=====================================
+##### EC2 EBS OPTIMIZED instance #### V10
 
 > EBS optimized EC2 instances enable the full use of an EBS volume provisioned IOPS 
 - They deliver dedicated performance between EC2 instance and their attached EBS volumes
@@ -254,11 +254,11 @@ Storage		: NVMe SSD
 - you can try your request again later
 
 =======================================
-########## EC2 Status checks ########## V12 
+########## EC2 STATUS CHECKS ########## V12 
 
-> By default EC2 perform automatically status check EVERY 1 MINUTE
-- This is done on every running EC2 instance to identify any hardware or software issues
-- Each status check returns either a pass or a failure status
+> By default, EC2 perform status check EVERY 1 MINUTE automatically
+- It is checked on running EC2 instance to identify any hardware or software issues
+- it returns either pass or failure status
 - If one or more status check return a fail, the overall EC2 instances status is changed to "impaired"
 
 > once EC2 instances status changes to impaired because of host hardware/software problem, 
@@ -286,7 +286,7 @@ Storage		: NVMe SSD
 > You can set cloudwatch alarm action on EC2 instance to 
 - stop, restart, terminate or recover EC2 instance 
 - we can use stop or terminate actions to save cost 
-- we can use the reboot and recover to move your EC2 instance to another host
+- we can use the reboot and recover to move EC2 instance to another host
 
 =======================================
 ############# EC2 States ############## v13
@@ -411,7 +411,7 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 =======================================
 ####### EC2 - VM Import/Export ######## v16 
 
-> It can be used to migrate Vmware, Microsfot, XEN VMs to the cloud (Import)
+> It can be used to migrate Vmware, Microsoft, XEN VMs to the cloud (Import)
 
 > It can be used to convert EC2 Instances to Vmware, Microsfot, XEN VMs to use on-premise (Export)
 
@@ -435,21 +435,21 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 =======================================
 ############ BASTION HOSTS ############ v17
 
-> Now AWS calls it Remote Desktop for Windows Instances
+> Also know as Jumping box OR Jumping stone OR 'Remote Desktop for Windows Instances'
 
-> BASTION HOST(or jump box/stone) IS USED TO MANAGE AND ADMINISTER PUBLIC/PRIVATE EC2 INSTANCES
+> It is an EC2 instance, whose interfaces will have SG allowing inbound SSH/RDP
+- Using SG, we can limit which IP CIDR can access the Bastion Host.
+
+> IT IS USED TO MANAGE AND ADMINISTER PUBLIC/PRIVATE EC2 INSTANCES
 - It make secure connectivity to VPC
 
-> The Bastion host is an EC2 instance, whose interfaces will have SG allowing inbound SSH/RDP
-
-> BASTION HOSTS CAN HAVE AUTO-ASSIGNED PUBLIC IP/ELASTIC IP 
+> It CAN HAVE AUTO-ASSIGNED PUBLIC IP/ELASTIC IP 
 - Elastic IPs are better for security reasons and to fix the IP address bcz it get re-associated with the new instances(if launch by ASG) 
-
-> Using SG, we can further limit which IP CIDR can access the Bastion Host.
 
 > Once logged to the Bastion host, we can connect via RDP/SSH to the EC2 instance(s) we desire to manage
 
-> To configure high available bastion host, we can use ASG as follows:
+> To configure High Available bastion host, we can use ASG as follows:
+
 1. Create ASG with desired capacity of 2, choose multi-AZ(2), using Elastic IPs on each (This is the recommended HA way)
 - we can configure number of BH instance at launch 
 
@@ -457,12 +457,12 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 - until ASG launches another one, you may have a down time (this is for management/administration ), where downtime is acceptable
 =======================================
 ######## EC2 PURCHASE OPTIONS ######### v18
-
+ 
 1. On-Demand Instances 
-– Pay, by the second, for the instances that you launch.
+– Pay-by-second, for the instances that we launch.
 
 2. Reserved Instances 
-– Reduce your Amazon EC2 costs by making a commitment to a consistent instance configuration, including instance type and Region, for a term of 1 or 3 years.
+– Reduce EC2 costs by making a commitment to a consistent instance configuration, including instance type and Region, for a term of 1 or 3 years.
 
 3. Spot Instances 
 – Request unused EC2 instances, which can reduce your Amazon EC2 costs significantly.
@@ -472,7 +472,7 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 - we can control number of cores allocated to the application
 
 5. Dedicated Instances 
-– Pay, by the hour, for instances that run on single-tenant hardware.
+– Pay-by-hour, for instances that run on single-tenant hardware.
 
 Savings Plans – Reduce your Amazon EC2 costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years.
 
@@ -480,6 +480,32 @@ Scheduled Instances – Purchase instances that are always available on the spec
 
 Capacity Reservations – Reserve capacity for your EC2 instances in a specific Availability Zone for any duration.
 
+####### 1. ON-DEMAND INSTANCE ######
+> These EC2 instances are purchased at a fixed rate
+- you pay for what you use. 
+ 
+> using this instance, we are free from costing complexity like planning, purchasing and maintaining.
+> No pricing for terminated or stopped instance.
+ 
+# SCENARIO
+- use it for app with short term irregular workload that cannot be interrupted.
+- suitable for testing and development of app on EC2.
+
+####### DEDICATED INSTANCE #######
+> It run in a VPC on hardware that is dedicated to a single customer.
+> 
+> it may share hardware with other instances from the same acct that are not dedicated instance.
+
+> Pay for dedicated instances on-demand save upto 70% by purchasing reserve instances, or save upto 90% by purchasing spot instances. 
+
+####### DEDICATED host #######
+> it is a physical server with EC2 instance that is fully dedicated to a customer.
+> it helps to address compliance requirement and reduce cost by allowing existing server bound software licenses.
+> pay for physical host and bring ur existing per-socket, per-core, per VM software license to reduce code.
+
+16vCU 	 - can create 4 * 4vCPU instances 
+64GB RAM - can create 4 * 16GB RAM instances
+ 
 ####### 1. RESERVED INSTANCE #######
 > we do not actually buy Instances, rather, we reserve long term capacity and pay for it for instance family/configuration, anytime we run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
 
@@ -667,6 +693,44 @@ There are two parts of the error message.
 =======================================
 #### Elastic Container Service(ECS) ###
 
+> It is HA, fast and container management service 
+
+> it let us launch and stop container-based app with simple API call.
+
+> It eliminate the need to operate own cluster management and configuration management systems or to worry about scaling management infra.
+
+> It is a regional service that simplifies running app container in a HA manner across multi-AZ in a region.
+> we can create ECS cluster within a new or existing VPC.
+- After cluster is up and running, we can define task definition and services that specify which docker container image to run across cluster.
+
+> container image are stored in and pull from container registries, which may exist within or outside AWS infra.
+
+> EC2 Container Registry (ECR) is managed AWS docker registry service that is secure, scalable and reliable.
+
+> ECR supports private docker repositories with resource-based permission using IAM so that specific users or EC2 instance can access repositories amd image
+
+> Developers can use docker CLI to push, pull and manage images.
 > ECS service can optionally be configured to use AS to adjust its desired count up or down in response to CloudWatch alarms. 
 - AS is available in all regions that support Amazon ECS.
 
+
+> Some of the parameters task definition include:
+- Docker image to use with each container in your task
+- How much CPU and memory to use with each task or each container within a task
+- LAUNCH TYPE to use, which determines the infra on which tasks are hosted
+- docker networking mode to use for the container in task.
+
+Example:
+{
+ "family":"webserver",
+ "containerDefinitions":[{
+	"name":"web",
+	"image":"nginx",
+	"memory":"100",
+	"cpu":"99",
+  }]
+  "requiresCompatibilities":["FARGATE"],
+  "networkMode":"awsvpc",
+  "memory":"512",
+  "cpu":"256"
+}

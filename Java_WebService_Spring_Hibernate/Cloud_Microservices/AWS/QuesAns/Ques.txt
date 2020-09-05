@@ -1,0 +1,138 @@
+## An application reads and writes objects to an S3 bucket. When the application is fully deployed, the read/write traffic is expected to be 5,000 requests per second for the addition of data and 7,000 requests per second for the retrieval of data. What would the architect do to maximize the Amazon S3 performance?
+
+A. Use as many S3 prefixes as you need in parallel to achieve the required throughput.
+B. Use the STANDARD_IA storage class.
+C. Prefix each object name with a hex hash key along with the current date.
+D. Enable versioning on the S3 bucket.
+
+Answer – C
+NOTE: Based on the S3 new performance announcement, "S3 request rate performance increase removes any previous guidance to randomize object prefixes to achieve faster performance." But Amazon exam questions and answers have not yet been updated. So, Option C is the correct answer as per AWS exam.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are working as an AWS Architect for a start-up company. They have a two-tier production website. Database servers are spread across multiple Availability Zones and are stateful.
+
+You have configured Auto Scaling Group for these database servers with a minimum of 2 instances & maximum of 6 instances. During post-peak hours, you observe some data loss. Which feature needs to be configured additionally to avoid future data loss (and copy data before instance termination)? (WL11)
+
+A. Modify the cooldown period to complete custom actions before the Instance terminates.
+B. Add lifecycle hooks to Auto Scaling group.
+C. Customize Termination policy to complete data copy before termination.
+D. Suspend Terminate process that will avoid data loss.
+
+Correct Answer – B
+
+Explanation: Adding Lifecycle Hooks to Auto Scaling group puts the instance into wait state before termination. During this wait state, you can perform custom activities to retrieve critical operational data from a stateful instance. Default Wait period is 1 hour.
+
+Option A is incorrect as the cooldown period will not help to copy data from the instance before termination.
+Option C is incorrect as Termination policy is used to specify which instances to terminate first during scale in, configuring termination policy for the Auto Scaling group will not copy data before instance termination. 
+
+Option D is incorrect as Suspending Terminate policy will not prevent data loss but will disrupt other process & prevent scale in.
+
+For more information on lifecycle-hooks, refer to the following URLs:
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have an application running in us-west-2 that requires 6 EC2 Instances running at all times. With 3 Availability Zones in the region viz. us-west-2a, us-west-2b, and us-west-2c, which of the following deployments provides fault tolerance if an Availability Zone in us-west-2 becomes unavailable? (SELECT TWO)
+
+A. 2 EC2 Instances in us-west-2a, 2 EC2 Instances in us-west-2b, and 2 EC2 Instances in us-west-2c
+B. 3 EC2 Instances in us-west-2a, 3 EC2 Instances in us-west-2b, and no EC2 Instances in us-west-2c
+C. 4 EC2 Instances in us-west-2a, 2 EC2 Instances in us-west-2b, and 2 EC2 Instances in us-west-2c
+D. 6 EC2 Instances in us-west-2a, 6 EC2 Instances in us-west-2b, and no EC2 Instances in us-west-2c
+E. 3 EC2 Instances in us-west-2a, 3 EC2 Instances in us-west-2b, and 3 EC2 Instances in us-west-2c
+
+Answer – D and E
+
+Option D- US West 2a-6 , US West 2b - 6, US West 2c-0
+If US West 2a goes down we will still have 6 instances running in US West 2b  
+If US West 2b goes down we will still have 6 instances running in US West 2a 
+If US West 2c goes down we will still have 6 instances running in US West 2a, 6 instances running in US West 2b  
+
+Option E- US West 2a-3 , US West 2b - 3, US West 2c-3
+If US West 2a goes down we will still have 3 instances running in US West 2b and 3 instances running in US West 2c  
+If US West 2b goes down we will still have 3 instances running in US West 2a and 3 instances running in US West 2c  
+If US West 2c goes down we will still have 3 instances running in US West 2a and 3 instances running in US West 2b  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An application allows a manufacturing site to upload files. Each uploaded 3 GB file is processed to extract metadata, and this process takes a few seconds per file. The frequency at which the uploading happensis unpredictable. For instance, there may be no upload for hours, followed by several files being uploaded concurrently.
+
+Which architecture will addressthis workload in the most cost-efficient manner?</div>
+
+A. Use a Kinesis Data Delivery Stream to store the file. Use Lambda for processing.
+B. Use an SQS queue to store the fileto be accessed by a fleet of EC2 Instances.
+C. Store the file in an EBS volume, which can then be accessed by another EC2 Instance for processing.
+D. Store the file in an S3 bucket. Use Amazon S3 event notification to invoke a Lambda function for file processing.
+
+Answer – D
+You can first create a Lambda function with the code to process the file.
+Then, you canuse an Event Notification from the S3 bucket to invoke the Lambda function whenever a file is uploaded.
+
+Option A is incorrect as Kinesis is used to collect, process, and analyze real-time data.
+
+Option B is incorrect as the frequency of uploadsin the given scenario is quite unpredictable. By default, SQS uses short polling. In this case, it will lead to the cost factor going up since we are getting messages in an unpredictable manner and many times it will be returning empty responses.
+
+For more information on Amazon S3 event notification, please visit the following URL:
+https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

@@ -1,6 +1,51 @@
 ############# RDS #############
 
-## 
+## Your company is planning on setting up a web based application onto AWS. The application will be connected to an AWS RDS instance. You need to ensure that the performance of the database layer is up to the mark and if possible to ensure that recently queried results are delivered in a faster manner. Which of the following would be part of the architecture?
+
+A. MySQL Installed on two Amazon EC2 Instances in a single Availability Zone
+B. Amazon RDS for MySQL with Multi-AZ
+C. Amazon ElastiCache
+D. Amazon DynamoDB
+
+Answer – C
+
+Amazon ElastiCache offers fully managed Redis and Memcached. Seamlessly deploy, operate, and scale popular open source compatible in-memory data stores. Build data-intensive apps or improve the performance of your existing apps by retrieving data from high throughput and low latency in-memory data stores. Amazon ElastiCache is a popular choice for Gaming, Ad-Tech, Financial Services, Healthcare, and IoT apps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company currently has setup their data store on AWS DynamoDB. One of your main revenue generating applications uses the tables in this service. Your application is now expanding to 2 different other locations and you want to ensure that the latency for data retrieval is the least from the new regions. Which of the following can help accomplish this?
+
+A. Place a cloudfront distribution in front of the database
+B. Enable Multi-AZ for DynamoDB
+C. Place an ElastiCache in front of DynamoDB
+D. Enable global tables for DynamoDB
+
+Answer - D
+
+To illustrate one use case for a global table, suppose that you have a large customer base spread across three geographic areas—the US east coast, the US west coast, and western Europe. Customers would need to update their profile information while using your application. To address these requirements, you could create three identical DynamoDB tables named CustomerProfiles, in three different AWS regions. These three tables would be entirely separate from each other, and changes to the data in one table would not be reflected in the other tables. Without a managed replication solution, you could write code to replicate data changes among these tables; however, this would be a time-consuming and labor-intensive effort.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is planning on moving their applications to the AWS Cloud. They have some large SQL data sets that need to be hosted in a data store on the cloud. The data store needs to have features available for disaster recovery as well. Which of the following service should be considered for this requirement.
+
+Amazon DynamoDB
+Amazon Redshift
+Amazon Kinesis
+Amazon Simple Queue Service
+
+Answer – B
+
+Amazon Redshift is a fully managed, petabyte-scale data warehouse service in the cloud. You can start with just a few hundred gigabytes of data and scale to a petabyte or more. This enables you to use your data to acquire new insights for your business and customers.
+
+Option A is incorrect since this a NoSQL data store
+Option C is incorrect since this is used for data streaming.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have been tasked with ensuring that data stored in your organization’s RDS instance exists in a minimum of two geographically distributed locations. Which of the following solutions are valid approaches? (Choose two.)
+
+A. Enable RDS in a Multi-AZ configuration.
+B. Enable RDS in a read replica configuration.
+C. Install a storage gateway with stored volumes.
+D. Enable RDS in a cross-region read replica configuration.
+
+Answer: A, D. 
+
+A Multi-AZ setup is the easiest solution, and the most common. Turning on read replicas (option B) is not a guarantee, as read replicas are not automatically installed in different AZs or regions. However, with option D, a cross-region replica configuration will ensure multiple regions are used. A storage gateway (option C) is backed by S3, not RDS.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

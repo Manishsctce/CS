@@ -1,5 +1,45 @@
-############# EC2 #############
+############# ASG #############
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A website is hosted on two EC2 instances that sit behind an Elastic Load Balancer. The response time of the website has slowed dramatically, and customers are ordering less due to the wait time. Troubleshooting showed one of the EC2 instances failed and left just one instance running. What is the best course of action to prevent this from happening in the future?
+
+Change the instance size to the maximum available to compensate for failure
+Use CloudWatch to monitor the VPC Flow Logs for the VPC the instances are deployed in
+Configure the ELB to perform health checks on the EC2 instances and implement auto-scaling
+Replicate the existing configuration in several regions for failover
+
+Answer - C
+
+C. Using the elastic load balancer to perform health checks will determine whether or not to remove a non- or underperforming instance and have the auto-scaling group launch a new instance
+
+A. Increasing the instance size doesn’t prevent failure of one or both the instances, therefore the website can still become slow or unavailable
+B. Monitoring the VPC flow logs for the VPC will capture VPC traffic, not traffic for the EC2 instance. You would need to create a flow log for a network interface
+D. Replicating the same two instance deployment may not prevent failure of instances and could still result in the website becoming slow or unavailable.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following items are included in an Auto Scaling Launch Configuration? (Choose two.)
+
+A. The AMI to use for creating new instances
+B. The EBS storage volume for the instances to create
+C. The polling time for monitoring network latency
+D. The IAM role to associate with created instances
+
+Answer: A, D. 
+Launch configurations are concerned primarily with creating new instances while staying abstract from the details of what is on those instances. So the AMI and IAM role for an instance is a general configuration, applies to all created instances, and is correct (A and D). 
+The polling time for latency isn’t connected to launching new instances (although it might be a trigger configured elsewhere). Each instance is associated with a different EBS volume, so selecting an EBS volume for multiple instances doesn’t actually make sense
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following would you use for setting up AMIs from which new instances are created in an Auto Scaling policy?
+
+A. The Auto Scaling policy itself
+B. The security group for the Auto Scaling policy
+C. The Auto Scaling group used by the Auto Scaling policy
+D. The launch configuration used by the Auto Scaling policy
+
+Answer: D. 
+Launch configurations are where details are specified for creating (launching) new instances (option D). 
+Security groups have to do more with what traffic is allowed into and out of the launched instances. 
+The remaining two options—A and C—don’t make sense in this context.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

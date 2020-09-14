@@ -133,6 +133,148 @@ d) Amazon Simple Storage System
 
 Answer :  C    
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company is planning on setting up a web-based application onto AWS. This would be a content-based system wherein you have users across the world who would want to access the content. You have to ensure that users across the world get a seamless user experience when using the web application. Which of the below AWS service needs to be part of the architecture for this application?
+
+A. Amazon SES
+B. Amazon Cloudtrail
+C. Amazon CloudFront
+D. Amazon S3
+
+Answer – C
+
+Amazon CloudFront is a web service that speeds up distribution of your static and dynamic web content, such as .html, .css, .js, and image files, to your users. CloudFront delivers your content through a worldwide network of data centers called edge locations. When a user requests content that you're serving with CloudFront, the user is routed to the edge location that provides the lowest latency (time delay), so that content is delivered with the best possible performance.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company is planning on setting up a web-based application onto AWS. The IT management has given clear directions on ensuring that the application follows a serverless architecture in order to reduce infrastructure costs. Which of the following services could be used in this regard. Choose 3 answers from the options given below
+
+A. AWS API Gateway
+B. AWS Lambda
+C. AWS DynamoDB
+D. AWS EC2
+
+Answer - A,B and C
+
+Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. With a few clicks in the AWS Management Console, you can create an API that acts as a “front door” for applications to access data, business logic, or functionality from your back-end services, such as workloads running on EC2, code running on AWS Lambda, or any web application.
+
+AWS Lambda lets you run code without provisioning or managing servers. You pay only for the compute time you consume - there is no charge when your code is not running.
+
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database, so that you don't have to worry about hardware provisioning, setup and configuration, replication, software patching, or cluster scaling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has a set of 100 servers hosted on the AWS Cloud. They need to stream the Logs from the Instances for analysis purposes. This is being done from a security compliance perspective. Programs will then run to analyse the data for any sort of abnormal behaviour. Which of the following would be used to stream the log data?
+
+A. Cloudfront
+B. SQS
+C. Kinesis
+D. SES
+
+Answer – C
+Amazon Kinesis Data Streams enables you to build custom applications that process or analyze streaming data for specialized needs. You can continuously add various types of data such as clickstreams, application logs, and social media to an Amazon Kinesis data stream from hundreds of thousands of sources. Within seconds, the data will be available for your Amazon Kinesis Applications to read and process from the stream.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has setup EC2 Instances in a VPC for their app. They now have a concern that not all of the EC2 instances are being utilized. Which of the below mentioned services can help you find underutilized resources in AWS? Choose 2 answers from the options given below
+
+A. Cloudwatch
+B. SNS
+C. Trusted Advisor 
+D. Cloudtrail
+
+Answer - A and C
+
+Amazon CloudWatch is a monitoring and management service built for developers, system operators, site reliability engineers (SRE), and IT managers. 
+CloudWatch provides you with data and actionable insights to monitor your applications, understand and respond to system-wide performance changes, optimize resource utilization, and get a unified view of operational health.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company has recently chosen to use the AWS API Gateway ( including API Cache ) service for managing their APIs. Which of the following services are automatically integrated with the API gateway service in the background to ensure a better response to calls made to the API Gateway?
+
+A. AWS Cloudwatch
+B. AWS CloudFormation
+C. AWS Volume gateway
+D. AWS Lambda
+
+Answer – D
+
+The business logic behind the APIs can be provided by a publicly accessible endpoint that API Gateway proxies call, or it can be entirely run as a Lambda function
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company has recently chosen to use the AWS API Gateway service for managing their API's. It needs to be ensured that code hosted in other domains can access the API's behind the API gateway service. Which of the below security features of the API gateway can be used to ensure that API's resources can receive requests from a domain other than the API's own domain
+
+A. API Stages
+B. API Deployment
+C. API CORS
+D. API Access
+
+Answer – C
+
+When your API's resources receive requests from a domain other than the API's own domain, you must enable cross-origin resource sharing (CORS) for selected methods on the resource. This amounts to having your API respond to the OPTIONS preflight request with at least the following CORS-required response headers:
+
+Access-Control-Allow-Methods
+Access-Control-Allow-Headers
+Access-Control-Allow-Origin
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company is planning on developing and deploying an application onto AWS. The application will follow a microservices based architecture which will involve the deployment of several docker containers. Which of the following services is ideal for this scenario?
+
+A. DynamoDB
+B. SQS
+C. ECS
+D. CodeCommit
+
+Answer - C
+
+Amazon EC2 Container Service (Amazon ECS) is a highly scalable, fast, container management service that makes it easy to run, stop, and manage Docker containers on a cluster of Amazon Elastic Compute Cloud (Amazon EC2) instances. Amazon ECS lets you launch and stop container-based applications with simple API calls, allows you to get the state of your cluster from a centralized service, and gives you access to many familiar Amazon EC2 features.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company has been using AWS cloud services for six months and just finished a security review. Which finding below is considered a best practice in the security pillar of the well-architected framework?
+
+A. Using the root user to create all new user accounts, at any time
+B. Monitoring and using alerts using CloudTrail and CloudWatch
+C. Assigning Private IP address ranges to VPCs that do not overlap
+D. Designing the system using elasticity to meet changes in demand
+
+Answer - B
+
+B. Monitoring and alerting for key metrics and events is a best practice of the Security pillar
+C. Non-overlapping Private IP addresses is in the Reliability pillar
+D. Design using elasticity to meet demand is in the Performance Efficiency pillar
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A small company started using EBS backed EC2 instances due to the cost improvements over running their own servers. The company’s policy is to stop the development servers over weekend and restart them each week. The first time the servers were brought back none of the developers were able to SSH into them. What did the server most likely overlook?
+
+The associated Elastic IP address has changed and the SSH configurations were not updated
+The security group for a stopped instance needs to be reassigned after start
+The public ip4 address has changed on server start and the SSH configurations were not updated
+EBS backed EC2 instances cannot be stopped and were automatically terminated
+
+Answer - C
+C. The instance retains its private IPv4 addresses and any IPv6 addresses when stopped and restarted. AWS releases the public IPv4 address and assigns a new one when its restarted
+
+A. An EC2 instance retains its associated Elastic IP addresses
+B. Security groups do not need to be reassigned to instances that are restarted.
+D. EBS backed instances are the only instance type that can be started and stopped.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You want to use AWS to host your own website with a unique domain name that uses the format www.example.com. It needs to be deployed quickly and doesn’t require server-side scripting. What is your best option?
+
+Register a domain with Route53 and verify ahead of time that a unique S3 bucket name can be created.
+Create an auto-scaling group of EC2 instances and manage the web hosting on these instances
+Create one large EC2 instance to host the website and replicate it in every region
+Create a Content Delivery Network (CDN) to deliver your images and files
+
+Answer - A
+A. S3 static webhosting is the quickest way to setup this website. Because bucket names are unique across all regions, its important to know that your S3 bucket is available before purchasing a domain name.
+
+B. Hosting on EC2 is not necessary here as server-side scripting is not needed and S3 will scale automatically.
+C. Hosting on EC2 is not necessary and this particular implementation can lead to different configurations on each server.
+D. A CDN will improve the delivery time of your files and pages to the customer but is not a hosting solution itself.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

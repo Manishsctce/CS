@@ -166,32 +166,6 @@ Storage		: NVMe SSD
 - Are designed to work will all EBS volume types 
 - This is all about high performance data transfer between EC2 instance and their attached EBS volumes
 
-############ EC2- SR-I/OV ########
-> SR-I/OV mean Single Root I/O Virtualization
-
-> SR-I/OV is a network interface (host interface) virtualization 
-- whereby, a guest machine (EC2 instance) has direct access to virtual network interface without hypervisor being in the middle (emulating a vNIC) 
-- basically, virtualizing the network adaptor on the physical host 
-
-> SR-I/OV
-- Not supported on all instance types 
-- it is supported on R4, X1, P2, C3/4, R3, I2, M4, d2 
-
-###### ADVANTAGE #######
-> For supported instance types, SR-I/OV provides: 
-- higher PPS performance for data transfer
-- Lower latency 
-- very low network jitter 
-
-> EC2 enhanced networking can be enabled on EBS-backed or Instance-backed instance 
-> EC2 enhanced networking can function across Multi-AZ 
-
-> To use enhanced networking, the EC2 instance need to 
-- Support SR-I/OV
-- Should be created form HVM(Hardware Virtual Machine) AMI
-- be launched in a VPC (default)
-
-> Using enhanced networking does not cost extra 
 =======================================
 ###### EC2 Placement Groups(PG) ####### V11
 > It is a logical grouping (clustering) of EC2 instance in the same AZ or in different AZ with the goal of providing low latency, and high network throughput for inter-instance communication 
@@ -678,6 +652,32 @@ There are two parts of the error message.
 6. SUSE : ec2-user / root
 7. UBUNTU : ubuntu
 
+############ EC2- SR-I/OV ########
+> SR-I/OV mean Single Root I/O Virtualization
+
+> SR-I/OV is a network interface (host interface) virtualization 
+- whereby, a guest machine (EC2 instance) has direct access to virtual network interface without hypervisor being in the middle (emulating a vNIC) 
+- basically, virtualizing the network adaptor on the physical host 
+
+> SR-I/OV
+- Not supported on all instance types 
+- it is supported on R4, X1, P2, C3/4, R3, I2, M4, d2 
+
+###### ADVANTAGE #######
+> For supported instance types, SR-I/OV provides: 
+- higher PPS performance for data transfer
+- Lower latency 
+- very low network jitter 
+
+> EC2 enhanced networking can be enabled on EBS-backed or Instance-backed instance 
+> EC2 enhanced networking can function across Multi-AZ 
+
+> To use enhanced networking, the EC2 instance need to 
+- Support SR-I/OV
+- Should be created form HVM(Hardware Virtual Machine) AMI
+- be launched in a VPC (default)
+
+> Using enhanced networking does not cost extra 
 =======================================
 ########## ELASTIC BEANSTALK ##########
 

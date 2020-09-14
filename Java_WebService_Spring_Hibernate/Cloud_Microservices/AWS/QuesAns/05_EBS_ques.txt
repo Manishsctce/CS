@@ -22,6 +22,39 @@ D. backup of instance store
 
 Answer (A)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You terminate an EC2 instance and find that the EBS root volume that was attached to the instance was also deleted. How can you correct this?
+
+A. You can’t. A root volume is always deleted when the EC2 instance attached to that volume is deleted.
+
+B. Take a snapshot of the EBS volume while the EC2 instance is running. Then, when the EC2 instance is terminated, you can restore the EBS volume from the snapshot.
+
+C. Remove termination protection from the EC2 instance.
+D. Use the AWS CLS to change the DeleteOnTermination attribute for the EBS volume to “false.”
+
+Answer: D. 
+
+By default, EBS root volumes are terminated when the associated instance is terminated. However, this is only the default value; therefore A is not correct. Option B is not directly addressing the question; the EBS volume would still be deleted even if you take a snapshot. 
+Option C is not relevant, but 
+option D : use AWS CLI (or the console) to set the root volume to persist after instance termination.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## In what manner are EBS snapshots backed up to S3?
+
+A. Via full backup according to the backup policy set on the volume
+B. Incrementally
+C. Synchronously
+D. EBS volumes are not stored on S3.
+
+Answer: B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can you attach an EBS volume to more than one EC2 instance at the same time?
+
+A. Yes, as long as the volume is not the root volume.
+B. No, EBS volumes cannot be attached to more than one instance at the same time.
+C. Yes, as long as the volume is one of the SSD classes and not magnetic storage.
+D. Yes, as long as at least one of the instances uses the volume as its root volume.
+
+Answer: B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

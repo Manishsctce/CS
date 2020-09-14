@@ -1,32 +1,639 @@
-############# EC2 #############
+############# S3 ##############
 
-## 
+## A company offers its customers short-lived contests that require users to upload files in hopes of winning prizes. These contests can last up to two weeks, with unknown uploads and the resulting file analysis can last up to three months.
+The company needs an economic, scalable object storage solution to hold its customers' files. The files will be accessed once and then deleted, and it requires immediate access. The best solution for this company is:
+
+A. Amazon Glacier
+B. Elastic File System
+C. Amazon S3 Standard
+D. Amazon S3 Standard Infrequent Accessed
+
+Answer - D. 
+S3 – IA for data that is accessed less frequently, but requires rapid access when needed
+
+Amazon Glacier is for data archiving and can be accessed within minutes
+Elastic File System is file storage, not object storage as required
+S3 standard is for frequently accessed data, and less economical than S3 - IA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Which of the following statements regarding S3 storage classes is true?
+
+A. The availability of S3 and S3-IA is the same.
+B. The durability of S3 and S3-IA is the same.
+C. The latency of S3 and Glacier is the same.
+D. The latency of S3 is greater than that of Glacier.
+
+Answer - B 
+S3 and S3-IA have the same durability. S3 has 99.99 availability, while S3-IA has 99.9 availability. 
+Glacier has much greater first-byte latency than S3, so both C and D are false.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## A small business specializing in video processing wants to prototype cloud storage in order to lower its costs. However, management is wary of storing its client files in the cloud rather than on premises. They are focused on cost savings and experimenting with the cloud at this time. What is the best solution for their prototype?
+
+A. Install a VPN, set up an S3 bucket for their files created within the last month, and set up an additional S3-IA bucket for older files. Create a lifecycle policy in S3 to move files older than 30 days into the S3-IA bucket nightly.
+
+B. Install an AWS storage gateway using stored volumes.
+C. Set up a Direct Connect and back all local hard drives up to S3 over the Direct Connect nightly.
+D. Install an AWS storage gateway using cached volumes.
+
+Answer - B 
+
+Anytime the primary consideration is storage with a local data presence—where data must be stored or seen to be stored locally—a storage gateway gives you the best
+option. This reduces the choices to B and D. 
+B will store the files in S3 and provide local cached copies, while D will store the files locally and push them to S3 as a backup. Since management is concerned about storage in the cloud of primary files, B is the best choice; local files are the primary source of data, while still allowing the company to experiment with cloud storage without “risking” its data being stored primarily in the cloud.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You have a group of web designers who frequently upload large zip files of images to S3, often in excess of 5 GB. Recently, team members have reported that they are receiving the error “Your proposed upload exceeds the maximum allowed object size.” What action should you take to resolve the upload problems?
+
+A. Increase the maximum allowed object size in the target S3 bucket used by the web designers.
+B. Ensure that your web designers are using applications or clients that take advantage of the Multipart Upload API for all uploaded objects.
+C. Contact AWS and submit a ticket to have your default S3 bucket size raised; ensure that this is also applied to the target bucket for your web designers’ uploads.
+D. Log in to the AWS console, select the S3 service, and locate your bucket. Edit the bucket properties and increase the maximum object size to 50 GB.
+
+Many of these answers are nonsensical in terms of what AWS allows. The limits on size related to S3 are for objects; an individual object can be as large as 5 TB. Both A and C, then, are not useful (or possible). D proposes to increase the maximum object size to 50 GB, but the maximum object size is already 5 TB. Option B is correct; AWS recommends using Multipart Upload for all objects larger than 100 MB.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## For which of the following HTTP methods does S3 have eventual consistency? (Choose two.)
+A. PUTs of new objects
+B. UPDATEs
+C. DELETEs
+D. PUTs that overwrite existing objects
+
+Answer : C, D. 
+PUTs of new objects have a read after write consistency. DELETEs and overwrite
+PUTs have eventual consistency across S3
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+##  What is the smallest file size that can be stored on standard class S3?
+A. 1 byte
+B. 1 MB
+C. 0 bytes
+D. 1 KB
+
+C. First, note that “on standard class S3” is a red herring, and irrelevant to the question.
+Second, objects on S3 can be 0 bytes. This is equivalent to using touch on a file and then
+uploading that 0-byte file to S3.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You’ve just created a new S3 bucket named ytmProfilePictures in the US East 2 region. You need the URL of the bucket for some programmatic access. What is the correct bucket URL?
+A. https://s3-us-east-2.amazonaws.com/ytmProfilePictures
+B. https://s3-east-2.amazonaws.com/ytmProfilePictures
+C. https://s3-us-east-2-ytmProfilePictures.amazonaws.com/
+D. https://amazonaws.s3-us-east-2.com/ytmProfilePictures
+
+A. This is a matter of carefully looking at each URL. Bucket names—when not used as
+a website—always come after the fully qualified domain name (FQDN); in other words,
+after the forward slash. That eliminates C. Additionally, the region always comes earlier
+in the FQDN than amazonaws.com, eliminating D. This leaves A and B. Of the two, A
+correctly has the complete region, us-east-2.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You’ve just created a new S3 bucket named ytmProfilePictures in the US East 2 region and created a folder at the root level of the bucket called images/. You’ve turned on website hosting and asked your content team to upload images into the images/ folder. At what URL will these images be available through a web browser?
+
+A. https://s3-us-east-2.amazonaws.com/ytmProfilePictures/images
+B. https://s3-website-us-east-2.amazonaws.com/ytmProfilePictures/images
+C. https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images
+D. https://ytmProfilePictures.s3-website.us-east-2.amazonaws.com/ytmProfilePictures/images
+
+C. This is another question that is tricky unless you work through each part of the URL, piece by piece. 
+The first clue is that this is a website hosted on S3, as opposed to directly accessing an S3 bucket. 
+Where website hosting is concerned, the bucket name is part of the FQDN; where direct bucket access is concerned, the bucket name comes after the FQDN.
+This is an essential distinction. This means that A and B are invalid. Then, you need to
+recall that the s3-website portion of the FQDN is always connected to the region; in other
+words, it is not a subdomain. The only option where this is the case is C.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Which of the following statements is not true?
+
+A. Standard S3, S3-IA, and S3 One Zone-IA all are equally durable.
+B. The availability of S3-IA and S3 One Zone-IA are identical.
+C. Standard S3, S3-IA, and S3 One Zone-IA all have different availabilities.
+D. S3 One Zone-IA is as durable as standard S3.
+
+B. This is an important distinction when understanding S3 classes. 
+Standard S3, S3-IA, and S3 One Zone-IA all are equally durable, although in One Zone-IA, data will be lost if the availability zone is destroyed. 
+Each class has different availability, though: S3 is 99.99, S3-IA is 99.9, and S3 One Zone-IA is 99.5. Therefore, it is false that all have the same availability (B).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Which of the following AWS services appear in the AWS console across all regions? (Choose two.)
+A. S3
+B. EC2
+C. IAM
+D. RDS
+
+Answer : A, C. 
+
+S3 buckets are created within a region, but the AWS console and your account will show you all S3 buckets at all times. 
+While a bucket is created in a specific region, names of buckets are also global. 
+IAM permissions are also global and affect all regions. 
+RDS and EC2 instances are region specific, and only appear in the regions in which they were created in the AWS console.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You have spent several days of your last DevOps sprint building an AMI upon which all instances of your development team’s application should reside. The application will be deployed into multiple regions and interact with multiple S3 buckets, and you now need the new AMI in us-east-2 and us-west-2, in addition to us-east-1, where you created the AMI. How can you make the new AMI available in us-east-2 and us-west-2?
+
+A. Copy the AMI from us-east-1 to us-east-2 and us-west-2. Launch the new instances using the copied AMI.
+
+B. Ensure that all application instances share a security group. AMIs are available to all instances within a security group, regardless of the region in which the AMI was created.
+
+C. You can immediately launch the AMI, as all AMIs appear in all regions through the AWS console.
+
+D. Copy the AMI from us-east-1 to us-east-2 and us-west-2. Apply launch permissions and S3 bucket permissions and then launch new instances using the updated AMI.
+
+Answer. D.
+AMIs are not cross-region, regardless of account or security group. This makes B and C invalid. A is a valid choice but will not preserve any of the permissions or roles that allow the instance to connect to S3. Therefore, D is the correct option: manual configuration of the AMI after it has been copied is required for correct operation.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You have an S3 bucket and are working on cost estimates for your customer. She has asked you about pricing of objects stored in S3. There are currently objects in the buckets ranging from 0 bytes to over 1 GB. In this situation, what is the smallest file size that S3-IA will charge you for?
+A. 1 byte
+B. 1 MB
+C. 0 bytes
+D. 128 KB
+
+D. This is a bit of a trick question if you’re not careful. While S3 allows for 0-byte objects, and charges as such, S3-IA charges all objects as if they are at least 128 KB in size. So while you can store a smaller object in S3-IA, it will be considered 128 KB for pricing and charging purposes.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Which of the following are valid criteria for determining which region to choose for your S3 buckets? (Choose two.)
+
+A. The distance between the region and your user base
+B. The distance between the region and your on-premises operations
+C. The distance between the region and other regions in your AWS account
+D. The distance between the region and your development team
+
+Answer: A, B. 
+
+Valid concerns in this list include placing storage close to your users, to reduce network latency, and distance from your operations center. 
+This latter is a little less obvious but is centered around disaster recovery scenarios: If a disaster destroyed your operations center, you would not want your storage on AWS to be geographically in the same area.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## How many tunnels for network traffic are involved when a customer gateway connects to an AWS VPC via an AWS-managed VPN connection?
+
+A. One
+B. Two
+C. Three
+D. It depends on the settings in the AWS VPC.
+
+Answer: B. 
+
+A typical VPN connection uses two different tunnels for redundancy. Both tunnels move between the customer gateway and the virtual private gateway.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Choose the correct order in which traffic flows from an on-premises site to a VPC within AWS when a VPN connection is used.
+
+A. Customer gateway to Amazon VPC to virtual private gateway
+B. Virtual private gateway to customer gateway to Amazon VPC
+C. Amazon VPC to customer gateway to virtual private gateway
+D. Customer gateway to virtual private gateway to Amazon VPC
+
+Answer: D. 
+Traffic begins at the on-premises site, which means starting at a customer gateway. Traffic then flows through the Internet and to the virtual private gateway at AWS. Then, from the gateway, traffic can flow into an Amazon VPC.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are setting up a site-to-site VPN from an on-premises network into an AWS VPC. Which of the following are steps you may need to perform? (Choose two.)
+
+A. Set up a public IP address for the customer gateway.
+B. Set up a public IP address for the AWS VPC.
+C. Set up a public IP address for the virtual private gateway.
+D. Set up a public IP address for the VPN tunnels.
+
+Answer: A, C. 
+
+Traffic across the Internet can only flow between public IP addresses in most cases. For a VPN connection, you will need a customer gateway with a public IP address as well as a virtual private gateway with a public IP address, both of which you may be responsible for configuring. A VPC does not have an IP address of its own (making option B incorrect), and VPN tunnels do not either (option D).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following services is used at an on-premises site to connect to cloud-based storage?
+
+A. Storage gateway
+B. Virtual private gateway
+C. Customer gateway
+D. Virtual private network
+
+Answer: A. 
+A storage gateway is the correct answer, as it is used for caching or storing data and connecting to S3. A customer gateway is the anchor on the customer side of an Amazon VPN connection. A virtual private gateway is used for connecting into AWS via a VPN, and a virtual private network is actually what VPN stands for.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following are valid options for storage gateways? (Choose two.)
+
+A. File gateway
+B. Volume gateway
+C. Cached gateway
+D. Virtual private gateway
+
+Answer: A, B. 
+
+Both file and volume gateways offer solutions for connecting to cloud-based storage. A cached gateway isn’t an AWS option, and a virtual private gateway is used in creating VPN connections.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are tasked with recommending a storage solution for a large company with a capital investment in an NFS-based backup system. The company wants to investigate cloudbased storage but doesn’t want to lose its software investment either. Which type of storage gateway would you recommend?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: A. 
+
+Each of the options is a valid configuration for a storage gateway. Of the options, file gateway provides an NFS-style protocol for transferring data to and from the gateway and therefore is the best option
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  You are helping a medium-sized business migrate its large datasets to the cloud. However, the business has limited resources and has long used a tape backup system. It does not want to lose the investment in the software and systems that already have been configured to use this backup system. Which storage gateway would you recommend?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: D. 
+
+This is relatively easy because the word tape actually appears in both the question and the answer. A tape gateway backs up data in Amazon Glacier while providing a virtual tape infrastructure that many existing tape backup systems can utilize.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are tasked with prototyping a cloud-based storage solution for a small business. The business’s chief concern is low network latency, as its systems need near-instant access to all of its datasets. Which storage gateway would you recommend?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: C. 
+A stored volume gateway stores data at the on-premises data store and backs up to S3 asynchronously to support disaster recovery. Most important, though, is that by storing data locally, network latency is minimal. Of the available options, only a stored volume gateway provides local data with this speed of access across an entire dataset.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##  You are the solutions architect for a mapping division that has inherited a massive geospatial dataset from a recent acquisition. The data is all on local disk drives, and you want to transition the data to AWS. With datasets of over 10 TB, what is the best approach to getting this data into AWS?
+
+A. S3 with Transfer Acceleration
+B. Cached volume gateway
+C. Snowball
+D. Shipping the drives to AWS
+
+Answer: C. 
+
+Anytime very large data needs to be moved into AWS, consider Snowball. Snowball is
+a physical device that allows for data to be physically sent to AWS rather than transferred over a network. It is the only solution that will not potentially cause disruptive network outages or slowdowns.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following are not reasons to use a cached volumes storage gateway? (Choose two.)
+
+A. You want low-latency access to your entire dataset.
+B. You want to reduce the cost of on-site storage.
+C. You want to support iSCSI storage volumes.
+D. You want low-latency access to your most commonly accessed data.
+
+Answer: A, C. 
+
+A cached volume gateway stores the most commonly accessed data locally (option D) while keeping the entire dataset in S3. This has the effect of reducing the cost of storage on-site, because you need less (option B). Since both of these are true, you need to select the other two options as reasons to not use a cached volumes gateway: A and C.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##36. Which of the following storage gateway options is best for traditional backup applications?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: A. 
+
+Be careful here. While it might seem at a glance that a tape gateway is best, most backup solutions do not employ tape backups. They use NFS mounts and file-based backups, which is exactly what a file gateway is best used for.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##37. Which of the following storage gateway options is best for applications where latency of specific portions of your entire dataset is the priority?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: B. 
+A cached volume gateway is ideal when a portion of a dataset is at issue. The most used data will be cached, and therefore stored in the local cache on premises. If the entire dataset is needed, then a stored volume gateway is a better choice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##38. Which of the following storage gateway options is best for applications where latency of your entire dataset is the priority?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: C. 
+If the entire dataset is needed, then a stored volume gateway is a better choice than a cached volume gateway. The stored volume stores the entire dataset on premises and therefore is very fast for all data access.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##39. Which of the following storage gateway options is best for reducing the costs associated with an off-site disaster recovery solution?
+
+A. File gateway
+B. Cached volume gateway
+C. Stored volume gateway
+D. Tape gateway
+
+Answer: D. 
+
+A tape gateway is ideal for replacing off-site tape directories. The gateway is a virtual
+tape directory and avoids the costs of transporting actual tapes to an expensive off-site
+location.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##40. Which of the following storage classes is optimized for long-term data storage at the expense of retrieval time?
+
+A. S3
+B. S3-IA
+C. S3 One Zone-IA
+D. Glacier
+
+Answer: D. This should be automatic: Glacier is the Amazon offering for long-term “on ice”
+storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##41. Which of the following need to be considered across all regions in your account? (Choose two.)
+
+A. Launch configurations
+B. IAM users
+C. EC2 instances
+D. S3 bucket names
+
+Answer: B, D. Launch configurations are specific to a region, as are EC2 instances. While S3
+buckets are created in a region, their names are global. IAM users also exist across all of
+your account.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##42. What HTTP code would you expect after a successful upload of an object to an S3 bucket?
+
+A. HTTP 200
+B. HTTP 307
+C. HTTP 404
+D. HTTP 501
+
+Answer: A. HTTP 200 is the general return for success, and this is the case for S3 uploads as well.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##43. What is the durability of S3 One Zone-IA?
+
+A. 99.0%
+B. 99.9%
+C. 99.99%
+D. 99.999999999%
+
+Answer: D. This is easy to miss. All S3 storage classes (S3 standard, S3-IA, and S3 One Zone-IA) share the same durability of 11 9s.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##44. What is the durability of S3-IA?
+
+A. 99.0%
+B. 99.9%
+C. 99.99%
+D. 99.999999999%
+
+
+Answer: D. All S3 storage classes (S3 standard, S3-IA, and S3 One Zone-IA) share the same durability of 11 9s.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the durability of S3?
+A. 99.0%
+B. 99.9%
+C. 99.99%
+D. 99.999999999%
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##46. What is the availability of S3 One Zone-IA?
+
+A. 99.5%
+B. 99.9%
+C. 99.99%
+D. 99.999999999%
+
+Answer: 
+A. While all S3 storage classes share the same durability, they have varying availability.
+S3-IA has 99.9%, while S3 One Zone-IA is less (99.5%), and S3 standard is higher
+(99.99%).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##47. What is the availability of S3-IA?
+
+A. 99.5%
+B. 99.9%
+C. 99.99%
+D. 99.999999999%
+
+Answer: B. While all S3 storage classes share the same durability, they have varying availability.
+S3-IA has 99.9%, while S3 One Zone-IA is less (99.5%), and S3 standard is higher
+(99.99%).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##48. What is the availability of S3?
+A. 99.5%
+B. 99.9%
+C. 99.99%
+D. 99.999999999%
+
+Answer: C. While all S3 storage classes share the same durability, S3 standard has the highest
+availability, at 99.99%.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##49. Which S3 storage class supports SSL for data in transit?
+A. S3
+B. S3-IA
+C. S3 One Zone-IA
+D. All of the above
+
+Answer: 49. D. All of the S3 storage classes support both SSL for data in transit and encryption for
+data at rest.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##50. Which S3 storage class supports encryption for data at rest?
+A. S3
+B. S3-IA
+C. S3 One Zone-IA
+D. All of the above
+
+Answer: 50. D. All of the S3 storage classes support both SSL for data in transit and encryption for
+data at rest.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##51. For which of the following storage classes do you need to specify a region?
+A. S3
+B. S3-IA
+C. S3 One Zone-IA
+D. All of the above
+
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##52. For which of the following storage classes do you need to specify an availability zone?
+A. S3
+B. S3-IA
+C. S3 One Zone-IA
+D. None of the above
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##53. How does S3 store your objects?
+A. As key-value pairs
+B. As relational entries.
+C. Using a NoSQL interface
+D. As blocks in a block storage
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##54. In what ways can you access your data stored in S3 buckets? (Choose two.)
+A. Through FTP access to the bucket
+B. Through SFTP access to the bucket
+C. Through a REST-based web service interface
+D. Through the AWS console
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##55. Which of the following are true about S3 data access when traffic spikes (increases)?
+(Choose two.)
+A. S3 will scale to handle the load if you have Auto Scaling set up.
+B. S3 will scale automatically to ensure your service is not interrupted.
+C. Scale spreads evenly across AWS network to minimize the effect of a spike.
+D. A few instances are scaled up dramatically to minimize the effect of the spike.
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##56. You have been tasked with helping a company migrate its expensive off-premises storage
+to AWS. It will still primarily back up files from its on-premises location to a local NAS.
+These files then need to be stored off-site (in AWS rather than the original off-site location).
+The company is concerned with durability and cost and wants to retain quick access
+to its files. What should you recommend?
+A. Copying files from the NAS to an S3 standard class bucket
+B. Copying files from the NAS to an S3 One Zone-IA class bucket
+C. Copying the files from the NAS to EBS volumes with provisioned IOPS
+D. Copying the files from the NAS to Amazon Glacier
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##57. Which S3 storage class would you recommend if you were building out storage for an
+application that you anticipated growing in size exponentially over the next 12 months?
+A. Amazon Glacier
+B. S3 standard
+C. S3-IA
+D. There is not enough information to make a good decision.
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##58. How many S3 buckets can you create per AWS account, by default?
+A. 25
+B. 50
+C. 100
+D. There is not a default limit.
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##59. How are objects uploaded to S3 by default?
+A. In parts
+B. In a single operation
+C. You must configure this option for each S3 bucket explicitly.
+D. Via the REST API
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##60. When does AWS suggest you start uploading objects via the Multipart Upload API?
+A. When you’re uploading a lot of files at once
+B. When you’re uploading files of 10 GB or more
+C. When you have multiple applications uploading files to the same S3 bucket
+D. When you need the greatest network throughput for uploads
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##61. Which of the following are the ways you should consider using Multipart Upload?
+A. For uploading large objects over a stable high-bandwidth network to maximize
+bandwidth
+B. For uploading large objects to reduce the cost of ingress related to those objects
+C. For uploading any size files over a spotty network to increase resiliency
+D. For uploading files that must be appended to existing files
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##62. How is a presigned URL different from a normal URL? (Choose two.)
+A. A presigned URL has permissions associated with certain objects provided by the
+creator of the URL.
+B. A presigned URL has permissions associated with certain objects provided by the
+user of the URL.
+C. A presigned URL allows access to private S3 buckets without requiring AWS
+credentials.
+D. A presigned URL includes encrypted credentials as part of the URL.
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##63. Which of the following can be put behind a presigned URL?
+A. An S3 object store
+B. An EC2 instance with a web interface
+C. An AWS CloudFront distribution
+D. All of the above
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##64. How long is a presigned URL valid?
+A. 60 seconds
+B. 60 minutes
+C. 24 hours
+D. As long as it is configured to last
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##65. Which of the following HTTP methods with regard to S3 have eventual consistency?
+(Choose two.)
+A. UPDATEs
+B. DELETEs
+C. PUTs of new objects
+D. Overwrite PUTs
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##66. Which of the following behaviors is consistent with how S3 handles object operations on a
+bucket?
+A. A process writes a new object to Amazon S3 and immediately lists keys within its
+bucket. The new object does not appear in the list of keys.
+B. A process deletes an object, attempts to immediately read the deleted object, and S3
+still returns the deleted data.
+C. A process deletes an object and immediately lists the keys in the bucket. S3 returns a
+list with the deleted object in the list.
+D. All of the above
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##67. In which regions does Amazon S3 offer eventual consistency for overwrite PUTs and
+DELETEs?
+A. All US regions
+B. All US and EU regions
+C. All regions
+D. No regions, eventual consistency is not the model for overwrite PUTs.
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##68. Which of the following storage media are object based? (Choose two.)
+A. S3-IA
+B. EBS
+C. EFS
+D. S3 standard
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##69. EBS stands for what?
+A. Elastic Based Storage
+B. Elastic Block Storage
+C. Extra Block Storage
+D. Ephemeral Block Storage
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##70. What is the consistency model in S3 for PUTs of new objects?
+A. Write after read consistency
+B. Read after write consistency
+C. Eventual consistency
+D. Synchronous consistency
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##71. How many PUTs per second does S3 support?
+A. 100
+B. 1500
+C. 3500
+D. 5000
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##72. You have been asked to create a new S3 bucket with the name prototypeBucket32 in the US West region. What would the URL for this bucket be?
+A. https://s3-us-east-1.amazonaws.com/prototypeBucket32
+B. https://s3-us-west-1.amazonaws.com/prototypeBucket32
+C. https://s3.prototypeBucket32-us-east-1.amazonaws.com/
+D. https://s3-prototypeBucket32.us-east-1.amazonaws.com/
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##73. What unique domain name do S3 buckets created in US East (N. Virginia) have, as compared to other regions?
+
+A. s3.amazonaws.com
+B. s3-us-east-1.amazonaws.com
+C. s3-us-east.amazonaws.com
+D. s3-amazonaws.com
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##74. Which of the following are valid domain names for S3 buckets? (Choose two.)
+
+A. s3.us-east-1.amazonaws.com
+B. s3-us-west-2.amazonaws.com
+C. s3.amazonaws.com
+D. s3-jp-west-2.amazonaws.com
+
+Answer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##75. What are the two styles of URLs that AWS supports for S3 bucket access? (Choose two.)
+A. Virtual-hosted-style URLs
+B. Domain-hosted-style URLs
+C. Apex zone record URLs
+D. Path-style URLs
+
+Answer:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

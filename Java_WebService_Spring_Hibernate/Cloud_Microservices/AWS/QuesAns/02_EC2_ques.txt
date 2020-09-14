@@ -30,9 +30,62 @@ D. general purpose optimized
 
 Answer (A)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## A company is planning on moving their virtual servers from their on-premises infrastructure to the AWS Cloud. They need to migrate their existing VM's to the cloud. Which of the following could help them in the migration process?
+
+A. AWS VM Import
+B. AWS S3
+C. AWS SQS
+D. AWS EC2
+
+Answer (A)
+
+VM Import/Export enables you to easily import virtual machine images from your existing environment to Amazon EC2 instances and export them back to your on-premises environment. This offering allows you to leverage your existing investments in the virtual machines that you have built to meet your IT security, configuration management, and compliance requirements by bringing those virtual machines into Amazon EC2 as ready-to-use instances. You can also export imported instances back to your on-premises virtualization infrastructure, allowing you to deploy workloads across your IT infrastructure.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## How many EC2 instances can be created per region per account?
+
+A. Only 1 is allowed
+B. 10
+C. 20
+D. Any number of EC2 instances can be created per region per account
+
+Answer (C)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have been hired as an AWS Architect for a company. There is a requirement to host an application using EC2 Instances. The Infrastructure needs to scale on demand and also be fault tolerant. Which of the following would you include in the design? Choose 2 answers from the options below
+
+AWS Autoscaling
+ECS
+Elastic Load Balancer
+Cloudwatch
+
+Answer - A and C
+
+You can automatically increase/decrease the size of ASG when demand goes up/down. As the ASG adds and removes EC2 instances, you must ensure that the traffic for app is distributed across all of your EC2 instances. 
+The ELB service automatically routes incoming web traffic across such a dynamically changing number of EC2 instances.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has setup EC2 Instances in a VPC for their application. The IT Security department has advised that all traffic be monitored to the EC2 Instances.
+Which of the following features can be used to capture information for outgoing and incoming IP traffic from network interfaces in a VPC.
+
+Cloudwatch
+EC2
+SQS
+VPC Flow Logs
+
+Answer – D
+
+VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow log data can be published to Amazon CloudWatch Logs and Amazon S3. After you've created a flow log, you can retrieve and view its data in the chosen destination.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has setup EC2 Instances in a VPC for their app. The IT Security department needs to understand what the security mechanisms are available to protect the Instances when it comes to traffic going in and out of the instance. What are the two layers of security provided by AWS in the VPC? Choose 2 answers from the options given below
+
+Security Groups 
+NACLs
+DHCP options
+Route Tables  
+
+Answer - A and B
+SG act as a virtual firewall for your instance to control inbound and outbound traffic. When you launch an instance in a VPC, you can assign up to five security groups to the instance.
+
+NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. You might set up network ACLs with rules similar to your security groups in order to add an additional layer of security to your VPC.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,13 +190,66 @@ Option E is not correct. T2.micro is supported for container instance.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which of the following can be used with Amazon ECS to run Containers without having to manage servers or clusters of Amazon EC2 instances?
 
-AWSVPC
-FARGATE
-AWS ECR
-Docker
+A. AWSVPC
+B. FARGATE
+C. AWS ECR
+D. Docker
 
 Answer : B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How does AWS allow you to add metadata to your EC2 instances? (Choose two.)
 
+A. Certificates
+B. Tags
+C. Policies
+D. Labels
+
+Answer: A, D
+
+All instances and most services in AWS provide tagging for metadata. 
+Certificates are related to SSL and help define the identity of a site or transmission, policies are related to permissions and roles, and labels are not (currently) an AWS construct.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where are individual EC2 instances provisioned?
+
+A. In a specific region
+B. In a specific availability zone
+C. In a random availability zone within a specified region
+D. It depends upon the region.
+
+Answer: B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following can be deployed across availability zones?
+
+A. Cluster placement groups
+B. Placement groups
+C. Spread placement groups
+D. Cross-region placement groups
+
+Answer: C. 
+
+Spread placement groups—which are relatively new to AWS—can be placed across multiple availability zones. 
+Cluster placement groups cannot, and placement groups generally refers to cluster placement groups. 
+Cross-region placement groups is a made-up term.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following services is used at an on-premises site to build a site-to-site VPN connection?
+
+A. Storage gateway
+B. Virtual private gateway
+C. Customer gateway
+D. Virtual private network
+
+Answer: C. 
+A customer gateway is the anchor on the customer side of an Amazon VPN connection. A storage gateway is for caching or storing data and connecting to S3. A virtual private gateway is an important part of a VPN connection but exists on the AWS side of the connection. A virtual private network is actually what VPN stands for.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the anchor on the AWS side of a site-to-site VPN connection between an onpremises site and AWS?
+
+A. IPSec tunnel
+B. Virtual private gateway
+C. Customer gateway
+D. VPC
+
+Answer: B. 
+VPN connections between an on-premises site and AWS consist of a customer gateway on the customer side and a virtual private gateway on the AWS side
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

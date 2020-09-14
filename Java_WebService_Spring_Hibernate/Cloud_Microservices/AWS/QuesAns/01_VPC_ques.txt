@@ -1,14 +1,79 @@
 ############# VPC #############
 
-## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Your company is planning on setting up a hybrid connection between their on-premises infrastructure and an AWS VPC via AWS VPN managed connections. As an architect which of the following need to be in place for the connection to be established?. Choose 2 answers from the options given below 
+
+A hardware compatible VPN device
+A Virtual private gateway
+An AWS Direct connect device
+Optical fibre cables
+
+Answer - A and B
+
+When defining a VPN connection between the on-premises network and the VPC, you need to have a customer gateway defined. Since this is accessed over the internet, it needs to have a static internet-routable IP Address.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You are working as an architect in your organization. You have peered VPC A as requester and VPC B as accepter and both VPCs can communicate with each other. Now you want resources in both the VPCs to reach out to the internet but anyone on the internet should not be able to reach resources within&nbsp;both the VPCs. Which of the below will achieve the desired outcome? [WL-VPC-1]
+
+Create a NAT Gateway in VPC A and route VPC B's outbound to VPC A's NAT Gateway
+Create an Internet Gateway in VPC A and route VPC B's outbound to VPC A's Internet Gateway
+Create NAT Gateways in both VPCs and configure routes for each VPC to use its own NAT Gateway.
+Simply create a NAT Instance in VPC A.&nbsp; Nothing else is required
+
+Answer: C
+
+Option A is INCORRECT because you can't share NAT gateways across VPCs.
+Option B is INCORRECT because attaching an IGW to a VPC allows instances with public IPs to access the internet, while NATs allow instances with no public IPs to access the internet.
+Option C is CORRECT because you can create NAT Gateways on both VPC's and configure routes to the NAT Gateways in the respective route tables.
+Option D is INCORRECT because a stand-alone NAT Instance in VPC A doesn't accomplish&nbsp;anything.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Your organization already had a VPC(10.10.0.0/16) setup with one public(10.10.1.0/24) and two private subnets – private subnet 1 (10.10.2.0/24) and private subnet 2 (10.10.3.0/24). The public subnet has the main route table and two private subnets have two different route tables respectively. AWS sysops team reports a problem starting the EC2 instance in private subnet 1 cannot communicate to the RDS MySQL database which is on private subnet 2. What are the possible reasons? (choose 2 options) [WL-VPC-2]
+
+One of the private subnet route table’s local route has been changed to restrict access only within the subnet IP range.
+RDS security group inbound rule is incorrectly configured with 10.10.1.0/24 instead of 10.10.2.0/24.
+10.10.3.0/24 subnet's NACL is modified to&nbsp;deny&nbsp;inbound on port 3306&nbsp;from subnet 10.10.2.0/24
+RDS Security group outbound does not contain a rule for ALL traffic or port 3306 for 10.10.2.0/24 IP range.
+
+Answer: B, C
+
+Option A, for any route table, the local route cannot be edited or deleted
+
+"Every route table contains a local route for communication within the VPC over IPv4. If your VPC has more than one IPv4 CIDR block, your route tables contain a local route for each IPv4 CIDR block. If you've associated an IPv6 CIDR block with your VPC, your route tables contain a local route for the IPv6 CIDR block. You cannot modify or delete these routes."
+
+For Option B, possible because the security group is configured with public subnet IP range instead of private subnet 1 IP range and EC2 is in private subnet 1. So EC2 will not be able to communicate with RDS in private subnet 2.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## A new VPC with CIDR range 10.10.0.0/16 has been setup with a public and a private subnet. Internet Gateway and a custom route table have been created and a route has been added with the 'Destination' as '0.0.0.0/0' and the 'Target' with Internet Gateway ( igw-id ). A new Linux EC2 instance has been launched on the public subnet with the auto-assign public IP option enabled, but when trying to SSH into the machine, the connection is getting failed. What could be the reason? [WL-VPC-3]
+
+Elastic IP is not assigned.
+Both the subnets are associated with the main route table, no subnet is explicitly associated with the custom route table which has internet gateway route
+Public IP address is not assigned
+None of the above.
+
+Answer: B
+
+Option A, An Elastic IP address is a public IPv4 address with which you can mask the failure of an instance or software by rapidly remapping the address to another instance in your account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are an architect in your organization. Your organization would want to upload files to AWS S3 bucket privately through AWS VPC. In an existing VPC, you created a subnet and VPC endpoint for S3. You also created one route table which routes the traffic from the subnet to a NAT gateway and also the traffic to S3 through the internet via the NAT gateway. But in AWS S3 server logs, you noticed that the request to S3 bucket from an EC2 instance is not coming via the Internet through the NAT Gateway. What could be causing this situation? [WL-VPC-4]
+
+When NAT Gateway and VPC endpoint exist on same route table, NAT Gateway always takes precedence.
+EC2 instance is having an elastic IP address associated with it.
+The request was redirected through the VPC endpoint
+AWS S3 is a managed service, all requests will always go through internet.
+
+Answer: C
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization has an existing VPC with an AWS S3 VPC endpoint created and serving certain S3 buckets. You were asked to create a new S3 bucket and reuse the existing VPC endpoint to route requests to the new S3 bucket. However, after creating a new S3 bucket and sending requests from an EC2 instance via VPC endpoint, you found the requests are failing with the “Access Denied” error. What could be the issue? (select 2 options)
+
+VPC endpoint contains a policy, currently restricted to certain S3 buckets and does not contain a new S3 bucket.
+AWS IAM role/user does not have access to the new S3 bucket
+AWS default DENY policy restricts access to IAM user/role who already has access to the S3 bucket
+You need to add a new S3 bucket hostname as destination and VPC endpoint ID as target in route table in order to route requests to the new S3 bucket.
+
+Answer: A, B
+
+Option A is correct, VPC endpoint has a policy which by default allows all actions on all S3 buckets. We can restrict access to certain S3 buckets and certain actions on this policy. In such cases, for accessing any new buckets or for any new actions, the VPC endpoint policy needs to be modified accordingly.
+
+Option B is correct, AWS IAM role/user which is used to access S3 bucket needs to have access granted via IAM policy before accessing. So if the IAM role/user is not an administrator or not having full S3 access, a newly created S3 bucket must be added to the IAM policy.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

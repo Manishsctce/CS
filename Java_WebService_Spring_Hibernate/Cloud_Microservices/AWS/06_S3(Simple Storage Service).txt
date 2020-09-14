@@ -64,7 +64,8 @@
 - versioning status 
 - storage classes
 
-######## S3 BUCKET NAMING RULE #######
+=====================================
+####### S3 BUCKET NAMING RULE #######
 
 > S3 BUCKET NAMES(KEYS) ARE GLOBALLY UNIQUE ACROSS ALL REGION 
 - bucket name cannot be changed after they created 
@@ -82,7 +83,7 @@
 
 EXAMPLE:
 https://s3-eu-west-1.amazonaws.com/acloudguru 
-
+https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## ADVANTAGES OF AMAZON S3
 
@@ -143,7 +144,7 @@ https://s3-eu-west-1.amazonaws.com/acloudguru
 - data copies are stored on multiple, geographical distributed location 
 - object storage cannot be mounted on a drive or directory, directly to an EC2 instance 
 - object storage is a perfect solution for data growth storage problem
-=======================================
+=====================================
 ###### DATA CONSISTENCY MODEL ####### v2
 > Data consistency is relevant when we are considering copies of the same data object store over distributed system
 
@@ -167,8 +168,8 @@ https://s3-eu-west-1.amazonaws.com/acloudguru
 - scalability 
 - availability 
 - data durability
-=======================================
-######## S3 CONSISTENCY LEVEL #########
+=====================================
+####### S3 CONSISTENCY LEVEL ########
 > S3 Provides:
 - READ-AFTER-WRITE (IMMEDIATE OR STRONG) CONSISTENCY of PUTS OF NEW OBJECTS (new object loads to S3)
 
@@ -198,13 +199,13 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 
 > S3 buckets region
 > For better performance low latency help to minimise cost, create the S3 bucket closer to your client DC are source of data to be stored
-=======================================
-############ S3 objects ############### v5
+=====================================
+############ S3 objects ############# v5
 
 > Object store in S3 bucket in a region will never leave that region
 -  unless you specify move them to another reason or enable cross region replication(CRR)
 
-> S3 PROVIDE HIGH DATA DURABILITY, object are redundantly stored on multiple devices across multiple facility in Amazon S3 region where the bucket exist
+> S3 PROVIDE HIGH DATA DURABILITY, object are redundantly stored on multiple devices across multiple facility in S3 region where the bucket exist
 
 ## S3 object sub resources
 1. Access Control List :
@@ -212,13 +213,13 @@ EX: https://s3-eu-west-1.amazonaws.com/cloudbucket1
 
 2. Torrent 
 - used by S3 in case bittorrent tries to download the object
-=======================================
-#### S3 RESOURCES AND SUB-RESOURCES ### v6
+=====================================
+### S3 RESOURCES AND SUB-RESOURCES ## v6
 
 > Bucket and object are primary S3 resources 
 - each has its own sub resources
 
-> Buckets sub-resources are lifecycle 
+> Buckets sub-resources are 
 - Lifecycle, website, versioning, ACL and policies, Cross origin Resource sharing(CORS) and logging(bucket access log)
 
 > Object sub-resources are 
@@ -307,8 +308,8 @@ Notes:
 - The object owners must use an object ACL to grant permissions.
 
 > If the AWS account that owns the object is also the parent account to which the IAM user belongs, it can configure object permissions in a user policy, which is evaluated at the user context.
-=======================================
-####### Bucket ACL permissions ######## v8
+=====================================
+###### Bucket ACL permissions ####### v8
 
 > S3 access control list(ACL) help to manage access to bucket and object
 
@@ -336,7 +337,7 @@ Notes:
 
 3. Log delivery group
 - Write permission on a bucket enable this group to write server access logs
-=======================================
+=====================================
 ########## v9
 
 ## When to use Object ACLs To manage Object Permissions
@@ -392,8 +393,8 @@ The permissions can be granted as follows:
 - account can then delegate those permissions, or a subset of them, to users in the account. This is referred to as permission delegation.
 - An account that receives permissions from another account cannot delegate permission cross-account to another AWS account
 
-=======================================
-######## S3 BUCKET VERSIONING ######### v11
+=====================================
+####### S3 BUCKET VERSIONING ######## v11
 
 > BUCKET VERSIONING is a S3 bucket sub-resource, USED TO PROTECT AGAINST ACCIDENTAL OBJECT DELETION OR OVERWRITES
 
@@ -483,26 +484,28 @@ The permissions can be granted as follows:
 =======================================
 ############ S3 STORAGE CLASS ######### v13
 1. S3 Standard
-2. Standard-IA
+2. S3 Standard-IA (Infrequent Access) (S3–IA)
 3. One Zone-IA 
-4. S3-RRS (deprecating) 
+4. S3-RRS (deprecating) (Reduced Redundancy Storage)
 5. S3 Intelligent-Tiering (new)
 
-#### 1. S3 STANDARD Storage Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## 1. S3 STANDARD #######
+
 > Provides for 99.99% availability
 > 11 9's Data Durability ( 99.999999999%)
 > Data encrypted in-transit and at rest in S3
 > Designed to sustain the concurrent loss of data in two facilities
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 2. S3 STANDARD_IA(Infrequent Access) (S3–IA) ##
+######## 2. S3 STANDARD_IA ####
 
+> 99.9% Availability
+> 11 9's data durability
 > For long-lived, less frequently accessed data
 > Designed to sustain the concurrent loss of data in two facilities
 
 > Suitable for backups and older data (old pictures, files)
-> 99.9% Availability
-> 11  9's data durability
 
 > Quick access and high performance like S3 Standard
 
@@ -512,16 +515,16 @@ The permissions can be granted as follows:
 
 >> Suitable for objects greater than 128 KB (Not less than that)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 3. OneZone-IA 
+######## 3. OneZone-IA ########
 > It stores object data in only one Availability Zone, which makes it less expensive than STANDARD_IA. 
 - However, the data is not resilient to the physical loss of the AZ resulting from disasters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 4. S3 Reduced Redundancy Storage(S3–RRS)
+######## 4. S3–RRS ############
 
 > Designed to sustain the data loss in one facility
 
 > 99.99% availability
->> 99.99% data durability
+> 99.99% data durability
 - It is the only S3 class that does not offer 11 9's durability
 
 > Use for non-critical, reproducible data
@@ -532,7 +535,7 @@ The permissions can be granted as follows:
 > If an S3 RRS object is lost, AWS will return HTTP 405 error when the object is requested for read
 > S3 can send a notification in case an object is lost
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 5. S3 Intelligent Tiering
+######## 5. S3 Intelligent Tiering
 
 > It is used when we don't have deep understanding of our data access patterns.
 
@@ -546,6 +549,10 @@ The permissions can be granted as follows:
 > For a small monitoring and automation fee, S3 Intelligent-Tiering monitors access patterns and moves objects that have not been accessed for 30 consecutive days to the infrequent access tier.
 - If the data is accessed later, it is automatically moved back to the frequent access tier. 
 - save money, with no performance impact, no operational overhead, and no retrieval fees.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Standard S3, S3-IA, and S3 One Zone-IA all are equally durable, although in One Zone-IA, data will be lost if the availability zone is destroyed. 
+> Each class has different availability, though: S3 is 99.99, S3-IA is 99.9, and S3 One Zone-IA is 99.5.
+> Glacier has much greater first-byte latency than S3
 =======================================
 ######### S3 LifeCycle Policy ######### v17
 > This is a bucket level sub-resource (configuration).
@@ -1116,3 +1123,56 @@ performance
 > It is Use for archiving data that rarely needs to be accessed. 
 - Data stored in the S3 Glacier Deep Archive storage class has a minimum storage duration period of 180 days and a default retrieval time of 12 hours. 
 - If you have deleted, overwritten, or transitioned to a different storage class an object before the 180-day minimum, you are charged for 180 days.
+
+=======================================
+######### AWS STORAGE GATEWAY #########
+
+
+> AWS Storage Gateway is a service that CONNECTS AN ON-PREMISES SOFTWARE APPLIANCE WITH CLOUD-BASED STORAGE TO PROVIDE SEAMLESS AND SECURE INTEGRATION between an organization's on-premises IT environment and AWS's Storage infrastructure. 
+- The service enables you to securely store data to the AWS cloud for scalable and cost-effective storage.
+
+> AWS STORAGE GATEWAY'S SOFTWARE APPLIANCE is available for download as a virtual machine (VM) image that you INSTALL ON A HOST IN DATACENTER.
+
+> Storage gateway supports either VMware ESXI or Microsoft Hyper-V. 
+- Once you have installed gateway associated with AWS account through the activation process, you can use the AWS management console to create the storage gateway option that is right for you.
+
+##### Types of Storage Gateway #####
+1. File Gateway (NFS)
+2. Volumes Gateway (ISCSI)
+   2a. Stored Volumes
+   2b. Cached Volumes
+3. Tape Gateway (VTL)
+
+#### 1. File Gateway #####
+> Files are stored as object in S3 Buckets, accessed through a Network File System (NFS) mount point. 
+- Ownership, permissions and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. 
+- Once objects are transferred to S3 they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management and cross region replication apply directly to objects stored in bucket.
+- we cannot install OS 
+##### 2. Volume Gateway #####
+> A volume gateway provides cloud-backed storage volumes that we can mount as Internet Small Computer System Interface (ISCSI) devices from on-premises app servers. The gateway supports the following volume configurations:
+
+2A. CACHED VOLUMES 
+- WE STORE OUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
+- Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale your storage on-premises. 
+- You also retain low-latency access to your frequently accessed data.
+
+2b. Stored volumes 
+– If you need low-latency access to entire dataset, first configure on-premises gateway to store all data locally. Then ASYNCHRONOUSLY BACK UP POINT-IN-TIME SNAPSHOTS OF THIS DATA TO AMAZON S3. 
+- This configuration provides durable and inexpensive offsite backups that you can recover to your local data center or Amazon EC2. For example, if you need replacement capacity for disaster recovery, you can recover the backups to Amazon EC2.
+
+- we can install OS 
+###### 3. Tape Gateways ######
+> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. 
+- A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
+
+> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as EC2 instance. 
+- deploy gateway on EC2 instance to provision ISCSI storage volumes in AWS. 
+- Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
+
+### Summary
+• File Gateway – For flat files, stored directly on S3.
+• Tape Gateways – Used for backup and uses popular backup apps like NetBackup, Backup Exec, Veear etc.
+
+Volume Gateway:
+• Stored Volumes – Entire Dataset is stored on site and is asynchronously backed up to S3.
+• Cached Volumes – Entire Dataset is stored on S3 and the most frequently accessed data is cached on site.

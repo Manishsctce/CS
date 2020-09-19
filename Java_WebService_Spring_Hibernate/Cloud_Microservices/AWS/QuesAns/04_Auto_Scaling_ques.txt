@@ -40,17 +40,78 @@ Launch configurations are where details are specified for creating (launching) n
 Security groups have to do more with what traffic is allowed into and out of the launched instances. 
 The remaining two options—A and C—don’t make sense in this context.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An ASG defined in two Availability Zones AZ1, AZ2, in one AWS region, failed to launch instances in AZ1 due to the limited EC2 required instance family capacity. The ASG launched four EC2
+instances in AZ2. When the required EC2 instance family capacity becomes available again in AZ1, what would Auto Scaling attempt to do?
+
+a. Launch two additional EC2 instance in AZ1 and keep the four in AZ2
+
+b. Launch two additional EC2 instances in AZ2
+c. Try to rebalance the EC2 instances between the two AZS
+d. Will not do anything until the next scaling event
+
+Answer: C 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## If configured to do so, Auto Scaling can be used to instruct SNS to send notifications in which of the below events? (Choose 4)
+
+a. When an instance is launched
+b. When an instance is terminated
+c. When an IAM role is attached to an EC2 instance
+d. When a new S3 bucket is created
+e. When an EC2 instance fails to launch
+f. When an EC2 instance fails to terminate
+
+Answer: a,b,e,f 
+
+By default AS is not configured to use SNS  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Under normal operations, your company's AWS environment requires three EC2 instances for the web layer. However, the web layer traffic load requires six EC2 instances between noon time and 6PM every day. You are required to configure Auto Scaling policy to achieve scaling out at noon time and scale back in at 6pm every day. Which of the below scaling policy types would you use for this?
+
+a. Use on-demand (event-based) scaling policy
+b. Use cyclic (schedule-based) scaling policy
+
+c. Increase your minimum, maximum, and desired capacity to six EC2 instances all the time
+
+d. Manually adjust the desired capacity at noon time (scale out) and at 6pm (scale in)
+
+Answer: b
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## While troubleshooting a problem in your application, you have stopped and restarted an instance multiple times. After the problem was fixed. You then noticed that the associated auto- scaling group has determined the instance as unhealthy, and marked it to be replaced. You do not want Auto scaling to terminate it, what can you do to ensure the instance is back to healthy state and will not get terminated?
+
+a. You can not take it back to a healthy state once it is marked for replacement
+
+b. Reboot the instance, the ASG will then add it back to the healthy state instances
+
+c. Manually add the instance back into the ASG
+
+d. During a very limited time, you can use the AWS CLI command as-set-instance-health to mark the instance as healthy
+
+Answer: d
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An instance in an auto scaling group has been reported by EC2 status checks to the Auto Scaling process as unhealthy, Auto scaling then marked it for replacement.
+Which of the below statements is correct? (Choose 2)
+
+a. Auto Scaling will start shortly after that to terminate the instance
+
+b. Auto Scaling has to launch a replacement first then terminate the unhealthy instance
+
+c. Auto Scaling has to do a rebalancing first then terminate the instance
+
+d. Auto Scaling will terminate the instance first then launch a new, instance
+
+Answer: a, d
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You are newly hired to YCDIT2, Inc. as the AWS SME. You were tasked to review the AWS environment and recommend enhancements. One of the resulting recommendations was to merge the three different single AZ auto scaling groups into one.
+How can this be achieved?
+
+a. Delete two of the groups and the third will automatically be configured to stretch and cover the other two AZS
+
+b. Use an AWS CLI command to stitch the three groups into one
+
+c. Define one of the three ASGS to cover the AZS of the other two ASGs and then delete the other two
+
+d. Create a fourth group that covers all three AZs then delete the original three
+
+Answer: c
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -498,7 +498,7 @@ The permissions can be granted as follows:
 > Designed to sustain the concurrent loss of data in two facilities
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######## 2. S3 STANDARD_IA ####
+######## 2. S3-IA #############
 
 > 99.9% Availability
 > 11 9's data durability
@@ -514,6 +514,8 @@ The permissions can be granted as follows:
 > Data must be kept for at least 30 days in this class
 
 >> Suitable for objects greater than 128 KB (Not less than that)
+
+> S3-IA charges all objects as if they are at least 128 KB in size.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## 3. OneZone-IA ########
 > It stores object data in only one Availability Zone, which makes it less expensive than STANDARD_IA. 
@@ -575,6 +577,7 @@ The permissions can be granted as follows:
 - The same applies to non-current versions of an object (when versioning is enabled), they must stay in S3-Standard for 30 days before they can be moved to S3-IA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Moving Objects from Glacier to S3-Standard or S3-IA
+
 > You can NOT use lifecycle policies to move an archived object from Glacier to S3-Standard or S3-IA
 
 > The workaround to this is:
@@ -1143,12 +1146,16 @@ performance
    2b. Cached Volumes
 3. Tape Gateway (VTL)
 
-#### 1. File Gateway #####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 1. File Gateway ########
 > Files are stored as object in S3 Buckets, accessed through a Network File System (NFS) mount point. 
 - Ownership, permissions and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. 
 - Once objects are transferred to S3 they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management and cross region replication apply directly to objects stored in bucket.
 - we cannot install OS 
-##### 2. Volume Gateway #####
+
+> it is best for traditional backup app.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 2. Volume Gateway ######
 > A volume gateway provides cloud-backed storage volumes that we can mount as Internet Small Computer System Interface (ISCSI) devices from on-premises app servers. The gateway supports the following volume configurations:
 
 2A. CACHED VOLUMES 
@@ -1161,11 +1168,13 @@ performance
 - This configuration provides durable and inexpensive offsite backups that you can recover to your local data center or Amazon EC2. For example, if you need replacement capacity for disaster recovery, you can recover the backups to Amazon EC2.
 
 - we can install OS 
-###### 3. Tape Gateways ######
-> With a tape gateway, you can cost-effectively and durably archive backup data in Amazon Glacier. 
-- A tape gateway provides a virtual tape infrastructure that scales seamlessly with your business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 3. Tape Gateways #######
 
-> You can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as EC2 instance. 
+> With a tape gateway, we can cost-effectively and durably archive backup data in Amazon Glacier. 
+- A tape gateway provides a virtual tape infrastructure that scales seamlessly with business needs and eliminates the operational burden of provisioning, scaling, and maintaining a physical tape infrastructure.
+
+> we can run AWS Storage Gateway either on-premises as a VM appliance, or in AWS as EC2 instance. 
 - deploy gateway on EC2 instance to provision ISCSI storage volumes in AWS. 
 - Gateways hosted on EC2 instances can be used for disaster recovery, data mirroring, and providing storage for applications hosted on Amazon EC2.
 

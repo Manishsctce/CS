@@ -111,6 +111,7 @@
 ## AUTHORIZATION
 > To Authorize requests, IAM uses values from the request context to check for matching policies and determine whether to allow or deny the request.
 - IAM policies are stored in IAM as JSON documents and specify the permissions that are allowed or denied
+
 1. User-Based Policies: specify permissions allowed/denied for principals
 2. Resource-based policies: specify permissions allowed/denied for resources
 
@@ -151,6 +152,22 @@ Note
 
 > When you provide permissions using an identity-based policy in IAM, then you provide permissions to access resources only within the same account.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## IDENTITY FEDERATE ##
+
+1. we can federate, corporate authenticated users identity into AWS 
+- Corporate can replace their existing identity with a temporary identity in ur AWS acct.
+
+## It is useful in below cases:
+
+1. when users already identified in a corporate directory.
+- if corporate directory is compatible with Security Assertion Markup lang(2.0)
+- you can configure ur corporate directory to provide SSO access to the AWS.
+
+> if you corporate directory is not compatible with SAML2.0 
+- we can create identity broker app to provide SSO access to the AWS console for ur user.
+
+ 
 =======================================
 ########### IAM Identities ############ v6
 
@@ -162,7 +179,7 @@ Note
 > Each of these can be associated with one or more Policies to determine what actions a user, role, or member of a group can do with which AWS resources and under what conditions.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### IAM Users #####
+########### IAM Users #########
 > An IAM user is an entity that you create in AWS. 
 - It represents the person or service who uses the IAM user to interact with AWS.
 - An IAM USER CAN REPRESENT A PERSON OR AN APP that requires AWS access to perform actions on AWS resources
@@ -174,7 +191,7 @@ Note
 - An access key ID (Access key and Secret Key) that they can use for programmatic access (issuing requests) to your AWS resources
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### IAM Groups ######
+######## IAM Groups ###########
 > An IAM GROUP IS A COLLECTION OF IAM USERS
 
 > It is a way to assign permissions/policies to multiple users i.e. for a collection of users at once
@@ -187,10 +204,17 @@ Note
 > A group is not truly an "identity" in IAM because it cannot be identified as a Principal in a permission policy.
 
 >> GROUPS CAN'T BE NESTED; THEY CAN CONTAIN ONLY USERS, NOT OTHER GROUPS.
+
 > We have a limit of 300 Groups in an AWS account.
+
 >> A USER CAN BE A MEMBER OF UP TO 10 IAM GROUPS 
+
+> 1000 MAX ROLES IS ALLOWED IN IAM
+> 5000 MAX USERS CAN BE CREATED IN A IAM ACCOUNT
+
+> You can add up to 10 managed policies to an IAM user, role, or group. - The size of each managed policy cannot exceed 6,144 characters.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### IAM Roles #####
+######### IAM Roles ###########
 > An IAM Role is very similar to a user, in that it is an identity with permission policies that determine what the identity can and cannot do in Aws.
 
 > An IAM Role does not have any credentials (password or access keys) associated with it.
@@ -208,11 +232,13 @@ Note
 
 > A benefit of temporary credentials is that they expire automatically after a set period of time.
 - You have control over the duration that the credentials are valid.
+
+
 =======================================
 ####### IAM – Access Management ####### v7
 
 ## PERMISSIONS AND POLICIES
-> The access management portion of AWS Identity and Access Management (IAM) helps you to define what a user or other entity is allowed to do in an account, often referred to as authorization.
+> The access management portion of IAM helps to define what a user or other entity is allowed to do in an account, often referred to as authorization.
 
 > Permissions are granted through policies that are created and then attached to users, groups, or roles.
 
@@ -221,11 +247,11 @@ Note
 > By default, IAM users can't access anything in your account.
 
 > You grant permissions to a user by creating a policy. 
->> POLICY IS A DOCUMENT THAT DEFINES THE EFFECT, ACTIONS, RESOURCES, AND OPTIONAL CONDITIONS.
+>> POLICY IS A DOCUMENT (JSON) THAT DEFINES THE EFFECT, ACTIONS, RESOURCES, AND OPTIONAL CONDITIONS.
 
 > ANY ACTIONS OR RESOURCES THAT ARE NOT EXPLICITLY ALLOWED ARE DENIED BY DEFAULT.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### 1. IAM – USER-BASED POLICIES #####
+## 1. IAM – USER-BASED POLICIES 
 
 > The following example shows a policy that grants permission to Perform Amazon DynamoDB actions (dynamodb:*) on the Books table in the account 123456789012 within the us-east-2 region.
 {
@@ -244,19 +270,20 @@ Note
 - Actions on all other tables are prohibited. 
 - Similarly, the user is not allowed to perform any actions in Amazon EC2, Amazon S3, or in any other AWS service, because permissions to work with those services are not included in the policy.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### 2. IAM – RESOURCE BASED POLICIES #
+## 2. IAM – RESOURCE BASED POLICIES 
+
 > In some cases (Like S3 buckets), you can attach a policy to a resource in addition to attaching it to a user or group. This is called a resource-based policy
 
 > A resource-based policy contains slightly different information than a user-based policy.
-- In a resource-based policy you SPECIFY WHAT ACTIONS ARE PERMITTED AND WHAT RESOURCE IS AFFECTED.
-- You also explicitly list who is allowed access to the resource (a Principal)
+- In resource-based policy, you SPECIFY WHAT ACTIONS ARE PERMITTED AND WHAT RESOURCE IS AFFECTED.
+- You also EXPLICITLY LIST WHO IS ALLOWED ACCESS TO THE RESOURCE (a Principal)
 
 >> Resource-based-policy include a principal element that specifies who is granted with the permission
 - It is not specified in User-Based-policy
 - In a user-based policy, the "who" is established by whomever the policy is attached to.
 
 EXAMPLE: 
-An S3 bucket policy that allows an IAM user named bob in AWS account 777788889999 to put objects into the bucket called example-bucket. The Principal element is set to the Amazon Resource Name (ARN) of the IAM user bob. This indicates that the resource (in this case, the S3 bucket) is accessible to that ÍAM usekbut no one else.)
+An S3 bucket policy that allows an IAM user named bob in AWS account 777788889999 to put objects into the bucket called example-bucket. The Principal element is set to the Amazon Resource Name (ARN) of the IAM user bob. This indicates that the resource (in this case, the S3 bucket) is accessible to that ÍAM user but no one else.)
 {
 "Version": "2012-10-17",
  "Statement": {
@@ -271,6 +298,7 @@ An S3 bucket policy that allows an IAM user named bob in AWS account 77778888999
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## IAM – MULTIPLE POLICIES
+
 > Users or groups can have multiple policies attached to them that grant different permissions.
 - In the case of multiple policies attached to a user (or a group)
 - The users' permissions are calculated based on the combination of policies.

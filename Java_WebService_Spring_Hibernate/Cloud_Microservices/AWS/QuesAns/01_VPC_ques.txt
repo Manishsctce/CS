@@ -75,6 +75,40 @@ Option A is correct, VPC endpoint has a policy which by default allows all actio
 
 Option B is correct, AWS IAM role/user which is used to access S3 bucket needs to have access granted via IAM policy before accessing. So if the IAM role/user is not an administrator or not having full S3 access, a newly created S3 bucket must be added to the IAM policy.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How many tunnels for network traffic are involved when a customer gateway connects to an AWS VPC via an AWS-managed VPN connection?
+
+A. One
+B. Two
+C. Three
+D. It depends on the settings in the AWS VPC.
+
+Answer: B. 
+
+A typical VPN connection uses two different tunnels for redundancy. Both tunnels move between the customer gateway and the virtual private gateway.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Choose the correct order in which traffic flows from an on-premises site to a VPC within AWS when a VPN connection is used.
+
+A. Customer gateway to Amazon VPC to virtual private gateway
+B. Virtual private gateway to customer gateway to Amazon VPC
+C. Amazon VPC to customer gateway to virtual private gateway
+D. Customer gateway to virtual private gateway to Amazon VPC
+
+Answer: D. 
+Traffic begins at the on-premises site, which means starting at a customer gateway. Traffic then flows through the Internet and to the virtual private gateway at AWS. Then, from the gateway, traffic can flow into an Amazon VPC.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are setting up a site-to-site VPN from an on-premises network into an AWS VPC. Which of the following are steps you may need to perform? (Choose two.)
+
+A. Set up a public IP address for the customer gateway.
+B. Set up a public IP address for the AWS VPC.
+C. Set up a public IP address for the virtual private gateway.
+D. Set up a public IP address for the VPN tunnels.
+
+Answer: A, C. 
+
+Traffic across the Internet can only flow between public IP addresses in most cases. 
+> For a VPN connection, we need a customer gateway with a public IP address as well as a virtual private gateway with a public IP address, both of which you may be responsible for configuring. 
+A VPC does not have an IP address of its own (making option B incorrect), and VPN tunnels do not either (option D).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

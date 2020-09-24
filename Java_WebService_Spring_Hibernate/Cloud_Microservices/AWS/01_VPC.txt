@@ -279,13 +279,13 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 
 > IT HAVE "ALLOW" AND "DENY" RULES
 
-> NACL is a set of rules, each has a number  
+> NACL is a set of rules, EACH HAS A NUMBER  
 > NACL rules are checked for a permit from lower numbered(1st) rules until either a permit is found or an explicit/implicit deny is reached. 
 
 > you can insert rules (based on the configured rule number spacing) between existing rules, 
 - hence it is recommended to leave a number range between any two rules to allow for edits later. 
 
-> NACL END WITH AN EXPLICIT DENY any, which we cannot delete. 
+> NACL END WITH AN EXPLICIT DENY ANY, WHICH WE CANNOT DELETE. 
 
 > A subnet must be associated with a NACL, if we do not specify the NACL, the subnet will get associated with default NACL automatically. 
 - subnet cannot be associated with more than 1 NACL but 
@@ -305,7 +305,7 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 #OUTBOUND - Rule, Type, Protocol, PortRange, Destination, Allow/Deny,
 
 ## NOTE:
-> Inbound in ACL means coming from outside the subnet destined to the subnet. 
+> Inbound in ACL means coming from outside to the subnet. 
 - Outbound means going out of the subnet.
 
 > Inbound for security group means inbound from outside the instance destined to the instance. 
@@ -839,24 +839,27 @@ Create the type of VPC endpoint required by the supported service.
 
 > CloudFront also keeps persistent connections with origin servers so files are fetched from the origins as quickly as possible.
 
-## Cloudfront Distribution
+## CLOUDFRONT DISTRIBUTION
 > You create a CloudFront distribution (this a CDN) to instruct CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
 - Then CloudFront uses edge servers that are close to your viewers (through DNS resolution) to deliver that content quickly when someone wants to see it or use it.
 
 > When CloudFront gets a request for your files/objects, it goes to the origin to get the requested files that it distributes at edge locations.
 - You can use any combination of Amazon S3 buckets and HTTP servers as your origin servers.
 
-## CloudFront Use Cases
-Customize user
-Accelerate websites experience
+## CLOUDFRONT USE CASES
+- Customize user
+- Accelerate websites experience
 Customer use cases
-Stream live and on-demand media
-Secure content
+- Stream live and on-demand media
+- Secure content
 
 ## Accessing Cloudfront - Configuration
+
 > You can access Amazon CloudFront in the following ways:
 1. AWS Management Console -
-2. AWS SDKS – If you're using a programming language that AWS provides an SDK for, you can use an SDK to access CloudFront. SDKS simplify authentication, integrate easily with your development environment, and provide access to CloudFront commands.
+2. AWS SDKS 
+– If you're using a programming language that AWS provides an SDK for, you can use an SDK to access CloudFront. 
+- SDKS simplify authentication, integrate easily with your development environment, and provide access to CloudFront commands.
 
 3. Cloudfront API – If you're using a programming language that an SDK isn't available for, see for information about API actions and about how to the make API requests.
 
@@ -868,22 +871,23 @@ Secure content
 ## CloudFront – Edge Locations
 > Edge locations are not tied to AZ, or Regions.
 
-> Amazon Cloudfront has 116 Points of Presence (105 Edge Locations and 11 Regional Edge Caches) in 56 cities across 24 countries. Whereas current number of AZs is 54 only.
+> Amazon CLOUDFRONT HAS 116 POINTS OF PRESENCE (105 EDGE LOCATIONS AND 11 REGIONAL EDGE CACHES) in 56 cities across 24 countries. 
+- Whereas current number of AZs is 54 only.
 
-## CloudFront- Regional Edge Cache
+## CLOUDFRONT - REGIONAL EDGE CACHE
+
 > Amazon CloudFront has added several regional edge cache locations globally, at close proximity to your viewers.
-- They are located between your origin webserver and the global edge locations that serve content directly to your viewers.
+- They are located between origin webserver and the global edge locations that serve content directly to viewers.
 - As objects become less popular, individual edge locations may remove those objects to make room for more popular content.
-- Regional Edge Caches have a larger cache width than any individual edge location, so objects remain in the cache longer at the nearest regional edge caches.
+- REGIONAL EDGE CACHES HAVE A LARGER CACHE WIDTH THAN ANY INDIVIDUAL EDGE LOCATION, so objects remain in the cache longer at the nearest regional edge caches.
 
 > Regional edge cache locations are currently used only for requests that need to go back to a custom origin; i.e. requests to S3 origins will skip regional edge cache locations.
 
 > Serving less popular content from regional edge caches is enabled by default for all new and existing cloudfront distributions. There are no additional charges to use this feature. 
 
-## CloudFront Regional Edge Cache – How it works
-> When a viewer makes a request on your website or through your application, DNS routes the request to the CloudFront edge location that can best serve the user's request.
-
-> This location is typically the nearest CloudFront edge location in terms of latency.
+## CLOUDFRONT REGIONAL EDGE CACHE – HOW IT WORKS
+> When a viewer makes a request on a website or through application, DNS routes the request to the CloudFront edge location that can best serve the user's request.
+- This location is typically the nearest CloudFront edge location in terms of latency.
 
 > In the edge location, CloudFront checks its cache for the requested files.
 - If the files are in the cache, CloudFront returns them to the user.
@@ -893,7 +897,7 @@ Secure content
 > Regional edge caches have feature parity with edge locations. For example, a cache invalidation request removes an object from both edge caches and regional edge caches before it expires.
 - The next time a viewer requests the object, CloudFront returns to the origin to fetch the latest version of the object.
 
-> Proxy methods PUT/POȘT/PATCH/OPTIONS/DELETE go directly to the origin from the edge locations and do not proxy through the Regional Edge Caches.
+>> Proxy methods PUT/POȘT/PATCH/OPTIONS/DELETE go directly to the origin from the edge locations and do not proxy through the Regional Edge Caches.
 
 > Regional edge caches are used for custom origins, but not Amazon S3 origins.
 

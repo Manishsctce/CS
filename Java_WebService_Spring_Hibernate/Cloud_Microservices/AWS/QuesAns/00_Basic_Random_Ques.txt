@@ -39,8 +39,9 @@ Answer :  C
 
 A. 100 buckets
 B. 200 buckets
-C. 110buckets
+C. 110 buckets
 D. 125 buckets
+
 Answer :  A  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What are the different types of instances?
@@ -235,10 +236,10 @@ D. Design using elasticity to meet demand is in the Performance Efficiency pilla
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A small company started using EBS backed EC2 instances due to the cost improvements over running their own servers. The company’s policy is to stop the development servers over weekend and restart them each week. The first time the servers were brought back none of the developers were able to SSH into them. What did the server most likely overlook?
 
-The associated Elastic IP address has changed and the SSH configurations were not updated
-The security group for a stopped instance needs to be reassigned after start
-The public ip4 address has changed on server start and the SSH configurations were not updated
-EBS backed EC2 instances cannot be stopped and were automatically terminated
+A. The associated Elastic IP address has changed and the SSH configurations were not updated
+B. The security group for a stopped instance needs to be reassigned after start
+C. The public ip4 address has changed on server start and the SSH configurations were not updated
+D. EBS backed EC2 instances cannot be stopped and were automatically terminated
 
 Answer - C
 C. The instance retains its private IPv4 addresses and any IPv6 addresses when stopped and restarted. AWS releases the public IPv4 address and assigns a new one when its restarted
@@ -249,10 +250,10 @@ D. EBS backed instances are the only instance type that can be started and stopp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You want to use AWS to host your own website with a unique domain name that uses the format www.example.com. It needs to be deployed quickly and doesn’t require server-side scripting. What is your best option?
 
-Register a domain with Route53 and verify ahead of time that a unique S3 bucket name can be created.
-Create an auto-scaling group of EC2 instances and manage the web hosting on these instances
-Create one large EC2 instance to host the website and replicate it in every region
-Create a Content Delivery Network (CDN) to deliver your images and files
+A. Register a domain with Route53 and verify ahead of time that a unique S3 bucket name can be created.
+B. Create an auto-scaling group of EC2 instances and manage the web hosting on these instances
+C. Create one large EC2 instance to host the website and replicate it in every region
+D. Create a Content Delivery Network (CDN) to deliver your images and files
 
 Answer - A
 A. S3 static webhosting is the quickest way to setup this website. Because bucket names are unique across all regions, its important to know that your S3 bucket is available before purchasing a domain name.
@@ -261,7 +262,806 @@ B. Hosting on EC2 is not necessary here as server-side scripting is not needed a
 C. Hosting on EC2 is not necessary and this particular implementation can lead to different configurations on each server.
 D. A CDN will improve the delivery time of your files and pages to the customer but is not a hosting solution itself.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## 76. Which of the following are valid URLs for accessing S3 buckets? (Choose two.)
+
+A. https://s3-us-west-1-prototypeBucket32.amazonaws.com/
+B. https://s3-us-west-1.amazonaws.com/prototypeBucket32
+C. https://s3-mx-central-1.amazonaws.com/prototypeBucket32
+D. https://prototypeBucket32.s3-us-west-1.amazonaws.com
+
+Answer : B,D
+
+Option A is not a valid URL for S3. 
+Option B is, using the path-style URLs that are most common for S3 buckets. 
+Option C uses a nonexistent region (mx-central-1). 
+Option D is valid and uses the virtual-hosted-style URL format.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 77. What is an AWS storage gateway?
+
+A. A device to reside at a customer site that is part of a VPN connection between an onpremises site and AWS
+B. A device that enables an on-premises site to upload files to S3 faster than over the public Internet
+C. A device to facilitate large data migrations into S3
+D. A device that can be used to cache S3-stored objects at an on-premises site
+
+Answer : D
+
+> AWS storage gateway is a virtual appliance that allows on-premises sites to interact with S3 while still caching (in certain configurations) data locally.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 78. Which of the following statements is not true about an AWS storage gateway?
+
+A. It is a virtual appliance.
+B. It is available as both a physical and virtual appliance.
+C. It caches data locally at a customer site.
+D. It interacts with S3 buckets.
+
+Answer : B
+
+> AWS storage gateway is a virtual appliance and is not available as a hardware appliance.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 79. Which of the following are not true about S3? (Choose two.)
+
+A. Buckets are created in specific regions.
+B. Bucket names exist in a per-region namespace.
+C. Buckets are object-based.
+D. Each S3 bucket stores up to 5 TB of object data.
+
+Answer : B,D
+
+> While S3 buckets are created in a specific region (A), the names of buckets are global and must exist in a global namespace (so B is untrue). 
+Buckets are object-based (so C is true), and while a single object is limited at 5 TB, the buckets are unlimited in total storage capacity (so D is false).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 80. Which of the following consistency models are supported by S3? (Choose two.)
+
+A. Read after write consistency
+B. Synchronous consistency
+C. Write after read consistency
+D. Eventual consistency
+
+Answer : ad
+
+80. A, D. S3 supports read after write consistency for PUTs of new objects and eventual
+consistency for overwrite PUTs and DELETEs.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 81. Every object in S3 has a . (Choose two.)
+
+A. Key
+B. Value
+C. Both A and B
+D. Version ID
+
+Answer : C,D
+
+> S3 objects have a key, a value, and a version ID, so the correct answers are C and D.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 82. Which of the following is the best approach to ensuring that objects in your S3 buckets are not accidentally deleted?
+
+A. Restrictive bucket permissions
+B. Enabling versioning on buckets
+C. Enabling MFA Delete on buckets
+D. All of these options are equally useful.
+
+Answer : C
+
+> MFA Delete is the absolute best means of ensuring that objects are not accidentally deleted. 
+- MFA—Multi-Factor Authentication—ensures that any object deletion requires multiple forms of authentication.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 83. What HTTP request header is used by MFA Delete requests?
+
+A. x-delete
+B. x-amz-mfa
+C. x-aws-mfa
+D. x-amz-delete
+
+Answer : B
+
+> All Amazon-specific request headers begin with x-amz. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 84. Which of the following operations will take advantage of MFA Delete, if it is enabled? (Choose two.)
+
+A. Deleting an S3 bucket
+B. Changing the versioning state of a bucket
+C. Permanently deleting an object version
+D. Deleting an object’s metadata
+
+Answer : B, C. 
+
+MFA Delete applies to deleting objects, not buckets. It affects changing the versioning state of a bucket or permanently deleting any object (or a version of that object); this makes B and C correct. 
+
+Deleting an object’s metadata while leaving the object intact does not require MFA Delete.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 85. When using an MFA Delete–enabled bucket to delete an object, from where does the authentication code come?
+
+A. A hardware or virtual MFA device
+B. The token section of the AWS console
+C. The AWS REST API under delete-codes in a bucket’s metadata
+D. None of these
+
+Answer : A
+
+> This answer simply has to be memorized. MFA Delete authentication codes are pulled
+from hardware or virtual MFA devices, like Google Authenticator on an iPhone.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 86. Who can enable MFA Delete on an S3 bucket?
+
+A. All authorized IAM users of the bucket
+B. All authorized IAM users that can update the bucket
+C. The bucket owner
+D. The root account that owns the bucket
+
+Answer : D
+
+> Only the root account can enable MFA Delete. 
+- Even the console user that created the bucket—if it isn’t the root user—cannot enable MFA Delete on a bucket.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 87. Who can enable versioning on an S3 bucket?
+
+A. All authorized IAM users of the bucket
+B. A, C, and D
+C. The bucket owner
+D. The root account that owns the bucket
+
+Answer : B. 
+
+> The bucket owner, root account, and all authorized IAM users of a bucket are allowed to enable versioning.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 88. Which of the following exist and are attached to an object stored in S3? (Choose two.)
+
+A. Metadata
+B. Data
+C. Authentication ID
+D. Version history
+
+Answer : A,B
+
+> Each object in S3 has a name, value (data), version ID, and metadata. 
+The version history of an object won’t exist unless versioning is turned on, so it’s not always a valid answer.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 89. Which of the following is the AWS mechanism for adding object metadata using the AWS console?
+
+A. Labels
+B. Tags
+C. Metadata
+D. Object name
+
+Answer : B
+
+> All metadata in AWS is currently entered using tags, name-value pairs available through the console.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 90. Which of the following is the exception to S3 storing all versions of an object?
+
+A. When an object is deleted via MFA Delete
+B. When all of the versions of an object are deleted
+C. When an object’s current version is deleted
+D. There are no exceptions.
+
+Answer : D
+> All versions of an object are stored, regardless of how that object is deleted.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 91. You have an S3 bucket with versioning enabled. How can you turn off versioning?
+A. Update the bucket properties in the AWS console and turn off versioning.
+B. Versioning can only be turned off through the AWS CLI or API. Use your application
+keys to change versioning to “off” on the bucket.
+C. Send a message to the S3 bucket using the HTML request header x-amz-versioning
+and the value of “off.”
+D. You can’t turn off versioning once it has been enabled.
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 92. CloudFront is a web service for distributing what type of content? (Choose two.)
+A. Object-based storage
+B. Static files
+C. Script-generated or programmatically generated dynamic content
+D. All of the above
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 93. What are the sources of information that CloudFront serves data from called?
+A. Service providers
+B. Source servers
+C. Static servers
+D. Origin servers
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 94. Which of the following are typical origin servers for a CloudFront distribution? (Choose
+two.)
+A. EC2 instances
+B. Amazon Glacier archives
+C. API Gateway
+D. S3 buckets
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 95. Which of the following are not origin servers for a CloudFront distribution? (Choose
+two.)
+A. Docker containers running on ECS
+B. MySQL ResultSet
+C. S3 buckets
+D. Redshift workloads
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 96. What is the location where content will be cached in a CloudFront distribution called?
+A. Availability zone
+B. Edge location
+C. Remote location
+D. Origin edge
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 97. Which of the following are not origin servers for a CloudFront distribution? (Choose
+two.)
+A. Elastic load balancer
+B. Route 53 recordsets
+C. SQS subscription endpoint
+D. SNS topic retrieval endpoint
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 98. What is a collection of edge locations called?
+
+A. Region
+B. Availability zone
+C. CloudFront
+D. Distribution
+
+Answer : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 99. Rank the total number of regions, availability zones, and edge locations in order from the
+least number to the greatest number.
+A. Availability zones < regions < edge locations
+B. Regions < availability zones < edge locations
+C. Edge locations < regions < availability zones
+D. Edge locations < availability zones < regions
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 100. Which of the following statements are true? (Choose two.)
+A. There are more edge locations than availability zones.
+B. There are fewer regions than edge locations.
+C. There are fewer edge locations than availability zones.
+D. Each availability zone has a corresponding edge location.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 101. Which of the following store content that is served to users in a CloudFront-enabled web
+application? (Choose two.)
+A. Availability zones
+B. Edge locations
+C. Route 53
+D. EC2 instances
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 102. Which of the following are true about edge locations? (Choose two.)
+A. Edge locations are readable.
+B. Edge locations are read-only.
+C. Edge locations are write-only.
+D. Edge locations are writable.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 103. To which of the following can objects be written? (Choose two.)
+A. Edge locations
+B. EC2 instances
+C. S3 buckets
+D. Availability zones
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 104. What does TTL stand for?
+A. Time to Live
+B. Total Time to Live
+C. Total traffic life
+D. Traffic total life
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 105. You support a web application that uses a CloudFront distribution. A banner ad that
+was posted the previous night at midnight has an error in it, and you’ve been tasked with
+removing the ad so that users don’t see the error. What steps should you take? (Choose
+two.)
+A. Delete the banner image from S3.
+B. Remove the ad from the website.
+C. Wait for 24 hours and the edge locations will automatically expire the ad from their
+caches.
+D. Clear the cached object manually.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 106. By default, how long do edge locations cache objects?
+A. 12 hours
+B. 24 hours
+C. 48 hours
+D. 360 minutes
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 107. What is the default visibility of a newly created S3 bucket?
+A. Public
+B. Private
+C. Public to registered IAM users of your account
+D. None of the above
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 108. Which of the following are valid ways to set up access to your buckets? (Choose two.)
+A. NACLs
+B. ACLs
+C. Bucket policies
+D. JSON
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 109. Which of the following languages is used for writing bucket policies?
+A. XML
+B. YAML
+C. JSON
+D. AML
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 110. How are datasets utilized by stored volumes backed up to S3?
+A. Asynchronously
+B. Synchronously
+C. The backup method is specified by the user at configuration time.
+D. Synchronously unless the backup takes more than 2 seconds; then the backup
+switches to asynchronous
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 111. Which of the following is equivalent to a tape volume?
+A. VTL
+B. VPC
+C. NetBackup
+D. VPN
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 112. What is Amazon’s petabyte-scale data transport solution?
+A. Snowball
+B. Glacier
+C. Transfer Acceleration
+D. Edge transport
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 113. What language(s) are supported by Snowball?
+A. Perl, PHP
+B. JSON, YAML
+C. CloudFormation
+D. None of these
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 114. When should you use AWS Direct Connect instead of Snowball?
+A. AWS Direct Connect is usually a better option than Snowball.
+B. AWS Direct Connect is almost never a better option than Snowball.
+C. If you have more than 50 TB of data to transfer, use Snowball.
+D. If you have less than 50 TB of data to transfer, use Snowball.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 115. What is the difference between Snowball and Snowball Edge?
+A. Snowball is for data transfer; Snowball Edge provides local data processing prior to
+returning the data to AWS.
+B. Snowball Edge is for data transfer; Snowball provides local data processing prior to
+returning the data to AWS.
+C. Snowball and Snowball Edge are both for data transfer, but Snowball Edge offers
+caching when the data arrives at AWS.
+D. Snowball and Snowball Edge are both for data transfer, but Snowball Edge offers
+additional storage capacity.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 116. Which of the following can Snowball do?
+A. Import data into S3 (but not export data)
+B. Export data from S3 (but not import data)
+C. Import data into S3 and export data from S3
+D. Snowball can import data into S3, but only Snowball Edge can export data from S3.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 117. What is the main benefit of decoupling an application?
+A. To enforce different security models
+B. To enforce different network transport models
+C. To reduce interdependencies to isolate failures from an entire application
+D. To reduce network connections to improve performance
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 118. Which of the following AWS services provides analytic data warehouse provisioning and
+tooling?
+A. Aurora
+B. ElastiCache
+C. DynamoDB
+D. Redshift
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 119. Which of the following is a basic principle of fault tolerance in AWS?
+A. Launch instances in separate VPCs.
+B. Launch instances in separate regions.
+C. Launch instances in separate subnets.
+D. Launch instances in edge locations.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 120. Which of the following services use AWS edge locations?
+A. CloudFront
+B. Customer gateway
+C. Storage gateway
+D. Snowball
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 121. Which of the following is a benefit of running an application in two availability zones?
+A. It is more secure than running an application in a single availability zone.
+B. It is more performant than running an application in a single availability zone.
+C. It increases the fault tolerance of running an application in a single availability zone.
+D. It decreases the network latency of running an application in a single availability zone.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 122. Which of the following AWS services can be used to store files? (Choose two.)
+A. Amazon Athena
+B. S3
+C. MySQL
+D. EBS
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 123. Which of the following AWS services can be used to store large objects? (Choose two.)
+A. Redshift
+B. S3
+C. Oracle
+D. EC2
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 124. How would you speed up transfers of data to S3?
+A. Use Snowball to transfer large files more quickly.
+B. Enable S3 Transfer Acceleration.
+C. Configure AWS to use multiple network paths to your S3 bucket.
+D. Configure AWS to use an internet gateway for routing traffic to your S3 buckets.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 125. What users would benefit most from S3 Transfer Acceleration?
+A. Users geographically closest to your S3 buckets
+B. Users geographically farthest from your S3 buckets
+C. Users taking advantage of HTTPS for uploads
+D. All users equally benefit.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 126. Which of the following are good reasons to use S3 Transfer Acceleration? (Choose two.)
+A. You have customers that upload to your buckets from around the world.
+B. You have customers complaining about performance of your applications.
+C. You transfer gigabytes of data on a regular basis across continents.
+D. You are seeing network latency in uploads to your S3 buckets.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 127. Which services can you use to host websites? (Choose two.)
+A. EC2
+B. Elastic Load Balancing
+C. S3
+D. Glacier
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 128. You have a bucket called newyorkhotdogs in US West 1. You have enabled static website
+hosting on this bucket and want to provide its URL to beta customers. What URL should
+you provide?
+A. http://newyorkhotdogs.s3-website.us-west-1.amazonaws.com
+B. https://s3-us-west-1.amazonaws.com/newyorkhotdogs
+C. http://newyorkhotdogs.s3-website-us-west-1.amazonaws.com
+D. http://newyorkhotdogs.s3-website.us-east-1.amazonaws.com
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 129. You have created a static website and posted an HTML page as home.html in the root
+level of your S3 bucket. The bucket is named californiaroll and is located in US West 2. At
+what URL can you access the HTML page?
+A. http://californiaroll.s3-website.us-west-1.amazonaws.com/home.html
+B. http://s3-website-us-west-1.amazonaws.com/californiaroll/home.html
+C. http://californiaroll.s3-website-us-west-2.amazonaws.com/public_html/
+home.html
+D. http://californiaroll.s3-website-us-west-1.amazonaws.com/home.html
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 130. You have a variety of images with names like image-001.jpg and image-002.jpg in an
+S3 bucket named phoneboothPhotos created in the EU West 1 region. You have enabled
+website hosting on this bucket. Which URL would allow access to the photos?
+A. http://phoneboothPhotos.s3-website-eu-west-1.amazonaws.com/
+phoneboothPhotos/image-001.jpg
+B. http://phoneboothPhotos.s3-website-eu-west-1.amazonaws.com/
+phoneboothphotos/image-001.jpg
+C. http://phoneboothPhotos.s3-website-eu-west-1.amazonaws.com/
+public_html/phoneboothPhotos/image-001.jpg
+D. http://phoneboothPhotos.s3-website.eu-west-1.amazonaws.com/
+phoneboothPhotos/image-001.jpg
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 131. You have your own custom domain and want to host a static website on that domain. You
+also want to minimize compute costs. Which of the following AWS services would you use
+to host your website on your custom domain? (Choose two.)
+A. S3
+B. EC2
+C. Lambda
+D. Route 53
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 132. You have your own custom domain and want to host a dynamic website on that domain.
+You also want to minimize compute costs. Which of the following AWS services would
+you use to host your website on your custom domain? (Choose two.)
+A. S3
+B. EC2
+C. Lambda
+D. Route 53
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 133. Which of the following provide capability for serverless websites? (Choose two.)
+A. S3
+B. EC2
+C. Lambda
+D. Route 53
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 134. Which of the following provide capability for dynamic websites? (Choose two.)
+A. S3
+B. EC2
+C. Lambda
+D. Route 53
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 135. Which of the following does Elastic Beanstalk provide? (Choose two.)
+A. Deployment of code
+B. Security
+C. Capacity provisioning
+D. Cost optimization
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 136. Which of the following does Elastic Beanstalk not provide? (Choose two.)
+A. Deployment of code
+B. Security hardening
+C. Application health monitoring
+D. Log inspection and backup
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 137. Which of the following does Elastic Beanstalk support? (Choose two.)
+
+A. Docker
+B. C++
+C. Scala
+D. Node.js
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 138. Which of the following application types does Elastic Beanstalk support?
+
+A. Node.js
+B. Java
+C. Python
+D. All of the above
+
+Answer : d
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 139. Which of the following database technologies does Elastic Beanstalk support? (Choose two.)
+
+A. All AWS-supported RDS options
+B. DynamoDB
+C. Oracle running on EC2
+D. Redshift
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 140. How do you convert application code managed by Elastic Beanstalk from test to production?
+
+A. Update the codebase to use a production-driven CloudFormation file.
+B. Update the database connection string in your application code.
+C. Set the Elastic Beanstalk environment to use your production database in that particular
+environment’s Elastic Beanstalk configuration.
+D. You cannot deploy to production using Elastic Beanstalk.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 141. Which AWS service allows you to run code without provisioning any of the underlying resources required by that code?
+
+A. EC2
+B. ECS
+C. DynamoDB
+D. Lambda
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 142. Which of the following AWS services allow you to run code without worrying about provisioning specific resources for that code? (Choose two.)
+
+A. Elastic Beanstalk
+B. ECS
+C. DynamoDB
+D. Lambda
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 143. Do Lambda functions run on servers?
+A. Yes, they automatically spin up an EC2 instance as needed without user intervention.
+B. Yes, you must provide an existing EC2 instance to run on.
+C. No, Lambda code runs purely in the cloud without a server involved.
+D. No, Lambda code runs in a container.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 144. Which of the following languages work on Lambda? (Choose two.)
+
+A. JavaScript
+B. Node.js
+C. Scala
+D. C++
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 145. Which of the following are reasons to use Lambda versus EC2? (Choose two.)
+
+A. You need to install Oracle and want to avoid compute costs.
+B. Your code primarily responds to events from other AWS services.
+C. Your primary concern is scaling.
+D. You want to deploy your own Docker containers.
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 146. What AWS service converts media files to formats suitable for different sized devices?
+A. Elastic Transcoder
+B. SWF
+C. Lightsail
+D. Elastic Beanstalk
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 147. What AWS service is ideal for gathering business intelligence from multiple data sources?
+
+A. Lightsail
+B. QuickSight
+C. CloudTrail
+D. RDS
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 148. What is AWS’s system for sending out alerts and alarms based on specific events in an environment?
+
+A. SQS
+B. SNS
+C. SWF
+D. CloudTrail
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 149. Which service would you use to create a single-sign on system for a user base that already has credentials they want to use outside of AWS?
+
+A. Cognito
+B. Kinesis
+C. SWF
+D. IAM
+
+Answer : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 150. What does an AWS region consist of?
+
+A. A collection of virtual data centers spread across a continent
+B. A collection of virtual data centers spread across a specific geographic area
+C. A collection of virtual servers spread across a continent
+D. A collection of virtual databases spread across a specific geographic area
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -318,6 +1118,331 @@ D. A CDN will improve the delivery time of your files and pages to the customer 
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A global IT company with offices around the world has multiple AWS accounts. To improve efficiency and drive costs down, the Chief Information Officer (CIO) wants to set up a solution that centrally manages their AWS resources. This will allow them to procure AWS resources centrally and share resources such as AWS Transit Gateways, AWS License Manager configurations, or Amazon Route 53 Resolver rules across their various accounts.
+
+As the Solutions Architect, which combination of options should you implement in this scenario? (Select TWO.)
+
+​
+A. Use AWS Control Tower to easily and securely share your resources with your AWS accounts.
+
+​B. Consolidate all of the company's accounts using AWS Organizations.
+​
+C. Use the AWS Resource Access Manager (RAM) service to easily and securely share your resources with your AWS accounts.
+
+D. Use the AWS Identity and Access Management service to set up cross-account access that will easily and securely share your resources with your AWS accounts.
+
+Consolidate all of the company's accounts using AWS ParallelCluster.
+
+=====================================
+########### Udemy PT-6 ##############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EC2## 1. You are working for a weather station in Asia with a weather monitoring system that needs to be migrated to AWS. Since the monitoring system requires a low network latency and high network throughput, you decided to launch your EC2 instances to a new cluster placement group. The system was working fine for a couple of weeks, however, when you try to add new instances to the placement group that already has running EC2 instances, you receive an 'insufficient capacity error'.
+How will you fix this issue? 
+​
+A. Verify all running instances are of the same size and type and then try the launch again.
+
+B. Create another Placement Group and launch the new instances in the new group.
+
+C. Stop and restart the instances in the Placement Group and then try the launch again.
+​
+D. Submit a capacity increase request to AWS as you are initially limited to only 12 instances per Placement Group.
+
+Answer : C
+
+> If you receive a capacity error when launching an instance in a placement group that already has running instances, stop and start all of the instances in the placement group, and try the launch again. Restarting the instances may migrate them to hardware that has capacity for all the requested instances.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ec2 ## 2. A multinational corporate and investment bank is regularly processing steady workloads of accruals, loan interests, and other critical financial calculations every night at 10 PM to 3 AM on their on-premises data center for their corporate clients. Once the process is done, the results are then uploaded to the Oracle General Ledger which means that the processing should not be delayed nor interrupted. The CTO has decided to move their IT infrastructure to AWS to save cost and to improve the scalability of their digital financial services.   
+
+As the Senior Solutions Architect, how can you implement a cost-effective architecture in AWS for their financial system? 
+
+A. Use On-Demand EC2 instances which allows you to pay for the instances that you launch and use by the second.
+​
+B. Use Dedicated Hosts which provide a physical host that is fully dedicated to running your instances, and bring your existing per-socket, per-core, or per-VM software licenses to reduce costs.
+​
+C. Use Spot EC2 Instances launched by a persistent Spot request, which can significantly lower your Amazon EC2 costs.
+​
+D. Use Scheduled Reserved Instances, which provide compute capacity that is always available on the specified recurring schedule.
+
+ANSWER : D
+
+EXPLANATION :
+Scheduled Reserved Instances (Scheduled Instances) enable you to purchase capacity reservations that recur on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term. You reserve the capacity in advance, so that you know it is available when you need it. You pay for the time that the instances are scheduled, even if you do not use them.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 3. A mobile application stores pictures in Amazon Simple Storage Service (S3) and allows application sign-in using an OpenID Connect-compatible identity provider.
+
+Which AWS Security Token Service approach to temporary access should you use for this scenario?
+​
+A. Cross-Account Access
+B. SAML-based Identity Federation
+C. Web Identity Federation
+D. AWS Identity and Access Management roles
+
+ANSWER : C
+
+Explanation : 
+With web identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known identity provider (IdP) —such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP, receive an authentication token, and then exchange that token for temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you don't have to embed and distribute long-term security credentials with your application.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 4. A construction company has an online system that tracks all of the status and progress of their projects. The system is hosted in AWS and there is a requirement to monitor the read and write IOPs metrics for their MySQL RDS instance and send real-time alerts to their DevOps team.
+
+Which of the following services in AWS can you use to meet the requirements? (Select TWO.)
+
+​
+SWF
+CloudWatch
+Route 53
+Amazon Simple Notification Service
+Amazon Simple Queue Service
+
+Answer : 
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 5. You are working as an IT Consultant for a top investment firm. Your task is to ensure smooth upgrade of their accounting system in AWS to a new version without any system outages. The Technical Manager gave an advice to implement an in-place upgrade strategy while a DevOps Engineer suggested to use Blue/Green Deployment strategy instead.
+
+Which of the following options are not the advantages of using Blue/Green Deployment over in-place upgrade strategy? (Select TWO.)
+
+A. Impaired operation or downtime is minimized because impact is limited to the window of time between green environment issue detection and shift of traffic back to the blue environment.
+
+B. You can use Blue/Green Deployment with CodeCommit and CodeBuild to automatically deploy the new version of your application.
+
+C. It has the ability to simply roll the incoming traffic back to the currently working environment, in case of system failures, any time during the deployment process.
+
+D. Blue/green deployments provide a level of isolation between your blue and green application environments, which reduce the deployment risk. The blue environment represents the current application version serving production traffic while the green one is staged running a different or upgrade version of your application.
+
+E. Blue/green deployment is more cost-effective than in-place upgrade. You don't need to launch a new environment with additional AWS resources.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 6. An online shopping platform has been deployed to AWS using Elastic Beanstalk. They simply uploaded their Node.js application, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring. Since the entire deployment process is automated, the DevOps team is not sure where to get the application log files of their shopping platform. 
+
+In Elastic Beanstalk, where does it store the application files and server log files?
+
+A. Application files are stored in S3. The server log files can only be stored in the attached EBS volumes of the EC2 instances, which were launched by AWS Elastic Beanstalk.
+
+B. Application files are stored in S3. The server log files can be stored directly in Glacier or in CloudWatch Logs.
+
+C. Application files are stored in S3. The server log files can be optionally stored in CloudTrail or in CloudWatch Logs.
+​
+D. Application files are stored in S3. The server log files can also optionally be stored in S3 or in CloudWatch Logs.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 7. A commercial bank has designed their next generation online banking platform to use a distributed system architecture. As their Software Architect, you have to ensure that their architecture is highly scalable, yet still cost-effective. Which of the following will provide the most suitable solution for this scenario?
+
+A. Launch multiple On-Demand EC2 instances to host your application services and an SQS queue which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
+
+B. Launch multiple EC2 instances behind an Application Load Balancer to host your application services and SNS which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
+​
+C. Launch an Auto-Scaling group of EC2 instances to host your application services and an SQS queue. Include an Auto Scaling trigger to watch the SQS queue size which will either scale in or scale out the number of EC2 instances based on the queue.
+
+D. Launch multiple EC2 instances behind an Application Load Balancer to host your application services, and SWF which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 8. Your IT Manager asks you to create a decoupled application whose process includes dependencies on EC2 instances and servers located in your company’s on-premises data center.
+
+Which of these options are you least likely to recommend as part of that process?
+​
+A. SQS polling from an EC2 instance using IAM user credentials
+​
+B. SQS polling from an EC2 instance deployed with an IAM role
+​
+C. Establish a Direct Connect connection from your on-premises network and VPC
+
+D. An SWF workflow
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 9. There is a technical requirement by a financial firm that does online credit card processing to have a secure application environment on AWS. They are trying to decide on whether to use KMS or CloudHSM.
+
+Which of the following statements is right when it comes to CloudHSM and KMS?
+​
+A. You should consider using AWS CloudHSM over AWS KMS if you require your keys stored in dedicated, third-party validated hardware security modules under your exclusive control.
+​
+B. AWS CloudHSM should always be used for any payment transactions.
+​
+C. No major difference. They both do the same thing.
+​
+D. If you want a managed service for creating and controlling your encryption keys but don't want or need to operate your own HSM, consider using AWS CloudHSM.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 10. You have a fleet of running Spot EC2 instances behind an Application Load Balancer. The incoming traffic comes from various users across multiple AWS regions and you would like to have the user's session shared among your fleet of instances. You are required to set up a distributed session management layer that will provide a scalable and shared data storage for the user sessions.
+
+Which of the following would be the best choice to meet the requirement while still providing sub-millisecond latency for your users?
+
+A. ElastiCache in-memory caching
+B. Multi-master DynamoDB
+C. ELB sticky sessions
+D. Multi-AZ RDS
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 11. You deployed a web application to an EC2 instance that adds a variety of photo effects to a picture uploaded by the users. The application will put the generated photos to an S3 bucket by sending PUT requests to the S3 API.   
+
+What is the best option for this scenario considering that you need to have API credentials to be able to send a request to the S3 API?
+
+A. Store the API credentials in the root web application directory of the EC2 instance.
+​
+B. Create a role in IAM. Afterwards, assign this role to a new EC2 instance.
+​
+C. Store your API credentials in Amazon Glacier.
+​
+D. Encrypt the API credentials and store in any directory of the EC2 instance.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 12. You are a Solutions Architect of a tech company. You are having an issue whenever you try to connect to your newly created EC2 instance using a Remote Desktop connection from your computer. Upon checking, you have verified that the instance has a public IP and the Internet gateway and route tables are in place.
+
+What else should you do for you to resolve this issue?
+​
+A. You should adjust the security group to allow traffic from port 3389
+​
+B. You should create a new instance since there might be some issue with the instance
+​
+C. You should restart the EC2 instance since there might be some issue with the instance
+​
+D. You should adjust the security group to allow traffic from port 22
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 13. A Solutions Architect is developing a three-tier cryptocurrency web application for a FinTech startup. The Architect has been instructed to restrict access to the database tier to only accept traffic from the application-tier and deny traffic from other sources. The application-tier is composed of application servers hosted in an Auto Scaling group of EC2 instances.
+
+Which of the following options is the MOST suitable solution to implement in this scenario?
+
+A. Set up the Network ACL of the database subnet to allow inbound database traffic from the subnet of the application-tier.
+
+B. Set up the security group of the database tier to allow database traffic from a specified list of application server IP addresses.
+
+C. Set up the security group of the database tier to allow database traffic from the security group of the application servers.
+
+D. Set up the Network ACL of the database subnet to deny all inbound non-database traffic from the subnet of the application-tier.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 14. You are working as a Senior Solutions Architect for a data analytics company which has a VPC for their human resource department, and another VPC located on a different region for their finance department. You need to configure your architecture to allow the finance department to access all resources that are in the human resource department and vice versa.
+
+Which type of networking connection in AWS should you set up to satisfy the above requirement?
+
+A. AWS Cloud Map
+B. VPC Endpoint
+C. VPN Connection
+D. Inter-Region VPC Peering
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 15. You are working as the Solutions Architect for a global technology consultancy firm which has an application that uses multiple EC2 instances located in various AWS regions such as US East (Ohio), US West (N. California), and EU (Ireland). Your manager instructed you to set up a latency-based routing to route incoming traffic for www.tutorialsdojo.com to all the EC2 instances across all AWS regions.   
+
+Which of the following options can satisfy the given requirement?
+
+A. Use Route 53 to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+B. Use AWS DataSync to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+C. Use an Application Load Balancer to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+D. Use a Network Load Balancer to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

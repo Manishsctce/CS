@@ -196,7 +196,7 @@ Storage		: NVMe SSD
 > Instances inside a PG can address each other using private or public IP addresses 
 - best performance is achieved when they use private IP addresses for intra placement group communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### CLUSTER Placement Group(CPG) ####
+## CLUSTER PLACEMENT GROUP(CPG) 
 
 > It is within a single AZ and cannot span multiple AZ
 
@@ -214,7 +214,7 @@ Storage		: NVMe SSD
 > if we stop an instance in a PG and then start it again, it still runs in the PG. 
 - However the starts fails if there isn't enough capacity for the instance. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#### Spread Placement Groups(SPG) ####
+## SPREAD PLACEMENT GROUPS(SPG) 
 > It is a group of instances that are each placed on distinct underlying hardware
 
 > SPG are recommended for app that have small number of critical instances that should be kept separated from each other
@@ -226,6 +226,9 @@ Storage		: NVMe SSD
 
 > if you start on launch and instance in a SPG and there is insufficient unique hardware to fulfill the request request fails 
 - you can try your request again later
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> If you receive a capacity error when launching an instance in a placement group that already has running instances, stop and start all of the instances in the placement group, and try the launch again. Restarting the instances may migrate them to hardware that has capacity for all the requested instances.
 
 =======================================
 ########## EC2 STATUS CHECKS ########## V12 
@@ -450,11 +453,14 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 
 Savings Plans – Reduce your Amazon EC2 costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years.
 
-Scheduled Instances – Purchase instances that are always available on the specified recurring schedule, for a one-year term.
+SCHEDULED INSTANCES – Purchase instances that are always available on the specified recurring schedule, for a one-year term.
+
+> Scheduled Reserved Instances (Scheduled Instances) enable you to purchase capacity reservations that recur on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term. You reserve the capacity in advance, so that you know it is available when you need it. You pay for the time that the instances are scheduled, even if you do not use them.
 
 Capacity Reservations – Reserve capacity for your EC2 instances in a specific Availability Zone for any duration.
 
-####### 1. ON-DEMAND INSTANCE ######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### 1. ON-DEMAND INSTANCE ###
 > These EC2 instances are purchased at a fixed rate
 - you pay for what you use. 
  
@@ -465,14 +471,16 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 - use it for app with short term irregular workload that cannot be interrupted.
 - suitable for testing and development of app on EC2.
 
-####### DEDICATED INSTANCE #######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 2a. DEDICATED INSTANCE ###
 > It run in a VPC on hardware that is dedicated to a single customer.
 > 
 > it may share hardware with other instances from the same acct that are not dedicated instance.
 
 > Pay for dedicated instances on-demand save upto 70% by purchasing reserve instances, or save upto 90% by purchasing spot instances. 
 
-####### DEDICATED host #######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### 2b. DEDICATED host ######
 > it is a physical server with EC2 instance that is fully dedicated to a customer.
 > it helps to address compliance requirement and reduce cost by allowing existing server bound software licenses.
 > pay for physical host and bring ur existing per-socket, per-core, per VM software license to reduce code.
@@ -480,7 +488,8 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 16vCU 	 - can create 4 * 4vCPU instances 
 64GB RAM - can create 4 * 16GB RAM instances
  
-####### 1. RESERVED INSTANCE #######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+##### 1. RESERVED INSTANCE ###
 > we do not actually buy Instances, rather, we reserve long term capacity and pay for it for instance family/configuration, anytime we run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
 
 - You can purchase it at a significant discount

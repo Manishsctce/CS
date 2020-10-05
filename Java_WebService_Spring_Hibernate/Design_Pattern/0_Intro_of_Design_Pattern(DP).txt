@@ -27,7 +27,7 @@
 > There are 3 types of design patterns as 
 
 1. CREATIONAL PATTERNS ARE FOLLOW
-> It is concerned with the way of creating objects. 
+> It is concerned with the WAY OF CREATING OBJECTS. 
 - It is used when a decision must be made at the time of instantiation of a class
 - It is used when object can change according to the nature of the program
 
@@ -155,9 +155,16 @@ public String weekday2(int day) {
 
 The CAP theorem categorizes systems into three categories:
 
-CP (Consistent and Partition Tolerant) — At first glance, the CP category is confusing, i.e., a system that is consistent and partition tolerant but never available. CP is referring to a category of systems where availability is sacrificed only in the case of a network partition.
-CA (Consistent and Available) — CA systems are consistent and available systems in the absence of any network partition. Often a single node's DB servers are categorized as CA systems. Single node DB servers do not need to deal with partition tolerance and are thus considered CA systems. The only hole in this theory is that single node DB systems are not a network of shared data systems and thus do not fall under the preview of CAP. [^11]
-AP (Available and Partition Tolerant) — These are systems that are available and partition tolerant but cannot guarantee consistency.
+# CP (Consistent and Partition Tolerant) 
+— It mean a system that is consistent and partition tolerant but never available. 
+- it refer to a systems where availability is sacrificed only in case of network partition.
+
+# CA (Consistent and Available) 
+— It mean systems are consistent and available in the absence of any network partition.
+- Often a single node's DB servers are categorized as CA systems. Single node DB servers do not need to deal with partition tolerance. The only hole in this theory is that single node DB systems are not a network of shared data systems and thus do not fall under the preview of CAP.
+
+# AP (Available and Partition Tolerant) 
+— These are systems that are available and partition tolerant but cannot guarantee consistency.
 =======================================
 ######## SOLID DESIGN Principal #######
 1. S - SRP – Single Responsibility Principle.
@@ -187,6 +194,8 @@ Example: JPA
 ## Dependency Inversion Principle.
 > do not hard code the dependent obj 
 - inject it from outside
+=======================================
+### SINGLE RESPONSIBILITY PRINCIPLE ###
 =======================================
 ###### OPEN AND CLOSE PRINCIPAL #######
 > it states that the design and writing of the code should be done in a way that 
@@ -304,7 +313,7 @@ One of a good example of Strategy pattern from JDK itself is a Collections.sort(
 ########## RELATIONSHIP #############
 Association > Aggregation > Composition 
 
-############ ASSOCIATION ############ 
+######### ASSOCIATION #########
 > It is Super set of Aggregation
 
 > IT IS RELATIONSHIP BETWEEN TWO SEPARATE CLASSES THROUGH THEIR OBJECTS. 
@@ -312,7 +321,7 @@ Association > Aggregation > Composition
 
 > Composition and Aggregation are the two forms of association.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-########## AGGREGATION ##########
+######### AGGREGATION #########
 > It is Super set of Composition
 
 > Aggregation is a special form of association which is a unidirectional one way relationship between classes (or entities)
@@ -330,7 +339,7 @@ Association > Aggregation > Composition
 Ex- Employee(Super) having Address(sub)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-########## COMPOSITION ##########
+######### COMPOSITION #########
 ## COMPOSITION - For ex Class A contain Class B
 
 > Composition is a restricted form of Aggregation in which two entities are highly dependent on each other.
@@ -358,10 +367,14 @@ Ex- Employee(Super) having Address(sub)
 =====================================
 ## What is Cohesion in Java?
 
-> It refers all about how a single class is designed.
-- It is most closely associated with making sure that a class is designed with a single, well-focused purpose.
+> It defines the degree to which the elements of a module belong together. 
+- Thus, cohesion measures the strength of relationships between pieces of functionality within a given module. 
+- For example, in highly cohesive systems, functionality is strongly related.
 
-> The advantages of high cohesion is that such classes are much easier to maintain (and less frequently changed) and reusable.
+- It refers all about how a single class is designed.
+- It is most closely associated with making sure that a CLASS IS DESIGNED WITH A SINGLE, WELL-FOCUSED PURPOSE.
+
+> The ADVANTAGES OF HIGH COHESION is that such classes are much easier to maintain (and less frequently changed) and reusable.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is Coupling in Java?
 
@@ -415,3 +428,14 @@ public class Subject {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What design pattern is Collections.sort()?
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference bet Coupling and Cohesion?
+
+> Coupling shows the relationship between modules
+- Cohesion shows the relationship within the module.
+
+> Coupling is also called Inter-Module Binding.
+- Cohesion is also called Intra-Module Binding.
+
+> While creating, we SHOULD AIM FOR LOW COUPLING, i.e., dependency among modules should be less.	
+- While creating we SHOULD AIM FOR HIGH COHESION, i.e., a cohesive component/ module focuses on a single function (i.e., single-mindedness) with little interaction with other modules of the system.

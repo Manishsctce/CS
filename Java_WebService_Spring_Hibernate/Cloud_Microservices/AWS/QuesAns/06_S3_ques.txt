@@ -660,7 +660,7 @@ Answer:
 70. B. New objects uploaded via PUT are subject to read after write consistency. Overwrite
 PUTs use the eventual consistency model.
 
-~~~~~~~~~b~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##71. How many PUTs per second does S3 support?
 
 A. 100
@@ -724,31 +724,49 @@ B. Domain-hosted-style URLs
 C. Apex zone record URLs
 D. Path-style URLs
 
-Answer: b
+Answer: A,D 
 
-75. A, D. S3 supports two styles of bucket URLs: virtual-hosted-style and path-style
-URLs. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region
-.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen:
-https://s3-aws-region.amazonaws.com/bucket-name.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+S3 supports 2 styles of bucket URLs: 
+1. Virtual-hosted-style 
+-  http://bucket.s3-aws-region.amazonaws.com
 
+2. Path-Style URLs are the traditional URLs you’ve seen:
+-  https://s3-aws-region.amazonaws.com/bucket-name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What two methods would allow you to encrypt data stored in 53 buckets at rest? (Choose 2)
+
+a. Using AWS S3 server side encryption with Key Management Service keys or Customer-Provided keys
+
+b. Encrypt the data at the source (EC2 or by application) before transferring it to S3 using the Client's CMK keys
+
+c. Make use of AWS 53 bucket policies to control access to the data at rest
+
+d. Ensure data is encrypted in-transit using SSL, this will ensure it is encrypted when it arrives at S3
+
+Answer : A, B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 3. You have created an S3 bucket in us-east-1 region with default configuration. You are located in Asia and deleted an object in the bucket using AWS CLI. However, when you tried to list the objects in the bucket, you still see the object you deleted. You are even able to download the object. What could have caused this behaviour?
+
+A. Cross region deletes are not supported by AWS
+B. AWS provides eventual consistency for DELETES.
+C. AWS keeps copy of deleted object for 7 days in STANDARD storage.
+D. AWS provides strong consistency for DELETES.
+
+Answer: B
 ############# VPC #############

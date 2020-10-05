@@ -560,6 +560,7 @@ Answer :
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 104. What does TTL stand for?
+
 A. Time to Live
 B. Total Time to Live
 C. Total traffic life
@@ -567,12 +568,12 @@ D. Traffic total life
 
 Answer : 
 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 105. You support a web application that uses a CloudFront distribution. A banner ad that
 was posted the previous night at midnight has an error in it, and you’ve been tasked with
 removing the ad so that users don’t see the error. What steps should you take? (Choose
 two.)
+
 A. Delete the banner image from S3.
 B. Remove the ad from the website.
 C. Wait for 24 hours and the edge locations will automatically expire the ad from their
@@ -584,6 +585,7 @@ Answer :
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 106. By default, how long do edge locations cache objects?
+
 A. 12 hours
 B. 24 hours
 C. 48 hours
@@ -594,6 +596,7 @@ Answer :
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 107. What is the default visibility of a newly created S3 bucket?
+
 A. Public
 B. Private
 C. Public to registered IAM users of your account
@@ -1199,19 +1202,24 @@ ANSWER : C
 Explanation : 
 With web identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known identity provider (IdP) —such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP, receive an authentication token, and then exchange that token for temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you don't have to embed and distribute long-term security credentials with your application.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 4. A construction company has an online system that tracks all of the status and progress of their projects. The system is hosted in AWS and there is a requirement to monitor the read and write IOPs metrics for their MySQL RDS instance and send real-time alerts to their DevOps team.
+CloudWatch## 4. A construction company has an online system that tracks all of the status and progress of their projects. The system is hosted in AWS and there is a requirement to monitor the read and write IOPs metrics for their MySQL RDS instance and send real-time alerts to their DevOps team.
 
 Which of the following services in AWS can you use to meet the requirements? (Select TWO.)
 
 ​
-SWF
-CloudWatch
-Route 53
-Amazon Simple Notification Service
-Amazon Simple Queue Service
+A. SWF
+B. CloudWatch
+C. Route 53
+D. Amazon Simple Notification Service
+E. Amazon Simple Queue Service
 
-Answer : 
+Answer : B & D
+
 Explanation : 
+
+Amazon CloudWatch is a monitoring service for AWS cloud resources and the applications you run on AWS. You can use Amazon CloudWatch to collect and track metrics, collect and monitor log files, set alarms, and automatically react to changes in your AWS resources.
+
+Amazon Simple Notification Service (SNS) is a flexible, fully managed pub/sub messaging and mobile notifications service for coordinating the delivery of messages to subscribing endpoints and clients.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 5. You are working as an IT Consultant for a top investment firm. Your task is to ensure smooth upgrade of their accounting system in AWS to a new version without any system outages. The Technical Manager gave an advice to implement an in-place upgrade strategy while a DevOps Engineer suggested to use Blue/Green Deployment strategy instead.
 
@@ -1227,11 +1235,17 @@ D. Blue/green deployments provide a level of isolation between your blue and gre
 
 E. Blue/green deployment is more cost-effective than in-place upgrade. You don't need to launch a new environment with additional AWS resources.
 
-Answer : 
+Answer : B & E
 
 Explanation : 
+
+> Traditionally, with in-place upgrades, it was difficult to validate your new application version in a production deployment while also continuing to run your old version of the application.
+
+> blue/green deployments also provide cost optimization benefits. 
+- You’re not tied to the same underlying resources. So if the performance envelope of the application changes from one version to another, you simply launch the new environment with optimized resources, whether that means fewer resources or just different compute resources. 
+- You also don’t have to run an overprovisioned architecture for an extended period of time.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 6. An online shopping platform has been deployed to AWS using Elastic Beanstalk. They simply uploaded their Node.js application, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring. Since the entire deployment process is automated, the DevOps team is not sure where to get the application log files of their shopping platform. 
+Beanstalk## 6. An online shopping platform has been deployed to AWS using Elastic Beanstalk. They simply uploaded their Node.js application, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring. Since the entire deployment process is automated, the DevOps team is not sure where to get the application log files of their shopping platform. 
 
 In Elastic Beanstalk, where does it store the application files and server log files?
 
@@ -1243,9 +1257,15 @@ C. Application files are stored in S3. The server log files can be optionally st
 ​
 D. Application files are stored in S3. The server log files can also optionally be stored in S3 or in CloudWatch Logs.
 
-Answer : 
+Answer : D
 
 Explanation : 
+Application files are stored in S3. The server log files can also optionally be stored in S3 or in CloudWatch Logs. 
+- AWS Elastic Beanstalk stores your application files and optionally, server log files in Amazon S3. 
+- If you are using the AWS Management Console, the AWS Toolkit for Visual Studio, or AWS Toolkit for Eclipse, an Amazon S3 bucket will be created in your account and the files you upload will be automatically copied from your local client to Amazon S3. 
+- Optionally, you may configure Elastic Beanstalk to copy your server log files every hour to Amazon S3. You do this by editing the environment configuration settings.
+
+With CloudWatch Logs, you can monitor and archive your Elastic Beanstalk application, system, and custom log files from Amazon EC2 instances of your environments. You can also configure alarms that make it easier for you to react to specific log stream events that your metric filters extract. The CloudWatch Logs agent installed on each Amazon EC2 instance in your environment publishes metric data points to the CloudWatch service for each log group you configure. Each log group applies its own filter patterns to determine what log stream events to send to CloudWatch as data points. Log streams that belong to the same log group share the same retention, monitoring, and access control settings. You can configure Elastic Beanstalk to automatically stream logs to the CloudWatch service.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 7. A commercial bank has designed their next generation online banking platform to use a distributed system architecture. As their Software Architect, you have to ensure that their architecture is highly scalable, yet still cost-effective. Which of the following will provide the most suitable solution for this scenario?
 
@@ -1257,9 +1277,12 @@ C. Launch an Auto-Scaling group of EC2 instances to host your application servic
 
 D. Launch multiple EC2 instances behind an Application Load Balancer to host your application services, and SWF which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
 
-Answer : 
+Answer : C
 
 Explanation : 
+There are three main parts in a distributed messaging system: the components of your distributed system which can be hosted on EC2 instance; your queue (distributed on Amazon SQS servers); and the messages in the queue.
+
+To improve the scalability of your distributed system, you can add Auto Scaling group to your EC2 instances.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 8. Your IT Manager asks you to create a decoupled application whose process includes dependencies on EC2 instances and servers located in your company’s on-premises data center.
 
@@ -1442,6 +1465,226 @@ Explanation :
 Answer : 
 
 Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

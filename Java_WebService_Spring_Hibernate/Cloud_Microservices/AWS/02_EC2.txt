@@ -699,6 +699,27 @@ There are two parts of the error message.
 - When we deploy app, Elastic Beanstalk builds the selected supported platform version and provisions one or more AWS resources, such as EC2 instances, to run app.
 
 > we can interact with Elastic Beanstalk by using the Elastic Beanstalk console, AWS CLI
+
+
+## Elastic Beanstalk Components
+
+1. Application:
+- An application in Elastic Beanstalk is conceptually similar to a folder
+- An application is a collection of components including environments, versions and environment configuration
+
+2. Application Version:
+- It refers to a specific, labeled iteration of deployable code for a web application
+- It points to an Amazon S3 object that contains the deployable code such as a Java WAR file
+
+3. Environment:
+- Environments within Elastic Beanstalk Application is where the current version of the app will be active
+- Each environment runs only a single app version at a time. But it is possible to run same or different versions of an app in many environments at the same time
+
+4. Environment Tier:
+- Based on requirement beanstalk offers two different Environment tiers: Web Server Environment, Worker Environment
+a. Web Server Environment: Handles HTTP requests from clients
+b. Worker Environment: Processes background tasks which are resource consuming and time intensive
+
 =======================================
 #### Elastic Container Service(ECS) ###
 

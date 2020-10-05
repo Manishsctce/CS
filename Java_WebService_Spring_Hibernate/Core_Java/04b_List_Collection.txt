@@ -4,7 +4,7 @@
 
 #### METHODS ####
 1. void add(int index, E obj) 
-- Inserts obj and preexisting elements shifted up
+- Inserts obj and PREEXISTING ELEMENTS SHIFTED UP
 
 2. boolean addAll(int index, Collection<? extends E> c)
 - Inserts all ele of col. and preexisting elements shifted up
@@ -48,15 +48,15 @@
 =======================================
 ## What are the classes implementation of List interface?
 
-1. ArrayList - dynamic array, not synch, insertion order, can contain duplicate/null element, random access
-2. Vector - synch, insertion order, can contain duplicate element, random access
-3. LinkedList - double linked list, not synch, insertion order, can contain duplicate element, NO RANDOM ACCESS,used for better manipulation
+1. ARRAY LIST - dynamic array, not synch, insertion order, can contain duplicate/null element, random access
+2. VECTOR - synch, insertion order, can contain duplicate element, random access
+3. LINKED LIST - double linked list, not synch, insertion order, can contain duplicate element, NO RANDOM ACCESS,used for better manipulation
 
 4. CopyOnWriteArrayList - 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert Array to Set?
 
-Set<Integer> set = new HashSet<Integer>(Arrays.asList(numArray));
+Set<Integer> set = new HashSet<>(Arrays.asList(numArray));
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How to convert map into List?
 
@@ -80,8 +80,9 @@ List<Entry> entryList = new ArrayList<Entry>(companyDetails.entrySet());
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference bet iterating using foreach and iterator ?
 
-> we cann't modify our list using foreach loop it will throw ConcurrentModificationException
+> we CANN'T MODIFY LIST USING FOREACH loop it will throw ConcurrentModificationException
 - but using iterator remove() we can.
+
 Example:
 Iterator iterator = arrayList.iterator();
 while(iterator.hasNext()){
@@ -120,14 +121,14 @@ while(iterator.hasNext()){
 - Vector is thread-safe, each method like add(), get(int i) is surrounded with a synchronized block.
 
 2. DATA GROWTH 
-- Vector by default double its size dynamically while 
+- Vector by default DOUBLE ITS SIZE dynamically while 
 - ArrayList INCREASES ITS ARRAY SIZE BY 50 PERCENT.
 - Internally, both the ArrayList and Vector hold onto their contents using an Array. 
 - When an element is inserted into an ArrayList or a Vector, the object will need to expand its internal array if it runs out of room. 
 
 3. DATA TRANVERSE
-- Vector USES BOTH Enumeration and Iterator for traversing.
-- ArrayList can only use Iterator for traversing an ArrayList.
+- Vector CAN USES BOTH Enumeration and Iterator.
+- ArrayList can only use Iterator.
 
 4. 
 - Vector defines the increment size as
@@ -144,8 +145,8 @@ If the new size is less than the current size, all components at index newSize a
 -------------------
 ## SIMILARITY ##
 
-> By default Vector size is 10 and 
-- ArrayList has 10 as default size.  
+> By default, Vector size is 10 and 
+- By default, ArrayList size is also 10.  
 - public ArrayList() { this(10); }
 
 > initially size() give 0 bcz it give no. of element present in class
@@ -154,9 +155,7 @@ If the new size is less than the current size, all components at index newSize a
 > both maintain a counter of element added
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## If an Employee class is present and its objects are added in an arrayList. 
-
-- Now I want the list to be sorted on the basis of the emp age of Employee class. What are the steps?
+## What are the steps, to sort an arrayList having Employee class based on emp age?
 
 1. Impl Comparable[i] for the Employee class and override the compareTo(Object obj) in which compare the emp age
 

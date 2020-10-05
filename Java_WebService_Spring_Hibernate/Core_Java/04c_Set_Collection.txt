@@ -26,10 +26,11 @@ INTERFACE -
 
 -------------------------------------
 ## What are the Similarity and Difference between various impl of Set?
-### SIMILARITY
+
+### SIMILARITY ###
 > Iterator returned by TreeSet, LinkedHashSet and HashSet are fail-fast Iterator
 
-#### DIFFERENCE
+### DIFFERENCE ###
 > HashSet and LinkedHashSet offer constant time performance e.g. O(1) for add, contains and remove
 - TreeSet provides guaranteed O(log(n)) time for common operations like add, remove and contains
 
@@ -43,14 +44,15 @@ INTERNAL IMPLEMENTATION :
 - LinkedHashSet is implemented using HashSet and LinkedList while 
 - TreeSet is backed up by NavigableMap in Java and by default it uses TreeMap
 
-NULL : Both HashSet and LinkedHashSet allows null but TreeSet doesn't allow null 
-- TreeSet not allow bcz it use compareTo() 
+NULL : 
+- Both HashSet and LinkedHashSet allows null but 
+- TreeSet doesn't allow null bcz it use compareTo() 
 
 COMPARISON : 
 - HashSet and LinkedHashSet uses equals() method in Java for comparison but 
 - TreeSet uses compareTo() method for maintaining ordering.
 
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is difference between List and a Set?
 
 > List can contain DUPLICATE VALUE but set cannot
@@ -58,13 +60,13 @@ COMPARISON :
 =====================================
 ############# HASHSET ###############
 > no iteration order, allow 1 null element, not synchr., constant time performance for basic operation
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### How Hashset works internally in Java or how HashSet works in java?
 
 > HashSet internally use HashMap to acheive it uniqueness.
 > it use the put() of map to add ele in set as 
- - if map.put(elem,PRESENT) put element successfully return null i.e. equal to null and thus return true.
- - if map.put(elem,PRESENT) return old value (bcz of duplication) then value != null and thus return false.
+ - if elem is not present then map.put(elem,PRESENT) return null and thus set.add(e) return true.
+ - if elem is present then map.put(elem,PRESENT) return old value (bcz of duplication) then value != null and thus return false.
  
 public class HashSet<E> extends AbstractSet<E>
 implements Set, Cloneable, Serializable{
@@ -81,15 +83,16 @@ implements Set, Cloneable, Serializable{
 	}
 }
 > here PRESENT is dummy object of map's value
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Why does HashSet implementation in Sun Java use HashMap as its backing?
+
 > for code reuse and memry effiency
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the default initial capacity and initial load factor of HashSet object?
 
 > Default Initial Capacity of HashSet Object : 16
 > Initial Load Factor of HashSet Object : 0.75
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Why HashSet does not have get(Object o) method ?
 
 > get(Object o) is useful when we hv 1 info linked to other info just like key-value pair in HashMap.
@@ -97,15 +100,17 @@ implements Set, Cloneable, Serializable{
 > So only we can find element is present in HashSet using contains()
 
 > In ArrayList, get(int) is used to get the given index.
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Does addAll(Collection c) of set can add list object?
+
 > Yes it can add list object.
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How can we convert a set into a list?
+
 1> Make a new List object and pass set object into it as List list = new ArrayList(set);
 
 2> if we already have a list then use list.addAll(set) 
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##How to remove repeated elements and maintain order from ArrayList?
 
 > Copy all the elements of ArrayList in LinkedHashSet (as it maintain insertion order, not contain duplicate element) - arrayList.addAll(linkedHashSet)
@@ -149,13 +154,13 @@ E pollFirst();
 
 E floor() 
 Returns the greatest element in this set less than or equal to the given element, or null if there is no such element.
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How TreeSet works internally in java ?
 
 > it is based on TreeMap with store just like HashMap 
 - but it make comparision between existing entry using compare()
 - it use RB tree property to store entry in 
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is RB Tree and what its property?
 - RB Tree is a binary search tree(BST) and 
 - its operation like search, max, min, insert, delete.. etc take O(h) time where h is the height of the BST
@@ -168,7 +173,7 @@ Red Black tree properties :
 
 Comparison with AVL Tree
 The AVL trees are more balanced compared to Red Black Trees, but they may cause more rotations during insertion and deletion. 
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### What is the Difference and Similarity between HashSet and TreeSet ?
 SIMILARITY
 > Unique element, not thread safe
@@ -191,19 +196,18 @@ When to prefer TreeSet over HashSet
 > TreeSet has greater locality than HashSet. becz near by data take less latency time 
 >> Use TreeSet when need to perform read/write operations frequently.
 
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## If my class doesn't impl comparable but we need to store it in TreeSet. How?
 > make Comparator class impl compare() 
 > pass this comparator to TreeSet constructor 
 
 
------------------------------------------
-##What is and when to use Collections.emptySet()? 
-- What is the advantage of having emptySet in Collections class ?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the usage of Collections.emptySet()? advantage of it?
 
 > Collections.emptySet() returns the empty immutable Set that not containing null 
 
-Advantages of using emptySet() method over creating object using constructor are :
+# Advantages of using emptySet() method over creating object using constructor are :
 1. Immutability - so it can access by multiple thread
 2. Concise - doesnt need to write generic 
 3. Efficient - emptySet() does nt create new object so can be reuse

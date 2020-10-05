@@ -55,20 +55,23 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is JAVA MEMORY MODEL?
 
-> it describes the communication between memory of the threads and the main memory of the app.
+> it describes the communication bet memory of the threads and the main memory of the app.
 > It defines the rules how changes in the memory done by threads are propagated to other threads
 
 > It guarentee that the changes made by one thread should be visible to other. 
 
 Happens-before relationship guarantees :
 
-> PROGRAM ORDER RULE : Each action in a thread will execute sequentially in the program order 
+> PROGRAM ORDER RULE : 
+- Each action in a thread will execute sequentially in the program order 
 - Each action in a thread happens-before, than every action in that thread that comes later in the program order.
 
-> MONITOR LOCK RULE : An unlock on a monitor lock happens-before, every subsequent lock on that same monitor lock.
+> MONITOR LOCK RULE : 
+- An unlock on a monitor lock happens-before, every subsequent lock on that same monitor lock.
 - An object should be unlocked by the current thread, before locking it again by another thread. 
 
-> VOLATILE VARIABLE RULE: A write to a volatile field happens-before every subsequent read of that same field.
+> VOLATILE VARIABLE RULE: 
+- A write to a volatile field happens-before every subsequent read of that same field.
 
 > A call to Thread.start on a thread happens-before any other thread detects that thread has terminated, either by successfully return from Thread.join() or by Thread.isAlive() returning false, also known as Thread start rule.
 
@@ -152,7 +155,8 @@ Heap is divided into three parts(eden,survivor,old) or generations FOR SAKE OF G
 > Method Area is part of space in the Perm Gen and used to store class structure (runtime constants and static variables) and code for methods and constructors.
 
 > Since Java8, Permanent Generation (PERMGEN) SPACE HAS COMPLETELY BEEN REMOVED and is kind of replaced by a new space called Metaspace.
-- Main difference between old PermGen and new MetaSpace is, you don't have to mandatory define upper limit of memory usage.
+
+- Main difference between old PermGen and new MetaSpace is, we don't have to mandatory define upper limit of memory usage.
 - -XX:MaxMetaspaceSize=1024m : allowing you to limit the amount of native memory used for class metadata
 
 http://java-latte.blogspot.in/2014/03/metaspace-in-java-8.html

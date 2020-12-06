@@ -361,6 +361,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 =======================================
 ############# NAT INSTANCE ############ V15 
+
 > NAT instance place at public subnet
 - it is normal EC2 instance but it is loaded with AMI that has NAT functionality 
 
@@ -368,13 +369,10 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > NAT instance need to be assigned a security group
 
-> NAT instance is there to enable the private subnet EC2 instance to get to the internet
-
-> No traffic initiated from the internet can access the private subnet 
-
-> Only admin SSH traffic can be allowed to the NAT instance (or RDP if windows) 
-
-> Public subnet EC2 instance don't need to go through NAT 
+> It is used to enable the private subnet EC2 instance to get to the internet
+- No traffic initiated from the internet can access the private subnet 
+- Public subnet EC2 instance don't need to go through NAT 
+- Only admin SSH traffic can be allowed to the NAT instance (or RDP if windows) 
 
 > Private subnet EC2 instances need to access websites on the internet (http/https)
 
@@ -450,6 +448,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - it will create a VPN connection
 =======================================
 ############ VPC PEERING ############## v18
+
 > VPC peering connection is a networking connection between 2 VPC that enable us to route traffic between them USING PRIVATE IPv4/IPv6 address
 
 > Instance in another VPC can communicate with each other as if they are within same network

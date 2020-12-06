@@ -690,16 +690,17 @@ There are two parts of the error message.
 =======================================
 ########## ELASTIC BEANSTALK ##########
 
-> With Elastic Beanstalk, we can QUICKLY DEPLOY AND MANAGE APP in the AWS Cloud without having to learn about the infrastructure that runs those appl. 
+> With Elastic Beanstalk, we can QUICKLY DEPLOY AND MANAGE APP in the AWS Cloud WITHOUT HAVING TO LEARN ABOUT THE INFRASTRUCTURE that runs those appl. 
 
 > Elastic Beanstalk REDUCES MANAGEMENT COMPLEXITY without restricting choice or control. 
-> we simply upload our app, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring.
+- we simply upload our app, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring.
 
-> It supports app developed in Go, Java, .NET, Node.js, PHP, Python, and Ruby. 
+> It supports app developed in Go, Java, .NET, Node.js, PHP, Python, Ruby, Go and Docker
 - When we deploy app, Elastic Beanstalk builds the selected supported platform version and provisions one or more AWS resources, such as EC2 instances, to run app.
 
 > we can interact with Elastic Beanstalk by using the Elastic Beanstalk console, AWS CLI
 
+> It is recommended for test or development apps Not for production.
 
 ## Elastic Beanstalk Components
 
@@ -709,17 +710,20 @@ There are two parts of the error message.
 
 2. Application Version:
 - It refers to a specific, labeled iteration of deployable code for a web application
-- It points to an Amazon S3 object that contains the deployable code such as a Java WAR file
+- IT POINTS TO S3 OBJECT THAT CONTAINS THE DEPLOYABLE CODE such as a Java WAR file
 
 3. Environment:
 - Environments within Elastic Beanstalk Application is where the current version of the app will be active
-- Each environment runs only a single app version at a time. But it is possible to run same or different versions of an app in many environments at the same time
+- EACH ENVIRONMENT RUNS ONLY A SINGLE APP VERSION AT A TIME. 
+- But it is POSSIBLE TO RUN SAME OR DIFFERENT VERSIONS OF APP IN MANY ENVIRONMENTS at the same time
 
 4. Environment Tier:
 - Based on requirement beanstalk offers two different Environment tiers: Web Server Environment, Worker Environment
 a. Web Server Environment: Handles HTTP requests from clients
 b. Worker Environment: Processes background tasks which are resource consuming and time intensive
 
+##
+> It need ".ebextensions/*.config" file to run the app 
 =======================================
 #### Elastic Container Service(ECS) ###
 

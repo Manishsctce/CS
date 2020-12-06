@@ -1,0 +1,4475 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A global IT company with offices around the world has multiple AWS accounts. To improve efficiency and drive costs down, the Chief Information Officer (CIO) wants to set up a solution that centrally manages their AWS resources. This will allow them to procure AWS resources centrally and share resources such as AWS Transit Gateways, AWS License Manager configurations, or Amazon Route 53 Resolver rules across their various accounts.
+
+As the Solutions Architect, which combination of options should you implement in this scenario? (Select TWO.)
+
+​
+A. Use AWS Control Tower to easily and securely share your resources with your AWS accounts.
+
+​B. Consolidate all of the company's accounts using AWS Organizations.
+​
+C. Use the AWS Resource Access Manager (RAM) service to easily and securely share your resources with your AWS accounts.
+
+D. Use the AWS Identity and Access Management service to set up cross-account access that will easily and securely share your resources with your AWS accounts.
+
+Consolidate all of the company's accounts using AWS ParallelCluster.
+
+=====================================
+########### Udemy PT-6 ##############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EC2## 1. You are working for a weather station in Asia with a weather monitoring system that needs to be migrated to AWS. Since the monitoring system requires a low network latency and high network throughput, you decided to launch your EC2 instances to a new cluster placement group. The system was working fine for a couple of weeks, however, when you try to add new instances to the placement group that already has running EC2 instances, you receive an 'insufficient capacity error'.
+How will you fix this issue? 
+​
+A. Verify all running instances are of the same size and type and then try the launch again.
+
+B. Create another Placement Group and launch the new instances in the new group.
+
+C. Stop and restart the instances in the Placement Group and then try the launch again.
+​
+D. Submit a capacity increase request to AWS as you are initially limited to only 12 instances per Placement Group.
+
+Answer : C
+
+> If you receive a capacity error when launching an instance in a placement group that already has running instances, stop and start all of the instances in the placement group, and try the launch again. Restarting the instances may migrate them to hardware that has capacity for all the requested instances.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ec2 ## 2. A multinational corporate and investment bank is regularly processing steady workloads of accruals, loan interests, and other critical financial calculations every night at 10 PM to 3 AM on their on-premises data center for their corporate clients. Once the process is done, the results are then uploaded to the Oracle General Ledger which means that the processing should not be delayed nor interrupted. The CTO has decided to move their IT infrastructure to AWS to save cost and to improve the scalability of their digital financial services.   
+
+As the Senior Solutions Architect, how can you implement a cost-effective architecture in AWS for their financial system? 
+
+A. Use On-Demand EC2 instances which allows you to pay for the instances that you launch and use by the second.
+​
+B. Use Dedicated Hosts which provide a physical host that is fully dedicated to running your instances, and bring your existing per-socket, per-core, or per-VM software licenses to reduce costs.
+​
+C. Use Spot EC2 Instances launched by a persistent Spot request, which can significantly lower your Amazon EC2 costs.
+​
+D. Use Scheduled Reserved Instances, which provide compute capacity that is always available on the specified recurring schedule.
+
+ANSWER : D
+
+EXPLANATION :
+Scheduled Reserved Instances (Scheduled Instances) enable you to purchase capacity reservations that recur on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term. You reserve the capacity in advance, so that you know it is available when you need it. You pay for the time that the instances are scheduled, even if you do not use them.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 3. A mobile application stores pictures in Amazon Simple Storage Service (S3) and allows application sign-in using an OpenID Connect-compatible identity provider.
+
+Which AWS Security Token Service approach to temporary access should you use for this scenario?
+​
+A. Cross-Account Access
+B. SAML-based Identity Federation
+C. Web Identity Federation
+D. AWS Identity and Access Management roles
+
+ANSWER : C
+
+Explanation : 
+With web identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known identity provider (IdP) —such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP, receive an authentication token, and then exchange that token for temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you don't have to embed and distribute long-term security credentials with your application.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CloudWatch## 4. A construction company has an online system that tracks all of the status and progress of their projects. The system is hosted in AWS and there is a requirement to monitor the read and write IOPs metrics for their MySQL RDS instance and send real-time alerts to their DevOps team.
+
+Which of the following services in AWS can you use to meet the requirements? (Select TWO.)
+
+​
+A. SWF
+B. CloudWatch
+C. Route 53
+D. Amazon Simple Notification Service
+E. Amazon Simple Queue Service
+
+Answer : B & D
+
+Explanation : 
+
+Amazon CloudWatch is a monitoring service for AWS cloud resources and the applications you run on AWS. You can use Amazon CloudWatch to collect and track metrics, collect and monitor log files, set alarms, and automatically react to changes in your AWS resources.
+
+Amazon Simple Notification Service (SNS) is a flexible, fully managed pub/sub messaging and mobile notifications service for coordinating the delivery of messages to subscribing endpoints and clients.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 5. You are working as an IT Consultant for a top investment firm. Your task is to ensure smooth upgrade of their accounting system in AWS to a new version without any system outages. The Technical Manager gave an advice to implement an in-place upgrade strategy while a DevOps Engineer suggested to use Blue/Green Deployment strategy instead.
+
+Which of the following options are not the advantages of using Blue/Green Deployment over in-place upgrade strategy? (Select TWO.)
+
+A. Impaired operation or downtime is minimized because impact is limited to the window of time between green environment issue detection and shift of traffic back to the blue environment.
+
+B. You can use Blue/Green Deployment with CodeCommit and CodeBuild to automatically deploy the new version of your application.
+
+C. It has the ability to simply roll the incoming traffic back to the currently working environment, in case of system failures, any time during the deployment process.
+
+D. Blue/green deployments provide a level of isolation between your blue and green application environments, which reduce the deployment risk. The blue environment represents the current application version serving production traffic while the green one is staged running a different or upgrade version of your application.
+
+E. Blue/green deployment is more cost-effective than in-place upgrade. You don't need to launch a new environment with additional AWS resources.
+
+Answer : B & E
+
+Explanation : 
+
+> Traditionally, with in-place upgrades, it was difficult to validate your new application version in a production deployment while also continuing to run your old version of the application.
+
+> blue/green deployments also provide cost optimization benefits. 
+- You’re not tied to the same underlying resources. So if the performance envelope of the application changes from one version to another, you simply launch the new environment with optimized resources, whether that means fewer resources or just different compute resources. 
+- You also don’t have to run an overprovisioned architecture for an extended period of time.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Beanstalk## 6. An online shopping platform has been deployed to AWS using Elastic Beanstalk. They simply uploaded their Node.js application, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring. Since the entire deployment process is automated, the DevOps team is not sure where to get the application log files of their shopping platform. 
+
+In Elastic Beanstalk, where does it store the application files and server log files?
+
+A. Application files are stored in S3. The server log files can only be stored in the attached EBS volumes of the EC2 instances, which were launched by AWS Elastic Beanstalk.
+
+B. Application files are stored in S3. The server log files can be stored directly in Glacier or in CloudWatch Logs.
+
+C. Application files are stored in S3. The server log files can be optionally stored in CloudTrail or in CloudWatch Logs.
+​
+D. Application files are stored in S3. The server log files can also optionally be stored in S3 or in CloudWatch Logs.
+
+Answer : D
+
+Explanation : 
+Application files are stored in S3. The server log files can also optionally be stored in S3 or in CloudWatch Logs. 
+- AWS Elastic Beanstalk stores your application files and optionally, server log files in Amazon S3. 
+- If you are using the AWS Management Console, the AWS Toolkit for Visual Studio, or AWS Toolkit for Eclipse, an Amazon S3 bucket will be created in your account and the files you upload will be automatically copied from your local client to Amazon S3. 
+- Optionally, you may configure Elastic Beanstalk to copy your server log files every hour to Amazon S3. You do this by editing the environment configuration settings.
+
+With CloudWatch Logs, you can monitor and archive your Elastic Beanstalk application, system, and custom log files from Amazon EC2 instances of your environments. You can also configure alarms that make it easier for you to react to specific log stream events that your metric filters extract. The CloudWatch Logs agent installed on each Amazon EC2 instance in your environment publishes metric data points to the CloudWatch service for each log group you configure. Each log group applies its own filter patterns to determine what log stream events to send to CloudWatch as data points. Log streams that belong to the same log group share the same retention, monitoring, and access control settings. You can configure Elastic Beanstalk to automatically stream logs to the CloudWatch service.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 7. A commercial bank has designed their next generation online banking platform to use a distributed system architecture. As their Software Architect, you have to ensure that their architecture is highly scalable, yet still cost-effective. Which of the following will provide the most suitable solution for this scenario?
+
+A. Launch multiple On-Demand EC2 instances to host your application services and an SQS queue which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
+
+B. Launch multiple EC2 instances behind an Application Load Balancer to host your application services and SNS which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
+​
+C. Launch an Auto-Scaling group of EC2 instances to host your application services and an SQS queue. Include an Auto Scaling trigger to watch the SQS queue size which will either scale in or scale out the number of EC2 instances based on the queue.
+
+D. Launch multiple EC2 instances behind an Application Load Balancer to host your application services, and SWF which will act as a highly-scalable buffer that stores messages as they travel between distributed applications.
+
+Answer : C
+
+Explanation : 
+There are three main parts in a distributed messaging system: the components of your distributed system which can be hosted on EC2 instance; your queue (distributed on Amazon SQS servers); and the messages in the queue.
+
+To improve the scalability of your distributed system, you can add Auto Scaling group to your EC2 instances.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SQS## 8. Your IT Manager asks you to create a decoupled application whose process includes dependencies on EC2 instances and servers located in your company’s on-premises data center.
+Which of these options are you least likely to recommend as part of that process?
+​
+A. SQS polling from an EC2 instance using IAM user credentials
+​
+B. SQS polling from an EC2 instance deployed with an IAM role
+​
+C. Establish a Direct Connect connection from your on-premises network and VPC
+
+D. An SWF workflow
+
+Answer : A
+
+Explanation : 
+For decoupled applications, it is best to use SWF and SQS which are both available in all options.
+SQS polling from an EC2 instance using IAM user credentials is not the recommended way to do so. It should use an IAM role instead.
+
+The rest of the options are the recommended steps to satisfy the given requirement. You have to establish first a Direct Connect connection from your data center to your VPC to allow the on-premises servers to connect to SQS. You can either use SWF or SQS to create a decoupled application and you have to use an IAM Role, not an IAM user credential, on the EC2 instance to allow polling to the SQS queue.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+KMS## 9. There is a technical requirement by a financial firm that does online credit card processing to have a secure application environment on AWS. They are trying to decide on whether to use KMS or CloudHSM.
+
+Which of the following statements is right when it comes to CloudHSM and KMS?
+​
+A. You should consider using AWS CloudHSM over AWS KMS if you require your keys stored in dedicated, third-party validated hardware security modules under your exclusive control.
+​
+B. AWS CloudHSM should always be used for any payment transactions.
+​
+C. No major difference. They both do the same thing.
+​
+D. If you want a managed service for creating and controlling your encryption keys but don't want or need to operate your own HSM, consider using AWS CloudHSM.
+
+Answer : A
+
+Explanation : AWS Key Management Service (AWS KMS) is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. The master keys that you create in AWS KMS are protected by FIPS 140-2 validated cryptographic modules. AWS KMS is integrated with most other AWS services that encrypt your data with encryption keys that you manage. AWS KMS is also integrated with AWS CloudTrail to provide encryption key usage logs to help meet your auditing, regulatory and compliance needs.
+
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 10. You have a fleet of running Spot EC2 instances behind an Application Load Balancer. The incoming traffic comes from various users across multiple AWS regions and you would like to have the user's session shared among your fleet of instances. You are required to set up a distributed session management layer that will provide a scalable and shared data storage for the user sessions.
+
+Which of the following would be the best choice to meet the requirement while still providing sub-millisecond latency for your users?
+
+A. ElastiCache in-memory caching
+B. Multi-master DynamoDB
+C. ELB sticky sessions
+D. Multi-AZ RDS
+
+Answer : A
+
+Explanation : 
+For sub-millisecond latency caching, ElastiCache is the best choice. In order to address scalability and to provide a shared data storage for sessions that can be accessed from any individual web server, you can abstract the HTTP sessions from the web servers themselves. A common solution to for this is to leverage an In-Memory Key/Value store such as Redis and Memcached.
+
+Multi-master DynamoDB and Multi-AZ RDS are incorrect because although you can use DynamoDB and RDS for storing session state, these two are not the best choices in terms of cost-effectiveness and performance when compared to ElastiCache. There is a significant difference in terms of latency if you used DynamoDB and RDS when you store the session data.
+
+ELB sticky sessions is incorrect because the scenario does not require you to route a user to the particular web server that is managing that individual user’s session. Since the session state is shared among the instances, the use of the ELB sticky sessions feature is not recommended in this scenario.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 11. You deployed a web application to an EC2 instance that adds a variety of photo effects to a picture uploaded by the users. The application will put the generated photos to an S3 bucket by sending PUT requests to the S3 API.   
+
+What is the best option for this scenario considering that you need to have API credentials to be able to send a request to the S3 API?
+
+A. Store the API credentials in the root web application directory of the EC2 instance.
+​
+B. Create a role in IAM. Afterwards, assign this role to a new EC2 instance.
+​
+C. Store your API credentials in Amazon Glacier.
+​
+D. Encrypt the API credentials and store in any directory of the EC2 instance.
+
+Answer : B
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 12. You are a Solutions Architect of a tech company. You are having an issue whenever you try to connect to your newly created EC2 instance using a Remote Desktop connection from your computer. Upon checking, you have verified that the instance has a public IP and the Internet gateway and route tables are in place.
+
+What else should you do for you to resolve this issue?
+​
+A. You should adjust the security group to allow traffic from port 3389
+​
+B. You should create a new instance since there might be some issue with the instance
+​
+C. You should restart the EC2 instance since there might be some issue with the instance
+​
+D. You should adjust the security group to allow traffic from port 22
+
+Answer : A
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 13. A Solutions Architect is developing a three-tier cryptocurrency web application for a FinTech startup. The Architect has been instructed to restrict access to the database tier to only accept traffic from the application-tier and deny traffic from other sources. The application-tier is composed of application servers hosted in an Auto Scaling group of EC2 instances.
+
+Which of the following options is the MOST suitable solution to implement in this scenario?
+
+A. Set up the Network ACL of the database subnet to allow inbound database traffic from the subnetty group of the database tier to allow database traffic from a specified list of application server IP addresses.
+
+C. Set up the security group of the database tier to allow database traffic from the security group of the application servers.
+
+D. Set up the Network ACL of the database subnet to deny all inbound non-database traffic from the subnet of the application-tier.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 14. You are working as a Senior Solutions Architect for a data analytics company which has a VPC for their human resource department, and another VPC located on a different region for their finance department. You need to configure your architecture to allow the finance department to access all resources that are in the human resource department and vice versa.
+
+Which type of networking connection in AWS should you set up to satisfy the above requirement?
+
+A. AWS Cloud Map
+B. VPC Endpoint
+C. VPN Connection
+D. Inter-Region VPC Peering
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 15. You are working as the Solutions Architect for a global technology consultancy firm which has an application that uses multiple EC2 instances located in various AWS regions such as US East (Ohio), US West (N. California), and EU (Ireland). Your manager instructed you to set up a latency-based routing to route incoming traffic for www.tutorialsdojo.com to all the EC2 instances across all AWS regions.   
+
+Which of the following options can satisfy the given requirement?
+
+A. Use Route 53 to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+B. Use AWS DataSync to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+C. Use an Application Load Balancer to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+D. Use a Network Load Balancer to distribute the load to the multiple EC2 instances across all AWS Regions.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 16. You are setting up the required compute resources in your VPC for your application which have workloads that require high, sequential read and write access to very large data sets on local storage. Which of the following instance type is the most suitable one to use in this scenario?
+
+Storage Optimized Instances
+Memory Optimized Instances
+General Purpose Instances
+Compute Optimized Instances
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 17. You are a Solutions Architect working for a software development company. You are planning to launch a fleet of EBS-backed EC2 instances and want to automatically assign each instance with a static private IP address which does not change even if the instances are restarted.
+What should you do to accomplish this?
+
+Launch the instances to multiple Availability Zones.
+Launch the instances to a single Availability Zone.
+Launch the instances in a Placement Group.
+Launch the instances in EC2-Classic.
+Launch the instances in the Amazon Virtual Private Cloud (VPC).
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 18. You are working for a startup that builds Internet of Things (IOT) devices and monitoring applications. They are using IOT sensors to monitor all data by using Amazon Kinesis configured with default settings. You then send the data to an Amazon S3 bucket after 2 days. When you checked the data in S3, only data for the last day is present and no data is present for the first day.
+
+What is the root cause of this issue?
+
+The access of the Kinesis stream to the S3 bucket is insufficient.
+
+By default, data records in Kinesis are only accessible for 24 hours from the time they are added to a stream.
+​
+Someone has manually deleted the record in Amazon S3.
+​
+Amazon S3 bucket has encountered a data loss.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 19. A web application, which is hosted in your on-premises data center and uses a MySQL database, must be migrated to AWS Cloud. You need to ensure that the network traffic to and from your RDS database instance is encrypted using SSL. For improved security, you have to use the profile credentials specific to your EC2 instance to access your database, instead of a password.   
+
+Which of the following should you do to meet the above requirement?
+
+Launch the mysql client using the --ssl-ca parameter when connecting to the database.
+​
+Configure your RDS database to enable encryption.
+​
+Set up an RDS database and enable the IAM DB Authentication.
+​
+Launch a new RDS database instance with the Backtrack feature enabled.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 20. You are trying to enable Cross-Region Replication to your S3 bucket but this option is disabled.
+Which of the following options is a valid reason for this?
+​
+The Cross-Region Replication feature is only available for Amazon S3 - Infrequent Access.
+​
+The Cross-Region Replication feature is only available for Amazon S3 - RRS.
+​
+In order to use the Cross-Region Replication feature in S3, you need to first enable versioning on the bucket.
+
+This is a premium feature which is only for AWS Enterprise accounts.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 21. In a tech company that you are working for, there is a requirement to allow one IAM user to modify the configuration of one of your Elastic Load Balancers (ELB) which is used in a specific project. Each developer in your company has an individual IAM user and they usually move from one project to another.
+
+Which of the following would be the best way to allow this access?
+​
+Create a new IAM user that has access to modify the ELB. Delete that user when the work is completed.
+​
+Open up the port that ELB uses in a security group and then give the user access to that security group via a policy.
+​
+Create a new IAM Role which will be assumed by the IAM user. Attach a policy allowing access to modify the ELB and once it is done, remove the IAM role from the user.
+​
+Provide the user temporary access to the root account for 8 hours only. Afterwards, change the password once the activity is completed.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 22. A game development company operates several virtual reality (VR) and augmented reality (AR) games which use various RESTful web APIs hosted on their on-premises data center. Due to the unprecedented growth of their company, they decided to migrate their system to AWS Cloud to scale out their resources as well to minimize costs. 
+
+Which of the following should you recommend as the most cost-effective and scalable solution to meet the above requirement?
+
+Host the APIs in a static S3 web hosting bucket behind a CloudFront web distribution.
+
+Use AWS Lambda and Amazon API Gateway.
+
+Set up a micro-service architecture with ECS, ECR, and Fargate.
+
+Use a Spot Fleet of Amazon EC2 instances, each with an Elastic Fabric Adapter (EFA) for more consistent latency and higher network throughput. Set up an Application Load Balancer to distribute traffic to the instances.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 23. You are building a microservices architecture in which a software is composed of small independent services that communicate over well-defined APIs. In building large-scale systems, fine-grained decoupling of microservices is a recommended practice to implement. The decoupled services should scale horizontally from each other to improve scalability.
+
+What is the difference between Horizontal scaling and Vertical scaling?
+
+​
+Vertical scaling means running the same software on bigger machines which is limited by the capacity of the individual server. Horizontal scaling is adding more servers to the existing pool and doesn’t run into limitations of individual servers.
+​
+Vertical scaling means running the same software on a fully serverless architecture using Lambda. Horizontal scaling means adding more servers to the existing pool and it doesn’t run into limitations of individual servers.
+​
+Horizontal scaling means running the same software on bigger machines which is limited by the capacity of individual servers. Vertical scaling is adding more servers to the existing pool and doesn’t run into limitations of individual servers.
+
+Horizontal scaling means running the same software on smaller containers such as Docker and Kubernetes using ECS or EKS. Vertical scaling is adding more servers to the existing pool and doesn’t run into limitations of individual servers.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 24. AWS hosts a variety of public datasets such as satellite imagery, geospatial, or genomic data that you want to use for your web application hosted in Amazon EC2.
+If you use these datasets, how much will it cost you?
+
+​
+A one-time charge of $10.
+No charge.
+$10 per month for all datasets.
+$10 per month for each dataset.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 25. You are planning to launch an application that tracks the GPS coordinates of delivery trucks in your country. The coordinates are transmitted from each delivery truck every five seconds. You need to design an architecture that will enable real-time processing of these coordinates from multiple consumers. The aggregated data will be analyzed in a separate reporting application.
+
+Which AWS service should you use for this scenario?
+​
+Amazon Kinesis
+Amazon Simple Queue Service
+Amazon AppStream
+AWS Data Pipeline
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 26. A company needs to launch a new MySQL RDS database for its new data analytics application. The Solutions Architect needs to ensure that the database-tier must be able to quickly recover from any system crashes.
+
+Which of the below is NOT a recommended practice for RDS?
+
+Partition your large tables so that file sizes does not exceed the 16 TB limit.
+​
+Ensure that automated backups are enabled for the RDS
+​
+Use MyISAM as the storage engine for MySQL.
+
+Use InnoDB as the storage engine for MySQL.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 27. You have created a VPC with a single subnet then you launched an On-Demand EC2 instance in that subnet. You have attached Internet gateway (IGW) to the VPC and verified that the EC2 instance has a public IP. The main route table of the VPC is as shown below:
+
+However, the instance still cannot be reached from the Internet when you tried to connect to it from your computer. Which of the following should be made to the route table to fix this issue?
+​
+Add this new entry to the route table: 0.0.0.0/0 -> Your Internet Gateway
+​
+Add the following entry to the route table: 10.0.0.0/27 -> Your Internet Gateway
+​
+Modify the above route table: 10.0.0.0/27 -> Your Internet Gateway
+​
+Add this new entry to the route table: 0.0.0.0/27 -> Your Internet Gateway
+Explanation
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 28. A startup company wants to launch a fleet of EC2 instances on AWS. Your manager wants to ensure that the Java programming language is installed automatically when the instance is launched. In which of the below configurations can you achieve this requirement?
+​
+AWS Config
+User data​
+IAM roles
+EC2Config service
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 29. You were hired as an IT Consultant in a startup cryptocurrency company that wants to go global with their international money transfer app. Your project is to make sure that the database of the app is highly available on multiple regions.   
+
+What are the benefits of adding Multi-AZ deployments in Amazon RDS? (Select TWO.)
+
+​
+Provides SQL optimization.
+​
+Increased database availability in the case of system upgrades like OS patching or DB Instance scaling.
+​
+Provides enhanced database durability in the event of a DB instance component failure or an Availability Zone outage.
+​
+Creates a primary DB Instance and synchronously replicates the data to a standby instance in a different Availability Zone (AZ) in a different region.
+​
+Significantly increases the database performance.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 30. A web application is hosted on a fleet of EC2 instances inside an Auto Scaling Group with a couple of Lambda functions for ad hoc processing. Whenever you release updates to your application every week, there are inconsistencies where some resources are not updated properly. You need a way to group the resources together and deploy the new version of your code consistently among the groups with minimal downtime. 
+
+Which among these options should you do to satisfy the given requirement with the least effort?
+
+Create OpsWorks recipes that will automatically launch resources containing the latest version of the code.
+​
+Create CloudFormation templates that have the latest configurations and code in them.
+​
+Use deployment groups in CodeDeploy to automate code deployments in a consistent manner.
+​
+Use CodeCommit to publish your code quickly in a private repository and push them to your resources for fast updates.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 31. An application is hosted in an Auto Scaling group of EC2 instances and a Microsoft SQL Server on Amazon RDS. There is a requirement that all in-flight data between your web servers and RDS should be secured.
+
+Which of the following options is the MOST suitable solution that you should implement? (Select TWO.)
+
+​
+Enable the IAM DB authentication in RDS using the AWS Management Console.
+
+​
+Configure the security groups of your EC2 instances and RDS to only allow traffic to and from port 443.
+
+Download the Amazon RDS Root CA certificate. Import the certificate to your servers and configure your application to use SSL to encrypt the connection to RDS.
+
+Force all connections to your DB instance to use SSL by setting the rds.force_ssl parameter to true. Once done, reboot your DB instance.
+
+Specify the TDE option in an RDS option group that is associated with that DB instance to enable transparent data encryption (TDE)
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 32. A Solutions Architect designed a real-time data analytics system based on Kinesis Data Stream and Lambda. A week after the system has been deployed, the users noticed that it performed slowly as the data rate increases. The Architect identified that the performance of the Kinesis Data Streams is causing this problem.
+
+Which of the following should the Architect do to improve performance?
+
+​
+Increase the number of shards of the Kinesis stream by using the UpdateShardCount command.
+
+Improve the performance of the stream by decreasing the number of its shards using the MergeShard command.
+
+Replace the data stream with Amazon Kinesis Data Firehose instead.
+
+Implement Step Scaling to the Kinesis Data Stream.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 33. You are working for a global news network where you have set up a CloudFront distribution for your web application. However, you noticed that your application's origin server is being hit for each request instead of the AWS Edge locations, which serve the cached objects. The issue occurs even for the commonly requested objects.
+
+What could be a possible cause of this issue?
+​
+You did not add an SSL certificate.
+​
+The Cache-Control max-age directive is set to zero.
+​
+An object is only cached by Cloudfront once a successful request has been made hence, the objects were not requested before, which is why the request is still directed to the origin server.
+​
+The file sizes of the cached objects are too large for CloudFront to handle.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 34. You are instructed by your manager to create a publicly accessible EC2 instance by using an Elastic IP (EIP) address and also to give him a report on how much it will cost to use that EIP.
+
+Which of the following statements is correct regarding the pricing of EIP?
+
+​
+There is no cost if the instance is running and it has only one associated EIP.
+
+There is no cost if the instance is terminated and it has only one associated EIP.
+​
+There is no cost if the instance is stopped and it has only one associated EIP.
+​
+There is no cost if the instance is running and it has at least two associated EIP.
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 35. You are working for a computer animation film studio that has a web application running on an Amazon EC2 instance. It uploads 5 GB video objects to an Amazon S3 bucket. Video uploads are taking longer than expected, which impacts the performance of your application.
+
+Which method will help improve the performance of your application?
+
+​
+Use Amazon Elastic Block Store Provisioned IOPS and an Amazon EBS-optimized instance.
+​
+Use Amazon S3 Multipart Upload API.
+​
+Enable Enhanced Networking with the Elastic Network Adapter (ENA) on your EC2 Instances.
+​
+Leverage on Amazon CloudFront and use HTTP POST method to reduce latency.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 36. You are a Solutions Architect in an intelligence agency that is currently hosting a learning and training portal in AWS. Your manager instructed you to launch a large EC2 instance with an attached EBS Volume and enable Enhanced Networking. What are the valid case scenarios in using Enhanced Networking? (Select TWO.)
+
+​
+When you need a consistently lower inter-instance latencies
+​
+When you need high latency networking
+​
+When you need a dedicated connection to your on-premises data center 
+
+When you need a higher packet per second (PPS) performance
+​
+When you need a low packet-per-second performance
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 37. A top university has recently launched its online learning portal where the students can take e-learning courses from the comforts of their homes. The portal is on a large On-Demand EC2 instance with a single Amazon Aurora database.   
+
+How can you improve the availability of your Aurora database to prevent any unnecessary downtime of the online portal?
+
+Create Amazon Aurora Replicas.
+​
+Use an Asynchronous Key Prefetch in Amazon Aurora to improve the performance of queries that join tables across indexes.
+​
+Deploy Aurora to two Auto-Scaling groups of EC2 instances across two Availability Zones with an elastic load balancer which handles load balancing.
+
+Enable Hash Joins to improve the database query performance.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 38. A multinational manufacturing company has multiple accounts in AWS to separate their various departments such as finance, human resources, engineering and many others. There is a requirement to ensure that certain access to services and actions are properly controlled to comply with the security policy of the company.
+
+As the Solutions Architect, which is the most suitable way to set up the multi-account AWS environment of the company?
+
+​
+Set up a common IAM policy that can be applied across all AWS accounts.
+​
+Use AWS Organizations and Service Control Policies to control services on each account.
+​
+Provide access to externally authenticated users via Identity Federation. Set up an IAM role to specify permissions for users from each department whose identity is federated from your organization or a third-party identity provider.
+​
+Connect all departments by setting up a cross-account access to each of the AWS accounts of the company. Create and attach IAM policies to your resources based on their respective departments to control access.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 39. You are working as a Solutions Architect in a well-funded financial startup. The CTO instructed you to launch a cryptocurrency mining server on a Reserved EC2 instance in us-east-1 region's private subnet which is using IPv6. Due to the financial data that the server contains, the system should be secured to avoid any unauthorized access and to meet the regulatory compliance requirements.
+
+In this scenario, which VPC feature allows the EC2 instance to communicate to the Internet but prevents inbound traffic?
+
+NAT Gateway
+
+Egress-only Internet gateway
+
+NAT instances
+
+Internet Gateway
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 40. A startup is building an AI-based face recognition application in AWS, where they store millions of images in an S3 bucket. As the Solutions Architect, you have to ensure that each and every image uploaded to their system is stored without any issues.
+
+What is the correct indication that an object was successfully stored when you put objects in Amazon S3?
+
+​
+Amazon S3 has 99.999999999% durability hence, there is no need to confirm that data was inserted.
+​
+You will receive an SMS from Amazon SNS informing you that the object is successfully stored.
+​
+You will receive an email from Amazon SNS informing you that the object is successfully stored.
+​
+HTTP 200 result code and MD5 checksum.
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 41. As the Solutions Architect, you have built a photo-sharing site for an entertainment company. The site was hosted using 3 EC2 instances in a single availability zone with a Classic Load Balancer in front to evenly distribute the incoming load.   
+
+What should you do to enable your Classic Load Balancer to bind a user's session to a specific instance? 
+
+​
+Placement Group
+​
+Security Group
+​
+Sticky Sessions
+​
+Availability Zone
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+Answer : 
+
+Explanation : 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 

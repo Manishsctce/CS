@@ -53,7 +53,7 @@
 > Local variable also called automatic/stack/temporary variable
 > Memory declaration of Object are in heap and class reference in stack. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What is JAVA MEMORY MODEL?
+### What is JAVA MEMORY MODEL?
 
 > it describes the communication bet memory of the threads and the main memory of the app.
 > It defines the rules how changes in the memory done by threads are propagated to other threads
@@ -260,10 +260,11 @@ public class Memory {
 
 ======================================
 ########## MEMORY LEAKAGE ############
+
 ### Can a Java application have memory leak?
 
 > Yes, in some situations, when the object is no longer in use, but some REFERENCES TO THAT OBJECT HAS NOT BEEN REMOVED. 
-> This kind of objs will not be collected by GC. it means there is memory leak. This type of reference is called DANGLING REFERENCE.
+- This kind of objs will not be collected by GC. it means there is memory leak. This type of reference is called DANGLING REFERENCE.
 
 ##Typical Memory Leaks
 1. Global Collection - global data repository 
@@ -273,6 +274,7 @@ public class Memory {
 ## What are the Safety Measure for Preventing Memory Leaks?
 
 1. Static Field Holding On to the Object Reference
+
 2. Calling String.intern() on Long String 
 - Solution : increase the size of the permanent generation 
 - use Java 8 : it won’t lead to any OutOfMemoryError 
@@ -286,7 +288,7 @@ Autobox creates new Object every time.
 
 6. when use custom cache always clear them when elements are not require can use WeakHashMap
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## How to create Memory leak in Java?
+### How to create Memory leak in Java?
 
 EXAMPLE1:
 try{
@@ -493,6 +495,7 @@ Ex- e1,e2 - two obj ; if we assign as e1 = e2 then e1 is eligible for gc
 When none of those are true, then the ClassLoader and all classes it loaded are eligible for GC.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which part of the memory is involved in Garbage Collection? Stack or Heap?
+
 > Heap 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What happens if an uncaught exception is thrown from during the execution of the finalize() method of an object?
@@ -508,33 +511,36 @@ protected void finalize() throws Throwable {
     MyObjectStore.getInstance().store(this);
     super.finalize(); // questionable, but you should ensure calling it somewhere.
 }
+
 > But this is not right way.
 =======================================
 ##### JAVA COMMAND LINE PROPERTIES ####
 
--cp classpath => default classpath and additional classpath
--Dproperty=value  => Sets a system property value.
--verbose:class => Displays information about each class loaded.
--verbose:gc => Reports on each garbage collection event.
+-cp classpath 		=> default classpath and additional classpath
+-Dproperty=value	=> Sets a system property value.
+-verbose:class 		=> Displays information about each class loaded.
+-verbose:gc 		=> Reports on each garbage collection event.
 
 -Djava.compiler=NONE => disable the JIT compiler (by default enabled)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> Options that begin with -X are non-standard (not guaranteed to be supported on all VM implementations), 
-- these are subject to change without notice in subsequent releases of the JDK.
 
-> Options that are specified with -XX are not stable and are not recommended for casual use. 
-- These options are subject to change without notice.
 --------------------------
--XX:MaxPermSize=192m => set max PermGen size. 
+-XX:MaxPermSize=192m 	=> set max PermGen size. 
 => This option was deprecated in JDK 8, and superseded by the -XX:MaxMetaspaceSize option.
 
 -XX:PermSize=124m 
 => initial size that will be allocated during startup of the JVM. If necessary, the JVM will allocate up to -XX:MaxPermSize.
 
--Xms (set initial Java heap size), 
--Xmx(set maximum Java heap size)
--Xssn => Sets the thread stack size.
+-Xms 			=> set initial Java heap size 
+-Xmx			=> set maximum Java heap size
+-Xssn 			=> Sets the thread stack size.
 
+> Options that begin with -X are non-standard (not guaranteed to be supported on all VM implementations), 
+- these are subject to change without notice in subsequent releases of the JDK.
+
+> Options that are specified with -XX are not stable and are not recommended for casual use. 
+- These options are subject to change without notice.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### -Xms3072M -Xmx3072M -XX:+AggressiveHeap -XX:MaxPermSize=1024M
 When we say MaxPermSize = 1024M does it mean that it is taken from 3072M that I set for Xms/Xmx ?
 
@@ -590,6 +596,7 @@ Ex -
 > jar xf myFile.jar foo bar
 =======================================
 ## Difference between PATH and CLASSPATH?
+
 > PATH is an environment variable which is used to locate JDK binaries like "java" or "javac" command
 > PATH = JDK_HOME/bin directory
 > this is set as user variable as: PATH=C:\jdk1.6.0_15\bin;%PATH%
@@ -638,7 +645,7 @@ JDK(Java Development kit) - It is software development kit. it include
 > we can use either 1 for running java appl
 > JDK ships with the "jps" command which lists all java process ids.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##What is difference between java.exe and javaw.exe?
+## What is difference between java.exe and javaw.exe?
 
 > jvm.dll is actual JVM implementation in window envirn. 
 > part of JRE and JDK

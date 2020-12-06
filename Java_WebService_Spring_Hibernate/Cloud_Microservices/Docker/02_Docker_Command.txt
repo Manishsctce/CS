@@ -1,0 +1,62 @@
+=====================================
+########### LIST COMMAND ############
+
+# To see all running container 
+docker ps 
+docker ps -a
+
+# To stop a running container
+docker stop <container_name/id>
+
+# To remove a container permanentaly 
+docker rm <container_name/id> 
+
+# To List images
+docker images
+
+# To remove images
+docker rmi <image_name>
+
+# To download the image 
+docker pull image_name
+
+# Run command 
+docker run image_name 
+docker run image_name sleep 5
+
+# To run the image in detached mode
+docker run -d image_name
+
+# To attach image with console
+docker attach image_id
+
+# To run the container in the interactive mode
+docker run -i container_name
+
+# To run the container in the interactive mode terminal
+docker run -it container_name
+
+# To map the port 
+docker run -p docker_host_portnum:docker_container_port container_name
+
+- we cannot use same docker_host port more than once
+- we can use diff docker_host_portnum to map to same port number with multiple instance of container.
+
+# To inspect a container 
+docker inspect container_name
+
+# To check logs of a container 
+docker logs container_name
+
+# To do Volume mapping 
+docker run -v /opt/datadir:/var/lib/mysql  mysql
+
+# To set Environment variable in Docker 
+docker run -e APP_COLOR=blue app_container
+
+# To see the history 
+docker history image_name
+
+=======================================
+###### DOCKER BUILD COMMAND #########
+docker build build_file -t image_name

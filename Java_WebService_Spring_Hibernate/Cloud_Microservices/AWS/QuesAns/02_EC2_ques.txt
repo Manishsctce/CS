@@ -1,3 +1,14 @@
+
+## AWS EC2
+- It is Elastic Compute CloudFront
+
+## ELASTIC BEANSTALK
+## AWS LAMBDA
+## AWS ELASTIC LOAD BALANCER (ELB)
+## AWS ECR (Elastic Container Registry)
+## AWS ECS (Elastic Container Service)
+## AWS Lightsail
+
 ############# EC2 #############
 
 ## You have been asked to migrate a 10GB unencrypted EBS vol. to an encrypted vol. for security purposes. What are 3 key steps required as part of the migration? (ShaunHummel-2)
@@ -239,7 +250,12 @@ C. Customer gateway
 D. Virtual private network
 
 Answer: C. 
-A customer gateway is the anchor on the customer side of an Amazon VPN connection. A storage gateway is for caching or storing data and connecting to S3. A virtual private gateway is an important part of a VPN connection but exists on the AWS side of the connection. A virtual private network is actually what VPN stands for.
+
+EXPLANATION: 
+A customer gateway is the anchor on the customer side of an Amazon VPN connection. 
+A storage gateway is for caching or storing data and connecting to S3. 
+A virtual private gateway is an important part of a VPN connection but exists on the AWS side of the connection. 
+A virtual private network is actually what VPN stands for.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What is the anchor on the AWS side of a site-to-site VPN connection between an onpremises site and AWS?
 
@@ -249,34 +265,269 @@ C. Customer gateway
 D. VPC
 
 Answer: B. 
+
+EXPLANATION: 
 VPN connections between an on-premises site and AWS consist of a customer gateway on the customer side and a virtual private gateway on the AWS side
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You are working as an AWS Architect for a start-up company. The company has a two-tier production website on AWS with web servers in front end & database servers in the back end. The third-party firm has been looking after the operations of these database servers. They need to access these database servers in private subnets on SSH port. As per standard operating procedure provided by Security team, all access to these servers should be over secure layer & should be logged in. What will be the best solution to meet this requirement? [WL108]
+
+A. Deploy Bastion hosts in Private Subnet
+B. Deploy NAT Instance in Private Subnet
+C. Deploy NAT Instance in Public Subnet
+D. Deploy Bastion hosts in Public Subnet
+
+
+ANSWER : D
+
+EXPLANATION : 
+External users will be unable to access the instance in private subnets directly. To provide such access, we need to deploy Bastion hosts in public subnets. In case of the above requirement, third-party users will initiate a connection to Bastion hosts in public subnets & from there, they will access SSH connection to database servers in private subnets.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are working as AWS Solutions Architect for a large banking organization. The requirement is that under normal business hours, there would always be 24 web servers up and running in a region (example: US - West (Oregon)). It will be a three-tier architecture connecting to the databases. The solution offered should be highly available, secure, cost-effective, and should be able to respond to the heavy requests during peak hours and tolerate up to one AZ failure. 
+What would be the best solution to meet this requirement?  [WL165]
+
+A. In a given region, use ELB behind two different AZs, each AZ with minimum or desired 24 web servers hosted in a public subnet and Multi-AZ database architecture in a private subnet. 
+
+B. In a given region, use ELB behind three different AZs, each AZ having ASG, with minimum or desired 12 web servers hosted in a public subnet and Multi-AZ database architecture in a private subnet. 
+
+C. In a given region, use ELB behind two different AZs, each AZ having ASG, with minimum or desired 12 web servers hosted in a public subnet and Multi-AZ database architecture in a private subnet. 
+
+D. In a given region, use ELB behind three different AZs, each AZ having ASG, with minimum or desired 8 web servers hosted in public subnet and Multi-AZ database architecture in a different public subnet. 
+
+
+ANSWER : B
+
+EXPLANATION : 
+Option A is incorrect. Everything looks good, but the designed architecture does not look to be cost-effective as all the time 48 servers will be running and it does not have ASG to cater to additional load on servers. However, it is fault-tolerant to one AZ failure.
+Besides, it is always a good practice to use multiple AZs to make the application highly available.
+
+Option B is correct, as the solution needs to be tolerant up to one AZ failure. It means there are always 36 web servers to cater the service requests. If one AZ fails then there will be 24 servers running all the time, and in case two AZ fails there will be 12 servers running. Also, ASG can be utilized to scale out the required number of servers.
+
+Option C is incorrect as it will not be a suitable solution. If there will be one AZ failure the other AZ will have only 12 web servers running. One might think ASG is always there to take care when the second AZ fails. But think of a scenario when other AZ fails and at the same time traffic is at its peak, then the application will not be further scalable and users might face slow responses.
+
+Option D is incorrect. Remember the design principle of keeping the databases in private subnet. As this solution mentions to place databases in another public subnet, the data can be exposed over the internet and hence it’s an insecure application.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+######### Elastic BeanStalk ##########
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## For which of the following scenarios should a Solutions Architect consider using ElasticBeanStalk? (Choose Two) [WL105]
+
+A. A web application using Amazon RDS
+B. An Enterprise Data Warehouse
+C. A long-running worker process
+D. Capacity provisioning and load balancing of website
+E. A management task run once on nightly basis
+
+
+ANSWER : A & D
+
+EXPLANATION : 
+
+Option C is incorrect. Beanstalk does not make sense to use for long-running processes. EC2 instances would be a better fit.
+
+Option D is correct. We can use Elastic Beanstalk to distribute incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, IP addresses, and Lambda functions. It can handle the varying load of your application traffic in a single Availability Zone or across multiple Availability Zones.
+
+Option E is incorrect. When you launch an Elastic Beanstalk environment, you first choose an environment tier. The environment tier that you choose determines whether Elastic Beanstalk provisions resources to support an application that handles HTTP requests or an application that pulls tasks from a queue. An application that serves HTTP requests runs in a web server environment. An environment that pulls tasks from an Amazon Simple Queue Service queue runs in a worker environment.
+
+Further, when you create an environment, Elastic Beanstalk provisions the resources required to run your application. AWS resources created for an environment include one elastic load balancer (ELB in the diagram), an Auto Scaling group, and one or more Amazon EC2 instances.
+
+So, these resources are required to run the application 24/7, not for only at night or day.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which AWS services can be used to host and scale an application, in which the NGINX load balancer used? (SELECT TWO) [WL132]
+
+A. AWS EC2
+B. AWS Elastic Beanstalk
+C. AWS SQS
+D. AWS ELB
+
+
+ANSWER : A, B
+
+EXPLANATION : 
+NGINX is open-source software for web serving, reverse proxying, caching, content-based routing rules, auto-scaling support, and traffic management policies. 
+
+NGINX can be hosted on an EC2 instance through a series of clear steps- Launch an EC2 instance through the console. Connect to the instance over SSH and use the command yum install -y Nginx to install Nginx. Also, make sure that it is configured to restart automatically after a reboot.
+
+It can also be installed with an Elastic Beanstalk service. To enable the NGINX proxy server with your Tomcat application, you must add a configuration file to .ebextensions in the application source bundle that you upload to Elastic Beanstalk. 
+

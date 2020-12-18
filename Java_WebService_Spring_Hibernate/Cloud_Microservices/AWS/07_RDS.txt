@@ -1,10 +1,25 @@
 ######## AWS DATABASE SERVICE #########
 
-## RDS
+## RDS - OLTP (Online Transaction processing)
+- SQL server - doesn't support read replica
+- Oracle 	 - upto 5 Replica
+- PostgreSQL - upto 5 Replica, Highly Reliable & stable
+- MariaDB	 - MySQL Compatible, can grow upto 64TB
+- AWS Aurora - upto 15 Replica, High Throughput, can grow upto 64TB, replica lag < 100ms, 
+- MySQL 	 - upto 5 Replica, can grow upto 64TB
+
 ## Amazon Aurora
-## DynamoDB
-## AWS Redshift
-## Amazon ElastiCache  
+
+## DynamoDB - No SQL 
+- maximum size of an item is 400KB
+
+## AWS Redshift 
+- It is used for Business Intelligence and data warehouse. 
+- it can store petabyte of data
+- it organizes the data by column
+- Online Analytics processing (OLAP)
+
+## Amazon ElastiCache  - to speed up performance
 
 =======================================
 ############## AWS RDS ################ v4
@@ -21,27 +36,38 @@
 > Every DB instance has a weekly maintenance window 
 - if you do not specify one at the time you created the DB instance 
 - it will choose one randomly for you that is 30 minute long
+
+
+
+> RDS runs on virtual machines
+- we cannot log into those OS 
+- Patching of the RDS OS and DB is Amazon responsible
+
+> RDS is NOT SERVERLESS
+> AURORA SERVERLESS IS SERVERLESS
 =======================================
 ## AWS is not responsible for
 - Managing DB setting 
 - building a relational DB schema 
 - DB performance tuning
 
-## Supported relational DB engine
-- MS SQL server, 
-- Oracle 
-- postgreSQL - Highly Reliable & stable
-- mariaBD, 
-- AWS Aurora - High Throughput
-- mysql - support 64TB of DB
+## Supported Relational DB engine
+- SQL server - doesn't support read replica
+- Oracle 	 - upto 5 Replica
+- PostgreSQL - upto 5 Replica, Highly Reliable & stable
+- MariaDB	 - MySQL Compatible, can grow upto 64TB
+- AWS Aurora - upto 15 Replica, High Throughput, can grow upto 64TB, replica lag < 100ms, 
+- MySQL 	 - upto 5 Replica, can grow upto 64TB
+
+> All support Multi-AZ, 
 
 ## 2 Licensing model
 1. Bring your own licence
 2. Licence included
 
-##RDS LIMITS
-> Up to 40 DB instances per account
-- 10 of this 40 can be Oracle or MS SQL server under licence included model
+## RDS LIMITS
+> upto 40 DB instances per account
+- 10 of this 40 can be Oracle or MS SQL server under Licence included model
 
 > Under BYOL model, all 40 can be any DB engine you need 
 
@@ -50,7 +76,7 @@
 
 1. General purpose storage 
 - it used for DB works with moderate I/O requirements
-Limits - 20GB (min) - 16TB (max)
+- Limits - 20GB (min) - 16TB (max)
 
 2. Provision IOPS RDS storage 
 - use for high performance OLTP workload
@@ -69,6 +95,7 @@ Limits - 20GB (min) - 16TB (max)
 =======================================
 ######### MULTI-AZ RDS OPTION #########
 
+> Multi-AZ is for disaster recovery.
 > You can select the multi-AZ option during RDS DB instance launch
 
 > RDS service CREATE A STANDBY INSTANCE IN A DIFFERENT AZ IN THE SAME REGION and configure SYNCHRONOUS replication between the primary and standby
@@ -159,6 +186,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 - in case of a failure failover the standby become the primary
 =======================================
 ##### DB AUTOMATIC BACKUP OR MANUAL SNAPSHOT 
+
 > These are the two method to backup and restore your RDS DB instances
 1. AWS RDS automatic backups
 2. user intiated manual backup
@@ -170,7 +198,11 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### DB AUTOMATED BACKUPS ######
 
->  Automated backup by AWS, back up DB data to multi-AZ to provide for data durability
+>> Amazon RDS performs a storage volume snapshot of the entire Database Instance. 
+- Also, it captures transaction logs every 5 minutes. 
+- To restore a DB instance at a specific point of time, a new DB instance is created using this DB snapshot.
+
+> Automated backup by AWS, backup DB data to multi-AZ to provide for data durability
 > Are labelled automated in AWS console (easily distinguishable)
 > Stored in Amazon S3
 > Multi-AZ automatic backup will be taken from the standby instance not the primary
@@ -179,7 +211,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 
 > Automatic backup (not the manual one) are used for point-in-time DB instance recovery
 
-> It can RESTORE THE DB UP TO 5 MIN IN TIME, using the DB transaction logs and the automated snapshot
+> It can RESTORE DB UPTO 5MIN IN-TIME, using the DB transaction logs and the automated snapshot
 
 > RDS automatically backup the DB instance daily, by creating a storage volume snapshot of DB instance (full daily snapshot), including the DB transaction logs(modifications) which are critical to be able to restore upto last 5 minutes in time
 - You can choose when during the day this is done (backup window)
@@ -198,10 +230,10 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### DB RETENTION PERIOD ######
 > The period of time AWS keep the automatic backup before deleting them
-- 7 days (by default) is configured from the AWS console for all DB engine (except Arora default is one day regardless how it was configured)
+- 7days (by default) is configured from the AWS console for all DB engine (except Arora default is one day regardless how it was configured)
 
 > 1 day is configured from API or CLI (for all DB engine including Arora)
-> You can increase it up to 35 days
+> You can increase it upto 35days
 > Value of 0 disabled automatic backup completely
 
 > A DB outage if you change your retention period from 0 to non-zero value for the other way around from non-zero to 0 value
@@ -266,7 +298,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 - Multi-AZ DB hours
 - Provisioned Storage (Multi-AZ)
 - Double write I/O (writing to the Active/Primary, and-Replication from Primary to Standby)
-- You are not charged for DB data transfer during replication fröm primary to standby
+- You are not charged for DB data transfer during replication from primary to standby
 - Your DB storage does not change between Standalone and Multi-AZ deployments (same DB and same AWS Storage volume for that DB in multiple AZs for durability)
 
 ## Free Tier
@@ -292,8 +324,9 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > You can move RDS RIs between AZs in the same region
 > You can NOT cancel an RDS RI's reservation
 =======================================
-####### Read Replicas ######### v12
+############ READ REPLICAS ############ v12
 
+> Read Replica is for Performance 
 > When the required read I/O capacity is reached but still more I/O capacity is required for heavy/intensive read applications, read replicas can come in handy
 
 > READ REPLICA is a replica of the primary RDS DB instance, but they CAN ONLY BE USED FOR READ actions
@@ -359,7 +392,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 
 > Promotion process takes several minutes because the DB will reboot before the promoted replica becomes available as a standalone DB instance (allow for read/write, snapshots/backups...etc)
 
-> The promoted replica into a standalone DB instance willPretain:
+> The promoted replica into a standalone DB instance will Pretain:
 - Backup retention period
 - Backup window
 - DB parameter group
@@ -414,7 +447,8 @@ OR
 
 > It is a fully managed relational database engine that's compatible with MySQL and PostgreSQL.
 
-> It can deliver up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL 
+> It can deliver up to 5 times the throughput of MySQL and 
+- up to 3 times the throughput of PostgreSQL 
 - at a price one-tenth of that Commercial databases while delivering similar performance and availability.
 
 ##### Aurora Scaling #####
@@ -456,6 +490,9 @@ content-type
 - This help to automate capacity management of tables and global secondary indexes. 
 - we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
 - will be on by default for all new tables and indexes
+
+> A DynamoDB stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. 
+- When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Because of its availability in 3 geographically DC, It consists of 2 different types of consistency models:
 
@@ -473,8 +510,7 @@ content-type
 > It defines the maximum amount of capacity that an application can use from a specified table.
 
 > In a provisioned mode, we need to specify the number of reads and writes per second required by the app.
-
-> If the limit of Provisioned mode throughput capacity is exceeded, then this leads to the request throttling.
+- If the limit of Provisioned mode throughput capacity is exceeded, then this leads to the request throttling.
 
 > A provisioned mode is GOOD FOR APP THAT HAVE PREDICTABLE AND CONSISTENT TRAFFIC.
 
@@ -526,6 +562,8 @@ content-type
 
 > we can scale provisioned capacity of DynamoDB table anytime 
 > we can scale down provisioned capacity only 4 time during day. 
+
+
 =======================================
 ############ AWS Redshift #############
 
@@ -593,7 +631,7 @@ content-type
 - Amazon Redshift employs multiple compression techniques and can often achieve significant compression relative to traditional relational data stores.
 - When loading data into an empty table, Amazon Redshift automatically samples your data and selects the most appropriate compression technique.
 
-• Massively Parallel processing (MPP):
+> Massively Parallel processing (MPP):
 - Amazon Redshift automatically distributes data and query load across all nodes.
 - Redshift makes it easy to add nodes to data warehouse and enables you to maintain fast query performance as data warehouse grows.
 
@@ -614,14 +652,14 @@ content-type
 
 ##Redshift – Restore
 Amazon Redshift currently supports only one AZ (no Multi-AZ option)
-• You can restore from your backup to a new Redshift cluster in the same
-or different AZ
+- You can restore from your backup to a new Redshift cluster in the same or different AZ
 
 ## Redshift – Monitoring
 > Metrics for compute utilization, storage utilization and read/write traffic to your Amazon Redshift data warehouse cluster, are available free of charge via AWS Cloudwatch.
 > You can also add additional user-defined, metrics via AWS Cloudwatch custom metric functionality.
 
 ## Q: An organization is managing a Redshift cluster in AWS. They need to monitor the performance of this Redshift cluster to ensure that it is performing as efficiently as possible. Which of the following services can be used for achieving this requirement? Please select:
+
 A) Cloudtrail
 B) VPC Flowlogs
 C) Cloudwatch

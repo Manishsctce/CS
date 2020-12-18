@@ -4,7 +4,7 @@
 
 > Enable elasticity by scaling horizontally 
 
-> Auto scaling ensures that we have the right number of AWS EC2 mstances for our needs at all times
+> Auto scaling ensures that we have the right number of AWS EC2 instances for our needs at all times
 
 > Auto Scaling helps you save cost by cutting down the number of EC2 instances when not needed, and scaling out to add more instances only when it is required
 =====================================
@@ -19,6 +19,8 @@ Auto Scaling components:
 ######## 1. LAUNCH CONFIGURATION ####
 
 > It is the configuration template used to create new EC2 instances for the ASG. 
+- It include IAM role to associate with created instances
+
 > It defines parameters like:
 - Instance family, instance type, AMI, Key pair, Block devices, and SG 
 
@@ -34,8 +36,8 @@ Auto Scaling components:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### 2. AS GROUP #############
 
-> Is a logical grouping of EC2 instances. 
-> Is a collection of EC2 instances managed by an AutoScaling Policy
+> It is a logical grouping of EC2 instances. 
+- It is a collection of EC2 instances managed by an AutoScaling Policy
 
 > An ASG can have a minimum, maximum, and desired capacity of EC2 instances, subnet, health check period
 
@@ -51,7 +53,7 @@ Auto Scaling components:
 > AS can be configured from Console, CLI, SDKS, and APIS
 
 > Auto Scaling can span Multi-AZs WITHIN THE SAME AWS REGION. Hence, it can be used to create Fault Tolerant designs on AWS
-- Auto Scaling can NOT span across multiple Regions
+- Auto Scaling CANNOT SPAN ACROSS MULTIPLE REGIONS
 
 > Cost: There is NO ADDITIONAL COST for launching AS Groups. You pay for what you use of EC2 instances
 
@@ -68,16 +70,14 @@ Auto Scaling components:
 
 > If AS finds that the number of EC2 instances launched by an ASG into subject AZ IS NOT BALANCED (EC2 instances are not evenly distributed across AZs), AS WILL INITIATE A RE-BALANCING ACTIVITY
 
-- The target of the activity would be to reach an even distribution of instances between AZs
+- The target of the activity would be to reach an even distribution of instances bet AZs
 - AS does that by launching new EC2 instances in the AZs that have less EC2 instances first, then terminating Ec2 instances from the AZs that had more EC2 instances
-- This would help avoid impact on current performance while AZ
-Rebalance is going on
+- This would help avoid impact on current performance while AZ Rebalance is going on
 
-## WHAT CAN CAUSE IMBALANCE OF EC2 INSTANCES:
+## WHAT CAN CAUSE IMBALANCE OF EC2 INSTANCES ?
+
 > You manually change the AZ where your AS is in effect (adding or removing AZs)
-
 > Manually requesting termination of EC2 instances from ASG
-
 > An AZ that did not have enough EC2 capacity, now has enough capacity and it is one of your ASG Azs
 
 > An AZ with Spot instances market price meeting your bid price
@@ -96,7 +96,7 @@ Rebalance is going on
 ###### ###### v6
 
 ## Adding an ELB to the ASG
-> You can attach one or more (classic) ÉLB to existing AS Group
+> You can attach one or more (classic) ELB to existing AS Group
 - The ELB must be in the same region as the ASG
 
 > Once we add ELB to ASG, any EC2 instance existing or added by the AS Group will be AUTOMATICALLY REGISTERED with those ELB(s)

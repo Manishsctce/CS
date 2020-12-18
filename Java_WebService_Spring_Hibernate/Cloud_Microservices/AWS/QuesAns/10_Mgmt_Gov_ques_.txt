@@ -1,51 +1,727 @@
-############# EC2 #############
+=======================================
+###### Management & Governance ########
 
-## 
+## CloudTrail
+## CloudWatch
+## CloudFormation
+## Trusted Advisor 
+## AWS Config
+
+=======================================
+############# Cloudwatch ##############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## Your company currently has a set of EC2 Instances hosted in AWS. The states of these instances need to be monitored and each state change needs to be recorded. Which step could be helpful to fulfill this requirement? (SELECT TWO) [WL204]
+
+A. Use CloudWatch logs to store the state change of the instances. 
+B. Create an Amazon CloudWatch alarm that monitors an Amazon EC2 instance
+C. Use SQS to trigger a record to be added to a DynamoDB table.  
+D. Use AWS Lambda to store a change record in a DynamoDB table. 
+
+
+
+ANSWER : B, C
+
+EXPLANATION: 
+Create Alarms That Stop, Terminate, Reboot, or Recover an Instance 
+
+Using Amazon CloudWatch alarm actions, you can create alarms that automatically stop, terminate, reboot or recover your instances. 
+- You can use the stop or terminate actions to save money when you no longer need an instance. 
+- You can use the reboot and recover actions to automatically reboot those instances or recover them onto new hardware if a system impairment occurs.
+
+The AWSServiceRoleForCloudWatchEvents service-linked role enables AWS to perform alarm actions on your behalf. 
+- The first time you create an alarm in the AWS Management Console, the IAM CLI, or the IAM API, CloudWatch creates the service-linked role for you.
+
+> There are a number of scenarios in which you might want to automatically stop or terminate your instance. 
+- For example, you might have instances dedicated to batch payroll processing jobs or scientific computing tasks that run for a period of time and then complete their work. Rather than letting those instances sit idle (and accrue charges), you can stop or terminate them, which could help you to save money. 
+- The main difference between using the stop and the terminate alarm actions is that you can easily restart a stopped instance if you need to run it again later, and you can keep the same instance ID and root volume. However, you cannot restart a terminated instance instead, you must launch a new instance.
+
+You can add the stop, terminate, reboot or recover actions to any alarm that is set on an Amazon EC2 per-instance metric, including basic and detailed monitoring metrics provided by Amazon CloudWatch (in the AWS/EC2 namespace), as well as any custom metrics that include the InstanceId dimension, as long as its value refers to a valid running Amazon EC2 instance.
+
+For more information on Amazon EC2, please visit the following URL: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ug.pdf
+
+Option A is correct. Using Cloudwatch logs collect, store, view, and search logs from AWS and non-AWS resources.
+Option B is correct. CloudWatch alarms are used to trigger notifications for any metric. Alarms can go to auto-scaling, EC2 actions(stop, terminate, recover, or reboot) and SNS notifications.
+Option C is incorrect as SQS cannot be used for monitoring.
+Option D is incorrect as AWS Lambda cannot be used for monitoring.
+
+=======================================
+########### CloudFormation ############
+
+## A consulting firm repeatedly builds large architectures for their customers using AWS resources from several AWS services including IAM, Amazon EC2, Amazon RDS, DynamoDB and Amazon VPC. The consultants have architecture diagrams for each of their architectures, and are frustrated that they cannot use them to automatically create their resources. Which service should provide immediate benefits to the organization?
+
+A. AWS Beanstalk
+B. AWS CloudFormation
+C. AWS CodeBuild
+D. AWS CodeDeploy
+
+
+ANSWER : B
+
+EXPLANATION : 
+AWS CloudFormation is a service that helps you model and set up your Amazon Web Service resources so that you can spend less time managing those resources and more time focusing on your applications that run in AWS. You create a template that describes all the AWS resources that you want (like Amazon EC2 instances or Amazon RDS DB instances), and AWS CloudFormation takes care of provisioning and configuring those resources for you.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You are working for a start-up company that develops mobile gaming applications using AWS resources. For creating AWS resources, the project team is using CloudFormation Templates. The Project Team is concerned about the changes made in EC2 instance properties by the Operations Team, apart from parameters specified in CloudFormation Templates. To observe changes in AWS EC2 instance, you advise using CloudFormation Drift Detection. After Drift detection, when you check drift status for all AWS EC2 instance, drift for certain property values having default values for resource properties is not displayed. What would you do to include these resources properties to be captured in CloudFormation Drift Detection?
+
+A. Run CloudFormation Drift Detection on individual stack resources instead of entire CloudFormation stack. 
+B. Explicitly set the property value, which can be the same as the default value. 
+C. Manually check these resources as this is not supported in CloudFormation Drift Detection. 
+D. Assign Read permission to CloudFormation Drift Detection to determine drift. 
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-############# VPC #############
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+########### CloudFormation ############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+########### CloudFormation ############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+

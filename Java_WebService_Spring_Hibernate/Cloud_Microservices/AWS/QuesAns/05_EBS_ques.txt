@@ -8,7 +8,9 @@ C. EBS single region only
 D. full snapshot data only
 E. unencrypted snapshot only
 
+
 Answer (A,B)
+
 Explantion - > EBS volume are AZ specific 
 - but snapshot are region specific
 
@@ -25,12 +27,11 @@ Answer (A)
 ## You terminate an EC2 instance and find that the EBS root volume that was attached to the instance was also deleted. How can you correct this?
 
 A. You can’t. A root volume is always deleted when the EC2 instance attached to that volume is deleted.
-
 B. Take a snapshot of the EBS volume while the EC2 instance is running. Then, when the EC2 instance is terminated, you can restore the EBS volume from the snapshot.
 
 C. Remove termination protection from the EC2 instance.
-
 D. Use the AWS CLS to change the DeleteOnTermination attribute for the EBS volume to “false.”
+
 
 Answer: D. 
 
@@ -45,6 +46,7 @@ B. Incrementally
 C. Synchronously
 D. EBS volumes are not stored on S3.
 
+
 Answer: B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Can you attach an EBS volume to more than one EC2 instance at the same time?
@@ -54,60 +56,198 @@ B. No, EBS volumes cannot be attached to more than one instance at the same time
 C. Yes, as long as the volume is one of the SSD classes and not magnetic storage.
 D. Yes, as long as at least one of the instances uses the volume as its root volume.
 
+
 Answer: B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WLEBS1## Which of the following statements are correct with respect to instance store and EBS volume? Please select 2 correct options. 
+## An application with a 150 GB relational database runs on an EC2 Instance. While the application is used infrequently with small peaks in the morning and evening, which storage type would be the most cost-effective option for the above requirement? [WL106]
 
-A. Instance store backed EC2 instances will persist storage across instance stop,
-terminate and failures.
+A. Amazon EBS provisioned IOPS SSD
+B. Amazon EBS Throughput Optimized HDD
+C. Amazon EBS General Purpose SSD
+D. Amazon EFS
 
-B. EBS backed EC2 instances can persist storage across instance stop, terminate
-and failures.
 
-C. Instance store backed EC2 instance will persist storage only during instance stop and
-start.
+ANSWER : C
+
+EXPLANATION : 
+Since the database is used infrequently, not throughout the day, and the question requires the MOST cost-effective storage type, the preferred choice would be EBS General Purpose SSD over EBS provisioned IOPS SSD.
+
+The minimum volume of Throughput Optimized HDD is 500 GB. As per our scenario, we need 150 GB only. 
+Hence, option C: Amazon EBS General Purpose SSD, would be the best choice for a cost-effective storage solution. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## The security policy of an organization requires an application to encrypt data before writing to the disk. Which solution should the organization use to meet this requirement? [WL118]
+
+A. AWS KMS API
+B. AWS Certificate Manager
+C. API Gateway with STS
+D. IAM Access Key
+
+ANSWER : A
+
+EXPLANATION : 
+Option B is incorrect. The AWS Certificate Manager can be used to generate SSL certificates to encrypt traffic in transit, but not at rest.
+
+Option C is incorrect. It is used for issuing tokens while using the API gateway for traffic in transit.
+
+Option D is used for providing secure access to EC2 Instances.
+
+AWS Documentation mentions the following on AWS KMS:
+
+AWS Key Management Service (AWS KMS) is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. AWS KMS is integrated with other AWS services including Amazon Elastic Block Store (Amazon EBS), Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon Elastic Transcoder, Amazon WorkMail, Amazon Relational Database Service (Amazon RDS), and others to make it simple to encrypt your data with encryption keys that you manage.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An application currently stores all its data on Amazon EBS Volumes. All EBS volumes must be backed up durably across multiple Availability Zones. 
+What is the MOST resilient and cost-effective way to back up the volumes? [WL119]
+
+A. Take regular EBS snapshots.
+B. Enable EBS volume encryption.
+C. Create a script to copy data to an EC2 Instance store.
+D. Mirror data across 2 EBS volumes. 
+
+ANSWER : A
+
+EXPLANATION : 
+Option B is incorrect because it does not help the durability of EBS Volumes.
+
+Option C is incorrect since EC2 Instance stores are not durable.
+
+Option D is incorrect since mirroring data across EBS volumes is inefficient in comparison with the existing option for EBS snapshots.
+
+AWS Documentation mentions the following on AWS EBS Snapshots:
+
+You can back up the data on your Amazon EBS volumes to Amazon S3 by taking point-in-time snapshots. Snapshots are incremental backups, which means that only the blocks on the device that have changed after your most recent snapshot are saved. This minimizes the time required to create the snapshot and saves on storage costs by not duplicating data. When you delete a snapshot, only the data unique to that snapshot is removed. Each snapshot contains all of the information required to restore your data (from the moment when the snapshot was taken) to a new EBS volume.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## There is a requirement to host a database on an EC2 Instance. It is also required that the EBS volume should support 18,000 IOPS. 
+Which Amazon EBS volume type would meet the performance requirements of this database? [WL129]
+
+A. EBS Provisioned IOPS SSD
+B. EBS Throughput Optimized HDD
+C. EBS General Purpose SSD
+D. EBS Cold HDD
+
+ANSWER : A
+
+EXPLANATION : 
+For high performance and high IOPS requirements, as in this case, the ideal choice would be to choose EBS Provisioned IOPS SSD.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following statements are correct with respect to instance store and EBS volume? Please select 2 correct options. [WL_EBS1]
+
+A. Instance store backed EC2 instances will persist storage across instance stop, terminate and failures.
+
+B. EBS backed EC2 instances can persist storage across instance stop, terminate and failures.
+
+C. Instance store backed EC2 instance will persist storage only during instance stop and start.
 D. You cannot add instance store volumes once EC2 instance is launched.
 E. All available EC2 instance types support instance store and EBS volumes.
 
@@ -168,223 +308,143 @@ Explanation :
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+ANSWER : 
 
-Answer : 
+EXPLANATION : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+ANSWER : 
 
-Answer : 
+EXPLANATION : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+ANSWER : 
 
-Answer : 
+EXPLANATION : 
 
-Explanation : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+ANSWER : 
 
-Answer : 
+EXPLANATION : 
 
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-Answer : 
-
-Explanation : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-Answer : 
 
-Explanation : 
+ANSWER : 
+
+EXPLANATION : 
 
 
-############# VPC #############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+

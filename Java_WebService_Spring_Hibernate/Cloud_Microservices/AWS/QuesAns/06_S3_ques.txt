@@ -8,6 +8,7 @@ B. Elastic File System
 C. Amazon S3 Standard
 D. Amazon S3 Standard Infrequent Accessed
 
+
 Answer - D. 
 S3 – IA for data that is accessed less frequently, but requires rapid access when needed
 
@@ -21,6 +22,7 @@ A. The availability of S3 and S3-IA is the same.
 B. The durability of S3 and S3-IA is the same.
 C. The latency of S3 and Glacier is the same.
 D. The latency of S3 is greater than that of Glacier.
+
 
 Answer - B 
 S3 and S3-IA have the same durability. S3 has 99.99 availability, while S3-IA has 99.9 availability. 
@@ -732,34 +734,233 @@ S3 supports 2 styles of bucket URLs:
 
 2. Path-Style URLs are the traditional URLs you’ve seen:
 -  https://s3-aws-region.amazonaws.com/bucket-name
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## What two methods would allow you to encrypt data stored in 53 buckets at rest? (Choose 2)
+## What two methods would allow you to encrypt data stored in S3 buckets at rest? (Choose 2)
 
 a. Using AWS S3 server side encryption with Key Management Service keys or Customer-Provided keys
-
 b. Encrypt the data at the source (EC2 or by application) before transferring it to S3 using the Client's CMK keys
-
 c. Make use of AWS 53 bucket policies to control access to the data at rest
-
 d. Ensure data is encrypted in-transit using SSL, this will ensure it is encrypted when it arrives at S3
+
 
 Answer : A, B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An AWS Solutions Architect who is designing a solution to store and archive corporate documents has determined Amazon Glacier as the right choice. An important requirement is that the data must be delivered within 10 minutes of a retrieval request. Which feature in Amazon Glacier could help to meet this requirement?
+
+A. Vault Lock
+B. Expedited retrieval
+C. Bulk retrieval
+D. Standard retrieval
+
+
+ANSWER : B
+
+EXPLANATION : 
+AWS Documentation mentions the following:
+
+Expedited retrievals allow you to access data in 1–5 minutes for a flat rate of $0.03 per GB retrieved. Expedited retrievals allow you to quickly access your data when occasional urgent requests for a subset of archives are required.
+
+The Vault Lock and Standard Retrieval are standard with 3-5 hours retrieval time while Bulk retrievals which can be considered the cheapest option have 5-12 hours retrieval time. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An application reads and writes objects to an S3 bucket. When the application is fully deployed, the read/write traffic is expected to be 5,000 requests per second for the addition of data and 7,000 requests per second for the retrieval of data. What would the architect do to maximize the Amazon S3 performance? [WL113]
+
+A. Use as many S3 prefixes as you need in parallel to achieve the required throughput.
+B. Use the STANDARD_IA storage class. 
+C. Prefix each object name with a hex hash key along with the current date. 
+D. Enable versioning on the S3 bucket.
+
+
+ANSWER : C
+
+EXPLANATION : 
+NOTE: Based on the S3 new performance announcement, "S3 request rate performance increase removes any previous guidance to randomize object prefixes to achieve faster performance." But Amazon exam questions and answers have not yet been updated. So, Option C is the correct answer as per AWS exam.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A Solutions Architect is designing a highly scalable system to track records. These records must remain available for immediate download for up to three months and then must be deleted. What is the most appropriate decision for this use case?
+
+A. Store the files in Amazon EBS and create a Lifecycle Policy to remove files after 3 months.
+B. Store the files in Amazon S3 and create a Lifecycle Policy to remove files after 3 months.
+C. Store the files in Amazon Glacier and create a Lifecycle Policy to remove files after 3 months.
+D. Store the files in Amazon EFS and create a Lifecycle Policy to remove files after 3 months.
+
+
+ANSWER : B
+
+EXPLANATION : 
+Option A is incorrect since the records need to be stored in a highly scalable system.
+Option C is incorrect since the records must be available for immediate download.
+Option D is incorrect since EFS lifecycle management is used to migrate files that have not been accessed for a certain period of time to the Infrequent Access storage class. Files moved to this storage remain indefinitely, and not get deleted. And due to this reason, this option is not correct.
+AWS Documentation mentions the following about Lifecycle Policies:
+
+Lifecycle configuration enables you to specify the Lifecycle Management of objects in a bucket. The configuration is a set of one or more rules, where each rule defines an action for Amazon S3 to apply to a group of objects. These actions can be classified as follows:
+
+Transition actions – In which you define when the transition of the object occurs to another storage class. For example, you may choose to transition objects to the STANDARD_IA (IA, for infrequent access) storage class 30 days after creation or archive objects to the GLACIER storage class one year after creation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have developed a new web application on AWS for a real estate firm. It has a web interface where real estate employees upload photos of newly constructed houses in S3 buckets. Prospective buyer’s login to the website and access photos. The marketing team has initiated an intensive marketing event to promote new housing schemes which will lead to customers who frequently access these images. As this is a new application, you have no projection of traffic. You have created Auto Scaling across multiple instance types for these web servers, but you also need to optimize the cost for storage. You don’t want to compromise on latency & all images should be downloaded instantaneously without any outage. Which of the following is a recommended storage solution to meet this requirement? [WL123]
+
+A. Use One Zone-IA storage class to store all images.
+B. Use Standard-IA to store all images.
+C. Use S3 Intelligent-Tiering storage class.
+D. Use Standard storage class, use Storage class analytics to identify & move objects using lifecycle policies. 
+
+ANSWER : C
+
+EXPLANATION : 
+
+When access pattern to web application using S3 storage buckets is unpredictable, you can use S3 intelligent-Tiering storage class. S3 Intelligent-Tiering storage class includes two access tiers: frequent access and infrequent access. Based upon access patterns, it moves data between these tiers which helps in cost saving. S3 Intelligent-Tiering storage class have the same performance as that of Standard storage class.
+
+Option A is incorrect. Although it will save cost, it will not provide any protection in case of AZ failure. Also, this class is suitable for infrequently accessed data & not for frequently access data.
+Option B is incorrect as Standard-IA storage class is for infrequently accessed data & there are retrieval charges associated. In the above requirement, you do not have any projections of data being accessed which may result in a higher cost.
+Option D is incorrect. It has operational overhead to setup Storage class analytics & moves objects between various classes. Also, since the access pattern is undetermined, this will run into a costlier option.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 3. You have created an S3 bucket in us-east-1 region with default configuration. You are located in Asia and deleted an object in the bucket using AWS CLI. However, when you tried to list the objects in the bucket, you still see the object you deleted. You are even able to download the object. What could have caused this behaviour?
 
@@ -769,4 +970,3 @@ C. AWS keeps copy of deleted object for 7 days in STANDARD storage.
 D. AWS provides strong consistency for DELETES.
 
 Answer: B
-############# VPC #############

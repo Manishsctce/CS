@@ -93,6 +93,7 @@ B. Virtual private gateway to customer gateway to Amazon VPC
 C. Amazon VPC to customer gateway to virtual private gateway
 D. Customer gateway to virtual private gateway to Amazon VPC
 
+
 Answer: D. 
 Traffic begins at the on-premises site, which means starting at a customer gateway. Traffic then flows through the Internet and to the virtual private gateway at AWS. Then, from the gateway, traffic can flow into an Amazon VPC.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,40 +110,525 @@ Traffic across the Internet can only flow between public IP addresses in most ca
 > For a VPN connection, we need a customer gateway with a public IP address as well as a virtual private gateway with a public IP address, both of which you may be responsible for configuring. 
 A VPC does not have an IP address of its own (making option B incorrect), and VPN tunnels do not either (option D).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+### A company hosts a popular web application that connects to an Amazon RDS MySQL DB instance running in a default VPC private subnet created with default ACL settings. The web servers must be accessible only to customers on an SSL connection and the database must only be accessible to web servers in a public subnet. Which solution would meet these requirements without impacting other applications? (SELECT TWO) [WL112]
+
+A. Create a network ACL on the Web Server's subnets, allow HTTPS port 443 inbound and specify the source as 0.0.0.0/0
+B. Create a Web Server security group that allows HTTPS port 443 inbound traffic from anywhere (0.0.0.0/0) and apply it to the Web Servers.
+C. Create a DB Server security group that allows MySQL port 3306 inbound and specify the source as the Web Server security group.
+D. Create a network ACL on the DB subnet, allow MySQL port 3306 inbound for Web Servers and deny all outbound traffic.
+E. Create a DB Server security group that allows HTTPS port 443 inbound and specify the source as a Web Server security group.
+
+
+ANSWER :  B and C
+
+EXPLANATION : 
+1) To ensure that traffic can flow into your web server from anywhere on secure traffic, you need to allow inbound security at 443.
+2) And then, you need to ensure that traffic can flow from the database server to the web server via the database security group.
+
+Options A and D are invalid answers. 
+Network ACLs are stateless. So we need to set rules for both inbound and outbound traffic for Network ACLs.  
+Option E is also invalid because, in order to communicate with the MySQL servers, we need to allow traffic to flow through port 3306.
+Note: The above correct options are the combination of steps required to secure your web and database servers. In addition, the company may implement additional security measures from their end
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### You have planned to host a web application on AWS. You create an EC2 Instance in a public subnet which needs to connect to an EC2 Instance that will host an Oracle database. Which steps would ensure a secure setup? (SELECT TWO) [WL208]
+
+
+A. Place the EC2 Instance with the Oracle database in the same public subnet as the Webserver for faster communication. 
+B. Place the ec2 instance in a public subnet and the oracle database in a private subnet
+C. Create a database Security group which allows incoming traffic only from the Web server's security group. 
+D. Ensure that the database security group allows incoming traffic from 0.0.0.0/0
+
+
+ANSWER : B, C
+
+EXPLANATION: 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### You currently have your EC2 instances running in multiple availability zones. You have a NAT gateway defined for your private instances and you want to make this highly available. How could this be accomplished? [WL218]
+
+A. Create another NAT Gateway and place it behind an ELB.
+B. Create a NAT Gateway in another Availability Zone.
+C. Create a NAT Gateway in another region.
+D. Use Auto Scaling groups to scale the NAT Gateway. 
+
+
+ANSWER : B
+
+EXPLANATION: 
+If you have resources in multiple Availability Zones and they share one NAT Gateway, in the event that the NAT Gateway’s Availability Zone is down, resources in the other Availability Zones lose internet access. 
+- To create an Availability Zone-independent architecture, create a NAT Gateway in each Availability Zone and configure your routing to ensure that resources use the NAT Gateway in the same Availability Zone.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### You have an EC2 Instance placed inside a public subnet. It is required to ensure that the EC2 Instance has complete access to the Internet. What would be helpful to accomplish this? [WL230]
+                
+A. Launch a NAT Gateway and add routes for 0.0.0.0/0
+B. Attach a VPC Endpoint and add routes for 0.0.0.0/0
+C. Attach an Internet Gateway and add routes for 0.0.0.0/0
+D. Deploy NAT Instances in a public subnet and add routes for 0.0.0.0/0
+
+
+ANSWER : C
+
+EXPLANATION: 
+An Internet Gateway is a horizontally scaled, redundant, and highly available VPC component that allows communication between instances in your VPC and the Internet. It, therefore, imposes no availability risks or bandwidth constraints on your network traffic.
+ 
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+############# CloudFront ##############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A website runs on EC2 Instances behind an Application Load Balancer. The instances run in an Auto Scaling Group across multiple Availability Zones and deliver several static files that are stored on a shared Amazon EFS file system. The company needs to avoid serving the files from EC2 Instances every time a user requests these digital assets. What should the company do to improve the user experience of the website?
+
+A. Move the digital assets to Amazon Glacier.
+B. Cache static content using CloudFront.
+C. Resize the images so that they are smaller.
+D. Use reserved EC2 Instances.
+
+
+ANSWER : B
+
+EXPLANATION : 
+- Amazon CloudFront is a web service that speeds up distribution of your static and dynamic web content, such as .html, .css, .js, and image files to your users.
+- CloudFront delivers your content through a worldwide network of data centers called edge locations. 
+- When a user requests content that you're serving with CloudFront, the user is routed to the edge location that provides the lowest latency (time delay), so that the content is delivered with the best possible performance. 
+- If the content is already in the edge location with the lowest latency, CloudFront delivers it immediately. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An organization hosts a multi-language website on AWS, which is served using CloudFront. Language is specified in the HTTP request as shown below:
+
+http://d11111f8.cloudfront.net/main.html?language=de
+http://d11111f8.cloudfront.net/main.html?language=en
+http://d11111f8.cloudfront.net/main.html?language=es
+How should AWS CloudFront be configured to deliver cached data in the correct language? [WL122]
+
+A. Forward cookies to the origin
+B. Based on query string parameters
+C. Cache objects at the origin
+D. Serve dynamic content
+
+ANSWER : B
+
+EXPLANATION : 
+Since language is specified in the query string parameters, CloudFront should be configured for the same.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+

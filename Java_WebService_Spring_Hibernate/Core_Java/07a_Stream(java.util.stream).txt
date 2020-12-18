@@ -1,0 +1,591 @@
+
+=======================================
+############### STREAM ################
+
+> Suppose we want to iterate over a list of integers and find out sum of all the integers greater than 10.
+
+// Prior to Java 8
+private static int sumIterator(List<Integer> list) {
+	Iterator<Integer> it = list.iterator();
+	int sum = 0;
+	while (it.hasNext()) {
+		int num = it.next();
+		if (num > 10) {
+			sum += num;
+		}
+	}
+	return sum;
+}
+
+> There are 3 MAJOR PROBLEMS with the above approach:
+
+1. we have provided HOW THE ITERATION WILL WORK, this is called external iteration
+2. The pgm is SEQUENTIAL IN NATURE, NO WAY TO MAKE IT PARALLEL easily.
+3. There is a LOT OF CODE to do even a simple task.
+
+> To overcome all the above shortcomings, Java 8 Stream API was introduced. 
+- We can use Java STREAM API TO IMPLEMENT INTERNAL ITERATION, that is better because java framework is in control of the iteration.
+
+> INTERNAL ITERATION PROVIDES SEVERAL FEATURES such as sequential and parallel execution, filtering based on the given criteria, mapping etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is Stream?
+
+> A stream is a sequence of objects from a source such as Collection/Array. 
+- basically, it is a wrapper around the data source.
+- It supports various data processing methods.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What are the features of Stream?
+
+> A stream is NOT A DATA STRUCTURE as because it doesn't store the data.
+
+> Stream consume a data source like Collection, Arrays or I/O channels.
+
+> Streams don’t change the original data structure. 
+- it only provide the result as per the pipelined methods.
+
+> Stream has capability to execute PARALLEL
+
+> Stream is lazy 
+- it executes as per the terminal operation invokes. 
+
+> Stream is traverse only once
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to create stream?
+
+> There are multiple way to create stream 
+
+## EMPTY STREAM
+Stream<String> streamEmpty = Stream.empty();
+
+## STREAM OF COLLECTION
+Collection<String> collection = Arrays.asList("a", "b", "c");
+Stream<String> streamOfCollection = collection.stream();
+
+## STREAM OF ARRAY
+Stream<String> streamOfArray = Stream.of("a", "b", "c");
+
+String[] arr = new String[]{"a", "b", "c"};
+Stream<String> streamOfArrayFull = Arrays.stream(arr);
+
+## STREAM BUILDER
+Stream.Builder<String> builder = Stream.builder(); 
+Stream<String> stream = builder.add("Avul").add("Pakir").add("Jainulabdeen").add("Abdul").add("Kalam").build();
+
+## INFINITE SEQUENTIAL ORDERED STREAM using Stream.iterate()
+Stream.iterate(2, n -> n + 2).limit(25).forEach(i->System.out.print(i+"|"));
+- Here iterate takes 2 arguments: 1. seed, 2. function
+- its like seed, f(seed), f(f(seed)), f(f(f(seed)))
+
+https://www.geeksforgeeks.org/10-ways-to-create-a-stream-in-java/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we create Stream of primitive?
+
+> No, we cannot create stream of primitive because
+- Stream<T> is a generic interface and there is no way to use primitives as a type parameter with generics.
+- We can use Stream<Integer>, Stream<Long> or Stream<Double> but this is not an efficient way to work with primitive types
+
+> Java8 provides 3 new special interfaces to work with primitive: IntStream, LongStream, DoubleStream.
+- It represents an stream of primitive elements supporting sequential and parallel aggregate operations.
+- we can use IntStream for short, char, byte, and boolean. 
+- For float, DoubleStream can be used
+
+1. IntStream is = IntStream.of(1,2,3,4,5);
+2. Using Arrays.stream() : Arrays.stream(nums_array);
+
+3. Using range() and rangeClosed() 
+IntStream intStream = IntStream.range(1, 3);
+LongStream longStream = LongStream.rangeClosed(1, 3);
+
+4. Transform the Object stream into primitive type stream with the use of below methods of Stream 
+mapToInt, mapToDouble and mapToLong
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is boxed stream?
+
+> It is way of creating stream of wrapper class with it primitive value. 
+- Bascially it box the elements in their wrapper class
+- All the primitive type Streams have boxed() like DoubleStream has boxed() and it will return Stream<Double>
+EXAMPLE: 
+> if we wan to create stream of primitive then it will give compilation error. 
+IntStream.of(1,2,3,4,5).collect(Collectors.toList());
+
+> Here we can use boxed stream as 
+IntStream.of(1,2,3,4,5).boxed().collect(Collectors.toList());
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########### METHODS #############
+
+#### CREATION METHOD ####
+## public static<T> Stream<T> empty()
+- it create empty stream of type T.
+
+## static<T> Stream<T> of(T t)
+- create single element stream of type T.
+
+## public static<T> Stream<T> of(T... values)
+- Returns a stream consisting of supplied values as elements.
+
+##
+----------------------------------
+#### INTERMEDIATE METHOD ####
+
+## map: 
+- it is used to map the items in the collection to other objects according to the Function passed as argument.
+List numbers = Arrays.asList(2,3,4,5);
+List square = numbers.stream().map(x->x*x).collect(Collectors.toList());
+
+## filter(Predicate<T> predicate): Stream<T> 
+- it is used to select elements as per the Predicate passed in arg.
+EXAMPLE:
+List names = Arrays.asList("Reflection","Collection","Stream");
+List result = names.stream().filter(s->s.startsWith("S")).collect(Collectors.toList());
+
+## distinct():Stream<T>
+- return stream of unique ele 
+
+## limit(long maxSize): Stream<T> 
+- it return stream containing first n ele 
+- it is short-circuit opr when it is presented with infinite stream bcz it make it finite.
+
+## skip(long n): Stream<T>
+- it discards the first n elements of a stream. 
+- it is a stateful operation
+
+## sorted(): Stream<T> 
+- it is used to sort the stream.
+List names = Arrays.asList("Reflection","Collection","Stream");
+List result = names.stream().sorted().collect(Collectors.toList());
+
+## sorted(Comparator<T> comp):Stream<T> 
+- Returns a stream consisting of elements sorted according to supplied Comparator
+EXAMPLE: 
+names.stream().sorted((String name1, String name2) -> name1.length() - name2.length()).forEach(System.out::println);
+---------------------------------
+###### TERMINAL OPERATIONS ######
+
+## R collect(Collector<T> collector)
+- it is used to return the result of the intermediate opr performed on the stream.
+List number = Arrays.asList(2,3,4,5,3);
+Set square = number.stream().map(x->x*x).collect(Collectors.toSet());
+
+## forEach: it is used to iterate through every element of the stream.
+List number = Arrays.asList(2,3,4,5);
+number.stream().map(x->x*x).forEach(y->System.out.println(y));
+
+## T reduce(T identity, BinaryOperator<T> accumulator) 
+- it is used to reduce the elements of a stream to a single value.
+- it takes a BinaryOperator as a parameter.
+EXAMPLE
+List number = Arrays.asList(2,3,4,5);
+int even = number.stream().filter(x->x%2==0).reduce(0,(ans,i)-> ans+i);
+
+## Optional<T> min(Comparator<T> comparator)
+- It returns minimum element in a stream wrapped in an Optional object.
+
+## Optional<T> max(Comparator<T> comparator)
+- It returns maximum element in a stream wrapped in an Optional object.
+
+## long count()
+- Returns the number of elements in a stream.
+
+## boolean anyMatch(Predicate<T> predicate)
+- 
+
+## boolean allMatch(Predicate<T> predicate)
+- This method returns true if all the elements of a stream matches with given predicate. Otherwise returns false.
+
+## boolean noneMatch(Predicate<T> predicate)
+- Returns true only if all the elements of a stream doesn’t match with given predicate.
+
+## Stream<T> peek(Consumer<T> action)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between Intermediate and Terminal operation of Stream? 
+
+> The main difference between Intermediate and Terminal operations is that intermediate operations returns a Stream as a result
+- Which can be further call other Stream methods to compose a pipeline.
+- our pipeline may have number of intermediate operations
+
+> TERMINAL OPERATION return non-stream values like primitive or object or collection or void. 
+- It can not be chained together.
+- There will be only one terminal operation, that too at the end of pipeline.
+
+- Once a terminal method like forEach() or collect() is called we cannot call any other method of Stream or reuse the Stream.
+
+> Intermediate operations are LAZILY LOADED. When we call intermediate operations, it doesn't executed. They are just stored in the memory and executed when the terminal operation is called on the stream.
+
+> Intermediate Operations : map(), filter(), distinct(), sorted(), limit(), skip()
+- Terminal Operations : forEach(), toArray(), reduce(), collect(), min(), max(), count(), anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by Stateless and Stateful operations in Java stream?
+## What do you mean by  non-interfering and stateless Operation?
+
+> A stateful operation is the one whose result depends on any state that might change during the execution of the pipeline. 
+- it maintain some state internally to accomplish the operation.
+- these operation executed horizontally. It mean it will excute on the entire input collection
+EXAMPLE : distinct(), sorted(), limit(), skip() other than this all are stateless operation
+
+> Stateless operations retain no state during the execution of the pipeline.
+- execution of the operation is deterministic i.e. value will not change
+- these operation execute Vertically. It mean it will excute pipeline for each element of input collection
+EXAMPLE:
+Stream.of("s2", "b2", "a1", "d3", "c2")
+		.map(s -> {
+		    System.out.print("\nmap: " + s);
+		    return s.toUpperCase();
+		})
+		.anyMatch(s -> {
+		    System.out.print(" , anyMatch: " + s);
+		    return s.startsWith("A");
+		});
+
+map: s2 , anyMatch: S2
+map: b2 , anyMatch: B2
+map: a1 , anyMatch: A1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is diff bet Stream and Collection?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## what is difference between skip() and limit()?
+
+DIFFERENCE
+> skip()- it consumes the entire stream
+- limit() - as soon as stream reaches the maximum number of items, it doesn't consume any more items and simply returns the resulting stream. Hence, we say that limit() is a short-circuiting operation.
+
+SIMILARITY
+> both are stateful operation
+> 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## is there any difference bet Stream.forEach() and Collection.forEach()?
+
+> With Stream.forEach, the order is undefined
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### What is the difference between map() and flatMap() in Java8 Stream?
+
+# map() - is used for transformation only
+- it applies the function on each element of stream and stores the value returned by the function into a new Stream. 
+- This way one stream is transformed into another 
+- it take Function which can return any type of Object
+EXAMPLE1:
+Arrays.asList(Arrays.asList(1,2),Arrays.asList(3,4))
+.stream().map(li -> li.stream()).forEach(x-> System.out.print(x+" "));// Stream@12 Stream@1213
+
+EXAMPLE2:
+Arrays.asList(Arrays.asList(1,2,8),Arrays.asList(3,4,12)).stream().map(i -> i.stream().filter(j->j%2==0).collect(Collectors.toList())).forEach(x-> System.out.print(x+" "));//[2, 8] [4, 12]
+		
+# flatMap() - is used for both transformation and flattening(run foreach loop sequentially).
+- it can take a Stream of List and return Stream of values combined from all those list.
+- it take Function which can return any type of Stream which will be further flatten by flatMap.
+EXAMPLE1:
+Arrays.asList(Arrays.asList(1,2),Arrays.asList(3,4)).stream().flatMap(li -> li.stream()).forEach(x-> System.out.print(x+" "));// 1 2 3 4
+
+EXAMPLE2:
+Arrays.asList(Arrays.asList(1,2,8),Arrays.asList(3,4,12)).stream().flatMap(i -> i.stream().filter(j->j%2==0)).forEach(x-> System.out.print(x+" "));//2 8 4 12 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Stream.map() works in Java 8?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between Arrays.stream() and Stream.of()
+
+> Even if Stream.of() is a wrapper over the Arrays.stream()
+
+1. DIFFERENT RETURN TYPES
+- For primitives arrays (like int[], long[] etc), Arrays.stream() returns typeStream like IntStream and Stream.of() returns Stream
+
+2. Stream.of() needs flattening whereas Arrays.stream() does not
+EXAMPLE:
+  // to convert int array into Stream 
+  IntStream intStream = Arrays.stream(arr); 
+  
+  // to convert int array into Stream 
+  Stream<int[]> stream = Stream.of(arr); 
+  
+  // flattenning Stream<int[]> into IntStream using flatMapToInt() 
+  IntStream intStreamNew = stream.flatMapToInt(Arrays::stream);
+
+3. Stream.of() is generic whereas Arrays.stream is not:
+> Arrays.stream() method only works for primitive arrays of int[], long[], and double[] type, and returns IntStream, LongStream and DoubleStream respectively. 
+- For other primitive types, Arrays.stream() won’t work.
+
+> Stream.of() returns a generic Stream of type T (Stream). Hence, it can be used with any type.  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How to convert Stream to Array?
+
+EXAMPLE
+List<Integer> number = Arrays.asList(1, 2, 3, 4, 5, 6, 1, 2);
+Object[] x = number.stream().collect(Collectors.toList()).toArray();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What does peek() does? When should you use it?
+ 
+SYNTAX: Stream peek(Consumer<? super T> action) 
+
+> peek() of Stream class allows you to see through a Stream pipeline. 
+- we can peek through each step and print meaningful messages on the console. 
+- It's generally USED FOR DEBUGGING ISSUES related to lambda expression and Stream processing.
+
+EXAMPLE:
+GetUtility.getNameList().stream()
+			.filter(e -> e.length() > 3)
+			.peek(e -> System.out.println("Filtered value: " + e))
+			.map(String::toUpperCase)
+			.peek(e -> System.out.println("Mapped value: " + e))
+			.collect(Collectors.toList());	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What do you mean by saying Stream is lazy?
+
+> It mean methods in Stream[c] is lazy, it will not work by just including them on Stream pipeline.
+
+- It will only work when we call a terminal method on the Stream and 
+- finish as soon as they find the data they are looking for rather than scanning through the whole set of data.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the difference between a normal and functional interface in Java? 
+
+> The normal interface in Java can contain any number of the abstract method while the functional interface can only contain just one abstract method.
+
+You might be thinking why they are called functional interface? Once you know the answer, it might be a little easier for you to remember the concept.
+
+Well, they are called functional interface because they wrap a function as an interface. The function is represented by the single abstract method on the interface.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference between findFirst() and findAny() method? 
+
+> findFirst()  will return the first element meeting the criterion i.e. Predicate 
+- findAny() will return any element meeting the criterion, very useful while working with a parallel stream. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can you convert an array to Stream? How? (answer)
+
+> Yes, we can convert an array to Stream in Java. 
+> The Stream class provides a factory method to create a Stream from an array like Stream.of(T ...) which accepts a variable argument, that means you can also pass an array to it as shown in the following example:
+
+EXAMPLE:
+String[] languages = {"Java", "Python", "JavaScript"};
+Stream numbers = Stream.of(languages);
+numbers.forEach(System.out::println);//Java Python JavaScript
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the parallel Stream? How can you get a parallel stream from a List?
+
+> A parallel stream can parallel execute stream processing task. For example, if you have a parallel stream of 1 million orders and you are looking for orders worth more than 1 million then you can use a filter to do that.
+
+Unlike sequential Stream, the parallel stream can launch multiple threads to search for those orders on the different part of Stream and then combine the result.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Can we reuse a stream? If not then is there any way to reuse?
+
+> No, we cannot reuse the stream. As soon as any terminal operation execute the stream is closed.
+- If we reuse any stream, then it will throw IllegalStateException.
+
+> To overcome with this limitation, we can use Supplier interface to create a stream supplier 
+EXAMPLE:
+Supplier<Stream<String>> streamSupplier =
+    () -> Stream.of("d2", "a2", "b1", "b3", "c")
+            .filter(s -> s.startsWith("a"));
+
+streamSupplier.get().anyMatch(s -> true);   // ok
+streamSupplier.get().noneMatch(s -> true);  // ok
+
+https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
+=======================================
+######### FUNCTIONAL INTERFACE ########
+> It is added in Java8
+
+##Describe some of the functional interfaces in the standard library.?
+
+> There are a lot of FI in the java.util.function package, some are:
+
+1. FUNCTION 
+– it takes one argument and returns a result
+
+2. CONSUMER 
+– it takes one argument and returns no result (represents a side effect)
+
+3. SUPPLIER 
+> it takes not argument and returns a result
+- It's similar to the factory method or new() which return an object.
+
+4. PREDICATE 
+– it takes one argument and returns a boolean
+
+5. BIFUNCTION 
+– it takes two arguments and returns a result
+
+6. BINARYOPERATOR 
+– it is similar to a BiFunction, taking two arguments and returning a result. 
+- The two arguments and the result are all of the same types
+
+7. UNARYOPERATOR 
+– it is similar to a Function, taking two arguments and returning a result. 
+- The argument and the result are all of the same types
+=====================================
+########### Function[i] #############
+
+##### 1. Function and BiFunction ###### 
+
+## What is java.util.function.Function<T,R> interface?
+
+> it is an in-built functional interface introduced in Java 8
+> It is USED FOR MAPPING SCENARIOS i.e when an object of a type is taken as input and it is converted(or mapped) to another type.
+
+> Function<T, R> is the generic form where 
+- T is the type of the input to the function and 
+- R is the type of the result of the function.
+
+> For handling primitive types, there are specific Function interfaces 
+– ToIntFunction, ToLongFunction, ToDoubleFunction, 
+- ToIntBiFunction, ToLongBiFunction, ToDoubleBiFunction, 
+- LongToIntFunction, LongToDoubleFunction, IntToLongFunction, IntToDoubleFunction etc.
+
+## Stream methods where Function or it’s primitive specialization is used are:
+
+1. <R> Stream<R> map(Function<? super T, ? extends R> mapper)
+
+2. IntStream mapToInt(ToIntFunction<? super T> mapper) 
+– similarly for long and double returning primitive specific stream.
+
+3. IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper) 
+– similarly for long and double
+
+4. <A> A[] toArray(IntFunction<A[]> generator)
+
+5. <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+> Function Descriptor is T -> R. 
+- This means an object of type T is input to the lambda and an object of type R is obtained as return value
+
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+ 
+	default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
+    }
+    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> after.apply(apply(t));
+    }
+    static <T> Function<T, T> identity() {
+        return t -> t;
+    }
+}
+andThen() 
+- which combines the function on which it is applied(current function) with another function, named after
+
+
+=======================================
+#### 2. Predicate and BiPredicate #####
+> It represents a predicate against which elements of the stream are tested. 
+- This is used to filter elements from the java stream. 
+- Just like Function, there are primitive specific interfaces for int, long and double.
+
+> It is a FI with test(Object) as abstract method
+- return boolean value and take only 1 arg
+SYNTAX 
+	Predicate<Type> p = condition
+EXAMPLE
+    Predicate<Person> person = p -> p.getAge()>30; 
+	
+## Stream methods 
+Stream<T> filter(Predicate<? super T> predicate)
+boolean anyMatch(Predicate<? super T> predicate)
+boolean allMatch(Predicate<? super T> predicate)
+boolean noneMatch(Predicate<? super T> predicate)
+=======================================
+######## 3. Consumer[i]  #########
+
+> It represents an operation that accepts a single input argument and returns no result. 
+- It can be used to perform some action on all the elements of the java stream.
+> It contains an abstract accept() and a default andThen()
+
+## Stream methods
+Stream<T> peek(Consumer<? super T> action)
+void forEach(Consumer<? super T> action)
+void forEachOrdered(Consumer<? super T> action)
+
+#### BiConsumer
+=======================================
+########### 4. Supplier[i] ############
+> It REPRESENT AN OPERATION THROUGH WHICH WE CAN GENERATE NEW VALUES in the stream. 
+
+- get() doesn't take any input and return Object.
+> Lambda is represented as 
+  () -> T  here T is the type of the supplier
+
+## Stream methods
+public static<T> Stream<T> generate(Supplier<T> s)
+<R> R collect(Supplier<R> supplier,BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)
+
+=======================================
+############# Collectors ##############
+> It is a final class
+> It provides reduction operations, such as accumulating elements into collections, summarizing elements according to various criteria, etc.
+
+#### METHODS ####
+1. public static Collector groupingBy(Function classifier)
+- returns a Collector implementing a "group by" oper on input ele, 
+- grouping ele as per classification function, and 
+- returning the results in a Map.
+
+EXAMPLE - 
+List<String> keys = Arrays.asList("Apple","Ball","Apple","Ball");
+Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k));
+syso(mg); [Apple= {Apple,Apple}, Ball={Ball,Ball}]
+
+https://www.javabrahman.com/java-8/java-8-finding-maxmin-with-collectors-maxby-minby-methods-tutorial-with-examples/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is a @Repeatable annotation?
+What is a StringJoiner?
+What new lock class was added in Java 8 and how does it work (StampedLock)?
+What is a CompletableFuture?
+What is a difference between Future and CompletableFuture?
+
+=======================================
+######### BEST USAGES OF JAVA 8 #######
+
+> Avoid Overloading Methods with Functional Interfaces as Parameters
+EXAMPLE: 
+
+public interface Adder {
+    String add(Function<String, String> f);
+    void add(Consumer<Integer> f);
+}
+ 
+public class AdderImpl implements Adder {
+ 
+    @Override
+    public  String add(Function<String, String> f) {
+        return f.apply("Something ");
+    }
+ 
+    @Override
+    public void add(Consumer<Integer> f) {}
+}
+
+WHILE USING IT String r = adderImpl.add(a -> a + " from lambda"); // IT WILL THROW ERROR add is ambiguous both method
+
+> to solve this problem, we can use methods with different name OR
+- to perform casting manually. This is not preferred.
+String r = Adder.add((Function) a -> a + " from lambda");
+
+
+What Is Stream Pipelining in Java 8?
+What is the purpose of the sorted method of stream in Java 8?
+What is statistics collector in Java 8?
+What is Java 8 string joiner set used for?
+
+What is a mutable reduction operation?
+What is a Spliterator in Java? Differences between Iterator and Spliterator in Java SE 8?
+ What is Nashorn?
+
+https://java2blog.com/java-8-interview-questions/ 
+ 16) Given a list of employees, you need to filter all the employee whose age is greater than 20 and print the employee names.(Java 8 APIs only)
+
+17) Given the list of employees, count number of employees with age 25?
+18) Given the list of employees, find the employee with name “Mary”.
+19) Given a list of employee, find maximum age of employee?
+20) Given a list of employees, sort all the employee on the basis of age? Use java 8 APIs only
+21) Join the all employee names with “,” using java 8?
+22) Given the list of employee, group them by employee name?
+
+What is the difference between PermGenSpace and MetaSpace?
+

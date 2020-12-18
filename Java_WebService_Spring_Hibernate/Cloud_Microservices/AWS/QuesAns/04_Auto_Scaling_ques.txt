@@ -1,14 +1,26 @@
 ############# ASG #############
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A website is hosted on two EC2 instances that sit behind an Elastic Load Balancer. The response time of the website has slowed dramatically, and customers are ordering less due to the wait time. Troubleshooting showed one of the EC2 instances failed and left just one instance running. What is the best course of action to prevent this from happening in the future?
 
-Change the instance size to the maximum available to compensate for failure
-Use CloudWatch to monitor the VPC Flow Logs for the VPC the instances are deployed in
-Configure the ELB to perform health checks on the EC2 instances and implement auto-scaling
-Replicate the existing configuration in several regions for failover
+A. Change the instance size to the maximum available to compensate for failure
+B. Use CloudWatch to monitor the VPC Flow Logs for the VPC the instances are deployed in
+C. Configure the ELB to perform health checks on the EC2 instances and implement auto-scaling
+D. Replicate the existing configuration in several regions for failover
+
 
 Answer - C
+
+EXPLANATION : 
 
 C. Using the elastic load balancer to perform health checks will determine whether or not to remove a non- or underperforming instance and have the auto-scaling group launch a new instance
 
@@ -23,9 +35,16 @@ B. The EBS storage volume for the instances to create
 C. The polling time for monitoring network latency
 D. The IAM role to associate with created instances
 
+
 Answer: A, D. 
-Launch configurations are concerned primarily with creating new instances while staying abstract from the details of what is on those instances. So the AMI and IAM role for an instance is a general configuration, applies to all created instances, and is correct (A and D). 
-The polling time for latency isn’t connected to launching new instances (although it might be a trigger configured elsewhere). Each instance is associated with a different EBS volume, so selecting an EBS volume for multiple instances doesn’t actually make sense
+
+EXPLANATION : 
+
+Launch configurations are concerned primarily with creating new instances while staying abstract from the details of what is on those instances. 
+So the AMI and IAM role for an instance is a general configuration, applies to all created instances, and is correct (A and D). 
+
+The polling time for latency isn’t connected to launching new instances (although it might be a trigger configured elsewhere). 
+Each instance is associated with a different EBS volume, so selecting an EBS volume for multiple instances doesn’t actually make sense
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which of the following would you use for setting up AMIs from which new instances are created in an Auto Scaling policy?
@@ -35,19 +54,21 @@ B. The security group for the Auto Scaling policy
 C. The Auto Scaling group used by the Auto Scaling policy
 D. The launch configuration used by the Auto Scaling policy
 
+
 Answer: D. 
-Launch configurations are where details are specified for creating (launching) new instances (option D). 
-Security groups have to do more with what traffic is allowed into and out of the launched instances. 
-The remaining two options—A and C—don’t make sense in this context.
+
+EXPLANATION : 
+- Launch configurations are where details are specified for creating (launching) new instances (option D). 
+- Security groups have to do more with what traffic is allowed into and out of the launched instances. 
+- The remaining two options—A and C—don’t make sense in this context.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## An ASG defined in two Availability Zones AZ1, AZ2, in one AWS region, failed to launch instances in AZ1 due to the limited EC2 required instance family capacity. The ASG launched four EC2
-instances in AZ2. When the required EC2 instance family capacity becomes available again in AZ1, what would Auto Scaling attempt to do?
+## An ASG defined in two Availability Zones AZ1, AZ2, in one AWS region, failed to launch instances in AZ1 due to the limited EC2 required instance family capacity. The ASG launched four EC2 instances in AZ2. When the required EC2 instance family capacity becomes available again in AZ1, what would Auto Scaling attempt to do?
 
 a. Launch two additional EC2 instance in AZ1 and keep the four in AZ2
-
 b. Launch two additional EC2 instances in AZ2
 c. Try to rebalance the EC2 instances between the two AZS
 d. Will not do anything until the next scaling event
+
 
 Answer: C 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,30 +81,29 @@ d. When a new S3 bucket is created
 e. When an EC2 instance fails to launch
 f. When an EC2 instance fails to terminate
 
+
 Answer: a,b,e,f 
 
+EXPLANATION : 
 By default AS is not configured to use SNS  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Under normal operations, your company's AWS environment requires three EC2 instances for the web layer. However, the web layer traffic load requires six EC2 instances between noon time and 6PM every day. You are required to configure Auto Scaling policy to achieve scaling out at noon time and scale back in at 6pm every day. Which of the below scaling policy types would you use for this?
 
 a. Use on-demand (event-based) scaling policy
 b. Use cyclic (schedule-based) scaling policy
-
 c. Increase your minimum, maximum, and desired capacity to six EC2 instances all the time
-
 d. Manually adjust the desired capacity at noon time (scale out) and at 6pm (scale in)
+
 
 Answer: b
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## While troubleshooting a problem in your application, you have stopped and restarted an instance multiple times. After the problem was fixed. You then noticed that the associated auto- scaling group has determined the instance as unhealthy, and marked it to be replaced. You do not want Auto scaling to terminate it, what can you do to ensure the instance is back to healthy state and will not get terminated?
 
 a. You can not take it back to a healthy state once it is marked for replacement
-
 b. Reboot the instance, the ASG will then add it back to the healthy state instances
-
 c. Manually add the instance back into the ASG
-
 d. During a very limited time, you can use the AWS CLI command as-set-instance-health to mark the instance as healthy
+
 
 Answer: d
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,12 +111,10 @@ Answer: d
 Which of the below statements is correct? (Choose 2)
 
 a. Auto Scaling will start shortly after that to terminate the instance
-
 b. Auto Scaling has to launch a replacement first then terminate the unhealthy instance
-
 c. Auto Scaling has to do a rebalancing first then terminate the instance
-
 d. Auto Scaling will terminate the instance first then launch a new, instance
+
 
 Answer: a, d
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,49 +122,350 @@ Answer: a, d
 How can this be achieved?
 
 a. Delete two of the groups and the third will automatically be configured to stretch and cover the other two AZS
-
 b. Use an AWS CLI command to stitch the three groups into one
-
 c. Define one of the three ASGS to cover the AZS of the other two ASGs and then delete the other two
-
 d. Create a fourth group that covers all three AZs then delete the original three
+
 
 Answer: c
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You are working as an AWS consultant for a start-up company. They have developed a web application for their employees to share files with external vendors securely. They created an AutoScaling group for the web servers which requires two m4.large EC2 instances running at all times, scaling up to a maximum of twelve instances. Post-deployment of the application, a huge rise in cost was observed. Due to a limited budget, the CTO has requested your advice to optimize the usage of instances in the Auto Scaling groups. What would you suggest to reduce costs without any adverse impact on the performance? [WL107]
+
+A. Create an Auto Scaling group with t2. micro On-Demand instances.
+B. Create an Auto Scaling group with a mix of On-Demand & Spot Instance. Select the On-Demand base as zero. Above On-Demand base, select 100% of On-Demand instance & 0% of Spot Instance.
+C. Create an Auto Scaling group with all Spot Instance.
+D. Create an Auto Scaling group with a mix of On-Demand & Spot Instance. Select the On-Demand base as 2. Above On-Demand base, select 20% of On-Demand instance & 80% of Spot Instance.
+
+
+ANSWER : D
+
+EXPLANATION : 
+Auto Scaling group supports a mix of On-Demand & Spot instance which help to design a cost-optimized solution without any impact on the performance. You can choose the percentage of On-Demand & Spot instance based on the application requirements. 
+With Option D, Auto Scaling group will have 2 instances initially as the On-Demand instances while remaining instances will be launched in a ratio of 20 % On-Demand instance & 80% Spot Instance.
+
+Option A is incorrect. With t2. micro, there would be a reduction in cost, but it will impact the performance of the application.
+Option B is incorrect as there would not be any cost reduction with all On-Demand instances.
+Option C is incorrect. Although this will reduce cost, all spot instance in an auto-scaling group may cause inconsistencies in the application & lead to poor performance.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## While reviewing the Auto Scaling events for your application, you notice that your application is scaling up and down multiple times in the same hour. What changes would you suggest in order to optimize costs while preserving elasticity? (SELECT TWO) [WL111]
+
+A. Modify the Auto Scaling group termination policy to terminate the older instance first. 
+B. Modify the Auto Scaling group termination policy to terminate the newest instance first.
+C. Modify the Auto Scaling group cool down timers.
+D. Modify the Auto Scaling group to use Scheduled Scaling actions.
+E. Modify the CloudWatch alarm period that triggers your Auto Scaling scale down policy
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 
 ############# VPC #############

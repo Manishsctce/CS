@@ -1,0 +1,201 @@
+Optional
+Spliterator
+Spliterators
+
+=====================================
+############# OPTIONAL ##############
+- It is introduced in Java 8 and is similar to what Optional is in Guava.
+
+## What is Optional[c]?
+
+> This class is basically introduced to avoid NullPointerException in java.
+- Optional class encapsulates optional value which is either present or not.
+- It is a wrapper around object and can be use to avoid NullPointerExceptions.
+
+Rule 1 : Never, ever, use null for an Optional variable or return value. 
+Rule 2 : Never use Optional.get() unless you can prove that the Optional is present.
+- prefer alternative to Optional.isPresent() and Optional.get()
+
+
+######## METHOD ########
+
+### 3 METHODS TO CREATE OPTIONAL INSTANCE 
+1. static <T> Optional<T> empty()
+- Returns an empty Optional instance.
+
+2. static <T> Optional<T> of(T value)
+- Returns an Optional with default non-null value.
+- If we pass null in of(), then a NullPointerException is thrown immediately.
+
+3. static <T> Optional<T> ofNullable(T value)
+- Returns an Optional describing the specified value, if non-null, otherwise returns an empty Optional.
+---------------------------------
+## METHODS TO DO STH If Optional value is present 
+4. boolean isPresent()
+- Returns true if there is a value present, otherwise false.
+
+5. void ifPresent(Consumer<? super T> consumer)
+- If a value is present, it invokes the specified consumer with the value, otherwise does nothing.
+
+6. T get()
+- If a value is present in this Optional, returns the value, otherwise throws NoSuchElementException.
+---------------------------------
+## METHODS TO APPLY SOME LOGIC ON Optional
+7. Optional<T> filter(Predicate<? super <T> predicate)
+- If a value is present and the value matches a given predicate, it returns an Optional describing the value, otherwise returns an empty Optional.
+
+8. <U> Optional<U> flatMap(Function<? super T,Optional<U>> mapper)
+- If a value is present, it applies the provided Optional-bearing mapping function to it, returns that result, otherwise returns an empty Optional.
+
+9. <U>Optional<U> map(Function<? super T,? extends U> mapper)
+- If a value is present, applies the provided mapping function to it, and if the result is non-null, returns an Optional describing the result.
+---------------------------------
+## METHODS FOR DEFAULT/ABSENT VALUES AND ITS ACTIONS
+10. T orElse(T other)
+- Returns the value if present, otherwise returns other.
+
+11. T orElseGet(Supplier<? extends T> other)
+- Returns the value if present, otherwise invokes other and returns the result of that invocation.
+
+12. <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
+- Returns the contained value, if present, otherwise throws an exception to be created by the provided supplier.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How Optional works in JVM?
+
+> Inside Optional, value holds is defined as:
+
+//If non-null, the value; if null, indicates no value is present
+private final T value;
+
+> empty Optional is declared as 
+private static final Optional<?> EMPTY = new Optional<>();
+
+> default no-args constructor is private, so we can’t create an instance of Optional except 3 way 
+
+> When we create an Optional then below call happen at end and assign the passed value to ‘value’ attribute.
+this.value = Objects.requireNonNull(value);
+
+> When we try to get a value from an Optional
+
+public T get() {
+    if (value == null) {
+        throw new NoSuchElementException("No value present");
+    }
+    return value;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Where does Java Optional fits?
+
+If we observe above real-time Retail Domain use-case, we should know that Java Optional construct is useful at the following places.
+
+1. METHOD PARAMETER
+EXAMPLE: 
+public void setResolution(Optional<ScreenResolution> resolution) {
+	this.resolution = resolution;
+}
+
+2 METHOD RETURN TYPE
+EXAMPLE: 
+public Optional<ScreenResolution> getResolution() {
+	return resolution;
+}
+
+3. Constructor Parameter
+EXAMPLE: 
+public DisplayFeatures(String size, Optional<ScreenResolution> resolution){
+	this.size = size;
+	this.resolution = resolution;
+}
+
+4. Variable Declaration
+EXAMPLE: 
+private Optional<ScreenResolution> resolution;
+
+5. Class Level
+
+EXAMPLE: 
+public class B
+public class A<T extends Optional<B>> { }
+=====================================
+
+## What is StringJoiner[c] in Java8?
+> It is a util class which is used to construct different strings with desired delimiters
+==========================================
+############### Objects[c] ################
+> it consists of static utility methods for operating on objects
+> Since Java7
+
+#### METHODS ####
+> Object requireNonNull(Object obj) 
+- Checks that the specified object reference is not null. 
+- throw NullPointerException if obj=null.
+- This method is designed primarily for doing parameter validation in methods and constructors.
+Example:
+ public Foo(Bar bar) {
+     this.bar = Objects.requireNonNull(bar);
+ }
+ 
+> static <T> T requireNonNull(T obj, String msg) : if null throw NPE with given msg otherwise obj
+==========================================
+############ java.util.Properties ########
+public class Properties
+    extends Hashtable<Object,Object>{
+protected Properties defaults;
+}
+
+> properties object contains key and value pair both as a string. It is the subclass of Hashtable.
+> represents a persistent set of properties.
+> Properties can be saved to a stream or loaded from a stream.
+> Each key and its corresponding value in the property list is a string.
+
+> A property list can contain another property list as its 'defaults', this second property list is searched if the property key is not found in the original property list.
+
+> This class is thread-safe; multiple threads can share a single Properties object without the need for external synchronization.
+
+#### Methods of Properties class ####
+1. void load(Reader r) : loads data from the Reader object.
+2. void load(InputStream is)	: loads data from the InputStream object
+3. String getProperty(String key) : returns value based on the key.
+4. void setProperty(String key,String value) : sets the property in the properties object.
+5. void store(Writer w, String comment)	: writers the properties in the writer object.
+6. void store(OutputStream os, String comment) : writes the properties in the OutputStream object.
+7. storeToXML(OutputStream os, String comment) : writers the properties in the writer object for generating xml document.
+public void storeToXML(Writer w, String comment, String encoding)	writers the properties in the writer object for generating xml document with specified encoding.
+---------------------------------------
+## write a sample code ?
+import java.util.*;  
+import java.io.*;  
+public class Test {  
+public static void main(String[] args)throws Exception{  
+    FileReader reader=new FileReader("db.properties");  
+    //new FileInputStream(propsFile);
+	
+    Properties p=new Properties();  
+    p.load(reader);  
+      
+    System.out.println(p.getProperty("user"));  
+    System.out.println(p.getProperty("password"));  
+}  
+}  
+---------------------------------------
+
+1. Locale - represents a specific geographical, political, or cultural region.
+CONSTRUCTOR
+Locale(String language) 
+Locale(String language, String country) 
+Locale(String language, String country, String variant) 
+
+2. UUID class represents an immutable UNIVERSALLY UNIQUE IDENTIFIER (UUID)
+> A UUID represents a 128-bit value.
+> It is used for for creating random file names, session id in web application, transaction id etc.
+> There are four different basic types of UUIDs: time-based, DCE security, name-based, and randomly generated UUIDs.
+
+3.  CALENDAR - class is an abstract class that provides methods for converting between a specific instant in time and a set of calendar fields 
+public abstract class Calendar
+extends Object
+implements Serializable, Cloneable, Comparable<Calendar>
+
+METHODS
+static Calendar getInstance();
+Date getTime() 

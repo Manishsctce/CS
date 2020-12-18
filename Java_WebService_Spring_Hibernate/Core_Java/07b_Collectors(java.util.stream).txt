@@ -1,0 +1,17 @@
+=======================================
+############# Collectors ##############
+> It is a final class
+> It provides reduction operations, such as accumulating elements into collections, summarizing elements according to various criteria, etc.
+
+#### METHODS ####
+1. public static Collector groupingBy(Function classifier)
+- returns a Collector implementing a "group by" oper on input ele, 
+- grouping ele as per classification function, and 
+- returning the results in a Map.
+
+EXAMPLE - 
+List<String> keys = Arrays.asList("Apple","Ball","Apple","Ball");
+Map<String, List<String>> mg = keys.stream().collect(Collectors.groupingBy(k->k));
+syso(mg); [Apple= {Apple,Apple}, Ball={Ball,Ball}]
+
+https://www.javabrahman.com/java-8/java-8-finding-maxmin-with-collectors-maxby-minby-methods-tutorial-with-examples/

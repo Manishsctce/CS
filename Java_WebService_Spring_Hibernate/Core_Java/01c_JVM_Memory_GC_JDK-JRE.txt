@@ -513,6 +513,58 @@ protected void finalize() throws Throwable {
 }
 
 > But this is not right way.
+=====================================
+########## SHUTDOWN HOOK ############
+
+> It can be USED TO PERFORM CLEANUP RESOURCE OR SAVE THE STATE when JVM shuts down normally or abruptly. 
+- i.e. when the application terminates normally (when all threads finish, or when System.exit(0) is called) or 
+- when JVM is shutting down due to external causes such as Ctrl+C
+
+> Performing clean resource means closing log file, sending some alerts or something else. 
+> So if you want to execute some code before JVM shuts down, use shutdown hook.
+
+## IMPORTANT POINT
+> Shutdown Hooks may not be executed in some cases
+- If the JVM crashes due to some internal error
+- if the O/S gives a SIGKILL signal
+
+> Once started, Shutdown Hooks can be forcibly stopped before completion.
+
+> We can have more than one Shutdown Hooks, but their execution order is not guaranteed.
+
+> We cannot register/unregister Shutdown Hooks within Shutdown Hooks
+
+> Once shutdown sequence starts, it can be stopped by Runtime.halt() only.
+
+
+> The addShutdownHook() of Runtime class is used to register the thread with the Virtual Machine
+public void addShutdownHook(Runnable r){}  
+
+> Runtime class can be obtained by calling the static factory method getRuntime(). 
+	Runtime r = Runtime.getRuntime();
+	
+EXAMPLE:
+public class ShutDownHook{ 
+  public static void main(String[] args){ 
+    Runtime.getRuntime().addShutdownHook( new Thread(){ 
+      public void run() { 
+        System.out.println("Shutdown Hook is running !"); 
+      } 
+    }); 
+    System.out.println("Application Terminating ..."); 
+  } 
+} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is difference bet JVM Shutdownhook and Finalize()?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When does the JVM shut down?
+
+> The JVM shuts down when:
+	-user presses ctrl+c on the command prompt
+	-System.exit(int) method is invoked
+	-user logoff
+	-user shutdown etc.
+
 =======================================
 ##### JAVA COMMAND LINE PROPERTIES ####
 

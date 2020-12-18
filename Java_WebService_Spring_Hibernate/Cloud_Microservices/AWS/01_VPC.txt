@@ -1,3 +1,15 @@
+=======================================
+#### Networking & Content Delivery ####
+
+1. Virtual Private Cloud (VPC)
+2. Virtual Private Network (VPN)
+3. Direct Connect 
+4. Elastic Load Balancer 
+5. Route 53
+6. API Gateway
+7. CloudFront  
+
+=======================================
 ###### AWS GLOBAL INFRASTRUCTURE ######
 
 > following components makes the AWS infrastructure:
@@ -37,16 +49,8 @@
 > IT HAS A LARGE CACHE THAN AN INDIVIDUAL EDGE LOCATION.
 - Data is removed from the cache at the edge location while the data is retained at the Regional Edge Caches.
 - When the user requests the data, then data is no longer available at the edge location. Therefore, the edge location retrieves the cached data from the Regional edge cache instead of the Origin servers that have high latency.
-=======================================
-#### Networking & Content Delivery ####
 
-1. Virtual Private Cloud (VPC)
-2. Virtual Private Network (VPN)
-3. Direct Connect 
-4. Elastic Load Balancer 
-5. Route 53
-6. API Gateway
-7. CloudFront  
+
 =======================================
 ###### Virtual Private Cloud(VPC) #####
 
@@ -182,12 +186,10 @@ EXAMPLE: if a subnet X CIDR block is 10.0.0.0/24, it mean last 8 bit assign for 
 > It is the gateway through which VPC communicate with the internet and with other AWS services
 
 >> It is a horizontally scaled, redundant, and highly available VPC component
-- it is manage be AWS itself 
+- it is MANAGE BY AWS ITSELF 
 
 > only 1 IGW per VPC 
-
 > It performs NAT(static one-to-one) between Private and Public (or Elastic) IPv4 address
-
 > It supports both IPv4 and IPv6
 
 #### Public Subnet Vs Private Subnet 
@@ -249,7 +251,7 @@ Lab 4,5,6
 > we can use SG names as source or destination in other SG rules. 
 > we can use the SG name as source in its own inbound SG rules. 
 
-> Security group are directional and can use allow rules only 
+> Security group are directional and can USE ALLOW RULES ONLY 
 > A security group set of rules END WITH AN IMPLICIT DENY ANY 
 
 > we can use CIDR addr or another security group in the security group. 
@@ -271,7 +273,6 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 ##### NETWORK ACCESS CONTROL LISTS #### v10 
 
 > It is a function performed on the implied router (The implied VPC router hosts the NACL function) 
-
 > It functions at the subnet level 
 
 > NACL IS STATELESS. 
@@ -316,6 +317,8 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 
 > NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
 - SG cannot block a certain range of IP from internet 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Ques 
 ## If an instance in a VPC is unable to communicate over a certain protocol/ports with anothe instance in the same VPC, then the problem is the security setting of :
@@ -324,7 +327,6 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 - Security group or NACL of the destination instance 
 
 * The problem will never be routing table configuration, due to the default route entry .
-
 
 >> NACL are stateless, to allow certain traffic through it, it need to be allowed( and the return traffic) in the inbound and outbound rules of the ACL. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -820,10 +822,22 @@ Create the type of VPC endpoint required by the supported service.
 =======================================
 ############## CLOUDFRONT ############# v3
 
-> Cloudfront is a global (not regional) service.
+> Cloudfront is a GLOBAL SERVICE(not regional).
 - It is used Ingress (injection proxy ) to upload objects
 - and egress to distribute content
 
+## KEY terminology
+> Edge LOCATION 
+- location where the content will be cached. 
+- separate to AWS Region / AZ 
+
+> ORIGIN 
+- it is origin of all the files that CDN will distribute
+- This can be S3 bucket, EC2 instance, ELB or Route53
+
+> DISTRIBUTION 
+- This is the name given the CDN which consist of collection of Edge Location.
+-----------------------------
 > Amazon Cloudfront is a web service that speeds up distribution of static and dynamic web content, such as html, .css, .js, and image files, to users.
 
 > Cloudfront delivers content through a network of data centers called edge locations.
@@ -848,6 +862,7 @@ Create the type of VPC endpoint required by the supported service.
 ## CLOUDFRONT USE CASES
 - Customize user
 - Accelerate websites experience
+
 Customer use cases
 - Stream live and on-demand media
 - Secure content
@@ -882,7 +897,8 @@ Customer use cases
 
 > Regional edge cache locations are currently used only for requests that need to go back to a custom origin; i.e. requests to S3 origins will skip regional edge cache locations.
 
-> Serving less popular content from regional edge caches is enabled by default for all new and existing cloudfront distributions. There are no additional charges to use this feature. 
+> Serving less popular content from regional edge caches is enabled by default for all new and existing cloudfront distributions. 
+- There are no additional charges to use this feature. 
 
 ## CLOUDFRONT REGIONAL EDGE CACHE – HOW IT WORKS
 > When a viewer makes a request on a website or through application, DNS routes the request to the CloudFront edge location that can best serve the user's request.
@@ -893,12 +909,13 @@ Customer use cases
 - If the files are not in the cache, the edge servers go to the nearest regional edge cache to fetch the object.
 
 ## CloudFront Regional Edge Cache
-> Regional edge caches have feature parity with edge locations. For example, a cache invalidation request removes an object from both edge caches and regional edge caches before it expires.
+> Regional edge caches have feature parity with edge locations. 
+- For example, a cache invalidation request removes an object from both edge caches and regional edge caches before it expires.
 - The next time a viewer requests the object, CloudFront returns to the origin to fetch the latest version of the object.
 
 >> Proxy methods PUT/POȘT/PATCH/OPTIONS/DELETE go directly to the origin from the edge locations and do not proxy through the Regional Edge Caches.
 
-> Regional edge caches are used for custom origins, but not Amazon S3 origins.
+> Regional edgecaches are used for custom origins, but not Amazon S3 origins.
 
 > Dynamic content, as determined at request time (cache-behavior configured to forward all headers), does not flow through regional edge caches, but goes directly to the origin.
 =======================================

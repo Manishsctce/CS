@@ -1,0 +1,130 @@
+=======================================
+######### FUNCTIONAL INTERFACE ########
+> It is added in Java8
+
+##Describe some of the functional interfaces in the standard library.?
+
+> There are a lot of FI in the java.util.function package, some are:
+
+1. FUNCTION 
+– it takes one argument and returns a result
+
+2. CONSUMER 
+– it takes one argument and returns no result (represents a side effect)
+
+3. SUPPLIER 
+> it takes not argument and returns a result
+- It's similar to the factory method or new() which return an object.
+
+4. PREDICATE 
+– it takes one argument and returns a boolean
+
+5. BIFUNCTION 
+– it takes two arguments and returns a result
+
+6. BINARYOPERATOR 
+– it is similar to a BiFunction, taking two arguments and returning a result. 
+- The two arguments and the result are all of the same types
+
+7. UNARYOPERATOR 
+– it is similar to a Function, taking two arguments and returning a result. 
+- The argument and the result are all of the same types
+=====================================
+########### Function[i] #############
+
+##### 1. Function and BiFunction ###### 
+
+## What is java.util.function.Function<T,R> interface?
+
+> it is an in-built functional interface introduced in Java 8
+> It is USED FOR MAPPING SCENARIOS i.e when an object of a type is taken as input and it is converted(or mapped) to another type.
+
+> Function<T, R> is the generic form where 
+- T is the type of the input to the function and 
+- R is the type of the result of the function.
+
+> For handling primitive types, there are specific Function interfaces 
+– ToIntFunction, ToLongFunction, ToDoubleFunction, 
+- ToIntBiFunction, ToLongBiFunction, ToDoubleBiFunction, 
+- LongToIntFunction, LongToDoubleFunction, IntToLongFunction, IntToDoubleFunction etc.
+
+## Stream methods where Function or it’s primitive specialization is used are:
+
+1. <R> Stream<R> map(Function<? super T, ? extends R> mapper)
+
+2. IntStream mapToInt(ToIntFunction<? super T> mapper) 
+– similarly for long and double returning primitive specific stream.
+
+3. IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper) 
+– similarly for long and double
+
+4. <A> A[] toArray(IntFunction<A[]> generator)
+
+5. <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+> Function Descriptor is T -> R. 
+- This means an object of type T is input to the lambda and an object of type R is obtained as return value
+
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+ 
+	default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
+    }
+    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> after.apply(apply(t));
+    }
+    static <T> Function<T, T> identity() {
+        return t -> t;
+    }
+}
+andThen() 
+- which combines the function on which it is applied(current function) with another function, named after
+
+
+=======================================
+#### 2. Predicate and BiPredicate #####
+> It represents a predicate against which elements of the stream are tested. 
+- This is used to filter elements from the java stream. 
+- Just like Function, there are primitive specific interfaces for int, long and double.
+
+> It is a FI with test(Object) as abstract method
+- return boolean value and take only 1 arg
+SYNTAX 
+	Predicate<Type> p = condition
+EXAMPLE
+    Predicate<Person> person = p -> p.getAge()>30; 
+	
+## Stream methods 
+Stream<T> filter(Predicate<? super T> predicate)
+boolean anyMatch(Predicate<? super T> predicate)
+boolean allMatch(Predicate<? super T> predicate)
+boolean noneMatch(Predicate<? super T> predicate)
+=======================================
+######## 3. Consumer[i]  #########
+
+> It represents an operation that accepts a single input argument and returns no result. 
+- It can be used to perform some action on all the elements of the java stream.
+> It contains an abstract accept() and a default andThen()
+
+## Stream methods
+Stream<T> peek(Consumer<? super T> action)
+void forEach(Consumer<? super T> action)
+void forEachOrdered(Consumer<? super T> action)
+
+#### BiConsumer
+=======================================
+########### 4. Supplier[i] ############
+> It REPRESENT AN OPERATION THROUGH WHICH WE CAN GENERATE NEW VALUES in the stream. 
+
+- get() doesn't take any input and return Object.
+> Lambda is represented as 
+  () -> T  here T is the type of the supplier
+
+## Stream methods
+public static<T> Stream<T> generate(Supplier<T> s)
+<R> R collect(Supplier<R> supplier,BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)

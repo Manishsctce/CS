@@ -496,7 +496,7 @@ The permissions can be granted as follows:
 
 S3-RRS (deprecating) (Reduced Redundancy Storage)
 
-> DURABILITY : Standard S3, S3-IA, and S3-OneZone-IA, S3-IT all are equally durable.
+> DURABILITY : Standard S3, S3-IA, and S3-OneZone-IA, S3-IT all are equally durable i.e. 9 11's
 
 > AVAILABILITY : 
 - S3-standard(99.99%) > S3-IA(99.9%) = S3-IT(99.9%) > S3-OneZone-IA(99.5%)  
@@ -524,13 +524,9 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 > For long-lived, less frequently accessed data
 > Designed to sustain the concurrent loss of data in two facilities
 
-
 > Suitable for backups and older data (old pictures, files)
-
 > Quick access and high performance like S3 Standard
-
 > Data encrypted in-transit and at rest in S3 buckets
-
 > Data must be kept for at least 30 days in this class
 
 >> Suitable for objects greater than 128 KB (Not less than that)
@@ -544,7 +540,7 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 > 30days min storage duration charge
 > 128kb is min billable object size 
 
-> It stores object data in only 1 AX, which makes it less expensive than STANDARD_IA(by 20%). 
+> It stores object data in only 1 AZ, which makes it less expensive than STANDARD_IA(by 20%). 
 - However, the data is not resilient to the physical loss of the AZ resulting from disasters
 
 # Use Cases : 
@@ -660,7 +656,7 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 
 > It is recommended to GROUP LARGE NUMBER OF SMALL OBJECTS, into a smaller number of larger objects to reduce these overhead charges.
 - If you need to access individual archived files, make sure that you group them in a way that allow this (compression techniques that allows the access to individual files)
-• This will enable you to avoid downloading the entire archive to access individual files
+- This will enable you to avoid downloading the entire archive to access individual files
 
 > Maintaining Client-Side Archive Metadata
 - Glacier does not support any additional metadata for the archives, except the archive description (optional)

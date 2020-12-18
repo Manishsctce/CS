@@ -7,18 +7,23 @@
  
 > There are two type of load balancer in the AWS offering 
 
-1. CLASSICAL LOAD BALANCER
+1. CLASSICAL LOAD BALANCER (layer 4 & 7)
 > It support http, https, TCP, SSL (but not http/2)
 > Protocol ports supported are 1 to 65535
 > It support ipv4 IPv6 and dual stack
 
 2. Application Load BALANCER (layer7) 
+- HTTP/HTTPS
+- used for intelligent routing 
 
-
+3. Network Load Balancer (layer 4)
+- TCP/UDP/TLS
 > ELB IS REGION SPECIFIC
 - we can use Route-53, if we want to load balance in different regions
 
 > ELB Name CAN NOT START OR END WITH A HYPHEN (-)
+
+> If we need IPv4 address of enduser then use "X-Forwarded-For" header
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Benefit of App LB over Classic Load Balancer
 
@@ -108,7 +113,7 @@
 =======================================
 #### Cross-Zone Load Balancing(CZLB) ## V6
 
-> By default, the ELB_distributes traffic evenly between the AZs it is defined in, without consideration to the number of registered EC2 instances in each AZ
+> By default, the ELB distributes traffic evenly bet AZs, without consideration to the number of registered EC2 instances in each AZ
 
 > CZLB is DISABLED BY DEFAULT
 - When enabled, the ELB will DISTRIBUTE TRAFFIC EVENLY between registered EC2 instances
@@ -237,7 +242,7 @@ Internet-Facing ELB – NACL settings
 
 > Since the ELB intercepts the request, and in order for the backend EC2 instances to find the actual source information (original headers),
 
-> You can use HTTP X-Forwarded-For header for the request sent from the ELB to the backend instances (EC2 instances APPS need to read the X-Forwarded-for header)
+> You can use HTTP "X-Forwarded-For" header for the request sent from the ELB to the backend instances (EC2 instances APPS need to read the X-Forwarded-for header)
 
 > To ensure that backend instances are available to receive the HTTP/S tequest(s), the ELB establishes one or more TCP connections to each backend instance
 =======================================

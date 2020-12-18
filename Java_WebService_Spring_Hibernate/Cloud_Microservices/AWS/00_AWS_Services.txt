@@ -106,7 +106,7 @@ Basic, Developer, Business and Enterprise.
 - Run AWS infrastructure and services on premises for a truly consistent hybrid experience
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### Elastic Beanstalk ######
+###### Elastic Beanstalk ###### (02_EC2)
 - It is a web app server
 - It is example of PaaS
 - It used for cost and capacity management.
@@ -119,6 +119,14 @@ Basic, Developer, Business and Enterprise.
 - It distributes incoming app or network traffic across multiple targets, such as Amazon EC2 instance, container and IP addr. 
 
 #### ELB LIMITATION 
+> DEFAULT RESPONSE TIMEOUT IS 5 SEC (range 2– 60 seconds)
+> Default Health Check Interval is 30Sec (5 - 300sec)
+
+> Unhealthy Threshold (no. of consecutive failed healthcheck)
+- default is 2 (range 2-10)
+
+> Healthy Threshold (no. of consecutive successful healthcheck)
+- default is 10 (range 2-10) 
 =======================================
 ######### AWS STORAGE SERVICE #########
 
@@ -148,7 +156,15 @@ Basic, Developer, Business and Enterprise.
 #### Relational Database Service (RDS)
 > Managed database services. Supports the Amazon Aurora, MySQL, MariaDB, Oracle, SQL Server, and PostgreSQL database engines.
 
+#### RDS LIMITATION 
+> upto 40 DB instances per account
+- 10 of this 40 can be Oracle or MS SQL server under Licence included model
+- Under BYOL model, all 40 can be any DB engine
+
+> 7 days (by default) for automatic backup, can modify 0-35days
+
 # AURORA - fully manage RDS, storage limit 64TB, upto 15 Replicas across AZs, 
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### Amazon DynamoDB ########
@@ -176,11 +192,12 @@ Basic, Developer, Business and Enterprise.
 #### VPC LIMITATION 
 - create upto 5 VPC per region
 - 200 subnets per VPC 
-- 5 IP Addr AWS reserver first 4 and last
+- 5 IP Addr AWS reserve first 4 and last
 - 200 route tables per VPC
 - 50 routes entries per route table.
 - 5 SG per EC2 instance
-- only 50 active and 25 pending VPC peering connection are allowed 
+- only 50 active and 25 pending VPC peering connection are allowed
+- only 1 IGW per VPC 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### CloudFront ############
 - Using edge locations, contents are distributed to provide low-latency and high data transfer speeds across the globe.
@@ -269,7 +286,9 @@ Managed service to protect web applications against DDoS attacks running on AWS.
 - Provides a robust and secured message queue mechanism to store and schedule process messages.
 
 #### SQS LIMITATION 
-- default message retention period is 4 days
+- default message retention period is 4 days, can modify from 60sec to 14days
+- Standard Queue support unlimited TPS per API action 
+- FIFO Queue support upto 3000 MPS per API action 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Simple Notification Service (SNS)
 - Notifies real-time events (that is, publishes messages) to the intended recipients. It can also provide events to trigger other AWS services.

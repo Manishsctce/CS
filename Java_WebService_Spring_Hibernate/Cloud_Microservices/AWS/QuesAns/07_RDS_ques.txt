@@ -7,27 +7,18 @@ B. Amazon RDS for MySQL with Multi-AZ
 C. Amazon ElastiCache
 D. Amazon DynamoDB
 
+
 Answer – C
 
 Amazon ElastiCache offers fully managed Redis and Memcached. Seamlessly deploy, operate, and scale popular open source compatible in-memory data stores. Build data-intensive apps or improve the performance of your existing apps by retrieving data from high throughput and low latency in-memory data stores. Amazon ElastiCache is a popular choice for Gaming, Ad-Tech, Financial Services, Healthcare, and IoT apps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Your company currently has setup their data store on AWS DynamoDB. One of your main revenue generating applications uses the tables in this service. Your application is now expanding to 2 different other locations and you want to ensure that the latency for data retrieval is the least from the new regions. Which of the following can help accomplish this?
-
-A. Place a cloudfront distribution in front of the database
-B. Enable Multi-AZ for DynamoDB
-C. Place an ElastiCache in front of DynamoDB
-D. Enable global tables for DynamoDB
-
-Answer - D
-
-To illustrate one use case for a global table, suppose that you have a large customer base spread across three geographic areas—the US east coast, the US west coast, and western Europe. Customers would need to update their profile information while using your application. To address these requirements, you could create three identical DynamoDB tables named CustomerProfiles, in three different AWS regions. These three tables would be entirely separate from each other, and changes to the data in one table would not be reflected in the other tables. Without a managed replication solution, you could write code to replicate data changes among these tables; however, this would be a time-consuming and labor-intensive effort.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company is planning on moving their applications to the AWS Cloud. They have some large SQL data sets that need to be hosted in a data store on the cloud. The data store needs to have features available for disaster recovery as well. Which of the following service should be considered for this requirement.
 
-Amazon DynamoDB
-Amazon Redshift
-Amazon Kinesis
-Amazon Simple Queue Service
+A. Amazon DynamoDB
+B. Amazon Redshift
+C. Amazon Kinesis
+D. Amazon Simple Queue Service
+
 
 Answer – B
 
@@ -43,52 +34,1181 @@ B. Enable RDS in a read replica configuration.
 C. Install a storage gateway with stored volumes.
 D. Enable RDS in a cross-region read replica configuration.
 
+
 Answer: A, D. 
 
-A Multi-AZ setup is the easiest solution, and the most common. Turning on read replicas (option B) is not a guarantee, as read replicas are not automatically installed in different AZs or regions. However, with option D, a cross-region replica configuration will ensure multiple regions are used. A storage gateway (option C) is backed by S3, not RDS.
+A Multi-AZ setup is the easiest solution, and the most common. 
+Turning on read replicas (option B) is not a guarantee, as read replicas are not automatically installed in different AZs or regions. 
+However, with option D, a cross-region replica configuration will ensure multiple regions are used.
+A storage gateway (option C) is backed by S3, not RDS.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## When replicating data from a primary RDS instance to a secondary one, how much will you be charged, in relation to the standard data transfer charge?
+
+A. Your data will be transferred at the standard data transfer charge.
+B. Your data will be transferred at half of the standard data transfer charge.
+C. Your data will be transferred at half of the standard data transfer charge up to 1 GB of transfer per day and then additional data at the standard data transfer charge.
+D. There is no charge for primary-to-secondary data replication.
+
+
+ANSWER : D
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following are valid options for where an RDS read replica is set up in relation to the primary instance? (Choose two.)
+
+A. In the same region as the primary instance
+B. In a separate region from the primary instance
+C. In an instance running on premises
+D. Both A and B
+
+
+ANSWER : c and d
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the primary purpose of a read replica RDS configuration?
+
+A. Disaster recovery
+B. Fault tolerance
+C. Performance
+D. Security
+
+
+ANSWER : C
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following databases support read replicas?
+
+A. MariaDB
+B. MySQL
+C. PostgreSQL
+D. All of the above
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following is true about a read replica? (Choose two.)
+
+A. It is a read-only instance of a primary database.
+B. It can only exist in the same region as the primary database, although it can be in a different availability zone.
+C. It is updated via asynchronous replication from the primary instance.
+D. It is updated via synchronous replication from the primary instance.
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A team is building an application that must persist and index JSON data in a highly available data store. The latency of data access must remain consistent despite very high application traffic. Which service would help the team to meet the above requirement? [WL121]
+
+A. Amazon EFS
+B. Amazon Redshift
+C. DynamoDB
+D. AWS CloudFormation
+
+ANSWER : C
+
+EXPLANATION : 
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. 
+The data in DynamoDB is stored in JSON format, and hence it is the perfect data storage to meet the requirement mentioned in the question.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### You are working as an AWS Consultant for an E-Commerce organization. The organization is planning to migrate to a managed database service using Amazon RDS. To avoid any business loss due to any deletion in the database, the management team is looking for a backup process which will restore Database at any specific time during the last month. Which action should be performed as a part of Amazon RDS Automated backup process? [WL212]
+
+                                         
+A. AWS performs storage volume snapshot of database instance during the backup window once a day, captures transactions logs every 5 minutes, and store in S3 buckets
+B. AWS performs a full snapshot of the database every 12 hours during the backup window, captures transactions logs throughout the day, and store in S3 buckets
+C. AWS performs a full daily snapshot of the database during the backup window, captures transactions logs every 5 minutes, and store in S3 buckets
+D. AWS performs storage volume snapshot of the database instance every 12 hours during the backup window, captures transactions logs throughout the day, store in S3 buckets. 
+
+
+ANSWER : A
+
+EXPLANATION: 
+During automated backup, Amazon RDS performs a storage volume snapshot of the entire Database Instance. Also, it captures transaction logs every 5 minutes. To restore a DB instance at a specific point of time, a new DB instance is created using this DB snapshot.
+
+Option B is incorrect as Database Snapshots are the manual backups initiated by users, not by AWS. These Backups can be performed at any time.
+Option C is incorrect as Database Snapshots are the manual backups initiated by users, not by AWS.
+Option D is incorrect as AWS performs storage volume snapshot on a daily basis, not every 12 hours.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## A company requires to use the AWS RDS service to host a MySQL database. This database is going to be used for production purposes and is expected to experience a high number of read/write activities. Which EBS volume type would be ideal for this database? [WL222]
+
+A. General Purpose SSD
+B. Provisioned IOPS SSD
+C. Throughput Optimized HDD
+D. Cold HDD
+
+
+ANSWER : B
+
+EXPLANATION: 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+############ ElastiCache ##############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following can ElastiCache be used for? (Choose two.)
+
+A. Ephemeral storage
+B. Long-term storage
+C. Message Queue
+D. Logging store
+
+
+ANSWER : A,C
+
+EXPLANATION : 
+Consider ElastiCache as only useful for storing transient data. Further, it’s not a persistent store; therefore, it’s great for caching data from a message queue or providing very fast ephemeral storage.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is an ElastiCache shard?
+
+A. A collection of multiple nodes that make up a cluster
+B. A collection of clusters in an ElastiCache distribution
+C. A collection of edge locations in an ElastiCache distribution
+D. A single node in a cluster
+
+
+ANSWER : A
+
+EXPLANATION : 
+ElastiCache uses shards as a grouping mechanism for individual redis nodes. So a single node is part of a shard, which in turn is part of a cluster (option A).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is migrating an on-premises 10TB MySQL database to AWS. There's a business requirement that the replica lag should be kept under 100 milliseconds. In addition to this requirement, the company expects this database to quadruple in size. 
+Which Amazon RDS engine meets the above requirements? [WL104]
+
+A. MySQL
+B. Microsoft SQL Server
+C. Oracle
+D. Amazon Aurora
+
+
+ANSWER : D
+
+EXPLANATION : 
+Amazon Aurora (Aurora) is a fully managed, MySQL and PostgreSQL compatible, relational database engine. It combines the speed and reliability of high-end commercial databases with the simplicity and cost-effectiveness of open-source databases. It delivers up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL without requiring any changes in most of your existing applications.
+
+All Aurora Replicas return the same data for query results with minimal replica lag—usually, much less than 100 milliseconds after the primary instance has written an update.
+
+The company expects the database to quadruple in size and the business requirement is that replica lag must be kept under 100 milliseconds.
+
+Aurora Cluster can grow up to 64 TB in size and replica lag—is less than 100 milliseconds after the primary instance has written an update.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+############## DynamoDB ###############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Your company currently has setup their data store on AWS DynamoDB. One of your main revenue generating applications uses the tables in this service. Your application is now expanding to 2 different other locations and you want to ensure that the latency for data retrieval is the least from the new regions. Which of the following can help accomplish this?
+
+A. Place a cloudfront distribution in front of the database
+B. Enable Multi-AZ for DynamoDB
+C. Place an ElastiCache in front of DynamoDB
+D. Enable global tables for DynamoDB
+
+
+Answer - D
+
+To illustrate one use case for a global table, suppose that you have a large customer base spread across three geographic areas—the US east coast, the US west coast, and western Europe. Customers would need to update their profile information while using your application. To address these requirements, you could create three identical DynamoDB tables named CustomerProfiles, in three different AWS regions. These three tables would be entirely separate from each other, and changes to the data in one table would not be reflected in the other tables. Without a managed replication solution, you could write code to replicate data changes among these tables; however, this would be a time-consuming and labor-intensive effort.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### A company has set up an application in AWS that interacts with DynamoDB. It is required that when an item is modified in a DynamoDB table, immediate entry is made to the associating application. How can this be accomplished? (SELECT TWO) [WL211]
+
+
+A. Setup CloudWatch to monitor the DynamoDB table for changes. Then trigger a Lambda function to send the changes to the application. 
+B. Setup CloudWatch logs to monitor the DynamoDB table for changes. Then trigger AWS SQS to send the changes to the application. 
+C. Use DynamoDB streams to monitor the changes to the DynamoDB table. 
+D. Trigger a lambda function to make an associated entry in the application as soon as the DynamoDB streams are modified. 
+
+
+ANSWER : C, D
+
+EXPLANATION: 
+When you enable DynamoDB Streams on a table, you can associate the stream ARN with a Lambda function that you write. Immediately after an item in the table is modified, a new record appears in the table's stream. AWS Lambda polls the stream and invokes your Lambda function synchronously when it detects new stream records. Since our requirement is to have an immediate entry made to an application in case an item in the DynamoDB table is modified, a lambda function is also required. 
+
+Let us try to analyze this with an example:
+
+Consider a mobile gaming app that writes to a GamesScores table. Whenever the top score of the Game Scores table is updated, a corresponding stream record is written to the table's stream. This event could then trigger a Lambda function that posts a Congratulatory message on a Social media network handle.
+
+DynamoDB streams can be used to monitor the changes to a DynamoDB table.
+
+AWS Documentation mentions the following:
+
+A DynamoDB stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### As a Solutions Architect for a multinational organization having more than 150000 employees, management has decided to implement a real-time analysis for their employees' time spent in offices across the globe. You are tasked to design an architecture that will receive the inputs from 10000+ sensors with swipe machine sending in and out data across the globe, each sending 20KB data every 5 Seconds in JSON format. The application will process and analyze the data and upload the results to dashboards in real-time. 
+Other application requirements will include the ability to apply real-time analytics on the captured data, processing of captured data will be parallel and durable, the application must be scalable as per the requirement as the load varies and new sensors are added or removed at various facilities. The analytic processing results are stored in a persistent data storage for data mining. 
+
+What combination of AWS services would be used for the above scenario? [WL214]
+                                         
+A. Use EMR to copy the data coming from Swipe machines into DynamoDB and make it available for analytics
+
+B. Use Amazon Kinesis Streams to ingest the Swipe data coming from sensors, Custom Kinesis Streams Applications to analyze the data and then move analytics outcomes to RedShift using AWS EMR 
+
+C. Use SQS to receive the data coming from sensors, Kinesis Firehose to analyze the data from SQS, then save the results to a Multi-AZ RDS instance
+
+D. Use Amazon Kinesis Streams to ingest the sensors’ data, custom Kinesis Streams applications to analyze the data, and move analytics outcomes to RDS using AWS EMR
+
+
+ANSWER : B
+
+EXPLANATION: 
+
+Option A is incorrect. EMR is not for receiving the real-time data from thousands of sources, EMR is mainly used for Hadoop ecosystem-based data used for Big data analysis.
+
+Option B is correct as the Amazon Kinesis streams are used to read the data from thousands of sources like social media, survey-based data, etc. The Kinesis streams can be used to analyze the data and can feed it using AWS EMR to the analytics-based database like RedShift which works on OLAP.
+ 
+Option C is incorrect, SQS cannot be used to read the real-time data from thousands of sources. Besides, the Kinesis Firehose is used to ship the data to other AWS service, not for the analysis. And finally, RDS is again an OLTP based database.
+ 
+Option D is incorrect as the AWS EMR can read large amounts of data, however, RDS is a transactional database that works based on the OLTP. Thus, it cannot store the analytical data.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+############## Redshift ###############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A retailer exports data daily from its transactional databases into an S3 bucket in the Sydney region. The retailer's Data Warehousing team wants to import this data into an existing Amazon Redshift cluster in their VPC at Sydney. Corporate security policy mandates that data can only be transported within a VPC. 
+Which steps would satisfy the security policy? (SELECT TWO) [WL120]
+
+
+A. Enable Amazon Redshift Enhanced VPC Routing. 
+B. Create a Cluster Security Group to allow the Amazon Redshift cluster to access Amazon S3. 
+C. Create a NAT gateway in a public subnet to allow the Amazon Redshift cluster to access Amazon S3. 
+D. Create and configure an Amazon S3 VPC endpoint. 
+
+ANSWER : A, D
+
+EXPLANATION :
+Amazon Redshift Enhanced VPC Routing provides VPC resources access to Redshift.
+Redshift will not be able to access the S3 VPC endpoints without enabling Enhanced VPC routing, so one option is not going to support the scenario if another is not selected.
+
+NAT instance (the proposed answer) cannot be reached by Redshift without enabling Enhanced VPC Routing. 
+
+VPC Endpoints - It enables you to privately connect your VPC to the supported AWS Services and VPC Endpoint services powered by PrivateLink without requiring an IGW, NAT Device, VPN Connection or AWS Direct Connect connections. Instances in VPC do not require Public IP addresses to communicate with resources in the service, and traffic between your VPC and other service does not leave the Amazon network.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### A company has a requirement to store 100TB of data to AWS cloud. This data will be exported using AWS Snowball and then should reside in a database layer. The database should have the facility to be queried from a business intelligence application. Each item is roughly 500KB in size. What would be an ideal storage mechanism for the underlying data layer? [WL202]
+
+A. AWS DynamoDB
+B. AWS Aurora
+C. AWS RDS
+D. AWS Redshift
+
+
+ANSWER : D
+
+EXPLANATION: 
+For this sheer data size (100TB), the ideal storage unit would be AWS Redshift.
+
+AWS Documentation mentions the following on AWS Redshift:
+
+Amazon Redshift is a fully managed, petabyte-scale data warehouse service in the cloud. You can start with just a few hundred gigabytes of data and scale to a petabyte or more. This enables you to use your data to acquire new insights for your business and customers.
+
+The first step to create a data warehouse is to launch a set of nodes, called an Amazon Redshift cluster. After you provision your cluster, you can upload your data set and then perform data analysis queries. Regardless of the size of the data set, Amazon Redshift offers fast query performance using the same SQL-based tools and business intelligence applications that you use today.
+
+Option A is incorrect because the maximum data size in DynamoDB is 400KB.
+Option B is incorrect because Aurora supports 64TB of data.
+Option C is incorrect because we can create MySQL, MariaDB, SQL Server, PostgreSQL, and Oracle RDS DB instances with up to 16 TB of storage in RDS.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+

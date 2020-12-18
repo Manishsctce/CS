@@ -1,20 +1,37 @@
 ############# IAM #############
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are deploying an application on Amazon EC2 that must call AWS APIs. Which method would you use to securely pass the credentials to the application?
+
+A. Pass API credentials to the instance using Instance userdata.
+B. Store API credentials as an object in Amazon S3.
+C. Embed the API credentials into your application.
+D. Assign IAM roles to the EC2 Instances.
+
+ANSWER : D
+
+EXPLANATION : 
+You can use roles to delegate access to users, applications, or services that don't normally have access to your AWS resources. It is not a good practice to use IAM credentials for a production-based application. However, it is a good practice to use IAM Roles.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## AWS best practices recommends that you do not use the root account user to do the day to day stuff. Instead you create other user and give it full administrative access, except for account information, which can be done by assigning the user one of the prebuilt AWS access policies.
 What is the name of the access policy referenced above?
-a. Read Only Access
-b. Power User Access
-c. AWS Cloud Formation Read Only Access
-d. Administrator Access
+
+A. Read Only Access
+B. Power User Access
+C. AWS Cloud Formation Read Only Access
+D. Administrator Access
+
 
 Answer : d
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## When you create an IAM user, what permissions would that user be given as soon as it is newly created?
 
-a. Full administrative access permissions
-b. Root account similar permissions
+A. Full administrative access permissions
+B. Root account similar permissions
 C. No permissions
-d. Read only access permission to all AWS services.
+D. Read only access permission to all AWS services.
+
 
 Answer : c
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,128 +43,439 @@ C. Access keys
 d. Signing certificates
 e. Security Group memberships
 
+
 Answer : b, c, d
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### Your organization has implemented an AWS environment and created hundreds of IAM account for all users that require access. A newly appointed Chief Security Officer has requested changes to the access policy granted to these users. You are puzzles as to what will be the easiest way to implement the changes to these users quickly and effectively, and also to account for potential future changes required for their IAM access policies?
 
-a. Use the IAM groups and add users to different groups based on group classification and apply policies at the group level
-
-b. You have to do it at the individual user level, there is not easier way to do it
-
+A. Use the IAM groups and add users to different groups based on group classification and apply policies at the group level
+B. You have to do it at the individual user level, there is not easier way to do it
 C. Delete all IAM users and establish a federation Infrastructure and use the corporate's directory to authenticate the users and provide them access
+D. Use the IAM role and implement access at the role level
 
-d. Use the IAM role and implement access at the role level
 
 Answer : a
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your organization is establishing an IAM access policy to create IAM users for those employees that require access to the newly deployed AWS VPC-based environment. Part of the access security policy for these users requires some of them to have the right to change their access password and access keys, while the others can not change either one, and they need to request admin help to do that.
 How can you achieve this?
 
-a. Under the IAM password policy screen, disable the option for all users to change their own passwords, and use an IAM policy to grant permissions to only some users to change their own passwords and their own access keys,
+A. Under the IAM password policy screen, disable the option for all users to change their own passwords, and use an IAM policy to grant permissions to only some users to change their own passwords and their own access keys,
+B. You can choose this as you create each user
+C. By default each IAM user can modify their passwords
+D. Root account owner can set the policy from the IAM console under the password policy screen
 
-b. You can choose this as you create each user
-
-c. By default each IAM user can modify their passwords
-
-d. Root account owner can set the policy from the IAM console under the password policy screen
 
 Answer : a 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are the AWS SME at YCDIT2, and your junior SysOps administrator is unsure how to configure the password policy for the IAM users, such that they can change their console access passwords, but can not change their access keys. What of the below would be a correct statement you can share with her to achieve this effectively and with the minimum involved effort?
 
-a. Using the root account credentials, set the password policy option for the users to be able to change their passwords, in the IAM console, under the password policy screen.
-
-b. Create an IAM policy to grant theusers permissions to change their passwords, and attach to the users
-
-c. This can not be done in IAM, administrator role or account root only can change the passwords
-
-d. Once set, passwords can not change in IAM, you must delete the users and create them again with the new passwords
+A. Using the root account credentials, set the password policy option for the users to be able to change their passwords, in the IAM console, under the password policy screen.
+B. Create an IAM policy to grant theusers permissions to change their passwords, and attach to the users
+C. This can not be done in IAM, administrator role or account root only can change the passwords
+D. Once set, passwords can not change in IAM, you must delete the users and create them again with the new passwords
 
 Answer : a 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You have a security requirement to enforce frequently rotated passwords and one time access credentials for a group of your organization's IAM users with higher privileges on AWS.
 How can you achieve this do this? (Choose 2)
 
-a. Enable MFA authentication for this group of users
+A. Enable MFA authentication for this group of users
+B. Attach an IAM policy to these users which will enforce frequently rotated passwords
+C. Use AWS's identity federation between your organization's AWS environment and corporate premises to enforce authentication and policies on all users
+D. Enable the IAM single-use password policy option for privileged users
 
-b. Attach an IAM policy to these users which will enforce frequently rotated passwords
-
-c. Use AWS's identity federation between your organization's AWS environment and corporate premises to enforce authentication and policies on all users
-
-d. Enable the IAM single-use password policy option for privileged users
 
 Answer : a, b
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which of the below are AWS IAM best practices that you need to implement in your AWS environment ? (Choose 3)
 
-a. Always create IAM user accounts for every user
-b. Use the AWS account(root) for regular user activities
+A. Always create IAM user accounts for every user
+B. Use the AWS account(root) for regular user activities
+C. Assign least privilege permissions to your IAM users and IAM groups
+D. Configure MFA on the root account and for privileged IAM users
+E. Assign passwords and access keys to all users, and ensure they are frequently rotating them
+F. Rotate passwords regularly
 
-c. Assign least privilege permissions to your IAM users and IAM groups
-
-d. Configure MFA on the root account and for privileged IAM users
-
-e. Assign passwords and access keys to all users, and ensure they are frequently rotating them
-
-f. Rotate passwords regularly
 
 Answer : c, d, f
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You client has an AWS environment hosted in US East 1 region. In a recent client meeting, they shared their plan to expand into the AWS Singapore region which they have not used yet. The client IT director was wondering what would it take to re-create or copy all the IAM Roles, Policies in use in their US East 1 to the AWS region in Singapore.
-What would you suggest to the client?
+## You client has an AWS environment hosted in US East 1 region. In a recent client meeting, they shared their plan to expand into the AWS Singapore region which they have not used yet. The client IT director was wondering what would it take to re-create or copy all the IAM Roles, Policies in use in their US East 1 to the AWS region in Singapore. What would you suggest to the client?
 
-a. They need to re-create everything again in AWS Singapore region
+A. They need to re-create everything again in AWS Singapore region
+B. They can copy the IAM roles and policies to the new region
+C. They can re-use the existing IAM roles and policies since IAM entities are global in AWS
+D. Configure VPC peering between the two AWS VPCs in the two regions such that the new environment in Singapore can route back to the existing one in US East 1
 
-b. They can copy the IAM roles and policies to the new region
-
-c. They can re-use the existing IAM roles and policies since IAM entities are global in AWS
-
-d. Configure VPC peering between the two AWS VPCs in the two regions such that the new environment in Singapore can route back to the existing one in US East 1
 
 Answer : c
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your junior AWS administrator is trying to understand which of the below activities require AWS IAM credentials and which do not.
 What would your answer be? (Choose 4)
 
-a. Creating task definitions in an ECS cluster for different applications with different permissions on the same ECS instances
-
-b. Uploading files to an S3 bucket in your account 
-
-c. Remote SSH access to the EC2 instances in your VPC
-
-d. Launding a DynamoDB table
-e. Adding an EC2 Instance to an existing ECS cluster
-f. Log in to your website hosted on EC2 fleet of instances
+A. Creating task definitions in an ECS cluster for different applications with different permissions on the same ECS instances
+B. Uploading files to an S3 bucket in your account 
+C. Remote SSH access to the EC2 instances in your VPC
+D. Launding a DynamoDB table
+E. Adding an EC2 Instance to an existing ECS cluster
+F. Log in to your website hosted on EC2 fleet of instances
 
 Answer : a, b, d, e
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### You have designed an application that uses AWS resources, such as S3 to operate and store users’ documents. You currently use Cognito identity pools and user pools. To increase usage and ease of signing up, you decide that adding social identity federation is the best path forward. 
+How would you differentiate the Cognito identity pool and the federated identity providers (e.g. Google)? [WL216]
+
+A. They are the same and just called different things
+B. First, you sign-in via Cognito then through a federated site, like Google
+C. Federated identity providers and identity pools are used to authenticate services
+D. Sign-in via AWS Cognito User Pool and sign-in via AWS Cognito Identity Pool are independent of one another
+
+
+ANSWER : D
+
+EXPLANATION: 
+Option D is correct. Sign-in through a third party (federation) is available in Amazon Cognito user pools. This feature is independent of the federation through Amazon Cognito identity pools (federated identities).
+Option A is incorrect. Cognito identity pool and the federated identity providers are separate, independent authentication methods.
+Option B is incorrect. Only one log-in event is needed, not two.
+Option C is incorrect. Identity providers authenticate users, not authenticate services.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### Third-party sign-in (Federation) has been implemented in your web application to allow users who need access to AWS resources. Users have been successfully logging in using Google, Facebook, and other third-party credentials. Suddenly, their access to some AWS resources has been restricted. What is the most likely cause of the restricted use of AWS resources? [WL228]
+
+A. IAM policies for resources were changed, thereby restricting access to AWS resources
+B. Federation protocols are used to authorize services and need to be updated
+C. AWS changed the services allowed to be accessed via federated login
+D. The identity providers no longer allow access to AWS services
+
+
+ANSWER : A
+
+EXPLANATION: 
+Option A is correct. When IAM policies are changed, they can impact the user experience and services they can connect to.
+Option B is incorrect. Federation is used to authenticate users, not to authorize services.
+Option C is incorrect. Federation is used to authenticate users, not to authorize services.
+Option D is incorrect. The identity providers don’t have the capability to authorize services; they authenticate users.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 
 ############# VPC #############

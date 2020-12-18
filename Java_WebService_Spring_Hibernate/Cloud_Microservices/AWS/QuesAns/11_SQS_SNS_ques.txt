@@ -1,51 +1,742 @@
 ############# EC2 #############
 
-## 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## The company at which you have been hired as an architect is using Amazon SQS. The company’s applications process orders out of the queue as they are received, ensuring that earlier orders get any limited items that may run out of stock over time. However, some early orders are skipped, and later orders actually get the limited items. How would you correct this problem?
+
+A. Move from SQS to SWF to ensure single delivery of messages.
+B. Configure the SQS queue as FIFO to guarantee the order of message delivery.
+C. Move from SQS to SNS and implement a queue in the application code.
+D. Turn on order locking in the SQS queue.
+
+
+ANSWER : B
+
+EXPLANATION : 
+SQS queues only make an “attempt” to deliver messages in order (more or less a FIFO approach) but do not guarantee FIFO. If strict FIFO is needed, that option can be selected. Option B will ensure that orders are processed in the order in which they were received.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How are messages arranged in an SQS queue by default?
+
+A. FIFO
+B. LIFO
+C. In reverse order, that is, the last message received is the first available, as much as is possible
+D. In the order in which they were received, as much as is possible
+
+
+ANSWER : D 
+
+EXPLANATION : 
+SQS queues only make an “attempt” to deliver messages in order (more or less a FIFO approach) but do not guarantee FIFO. If strict FIFO is needed, that option can be selected
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## How many times will a message be delivered when using a standard SQS queue?
+
+A. Once and only once
+B. At least once
+C. Once for each request of the relevant message in the queue
+D. The answer is application dependent.
+
+
+ANSWER : B
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are using an SQS queue in your web application. You are able to confirm that messages in the queue are being picked up by application instances for processing, but then nothing happens for over 12 hours. Then, after that period of time, the message appears in the queue again and processing restarts. What could be occurring?
+
+A. The SQS queue has a visibility timeout that is set too high. The timeout should be reduced so that application instances can process the message more quickly.
+
+B. SQS messages expire every 12 hours and must be reentered into the queue. The time that the message is invisible triggers the queue to ask for and receive the message from the original sender.
+
+C. Processing is failing, or not completing, in the application instance. The message disappears because the SQS queue keeps it “invisible” for 12 hours while it is being processed. The message is then returned to the queue for processing if not handled prior to that timeout.
+
+D. Your SQS queue needs to be restarted; it is likely not correctly queuing messages. The polling interval is also set too high, causing the long lack of visibility of the message
+
+
+ANSWER : C
+
+EXPLANATION : 
+SQS queues have a visibility timeout that controls how long a message in the
+queue is marked as “invisible” while being processed. This accounts for the message “disappearing.” Then, if application processing fails—as in option C—the message is remarked as visible and is available for processing again. 
+
+Option A correctly notes this timeout, but reducing the timeout would not cause the message to be processed correctly. It would just reduce the time that the message is “invisible.” 
+Option B is not how queues work; they cannot ask a sender to resend a message. 
+
+Option D is incorrect as well, as the queue is operating as intended with regard to visibility of messages and timeouts
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Company ABC has an AWS setup and planning to use Amazon SQS for queuing messages. The design is such that two applications will receive the same message in the queue and process it. Once applications would have read the message, it should be deleted. However, when the 2nd application is making ReceiveMessage API call, the message is not getting returned. Which of the following could be reasons? (Choose 2 options)
+
+A. Application 2 is making a call before Visibility Timeout elapsed which was set by application 1 ReceiveMessage call.
+B. Amazon SQS deletes the message once it has been responded via ReceiveMessage call from Application 1.
+C. Application 1 had deleted the message after it has processed before Visibility Timeout elapsed.
+D. Application 2 does not have access on the message it is trying to receive.
+
+
+ANSWER : A, C
+
+EXPLANATION : 
+Immediately after a message is received, it remains in the queue. To prevent other consumers from processing the message again, Amazon SQS sets a visibility timeout, a period of time during which Amazon SQS prevents other consumers from receiving and processing the message. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization is using Amazon SQS as an enterprise message queuing platform. 100s of applications reading the queues every few seconds to process the messages and delete them as soon as they are being written into the queues. Looking at the number of requests being sent to Amazon SQS APIs, your management is concerned on the pricing that will be incurred. As an architect, how would you reduce pricing without compromising on time in this scenario? Please select 2 correct answers.
+
+A. Once successfully written, Amazon SQS messages are only available after 1 minute. Ask applications to increase the&nbsp;delay&nbsp;between calls to 1 minute. This reduces the number of API calls made
+B. Use Amazon SQS Long Polling.
+C. Send DeleteMessage requests in batch.
+D. Use Amazon SQS Short Polling.
+
+
+ANSWER : B, C
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following statements is not correct with respect to AWS SQS?
+
+A. Amazon SQS can trigger a lambda function
+B. To select the message to delete, use the ReceiptHandle of the message, not the MessageId which you receive when you send the message.
+C. Use dead letter queues to isolate messages that can't be processed for later analysis.
+D. All messages in Amazon SQS queue are encrypted by default.
+
+ANSWER : D
+
+EXPLANATION : 
+In the question, it is mentioned to select the wrong Option as the answer. Here Option A, B&nbsp;and C are correct statements but not the correct options.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following is not a feature of AWS Security Token Service?
+
+A. STS enables you to request temporary, limited-privilege credentials.
+B. STS enables users to assume role.
+C. STS generates Git Credentials for IAM users.
+D. STS generates Federated Credentials for IAM users.
+
+
+ANSWER : C
+
+EXPLANATION : 
+With Git credentials, you can generate a static user name and password in the Identity and Access Management (IAM) console that you can use to access AWS CodeCommit repositories from the command line, Git CLI, or any Git tool that supports HTTPS authentication.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization AWS Setup has an AWS S3 bucket which stores confidential documents which can be only downloaded by users authenticated and authorized via your application. You do not want to create IAM users for each of these users and as a best practice you have decided to generate AWS STS Federated User temporary credentials each time when a download request is made and then use the credentials to generate presigned URL and redirect user for download. However, when user is trying to access the presigned URL, they are getting Access Denied Error. What could be the reason?
+
+A. AWS STS service must be given access in S3 bucket ACL.
+B. IAM User used to generate Federated User credentials does not have access on S3 bucket
+C. IAM Role used to generate Federated User credentials does not have access on S3 bucket.
+D. Your application must be whitelisted in AWS STS service to perform FederatedUser action.
+
+
+ANSWER : B
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization has an AWS setup and planning to build Single Sign On for users to authenticate with on-premise Microsoft Active Directory Federation Services (ADFS) and let users login to AWS console using AWS STS Enterprise Identity Federation. Which of the following service you need to call from AWS STS service after you authenticate with your on-premise?
+
+A. AssumeRoleWithSAML
+B. GetFederationToken
+C. AssumeRoleWithWebIdentity
+D. GetCallerIdentity
+
+
+ANSWER : A
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization has an AWS Setup. Your recent monthly bill has shown some increase in SNS billing. Your management wants to find out more about the incoming API calls. They want&nbsp;you to identify the requests made to AWS SNS on who made the request and the source IP address of the user who made the requests. How would you find out?
+
+A. Enable SNS logging to S3 bucket.
+B. Enable X-ray logging for SNS.
+C. Enable CloudTrail logging for SNS.
+D. Enable CloudWatch logging for SNS.
+
+
+ANSWER : C
+
+EXPLANATION : 
+
+Option D is not correct.&nbsp;Amazon SNS and CloudWatch are integrated so you can collect, view, and analyze metrics for every active Amazon SNS notification. Once you have configured CloudWatch for Amazon SNS, you can gain better insight into the performance of your Amazon SNS topics, push notifications, and SMS deliveries.
+But it does not provide information on the API calls made to SNS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following are the available options while configuring&nbsp;AWS SNS? (Choose 3 options)
+
+A. AWS Lambda
+B. AWS SQS
+C. SMS
+D. Email-XML
+E. AWS MQ
+
+ANSWER : A, B, C
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are an architect in your company and you have configured an SNS topic to send emails to a group of users regarding the CloudWatch alarms on the resource usages and outages. You were requested by your head of department to exclude him from those alarms except for critical system outages. How efficiently can you achieve this?
+
+A. Create a new topic and and subscribe only head of department email address. Create new CloudWatch alarm only for critical outages and send messages to new Topic.
+B. Configure another option on AWS CloudWatch alarm to send a direct email to head of department.
+C. Add filter policy to head of department subscription.
+D. For head of department subscription, select AWS Lambda function which contains code to identify critical system outages and send email using AWS SES.
+
+
+ANSWER : C
+
+EXPLANATION : 
+
+Option A is not correct.
+Although it looks correct, it is not an efficient solution.
+Option B is not correct. There is no such option on AWS CloudWatch alarms.
+Option C is correct.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following is not an item of message attribute in AWS SNS?
+
+A. Name
+B. Type
+C. Value
+D. MessageId
+
+ANSWER : D
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## As an AWS solution architect, you are building a new image processing application with queuing service.  There is fleet of m4.large EC2 instances which would poll SQS as images are uploaded by users. The image processing takes around 55 seconds for completion, and users are notified via emails on completion.  During the trial period, you find duplicate messages being generated due to which users are getting multiple emails for the same image.  What would be the best option to eliminate duplicate messages before going to production? [WL131]
+
+A. Create delay queue for 60 seconds. 
+B. Increase visibility timeout to 60 seconds. 
+C. Create delay queue to greater than 60 seconds. 
+D. Decrease visibility timeout below 60 seconds. 
+
+
+ANSWER : B
+
+EXPLANATION : 
+Default visibility timeout is 30 seconds. Since the application needs 60 seconds to complete the processing, the visibility timeout should be increased to 60 seconds. This will hide the message from other consumers for 60 seconds, so they will not process the same file which is in the process by the original consumer.
+
+Options A & C are incorrect as Delay queues let you postpone the delivery of new messages to a queue for a number of seconds. Creating a delay queue for 60 seconds or more will delay the delivery of the new message by specific seconds & not eliminate the duplicate message.
+
+Option D is incorrect as visibility timeout should be set to the maximum time it takes to process & delete the message from the queue. If visibility timeout is set to below 60 seconds, the message will be again visible to other consumers while the original consumer is already working on it.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-############# VPC #############
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+

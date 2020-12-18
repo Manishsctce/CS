@@ -139,7 +139,7 @@ class FutureTask<V> implements RunnableFuture<V>
 =======================================
 ######## CompletableFuture[c] #########
 > Since Java8
-> belongs to java.util.cocurrent package
+> package java.util.concurrent
 
 class CompletableFuture<T> implements Future<T>, CompletionStage<T> {...}
 
@@ -215,25 +215,7 @@ By default, Future task is run asynchronously, so will be executed in a differen
 
 > Callable by default will be executed on same Thread , unless you are using custom executor that starts a new thread.
 
-## SHUTDOWN HOOK
-> It can be USED TO PERFORM CLEANUP RESOURCE OR SAVE THE STATE when JVM shuts down normally or abruptly. 
-> Performing clean resource means closing log file, sending some alerts or something else. 
-> So if you want to execute some code before JVM shuts down, use shutdown hook.
 
-## What is difference bet JVM Shutdownhook and Finalize()?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##When does the JVM shut down?
-> The JVM shuts down when:
-	-user presses ctrl+c on the command prompt
-	-System.exit(int) method is invoked
-	-user logoff
-	-user shutdown etc.
----------------------
-> The addShutdownHook() method of Runtime class is used to register the thread with the Virtual Machine
-public void addShutdownHook(Runnable r){}  
-
-> Runtime class can be obtained by calling the static factory method getRuntime(). 
-	Runtime r = Runtime.getRuntime();
 =======================================	
 	
 https://netjs.blogspot.com/2016/05/java-concurrency-interview-questions.html	

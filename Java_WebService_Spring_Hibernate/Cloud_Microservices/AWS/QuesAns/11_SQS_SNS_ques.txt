@@ -217,6 +217,28 @@ Default visibility timeout is 30 seconds. Since the application needs 60 seconds
 Options A & C are incorrect as Delay queues let you postpone the delivery of new messages to a queue for a number of seconds. Creating a delay queue for 60 seconds or more will delay the delivery of the new message by specific seconds & not eliminate the duplicate message.
 
 Option D is incorrect as visibility timeout should be set to the maximum time it takes to process & delete the message from the queue. If visibility timeout is set to below 60 seconds, the message will be again visible to other consumers while the original consumer is already working on it.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### A company has a workflow that sends video files from their on-premise system to AWS for transcoding. They use EC2 worker instances to pull transcoding jobs from SQS. Why is SQS an appropriate service for this scenario? [WL318]
+
+A. SQS guarantees the order of the messages.
+B. SQS synchronously provides transcoding output.
+C. SQS checks the health of the worker instances.
+D. SQS helps to facilitate horizontal scaling of encoding tasks. 
+
+
+EXPLANATION:
+Correct Answer - D
+
+> Even though SQS guarantees the order of messages for FIFO queues, the main reason for using it is because it helps in horizontal scaling of AWS resources and is used for decoupling systems. 
+
+> SQS can neither be used for transcoding output nor for checking the health of worker instances. 
+- The health of worker instances can be checked via ELB or CloudWatch. 
+ 
+
+For more information on SQS, please visit the following URL: 
+
+https://aws.amazon.com/sqs/faqs/
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

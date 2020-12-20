@@ -18,6 +18,8 @@
 
 3. Network Load Balancer (layer 4)
 - TCP/UDP/TLS
+
+#### IMPORTANT #####
 > ELB IS REGION SPECIFIC
 - we can use Route-53, if we want to load balance in different regions
 
@@ -50,10 +52,10 @@
 > we can configure multiple listeners with different protocols/ports both on the front end and backend 
 
 > Registered EC2 instances are those that are defined under the ELB
-> It may take sometime for the registration of EC2 instances under the ELB to complete
+>> It may take sometime for the registration of EC2 instances under the ELB to complete
 
 > ELB only has to do with Inbound traffic destined to the EC2 registered instances (as the destination) and the respective return traffic
-> ELB HAS "NOTHING" TO DO WITH THE OUTBOUND TRAFFIC that is initiated/generated from the registered EC2 instances destined to the internet, or to any other instances within the VPC.
+- IT HAS "NOTHING" TO DO WITH THE OUTBOUND TRAFFIC that is initiated/generated from registered EC2 instances destined to the internet, or to any other instances within the VPC.
 
 > You start to be CHARGED HOURLY (also for partial hours) once your ELB is active
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,21 +64,21 @@
 > If you do not want to be charged or you do not need the ELB anymore, you can delete it
 - BEFORE YOU DELETE THE ELB, it is recommended that you POINT THE ROUTE53 (or DNS server) TO SOMEWHERE ELSE other than the ELB
 
-> Deleting the ELB does not affect/delete the EC2 instances regisțered with it 
+> Deleting the ELB DOES NOT AFFECT/DELETE EC2 INSTANCES regisțered with it 
 
-> ELB forwards traffic to eth0 of your registered instances
+> ELB forwards traffic to "eth0" of registered instances
 
 > In case the EC2 registered instance has multiple IP addresses on eth0, ELB will route the traffic to its primary IP address
 
 =======================================
 ######## ELB - Scope ######### v4
-> You can add tags to your ELB
+> You can add tags to ELB
 
 > In a VPC, ELBs SUPPORT IPV4 ADDRESSES ONLY
 
 >> To ensure that the ELB SERVICE CAN SCALE ELB NODES IN EACH AZ, ensure that the subnet defined for the load balancer is at least /27 in size, and has ATLEAST 8 AVAILABLE IP ADDRESSES THE ELB NODES CAN USE TO SCALE
 
-> ELB uses these IP addresses to open/connect with registered EC2 instances (remember this in your Security Group and N.ACL settings for ELB environment in your VPC)
+- ELB uses these IP addresses to open/connect with registered EC2 instances (remember this in your SG and NACL settings for ELB environment in VPC)
 =======================================
 ######### ELB – Health Checks ######### v5
 
@@ -143,8 +145,7 @@
 1. INTERNET FACING:
 > ELB nodes will have public IP addresses,
 - DNS will resolve the ELB DNS name to these IP addresses
-
-> It routes traffic to the private IP addresses of your registered EC2 instances,
+- It routes traffic to the private IP addresses of registered EC2 instances,
 - Hence, why your instances do not have to have public IP addresses
 
 > You NEED ONE "PUBLIC" SUBNET IN EACH AZ WHERE THE INTERNET FACING ELB will be defined, such that the ELB will be able to route internet traffic
@@ -156,7 +157,7 @@ name-1234567890.region.elb.amazonawz.com
 
 2. INTERNAL ELB:
 > ELB nodes will have private IP addresses, to which the DNS resolves ELB DNS name
-> It routes traffic to the Private IP addresses of your registered EC2 instances
+> It routes traffic to the Private IP addresses of registered EC2 instances
 
 > Format of the public ELB DNS name for internal ELB:
 internal-name-123456789.region.elb.amazonaws.com

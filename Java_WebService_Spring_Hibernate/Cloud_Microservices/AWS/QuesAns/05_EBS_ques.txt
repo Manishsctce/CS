@@ -58,6 +58,17 @@ D. Yes, as long as at least one of the instances uses the volume as its root vol
 
 
 Answer: B
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## There is a requirement to host a database application having resource-intensive reads and writes (lots of reads and writes). Which of the below options would be the most suitable to meet this requirement? [WL145]
+
+A. EBS Provisioned IOPS SSD
+B. EBS SSD
+C. EBS Throughput Optimized HDD
+D. EBS Cold Storage
+
+
+ANSWER : C
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## An application with a 150 GB relational database runs on an EC2 Instance. While the application is used infrequently with small peaks in the morning and evening, which storage type would be the most cost-effective option for the above requirement? [WL106]
 
@@ -74,6 +85,33 @@ Since the database is used infrequently, not throughout the day, and the questio
 
 The minimum volume of Throughput Optimized HDD is 500 GB. As per our scenario, we need 150 GB only. 
 Hence, option C: Amazon EBS General Purpose SSD, would be the best choice for a cost-effective storage solution. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An application with a 150 GB relational database runs on an EC2 Instance. This is a critical business application requiring more than 16,000 IOPS of throughput per volume. Which storage type would be preferred? [WL309]
+
+A. Amazon EBS Provisioned IOPS SSD
+B. Amazon EBS Throughput Optimized HDD
+C. Amazon EBS General Purpose SSD
+D. Amazon EFS
+
+
+EXPLANATION:
+Answer – A
+
+ As per AWS documentation Provisioned IOPS (SSD) are used for applications that require high Inputs/Outputs Operations per sec and is mainly used in large databases such as Mongo, Cassandra, Microsoft SQL Server, MySQL, PostgreSQL, Oracle where as Throughput optimized HDD although it is cheaper compared to PIOPS is used for dataware houses where it is designed to work with throughput intensive workloads such as big data, log processing etc. 
+So Option A is the right choice for this case. 
+AWS Documentation mentions the following:
+
+Provisioned IOPS SSD (io1) volumes are designed to meet the needs of I/O-intensive workloads, particularly database workloads that are sensitive to storage performance and consistency. 
+Max IOPS**/Volume for 
+
+EBS Provisioned IOPS SSD - 64,000
+EBS General Purpose SSD - 16,000 
+Throughput Optimized HDD - 500
+Cold HDD - 250
+
+For more information on AWS EBS Volumes, please visit the following URL:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## The security policy of an organization requires an application to encrypt data before writing to the disk. Which solution should the organization use to meet this requirement? [WL118]
@@ -131,7 +169,63 @@ ANSWER : A
 
 EXPLANATION : 
 For high performance and high IOPS requirements, as in this case, the ideal choice would be to choose EBS Provisioned IOPS SSD.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You work for a company that has a set of EC2 Instances. There is an internal requirement to create another instance in another availability zone. One of the EBS volumes from the current instance needs to be moved from one of the older instances to the new instance. How can you achieve this? [WL602]
 
+A. Detach the volume and attach to an EC2 instance in another AZ.
+B. Create a new volume in the other AZ and specify the current volume as the source.
+C. Create a snapshot of the volume and then create a volume from the snapshot in the other AZ
+D. Create a new volume in the AZ and do a disk copy of contents from one volume to another. 
+
+
+EXPLANATION: 
+Answer – C
+
+> In order for a volume to be available in another availability zone, you need to first create a snapshot from the volume. Then in the snapshot from creating a volume from the snapshot , you can then specify the new availability zone accordingly. 
+
+Option A is invalid, because the Instance and Volume have to be in the same AZ in order for it to be attached to the instance
+
+Option B is invalid , because there is no way to specify a volume as a source
+
+Option D is invalid , because the Diskcopy would just be a tedious process. 
+For more information on snapshots, please visit the below URL
+
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have a set of EC2 Instances that support an application. They are currently hosted in the US Region. In the event of a disaster, you need a way to ensure that you can quickly provision the resources in another region. How could this be accomplished? [WL322] (SELECT TWO)
+
+A. Copy the underlying EBS Volumes to the destination region. 
+B. Create EBS Snapshots and then copy them to the destination region. 
+C. Create AMIs for the underlying instances and copy them to the destination region. 
+D. Copy the metadata for the EC2 Instances to S3. 
+
+
+EXPLANATION:
+Correct Answers – B and C
+
+Snapshots can be used to create a AMI or template of the underlying instance. You can then copy the AMI to another region. You can also make snapshots of the volumes and then copy them to the destination region. 
+For more information on AMIs and EBS Snapshots, please visit the following URLs:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are building an automated transcription service in which Amazon EC2 worker instances process an uploaded audio file and generate a text file. You must store both of these files in the same durable storage until the text file is retrieved. You do not know about the storage capacity requirements. Which storage option would be both cost-efficient and scalable in this situation? [WL324]
+
+A. Multiple Amazon EBS Volume with snapshots
+B. A single Amazon Glacier Vault
+C. A single Amazon S3 bucket
+D. Multiple instance stores
+
+
+EXPLANATION:
+Correct Answer – C
+
+Amazon S3 is the perfect storage solution for audio and text files. It is a highly available and durable storage device. 
+For more information on Amazon S3, please visit the following URL:
+
+https://aws.amazon.com/s3/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

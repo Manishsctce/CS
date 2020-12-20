@@ -4,12 +4,13 @@
 
 ## ELASTIC BEANSTALK
 ## AWS LAMBDA
-## AWS ELASTIC LOAD BALANCER (ELB)
+
 ## AWS ECR (Elastic Container Registry)
 ## AWS ECS (Elastic Container Service)
 ## AWS Lightsail
 
-############# EC2 #############
+=======================================
+################ EC2 ##################
 
 ## You have been asked to migrate a 10GB unencrypted EBS vol. to an encrypted vol. for security purposes. What are 3 key steps required as part of the migration? (ShaunHummel-2)
 
@@ -18,6 +19,7 @@ B. create a new encrypted volume of the same size and availability zone
 C. create a new encrypted volume of the same size in any availability zone
 D. start converter instance
 E. shutdown and detach the unencrypted instance
+
 
 Answer (B,D,E)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +31,7 @@ B. compute optimized
 C. storage optimized
 D. general purpose optimized
 
+
 Answer (B)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What class of EC2 instance type is recommended for database servers?
@@ -39,6 +42,7 @@ B. compute optimized
 C. storage optimized
 D. general purpose optimized
 
+
 Answer (A)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company is planning on moving their virtual servers from their on-premises infrastructure to the AWS Cloud. They need to migrate their existing VM's to the cloud. Which of the following could help them in the migration process?
@@ -47,6 +51,7 @@ A. AWS VM Import
 B. AWS S3
 C. AWS SQS
 D. AWS EC2
+
 
 Answer (A)
 
@@ -59,14 +64,16 @@ B. 10
 C. 20
 D. Any number of EC2 instances can be created per region per account
 
+
 Answer (C)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You have been hired as an AWS Architect for a company. There is a requirement to host an application using EC2 Instances. The Infrastructure needs to scale on demand and also be fault tolerant. Which of the following would you include in the design? Choose 2 answers from the options below
 
-AWS Autoscaling
-ECS
-Elastic Load Balancer
-Cloudwatch
+A. AWS Autoscaling
+B. ECS
+C. Elastic Load Balancer
+D. Cloudwatch
+
 
 Answer - A and C
 
@@ -88,125 +95,16 @@ VPC Flow Logs is a feature that enables you to capture information about the IP 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your company has setup EC2 Instances in a VPC for their app. The IT Security department needs to understand what the security mechanisms are available to protect the Instances when it comes to traffic going in and out of the instance. What are the two layers of security provided by AWS in the VPC? Choose 2 answers from the options given below
 
-Security Groups 
-NACLs
-DHCP options
-Route Tables  
+A. Security Groups 
+B. NACLs
+C. DHCP options
+D. Route Tables  
+
 
 Answer - A and B
 SG act as a virtual firewall for your instance to control inbound and outbound traffic. When you launch an instance in a VPC, you can assign up to five security groups to the instance.
 
 NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. You might set up network ACLs with rules similar to your security groups in order to add an additional layer of security to your VPC.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##
-===============================
-############# ECS #############
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Which of the following are features of AWS ECS? (Choose 3 options) [WL-EC2-1]
-
-A. Task Definition
-B. Tasks
-C. Container Registery      
-D. Cluster
-E. Source Image Storage  
-
-Answer - A,B,D
-
-Option C is not part of ECS. Amazon Elastic Container Registry (Amazon ECR) is a fully managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Which of the following statement defines task definition? [WL-EC2-2]
-
-A. JSON template that describes containers which forms your application.
-B. Template for a program that runs inside AWS ECS Cluster.
-C. AWS managed service that launches ECS clusters.
-D. Template that defines actions for each IAM user on the ECS cluster and its containers.
-
-Answer : A
-https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
-
-> A task definition is required to run Docker containers in Amazon ECS. It is a text file in JSON format that describe 1 or more containers, up to 10(max).
-- it will be blueprint of app.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Your organization is planning to use AWS ECS for docker applications. However, they would like to apply 3rd party monitoring tools on the ECS instances. They approached you asking for a recommendation. What do you suggest? [WL-EC2-3]
-
-A. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use CloudWatch for monitoring metrics
-B. Customers will have control over AWS ECS instances and can setup monitoring like a normal EC2 instance.
-C. Raise a case with AWS to install 3rd party software on ECS. AWS will review the case and install if 3rd party software is in their trusted software entries
-D. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use application level monitoring.
-
-Answer : B
-https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_instances.html
-Options A and D are not correct. AWS ECS uses EC2 instances with ECS-optimized AMI. You will have root access to the instances and you can manage them.	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Which of the following is a correct statement in relation to ECS instances when accessing Amazon ECS service endpoint? [WL-EC2-4]
-
-A. Create an Interface VPC Endpoint for ECS service and attach to VPC subnet’s route table in which ECS instances are running.
-B. ECS intances are launched with ECS-optimized AMI which contains an inbuilt mechanism to communicate with ECS service endpoints through AWS network.
-C. Create a NAT Gateway and attach it to VPC subnet’s route table in which ECS instances are running.
-D. AWS service endpoints are accessible internally across VPCs. You need to enable IAM role access on the service which needs to be accessed
-
-Answer : C
-The container agent runs on each infrastructure resource within an Amazon ECS cluster. It sends information about the resource's current running tasks and resource utilization to Amazon ECS, and starts and stops tasks whenever it receives a request from Amazon ECS.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You have launched an ECS cluster with 5 EC2 instances with its task definitions. However, ECS is not getting any status information back from the container agent in each ECS instance. What could be the reason? (choose 3 options) [WL-EC2-5]
-
-A. IAM role used to run ECS instance does not have ecs:Poll action in its policy
-B. Key-pair information is missing in ECS cluster
-C. ECS  Instance  security  groups’  outbound  rules  are  not  allowing  traffic  to  ECS  service endpoint
-D. Interface VPC endpoint is not configured for ECS service
-E. You are running ECS on t2.micro instance type which is not supported
-
-Answer: A, C, D
-
-Option A is correct. The Amazon ECS container agent makes calls to the Amazon ECS API on your behalf. Container instances that run the agent require an IAM policy and role for the service to know that the agent belongs to you. Before you can launch container instances and register them into a cluster, you must create an IAM role for those container instances to use when they are launched. This requirement  applies  to  container  instances  launched  with  the  Amazon  ECS-optimized  AMI provided by Amazon, or with any other instances that you intend to run the agent on.
-
-Option B is not correct. Amazon ECS container instance, has no password to use for SSH access; you use a key pair to log in to your instance securely. You specify the name of the key pair when you launch your container instance, then provide the private key when you log in using SSH.
-
-Option C is correct. Security groups act as a firewall to ECS container instances. If outbound rules are not allowing any traffic to ECS service endpoints, container agent will not be able to report the status back to ECS.
-
-Option E is not correct. T2.micro is supported for container instance.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Which of the following can be used with Amazon ECS to run Containers without having to manage servers or clusters of Amazon EC2 instances?
-
-A. AWSVPC
-B. FARGATE
-C. AWS ECR
-D. Docker
-
-Answer : B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How does AWS allow you to add metadata to your EC2 instances? (Choose two.)
 
@@ -214,6 +112,7 @@ A. Certificates
 B. Tags
 C. Policies
 D. Labels
+
 
 Answer: A, D
 
@@ -227,6 +126,7 @@ B. In a specific availability zone
 C. In a random availability zone within a specified region
 D. It depends upon the region.
 
+
 Answer: B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which of the following can be deployed across availability zones?
@@ -235,6 +135,7 @@ A. Cluster placement groups
 B. Placement groups
 C. Spread placement groups
 D. Cross-region placement groups
+
 
 Answer: C. 
 
@@ -306,7 +207,27 @@ Option B is correct, as the solution needs to be tolerant up to one AZ failure. 
 Option C is incorrect as it will not be a suitable solution. If there will be one AZ failure the other AZ will have only 12 web servers running. One might think ASG is always there to take care when the second AZ fails. But think of a scenario when other AZ fails and at the same time traffic is at its peak, then the application will not be further scalable and users might face slow responses.
 
 Option D is incorrect. Remember the design principle of keeping the databases in private subnet. As this solution mentions to place databases in another public subnet, the data can be exposed over the internet and hence it’s an insecure application.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have a video transcoding application running on Amazon EC2. Each instance polls a queue to find out which video should be transcoded and then runs a transcoding process. If this process is interrupted, the video gets transcoded by another instance based on the queuing system. 
+You have a large backlog of videos that need to be transcoded and you would like to reduce this backlog by adding more instances. These instances will only be needed until the backlog is reduced. What Amazon EC2 Instance type should you use to reduce the backlog in the most cost-efficient way? [WL317]
 
+A. Reserved Instances
+B. Spot Instances
+C. Dedicated Instances
+D. On-Demand Instances
+
+
+EXPLANATION:
+Correct Answer – B
+
+Since the above scenario is similar to a batch processing job, the best instance type to use is a Spot Instance. Spot Instances are normally used in batch processing jobs. Since these jobs don’t last for an entire year, they can be bid upon allocated and deallocated as requested. 
+
+Reserved Instances/Dedicated Instances cannot be used since this is not a 100% used application. 
+
+> There is no mention of continuous demand for work in the above scenario. Hence, there is no need to use On-Demand Instances. 
+For more information on Spot Instances, please visit the following URL:
+
+https://aws.amazon.com/ec2/spot/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -531,3 +452,323 @@ NGINX can be hosted on an EC2 instance through a series of clear steps- Launch a
 
 It can also be installed with an Elastic Beanstalk service. To enable the NGINX proxy server with your Tomcat application, you must add a configuration file to .ebextensions in the application source bundle that you upload to Elastic Beanstalk. 
 
+=======================================
+############# LAMBDA ##################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company wants to build a brand new application on the AWS Cloud. They want to ensure that this application follows the Microservices architecture. Which of the following services can be used to build this type of architecture? [WL327] (SELECT THREE)
+
+A. AWS Lambda
+B. AWS ECS
+C. AWS API Gateway
+D. AWS Config
+
+
+EXPLANATION:
+Correct Answers – A, B, and C
+
+AWS Lambda is a serverless compute service that allows you to build independent services. 
+The Elastic Container Service (ECS) can be used to manage containers. 
+The API Gateway is a serverless component for managing access to APIs. 
+For more information about Microservices on AWS, please visit the following URL:
+
+https://aws.amazon.com/microservices/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is planning to run a number of admin-related scripts using the AWS Lambda service. There is a need to detect errors that occur while these scripts run. How could this be accomplished in the most effective manner? [WL331]
+
+A. Use CloudWatch metrics and logs to detect the errors
+B. Use CloudTrail to monitor the errors
+C. Use the AWS Config service to monitor the errors
+D. Use the AWS Inspector service to monitor the errors
+
+
+EXPLANATION:
+Correct Answer – A
+
+AWS Documentation mentions the following:
+
+AWS Lambda automatically monitors Lambda functions on your behalf, reporting metrics through Amazon CloudWatch. 
+- To help you troubleshoot failures in a function, Lambda logs all the requests handled by your function and also automatically stores logs generated by your code through Amazon CloudWatch Logs. 
+For more information on Monitoring Lambda functions, please visit the following URL:
+
+https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions-logs.html
+
+=======================================
+################ ECR ##################
+################ ECS ##################
+############## Docker #################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is planning to use Docker containers and necessary container orchestration tools for its batch processing requirements. There is a requirement of batch processing for both critical and non-critical data. Which of the following is the best implementation step for this requirement to ensure that cost is effectively managed?  [WL162]
+
+A. Use Kubernetes for container orchestration and reserved instances for all underlying instances. 
+B. Use ECS orchestration and reserved Instances for all underlying instances. 
+C. Use Docker for container orchestration and a combination of spot and reserved Instances for the underlying instances. 
+D. Use ECS for container orchestration and a combination of spot and reserved Instances for the underlying instances. 
+
+
+ANSWER : D
+
+EXPLANATION:
+The Elastic Container service from AWS can be used for container orchestration. Since there are both critical and non-critical loads, one can use Spot instances for the non-critical workloads for ensuring that the cost is kept at a minimum.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following are features of AWS ECS? (Choose 3 options) [WL-EC2-1]
+
+A. Task Definition
+B. Tasks
+C. Container Registery      
+D. Cluster
+E. Source Image Storage  
+
+
+Answer - A,B,D
+
+Option C is not part of ECS. Amazon Elastic Container Registry (Amazon ECR) is a fully managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following statement defines task definition? [WL-EC2-2]
+
+A. JSON template that describes containers which forms your application.
+B. Template for a program that runs inside AWS ECS Cluster.
+C. AWS managed service that launches ECS clusters.
+D. Template that defines actions for each IAM user on the ECS cluster and its containers.
+
+
+Answer : A
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
+
+> A task definition is required to run Docker containers in Amazon ECS. It is a text file in JSON format that describe 1 or more containers, up to 10(max).
+- it will be blueprint of app.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Your organization is planning to use AWS ECS for docker applications. However, they would like to apply 3rd party monitoring tools on the ECS instances. They approached you asking for a recommendation. What do you suggest? [WL-EC2-3]
+
+A. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use CloudWatch for monitoring metrics
+B. Customers will have control over AWS ECS instances and can setup monitoring like a normal EC2 instance.
+C. Raise a case with AWS to install 3rd party software on ECS. AWS will review the case and install if 3rd party software is in their trusted software entries
+D. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use application level monitoring.
+
+
+Answer : B
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_instances.html
+Options A and D are not correct. AWS ECS uses EC2 instances with ECS-optimized AMI. You will have root access to the instances and you can manage them.	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following is a correct statement in relation to ECS instances when accessing Amazon ECS service endpoint? [WL-EC2-4]
+
+A. Create an Interface VPC Endpoint for ECS service and attach to VPC subnet’s route table in which ECS instances are running.
+B. ECS intances are launched with ECS-optimized AMI which contains an inbuilt mechanism to communicate with ECS service endpoints through AWS network.
+C. Create a NAT Gateway and attach it to VPC subnet’s route table in which ECS instances are running.
+D. AWS service endpoints are accessible internally across VPCs. You need to enable IAM role access on the service which needs to be accessed
+
+
+Answer : C
+The container agent runs on each infrastructure resource within an Amazon ECS cluster. It sends information about the resource's current running tasks and resource utilization to Amazon ECS, and starts and stops tasks whenever it receives a request from Amazon ECS.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have launched an ECS cluster with 5 EC2 instances with its task definitions. However, ECS is not getting any status information back from the container agent in each ECS instance. What could be the reason? (choose 3 options) [WL-EC2-5]
+
+A. IAM role used to run ECS instance does not have ecs:Poll action in its policy
+B. Key-pair information is missing in ECS cluster
+C. ECS  Instance  security  groups’  outbound  rules  are  not  allowing  traffic  to  ECS  service endpoint
+D. Interface VPC endpoint is not configured for ECS service
+E. You are running ECS on t2.micro instance type which is not supported
+
+
+Answer: A, C, D
+
+Option A is correct. The Amazon ECS container agent makes calls to the Amazon ECS API on your behalf. Container instances that run the agent require an IAM policy and role for the service to know that the agent belongs to you. Before you can launch container instances and register them into a cluster, you must create an IAM role for those container instances to use when they are launched. This requirement  applies  to  container  instances  launched  with  the  Amazon  ECS-optimized  AMI provided by Amazon, or with any other instances that you intend to run the agent on.
+
+Option B is not correct. Amazon ECS container instance, has no password to use for SSH access; you use a key pair to log in to your instance securely. You specify the name of the key pair when you launch your container instance, then provide the private key when you log in using SSH.
+
+Option C is correct. Security groups act as a firewall to ECS container instances. If outbound rules are not allowing any traffic to ECS service endpoints, container agent will not be able to report the status back to ECS.
+
+Option E is not correct. T2.micro is supported for container instance.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Which of the following can be used with Amazon ECS to run Containers without having to manage servers or clusters of Amazon EC2 instances?
+
+A. AWSVPC
+B. FARGATE
+C. AWS ECR
+D. Docker
+
+
+Answer : B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has a set of applications that make use of Docker containers. There is a need to move these containers to AWS. Which option below is the BEST way to set up these Docker containers in a separate AWS environment? [WL315]
+
+A. Create EC2 Instances, install Docker, and then upload the containers.
+B. Create EC2 Container registries, install Docker, and then upload the containers.
+C. Create an Elastic Beanstalk environment with the necessary Docker containers.
+D. Create EBS Optimized EC2 Instances, install Docker, and then upload the containers. 
+
+
+EXPLANATION:
+Correct Answer - C
+
+> The Elastic Beanstalk service can be used to host Docker containers. 
+
+> Elastic Beanstalk supports the deployment of web applications from Docker containers. 
+- With Docker containers, you can define your own runtime environment. 
+- You can choose your own platform, programming language, and any application dependencies (such as package managers or tools), that aren't supported by other platforms. 
+- Docker containers are self-contained and include all the configuration information and software your web application requires to run.
+ 
+For more information on using Elastic Beanstalk for Docker containers, please visit the following URL:
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html
+
+Option B is incorrect because just creating the EC2 Container registries would not be sufficient. We need to incorporate some automated mechanism to take care of the function of the docker container if it fails in-between. An ElasticBeanStalk would be used for this purpose. Note:
+
+Option A could be partially correct as we need to install docker on EC2 instance. In addition to this, you need to create an ECS Task definition which details the docker image that we need to use for containers and how many containers to be used as well as the resource allocation for each container. 
+But with Option C, we have this added advantage:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## You are planning to use Docker containers on a cluster of EC2 instances. These EC2 instances will be launched in a VPC and will require access to ECR and S3 to download Docker images and other images respectively. Additionally, the EC2 instances require secure connectivity to the ECS control plane. 
+You have created public and private subnets to launch the EC2 instances. What would be helpful to enable secure connectivity and ensure all container orchestration traffic stays within the VPC? [WL243] (SELECT TWO)
+
+A. Use AWS PrivateLink to connect to the Amazon S3 buckets for downloading images. 
+
+B. For the instances in the public subnets, use Internet Gateway to access Amazon ECS, ECR, and S3 buckets. 
+
+C. Use a Gateway VPC Endpoint to download images from the S3 bucket. 
+
+D. Use AWS PrivateLink to connect to Amazon ECS for control plane connectivity and ECR for downloading Docker images. 
+
+E. For the instances in the private subnets, use NAT to access Amazon ECS, ECR, and S3.  
+
+F. Use a Gateway VPC Endpoint to connect to Amazon ECS for control plane connectivity and ECR for downloading Docker images. 
+
+
+Explanation:
+Correct Answer –  C and D
+
+Gateway VPC Endpoint provides secure private access to Amazon S3 and DynamoDB without traffic routing via the Internet. When Gateway Endpoints are created, VPC Endpoint is created along with the addition of S3 prefixes in the routing table, pointing to VPCE.
+
+AWS PrivateLink provides secure private access to various AWS services by adding an Elastic Network Interface within a VPC. AWS creates a local/ regional DNS entry which resolves to the local IP address assigned to ENI.
+
+Option A is incorrect as AWS PrivateLink does not support access to Amazon S3. Amazon S3 can be accessed privately from a VPC via Gateway VPC Endpoint.
+Options B and E are incorrect as with this, the Traffic from EC2 instance to ECS, ECR, and Amazon S3  will be flowing over the Internet.
+Option F is incorrect as Gateway VPC Endpoint does not support access to Amazon ECR; it supports private access only to Amazon S3 & Amazon DynamoDB.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## A company plans to deploy a batch processing application in AWS. Which of the followings would ideally help to host this application? [WL256] (SELECT TWO)
+
+A. Copy the batch processing application to an ECS Container. 
+B. Create a docker image of your batch processing application. 
+C. Deploy the image as an Amazon ECS task. 
+D. Deploy the container behind the ELB. 
+
+
+Explanation:
+Correct Answer – B and C
+
+AWS Documentation mentions the following:
+
+Docker containers are particularly suited for batch job workloads. Batch jobs are often short-lived and embarrassingly parallel. You can package your batch processing application into a Docker image so that you can deploy it anywhere, such as in an Amazon ECS task.
+
+For more information on the use cases for AWS ECS, please visit the following URL:
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/common_use_cases.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A Solutions Architect is designing a shared service for hosting containers from several customers on Amazon ECS. These containers will use several AWS services. A container from one customer should not be able to access data from another customer. Which solution would help the architect to meet these requirements? [WL124]
+ 
+A. IAM roles for tasks
+B. IAM roles for EC2 Instances
+C. IAM Instance profile for EC2 Instances
+D. Security Group rules
+
+
+Explanation:
+Correct Answer – A
+
+The AWS Documentation mentions the following:
+
+With IAM roles for Amazon ECS tasks, you can specify an IAM role to be used by the containers in a task. Applications are required to sign their AWS API requests with AWS credentials, and this feature provides a strategy to manage credentials for your application's use. This is similar to how Amazon EC2 instance profiles provide credentials to EC2 instances.
+
+For more information on configuring IAM Roles for tasks in ECS, please visit the following URL:
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is planning to use the AWS ECS service to work with containers in "us-east-1" region. There is a need for the least amount of administrative overhead while launching containers. How could this be achieved? [WL361]
+
+A. Use the Fargate launch type in AWS ECS.
+B. Use the EC2 launch type in AWS ECS.
+C. Use the Auto Scaling launch type in AWS ECS.
+D. Use the ELB launch type in AWS ECS. 
+
+
+EXPLANATION:
+Correct Answer - A
+
+AWS Documentation mentions the following:
+
+The Fargate launch type allows you to run your containerized applications without the need to provision and manage the backend infrastructure. Just register your task definition and Fargate launches the container for you. 
+For more information on the different launch types, please visit the links below:
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You work for a big company having multiple applications that are very different from each other. These applications are built using different programming languages. How could you deploy these applications as quickly as possible? [WL460]
+
+A. Develop all the apps in a single Docker container and deploy using Elastic Beanstalk
+B. Create a Lambda function deployment package consisting of code and any dependencies.
+C. Develop each app in a separate Docker container and deploy using Elastic Beanstalk.
+D. Develop each app in separate Docker containers and deploy using CloudFormation. 
+
+
+EXPLANATION: 
+Correct Answer – C
+
+> Elastic Beanstalk supports the deployment of web applications from Docker containers. 
+- With Docker containers, you can define your own runtime environment. 
+- You can choose your own platform, programming language, and any application dependencies (such as package managers or tools), that aren't supported by other platforms. 
+- Docker containers are self-contained and include all the configuration information and software your web application requires to run.
+ 
+Option A is incorrect because the requirement is to deploy multiple apps that are very different from each other and developed with different programming languages. 
+Option B is ideally used for running code and not packaging the applications and dependencies. 
+Option D is incorrect as Deploying Docker containers using CloudFormation is also not an ideal choice. 
+
+For more information on Docker and Elastic Beanstalk, please visit the URL below:
+
+http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company requires an open-source system for automating the deployment, scaling, and management of containerized applications. Which of the following would be ideal for such a requirement? [WL423]
+
+A. Use the Amazon Elastic Container Service for Kubernetes.
+B. Install a custom orchestration tool on EC2 Instances.
+C. Use SQS to orchestrate the messages between docker containers.
+D. Use AWS Lambda functions to embed the logic for container orchestration. 
+
+
+EXPLANATION: 
+Correct Answer – A
+
+AWS Documentation mentions the following;
+
+> Amazon Elastic Container Service for Kubernetes (Amazon EKS) is a managed service that makes it easy for you to run Kubernetes on AWS without the requirement of installing and operating your own Kubernetes clusters. 
+- Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications. 
+- Operating Kubernetes for production applications presents a number of challenges. 
+- You need to manage the scaling and availability of your Kubernetes masters and persistence layer by ensuring that you have chosen appropriate instance types, running them across multiple Availability Zones, monitoring their health, and replacing unhealthy nodes. 
+- You need to patch and upgrade your masters and worker nodes to ensure that you are running the latest version of Kubernetes. 
+- All this requires expertise and a lot of manual work. 
+- With Amazon EKS, upgrades and high availability are managed for you by AWS. 
+- Amazon EKS runs three Kubernetes masters across three Availability Zones in order to ensure high availability. 
+- Amazon EKS automatically detects and replaces unhealthy masters, and provides automated version upgrades and patching for the masters. 
+ 
+
+For more information on the Elastic Container Service, please visit the below URL:
+https://aws.amazon.com/eks/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have a set of Docker images that you use for building containers. You want to start using the Elastic Container Service and utilize the Docker images. You need a place to store these Docker images. What would you use for this purpose? [WL451]
+
+A. Use AWS DynamoDB to store the Docker images.
+B. Use AWS RDS to store the Docker images.
+C. Use EC2 Instances with EBS Volumes to store the Docker images.
+D. Use the ECR Service to store the Docker images. 
+
+
+EXPLANATION: 
+Correct Answer - D
+
+AWS Documentation mentions the following:
+
+> Amazon Elastic Container Registry (ECR) is a fully-managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images. 
+- Amazon ECR is integrated with Amazon Elastic Container Service (ECS), simplifying your development to production workflow. 
+
+For more information on the Elastic Container Service, please visit the following URL:
+https://aws.amazon.com/ecr/?nc2=h_m1

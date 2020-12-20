@@ -392,6 +392,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > WORKS ONLY WITH ELASTIC IP, can not use a public IP to do it function 
 
 > We can migrate the NAT instance to the NAT Gateway. NAT Gateway should be in public subnet
+> we can't share NAT gateways across VPCs.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## What is difference between NAT Gateway and NAT Instance?
 
@@ -532,12 +533,11 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > VPN CONNECTIONS ARE QUICK, EASY TO DEPLOY, AND COST EFFECTIVE
 
-> A VGW(Virtual Gateway) is required on VPC side, and Customer gateway on the client's data center (locations) side 
-
-> An Internet routable IP address is required on Customer gateway
+> A VGW(Virtual Gateway) is required on VPC side, and 
+- Customer gateway on the client's data center (locations) side 
+- An Internet routable IP address is required on Customer gateway
 
 > Two tunnels are configured for each VPN connection for redundancy
-
 > We can NOT use the NAT gateway in VPC through the VPN connection
 
 ## Enabling Dynamic Route Propagation

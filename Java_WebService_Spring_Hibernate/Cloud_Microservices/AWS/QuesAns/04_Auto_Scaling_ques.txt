@@ -161,6 +161,36 @@ ANSWER :
 EXPLANATION : 
 
 
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### You have a business-critical two-tier web application, currently deployed in 2 Availability Zones in a single region, using Elastic Load Balancing and Auto Scaling. The app depends on synchronous replication at the database layer. The application needs to remain fully available even if one application AZ goes offline or Auto Scaling cannot launch new instances in the remaining AZ. How could the current architecture be enhanced to ensure this? [WL344]
+
+A. Deploy in 2 regions using Weighted Round Robin with Auto Scaling set at minimum 50% peak load per region.
+B. Deploy in 3 AZ with Auto Scaling, set to handle minimum 33 percent peak load per zone.
+C. Deploy in 3 AZ with Auto Scaling, set to handle minimum 50 percent peak load per zone.
+D. Deploy in 2 regions using Weighted Round Robin with Auto Scaling, set at minimum 100% peak load per region. 
+
+
+EXPLANATION: AS
+Correct Answer – C
+
+> Since the requirement states that the application should never go down even if an AZ is not available, we need to maintain 100% availability. 
+
+Options A and D are incorrect because REGION DEPLOYMENT IS NOT POSSIBLE FOR ELB. ELBs can manage traffic within a region, not between regions. 
+Option B is incorrect because even if one AZ goes down, we would be operating at only 66% and not the required 100%. 
+
+For more information on Auto Scaling, please visit the URL below:
+https://aws.amazon.com/autoscaling/
+
+NOTE:
+"The application needs to remain fully available even if one application AZ goes offline and if Auto Scaling cannot launch new instances in the remaining AZ". 
+Here you need to maintain 100% availability. 
+
+In option B, when you create 3 AZs with minimum 33% load on each, If any failure occurs in one AZ then 33% + 33% = 66% . 
+Here you can handle only 66% and the remaining 34% of load, not handling. 
+
+But when you select option C, when you create 3 AZs with minimum 50% load on each, If any failure occurs in one AZ then 50% + 50% =100% . 
+Here you can handle full load i.e 100%. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

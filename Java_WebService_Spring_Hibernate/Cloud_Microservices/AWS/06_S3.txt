@@ -911,6 +911,9 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 > Can generate pre-signed URLs using SDK or CLI
 - used for downloading or uploading S3 object(s)
 
+> Origin Access Identity 
+- It is used to maintain secure access to the file in S3 that you serve through cloudFront
+
 > by default, object access valid for 3600sec (1hr) 
 - we can change it using "--expires-in" arg to CLI (time should be in sec) 
 
@@ -994,7 +997,7 @@ aws s3 presign --expires-in 10 s3://mybucket/s3.png
 - You can use Copy API to copy existing bucket data
 - Changes to existing objects that happen after CRR is enabled, are replicated
 
-> Objects created with SSE-C or SSE-KMS are not replicated
+> OBJECTS CREATED WITH SSE-C OR SSE-KMS ARE NOT REPLICATED
 - S3 does not keep the encryption keys you provide after the object is created in the source bucket so it cannot decrypt the object for replication, and therefore it does not replicate the object
 
 > If the object owner is different from the source bucket owner, and bucket owner does not have permissions to the object, S3 will not replicate these objects
@@ -1019,7 +1022,6 @@ You are charged for :
 
 > IT IS A WAY BY WHICH A CLIENT WEB APPLICATION (WEBPAGE OR A DOMAIN) CAN REQUEST RESOURCES FROM ANOTHER WEBPAGE (different domain)
 > CORS can be used to allow web applications to access resources on S3 buckets/resources
-
 
 > The request won't be fulfilled unless the other origin allows for the requests, using CORS Headers (ex Access-Control-Allow-Origin)
 
@@ -1050,6 +1052,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##Q: An analytics company is planning to offer a site analytics service to its users. The service will require that the users’ web pages embed a JavaScript file that is hosted in the company’s Amazon S3 bucket.
+
 > Amazon S3 can be configured with CORS to send HTTP headers that allow the script execution.
 =======================================
 ######## S3 TRANSFER ACCELERATION ##### v25
@@ -1089,8 +1092,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
 > Object keys (names) are stored in an order across multiple partitions of this index
 > The object key name dictates which partition the key is stored in
 > Sequentially named objects are more likely to be saved in the same partition
-- At high request rates to access sequentially named objects, S3 will place a higher load on the available I/O of the partition hosting these keys (names) which will impact
-performance
+- At high request rates to access sequentially named objects, S3 will place a higher load on the available I/O of the partition hosting these keys (names) which will impact performance
 
 ## Occasional <=100PLD and <800 GET RPS
 >> If bucket access (workload) involves 
@@ -1116,13 +1118,16 @@ performance
 
 =======================================
 ######## Billing Charges in S3 ######## v27
+
 > No charge for data transferred from/to EC2 to/from S3 in the same region
 - This includes data transferred via Copy command
 > Data transfer into S3 is free of charge
-> Data transfer out of S3 to EC2 instance in the same region is free
-- Data transferred out of S3 to EC2 in other regions is charged_
+
+> Data transfer out of S3 to EC2 instance IN THE SAME REGION IS FREE
+- Data transferred out of S3 to EC2 IN OTHER REGIONS IS CHARGED
+
 > Data transfer via Copy to other regions is charged at the Internet data transfer rates
-> Data transferred from S3 to Cloudfront is free
+> Data transferred from S3 to CloudFront is free
 
 > You pay for:
 - Per GB/Month storage fee
@@ -1167,10 +1172,11 @@ performance
 - we can filter by bucket name, storage type, prefix, tag
 
 > Daily CloudWatch, Bucket-level storage metrics are turned on by default at no additional cost.
-- 1 minute CloudWatch metric can be configured both at the bucket and object levef
+- 1 minute CloudWatch metric can be configured both at the bucket and object level
 - You can have up to 1000 metric configurations per bucket
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## S3 API log monitoring via CloudTrail
+
 > CloudTrail captures all API requests made to S3 API
 
 > BY DEFAULT, CLOUDTRAIL LOGS BUCKET LEVEL ACTIONS, 
@@ -1221,7 +1227,7 @@ performance
 
 2A. CACHED VOLUMES 
 - WE STORE OUR DATA IN S3 AND RETAIN A COPY OF FREQUENTLY ACCESSED DATA SUBSETS LOCALLY. 
-- Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale your storage on-premises. 
+- Cached volumes offer a substantial cost savings on primary storage and minimize the need to scale our storage on-premises. 
 - You also retain low-latency access to your frequently accessed data.
 
 2b. Stored volumes 

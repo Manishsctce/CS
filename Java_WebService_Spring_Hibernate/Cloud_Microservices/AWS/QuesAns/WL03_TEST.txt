@@ -1,0 +1,941 @@
+## A customer is planning to host an AWS RDS instance. He needs to ensure that the underlying data is encrypted. How can this be achieved? [WL301](SELECT 2) 
+
+A. Ensure that the right instance class is chosen for the underlying DB instance (DB engine)
+
+B. Choose General Purpose SSD because only this volume type supports encryption of data. 
+
+C. Encrypt the database during creation. 
+
+D. Enable encryption of the underlying EBS Volume. 
+
+
+EXPLANATION:
+Correct Answer – A and C
+
+Encryption for the database must be done during the creation of the database. Also, you need to ensure that the underlying instance type supports DB encryption. 
+For more information on database encryption, please refer to the URL below:
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html
+Encryption at Rest is not available for DB instances running SQL Server Express Edition. 
+For more information on encryption, please refer to the URL below:
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are developing a new mobile application which is expected to be used by thousands of customers. You are considering to store user preferences in AWS, and need a data store to save the same. Each data item is expected to be 20KB in size. The solution needs to be cost-effective, highly available, scalable, and secure. How would you design the data layer? [WL302]
+
+A. Create a new AWS MySQL RDS instance and store the user data there. 
+B. Create a DynamoDB table with the required Read and Write capacity and use it as the data layer. 
+C. Use Amazon Glacier to store the user data. 
+D. Use an Amazon Redshift Cluster for managing the user preferences. 
+
+
+EXPLANATION:
+Correct Answer – B
+
+In this case, since each data item is 20KB and given the fact that DynamoDB is an ideal data layer for storing user preferences, this would be the ideal choice. Also, DynamoDB is a highly scalable and available service.   
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your Operations department is using an incident-based application hosted on a set of EC2 Instances. These instances are placed behind an Auto Scaling Group to ensure that the right number of instances are in place to support the application. The Operations department has expressed dissatisfaction with regard to poor application performance every day at 9:00 AM. However, it is also noted that the system performance returns to optimal at 9:45 AM. 
+What could be done to fix this issue? [WL303]
+
+A. Create another Dynamic Scaling Policy to ensure that the scaling happens at 9:00 AM.
+B. Add another Auto Scaling group to support the current one.
+C. Change the Cool Down Timers for the existing Auto Scaling Group.
+D. Add a Scheduled Scaling Policy at 8:30 AM. 
+
+Correct Answer - D
+EXPLANATION:
+
+Scheduled Scaling can be used to ensure that the capacity is peaked before 9:00 AM every day. 
+
+AWS Documentation further mentions the following on Scheduled Scaling:
+
+Scaling based on a schedule allows you to scale your application in response to predictable load changes. For example, every week the traffic to your web application starts to increase on Wednesday, remains high on Thursday, and starts to decrease on Friday. You can plan your scaling activities based on the predictable traffic patterns of your web application. 
+ 
+
+Option A is incorrect because a scheduled scaling should be used as per the requirements of the instead of dynamic scaling
+Option B is incorrect because adding another autoscaling group will not solve the problem. 
+Option C is incorrect because changing the cooldown timers of the existing autoscaling group will not meet the requirements of the 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A database hosted in AWS is currently encountering an extended number of write operations and is not able to handle the load. What should be done to the architecture to ensure that the write operations are not lost under any circumstances? [WL304]
+
+A. Add more IOPS to the existing EBS Volume used by the database.
+B. Consider using DynamoDB instead of AWS RDS.
+C. Use SQS FIFO to queue the database writes.
+D. Use SNS to send notification on missed database writes and then add them manually at a later stage. 
+
+
+Correct Answer – C
+EXPLANATION:
+SQS Queues can be used to store the pending database writes, and these writes can then be added to the database. It is the perfect queuing system for such architecture. 
+Note that adding more IOPS may help the situation but will not totally eliminate the chances of losing database writes. 
+
+FIFO queues support up to 3,000 messages per second with batching and a single Amazon SQS message queue can contain an unlimited number of messages. However, there is a limit of 120,000 counts for the number of inflight messages for a standard queue and 20,000 counts for a FIFO queue. 
+Messages are inflight after they have been received from the queue by a consuming component, but have not yet been deleted from the queue. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have created an AWS Lambda function that will write data to a DynamoDB table. Which of the following must be in place to ensure that the Lambda function can interact with the DynamoDB table? [WL305]
+
+A. Ensure an IAM Role is attached to the Lambda function which has the required DynamoDB privileges.
+B. Ensure an IAM User is attached to the Lambda function which has the required DynamoDB privileges.
+C. Ensure the Access keys are embedded in the AWS Lambda function.
+D. Ensure the IAM user password is embedded in the AWS Lambda function. 
+
+
+Correct Answer – A
+EXPLANATION:
+
+> Each Lambda function has an IAM role (execution role) associated with it. 
+- You specify the IAM role when you create your Lambda function. 
+- Permissions you grant to this role determine what AWS Lambda can do when it assumes the role. 
+
+> There are two types of permissions that you grant to the IAM role:
+
+If your Lambda function code accesses other AWS resources, such as to read an object from an S3 bucket or write logs to CloudWatch Logs, you need to grant permissions for relevant Amazon S3 and CloudWatch actions to the role.  
+
+If the event source is stream-based (Amazon Kinesis Data Streams and DynamoDB streams), AWS Lambda polls these streams on your behalf. AWS Lambda needs permissions to poll the stream and read new records on the stream so you need to grant the relevant permissions to this role. 
+ 
+For more information on the Permission Role model for AWS Lambda, please refer to the URL below. 
+https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has the data hosted in an Amazon Aurora MySQL DB. Since this data is critical, there is a need to ensure that it can be made available in another region in case of a disaster. How could this be achieved? [WL306]
+
+A. Make a copy of the underlying EBS Volumes in the Amazon Cluster in another region.
+B. Enable Multi-AZ for the Aurora database.
+C. Create a read replica of Amazon Aurora in another region.
+D. Create an EBS Snapshot of the underlying EBS Volumes in the Amazon Cluster and then copy them to another region. 
+
+
+Correct Answer - C
+EXPLANATION:
+
+> Read replicas in Amazon RDS for MySQL, MariaDB, PostgreSQL, and Oracle provide a complementary availability mechanism to Amazon RDS Multi-AZ Deployments. 
+- You can promote a read replica if the source DB instance fails. 
+- You can also replicate DB instances across AWS Regions as a part of your disaster recovery strategy. 
+- This functionality complements the synchronous replication, automatic failure detection, and failover provided with Multi-AZ deployments. 
+
+> You can create an Amazon Aurora MySQL DB cluster as a Read Replica in a different AWS Region than the source DB cluster. 
+- This approach can improve your disaster recovery capabilities, let you scale read operations into a region that is closer to your users, and make it easier to migrate from one region to another. 
+ 
+For more information on Amazon Aurora Cross-Region Replication, please refer to the URLs below. https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AuroraMySQL.Replication.CrossRegion.html
+https://aws.amazon.com/rds/details/read-replicas/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has a requirement to host a static website on AWS. Which of the following steps would help to implement a quick and cost-effective solution for this requirement? [WL307] (SELECT TWO)
+
+A. Upload the static content to an S3 bucket. 
+B. Create an EC2 Instance and install a web server. 
+C. Enable website hosting for the S3 bucket. 
+D. Upload the code to the web server on the EC2 Instance. 
+
+
+Correct Answer – A and C
+EXPLANATION:
+
+
+S3 would be an ideal and cost-effective solution for the above requirement. 
+AWS Documentation mentions the following on using S3 for static website hosting:
+
+You can host a static website on Amazon Simple Storage Service (Amazon S3). On a static website, individual webpages include static content. They might also contain client-side scripts. 
+For more information on static website hosting using S3, please refer to the URL below. 
+https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company, currently storing a set of documents in the AWS Simple Storage Service, is worried about the potential loss if these documents are ever deleted. What could be used to ensure protection from the loss of the documents stored in S3? [WL308] (SELECT TWO)
+
+
+A. Enable Versioning for the underlying S3 bucket. 
+B. Copy the bucket data to an EBS Volume as a backup. 
+C. Create a Snapshot of the S3 bucket. 
+D. Enable an IAM Policy which does not allow deletion of any document from the S3 bucket. 
+
+
+Correct Answer - A and D
+EXPLANATION:
+
+Amazon S3 has an option for Versioning as shown below. Versioning is on the bucket level and can be used to recover prior versions of an object. 
+ 
+For more information on S3 Versioning, please refer to the URL below:
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html
+ 
+
+We can also avoid 'deletion' of objects from S3 bucket by writing IAM policy. 
+Code
+{
+  "Id": "ExamplePolicyId12345678",
+  "Statement": [
+    {
+      "Sid": "ExampleStmtSid12345678",
+      "Action": [
+        "s3:DeleteObject"
+      ],
+      "Effect": "Deny",
+      "Resource": "arn:aws:s3:::test-example-com",
+      "Principal": {
+        "AWS": [
+          "*"
+        ]
+      }
+    }
+  ]
+}
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company needs to extend its storage infrastructure to the AWS Cloud. The storage needs to be available as iSCSI devices for on-premises application servers. What should be done to fulfill this requirement? [WL312]
+
+A. Create a Glacier vault. Use a Glacier Connector and mount it as an iSCSI device.
+B. Create an S3 bucket. Use an S3 Connector and mount it as an iSCSI device.
+C. Use the EFS file service and mount the different file systems to the on-premises servers.
+D. Use the AWS Storage Gateway-cached volumes service. 
+
+
+Correct Answer - D
+EXPLANATION:
+
+AWS Documentation mentions the following:
+
+By using cached volumes, you can use Amazon S3 as your primary data storage, while retaining frequently accessed data locally in your storage gateway.
+- Cached volumes minimize the need to scale your on-premises storage infrastructure while still providing your applications with low-latency access to their frequently accessed data. 
+- You can create storage volumes up to 32 TB in size and attach iSCSI devices to them from your on-premises application servers. 
+- Your gateway stores data that you write to these volumes in Amazon S3, retains recently read data in your on-premises storage gateway's cache, and upload buffer storage. 
+ 
+
+For more information on AWS Storage Gateways, please visit the following URL:
+
+https://docs.aws.amazon.com/storagegateway/latest/userguide/StorageGatewayConcepts.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your infrastructure consists of a private and public subnet in AWS. The private subnet consists of database servers and the public subnet has a NAT Instance which helps the instances in the private subnet to communicate with the Internet. The NAT Instance is now becoming a bottleneck. What changes in the current architecture could help in preventing this issue? [WL313]
+
+A. Use a NAT Gateway instead of the NAT Instance.
+B. Use another Internet Gateway for better bandwidth.
+C. Use a VPC connection for better bandwidth.
+D. Consider changing the instance type for the underlying NAT Instance. 
+
+
+EXPLANATION:
+Correct Answer – A
+
+The NAT Gateway is a managed resource which can be used in place of a NAT Instance. While you can consider changing the instance type for the underlying NAT Instance, this does not guarantee that the issue will not reoccur in the future. 
+For more information on the NAT Gateway, please visit the URL below:
+
+https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html
+
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your current setup in AWS consists of the following architecture: 2 public subnets, one subnet which has web servers accessed by users across the Internet and another subnet for the database server. Which of the following changes to the architecture would add a better security boundary to the resources hosted in this setup? [WL314]
+
+A. Consider moving the web server to a private subnet.
+B. Create a private subnet and move the database server to a private subnet.
+C. Consider moving both the web and database servers to a private subnet.
+D. Consider creating a private subnet and adding a NAT Instance to that subnet. 
+
+
+EXPLANATION:
+Correct Answer – B
+
+The ideal setup is to host the web server in the public subnet so that it can be accessed by users on the Internet. The database server can be hosted in the private subnet. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Instances in your private subnet hosted in AWS, need access to important documents in S3. Due to the confidential nature of these documents, you have to ensure that the traffic does not traverse through the internet. As an architect, how would you implement this solution? [WL316]
+
+A. Consider using a VPC Endpoint.
+B. Consider using an EC2 Endpoint.
+C. Move the instances to a public subnet.
+D. Create a VPN connection and access the S3 resources from the EC2 Instance. 
+
+
+EXPLANATION:
+Correct Answer – A
+
+AWS documentation mentions the following:
+
+A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN connection or AWS Direct Connect connection. Instances in your VPC do not require public IP addresses to communicate with resources in the service. Traffic between your VPC and the other services does not leave the Amazon network. 
+For more information on VPC Endpoints, please visit the following URL:
+
+https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-endpoints.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You run an ad-supported photo sharing website using S3 to serve photos to visitors of your site. At some point, you find out that other sites have been linking to the photos on your site, causing loss to your business. What would be an effective method to mitigate this? [WL319]
+
+A. Remove public read access and use signed URLs with expiry dates.
+B. Use CloudFront distributions for static content.
+C. Block the IPs of the offending websites in Security Groups.
+D. Store photos on an EBS Volume of the web server. 
+
+
+EXPLANATION:
+Correct Answer – A
+
+Option B is incorrect because CloudFront is only used for the distribution of content across edge or region locations, and not for restricting access to content. 
+Option C is not feasible. Because of their dynamic nature, blocking IPs is challenging and you will not know which sites are accessing your main site. 
+
+Option D is incorrect since storing photos on an EBS Volume is neither good practice nor an ideal architectural approach for an AWS Solutions Architect. 
+ 
+
+For more information on Pre-Signed URLs, please visit the following URL:
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company wants to create standard templates for the deployment of its Infrastructure. These templates would also be used to provision resources in another region during disaster recovery scenarios. Which AWS service could be used in this regard? [WL320]
+
+A. Amazon Simple Workflow Service
+B. AWS Elastic Beanstalk
+C. AWS CloudFormation
+D. AWS OpsWorks
+
+
+EXPLANATION:
+Correct Answer – C
+
+> AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, provision, and update them in an orderly and predictable fashion. 
+- You can use AWS CloudFormation’s sample templates or create your own templates to describe the AWS resources, and any associated dependencies or runtime parameters, required to run your application. 
+You don’t need to figure out the order for provisioning AWS services or the subtleties of making those dependencies work. CloudFormation takes care of this for you. 
+After the AWS resources are deployed, you can modify and update them in a controlled and predictable manner, in effect of applying version control to your AWS infrastructure, the same way you do with your software. You can also visualize your templates as diagrams and edit them using a drag-and-drop interface with the AWS CloudFormation Designer. 
+For more information on AWS CloudFormation, please visit the following URL:
+
+https://aws.amazon.com/cloudformation/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company wants to have a NoSQL database hosted on the AWS Cloud but do not have the proper staff to manage the underlying infrastructure. Which of the following would be the ideal choice in this scenario? [WL323]
+
+A. AWS Aurora
+B. AWS RDS
+C. AWS DynamoDB
+D. AWS Redshift
+
+
+EXPLANATION:
+Correct Answer – C
+
+AWS Documentation mentions the following:
+
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database so that you don't have to worry about hardware provisioning, setup, configuration, replication, software patching or cluster scaling. 
+For more information on AWS DynamoDB, please visit the following URL:
+
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company planned to store the confidential documents in Simple Storage Service.  Due to the compliance requirements, there is a need for the data in the S3 bucket to be available in a different geographical location. As an architect, what would you suggest to comply with this requirement? [WL335]
+
+A. Apply Multi-AZ for the underlying S3 bucket.
+B. Copy the data to an EBS Volume in another region.
+C. Create a snapshot of the S3 bucket and copy it to another region.
+D. Enable Cross-Region Replication for the S3 bucket. 
+
+
+EXPLANATION: S3-CRR
+Correct Answer – D
+
+This is mentioned clearly as a use case for S3 Cross-Region Replication. 
+You might configure Cross-Region Replication on a bucket for various reasons, including the following:
+
+> Compliance requirements – Although, by default, Amazon S3 stores your data across multiple geographically distant Availability Zones, compliance requirements might dictate that you store data at even further distances. Cross-region replication allows you to replicate data between distant AWS Regions to satisfy these compliance requirements. 
+ 
+
+For more information on S3 Cross-Region Replication, please visit the following URL:
+https://docs.aws.amazon.com/AmazonS3/latest/dev/crr.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Your company has been hosting a static website in an S3 bucket for several months and gets a fair amount of traffic. Now you want your registered .com domain to serve content from the bucket. Your domain is reached via https://www.myfavoritedomain.com. However, any traffic requested through https://www.myfavoritedomain.com is not getting through. What could be the most likely cause of this disruption? [WL337]
+
+A. The new domain name is not registered in CloudWatch monitoring
+B. The S3 bucket has not been configured to allow Cross-Origin Resource Sharing (CORS)
+C. The S3 bucket was not created in the correct region
+D. https://www.myfavoritedomain.com wasn’t registered with AWS Route 53 and therefore won’t work
+
+
+EXPLANATION: S3 STATIC WEBSITE
+Correct Answer: B
+
+Option B is correct. The S3 bucket has not been configured to allow Cross-Origin Resource Sharing (CORS). 
+- In order to keep your content safe, your web browser implements something called the same-origin policy. 
+- The default policy ensures that scripts and other active content loaded from one site or domain cannot interfere or interact with content from another location without an explicit indication that this is the desired behavior. 
+
+Option A is incorrect. Enabling Cloudwatch doesn’t affect Cross-Origin Resource Sharing (CORS)
+Option C is incorrect. S3 buckets are not region-specific. 
+Option D is incorrect. The domain can be registered with any online registrar, not just AWS Route53. 
+
+References:
+https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
+https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html
+https://aws.amazon.com/blogs/aws/amazon-S3-cross-origin-resource-sharing/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An infrastructure is being hosted in AWS using the following resources:
+
+a) A couple of EC2 Instances serving a Web-Based application
+b) An Elastic Load Balancer in front of the EC2 Instances
+c) An AWS RDS which has Multi-AZ enabled
+
+What should be done to the setup to ensure scalability? [WL338]
+
+A. Add another ELB to the setup.
+B. Add more EC2 Instances to the setup.
+C. Enable Read Replicas for the AWS RDS.
+D. Add an autoscaling group with sufficient instances to the setup
+
+
+EXPLANATION: EC2 SCALABILITY
+Correct Answer – D
+
+> AWS Auto Scaling enables you to configure automatic scaling for the scalable AWS resources for your application in a matter of minutes. 
+- AWS Auto Scaling uses the Auto Scaling and Application Auto Scaling services to configure scaling policies for your scalable AWS resources. 
+
+Option A is incorrect because adding another ELB to the setup will NOT bring in more scalability. 
+Option B is incorrect because just adding more EC2 instances to the setup will NOT bring in more scalability. 
+Option C is incorrect because just enabling read replicas for RDS to the setup will NOT bring in more scalability.  
+
+For more information on AWS Auto Scaling, please visit the URL below. 
+https://docs.aws.amazon.com/autoscaling/plans/userguide/what-is-aws-auto-scaling.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company wants to store their documents in AWS. Initially, these documents will be used frequently, and after a duration of 6 months, they will need to be archived. How would you architect this requirement? [WL339]
+
+A. Store the files in Amazon EBS and create a Lifecycle Policy to remove the files after 6 months.
+B. Store the files in Amazon S3 and create a Lifecycle Policy to archive the files after 6 months.
+C. Store the files in Amazon Glacier and create a Lifecycle Policy to remove the files after 6 months.
+D. Store the files in Amazon EFS and create a Lifecycle Policy to remove the files after 6 months. 
+
+
+EXPLANATION: S3 LIFECYCLE
+Correct Answer – B
+
+AWS Documentation mentions the following on Lifecycle Policies:
+
+> Lifecycle configuration enables you to specify the lifecycle management of objects in a bucket. 
+- The configuration is a set of one or more rules, where each rule defines an action for Amazon S3 to apply to a group of objects. These actions can be classified as follows:
+
+
+Transition actions – In which you define when objects get the transition to another storage class. For example, you may choose to transition objects to the STANDARD_IA (IA, for infrequent access) storage class 30 days after creation or archive objects to the GLACIER storage class one year after creation. 
+ 
+
+Expiration actions – In which you specify when the objects get expired. Amazon S3 deletes the expired objects on your behalf.  
+
+For more information on AWS S3 Lifecycle Policies, please visit the following URL:
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## While managing permissions for the API Gateway, what could be used to ensure that the right level of permissions is given to Developers, IT Admins, and users? [WL340] Also, the permissions should be easily managed.
+
+A. Use the secure token service to manage the permissions for different users.
+B. Use IAM Policies to create different policies for different types of users.
+C. Use the AWS Config tool to manage the permissions for different users.
+D. Use IAM Access Keys to create sets of keys for different types of users. 
+
+
+EXPLANATION: IAM 
+Correct Answer – B
+
+> You control access to Amazon API Gateway with IAM permissions by controlling access to the following two API Gateway component processes:
+
+- To create, deploy, and manage an API in API Gateway, you must grant the API developer permissions to perform the required actions supported by the API management component of API Gateway. 
+- To call a deployed API or to refresh the API caching, you must grant the API caller permissions to perform required IAM actions supported by the API execution component of API Gateway. 
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Your Development team wants to use EC2 Instances to host their Application and Web servers. In the automation space, they want the Instances to always download the latest version of the Web and Application servers when they are launched. As an architect, what would you recommend for this scenario? [WL341]
+
+A. Ask the Development team to create scripts which can be added to the User Data section when the instance is launched.
+B. Ask the Development team to create scripts which can be added to the Meta Data section when the instance is launched.
+C. Use Auto Scaling Groups to install the Web and Application servers when the instances are launched.
+D. Use EC2 Config to install the Web and Application servers when the instances are launched. 
+
+
+EXPLANATION: EC2 USER DATA
+Correct Answer - A
+
+
+> When you launch an instance in Amazon EC2, you have the option of passing user data to the instance that can be used to perform common automated configuration tasks and even run scripts after the instance starts. 
+- You can pass two types of user data to Amazon EC2: shell scripts and cloud-init directives. 
+- You can also pass this data into the launch wizard as plain text, as a file (this is useful for launching instances using the command line tools) or as base64-encoded text (for API calls). 
+ 
+For more information on User Data, please visit the following URL:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company has an application that takes care of uploading, processing, and publishing videos, posted by users. The current architecture for this application includes the following:
+
+a) A set of EC2 Instances to transfer user-uploaded videos to S3 buckets
+b) A set of EC2 worker processes to process and publish the videos
+c) An Auto Scaling Group for the EC2 worker processes
+
+Which of the following can be added to the architecture to make it more reliable? [WL342]
+
+A. Amazon SQS
+B. Amazon SNS
+C. Amazon CloudFront
+D. Amazon SES
+
+
+EXPLANATION: SQS
+Correct Answer - A
+
+Amazon SQS is used to decouple systems. It can store requests to process videos, to be picked up by the worker processes. 
+AWS Documentation mentions the following:
+
+Amazon Simple Queue Service (Amazon SQS) offers a reliable, highly scalable, hosted queue for storing messages as they travel between applications or microservices. It moves data between distributed application components and helps you decouple these components. 
+For more information on AWS SQS, please visit the following URL:
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/Welcome.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## There is an urgent requirement to monitor some database metrics for a database hosted on AWS and send notifications. Which AWS services can accomplish this? [WL343] (Select Two)
+
+A. Amazon Simple Email Service
+B. Amazon CloudWatch
+C. Amazon Simple Queue Service
+D. Amazon Route 53
+E. Amazon Simple Notification Service
+
+
+EXPLANATION:
+Correct Answer – B and E
+
+Amazon CloudWatch will be used to monitor the IOPS metrics from the RDS Instance and Amazon Simple Notification Service will be used to send the notification if an alarm is triggered. 
+For more information on CloudWatch and SNS, please visit the URLs below. 
+https://aws.amazon.com/cloudwatch/
+https://aws.amazon.com/sns/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have been asked to create a VPC network topology for your company. The VPC network must support both internet-facing applications and internal-facing applications accessed only over VPN. Both Internet-facing and internal-facing applications must be able to leverage at least 3 AZs for high availability. How many subnets must you create within your VPC to accommodate these requirements? [WL3]
+
+A. 2
+B. 3
+C. 4
+D. 6
+
+EXPLANATION:
+Correct Answer - D
+
+Since each subnet corresponds to one Availability Zone and you need 3 AZs for both the internet and intranet applications, you will need 6 subnets. 
+For more information on VPC and subnets, please visit the below URL:
+http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have the following architecture deployed in AWS:
+a) A set of EC2 Instances which sit behind an ELB
+b) A database hosted in AWS RDS
+
+Of late, the performance on the database has been slacking due to a high number of read requests. Which of the following can be added to the architecture to alleviate the performance issue? [WL346] (Select Two)
+
+A. Add read replica to the primary database to offload read traffic. 
+B. Use ElastiCache in front of the database. 
+C. Use AWS CloudFront in front of the database. 
+D. Use DynamoDB to offload all the reads. Populate the common read items in a separate table. 
+
+
+EXPLANATION: DB PerformanCE
+Correct Answer - A and B
+
+Option A is correct. 
+AWS says "Amazon RDS Read Replicas provide enhanced performance and durability for database (DB) instances. This feature makes it easy to elastically scale out beyond the capacity constraints of a single DB instance for read-heavy database workloads. You can create one or more replicas of a given source DB Instance and serve high-volume application read traffic from multiple copies of your data, thereby increasing aggregate read throughput."
+
+Amazon ElastiCache is an in-memory cache which can be used to cache common read requests. 
+The below diagram shows how caching can be added to an existing architecture: 
+
+For more information on database caching, please visit the URL below:
+https://aws.amazon.com/caching/database-caching/
+
+Note:
+
+Option C is incorrect because CloudFront is a valuable component of scaling a website, especially for geo-location workloads and queries; more advanced for the given architecture. 
+
+Option D is incorrect because it will have latency and additional changes as well. 
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An application is currently hosted on an EC2 Instance that has attached EBS Volumes. The data on these volumes are accessed for a week and after that, the documents need to be moved to infrequent access storage. Which of the following EBS volume type provides cost efficiency for the moved documents? [WL347]
+
+A. EBS Provisioned IOPS SSD
+B. EBS Throughput Optimized HDD
+C. EBS General Purpose SSD
+D. EBS Cold HDD
+
+
+EXPLANATION: EBS TYPE
+Correct Answer - D
+
+AWS Documentation mentions the following:
+
+Cold HDD (sc1) volumes provide low-cost magnetic storage that defines performance in terms of throughput rather than IOPS. With a lower throughput limit than st1, sc1 is a good fit ideal for large, sequential cold-data workloads. If you require infrequent access to your data and want to save costs, sc1 provides inexpensive block storage. 
+
+For more information on the various EBS Volume types, please visit the below URL:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A customer wants to import the existing virtual machines to the cloud. Which service should they use for this purpose? [WL348] 
+
+A. VM Import/Export
+B. AWS Import/Export
+C. AWS Storage Gateway
+D. DB Migration Service
+
+
+EXPLANATION: VPC
+Correct Answer – A
+
+> VM Import/Export enables customers to import Virtual Machine (VM) images in order to create Amazon EC2 instances. 
+- Customers can also export previously imported EC2 instances to create VMs. 
+- Customers can use VM Import/Export to leverage their previous investments in building VMs by migrating their VMs to Amazon EC2. 
+For more information on AWS VM Import, please visit the URL below:
+https://aws.amazon.com/ec2/vm-import/
+
+ Few strategies used for migration are:
+ 1. Forklift migration strategy
+ 2. Hybrid migration strategy
+ 3. Creating AMIs
+
+ AWS Import/Export -  It is a data transport service used to move large amounts of data in and out of the Amazon Web Services public cloud using portable storage devices for transport.  https://aws.amazon.com/about-aws/whats-new/2009/05/20/AWS-Import-Export/
+
+AWS Storage Gateway -  It connects an on-premises software appliance with cloud-based storage to provide seamless integration with data security features between your on-premises IT environment and the AWS storage infrastructure. The gateway provides access to objects in S3 as files or file share mount points.  https://docs.aws.amazon.com/storagegateway/latest/userguide/WhatIsStorageGateway.html
+
+ 
+DB Migration Service - It can migrate your data to and from most of the widely used commercial and open-source databases. 
+- It supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle to Amazon Aurora.  
+
+For more information, please check the URL below:
+ https://aws.amazon.com/dms/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### A company website is set to launch in the upcoming weeks. There is a probability that the traffic will be quite high during the initial weeks. In the event of a load failure, how is it possible to set up DNS failover to a static website? [WL349]
+ 
+A. Duplicate the exact application architecture in another region and configure DNS Weight-based routing.
+B. Enable failover to an on-premises data center to the application hosted there.
+C. Use Route 53 with the failover option, to failover to a static S3 website bucket or CloudFront distribution.
+D. Add more servers in case the application fails. 
+
+
+EXPLANATION: Route53
+Correct Answer – C
+
+> Amazon Route 53 health checks monitor the health and performance of your web applications, web servers, and other resources. 
+- If you have multiple resources that perform the same function, you can configure DNS failover so that Amazon Route 53 will route your traffic from an unhealthy resource to a healthy resource. 
+- For example, if you have two web servers and one web server becomes unhealthy, Amazon Route 53 can route traffic to the other web server. 
+- So you can route traffic to a website hosted on S3 or to a CloudFront distribution. 
+ 
+
+For more information on DNS failover using Route 53, please refer to the link below. http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is running three production web server reserved EC2 Instances with EBS-backed root volumes. These instances have a consistent CPU load of 80%. Traffic is being distributed to these instances by an Elastic Load Balancer. They also have production and development Multi-AZ RDS MySQL databases. What recommendation would you make to reduce cost in this environment without affecting the availability of mission-critical systems? Choose the correct answer from the options given below. [WL350]
+
+A. Consider using On-demand instances instead of Reserved EC2 instances.
+B. Consider not using a Multi-AZ RDS deployment for the development database.
+C. Consider using Spot instances instead of Reserved EC2 instances.
+D. Consider removing the Elastic Load Balancer. 
+
+
+EXPLANATION: RDS
+Correct Answer – B
+
+> Multi-AZ databases are better for production environments rather than for development environments, so you can reduce costs by not using these for development environments. 
+- Amazon RDS Multi-AZ deployments provide enhanced availability and durability for Database (DB) Instances, making them a natural fit for production database workloads. 
+- When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB Instance and synchronously replicates the data to a standby instance in a different Availability Zone (AZ). 
+- Each AZ runs on its own physically distinct, independent infrastructure, and is engineered to be highly reliable. 
+- In case of an infrastructure failure, Amazon RDS performs an automatic failover to the standby (or to a read replica in the case of Amazon Aurora), so that you can resume database operations as soon as the failover is complete. 
+- Since the endpoint for your DB Instance remains the same after a failover, your application can resume database operation without the need for manual administrative intervention. 
+For more information on Multi-AZ RDS, please refer to the link below. 
+https://aws.amazon.com/rds/details/multi-az/
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### An application consists of a couple of EC2 Instances. One EC2 Instance hosts a web application and the other My SQL database server. Which of the following changes can be made to ensure the high availability of the database layer? [WL351]
+
+A. Enable Read Replicas for the database.
+B. Enable Multi-AZ for the database.
+C. Have another EC2 Instance in the same Availability Zone with replication configured.
+D. Have another EC2 Instance in the another Availability Zone with replication configured. 
+
+
+EXPLANATION: RDS
+Correct Answer – D
+
+> Since this is a self-managed database and not an AWS RDS instance, options A and B are incorrect. 
+- To ensure high availability, have the EC2 Instance in different Availability Zone, so even if one goes down, the other one will still be available. 
+One can refer to the following media link for achieving high availability in AWS. 
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are designing an architecture on AWS with disaster recovery in mind. Currently, the architecture consists of an ELB and underlying EC2 Instances lie in a primary and secondary region. How could you establish a switchover in case of failure in the primary region? [WL352]
+
+A. Use Route 53 Health Checks and then do a failover.
+B. Use CloudWatch metrics to detect the failure and then do a failover.
+C. Use scripts to scan CloudWatch logs to detect the failure and then do a failover.
+D. Use CloudTrail to detect the failure and then do a failover. 
+
+
+EXPLANATION: Route53
+Correct Answer - A
+
+AWS Documentation mentions the following:
+
+If you have multiple resources that perform the same function, you can configure DNS failover so that Route 53 will route your traffic from an unhealthy resource to a healthy resource. For example, if you have two web servers and one web server becomes unhealthy, Route 53 can route traffic to the other web server. 
+For more information on configuring DNS failover using Route 53, please refer to the below link:
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### You are working as an AWS Architect for an IT Company. Your Company is using EC2 Server in multiple Availability Zones in (US-EAST-1) Region. The Development Team has deployed a new Intranet application that needs to be accessed via VPC. Each of the Availability Zones has its own VPC. You have been asked to establish connectivity between all the VPCs and to make sure the solution is highly scalable and secure.  Which of the following solution would you recommend? [WL353]
+
+A. Attach an Internet Gateway to all the VPCs at the "US-EAST-1" region and allow all users to access this application over the internet.
+B. Deploy Network Load Balancers along with AWS PrivateLink to establish connectivity between the VPC's in the "US-EAST-1" region.
+C. Use VPC Peering between all the VPCs at the "US-EAST-1" region to provide connectivity between users & servers.
+D. Create a VPN between instances at the various VPCs in "US-EAST-1" region to establish connectivity
+
+
+EXPLANATION:
+Correct Answer – B
+
+> AWS PrivateLink provides secure private connectivity for services between separate VPC’s. 
+- For this, Network Load Balancers can be used in service provider while Elastic Network Interface is created in service, consuming VPC. 
+- Using DNS, service provider service is resolved to the local IP address assigned to Elastic Network Interface which will forward all traffic to the Network Load Balancer in the provider network. 
+- Network Load Balancer will perform a source NAT for all traffic & forward it to the provider instance. 
+
+
+Option A is incorrect. Using the Internet to establish connectivity between users & servers will not be a highly secure solution. 
+Option C is incorrect. With VPC peering, all resources in each VPC will have access to resources in other VPC. 
+- Also, since only one client will be initiating a request to servers, VPC peering will not be an ideal solution. 
+
+Option D is incorrect as VPN connectivity between the instance of various VPCs will not be a scalable solution. 
+
+For more information on AWS PrivateLink, refer to the following URL:
+https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html
+
+Accessing Services Through AWS Private Links:
+> AWS PrivateLink is a highly available, scalable technology that enables you to privately connect your VPC to supported AWS services, services hosted by other AWS accounts (VPC endpoint services), and supported AWS Marketplace partner services. 
+- You do not require an internet gateway, NAT device, public IP address, AWS Direct Connect connection, or AWS Site-to-Site VPN connection to communicate with the service. 
+- The traffic between your VPC and the service does not leave the Amazon network. 
+- To use AWS PrivateLink, create an interface VPC endpoint for a service in your VPC. 
+- This creates an elastic network interface in your subnet with a private IP address that serves as an entry point for the traffic, destined to the service. For more information, see VPC Endpoints. 
+
+You can create your own AWS PrivateLink-powered service (endpoint service) and enable other AWS customers to access your service. For more information, see VPC Endpoint Services (AWS PrivateLink). 
+ 
+For more information, refer to the following URLs:
+https://aws.amazon.com/privatelink/
+https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html#what-is-privatelink
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### You want to host a static website on AWS. As a Solutions architect, you have been given a task to establish a serverless architecture for the website. Which of the following could be included in the proposed architecture? [WL354] (Select Two)
+
+A. Use DynamoDB to store data in tables. 
+B. Use EC2 to host data on EBS Volumes. 
+C. Use the Simple Storage Service to store data. 
+D. Use AWS RDS to store data. 
+
+
+EXPLANATION:
+Correct Answer – A and C
+
+Both the Simple Storage Service and DynamoDB are complete serverless offerings from AWS for which you don't need to maintain servers, and your applications have the automated high availability. 
+For more information on S3 and DynamoDB, please refer to the links below. https://aws.amazon.com/s3/
+https://aws.amazon.com/dynamodb/
+https://aws.amazon.com/serverless/
+https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Currently, you're responsible for the design and architect of a highly available application. After building the initial environment, you discover that a part of your application does not work correctly until port 443 is added to the security group. After adding port 443 to the appropriate security group, how much time will it take for the application to work correctly? [WL355] 
+
+A. Generally, it takes 2-5 minutes for the rules to propagate.
+B. Immediately after a reboot of the EC2 Instances, belonging to that security group.
+C. Changes apply instantly to the security group, and the application should be able to respond to 443 requests.
+D. It will take 60 seconds for the rules to apply to all Availability Zones within the region. 
+
+
+EXPLANATION:
+Correct Answer – C
+
+This is given in the AWS Documentation:
+
+"Some systems for setting up firewalls let you filter on source ports. Security groups let you filter only on destination ports. 
+When you add or remove rules, they are automatically applied to all instances associated with the security group". 
+ 
+
+For more information on Security Groups, please refer to the below link:
+http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company hosts data in S3. As per the recent requirement, going forward, all the data in the S3 bucket needs to be encrypted at rest. How could this be achieved? [WL356]
+
+A. Use AWS Access Keys to encrypt the data.
+B. Use SSL Certificates to encrypt the data.
+C. Enable Server-side encryption on the S3 bucket.
+D. Enable MFA on the S3 bucket. 
+
+
+EXPLANATION:
+Correct Answer – C
+
+AWS Documentation mentions the following:
+
+Server-side encryption is about data encryption at rest—that is, Amazon S3 encrypts your data at the object level as it writes it to disks in its data centers and decrypts it for you when you access it. As long as you authenticate your request and you have access permissions, there is no difference in the way you access encrypted or unencrypted objects. 
+For more information on S3 Server-side encryption, please refer to the link below:
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Your company wants to use an S3 bucket for web hosting but have several different domains to perform operations on the S3 content. In the CORS configuration, you have added CORSRule AllowedOrigin for the following Domains: http://www.domainnamea.com, https://www.secure.domainnamea.com, and http://www.domainnameb.com. Following Domains, https://www.domainnameb.com and http://www.domainnameb.com:80, are not allowed to access the S3 bucket. 
+What could be the most likely cause behind it? [WL357]
+
+A. Both request https:// domainnameb.com and http://www.domainnameb.com:80 don't match the allowed in configuration.
+B. HTTPS must contain a specific port in the request, e.g.  https:// domainnameb.com:443
+C. There’s a limit of two origin sites per S3 bucket allowed
+D. Adding CORS automatically removes the S3 ACL and bucket policies
+
+
+EXPLANATION: s3 static page
+Correct Answer: A
+
+Option A is correct. The origin was configured as http://www.domainnameb.com and request was sent for https://www.domainnameb.com and http://www.domainnameb.com:80 instead of http://www.domainnameb.com. The exact syntax must be matched. 
+- In some cases, wildcards can be used to help the origin URLs. 
+
+Option B is incorrect. This is not required to allow an origin domain to be included; although it can be. 
+Option C is incorrect. The limit is 100. 
+Option D is incorrect. The ACLs and policies continue to apply when you enable CORS on the bucket. Verify that the Origin header in your request matches at least one of the AllowedOrigin elements in the specified CORSRule. 
+
+The scheme, the host, and the port values in the Origin request header must match the AllowedOrigin elements in the CORSRule. For example, if you set the CORSRule to allow the origin http://www.example.com, then both https://www.example.com and http://www.example.com:80 origins in your request don't match the allowed origin in your configuration.  
+
+References:
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
+https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html
+https://aws.amazon.com/blogs/aws/amazon-S3-cross-origin-resource-sharing/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Your application provides data transformation services. Files containing data to be transformed are first uploaded to Amazon S3 and then transformed by a fleet of Spot EC2 Instances. Files submitted by your premium customers must be transformed at the highest priority. How would you implement such a system? [WL358]
+
+A. Use a DynamoDB table with an attribute defining the priority level. Transformation instances will scan the table for tasks, sorting the results by priority level.
+B. Use Route 53 latency-based routing to send high priority tasks to the closest transformation instances.
+C. Use two SQS queues, one for high priority messages and the other for default priority. Transformation instances will first poll the high priority queue; if there is no message, they will poll the default priority queue.
+D. Use a single SQS queue. Each message contains the priority level. Transformation instances poll high-priority messages first. 
+
+
+EXPLANATION: SQS
+Correct Answer – C
+
+The best way is to use two SQS queues. Each queue can be polled separately. The high priority queue can be polled first. 
+For more information on AWS SQS, please refer to the link below:
+
+https://aws.amazon.com/sqs/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A VPC has been set up with a subnet and an internet gateway. The EC2 instance is set up with a public IP but you are still not able to connect to it via the Internet. The security groups are also in place. What should you do to connect to the EC2 Instance from the Internet? [WL359]
+
+A. Set an Elastic IP Address to the EC2 Instance.
+B. Set a Secondary Private IP Address to the EC2 Instance.
+C. Ensure that the right route entry is there in the Route table.
+D. There must be some issue in the EC2 Instance. Check the system logs. 
+
+
+EXPLANATION:
+Correct Answer – C
+
+You have to ensure that the Route table has an entry to the Internet Gateway because this is required for instances to communicate over the Internet. The diagram shows the configuration of the public subnet in a VPC:
+
+Option A is incorrect. Since you already have a public IP assigned to the instance, this should have been enough to connect to the Internet. 
+Option B is incorrect. Private IPs cannot be accessed from the Internet. 
+Option D is incorrect. The Route table is causing the issue and not the system. 
+For more information on AWS public subnet, please visit the link below. 
+http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario1.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A customer has a single 3 TB volume on-premises that is used to hold a large repository of images and print layout files. This repository is growing at 500 GB a year and must be presented as a single logical volume. The customer is becoming increasingly constrained with their local storage and wants to utilize the cloud to store the data, but the customer is concerned about latency while trying to access data stored in the cloud. Which AWS Storage Gateway configuration would meet the customer requirements? [WL360]
+
+A. Gateway-Cached Volumes with snapshots scheduled to Amazon S3
+B. Gateway-Stored Volumes with snapshots scheduled to Amazon S3
+C. Gateway-Virtual Tape Library with snapshots to Amazon S3
+D. Gateway-Virtual Tape Library with snapshots to Amazon Glacier
+
+
+EXPLANATION: Storage Gateway
+Correct Answer - A
+
+Gateway-cached volumes let you use Amazon Simple Storage Service (Amazon S3) as your primary data storage while retaining frequently accessed data locally in your storage gateway. Gateway-cached volumes minimize the need to scale your on-premises storage infrastructure, while still providing your applications with low-latency access to their frequently accessed data. You can create storage volumes up to 32 TB in size and attach them as iSCSI devices from your on-premises application servers. Your gateway stores data that you write to these volumes in Amazon S3 and retains recently read data in your on-premises storage gateway's cache and upload buffer storage. 
+For more information on Storage Gateways, please visit the link below:
+
+http://docs.aws.amazon.com/storagegateway/latest/userguide/storage-gateway-cached-concepts.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### You currently manage a set of web servers hosted on EC2 Servers with public IP addresses. These IP addresses are mapped to domain names. There was an urgent maintenance activity that had to be carried out on the servers and the servers had to be stopped and restarted. Now the web application hosted on these EC2 Instances is not accessible via the domain names configured earlier. Which of the following could be a reason for this? [WL362]
+
+A. The Route 53 hosted zone needs to be restarted.
+B. The network interfaces need to initialized again.
+C. The public IP addresses need to be associated with the ENI again.
+D. The public IP addresses have changed after the instance was stopped and started again. 
+
+
+EXPLANATION:
+Correct Answer – D
+
+By default, the public IP address of an EC2 Instance is released after the instance is stopped and started. Hence, the earlier IP address which was mapped to the domain names would have become invalid now. 
+For more information on public IP address, please visit the URL below:
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-public-addresses
+Note:
+
+This only applies to IPv4 public addresses, IPv6 public address isn't disassociated after an instance is stopped. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are responsible for deploying a critical application to AWS. It is required to ensure that the controls set for this application meet PCI compliance. Also, there is a need to monitor web application logs to identify any malicious activity. Which of the following services could be used to fulfill this requirement?  (Select Three) [WL363]
+
+A. Amazon CloudWatch Logs
+B. Amazon VPC Flow Logs
+C. Amazon Trusted Advisor
+D. Amazon CloudTrail
+
+
+EXPLANATION:
+Correct Answers – A, B, and D
+
+AWS Documentation mentions the following about these services:
+
+AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command-line tools, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting. 
+For more information on CloudTrail, please refer to following URL:
+
+https://aws.amazon.com/cloudtrail/
+
+You can use Amazon CloudWatch Logs to monitor, store, and access your log files from Amazon Elastic Compute Cloud (Amazon EC2) instances, AWS CloudTrail, Amazon Route 53, and other sources. You can then retrieve the associated log data from CloudWatch Logs. 
+For more information on CloudWatch logs, please refer to the URL below:
+
+Please refer to the "PCI" tab on the following link to check for services that are "PCI Compliant"
+
+https://aws.amazon.com/compliance/services-in-scope/
+
+Please check for the column "PCI" with a tick mark for the services that are "PCI Compliant"
+
+Flow logs enable you to track and analyze the IP address traffic going to and from network interfaces in your VPC. For example, if you have a content delivery platform, flow logs can profile, analyze, and predict customer patterns of the content access, and track down top talkers and malicious calls. Taking the above definition into consideration, VPC Flow Logs is a correct option. 
+Option C is incorrect because AWS Trusted Advisor is an online tool that provides you real-time guidance to help you provision your resources following AWS best practices. It is not required as per the requirement. 
+To know more, please check the URL below:
+
+https://aws.amazon.com/premiumsupport/technology/trusted-advisor/best-practice-checklist/
+
+https://aws.amazon.com/blogs/aws/vpc-flow-logs-log-and-view-network-traffic-flows/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## There is a requirement to host a database server. But the server should not be able to connect to the Internet except while downloading the required database patches. Which of the following solutions would satisfy all the above requirements at best? [WL364]
+ 
+A. Setup the database in a private subnet with a security group that only allows outbound traffic.
+B. Setup the database in a public subnet with a security group that only allows inbound traffic.
+C. Setup the database in a local data center and use a private gateway to connect the application to the database.
+D. Setup the database in a private subnet which connects to the Internet via a NAT Instance. 
+
+
+EXPLANATION:
+Correct Answer – D
+
+This setup coincides with Scenario 2 of setting up a VPC as per AWS documentation:
+
+Scenario 2: VPC with Public and Private Subnets (NAT)
+
+The configuration for this scenario includes a virtual private cloud (VPC) with a public subnet and a private subnet. We recommend this scenario if you want to run a public-facing web application while maintaining backend servers that aren't publicly accessible. A common example is a multi-tier website, with the web servers in a public subnet and the database servers in a private subnet. You can set up security and routing so that the web servers can communicate with the database servers. 
+ 
+
+For more information on the VPC Scenario for public and private subnets, please see the below link:
+http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario2.html
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have both production and development based instances running on your VPC. It is required to ensure that people responsible for the development instances do not have access to work on production instances for better security. Which of the following would be the best way to accomplish this using policies? [WL365]
+ 
+A. Launch the development and production instances in separate VPCs and use VPC Peering.
+B. Create an IAM group with a condition that allows access to only those instances which are used for production or development.
+C. Launch the development and production instances in different Availability Zones and use Multi-Factor Authentication.
+D. Define the tags on the Development and production servers and add a condition to the IAM Policy which allows access to specific tags. 
+
+
+EXPLANATION:
+Correct Answer – D
+
+You can easily add tags to define which instances are the production instances and which ones are development instances. These tags can then be used while controlling access via an IAM Policy. 
+For more information on tagging your resources, please refer to the link below. 
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html

@@ -13,9 +13,51 @@ ANSWER : C
 
 EXPLANATION : 
 
-If you want to route traffic randomly to multiple resources such as web servers, you can create one multivalue answer record for each resource and, optionally, associate an Amazon Route 53 health check with each record.
+> If you want to route traffic randomly to multiple resources such as web servers, you can create one multivalue answer record for each resource and, optionally, associate an Amazon Route 53 health check with each record.
 
-For example, suppose you manage an HTTP web service with a dozen web servers where each has its own IP address. No web server could handle all the traffic, but if you create a dozen multivalue answer records, Amazon Route 53 responds to DNS queries with up to eight healthy records in response to each DNS query. Amazon Route53 gives different answers to different DNS resolvers. If a web server becomes unavailable after a resolver caches a response, client software can try another IP address in the response.
+> For example, suppose you manage an HTTP web service with a dozen web servers where each has its own IP address. 
+- No web server could handle all the traffic, but if you create a dozen multivalue answer records, Amazon Route 53 responds to DNS queries with up to eight healthy records in response to each DNS query. 
+- Amazon Route53 gives different answers to different DNS resolvers. 
+- If a web server becomes unavailable after a resolver caches a response, client software can try another IP address in the response.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company currently hosts its architecture in the US region. They now need to duplicate this architecture to the Europe region and extend the application hosted on this architecture to the new region. In order to ensure that users across the globe get the same seamless experience, what should be done? [WL321]
+
+A. Create a Classic Elastic Load Balancer setup to route traffic to both locations.
+B. Create a weighted Route 53 policy to route the policy based on the weightage for each location.
+C. Create an Application Elastic Load Balancer setup to route traffic to both locations.
+D. Create a Geolocation Route 53 Policy to route the traffic based on the location. 
+
+
+EXPLANATION:
+Correct Answer - D
+
+AWS Documentation mentions the following with respect to this requirement:
+
+> Geolocation routing lets you choose the resources that serve your traffic based on the geographic location of your users, means the location that DNS queries originate from. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company is planning to use Route 53 as the DNS provider. There is a need to ensure that the company's domain name points to an existing CloudFront distribution. How could this be achieved? [WL311]
+
+A. Create an Alias record which points to the CloudFront distribution.
+B. Create a host record which points to the CloudFront distribution.
+C. Create a CNAME record which points to the CloudFront distribution.
+D. Create a Non-Alias Record which points to the CloudFront distribution. 
+
+
+Correct Answer - A
+EXPLANATION:
+
+AWS Documentation mentions the following:
+
+While ordinary Amazon Route 53 records are standard DNS records, alias records provide a Route 53–specific extension to the DNS functionality. Instead of an IP address or a domain name, an alias record contains a pointer to a CloudFront distribution, an Elastic Beanstalk environment, an ELB Classic, Application, or Network Load Balancer, an Amazon S3 bucket that is configured as a static website, or another Route 53 record in the same hosted zone. When Route 53 receives a DNS query that matches the name and type in an alias record, Route 53 follows the pointer and responds with the applicable value. 
+For more information on Route 53 Alias records, please visit the following URL:
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html
+Note: 
+
+Route 53 uses "Alias Name" to connect to the CloudFront as Alias Record is a Route 53 extension to DNS.  Also, Alias record is similar to a CNAME record, but the main difference is - you can create Alias record for both root domain & subdomain, whereas CNAME record can be created only to subdomain. Check the below link to get more information:
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html
+ 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

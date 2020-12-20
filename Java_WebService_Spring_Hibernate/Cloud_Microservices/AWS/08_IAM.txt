@@ -1,12 +1,38 @@
 =======================================
 ## AWS SECURITY, IDENTITY & COMPLIANCE SERVICES ##
 
-## AWS Identity and Access Management (IAM)
-- It enables you to manage access to AWS services and resources securely.
+## Identity Access and Management (IAM)
+- Allows us to create and manage groups and users to grant them required permissions to perform day-to-day infra tasks.
 
-## AWS Single Sign on (AWS SSO) 
+#### Inspector
+- Automated security assessment service to test the security state of applications hosted on EC2.
+
+#### Certificate Manager
+- Manages SSL/TLS certificates. 
+- Also makes it easy to deploy them across various AWS services.
+
+#### Directory Service
+It is an AWS Directory service for Microsoft Active Directory. Makes it easy to deploy directory-aware workloads on AWS resources to use and manage AD in the AWS cloud.
+
+#### Web Application Firewall (WAF)
+By configuring rules to allow, block, or just monitor web requests, protects web applications from external attack.
+
+#### Shield
+Managed service to protect web applications against DDoS attacks running on AWS.
+
+#### AWS Single-Sign-on (SSO)
+
+#### AWS Cognito 
+> It provides authentication, authorization, and user management for web and mobile apps. 
+- Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.
+
+> The 2 main components of Amazon Cognito are user pools and identity pools. 
+1. User pools are user directories that provide sign-up and sign-in options for your app users. 
+2. Identity pools enable you to grant your users access to other AWS services. 
+- You can use identity pools and user pools separately or together.
+
 =======================================
-## AWS Account Identifiers
+###### AWS Account Identifiers ########
 
 > AWS assigns two types of unique ID to each user's account:
 
@@ -513,6 +539,9 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 
 > If the application gets temporary security credentials from the instance metadata and has cached them, it should get a refreshed set of credentials every hour, or at least 15 minutes before the current set expires.
 =======================================
+######## Directory Service ############
+
+=======================================
 ##### AWS Single Sign on (AWS SSO) ####
 > For additional security, AWS sso with two-step verification can be enabled.
 - After two-step verification is enabled, post login with authorized email password, users are prompted for additional verification code which they receive on their registered email address.
@@ -523,3 +552,26 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 
 > WITH ALWAYS-ON 2-step verification, each time the user logs in to any cloud application, it would prompt for two-step verification code.
 - This is true even if the user logs in from the same device
+
+=======================================
+############ AWS Cognito ##############
+
+
+## Feature 
+> Enhanced Security
+> Cross platform consistency 
+> Guest & Social Media Logins
+> MFA and Password Policies
+> Marketing Analytics
+
+
+> Amazon Cognito Identity Pools can support unauthenticated identities by providing a unique identifier and AWS credentials for users who do not authenticate with an identity provider. 
+- Unauthenticated users can be associated with a role that has limited access to resources as compared to a role for authenticated users.
+
+
+> OpenID Connect (OIDC) identity providers (IdPs) (like Salesforce or Ping Identity) are supported in Cognito, along with social and SAML based identity providers. 
+- You can add an OIDC IdP to your user pool in the AWS Management Console, with the AWS CLI, or by using the user pool API method CreateIdentityProvider.
+
+> Sign-in through a third party (federation) is available in Amazon Cognito user pools. This feature is independent of the federation through Amazon Cognito identity pools (federated identities).
+
+> Cognitio supports more than just social identity providers, including OIDC, SAML, and its own identity pools

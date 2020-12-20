@@ -1,4 +1,16 @@
-############# IAM #############
+## Identity Access and Management (IAM)
+## Inspector
+## Certificate Manager
+## Directory Service (DS)
+## Web Application Firewall (WAF)
+## Shield
+## AWS Single-Sign-on (SSO)
+## AWS Cognito 
+
+
+=======================================
+############### IAM ###################
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are deploying an application on Amazon EC2 that must call AWS APIs. Which method would you use to securely pass the credentials to the application?
@@ -120,23 +132,7 @@ E. Adding an EC2 Instance to an existing ECS cluster
 F. Log in to your website hosted on EC2 fleet of instances
 
 Answer : a, b, d, e
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-### You have designed an application that uses AWS resources, such as S3 to operate and store users’ documents. You currently use Cognito identity pools and user pools. To increase usage and ease of signing up, you decide that adding social identity federation is the best path forward. 
-How would you differentiate the Cognito identity pool and the federated identity providers (e.g. Google)? [WL216]
 
-A. They are the same and just called different things
-B. First, you sign-in via Cognito then through a federated site, like Google
-C. Federated identity providers and identity pools are used to authenticate services
-D. Sign-in via AWS Cognito User Pool and sign-in via AWS Cognito Identity Pool are independent of one another
-
-
-ANSWER : D
-
-EXPLANATION: 
-Option D is correct. Sign-in through a third party (federation) is available in Amazon Cognito user pools. This feature is independent of the federation through Amazon Cognito identity pools (federated identities).
-Option A is incorrect. Cognito identity pool and the federated identity providers are separate, independent authentication methods.
-Option B is incorrect. Only one log-in event is needed, not two.
-Option C is incorrect. Identity providers authenticate users, not authenticate services.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### Third-party sign-in (Federation) has been implemented in your web application to allow users who need access to AWS resources. Users have been successfully logging in using Google, Facebook, and other third-party credentials. Suddenly, their access to some AWS resources has been restricted. What is the most likely cause of the restricted use of AWS resources? [WL228]
 
@@ -150,7 +146,9 @@ ANSWER : A
 
 EXPLANATION: 
 Option A is correct. When IAM policies are changed, they can impact the user experience and services they can connect to.
+
 Option B is incorrect. Federation is used to authenticate users, not to authorize services.
+
 Option C is incorrect. Federation is used to authenticate users, not to authorize services.
 Option D is incorrect. The identity providers don’t have the capability to authorize services; they authenticate users.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -242,7 +240,194 @@ ANSWER :
 
 EXPLANATION : 
 
+=======================================
+############### DS ####################
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You manage the IT users for a large organization that is moving many services to AWS. You want a seamless way for your employees to log in and use cloud services. You also want to use AWS Managed Microsoft AD and have been asked if users will be able to access services in the on-premises environment. What would you respond? [WL310]
+
+A. AWS Managed Microsoft AD requires data synchronization and replication to work properly
+
+B. AWS Managed Microsoft AD can only be used for cloud or on-premises environments, not both
+
+C. AWS Managed Microsoft AD can be used as the Active Directory over VPN or Direct Connect
+
+D. AWS Managed Microsoft AD is 100% the same as Active Directory running on separate EC2 instance
+
+
+Correct Answer: C
+EXPLANATION:
+
+Option C is correct. Because you want to use AWS Managed Microsoft AD, you want to be certain that your users can use the AWS cloud resources as well as services in your on-premise environment. 
+In order to make your company have connectivity for AWS services, once you implement VPN or Direct Connect, your AWS Managed Microsoft AD can be used for both cloud services and on-premises services. 
+
+Option A is incorrect. When data can be synchronized from on-premises to the cloud, it is not required. 
+
+Option B is incorrect. AWS Managed Microsoft AD can be used for both, it’s not one or the other. 
+
+Option D is incorrect. AWS Managed Microsoft AD. being a managed service limits some capabilities versus running Active Directory by itself on EC2 instances
+  
+
+For more information, please visit the URLs below:
+
+https://aws.amazon.com/directoryservice/
+https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company authenticates users in a very disconnected network requiring each user to have several username/password combinations for different applications. You have been assigned a task of consolidating and migrating services to the cloud and reducing the number of usernames and passwords, employees need to use. What would you recommend? [WL329]
+
+A. AWS Directory Service allows users to sign in with their existing corporate credentials – reducing the need for additional credentials.
+B. Create two Active Directories – one for the cloud and one for on-premises – reducing username/password combinations to two
+C. Require users to use third-party identity providers to log-in for all services
+D. Build out Active Directory on EC2 instances to gain more control over user profiles
+
+
+EXPLANATION:
+Correct Answer: A
+
+Option A is correct. AWS Directory Service enables your end-users to use their existing corporate credentials while accessing AWS applications. 
+- Once you’ve been able to consolidate services to AWS, you won’t have to create new credentials. 
+- Instead, you’ll be able to allow the users to use their existing username/password. 
+
+Option B is incorrect. One Active Directory can be used for both on-premises and the cloud; this isn’t the best option provided. 
+C. This won’t always reduce the number of username/passwords combinations. 
+D. This requires more effort and additional management than using a managed service
+
+For more information, please refer to the URLs below:
+
+https://aws.amazon.com/directoryservice/faqs
+https://aws.amazon.com/directoryservice/
+https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You have a small company, running on Windows OS, that is only leveraging cloud resources like AWS Workspaces and AWS Workmail. You want a fully managed solution to set policies and provide user management. Which of the minimum required AWS Directory Service would you recommend? [WL334]
+
+A. AWS Managed Microsoft AD for its full-blown AD features and capabilities
+B. AD Connector to be used with on-premises applications
+C. AWS Cognito for its scalability and customization
+D. Simple AD for limited functionality and compatibility with desired applications
+
+
+EXPLANATION:
+Correct Answer: D
+
+Option D - Simple AD for limited functionality and compatibility with desired applications is the correct answer. 
+> Simple AD is a Microsoft Active Directory–compatible directory from AWS Directory Service. 
+- You can use Simple AD as a standalone directory in the cloud to support Windows workloads that need basic AD features or compatible AWS applications.  
+- It can also be used to support Linux workloads that need LDAP service.  
+
+Option A is incorrect. This is more functionality and feature-rich than you need, given the desired applications
+Option B is incorrect. You don’t have on-premises applications, so AD Connector is not needed. 
+Option C is incorrect. This is more functionality and feature-rich than you need, given the desired applications
+For more information, please check the URLs below:
+
+https://aws.amazon.com/directoryservice/
+https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+ANSWER : 
+
+EXPLANATION : 
+
+
+=======================================
+############### SSO ###################
+
+=======================================
+############# Cognito #################
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### You have designed an application that uses AWS resources, such as S3 to operate and store users’ documents. You currently use Cognito identity pools and user pools. To increase usage and ease of signing up, you decide that adding social identity federation is the best path forward. 
+How would you differentiate the Cognito identity pool and the federated identity providers (e.g. Google)? [WL216]
+
+A. They are the same and just called different things
+B. First, you sign-in via Cognito then through a federated site, like Google
+C. Federated identity providers and identity pools are used to authenticate services
+D. Sign-in via AWS Cognito User Pool and sign-in via AWS Cognito Identity Pool are independent of one another
+
+
+ANSWER : D
+
+EXPLANATION: 
+Option D is correct. Sign-in through a third party (federation) is available in Amazon Cognito user pools. This feature is independent of the federation through Amazon Cognito identity pools (federated identities).
+
+Option A is incorrect. Cognito identity pool and the federated identity providers are separate, independent authentication methods.
+Option B is incorrect. Only one log-in event is needed, not two.
+Option C is incorrect. Identity providers authenticate users, not authenticate services.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## You are a Solutions Architect in a startup company that is releasing the first iteration of its app. Your company doesn’t have a directory service for its intended users but wants the users to be able to sign in and use the app. What would you advice to implement a solution quickly? [WL259]
+
+A. Use AWS Cognito although it only supports social identity providers like Facebook
+B. Let each user create an AWS user account to be managed via IAM
+C. Invest heavily in Microsoft Active Directory as it’s the industry standard
+D. Use Cognito Identity along with a User Pool to securely save users’ profile attributes
+
+
+ANSWER : D
+
+EXPLANATION: 
+Option D is correct. Cognito is a managed service that can be used for this app and scale quickly as usage grows.
+
+Option A is incorrect. Cognitio supports more than just social identity providers, including OIDC, SAML, and its own identity pools
+
+Option B is incorrect. This isn’t an efficient means of managing user authentication.
+
+Option C is incorrect. This isn’t the most efficient means to authenticate and save user information.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## You have implemented AWS Cognito services to require users to sign in and sign up to your app through social identity providers like Facebook, Google, etc. Your marketing department wants users to try out the app anonymously as they think that the current log-in requirement is excessive and will reduce demand for products and services offered through the app. What would you suggest to the marketing department in this regard? [WL261]
+
+A. It’s too much of a security risk to allow unauthenticated users access to the app
+B. Cognito Identity supports guest users for the ability to enter the app and have limited access
+C. A second version of the app will need to be offered for unauthenticated users
+D. This is possible only if we remove the authentication from everywhere
+
+
+ANSWER : b
+
+EXPLANATION: 
+Option B is correct. Amazon Cognito Identity Pools can support unauthenticated identities by providing a unique identifier and AWS credentials for users who do not authenticate with an identity provider. Unauthenticated users can be associated with a role that has limited access to resources as compared to a role for authenticated users.
+
+Option A is incorrect. Cognito will allow unauthenticated users without being a security risk.
+
+Option C is incorrect. Cognito supports both authenticated and unauthenticated users.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## Your app uses AWS Cognito Identity for authentication and stores user profiles in a User Pool. To expand the availability and ease of signing in to the app, your team is requesting advice on allowing the use of OpenID Connect (OIDC) identity providers as additional means of authenticating users and saving the user profile information. What is your recommendation on OIDC identity providers? [WL262]
+
+A. This is supported, along with social and SAML based identity providers.
+B. This is not supported, only social identity providers can be integrated into User Pools
+C. If you want OIDC identity providers, then you must include SAML and social-based support as well
+D. It’s too much effort to add non-Cognito authenticated user information to a User Pool
+
+
+ANSWER : A
+
+EXPLANATION: 
+
+Option A is correct. OpenID Connect (OIDC) identity providers (IdPs) (like Salesforce or Ping Identity) are supported in Cognito, along with social and SAML based identity providers. You can add an OIDC IdP to your user pool in the AWS Management Console, with the AWS CLI, or by using the user pool API method CreateIdentityProvider.
+
+Option B is incorrect. Cognito supports more than just social identity providers, including OIDC, SAML, and its own identity pools.
+
+Option C is incorrect. You can add any combination of federated types, you don’t have to add them all.
+
+Option D is incorrect. While there is additional coding to develop this, the effort is most likely not too great to add the feature.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

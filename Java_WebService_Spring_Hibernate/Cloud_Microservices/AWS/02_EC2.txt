@@ -6,25 +6,21 @@
 - It is a raw server
 - It enables on-demand, scalable computing capacity in the AWS cloud
 
+## AWS LAMBDA
+- It is ADVANCE VERSION OF EC2
+- It is a compute service that lets u run code without provisioning or managing servers.
+
 ## ELASTIC BEANSTALK
 - It is a web app server
 - It is example of PaaS
 - Developers can QUICKLY DEPLOY AND MANAGE APP in the AWS cloud. Developers just have to upload their application and the rest is taken care of by Elastic Beanstalk.
 > Beanstalk doesn't use for long-running processes. 
 
-## AWS LAMBDA
-- It is ADVANCE VERSION OF EC2
-- It is a compute service that lets u run code without provisioning or managing servers.
-
-## AWS ELASTIC LOAD BALANCER 
-- It distributes incoming app or network traffic across multiple targets, such as Amazon EC2 instance, container and IP addr. 
-
 ## AWS ECR
 - It is Elastic Container Registry
 - It is fully-managed docker container registry that make it easy for developer to 
 
-## AWS ECS 
-- It is Elastic Container Service
+## ECS(Elastic Container SERVICE)
 - It is a highly scalable, high performance container orchestration service that supports Docker container and allow easily run and scale containerized app on AWS.
 
 ## AWS Fargate 
@@ -34,6 +30,9 @@
 - provides template-based computing. 
 - It is also called Virtual Private Servers (VPS). 
 - It makes it possible to quickly launch virtual machines from templates rather than selecting individual components in EC2.
+
+## AWS ELASTIC LOAD BALANCER 
+- It distributes incoming app or network traffic across multiple targets, such as Amazon EC2 instance, container and IP addr. 
 =======================================
 ##### Elastic Compute Cloud(EC2) ######  
 
@@ -690,6 +689,121 @@ There are two parts of the error message.
 - be launched in a VPC (default)
 
 > Using enhanced networking does not cost extra 
+
+=======================================
+############# AWS LAMBDA ##############
+
+## What is AWS Lambda?
+
+> it is a compute service where we can upload our code and create the Lambda function.
+- it takes care of provisioning and managing the servers used to run the code.
+- While using Lambda, we don't have to worry about scaling, patching, OS etc.
+- it runs code on a HA compute infrastructure.
+
+
+> While working with Lambda function, if there is a need to access other resources, ensure that IAM role is in place. 
+
+> it executes code only when needed and scales automatically, from a few requests per day to thousands of RPS.
+> pay only for the compute time - No charge when code is not running.
+
+
+> use the API gateway and integrate with AWS Lambda func which will call on HTTPS
+
+##### IMPORTANT POINTS
+> It support Node.js, Java, Python, C#, Go, Powershell, Ruby
+
+> Lambda function can trigger other Lambda event
+> Architectures can get extremely complicated, AWS X-ray allows you to debug what is happening
+
+- Lambda can do things globally, you can use it to back up S3 buckets to other S3 buckets etc
+
+> Serverless - Lambda, Aurora, DynamoDB, S3, API Gateway
+- NOT SERVERLESS - EC2, RDS
+
+
+> Trigger Lambda - API Gateway, CloudWatch Event/logs, DynamoDB, Kinesis, S3, SNS, SQS, App Load Balancer, CodeCommit
+- Not Trigger Lambda - RDS 
+
+## How Is Lambda Priced
+
+> Number Of Requests
+- First 1 million requests are free. 
+- $0.20 per 1 million requests thereafter
+
+> Duration
+- Duration is calculated from the time your code begins executing until it returns or otherwise terminates, rounded up to the nearest 100ms. 
+- The price depends on the amount of memory you allocate to your function. You are charged $0.00001667 for every GB-second used.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### USE-CASE ####
+
+> It can be used as an event-driven compute service where AWS Lambda runs our code in response to events. 
+- These events could be changes to data in S3 bucket OR DynamoDB table.
+
+> It can be used as a compute service to run our code in response to HTTP requests using Amazon API calls made using AWS SDKs.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What is the benefit of Lambda?
+
+1.  No Servers 
+- we do not need to run our own server, Lambda will do everything for us. We just need to focus on our code.
+
+2. Continuous scaling: 
+- Lambda will automatically scale up or scale out.
+
+3. Super super super cheap: 
+- It is very cheap as you do not require a server.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## AWS Lambda - Triggers
+
+You can use AWS Lambda to run your code in response to:
+- Events such as changes to data in an Amazon S3 bucket or an Amazon DynamoDB table.
+- To run your code in response to HTTP/HTTPS requests using Amazon API gateways.
+- Invoke your code using API calls made using AWS SDKS.
+
+## AWS Lambda - Trigger
+> The user creates an object in S3 bucket.
+- Amazon S3 detects the object created event.
+- Amazon S3 invokes your lambda function using the permission provided by execution role.
+- Amazon S3 knows which lambda function to invoke based on the event source mapping that the bucket is stored in configuration. notification
+
+## AWS Lambda – Building Blocks
+> Lambda Function
+- The foundation, it is compromised of your custom code.
+
+> Event Source
+- An AWS Service, such as an Amazon SNS, or a custom service that triggers your functions and executes its logic.
+
+> Downstream resources
+- An AWS service, such as DynamoDB tables or Amazon S3 bucket, that your lambda function calls once it is triggered.
+
+> Log Streams
+- While Lambda automatically monitors your function invocations and report metrics to cloudwatch, you can annotate your function code with custom logging statement that allow you to analyze the performance of you lambda function to ensure its working properly.
+
+## AWS Lambda Function Configurations
+> You only specify the amount of memory you want to allocate for your lambda function.
+> You can update the configuration and request additional memory in 64MB increments from 128MB to 3008MB.
+
+> To prevent your lambda function from running indefinitely, you specify a timeout.
+- When the specified timeout is reached, AWS lambda terminates your Lambda function.
+
+> Maximum execution time of function is 300 Seconds and default is 3seconds *
+
+## AWS Lambda Function Configurations
+• You can also setup AWS Lambda to invoke your code on regular,
+scheduled basis using the AWS Lambda console.
+• You can specify a fixed rate (number of hours, days or weeks) or you can
+specify a cron expression.
+
+## AWS Event Source Mapping
+In AWS Lambda, Lambda Functions and event sources are the core components in AWS Lambda.
+- An event source is the entity that publishes events, and a lambda function is the custom code that process the events.
+- Event source mapping basically maps an event source to a lambda function.
+- Each event source mapping identifies the type of events to publish and the lambda function to invoke when event occurs.
+- The specific lambda function then receives the event information as a parameter, your lambda function code can then process the event.
+
+> AWS Lambda is the FaaS (function as a service). 
+- It has integrations with many other AWS services, including AWS DynamoDB and AWS API gateway. 
+- Due to its popularity and support for multiple languages, AWS Lambda is a safe move for going serverless.
 =======================================
 ########## ELASTIC BEANSTALK ##########
 
@@ -729,7 +843,7 @@ b. Worker Environment: Processes background tasks which are resource consuming a
 ##
 > It need ".ebextensions/*.config" file to run the app 
 =======================================
-#### Elastic Container Service(ECS) ###
+#### ECS(ELASTIC CONTAINER SERVICE) ###
 
 > It is HA, fast and container management service 
 

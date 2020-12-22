@@ -1,7 +1,7 @@
 ######### AWS STORAGE SERVICE #########
 
 ## EBS 
-## Elastic File System(EFS)
+##### AWS Elastic File System(EFS) 
 =======================================
 ############# EBS TYPES ###############
 
@@ -372,14 +372,10 @@
 > It is built to ELASTICALLY SCALE ON DEMAND without disrupting app, GROWING AND SHRINKING AUTOMATICALLY as you add and remove files
 
 > As a regional service, Amazon EFS is designed for high availability and durability storing data redundantly across multiple AZ.
-> we can MOUNT EFS TO OUR ON-PREMISES DATACENTER servers via NFSv4 Protocol when connected to VPC with AWS Direct Connect.
-> We can mount EFS on on-premises servers to migrate data sets to EFS or backup on-premises data to EFS.
 
+## FEATURE 
 > Highly Available & Durable
 > Secure (Can be encrypted, Security Groups)
-> Can be mount to N no. of Instances
-> Instances from different AZ can be connected to EFS
-> Service is not available in all regions
 > Pricing is $0.30/GB per month and 5GB under free tier account
 
 ##### EFS - BENEFITS ####
@@ -389,3 +385,55 @@
 - we pay for what we use, with no minimum commitments or up-front fees.
 
 > EFS provides a simple and secure way to move data from existing on-premises or in-cloud file systems, with the ability to copy files and directories at speeds up to 5x faster than standard Linux copy tools.
+
+### IMPORTANT
+> Can be mount to N no. of Instances
+> Instances from different AZ can be connected to EFS
+> Service is NOT AVAILABLE IN ALL REGIONS
+
+> we can MOUNT EFS TO OUR ON-PREMISES DATACENTER servers via NFSv4 Protocol when connected to VPC with AWS Direct Connect.
+> We can mount EFS on on-premises servers to migrate data sets to EFS or backup on-premises data to EFS.
+
+> EFS mount targets from one AZ can be mounted on another AZ although this approach is not recommended. 
+- However, this approach will not cause operations to fail. 
+
+> You can mount an Amazon EFS file system on instances in only one VPC at a time. 
+- Both the file system and VPC must be in the same AWS Region.  
+- However using VPC peering we can use EFS in another peer VPC
+
+> Open port 22(SSH) on EC2 SG and port 2049(NFS) on EFS SG for SSH communication between EC2 instance and EFS
+
+## ENCRYPTION AT REST
+> Encryption at rest option can only be set during EFS creation. 
+- You need to create encryption-at-rest EFS, copy data from old EFS to new EFS and delete old EFS. 
+
+## ENCRYPTION DURING TRANSIT
+> Enable encryption during mounting on EC2 using Amazon EFS mount helper. 
+- Unmount unencrypted mount and remount using mount helper encryption during transit option.
+
+> Provisioned Throughput mode is available for applications with high throughput to storage (MiB/s per TiB) ratios
+- For example, say you're using EFS for dev tools, web serving, or content management apps where the amount of data in file system is low relative to throughput demands. Your file system can now get the high levels of throughput your applications require.
+
+2 Type of EFS 
+1. General Purpose Performance Mode
+- It is ideal for latency-sensitive use cases, like web serving environments, content management systems, home directories, and general file serving. 
+
+2. Max I/O Performance Mode
+- It is recommended to be used when tens, hundreds or thousands of EC2 instances sharing same EFS, it can slightly increase the latency.
+- It is recommended to be used when Highly parallelized apps and workloads, such as big data analysis, media processing, and genomics analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## CHARACTERISTICS OF EFS VS EBS
+
+# Availablity and durability
+- In EFS, data is stored redundantly across multiple AZs.
+- In EBS-Prov IOPS, data is stored redundantly in a single AZs.
+
+# Access 
+- In EFS, upto 1000's of EC2 from multiple AZs can connect concurrently to EFS
+- In EBS-Prov IOPS, a single EC2 in single AZ can connect 
+
+# Use case
+- In EFS, big data analysis, media processing, and genomics analysis
+- In EBS-Prov IOPS, boot vol, txn and NoSQL DB, data warehousing and ETL 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

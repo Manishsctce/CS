@@ -1,4 +1,4 @@
-You are working as a Cloud Architect in big IT Firm, to ensure high availability of both the web servers and the database of your web application, you deployed your auto-scaled EC2 instances in multiple Availability Zones with an Application Load Balancer in front and configured Multi-Availability Zone to your RDS instance. There is a spike in incoming requests in the past few hours and the performance of the primary database is starting to go down. What would happen to the database if the primary DB instance fails?
+## You are working as a Cloud Architect in big IT Firm, to ensure high availability of both the web servers and the database of your web application, you deployed your auto-scaled EC2 instances in multiple Availability Zones with an Application Load Balancer in front and configured Multi-Availability Zone to your RDS instance. There is a spike in incoming requests in the past few hours and the performance of the primary database is starting to go down. What would happen to the database if the primary DB instance fails? [WL-RDS-01]
 
 A. The IP address of the primary DB instance is switched to the standby DB instance.
 B. The RDS DB instance will automatically reboot.
@@ -9,21 +9,20 @@ D. The canonical name record is changed from the primary database to the standby
 EXPLANATION:
 Answer: D
 
-Option A is incorrect because IP Address is associated with A Records in DNS but for Database, you need to change the CNAME record. Option B is incorrect because RDS Instance is pointed to standby RDS. Option C  is incorrect because this option is not reliable in real-time. Option D is correct because the failover mechanism automatically changes the DNS CNAME record of the DB instance to point to the standby DB instance
-Refer:  
+Option A is incorrect because IP Address is associated with A Records in DNS but for Database, you need to change the CNAME record. 
+Option B is incorrect because RDS Instance is pointed to standby RDS. 
+Option C  is incorrect because this option is not reliable in real-time. 
+Option D is correct because the failover mechanism automatically changes the DNS CNAME record of the DB instance to point to the standby DB instance
 
+Refer:  
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##2
-Unattempted
-Domain : Other
-A company is planning to migrate an on premise 15 TB MySQL database cluster onto AWS. The replication lag needs to be less than 100 ms for the cluster and the size is expected to double in the next couple of months. Which of the following would be the ideal data store that should be chosen in AWS?
+## A company is planning to migrate an on premise 15 TB MySQL database cluster onto AWS. The replication lag needs to be less than 100 ms for the cluster and the size is expected to double in the next couple of months. Which of the following would be the ideal data store that should be chosen in AWS? [WL-RDS-02]
 
 A. AWS RDS MySQL
 B. AWS Aurora
 C. AWS DynamoDB
 D. AWS Redshift
-
 
 
 EXPLANATION:
@@ -33,28 +32,28 @@ Option B is correct because all Aurora Replicas returns query results with minim
 
 https://aws.amazon.com/rds/aurora/faqs/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##3
-Unattempted
-Domain : Other
-A complex enterprise application is hosted on an M5.XLarge on-demand EC2 instance with DynamoDB as its database. You created a table called "coursedetails" which has a hash key of "course_id”. You are able to query the data based on the "course_id" hash key without any issues. Your Supervisor then told you that the web application should also be able to query the "coursedetails" table by "student_name". What would you do to properly configure your DynamoDB to meet the above requirement? The table “coursedetails” consists of 3 columns i.e. course_id (hash key), course_name, student_name.
+## A complex enterprise application is hosted on an M5.XLarge on-demand EC2 instance with DynamoDB as its database. You created a table called "coursedetails" which has a hash key of "course_id”. You are able to query the data based on the "course_id" hash key without any issues. Your Supervisor then told you that the web application should also be able to query the "coursedetails" table by "student_name". What would you do to properly configure your DynamoDB to meet the above requirement? [WL-RDS-03]
+The table “coursedetails” consists of 3 columns i.e. course_id (hash key), course_name, student_name.   
+
 A. Configure the DynamoDB instance to have a second table which contains all the information by “student_name”.
 B. Set up an In-Memory Acceleration with DAX in your DynamoDB instance.
 C. Configure the “coursedetails” table to use “student_name” as a Global secondary index
 D. The requirement is beyond the capability of DynamoDB. 
 
 
-EXPLANATION:
+EXPLANATION: DynamoDB
 Answer: C
 
-Option A is incorrect because DynamoDB is not designed as a relational database and does not support join operations. You can think about DynamoDB as just being a set of key-value pairs. You can have the same keys across multiple tables, but DynamoDB doesn't automatically sync them or have any foreign-key features. The columns in one table, while named the same, are technically a different set than the ones in a different table. It's up to your application software to make sure that those keys are synced. Option B is incorrect because In-Memory Acceleration with DAX is used for caching the query. Option C is correct because we don't know the course_id of those “student_name”, that's what we want to get. So we find ourselves without knowing the items' hash key values, that’s where GSI is used. Global Secondary Indexes let you define a different hash key for your table. Note that it will not change the primary hash key – “course_id” will still be the table's hash key. GSI only provides an additional hash key for you to be able to make more complex queries
+Option A is incorrect because DynamoDB is not designed as a relational database and does not support join operations. You can think about DynamoDB as just being a set of key-value pairs. You can have the same keys across multiple tables, but DynamoDB doesn't automatically sync them or have any foreign-key features. The columns in one table, while named the same, are technically a different set than the ones in a different table. It's up to your application software to make sure that those keys are synced. 
+
+Option B is incorrect because In-Memory Acceleration with DAX is used for caching the query. 
+
+Option C is correct because we don't know the course_id of those “student_name”, that's what we want to get. So we find ourselves without knowing the items' hash key values, that’s where GSI is used. Global Secondary Indexes let you define a different hash key for your table. Note that it will not change the primary hash key – “course_id” will still be the table's hash key. GSI only provides an additional hash key for you to be able to make more complex queries
 Option D is incorrect because it is under the capability of DynamoDB. Refer:
 
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-gsi-aggregation.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##4
-Unattempted
-Domain : Other
-You are working as an AWS Architect for a multinational bank with hybrid cloud architecture. The bank is running a currency exchange website which uses a Microsoft SQL Server RDS instance as its database. As part of the company's business continuity plan, there is a need to keep a read replica of the production RDS instance to the bank's on premise data center. In this scenario, what is the most secure and effective way to meet this requirement?
+## You are working as an AWS Architect for a multinational bank with hybrid cloud architecture. The bank is running a currency exchange website which uses a Microsoft SQL Server RDS instance as its database. As part of the company's business continuity plan, there is a need to keep a read replica of the production RDS instance to the bank's on premise data center. In this scenario, what is the most secure and effective way to meet this requirement?  [WL-RDS-04]
 
 A. Change the Microsoft SQL Server RDS instance as the master node and then enable replication over the public Internet using a secure SSL endpoint to a server on the on premise data center.
 B. Configure the Microsoft SQL Server RDS instance to replicate to an EC2 instance with core MySQL and then enable Replication over a secure VPN connection

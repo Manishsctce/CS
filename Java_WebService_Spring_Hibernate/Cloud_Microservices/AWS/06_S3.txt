@@ -638,9 +638,12 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 - Requested archived data will be COPIED TO RRS
 - After data is retrieved, you have up to 24 hours to download it(by default)
 
+- Amazon Glacier stores data in archives, which are contained in vaults. 
+- Archives are identified by system-created archive IDs, not key names.
+
 > You can NOT specify Glacier as the Storage Class at the time we create an object
 
-> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports secure transfer of data (In-transit) over SSL
+>> Glacier automatically encrypts data at rest using AES-256-bit symmetric keys and supports secure transfer of data (In-transit) over SSL
 
 > Glacier MAY NOT BE AVAILABLE IN ALL AWS REGIONS, check for availability
 
@@ -666,6 +669,16 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 - The only way you can update the archive content or its description is by deleting the archive and uploading another archive.
 
 - Note that each time you upload an archive, Amazon Glacier returns to you a unigue archive ID.
+---------------------------
+## Vaults 
+- it is containers for archives. 
+- Each AWS account can have up to 1,000 vaults. 
+- You can control access to your vaults and the actions allowed using IAM policies or vault access policies.
+
+## Vaults Locks
+- You can easily deploy and enforce compliance controls for individual Amazon Glacier vaults with a vault lock policy. 
+- You can specify controls such as Write Once Read Many (WORM) in a vault lock policy and lock the policy from future edits. 
+- Once locked, the policy can no longer be changed.
 =======================================
 ##### Glacier - Archive Retrieval ##### v15
 

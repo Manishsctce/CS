@@ -1,0 +1,283 @@
+Which of the following are features of AWS ECS? (Choose 3 options)
+
+
+A. Task Definition
+
+B. Tasks
+
+C. Container Registery
+
+D. Cluster
+
+E. Source Image Storage
+
+
+EXPLANATION:
+Answer: A, B, D
+
+Here is a high-level overview of ECS service. 
+
+
+Following are the features for AWS ECS. 
+Containers and Images
+
+Task Definitions
+
+Tasks and Scheduling
+
+Clusters
+
+Container Agent
+
+For more information on ECS features, refer documentation here. 
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html#welcome-features
+Options A, B and D are part of above feature list. 
+Option C is not part of ECS. Amazon Elastic Container Registry (Amazon ECR) is a fully managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images. 
+For more information on AWS ECR, refer documentation here. 
+
+https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html
+Option E is not correct. It is part of AWS ECR. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##2
+Unattempted
+Domain : Other
+Which of the following statement defines task definition?
+
+A. JSON template that describes containers which forms your application. ]
+B. Template for a program that runs inside AWS ECS Cluster. ]
+C. AWS managed service that launches ECS clusters. ]
+D. Template that defines actions for each IAM user on the ECS cluster and its containers. 
+
+EXPLANATION:
+Answer: A
+
+
+For more information on how to create task definitions, refer documentation here. 
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##3
+Unattempted
+Domain : Other
+Your organization is planning to use AWS ECS for docker applications. However, they would like to apply 3rd party monitoring tools on the ECS instances. They approached you asking for a recommendation. What do you suggest?
+
+A. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use CloudWatch for monitoring metrics. ]
+B. Customers will have control over AWS ECS instances and can setup monitoring like a normal EC2 instance. ]
+C. Raise a case with AWS to install 3rd party software on ECS. AWS will review the case and install if 3rd party software is in their trusted software entries. ]
+D. AWS ECS is a managed service. Customers cannot install 3rd party softwares. Use application level monitoring. 
+
+EXPLANATION:
+Answer: B
+
+
+
+For more information on ECS instances, refer documentation here. 
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_instances.html
+Options A and D are not correct. AWS ECS uses EC2 instances with ECS-optimized AMI. You will have root access to the instances and you can manage them. 
+Option C is not a valid statement. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##4
+Unattempted
+Domain : Other
+Which of the following is a correct statement in relation to ECS instances when accessing Amazon ECS service endpoint?
+
+Choose 2 options. 
+
+A. Create an Interface VPC Endpoint for ECS service and attach to VPC subnet’s route table in which ECS instances are running. 
+
+B. ECS intances are launched with ECS-optimized AMI which contains an inbuilt mechanism to communicate with ECS service endpoints through AWS network. 
+
+C. Create a NAT Gateway and attach it to VPC subnet’s route table in which ECS instances are running. 
+
+D. AWS service endpoints are accessible internally across VPCs. You need to enable IAM role access on the service which needs to be accessed. 
+
+
+EXPLANATION:
+Answer: A and C
+
+The container agent runs on each infrastructure resource within an Amazon ECS cluster. It sends information about the resource's current running tasks and resource utilization to Amazon ECS, and starts and stops tasks whenever it receives a request from Amazon ECS. 
+ 
+
+ 
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_instances.html
+Option A is correct.ECS supports interface VPC endpoints. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html
+ https://aws.amazon.com/blogs/aws/aws-privatelink-update-vpc-endpoints-for-your-own-applications-services/
+ 
+
+Option B is not correct. Any network communication happening in/out of VPC must follow the rules defined on route tables, Network ACLs and Security Groups. Any external communication (internet facing or AWS service endpoints) must either go through Internet Gateway, NAT Gateway or VPC Endpoints (if applicable). For more information on traffic between VPC and outside networks, refer documentation here. 
+https://aws.amazon.com/premiumsupport/knowledge-center/connect-vpc/
+ 
+
+Option D is not a valid statement. Refer to above documentation. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##5
+Unattempted
+Domain :Specify Secure Applications and Architectures
+You have launched an ECS cluster with 5 EC2 instances with its task definitions. However, ECS is not getting any status information back from the container agent in each ECS instance. What could be the reason?
+
+(choose 3 options)
+
+
+A. IAM role used to run ECS instance does not have ecs:Poll action in its policy  
+
+
+B. Key-pair information is missing in ECS cluster. 
+
+C. ECS  Instance  security  groups’  outbound  rules  are  not  allowing  traffic  to  ECS  service endpoint
+
+
+D. Interface VPC endpoint is not configured for ECS service. 
+
+E. You are running ECS on t2.micro instance type which is not supported. 
+
+
+EXPLANATION:
+ 
+
+Answer: A, C, D
+
+Option A is correct. The Amazon ECS container agent makes calls to the Amazon ECS API on your behalf. Container instances that run the agent require an IAM policy and role for the service to know that the agent belongs to you. Before you can launch container instances and register them into a cluster, you must create an IAM role for those container instances to use when they are launched. This requirement  applies  to  container  instances  launched  with  the  Amazon  ECS-optimized  AMI provided by Amazon, or with any other instances that you intend to run the agent on.  
+
+ 
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html
+ 
+
+Option B is not correct. Amazon ECS container instance, has no password to use for SSH access; you use a key pair to log in to your instance securely. You specify the name of the key pair when you launch your container instance, then provide the private key when you log in using SSH. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/get-set-up-for-amazon-ecs.html?shortFooter=true#create-a-key-pair
+ 
+
+Option C is correct. Security groups act as a firewall to ECS container instances. If outbound rules are not allowing any traffic to ECS service endpoints, container agent will not be able to report the status back to ECS. For more information on Security Groups, refer documentation here. 
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/get-set-up-for-amazon-ecs.html?shortFooter=true#create-a-base-security-group
+ 
+
+Option D is correct.ECS supports interface VPC endpoints. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html
+https://aws.amazon.com/blogs/aws/aws-privatelink-update-vpc-endpoints-for-your-own-applications-services/
+ 
+
+Option E is not correct. T2.micro is supported for container instance. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##6
+Unattempted
+Domain : Other
+Which of the following can be used with Amazon ECS to run containers without having to manage servers or clusters of Amazon EC2 instances?
+
+A. AWSVPC
+B. FARGATE
+C. AWS ECR
+D. Docker
+
+
+
+EXPLANATION:
+Answer: B
+
+ 
+
+
+ 
+
+For detailed information on AWS ECS Launch types, refer documentation here. 
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html
+ 
+
+For Option D, Docker is a container type, not launch type. Amazon ECS uses Docker images in task definitions to launch containers on EC2 instances in your clusters. 
+ 
+
+ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##7
+Unattempted
+Domain : Other
+Which of the following are the parameters specified in task definition? (choose 3 options)
+
+
+A. The Docker images to use with the containers in your task. 
+B. EC2 instance types to be used as container instances. 
+C. How much CPU and memory to use with each container. 
+D. AWS VPC and subnets to launch containers in. 
+E. The command the container should run when it is started. 
+
+EXPLANATION:
+Answer: A, C, E
+
+Following are the parameters used in task definition. 
+ 
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
+
+
+Option B and D are paramters specified in creating an ECS cluster. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##8
+Unattempted
+Domain : Other
+Which of the following are the parameters specified in Service Definition? (choose 3 options)
+
+
+A. Cluster on which to run your service
+
+
+B. Full ARN of the task definition to run in your service.  
+
+
+C. Environment Variables that should be passed to the container when it starts. 
+
+D. Data Volumes that should be used with the containers in the task. 
+
+E. IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. 
+
+
+EXPLANATION:
+Answer: A, B, E
+
+A service definition defines which task definition to use with your service, how many instantiations of that task to run, and which load balancers (if any) to associate with your tasks. 
+ 
+
+Following are the parameters defined in Service Definition. 
+ 
+
+Options C and D are parameters in task definition. 
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##9
+Unattempted
+Domain : Other
+You are launching AWS ECS instance. You would like to set ECS container agent configuration during ECS instance launch. What should you do?
+
+A. Set configuration in ECS metadata parameter during cluster creation. ]
+B. Set configuration in user data parameter of ECS intance. ]
+C. Define configuration in task definition. ]
+D. Define configuration in service definition. 
+
+EXPLANATION:
+Answer: B
+
+When you launch an Amazon ECS container instance, you have the option of passing user data to the instance. The data can be used to perform common automated configuration tasks and even run scripts when the instance boots. For Amazon ECS, the most common use cases for user data are to pass configuration information to the Docker daemon and the Amazon ECS container agent. 
+ 
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instanc e.html?shortFooter=true#bootstrap_container_agent
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##10
+Unattempted
+Domain : Other
+You are working for an organization which is actively using AWS. They have noticed that few AWS ECS clusters are running and they do not know who and when the clusters are created. They tasked you to find out the logs regarding this. What will you do?
+
+A. Check CloudWatch event logs. ]
+B. Check CloudTrail logs. ]
+C. Check CloudWatch metrics dashboard. ]
+D. Check Trusted Advisor. 
+
+EXPLANATION:
+Answer: B
+
+
+Amazon ECS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon ECS. CloudTrail captures all API calls for Amazon ECS as events, including calls from the Amazon ECS console and from code calls to the Amazon ECS APIs. 
+
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/logging-using-cloudtrail.html#understanding-service-name-entries
+
+Options A and C are for monitoring the ECS resources, not for the API actions made on ECS. You can monitor your Amazon ECS resources using Amazon CloudWatch, which collects and processes raw data from Amazon ECS into readable, near real-time metrics.

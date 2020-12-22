@@ -1,0 +1,659 @@
+You are uploading large files to AWS S3 bucket, ranging from 1GB – 3GB. Your organization has a requirement to calculate the hash checksum of the file by reading entire file so the users can validate the checksum to identify any potential corruptions during downloads. For this, you created a Lambda function and getting it triggered through S3 notifications. However, the request is getting timed out. What could be the reason?
+
+A. Lambda function is configured with minimal memory of 128 MB. ]
+B. Lambda function is set to run in a private VPC without NAT Gateway or VPC Endpoint. ]
+C. You have not setup S3 bucket name in the environment variable. ]
+D. Lambda function is created in a different region than S3 bucket. 
+
+
+EXPLANATION:
+Answer: B
+
+Option A is not correct. If the function reaches the maximum configured memory, in this case
+
+128 MB, the function gets terminated with an error message as below, not as request timed out. 
+REPORT RequestId: xxxxxxxx   Duration: xxxxx ms   Billed Duration: xxxxx ms
+
+Memory Size: 128 MB Max Memory Used: 129 MB RequestId: xxxxxxx Process exited before completing request
+
+ 
+
+ Option B is correct. AWS Lambda functions can run within a private VPC with the resources allocated inside the subnet provided during configuration. 
+For the lambda function to access S3 service endpoint from within private VPC, there should be a NAT Gateway or S3 VPC Endpoint configured in the route table associated with the subnet which was chosen during Lambda function setup. If not, the request would get timed out. 
+https://aws.amazon.com/premiumsupport/knowledge-center/internet-access-lambda-function/
+Option C is not correct. Bucket need not be configured as environment variable. 
+Lambda function environment variables are used to configure additional parameters that can be passed to lambda function. 
+https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
+
+Option D is not correct. As long as Lambda function has internet access, it can access S3 service endpoints irrespective of S3 bucket region. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##2
+Unattempted
+Domain : Other
+Which of the following are not the supported event sources for AWS Lambda function? (choose 2 options)
+
+
+A. AWS S3
+
+B. AWS IoT
+
+C. AWS CodePipeline
+
+D. AWS CodeCommit
+
+E. AWS OpsWorks
+
+
+EXPLANATION:
+Answer: C, E
+
+Following are the supported event sources for AWS Lambda function. 
+
+ https://docs.aws.amazon.com/lambda/latest/dg/invoking-lambda-function.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##3
+Unattempted
+Domain : Other
+Your organization is having a requirement to perform big data analysis to transform data and store the result in AWS S3 bucket. They have implemented the solution using AWS Lambda due to its zero-administrative maintenance and cost-effective nature. However, in very few cases, the execution is getting abruptly terminated after 15 minutes. They would like to get a notification in such scenarios. What would you do?
+
+A. Setup timer in the code and send notification when the timer reaches 900 seconds.
+B. Configure SES for failures under Configuration option in the lambda function.
+C. Setup ERROR_NOTIFY environment variable with email address. Lambda function has inbuilt feature to send email during max memory and time out terminations using this environment variable.
+D. Configure Dead-letter Queue and send notification to SNS topic
+
+
+
+EXPLANATION:
+Answer: D
+
+Option A is not correct. Although you can set the timers in the code, it may not be accurate measure to find if the lambda function is terminated after 900 seconds or it just finished executing on 900th second. 
+Option B is not correct. There is no option to configure AWS SES within Lambda setup. 
+Option C is not a valid statement. 
+Option D is correct. You can forward non-processed payloads to Dead Letter Queue (DLQ) using
+
+AWS SQS, AWS SNS. 
+. 
+
+Refer:
+
+https://aws.amazon.com/about-aws/whats-new/2018/10/aws-lambda-supports-functions-that-can-run-up-to-15-minutes/
+
+https://aws.amazon.com/blogs/compute/robust-serverless-application-design-with-aws-lambda-dlq/
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##4
+Unattempted
+Domain : Other
+Your organization uploads relatively large compressed files ranging between 100MB – 200MB in size to AWS S3 bucket. Once uploaded, they are looking to calculate the total number objects in the compressed file and add the total count as a metadata to the compressed file in AWS S3. They approached you for a cost-effective solution. You have recommended using AWS Lambda through S3 event notifications to perform this operation. However, they were concerned about failures as S3 event notification is an asynchronous one-time trigger and Lambda can fail due to operation time outs, max memory limits, max execution time limits etc. What is the best retry approach you recommend?
+
+A. All the failed events will be logged to CloudWatch. You can manually retrigger failed events. ]
+B. Configure Dead-letter queue with SQS. Configure SQS to trigger Lambda function again. ]
+C. All failures will be caught during exception inside Lambda function. Trigger lambda function inside lambda function code to process failed event. ]
+D. Enable Active tracing using AWS X-Ray. It will automatically retrigger failed events. 
+
+EXPLANATION:
+Answer: B
+
+Option A is not recommended approach. Although you can configure logging to CloudWatch, it is difficult to find the specific failure logs. Manual retries are not a best practice in an enterprise level solution designs. 
+Option B is correct. You can forward non-processed or failed payloads to Dead Letter Queue
+
+(DLQ) using AWS SQS, AWS SNS. 
+
+ 
+
+https://aws.amazon.com/blogs/compute/robust-serverless-application-design-with-aws-lambda-dlq/
+Option C is not correct. Max memory limit and max execution time limit gets terminated without being caught in the handler exception. 
+
+ 
+
+Option D is not correct. Active tracing option can be used for detailed logging. It will not retry failed events. 
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##5
+Unattempted
+Domain : Other
+You have a requirement to create a REST API using AWS API Gateway with Lambda as backend system and Oracle RDS instance as database. You have created API methods, Lambda function code and spinned up Oracle RDS instance in a private VPC with no Internet Gateway. When you are trying to connect to RDS instance from your Lambda, connection getting failed. What could be the reason? (choose 2 options)
+
+
+A. Lambda execution role does not have policy to access RDS instance. 
+
+B. Lambda function is running in “no VPC” network mode. 
+
+C. RDS instance security group is not allowing connections from Lambda subnet range. 
+
+D. RDS instance is not configured as destination in Lambda setup. 
+
+
+EXPLANATION:
+Answer: B, C
+
+Option A is not correct. A policy on the role can only define access to which API actions can be made on RDS instance such as rds:CreateDBInstance, rds:CreateDBSecurityGroup, rds:CreateDBSnapshot etc. The policy will not define whether a resouce can connect to RDS instance or not. Option B is correct. When Lambda function is running in “no VPC” network mode, it will not have access to resources running in a private VPC. 
+https://docs.aws.amazon.com/lambda/latest/dg/vpc.html
+Option C is correct. Security groups act as a firewall for any resources (such as RDS instance and Lambda in this case) they are connected with. If there is no inbound rule defined to allow connections from Lambda subnet IP range or the Lambda security group, connections will fail. https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html
+Option D is not correct. There is no such configuration for the destination in Lambda setup. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##6
+Unattempted
+Domain : Other
+Which of the following is customer’s responsibility with respect to AWS Lambda service? (choose 2 options)
+
+
+A. Lambda function code. 
+B. Monitoring and logging lambda functions. 
+C. Security patches. 
+D. Installing required libraries in underlying compute instances for Lambda execution. 
+E. Providing access to AWS resources which triggers Lambda function. 
+
+EXPLANATION:
+Answer: A, E
+
+Option A is correct. 
+Options B, C are not correct. Refer below screen shot
+
+
+
+Option D is not correct. You cannot login to underlying compute instances of lambda execution. So, we cannot install any required libraries. However, you can package all the required dependent libraries along with your code. 
+Refer below documentation for more information on creating deployment package for Lambda functions. 
+https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-deployment-pkg.html
+Option E is correct. AWS Lambda assumes the role assigned during setup to access any AWS resources it performs any action on. Policy on the role must grant access on any such resources in order for Lambda to perform operations, for example S3 getobject, Dynamodb GetItem etc. 
+https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro- execution-role
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##7
+Unattempted
+Domain : Other
+Which of the following is not a potential use case for using AWS Lambda?
+
+A. Periodically check the log files for errors in CloudWatch or CloudTrail and send out notifications through SNS. ]
+B. Download S3 bucket objects of size varying between 500 MB-2 GB to a Lambda Ephemeral disk or temp location, read and analyze them for key words and add the key words to the metadata of file object for search purposes. ]
+C. Scheduled job to generate AWS resource usage reports based on certain tags. ]
+D. A website with highly scalable backend layer which will persist data into RDS or DynamoDB. 
+
+EXPLANATION:
+Answer: B
+
+Option A is a potential use case for AWS Lambda. You can use Lambda as scheduled event and read log files from AWS CloudWatch or CloudTrail and report any errors through SNS notifications. 
+Option C is a potential use case. 
+For more information on scheduling Lambda functions, refer documentation here. 
+
+https://docs.aws.amazon.com/lambda/latest/dg/with-scheduled-events.html?shortFooter=true
+Option D is a potential use case. 
+You can host the web frontend on S3, and accelerate content delivery with Cloudfront caching. The web frontend can send requests to Lambda functions via API Gateway HTTPS endpoints. Lambda can handle the application logic, and persist data to a fully managed database service
+
+
+(RDS for relational, or DynamoDB for non relational database). You can host your Lambda functions and databases within a VPC to isolate them from other networks. 
+Here is the documentation for building a serverless website. 
+https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/
+Option B looks like a potential use case. But the scenario will fail due to the /tmp directory space limitation. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##8
+Unattempted
+Domain : Other
+You have created a Lambda function for reading data from the Kinesis stream of transactions. In the code, you were using context logger so that it can log to CloudWatch and you can monitor them at a later point of time. Lambda function started running along with Kinesis stream, however, you do not see any log entries for the new Lambda function. What could be the reason?
+
+A. Lambda functions with Kinesis stream as event source do not write logs to CloudWatch.
+B. Lambda execution role policy does not have access to create CloudWatch logs.
+C. Lambda function execution logs will be written to CloudTrail, not to CloudWatch.
+D. Active tracing is not enabled on the Lambda function setup configuration. 
+
+
+EXPLANATION:
+ 
+
+Answer: B
+
+Option A is not a valid statement. Lambda function will write logs as long as the execution role has access to create and write CloudWatch logs irrespective of source that triggered it. 
+Option B is correct. 
+Option C is not correct. AWS CloudTrail is used for logging API calls made to services such as
+
+AWS Lambda, AWS S3 etc. 
+AWS CloudWatch for Lambda is used for execution logging. 
+
+ 
+
+https://docs.aws.amazon.com/lambda/latest/dg/with-cloudtrail.html
+Option D is not correct. AWS X-Ray traces requests made to your serverless applications built using AWS Lambda. This will not be the reason for failing to write logs to CloudWatch. 
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##9
+Unattempted
+Domain : Other
+When configuring AWS SQS as event source for AWS Lambda function, what is the maximum batch size supported by AWS SQS for ReceiveMessage call?
+
+A. 20
+B. 40
+C. 10
+D. 100
+
+
+EXPLANATION:
+Answer: C
+Here are other parameters apart from batch size. 
+ 
+
+https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##10
+Unattempted
+Domain : Other
+You are to planning to schedule a daily job with AWS CloudWatch scheduled event and AWS Lambda function as trigger to the event which will perform daily health check on your applications running on fleet of EC2 instances. For you to achieve this, you need to provide the EC2 instances’ name tags to identify right resources. What is the correct way of passing the inputs in this case?
+
+A. Configure “Variables” option on AWS CloudWatch scheduled event.
+B. You can modify the “Matched Event” option while selecting AWS Lambda as trigger for CloudWatch scheduled event.
+C. You can set “Constant (JSON text)” option while selecting Lambda Function as trigger for CloudWatch scheduled event.
+D. “Details” object of “Matched Event” can be configured while creating AWS CloudWatch scheduled event. 
+
+
+EXPLANATION:
+ 
+
+Answer: C
+
+When using an AWS Cloudwatch rule to trigger a Lambda event, one of the multiple options you have to pass data onto your Lamba function is “Constant (JSON Text)”. This handy feature allows you to send static content to your function instead of the matched event. 
+
+
+https://aws.amazon.com/blogs/compute/simply-serverless-use-constant-values-in-cloudwatch-event-triggered-lambda-functions/
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##11
+Unattempted
+Domain : Other
+You have an existing AWS setup with DirectConnect. You have migrated certain on premise backend applications to AWS EC2 instances which are having certain processes run based on triggers from other applications. These processes are developed on JAVA programming language. Your organization is looking to migrate these processes to Lambda and reduce the cost incurred on EC2 instances. What would be your recommendation?
+
+A. AWS Lambda cannot be invoked from a custom application. They can only be triggered by AWS supported event sources. ]
+B. Replicate the JAVA code easily onto AWS Lambda function with few modifications and use Lambda Invoke API with input passed as custom event. ]
+C. Trigger Lambda from AWS CloudWatch scheduled event and invoke CloudWatch API from your applications. ]
+D. AWS Lambda is not designed to run backend applications. Better to use EC2 for that purpose. 
+
+EXPLANATION:
+Answer: B
+
+You can invoke a Lambda function using a custom event through AWS Lambda’s invoke API. Only the function’s owner or another AWS account that the owner has granted permission can invoke the function. 
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html
+https://docs.aws.amazon.com/lambda/latest/dg/with-userapp.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##12
+Unattempted
+Domain : Other
+Which of the following are AWS CloudFront events that can trigger AWS Lambda@edge function? (choose 3 options)
+
+
+A. Viewer Request
+
+B. CloudFront Cache
+
+C. Sender Request
+
+D. Origin Request
+
+E. Origin Response
+
+
+EXPLANATION:
+Answer: A, D, E
+
+https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-cloudfront-trigger-events.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##13
+Unattempted
+Domain : Other
+You created an AWS Lambda function to process files uploaded to AWS S3 bucket. Lambda function started receiving requests and working properly. You have changed the code and uploaded new version of code to AWS Lambda function. What will happen to the requests sent right after the AWS lambda function update?
+
+A. Requests will queue until the changes are fully propagated. You could experience up to 5 minutes of wait during this period.
+B. Requests will be served by old version till you enable new version as latest.
+C. When you have multiple versions of Lambda function, in the code you need to define which version of function to be used. Otherwise, requests would fail.
+D. Requests might be served by old or new version for a brief period of less than one minute. 
+
+
+EXPLANATION:
+ 
+
+Answer: D
+
+
+Option A is not a valid statement. It will not continually queue automatically or 5 minute wait time. 
+Option B is not correct. By default, whenever you update the code, it updates the LATEST version. 
+ 
+
+
+
+Option C is not correct. There is no need to define in code which version to be used. However, you can define which version to be used at the source which triggers Lambda function by providing version qualified ARN if you have published version. 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##14
+Unattempted
+Domain : Other
+Which of the following are poll based event sources for AWS Lambda function? (choose 3 options)
+
+
+A. AWS SNS
+
+B. AWS Kinesis
+
+C. AWS SQS
+
+D. AWS DynamoDB
+
+E. AWS CodePipeline
+
+
+EXPLANATION:
+Answer: B, C, D
+
+https://docs.aws.amazon.com/lambda/latest/dg/invocation-options.html?shortFooter=true#streaming-event-source-mapping
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##15
+Unattempted
+Domain : Other
+You work for a team which has 10s of applications running on AWS EC2 instances. All these applications would need a common backend processing job. You have created an AWS Lambda function with name “app-backend-job”and published PROD version with version “1” in order to make sure any changes to the function by anyone will not impact the PROD execution code. You have shared the version qualified ARN to all the applications assuming requests would be sent to the specific version. However, due to frequent changes in requirements, you had to change the code of Lambda function many times and keep publishing versions. This is causing a lot of overhead at the application level to update the Lambda function ARN each time you publish a new version. How can you overcome this situation?
+
+A. Create an alias, point it to PROD version and share the ARN with applications. When new version is published, change the alias to point to it. ]
+B. Do not publish versions for every code change. Instead, update the published version so that ARN to be invoked will not change. ]
+C. Delete the old published version “1” before publishing new version. This way when you publish, you will get the version ID as “1” and the lambda version ARN will remain unchanged. ]
+D. Do not use versioning in this case. Always use $LATEST version and share its ARN with applications.You can update the codes of $LATEST version any number of times. 
+
+EXPLANATION:
+Answer: A
+
+
+By using aliases, you can access the Lambda function an alias is pointing to (for example, to
+
+invoke the function) without the caller having to know the specific version the alias is pointing to. 
+https://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html?shortFooter=true
+Option B is not correct. 
+
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/versioning-intro.html?shortFooter=true
+Option C is not correct. 
+
+
+Although Option D sounds correct, it is not a recommended approach since $LATEST version can be changed by anyone who has access to it. Any code running in PRODUCTION mode and using
+
+$LATEST version, there are chances that the configuration can be meddled and can cause unwanted issues. 
+https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html?shortFooter=true
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##16
+Unattempted
+Domain : Other
+Which of the following are correct ARNs for a Lambda function? (choose 3 options)
+
+
+A. arn:aws:lambda:aws-region:acct-id:function:helloworld:$LATEST
+
+B. arn:aws:lambda:aws-region:acct-id:function:helloworld
+
+C. arn:aws:lambda:aws-region:acct-id:function:helloworld/$LATEST
+
+D. arn:aws:lambda:aws-region:acct-id:function:helloworld:PROD
+
+E. arn:aws:lambda:aws-region:acct-id:function:helloworld/1
+
+
+EXPLANATION:
+Answer: A, B, D
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##17
+Unattempted
+Domain : Other
+Which of the following is a valid AWS Lambda configuration?
+
+A. 64 MB memory and 212 seconds timeout.
+B. 1376 MB memory and 120 seconds timeout.
+C. 2112 MB memory and 10 seconds timeout.
+D. 3072 MB memory and 300 seconds timeout. 
+
+
+EXPLANATION:
+ 
+
+Answer: C
+
+
+Option A is not correct. Minimum memory required is 128 MB. Option B is not correct. 1376 MB memory is not in 64 MB increments. It can be 1344 MB or 1408MB. Option D is not correct. Maximum memory that can be allocated is 3008 MB.  
+
+Please refer to the below link to get further information:
+ https://docs.aws.amazon.com/lambda/latest/dg/limits.html
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##18
+Unattempted
+Domain : Other
+Your organization has two accounts, for DEV and TEST. You have certain user applications running on TEST account would like to trigger AWS Lambda on DEV account. What is the permission model which needs to be set in order to get this configuration working?
+
+A. Add permission for TEST account on DEV account’s lambda function policy through AWS CLI.
+B. Add permission for TEST account on DEV account’s lambda execution role policy through AWS Console.
+C. Add permission for TEST account on DEV account’s lambda execution role policy through AWS CLI.
+D. Add permission for TEST account on DEV account’s lambda function policy through AWS Console. 
+
+
+EXPLANATION:
+Answer: A
+
+ 
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html?shortFooter=true#access-control-resource-based-example-cross-account-scenario
+ 
+
+Options B, C are not correct. Permission need to be added on the Lambda function policy to invoke the function, not on execution role policy. 
+ 
+
+Option D is not correct. Lambda function policy cannot be edited from AWS console. 
+ 
+
+ 
+
+For more information, please fere to the below mentioned AWS docs:
+
+https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##19
+Unattempted
+Domain : Other
+You have a requirement to create an AWS Lambda function inside a private VPC which will be communicating with RDS instance inside the same private VPC. You have set up the memory to be 1 GB for the Lambda function. You expect concurrent requests during peak to be 100 per sec and average Function execution time is 1 sec. 
+What should be the minimum subnet range you must choose for creating a subnet to run the Lambda function successfully without any issues?
+
+A.  x.x.x.x/24
+B.  x.x.x.x/25
+C. x.x.x.x/26
+D. x.x.x.x/27
+
+
+
+EXPLANATION:
+Answer: C
+
+ 
+
+ 
+
+https://docs.aws.amazon.com/lambda/latest/dg/vpc.html#vpc-setup-guidelines
+ 
+
+Peak concurrent executions = 100 * 1 = 100
+ENI Capacity = 100 * (1GB / 3GB) = 33.33  i.e. = 33
+
+Hence we need /26 CIDR
+
+ 
+
+/24 CIDR range comes with 256 IP address with 251 available IP addresses
+/25 CIDR range comes with 128 IP address with 123 available IP addresses. /26 CIDR range comes with 64 IP addresses with 59 available IP addresses. /27 CIDR range comes with 32 IP addresses with 27 available IP addresses.  
+
+A step-by-step guide to ensure your function is optimally configured for scalability:
+
+Calculate your Peak Concurrent Executions with this formula:
+Peak Concurrent Executions = Peak Requests per Second * Average Function Duration (in seconds)
+Now calculate your Required ENI Capacity:
+Required ENI Capacity = Projected peak concurrent executions * (Function Memory Allocation in GB / 3GB)
+If Peak Concurrent Executions > Account Level Concurrent Execution Limit (default=1,000), then you will need to ask AWS to increase this limit. Configure your function to use all the subnets available inside the VPC that have access to the resource that your function needs to connect to. This both maximizes Actual ENI Capacity and provides higher availability (assuming subnets are spread across 2+ availability zones). Calculate your Actual ENI Capacity using these steps. If Required ENI Capacity > Actual ENI Capacity, then you will need to do one or more of the following:
+Decrease your function’s memory allocation to decrease your Required ENI Capacity. Refactor any time-consuming code which doesn’t require VPC access into a separate Lambda function. Implement throttle-handling logic in your app (e.g. by building retries into a client). If Required ENI Capacity > your EC2 Network Interfaces per region account limit then you will need to request that AWS increase this limit. Consider configuring a function-level concurrency limit to ensure your function doesn’t hit the ENI Capacity limit and also if you wish to force throttling at a certain limit due to downstream architectural limitations. Monitor the concurrency levels of your functions in production using CloudWatch metrics so you know if invocations are being throttled or erroring out due to insufficient ENI capacity. If your Lambda function communicates with a connection-based backend service such as RDS, ensure that the maximum number of connections configured for your database is less than your Peak Concurrent Executions, otherwise, your functions will fail with connection errors. See here for more info on managing RDS connections from Lambda. (kudos to Joe Keilty for mentioning this in the comments)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##20
+Unattempted
+Domain : Other
+Which of the following services does the DLQ configured under lambda gets populated on error? (choose 2 options)
+
+
+A. AWS SQS
+
+
+B. AWS Kinesis
+
+
+C. AWS SNS
+
+
+D. AWS CloudWatch
+
+
+E. AWS X-Ray
+
+
+
+EXPLANATION:
+Answer: A, C
+
+  
+
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/dlq.html?shortFooter=true
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##21
+Unattempted
+Domain : Other
+You are setting up AWS Lambda function to receive messages from SQS queue, process the message body and insert one record in MySQL RDS instance. You have setup SQS event trigger as AWS Lambda function. However, for connecting to RDS instance, you need MySQL details such as hostname, username and password. Where would you configure them?
+
+A. Use environment variables to pass configuration. They are automatically encrypted by AWS default KMS keys and decrypted when used in Lambda function. ]
+B. Use environment variables to pass configuration. Use encryption helpers to encrypt sensitive information by your own KMS key. Decrypt the variable using decryption helper code provided in the console. ]
+C. Use properties file in AWS Lambda function for any such configuration. Properties files are encrypted by AWS in transit and at rest. ]
+D. Store such configuration in AWS S3 bucket and enable encryption on S3 bucket. Perform S3 get object to get the configuration details in the Lambda function code. 
+
+EXPLANATION:
+Answer: B
+
+
+ https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html?shortFooter=true
+
+ Option A is not correct. The statement is true, however the encryption only happens after deployment of lambda function. 
+ 
+
+Option C is not a valid statement. 
+Option D looks correct. However, out of given options, Option B is more valid and recommended. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##22
+Unattempted
+Domain : Other
+Which of the following actions required by Lambda execution role in order to write the logs into
+
+AWS CloudWatch? (choose 3 options)
+
+A. logs:CreateLogGroup
+
+B. logs:GetLogEvents
+
+C. logs:CreateLogStream
+
+D. logs:DescribeLogStreams
+
+E. logs:PutLogEvents
+
+
+EXPLANATION:
+Answer: A, C, E
+
+  
+
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html?shortFooter=true#lambda-intro-execution-role
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##23
+Unattempted
+Domain : Other
+Which of the following options is not AWS CloudWatch metric for AWS Lambda function?
+
+A. Memory
+B. Dead Letter Error
+C. Duration
+D. Invocations
+
+
+EXPLANATION:
+Answer: A
+
+The AWS/Lambda namespace includes the following metrics. 
+https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions-metrics.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##24
+Unattempted
+Domain : Other
+You are creating a production mode Lambda function. Due to auditing compliance, your organization stated that production grade code must not be modified during its execution unless the modification goes through a change process. For that, you decided to publish version for PROD, create an alias and use the alias ARN for invoking the Lambda function. However, your organization stated the code should not run if the version is $LATEST. How would you achieve this? (choose 2 options)
+
+
+A. getFunctionVersion from Context object. 
+
+B. Get invokedLambdaARN from event object and find out version from it. 
+
+C. Use  AWS_LAMBDA_FUNCTION_VERSION environment variable. 
+
+D. Use  AWS_LAMBDA_FUNCTION_ALIAS environment variable. 
+
+
+EXPLANATION:
+ 
+
+Answer: A, C
+
+ 
+
+For more information on environment variables available to Lambda functions, refer documentation here. 
+ 
+
+https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
+
+https://docs.aws.amazon.com/lambda/latest/dg/tutorial-env_cli.html
+
+Option B is not correct. There is no parameter in any event source containing ARN of the invoked Lambda function. 
+Option D is not correct. This is no environment variable for ALIAS. 
+ 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##25
+Unattempted
+Domain : Other
+Which of the following statement is not true with respect to default retry behaviour of AWS Lambda function?
+
+A. With synchronous invocation, the invoking application receives a 429 error and is responsible for retries.
+B. With asynchronous invocation, if AWS Lambda is unable to fully process the event and if you don't specify a Dead Letter Queue (DLQ), the event will be discarded.
+C. With Poll-based (or pull model) event sources that are stream-based, when a Lambda function invocation fails, AWS Lambda attempts to process the erring batch of records until the time the data expires, which can be up to seven days.
+D. With Poll-based event sources that are not stream-based, if the invocation fails or times out, the message will be returned to the queue and will be available for invocation once the Visibility Timeout period expires. 
+
+
+EXPLANATION:
+Answer: A
+
+Synchronous invocation – Lambda includes the FunctionError field in the response body, with details about the error in the X-Amz-Function-Error header. The status code is 200 for function errors
+
+Event sources that aren't stream-based – Some of these event sources are set up to invoke a Lambda function synchronously and others invoke it asynchronously. Accordingly, exceptions are handled as follows:
+
+Synchronous invocation – Lambda includes the FunctionError field in the response body, with details about the error in the X-Amz-Function-Error header. The status code is 200 for function errors. Lambda only returns error status codes if there is an issue with the request, function, or permissions that prevents the handler from processing the event. See Invoke Errors for details. 
+AWS service triggers can retry depending on the service. If you invoke the Lambda function directly from your application, you can choose whether to retry or not. 
+Asynchronous invocation – Asynchronous events are queued before being used to invoke the Lambda function. If AWS Lambda is unable to fully process the event, it will automatically retry the invocation twice, with delays between retries. If you have specified a Dead Letter Queue for your function, then the failed event is sent to the specified Amazon SQS queue or Amazon SNS topic. If you don't specify a Dead Letter Queue (DLQ), which is not required and is the default setting, then the event will be discarded. For more information, see Dead Letter Queues.

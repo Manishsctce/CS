@@ -1,0 +1,274 @@
+Which of the following are the main functions of AWS Route 53? (SELECT THREE)
+
+
+A. Register domain names
+
+
+B. Route internet traffic to the resources for your domain
+
+
+C. Load-balance traffic among individual AWS resource instances
+
+
+D. Check the health of your resources
+
+
+E. Auto Scale your resources
+
+
+
+EXPLANATION:
+Answer: A, B, D
+
+
+
+Breakdown
+
+Option C is incorrect because Route 53 is not used for load-balancing traffic among individual AWS resource instances (like a load balancer) rather we integrate it with resources for added functionality (https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/integration-with-other-services.html)
+Option E is incorrect. In AWS, Autoscaling is used to scale underlying resources up or down based on pre-determined or dynamic factors. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##2
+Unattempted
+Domain : Other
+Your organization had created an S3 bucket for static website hosting. They had created and configured all necessary components for static website and ready to use with host name http://example-bucket.com.s3-website-us-east-2.amazonaws.com. However, they would like to get the website served through domain name www.example-bucket.com which is already registered. Which type of record set you need to create?
+
+A. A - IPv4 Address with Alias=NO
+B. A - IPv4 Address with Alias=YES
+C. CNAME - Canonical Name with ALIAS=NO
+D. CNAME - Canonical Name with ALIAS=YES
+
+
+
+EXPLANATION:
+Answer: D
+
+When setting up a new domain to override another domain in use, a CNAME record with Alias is required. Within the DNS settings of the new domain, the new CNAME record set can be created. 
+AWS Documentation:
+
+https://docs.aws.amazon.com/AmazonS3/latest/dev/website-hosting-custom-domain-walkthrough.html#root-domain-walkthrough-s3-tasks
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##3
+Unattempted
+Domain : Other
+Which of the following is not an AWS service that AWS Route 53 can route traffic to?
+
+A. Amazon CloudFront
+B. Elastic Load Balancing
+C. Amazon RDS
+D. Amazon CloudWatch
+
+
+EXPLANATION:
+Answer: D
+
+           
+
+       
+
+Amazon Route 53 integrates with Amazon CloudWatch for monitoring, not for routing traffic. 
+
+
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/integration-with-other-services.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##4
+Unattempted
+Domain : Other
+Your organization had setup a web application on AWS VPC with 4 EC2 instances in a private subnet. They had configured an elastic load balancer to distribute traffic between all 4 EC2 instances. They decided to route traffic from internet to the elastic load balancer via a domain “www.example-web-application.com” which they had already registered. Which type of record set you need to create?
+
+A. A - IPv4 Address with Alias=NO
+B. A - IPv4 Address with Alias=YES
+C. CNAME - Canonical Name with ALIAS=NO
+D. CNAME - Canonical Name with ALIAS=YES
+
+
+
+EXPLANATION:
+Answer: B
+
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html
+
+Note:
+
+A Record (Address Record) is typically used when an IP address to name conversion is required. This is most commonly used. 
+
+A record points a name to specific IP. If you want whizlabs.com to point to the server 10.120.13.14 then you will configure an A record like below
+
+whizlabs.com A 10.120.13.14
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##5
+Unattempted
+Domain : Other
+You have a web application hosted on AWS VPC with a single EC2 instance with Auto Scaling enabled. You have also assigned elastic IP address to the EC2 instance. When you access the elastic IP address, you are able to successfully connect to your web application. You decided to route requests to your application from a custom domain through Route 53. You have performed the setup on Route 53. However, when you access your custom domain name from internet, you get “Server Not Found” error. Which of the following could be a reason?
+
+A. Route 53 service is for internal application routing. It does not support routing traffic from internet. ]
+B. You must configure elastic load balancer in order to use Route 53 for web application hosting. ]
+C. IP address configured in Route 53 DNS record set might be incorrect. ]
+D. The resource on EC2 instance that you're routing traffic to is unavailable. 
+
+EXPLANATION:
+Answer: C
+
+ Option A and B are not valid statements. 
+ Option C is correct. 
+       
+
+Although option D looks correct, the question states the connection to web application was successful when connected through elastic IP address. So this option is not the cause of failure. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##6
+Unattempted
+Domain : Other
+Which of the following are correct options for logging and monitoring AWS Route 53 service? Choose 3 correct options. 
+
+A. Amazon CloudWatch
+
+
+B. AWS VPC Flow Logs
+
+
+C. AWS Route 53 dashboard
+
+
+D. Access logs in S3
+
+
+E. AWS CloudTrail
+
+
+
+EXPLANATION:
+Answer: A, C, E
+
+Option A is correct.        
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-health-checks.html
+ 
+
+Option B is not correct. VPC Flow logs are for logging the network traffic going in/coming out of a specific VPC. Route 53 is not a VPC specific service. 
+ 
+
+Option C is correct. 
+
+Option D is not correct. Route 53 does not log directly into AWS S3. However, you can export the cloudwatch or cloudtrail logs into S3. 
+Option E is correct. 
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##7
+Unattempted
+Domain : Other
+You have launched an RDS instance in your VPC. The endpoint that is assigned to your DB instance is a long, partially random, alphanumeric string, for example, myexampledb.a1b2c3d4wxyz.us-west-2.rds.amazonaws.com. Your organization wants to use a name that's easier to remember, so you registered a domain name using Route53 service. Which type of record set do you need to create?
+
+A. A - IPv4 Address with Alias=NO
+B. A - IPv4 Address with Alias=YES
+C. CNAME - Canonical Name with ALIAS=NO
+D. CNAME - Canonical Name with ALIAS=YES
+
+
+
+EXPLANATION:
+Answer: C
+
+       
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-rds-db.html
+Note:
+
+A Record (Address Record) is typically used when an IP address to name conversion is required. This is most commonly used. 
+
+A record points a name to specific IP. If you want whizlabs.com to point to the server 10.120.13.14 then you will configure an A record like below
+
+whizlabs.com A 10.120.13.14
+
+
+A CNAME record (Cannonical record) points a name to another name. Typically a complex name with alphanumeric characters can be shortened to a user understandable format
+
+blog.whizlabs.com CNAME  blog235_github_repoABCD.io.net
+
+In the question, the AWS generated resource name is complex i.e myexambledb.a1b2c3d4....... 
+This can be converted to the user-friendly name by using a CNAME record. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##8
+Unattempted
+Domain : Other
+In AWS Route 53 record set, which of the following is not a routing policy?
+
+A. Weighted routing policy
+B. Geolocation routing policy
+C. Failover routing policy
+D. Distributed routing policy
+
+
+EXPLANATION:
+Answer: D
+
+ Options A, B, C are valid routing policies for AWS Route 53. 
+Following are list of routing policies. 
+       
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##9
+Unattempted
+Domain : Other
+You are planning to launch a web based application in two different regions within US on AWS due to your organization compliance policies. You have setup 2 EC2 instances attached to an elastic load balancer in us-east-1. You have replicated the same setup in us-west-1. Now you have two load balancers which needs to listen traffic from internet. You would want to split the requests equally between both load balancers from a domain name hosted on your AWS Route 53. How should you configure your Route 53 record sets?
+
+A. Create two record sets, one each for us-east-1 and us-west-1 load balancers. Set weighted routing policy with weights as 1 and 2 respectively. ]
+B. Create two record sets, one each for us-east-1 and us-west-1 load balancers. Set weighted routing policy with weights as 1 and 1 respectively. ]
+C. Create one record set and select both load balancers as Alias Targets. Set weighted routing policy with weights as 1 and 2 respectively. ]
+D. Create one record set and select both load balancers as Alias Targets. Set weighted routing policy with weights as 1 and 1 respectively. 
+
+EXPLANATION:
+Answer: B
+
+       
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted
+
+Option A is not correct. 
+According to above screen shot, with weights 1 and 2, the request distribution is 1:2 which is not equal. 
+Option B is correct as the distribution ratio would be 1:1
+
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/TutorialManagingOver100WRR.html
+
+Options C and D are not correct. 
+A record set can only have one Alias Target
+
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-alias.html#rrsets-values-alias-alias-target
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##10
+Unattempted
+Domain : Other
+Which of the following types can be monitored for health checks by AWS Route 53? Choose 2 correct options. 
+
+A. Endpoints
+
+
+B. State of CloudWatch alarm
+
+
+C. EC2 instance health checks
+
+
+D. DNS service health checks
+
+
+
+EXPLANATION:
+Answer: A, B
+
+
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-types.html
+

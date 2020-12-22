@@ -1,0 +1,338 @@
+Company ABC has an AWS setup and planning to use Amazon SQS for queuing messages. The design is such that two applications will receive the same message in the queue and process it. Once applications would have read the message, it should be deleted. However, when the 2nd application is making ReceiveMessage API call, the message is not getting returned. Which of the following could be reasons? (Choose 2 options)
+
+
+A. Application 2 is making a call before Visibility Timeout elapsed which was set by application 1 ReceiveMessage call. 
+
+B. Amazon SQS deletes the message once it has been responded via ReceiveMessage call from Application 1. 
+
+C. Application 1 had deleted the message after it has processed before Visibility Timeout elapsed. 
+
+D. Application 2 does not have access on the message it is trying to receive. 
+
+
+EXPLANATION:
+ 
+
+Answer: A, C
+
+Option A is correct. 
+
+Immediately after a message is received, it remains in the queue. To prevent other consumers from processing the message again, Amazon SQS sets a visibility timeout, a period of time during which Amazon SQS prevents other consumers from receiving and processing the message. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. 
+ 
+
+ 
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
+
+Option B is not correct. 
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
+
+ 
+
+ 
+
+Option C is correct. 
+Once the message is deleted from Amazon SQS Queue, it will not be available anymore. 
+
+ 
+
+ 
+
+Option D is not correct. 
+Permission exists on the Queue level, not on the message level. 
+For more information on SQS actions, refer documentation here. 
+https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonsqs.html
+
+ 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##2
+Unattempted
+Domain :Design Resilient Architectures
+Your organization is using Amazon SQS as an enterprise message queuing platform. 100s of applications reading the queues every few seconds to process the messages and delete them as soon as they are being written into the queues. Looking at the number of requests being sent to Amazon SQS APIs, your management is concerned on the pricing that will be incurred. As an architect, how would you reduce pricing without compromising on time in this scenario? Please select 2 correct answers. 
+
+A. Once successfully written, Amazon SQS messages are only available after 1 minute. Ask applications to increase the delay between calls to 1 minute. This reduces the number of API calls made
+
+
+B. Use Amazon SQS Long Polling. 
+
+C. Send DeleteMessage requests in batch. 
+
+D. Use Amazon SQS Short Polling. 
+
+
+EXPLANATION:
+Answer: B, C
+
+Option A is incorrect. There is no such limitation on AWS SQS queues. Option B is correct. 
+
+ 
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html
+
+ 
+
+ 
+
+Option C is correct. 
+
+ 
+
+Option D is not correct.  
+
+Short polling does not guarantee a return of the message and you have to repeat the call until you receive the message. Which does not reduce any costs. 
+
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ReceiveMessage.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##3
+Unattempted
+Domain : Other
+Which of the following statements is not correct with respect to AWS SQS?
+
+A. Amazon SQS can trigger a lambda function.
+B. To select the message to delete, use the ReceiptHandle of the message, not the MessageId which you receive when you send the message.
+C. Use dead letter queues to isolate messages that can't be processed for later analysis.
+D. All messages in Amazon SQS queue are encrypted by default. 
+
+
+EXPLANATION:
+ 
+
+Answer: D
+
+ Note: In the question, it is mentioned to select the wrong Option as the answer. Here Option A, B and C are correct statements but not the correct options. 
+            Option A is a correct statement. 
+
+           
+
+ 
+
+            Option B is the correct statement. 
+            
+
+Option C is the correct statement. 
+
+Option D is not a correct statement. 
+ 
+
+ 
+
+Amazon SQS does not encrypt messages by default. The option needs to be selected by the customer in order to enable encryption on the Queue messages. 
+
+https://aws.amazon.com/blogs/aws/new-server-side-encryption-for-amazon-simple-queue-service-sqs/
+
+ 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##4
+Unattempted
+Domain : Other
+Which of the following is not a feature of AWS Security Token Service?
+
+A. STS enables you to request temporary, limited-privilege credentials. ]
+B. STS enables users to assume role. ]
+C. STS generates Git Credentials for IAM users. ]
+D. STS generates Federated Credentials for IAM users. 
+
+EXPLANATION:
+Answer: C
+
+Option A is a correct statement. 
+
+Option B is a correct statement. 
+STS “AssumeRole” action will enable users to assume a role. 
+
+https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
+
+ 
+
+Option C is not a correct statement. 
+With Git credentials, you can generate a static user name and password in the Identity and Access Management (IAM) console that you can use to access AWS CodeCommit repositories from the command line, Git CLI, or any Git tool that supports HTTPS authentication. 
+This is not an action on AWS STS. 
+https://aws.amazon.com/blogs/devops/introducing-git-credentials-a-simple-way-to-connect-to-aws-codecommit-repositories-using-a-static-user-name-and-password/
+
+ 
+
+Option D is a correct statement. 
+
+https://docs.aws.amazon.com/STS/latest/APIReference/API_GetFederationToken.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##5
+Unattempted
+Domain : Other
+Your organization AWS Setup has an AWS S3 bucket which stores confidential documents which can be only downloaded by users authenticated and authorized via your application. You do not want to create IAM users for each of these users and as a best practice you have decided to generate AWS STS Federated User temporary credentials each time when a download request is made and then use the credentials to generate presigned URL and redirect user for download. However, when user is trying to access the presigned URL, they are getting Access Denied Error. What could be the reason?
+
+A. AWS STS service must be given access in S3 bucket ACL. ]
+B. IAM User used to generate Federated User credentials does not have access on S3 bucket. ]
+C. IAM Role used to generate Federated User credentials does not have access on S3 bucket. ]
+D. Your application must be whitelisted in AWS STS service to perform FederatedUser action. 
+
+EXPLANATION:
+Answer: B
+
+Option A is not a correct statement. 
+Option B is correct. 
+
+https://docs.aws.amazon.com/STS/latest/APIReference/API_GetFederationToken.html
+
+Option C is not correct. 
+You can generated FederatedUser credentials using an IAM User, not using an IAM Role. 
+
+ 
+
+Option D is not a correct statement. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##6
+Unattempted
+Domain : Other
+Your organization has an AWS setup and planning to build Single Sign On for users to authenticate with on-premise Microsoft Active Directory Federation Services (ADFS) and let users login to AWS console using AWS STS Enterprise Identity Federation. Which of the following service you need to call from AWS STS service after you authenticate with your on-premise?
+
+A. AssumeRoleWithSAML
+B. GetFederationToken
+C. AssumeRoleWithWebIdentity
+D. GetCallerIdentity
+
+
+EXPLANATION:
+Answer: A
+
+https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithSAML.html
+
+
+
+https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##7
+Unattempted
+Domain : Other
+Your organization has an AWS Setup. Your recent monthly bill has shown some increase in SNS billing. Your management wants to find out more about the incoming API calls. They want you to identify the requests made to AWS SNS on who made the request and the source IP address of the user who made the requests. How would you find out?
+
+A. Enable SNS logging to S3 bucket.
+B. Enable X-ray logging for SNS.
+C. Enable CloudTrail logging for SNS.
+D. Enable CloudWatch logging for SNS. 
+
+
+EXPLANATION:
+ 
+
+Answer: C
+
+
+Options A and B are not correct. 
+ 
+
+Option D is not correct. Amazon SNS and CloudWatch are integrated so you can collect, view, and analyze metrics for every active Amazon SNS notification. Once you have configured CloudWatch for Amazon SNS, you can gain better insight into the performance of your Amazon SNS topics, push notifications, and SMS deliveries. 
+But it does not provide information on the API calls made to SNS. 
+ 
+
+ 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##8
+Unattempted
+Domain : Other
+Which of the following are the available options while configuring AWS SNS? (Choose 3 options)
+
+
+A. AWS Lambda
+
+
+B. AWS SQS
+
+
+C. SMS
+
+
+D. Email-XML
+
+
+E. AWS MQ
+
+
+
+EXPLANATION:
+ 
+
+Answer: A, B, C
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##9
+Unattempted
+Domain : Other
+You are an architect in your company and you have configured an SNS topic to send emails to a group of users regarding the CloudWatch alarms on the resource usages and outages. You were requested by your head of department to exclude him from those alarms except for critical system outages. How efficiently can you achieve this?
+
+A. Create a new topic and and subscribe only head of department email address. Create new CloudWatch alarm only for critical outages and send messages to new Topic.
+B. Configure another option on AWS CloudWatch alarm to send a direct email to head of department.
+C. Add filter policy to head of department subscription.
+D. For head of department subscription, select AWS Lambda function which contains code to identify critical system outages and send email using AWS SES. 
+
+
+EXPLANATION:
+Answer: C
+
+Option A is not correct. 
+Although it looks correct, it is not an efficient solution. 
+Option B is not correct. There is no such option on AWS CloudWatch alarms. 
+Option C is correct. 
+########
+
+Amazon SNS Message Filtering
+By default, a subscriber of an Amazon SNS topic receives every message published to the topic. To receive only a subset of the messages, a subscriber assigns a filter policy to the topic subscription. 
+A filter policy is a simple JSON object. The policy contains attributes that define which messages the subscriber receives. When you publish a message to a topic, Amazon SNS compares the message attributes to the attributes in the filter policy for each of the topic's subscriptions. If there is a match between the attributes, Amazon SNS sends the message to the subscriber. Otherwise, Amazon SNS skips the subscriber without sending the message to it. If a subscription lacks a filter policy, the subscription receives every message published to its topic. 
+With filter policies, you can simplify your usage of Amazon SNS by consolidating your message filtering criteria into your topic subscriptions. With this consolidation, you can offload the message filtering logic from subscribers and the message routing logic from publishers. Therefore, you don't need to filter messages by creating a separate topic for each filtering condition. Instead, you can use a single topic, and you can differentiate your messages with attributes. Each subscriber receives and processes only those messages accepted by its filter policy. 
+For example, you could use a single topic to publish all messages generated by transactions from your online retail site. To each message, you could assign an attribute that indicates the type of transaction, such as order_placed, order_cancelled, or order_declined. By creating subscriptions with filter policies, you can route each message to the queue that is meant to process the message's transaction type. 
+For a tutorial demonstrating how to implement message filtering with the AWS Management Console, see Filter Messages Published to Topics. This tutorial shows how to apply filter policies to route messages to separate Amazon SQS queues. 
+########
+
+ 
+
+Option D is not correct. 
+Although it looks correct, it is not an efficient solution. 
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##10
+Unattempted
+Domain : Other
+Which of the following is not an item of message attribute in AWS SNS?
+
+A. Name
+B. Type
+C. Value
+D. MessageID
+
+
+
+EXPLANATION:
+Answer: D
+
+https://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html
+ 

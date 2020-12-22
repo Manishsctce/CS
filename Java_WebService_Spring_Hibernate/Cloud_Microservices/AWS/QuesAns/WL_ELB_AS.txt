@@ -1,0 +1,298 @@
+Which of the following are components required to effectively setup AutoScaling on your EC2 instances for a web-based application? Choose 3 correct Options:
+
+
+A. Launch Configuration
+
+
+B. Elastic Load Balancer
+
+
+C. Lambda
+
+
+D. AutoScaling Group
+
+
+E. Elastic IP
+
+
+
+EXPLANATION:
+Answer: A,B, D
+
+Option A is correct. 
+A launch configuration specifies the type of EC2 instance that Amazon EC2 Auto Scaling creates for you. You create the launch configuration by including information such as the ID of the Amazon Machine Image (AMI) to use, the instance type, the key pair, security groups, and block device mapping. 
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html
+ 
+
+Option B is correct. 
+You can attach a load balancer to your Auto Scaling group. The load balancer automatically distributes incoming traffic across the instances in the group. 
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html
+
+ 
+
+ 
+
+Option C is not correct. 
+Lambda functions are not required to setup auto scaling for EC2 instances. 
+Option D is correct. 
+An Auto Scaling group is a collection of EC2 instances, and the core of Amazon EC2 Auto Scaling. When you create an Auto Scaling group, you include information such as the subnets for the instances and the number of instances the group must maintain at all times. 
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html
+
+ 
+
+Option E is not correct. 
+Elastic IP is not required to setup auto scaling for EC2 instances. 
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##2
+Unattempted
+Domain : Other
+Your organization had setup Auto Scaling for an EC2 instance. They intend to launch one additional new instance with same configuration automatically when the workload increases and shut it down automatically when the workload is back to normal. However, for security reasons, they have applied operating system patches to the main instance and would like this to be reflected when Auto Scaling group launches new EC2 instance. What would happen in this scenario?
+
+A. Auto Scaling group will launch new EC2 instance from the main instance latest snapshot. New instance will have updated patches. ]
+B. Create an image out of main EC2 instance and update Auto Scaling group configuration with new image AMI ID. ]
+C. Create an image out of main EC2 instance and update Launch Configuration with new image AMI ID. ]
+D. Create an image out of main EC2 instance, create a new Launch Configuration with new image AMI ID, update Auto Scaling group with new Launch Configuration ID
+
+
+EXPLANATION:
+Answer: D
+
+Option A is not correct. 
+Auto Scaling group launches new instances based on the configuration defined in Launch Configuration. AMI ID is one of the configuration parameter which defines the type of instance to be launched when auto scaling logic is executed. 
+AMI ID is set during the creation of launch configuration and cannot be modified. 
+So, auto scaling group will not launch new instance based on the latest image of main instance. 
+ 
+
+Option B is not correct. 
+AMI ID is a configuration on Launch Configuration, not Auto Scaling Group. 
+ 
+
+Option C is not correct and Option D is correct. 
+ 
+
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/change-launch-config.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##3
+Unattempted
+Domain : Other
+Which of the following is not a default metric type for Auto Scaling Group policy?
+
+A. Average CPU Utilization
+B. Memory Utilization
+C. Network In
+D. Network Out
+
+
+EXPLANATION:
+Answer: B
+
+Following are the default metric types available for Simple Policy and Step Policy
+
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##4
+Unattempted
+Domain : Other
+An application team in your organization set up an autoscaling group configuration (with simple scaling policy) to launch a new instance when CPU utilization reaches 85%. However, at times, when EC2 instance comes into in-service, it reports Unhealthy status immediately. However, as the replacement of the unhealthy instance by another instance (launched by Autoscaling group) takes more than 15 minutes, the unhealthy instance has to be removed manually. What do you think is the reason behind this?
+
+A. Auto scaling policy alarm incorrectly configured.
+B. Health Check Grace Period set to 20 minutes.
+C. Termination policy set to Do Not Terminate instances.
+D. Launch Configuration is not configured to report Unhealthy status
+
+
+
+EXPLANATION:
+ 
+
+Answer: B
+
+            Option A is not correct. 
+            Instance health status is not determined by the cloudwatch alarms. 
+           
+
+ 
+
+            Option B is correct. 
+ 
+
+   
+
+Option C is not correct. 
+Termination policy does not have “Do Not Terminate” option. 
+
+Option D is not a correct statement. 
+ 
+
+ 
+
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##5
+Unattempted
+Domain : Other
+In an auto scaling group setup, with default termination policy for scale in, which statement is correct?
+
+A. Select the Availability Zone with the most instances and at least one instance that is not protected from scale in. If there is more than one Availability Zone with this number of instances, select the Availability Zone with the instances that use the oldest launch configuration
+B. Determine which unprotected instances in the selected Availability Zone use the newest launch configuration. If there is one such instance, terminate it.
+C. If there are multiple instances that use the oldest launch configuration, determine which unprotected instances are closest to the previous billing hour and terminate it.
+D. If there is more than one unprotected instance closest to the previous billing hour, select one of these instances at random. 
+
+
+EXPLANATION:
+ 
+
+Answer: A
+
+
+
+                   
+
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html
+ 
+
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##6
+Unattempted
+Domain :Design Resilient Architectures
+You had setup an internal HTTP(S) Elastic Load Balancer to route requests to two EC2 instances inside a private VPC. However, one of the target EC2 instance is showing Unhealthy status. Which of the following options is NOT a possible reason for showing an unhealthy status?
+
+A. Port 80/443 is not allowed on EC2 instance’s Security Group from load balancer.
+B. EC2 instance is in different availability zones than load balancer.
+C. The ping path does not exist on the EC2 instance.
+D. The target did not return a successful response code
+
+
+
+EXPLANATION:
+Answer: B
+If a target is taking longer than expected to enter the InService state, it might be failing health checks. Your target is not in service until it passes one health check
+ 
+
+ 
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html#target-not-inservice
+https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html
+Note:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##is asking to select the wrong answer:
+
+Which of the following options could not be a reason this? So based on this (Could not be a reason) condition option B is the correct answer. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##7
+Unattempted
+Domain : Other
+In an AWS Setup of a company, a web-based application has a fleet of 10 EC2 instances. 7 EC2 instances are present in Availability Zone A whereas 3 EC2 instances in Availability Zone B. The percentage (%) of requests received in Availability Zone B is greater than the percentage (%) of requests in Availability Zone A. What can be done at the architecture level to balance the load across the two availability zones? Please select 3 correct options. 
+
+A. Use Application Load Balancer to achieve this ability. 
+
+B. Enable “split traffic equally” checkbox under load balancer configuration. 
+
+C. This can be achieved through cross-zone load balancing
+
+
+D. Use Network Load Balancer to achieve his ability. 
+
+
+EXPLANATION:
+Answer: A, C, and D     
+
+Option A is correct.  Please refer below AWS Link:
+
+
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#availability-zones
+ 
+
+Option B is not correct. There is no such option. Option C is correct. 
+
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#availability-zones
+Option D is correct. Please refer to the below AWS documentation link:
+https://aws.amazon.com/about-aws/whats-new/2018/02/network-load-balancer-now-supports-cross-zone-load-balancing/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##8
+Unattempted
+Domain : Other
+Which of the following are features for monitoring application load balancer? Choose the 3 correct options. 
+
+A. CloudWatch metrics
+
+
+B. Request tracing
+
+
+C. VPC Flow Logs
+
+
+D. CloudTrail logs
+
+
+E. EC2 Flow Logs
+
+
+
+EXPLANATION:
+Answer: A, B, D
+
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-monitoring.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##9
+Unattempted
+Domain : Other
+You have created an application load balancer and selected two EC2 instances as targets. However, when you are trying to make a request to load balancer from internet, the requests are getting failed. What could be the reason?
+
+A. The subnets specified for load balancer does not have internet gateway attached to their route tables. ]
+B. Target EC2 instances are in private subnets without any internet gateway attached. ]
+C. There is no elastic IP address attached to the load balancer. ]
+D. Cross-zone load balancing is not enabled. 
+
+EXPLANATION:
+Answer: A
+
+Option A is correct. 
+
+Option B is not correct. 
+You have can target EC2 instance in private subnet and can attach to load balancer which will be on public subnet. 
+https://aws.amazon.com/premiumsupport/knowledge-center/public-load-balancer-private-ec2/
+Option C is not correct. 
+Elastic load balancers are AWS highly available and scalable components managed by AWS. Once you create a load balancer, you will be given a internet-accessible(if the load balancer is internet facing) hostname to connect. AWS manages the underlying IP addresses and you do not need to attach an elastic IP address in order to connect from internet. 
+ 
+
+Option D is not correct. 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##10
+Unattempted
+Domain : Other
+Which of the following is a correct way to register a target in Elastic Load Balancer target group?
+
+A. EC2 instance names
+B. IP addresses
+C. EC2 imageid
+D. EC2 Primary Network Inteface ID
+
+
+EXPLANATION:
+Answer: B
+
+            
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-type

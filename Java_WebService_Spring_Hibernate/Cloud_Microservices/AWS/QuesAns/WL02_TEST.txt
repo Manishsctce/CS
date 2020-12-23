@@ -5,7 +5,7 @@ B. Use KMS to generate encryption keys which can be used to encrypt the volume
 C. Use CloudFront in front of the EBS Volume to encrypt all requests
 D. Use EBS Snapshots to encrypt the requests. 
 
-ANSWER : b
+ANSWER : B
 
 EXPLANATION: 
 
@@ -319,17 +319,25 @@ Option C is incorrect because health checks will help us know the health status 
 
 Option D is incorrect because AutoScaling can be used without Load Balancer also.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-## A company hosts a popular web application that connects to an Amazon RDS MySQL DB instance, running in a private VPC subnet created with default ACL settings. The web servers must be accessible only to customers on an SSL connection and the database should only be accessible to web servers in a public subnet. As an architect, what would you not recommend for such an architecture? [WL232]
+### A company hosts a popular web application that connects to an Amazon RDS MySQL DB instance, running in a private VPC subnet created with default ACL settings. The web servers must be accessible only to customers on an SSL connection and the database should only be accessible to web servers in a public subnet. As an architect, what would you not recommend for such an architecture? [WL232]
 
 A. Create a separate web server and database server security group.
 B. Ensure that the web server security group allows HTTPS port 443 inbound traffic from anywhere (0.0.0.0/0)
 C. Ensure that the web server security group allows MySQL port 3306 inbound traffic from anywhere (0.0.0.0/0)
 D. Ensure that the DB server Security Group allows MySQL port 3306 inbound traffic from Web Server Security Group
 
-ANSWER : b
+ANSWER : C
 
-EXPLANATION: 
+EXPLANATION: SG
+You have been asked which one of the following is not a recommended architecture based on the scenario.
 
+Option C is correct as it allows all the incoming traffic from the internet to the database port which is not acceptable as per the architecture.
+
+A similar setup is given in AWS Documentation:
+
+1) To ensure that traffic can flow into your Web server from anywhere on secure traffic, you need to allow inbound traffic on port  443 (HTTPS).
+
+2) You need to then ensure that traffic can flow from the database server to the web server via the database security group.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## Your company has designed an app and requires it to store data in DynamoDB. The company has registered the app with identity providers so users can sign-in using third-parties like Google and Facebook. What must be in place such that the app can obtain temporary credentials to access DynamoDB? [WL233]
 
@@ -339,10 +347,16 @@ C. An IAM role allowing the app to have access to DynamoDB
 D. The user must additionally log into the AWS console to gain database access
 
 
-ANSWER : c
+ANSWER : C
 
 EXPLANATION: 
+Option C is correct. The user will have to assume a role that has the permissions to interact with DynamoDB. 
 
+Option A is incorrect. Multi-factor authentication is available, but not required
+
+Option B is incorrect. CloudTrail is recommended for auditing but is not required
+
+Option D is incorrect. A second log-in event to the management console is not required
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has an entire infrastructure hosted on AWS. It requires to create code templates used to provision the same set of resources in another region in case of a disaster in the primary region. Which AWS service can be helpful in this regard? [WL234]
 
@@ -352,9 +366,11 @@ C. AWS CodeBuild
 D. AWS CodeDeploy
 
 
-ANSWER : b
+ANSWER : B
 
 EXPLANATION: 
+AWS CloudFormation provisions your resources in a safe and repeatable manner, allowing you to build and rebuild your infrastructure and applications, without having to perform manual actions or write custom scripts. CloudFormation takes care of determining the right operations to perform while managing your stack and rolls back changes automatically if errors are detected.
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## You are working as an AWS Architect for a start-up company. The company has web-servers deployed in all AZ’s in eu-central-1 (Frankfurt) region. These web servers serve German news & local web content for people accessing these websites within Germany. These web servers have multiple records created for a single domain. Company is looking for a random selection of web-servers that will increase the availability. What would be the most appropriate routing policy for this requirement? [WL235]
@@ -365,10 +381,16 @@ C. Multivalue answer routing policy
 D. Geolocation routing policy
 
 
-ANSWER : b
+ANSWER : C
 
-EXPLANATION: 
+EXPLANATION: Route53
+When Route 53 is configured with Multi-value answer routing, it returns multiple values for web-servers. Route 53 responds to DNS queries with up to eight healthy records and traffic is approximately load-balanced between these multiple web-servers.
 
+Option A is incorrect. Latency routing policy is used when multiple resources are mapped with single domain & resource with the best latency to the resource is provided. Since most of the times these servers will be accessing locally from the German region, latency to the web servers will be approximately the same. 
+
+Option B is incorrect. Weighted routing policy is used when multiple resources are mapped with a single domain & you need to route traffic in a weighted proportionate to each resource. As in this case, the requirement is to use all web servers randomly, the weighted routing policy will not be an ideal option.
+
+Option D is incorrect as Geolocation routing policy is used to choose resources based upon the user's location. In this case, all users will be Germany-based & so there would not be random selection on the resource.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### Your recent security review revealed a large spike in attempted logins to your AWS account. With respect to sensitive data stored in encryption enabled S3, the data has not been encrypted and is susceptible to fraud if it was to be stolen. You’ve recommended AWS Key Management Service as a solution. Which of the following is true regarding the operation of KMS? [WL236]
                                          
@@ -378,12 +400,20 @@ C. KMS allows all users and roles to use the keys by default
 D. Data is decrypted in transit
 
 
-ANSWER : b
+ANSWER : B
 
-EXPLANATION: 
+EXPLANATION: KMS
+
+Option B is correct. Data is encrypted at rest; data is encrypted once uploaded to S3. Encryption while in transit is handled by SSL or by using client-side encryption.
+
+Option A is incorrect. Data can be encrypted/decrypted using AWS keys or keys provided by your company
+
+Option C is incorrect. Users are granted permissions explicitly, not by default by KMS
+
+Option D is incorrect. Data is not decrypted in transit (while moving to and from S3). Data is encrypted or decrypted while in S3 and then while in transit can be encrypted using SSL.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-## Your company has a set of EC2 Instances hosted in AWS. It is mandatory to prepare for disasters and come up with the necessary disaster recovery procedures. What would be helpful in mitigating the effects of a disaster for the EC2 Instances? [WL237]
+### Your company has a set of EC2 Instances hosted in AWS. It is mandatory to prepare for disasters and come up with the necessary disaster recovery procedures. What would be helpful in mitigating the effects of a disaster for the EC2 Instances? [WL237]
 
 A. Place an ELB in front of the EC2 Instances.
 B. Use Auto Scaling to ensure that the minimum number of instances are always running.
@@ -391,23 +421,14 @@ C. Use CloudFront in front of the EC2 Instances.
 D. Use AMIs to recreate the EC2 Instances in another region. 
 
 
-ANSWER : a/d
-
 EXPLANATION: 
+ANSWER : D
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-## A company currently hosts a Redshift cluster in AWS. For security reasons, it should ensure that all traffic from and to the Redshift cluster does not go through the Internet. Which features can be used to fulfill this requirement in an efficient manner? [WL238]
+Options A and B are good for fault tolerance, but cannot help completely in disaster recovery for the EC2 Instances.
 
-A. Enable Amazon Redshift Enhanced VPC Routing.
-B. Create a NAT Gateway to route the traffic.
-C. Create a NAT Instance to route the traffic.
-D. Create a VPN Connection to ensure traffic does not flow through the Internet. 
+Option C is incorrect because we cannot determine if CloudFront would be helpful in this scenario or not without knowing what is hosted on the EC2 Instance
 
-
-ANSWER : a-
-
-EXPLANATION: 
-
+For disaster recovery, we have to make sure that we can launch instances in another region when required. Hence, options A, B and C are not the feasible solutions.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has a set of Hyper-V machines and VMware virtual machines. They are now planning to migrate these resources to the AWS Cloud. What should they use to move these resources to the AWS Cloud? [WL239]
 
@@ -417,10 +438,11 @@ C. Use AWS Migration Tools.
 D. Use AWS Config Tools. 
 
 
-ANSWER : d-
+ANSWER : B
 
-EXPLANATION: 
-
+EXPLANATION: SMS
+> AWS Server Migration Service (SMS) is an agentless service which makes it easier and faster for you to migrate thousands of on-premises workloads to AWS. 
+- AWS SMS allows you to automate, schedule, and track incremental replications of live server volumes, making it easier for you to coordinate large-scale server migrations.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### You’ve implemented AWS Key Management Service to protect your data in your applications and other AWS services. Your global headquarters is in Northern Virginia (US East (N. Virginia)) where you created your keys and have provided the appropriate permissions to designated users and specific roles within your organization. While the N. American users are not having issues, German and Japanese users are unable to get KMS to function. What is the most likely cause of it? [WL240]
 
@@ -435,6 +457,7 @@ ANSWER : C
 Explanation:
 
 Option C is correct. This is the most likely cause as the application should be sure to hit correct region endpoint. 
+
 Option A is incorrect. KMS is offered in several regions but keys are not transferrable out of the region they were created in. 
 Option B is incorrect. CloudTrail is recommended for auditing but is not required
 Option D is incorrect. The keys are working as expected where they were created; keys are region-specific
@@ -462,13 +485,19 @@ B. Use AWS Trusted Advisor to monitor all of your AWS resources.
 C. Use AWS Inspector to inspect all of the resources in your account.
 D. Use AWS CloudTrail to monitor all API activity. 
 
-ANSWER : d
+ANSWER : D
 
 EXPLANATION: 
 
+AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting.
+
+Visibility into your AWS account activity is a key aspect of security and operational best practices. You can use CloudTrail to view, search, download, archive, analyze, and respond to account activity across your AWS infrastructure. You can identify who or what took which action, what resources were acted upon, when the event occurred, and other details to help you analyze and respond to activity in your AWS account.
+
+You can integrate CloudTrail into applications using the API, automate trail creation for your organization, check the status of trails you create, and control how users view CloudTrail events.
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-## A company currently uses Redshift in AWS. The Redshift cluster is required to be used in a cost-effective manner. As an architect, what would you consider to ensure cost-effectiveness? [WL244]
+### A company currently uses Redshift in AWS. The Redshift cluster is required to be used in a cost-effective manner. As an architect, what would you consider to ensure cost-effectiveness? [WL244]
 
 A. Use Spot Instances for the underlying nodes in the cluster.
 B. Ensure that unnecessary manual snapshots of the cluster are deleted.
@@ -476,10 +505,10 @@ C. Ensure that VPC Enhanced Routing is enabled.
 D. Ensure that CloudWatch metrics are disabled. 
 
 
-ANSWER : a-
+ANSWER : B
 
-EXPLANATION: 
-
+EXPLANATION: Redshift
+Amazon Redshift provides free storage for snapshots that is equal to the storage capacity of your cluster until you delete the cluster. After you reach the free snapshot storage limit, you are charged for any additional storage at the normal rate. Because of this, you should evaluate how many days you need to keep automated snapshots and configure their retention period accordingly and delete any manual snapshots that you no longer need.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has a set of resources hosted in an AWS VPC. Having acquired another company with its own set of resources hosted in AWS, it is required to ensure that resources in the VPC of the parent company can access the resources in the VPC of the child company. How could this be accomplished? [WL245]
 
@@ -489,12 +518,12 @@ C. Use a VPN Connection to peer both VPCs.
 D. Use VPC Peering to peer both VPCs. 
 
 
-ANSWER : d
+ANSWER : D
 
 EXPLANATION: 
-
+A VPC Peering Connection is a networking connection between two VPCs that enables you to route traffic between them privately. Instances in either VPC can communicate with each other as if they are within the same network. You can create a VPC Peering Connection between your own VPCs, with a VPC in another AWS account, or with a VPC in a different AWS region.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-## An application consists of the following architecture:
+### An application consists of the following architecture:
 
 a. EC2 Instances in a single AZ behind an ELB
 b. A NAT Instance which is used to ensure that instances can download updates from the Internet
@@ -507,10 +536,13 @@ C. Add more instances in another Availability Zone.
 D. Add another ELB for more fault tolerance. 
 
 
-ANSWER : cd
-
 EXPLANATION: 
+ANSWER : B, C 
 
+Adding Auto Scaling to your application architecture is one way to maximize the benefits of the AWS Cloud. When you use Auto Scaling, your applications gain the following benefits:
+
+Better fault tolerance. Auto Scaling can detect when an instance is unhealthy. Then it terminates that instance, and launches an instance to replace it. You can also configure Auto Scaling to use multiple Availability Zones. If one Availability Zone becomes unavailable, Auto Scaling can launch instances in another one to compensate.
+Better availability. Auto Scaling can help you ensure that your application always has the right amount of capacity to handle the current traffic demands.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has a lot of data hosted on their On-premises infrastructure. Running out of storage space, the company wants a quick win solution using AWS. Which of the following would allow easy extension of their data infrastructure to AWS? [WL247]
 
@@ -520,10 +552,10 @@ C. The company could start using the Simple Storage Service.
 D. The company could start using Amazon Glacier. 
 
 
-ANSWER : a
+ANSWER : A
 
 EXPLANATION: 
-
+You store your data in Amazon Simple Storage Service (Amazon S3) and retain a copy of frequently accessed data subsets locally. Cached volumes offer substantial cost savings on primary storage and minimize the need to scale your storage on-premises. You also retain low-latency access to your frequently accessed data.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has a sales team and each member of this team uploads their sales figures daily. A Solutions Architect needs a durable storage solution for these documents and also a way to preserve documents from accidental deletions. Which of the following choices would deliver protection against unintended user actions? [WL248]
                                 
@@ -532,10 +564,10 @@ B. Store data in an S3 bucket and enable versioning.
 C. Store data in two S3 buckets in different AWS regions.
 D. Store data on EC2 Instance storage. 
 
-ANSWER : b
+ANSWER : B
 
 EXPLANATION: 
-
+> Versioning is on the bucket level and can be used to recover prior versions of an object.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## An application requires a highly available relational database with an initial storage capacity of 8TB. This database will grow by 8GB every day. To support the expected traffic, at least eight read replicas will be required to handle the database reads. Which AWS service would help to meet these requirements? [WL249]
 
@@ -548,7 +580,7 @@ D. Amazon Redshift
 ANSWER : C
 
 EXPLANATION: 
-
+> Aurora Replicas return the same data for query results with minimal replica lag—usually, much less than 100 milliseconds after the primary instance has written an update.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has an application that delivers objects from S3 to users. Of late, some users spread across the globe, have been complaining of slow response times. Which additional step would help in building a cost-effective solution and ensure that the users get an optimal response to objects from S3? [WL250]
 
@@ -557,9 +589,12 @@ B. Ensure S3 Transfer Acceleration is enabled to ensure that all users get the d
 C. Place an ELB in front of S3 to distribute the load across S3.
 D. Place the S3 bucket behind a CloudFront distribution. 
 
-ANSWER : b
+ANSWER : D
 
 EXPLANATION: 
+> If your workload is mainly sending GET requests, in addition to the preceding guidelines, you should consider using Amazon CloudFront for performance optimization.
+
+Integrating Amazon CloudFront with Amazon S3, you can distribute content to your users with low latency and a high data transfer rate. You will also send fewer direct requests to Amazon S3, which will reduce your costs.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## An application needs to have a messaging system in AWS. It is of the utmost importance that the order of messages is preserved and duplicate messages are not sent. Which of the following services can help fulfill this requirement? [WL251]
@@ -569,10 +604,10 @@ B. AWS SNS
 C. AWS Config
 D. AWS ELB
 
-ANSWER : a
+ANSWER : A
 
 EXPLANATION: 
-
+One can use SQS FIFO queues for this purpose
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company is planning to build an application using the services available on AWS. This application will be stateless in nature, and the service must have the ability to scale according to the demand. Which compute service should be used in this scenario? [WL252]
 
@@ -581,9 +616,10 @@ B. AWS Lambda
 C. AWS S3
 D. AWS SQS
 
-ANSWER : b
+ANSWER : B
 
 EXPLANATION: 
+A stateless application is an application that needs no knowledge of previous interactions and stores no session information. Such an example could be an application that, given the same input, provides the same response to any end-user. A stateless application can scale horizontally since any request can be serviced by any of the available compute resources (e.g., EC2 instances, AWS Lambda functions).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company has a set of EC2 Instances hosted on the AWS Cloud. These instances form a web server farm which services a web application accessed by users on the Internet. What would help make this architecture more fault-tolerant? [WL253] (SELECT TWO)
@@ -594,9 +630,12 @@ C. Use an AWS Load Balancer to distribute the traffic.
 D. Use Auto Scaling to distribute the traffic. 
 
 
-ANSWER : ac
+ANSWER : A,C
 
 EXPLANATION: 
+> Autoscaling will not create an ELB automatically, you will need to manually create it in the same region as the AutoScaling group.
+
+- Once you create an ELB and attach the load balancer to the autoscaling group, it automatically registers the instances in the group and distributes incoming traffic across the instances.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## You plan on hosting an application on EC2 Instances which will be used to process logs. The application is not very critical and can resume operation even after an interruption. Which of the following steps could provide a cost-effective solution? [WL254]
@@ -606,10 +645,10 @@ B. Use Provisioned IOPS for the underlying EBS Volumes.
 C. Use Spot Instances for the underlying EC2 Instances.
 D. Use S3 as the underlying data layer. 
 
-ANSWER : c
+ANSWER : C
 
 EXPLANATION: 
-
+Spot Instances are a cost-effective choice if you can be flexible about when your applications run and if your applications can be interrupted. For example, Spot Instances are well-suited for data analysis, batch jobs, background processing, and optional tasks.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company stores its log data in an S3 bucket. There is a current need to have search capabilities available for the data in S3. What could be helpful to achieve this in an efficient manner? [WL255] (SELECT TWO )
 
@@ -619,16 +658,16 @@ C. Load the data into Amazon Elasticsearch.
 D. Load the data into Glacier. 
 
 
-ANSWER : ac
-
 EXPLANATION: 
+ANSWER : A,C
 
+Amazon Athena is a service that enables a data analyst to perform interactive queries in the AWS public cloud on data stored in AWS S3.  Since it's a serverless query service, an analyst doesn't need to manage any underlying compute infrastructure to use it.
+
+Elasticsearch is a highly scalable open-source full-text search and analytics engine. It allows you to store, search, and analyze big volumes of data quickly and in near real time. It is generally used as the underlying engine/technology that powers applications that have complex search features and requirements.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## An architecture consists of the following:
-
 a) An active/passive infrastructure hosted in AWS
 b) Both infrastructures comprise of ELB, Auto Scaling, and EC2 resources
-
 How should Route 53 be configured to ensure proper failover in case the primary infrastructure goes down? [WL257]
 
 A. Configure a primary routing policy.
@@ -637,10 +676,29 @@ C. Configure a Multi-Answer routing policy.
 D. Configure a failover routing policy. 
 
 
-ANSWER : d
+ANSWER : D
 
 EXPLANATION: 
+AWS Documentation mentions the following:
 
+> You can create an active-passive failover configuration by using failover records. 
+- Create a primary and a secondary failover record that has the same name and type, and associate a health check with each. 
+
+The various Route 53 routing policies are as follows:
+
+Simple routing policy – Used for a single resource that performs a given function for your domain, for example, a web server that serves content for the example.com website.
+
+Failover routing policy – Used when you want to configure active-passive failover.
+
+Geolocation routing policy – Used when you want to route traffic based on the location of your users.
+
+Geoproximity routing policy – Used when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
+
+Latency routing policy – Used when you have resources in multiple locations and you want to route traffic to the resource that provides the best latency.
+
+Multivalue answer routing policy – Used when you want Route 53 to respond to DNS queries with up to eight healthy records selected at random.
+
+Weighted routing policy – Used to route traffic to multiple resources in proportions that you specify.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## Your company uses KMS to fully manage the master keys and performing encryption and decryption operations on your data and in your applications.  As an additional level of security, you now recommend AWS rotate your keys. What would happen after enabling this additional feature? [WL258]
 
@@ -650,10 +708,15 @@ C. You have 30 days to delete old keys after a new one is rotated in
 D. Your company must create its own keys and import them to KMS to enable key rotation
 
 
-ANSWER : b
+EXPLANATION: KMS
+ANSWER : A
 
-EXPLANATION: 
+Option A is correct. KMS will rotate keys annually and use the appropriate keys to perform cryptographic operations.
 
+Option B is incorrect. This is not necessary. KMS, as a managed service, will keep old keys and perform operations based on the appropriate key
+
+Option C is incorrect. This is not a requirement of KMS.
+Option D is incorrect. This is not a requirement of KMS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## A company is migrating an on-premises 5TB MySQL database to AWS and expects its database size to increase steadily. Which Amazon RDS engine would meet these requirements? [WL260]
                                        
@@ -663,7 +726,7 @@ C. Oracle
 D. Amazon Aurora
 
 
-ANSWER : d
+ANSWER : D
 
 EXPLANATION: 
 
@@ -675,10 +738,12 @@ B. Elastic Load Balancing, Amazon RDS with Multi-AZ, and Amazon S3
 C. Amazon RDS with Multi-AZ and Auto Scaling
 D. Amazon EC2, Amazon Dynamo DB, and Amazon S3
 
-ANSWER : a
+ANSWER : A
 
 EXPLANATION: 
+The question mentions a scalable Web Tier. So Option B, C, and D can be eliminated since they are database related options.
 
+The below example ( this is a general depiction giving the deployment design of standby architecture having a two tier in them ) shows an Elastic Load Balancer connected to 2 EC2 instances via Auto Scaling. This is an example of an elastic and scalable Web Tier. By scalable, we mean that the Auto Scaling process is able to increase or decrease the number of EC2 Instances as required.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### An instance is launched into a VPC subnet with the network ACL configured to allow all outbound traffic and deny all inbound traffic. The security group of the instance is configured to allow SSH from any IP address. What changes are required to allow SSH access to the instance? [WL264]
 
@@ -687,13 +752,17 @@ B. The Inbound Network ACL needs to be modified to allow inbound traffic
 C. Nothing, it can be accessed from any IP address using SSH
 D. Both the Outbound Security Group and Outbound Network ACL need to be modified to allow outbound traffic
 
-ANSWER : 
+
+ANSWER : B
 
 EXPLANATION: 
+The reason why Network ACL has to have both an Allow for Inbound and Outbound is that network ACLs are stateless. Responses to allowed inbound traffic are subject to the rules for outbound traffic (and vice versa). Whereas for Security groups, responses are stateful. So if an incoming request is granted, by default an outgoing request will also be granted.
 
+ 
+
+Options A and D are invalid because Security Groups are stateful. Here, any traffic allowed in the Inbound rule is allowed in the Outbound rule too. Option C is also incorrect. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## Your company currently has a web distribution hosted using the AWS CloudFront service. The IT Security department has confirmed that the application using this web distribution now falls under the scope of PCI compliance. What are the possible ways to meet the requirements? [WL265] (SELECT TWO)
-
 
 A. Enable CloudFront access logs.  
 B. Enable Cache in CloudFront. 

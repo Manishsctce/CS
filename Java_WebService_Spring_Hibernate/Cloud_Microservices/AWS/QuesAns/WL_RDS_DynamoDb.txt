@@ -53,7 +53,7 @@ Option D is incorrect because it is under the capability of DynamoDB. Refer:
 
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-gsi-aggregation.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are working as an AWS Architect for a multinational bank with hybrid cloud architecture. The bank is running a currency exchange website which uses a Microsoft SQL Server RDS instance as its database. As part of the company's business continuity plan, there is a need to keep a read replica of the production RDS instance to the bank's on premise data center. In this scenario, what is the most secure and effective way to meet this requirement?  [WL-RDS-04]
+### You are working as an AWS Architect for a multinational bank with hybrid cloud architecture. The bank is running a currency exchange website which uses a Microsoft SQL Server RDS instance as its database. As part of the company's business continuity plan, there is a need to keep a read replica of the production RDS instance to the bank's on premise data center. In this scenario, what is the most secure and effective way to meet this requirement?  [WL-RDS-04]
 
 A. Change the Microsoft SQL Server RDS instance as the master node and then enable replication over the public Internet using a secure SSL endpoint to a server on the on premise data center.
 B. Configure the Microsoft SQL Server RDS instance to replicate to an EC2 instance with core MySQL and then enable Replication over a secure VPN connection
@@ -64,15 +64,17 @@ D. Create an IPsec VPN connection through the Virtual Private Cloud service and 
 EXPLANATION:
 Answer: D
 
-Option A is incorrect as it is feasible: you could put your RDS DB in a public subnet and configure SSL for it but you have been asked for the most secure way. Option B is incorrect because Even EC2 is external to RDS and it won’t be secure option. Option C is incorrect because it describes a backup-restore solution
+Option A is incorrect as it is feasible: you could put your RDS DB in a public subnet and configure SSL for it but you have been asked for the most secure way. 
+
+Option B is incorrect because Even EC2 is external to RDS and it won’t be secure option. 
+
+Option C is incorrect because it describes a backup-restore solution
+
 Option D is correct because it provides the most secure direct connection from the RDS SQL Server instance to the On Premise data center, and replication can be configured within the SQL Server service since it can't be done from the RDS service to On Premise data center. Refer:
 
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html#USER_ReadRepl.Create
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##5
-Unattempted
-Domain : Other
-Your team had developed an online feedback application for the best image competition in AWS using CloudFormation. The application accepts high-quality images of each participant and stores them in S3 then records the information about the image as well as the participant’s profile in RDS. After the competition, the CloudFormation stack is not used anymore and to save resources, the stack should be terminated to save the cost. Your manager instructed you to back up the RDS database and the S3 bucket so the data can still be used even after the CloudFormation template is deleted. Which of the following options will fulfill this requirement?
+## Your team had developed an online feedback application for the best image competition in AWS using CloudFormation. The application accepts high-quality images of each participant and stores them in S3 then records the information about the image as well as the participant’s profile in RDS. After the competition, the CloudFormation stack is not used anymore and to save resources, the stack should be terminated to save the cost. Your manager instructed you to back up the RDS database and the S3 bucket so the data can still be used even after the CloudFormation template is deleted. Which of the following options will fulfill this requirement? [WL-RDS-05]
 
 A. Set the DeletionPolicy for the RDS instance to snapshot and then enable S3 bucket replication on the source bucket to a destination bucket to maintain a copy of all the S3 objects.
 B. Set the DeletionPolicy to retain on both the RDS and S3 resource types on the CloudFormation template.
@@ -80,44 +82,45 @@ C. Set the DeletionPolicy on the S3 bucket to snapshot
 D. Set the DeletionPolicy on the RDS resource to snapshot and set the S3 bucket to retain. 
 
 
-EXPLANATION:
+EXPLANATION: cloudformation
 Answer: D
 
-Option A is incorrect because a replica of the S3 bucket is not required we can directly retain it. Option B is incorrect because we can retain a snapshot of RDS, not S3. Option C is incorrect because RDS also needs to be backed up. Option D is correct because The Retain option keeps the resource in the event of a stack deletion. The Snapshot option creates a snapshot of the resource before that resource is deleted. The Delete option deletes the resource along with the stack. Refer:
+Option A is incorrect because a replica of the S3 bucket is not required we can directly retain it. 
+Option B is incorrect because we can retain a snapshot of RDS, not S3. 
+Option C is incorrect because RDS also needs to be backed up. 
+Option D is correct because The Retain option keeps the resource in the event of a stack deletion. The Snapshot option creates a snapshot of the resource before that resource is deleted. The Delete option deletes the resource along with the stack. Refer:
 
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##6
-Unattempted
-Domain : Other
-You are working as a Cloud Engineer for a startup company which is planning to develop a web application with a ReactJS frontend and DynamoDB with provisioned throughput (1000 Writes/Sec) as its database. They are expecting a high number of writes on the database during peak hours (3000 Writes/Sec). How could you ensure the scalability and cost-effectiveness of the application to reduce the load on the DynamoDB database? (Choose 3 options)
-
+### You are working as a Cloud Engineer for a startup company which is planning to develop a web application with a ReactJS frontend and DynamoDB with provisioned throughput (1000 Writes/Sec) as its database. They are expecting a high number of writes on the database during peak hours (3000 Writes/Sec). How could you ensure the scalability and cost-effectiveness of the application to reduce the load on the DynamoDB database? (Choose 3 options) [WL-RDS-06]
 
 A. Add more DynamoDB databases to handle the load. 
-
 B. Use DynamoDB Auto Scaling
-
-
 C. Increase write capacity of DynamoDB to meet the peak loads. 
 
 D. Use SQS to assist and let the application pull messages and then perform the relevant operation In DynamoDB. 
 
-E. Use Kinesis to assist and let the application pull messages and then perform the relevant operation in   DynamoDB. 
+E. Use Kinesis to assist and let the application pull messages and then perform the relevant operation in DynamoDB. 
 
 
-EXPLANATION:
+EXPLANATION: DynamoDB
 Answer: B,D and E
 
-Option A is incorrect because this option is neither Cost-effective nor reliable. Option B is correct because in case your application can handle some throttling from DynamoDB when there’s a sudden increase in traffic, you should use DynamoDB Auto Scaling. Option C is incorrect because same thing you have to do manually again and again in future. Option D is correct because you could either put all the messages into SQS first, or use SQS as an overflow buffer when you exceed the design throughput on your DynamoDB database. Option E is correct because if the order of the messages coming in is extremely important, Kinesis is another option for you to ingest the incoming messages and then insert them into DynamoDB, in the same order they arrived, at a pace you define
+Option A is incorrect because this option is neither Cost-effective nor reliable. 
+
+Option B is correct because in case your application can handle some throttling from DynamoDB when there’s a sudden increase in traffic, you should use DynamoDB Auto Scaling. 
+
+Option C is incorrect because same thing you have to do manually again and again in future. 
+
+Option D is correct because you could either put all the messages into SQS first, or use SQS as an overflow buffer when you exceed the design throughput on your DynamoDB database. 
+
+Option E is correct because if the order of the messages coming in is extremely important, Kinesis is another option for you to ingest the incoming messages and then insert them into DynamoDB, in the same order they arrived, at a pace you define
 Refer:
 
  https://aws.amazon.com/blogs/database/amazon-dynamodb-auto-scaling-performance-and-cost-optimization-at-any-scale/
  https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/AutoScaling.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##7
-Unattempted
-Domain : Other
-Your company has got a client whose data is stored in AWS for a 3-tier application. They have given some key requirements for the database, it should have Ability for multiple schema changes, the database should be durable, and Changes to the database should not result in downtime. As a Cloud Architect of the Company, Which of the following would be the best data storage option for the Client?
+## Your company has got a client whose data is stored in AWS for a 3-tier application. They have given some key requirements for the database, it should have Ability for multiple schema changes, the database should be durable, and Changes to the database should not result in downtime. As a Cloud Architect of the Company, Which of the following would be the best data storage option for the Client? [WL-RDS-07]
 
 A. AWS S3
 B. AWS Redshift
@@ -125,19 +128,17 @@ C. AWS DynamoDB
 D. AWS Aurora
 
 
-
 EXPLANATION:
 Answer: D
 
-Option D is correct because Amazon Aurora does support working with schema changes. Option A, B, C are incorrect none of these are have these features together. Refer:
+Option D is correct because Amazon Aurora does support working with schema changes. 
+Option A, B, C are incorrect none of these are have these features together. Refer:
 
 https://aws.amazon.com/blogs/database/amazon-aurora-under-the-hood-fast-ddl/
 https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.FastDDL.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##8
-Unattempted
-Domain : Other
-An online Ecommerce WordPress Website is currently storing its records in a Single MySQL RDS database in AWS. After few days there are severe performance issues on the database. They tried to Scale up the DB Instance. Right now they are using SQS to pull up the queries in Queue. Which of the following can be added to the architecture to rectify the performance issue and the solution must be cost effective.
+## An online Ecommerce WordPress Website is currently storing its records in a Single MySQL RDS database in AWS. After few days there are severe performance issues on the database. They tried to Scale up the DB Instance. Right now they are using SQS to pull up the queries in Queue. Which of the following can be added to the architecture to rectify the performance issue and the solution must be cost effective. [WL-RDS-08]
+
 A. Enable Multi-AZ for the database.
 B. Use Elasticache Service.
 C. Place a Load Balance in front of database.
@@ -147,14 +148,15 @@ D. Use Cloudfront in front of the database.
 EXPLANATION:
 Answer: B
 
-Option A is incorrect because Multi-AZ is used for standby purpose and not for performance issues. Option B is correct because the Elasticache service can be used to cache all the common queries. Hence if the same queries are causing the problem, the data sets will be fetched from Elasticache, instead of the database. This will reduce the load on the database server. Option C is incorrect because Load Balance can’t be used on Single database server. Option D is incorrect because Cloudfront is caching the data on a remote edge location which means that the request is not even going to the origin server. Refer:
+Option A is incorrect because Multi-AZ is used for standby purpose and not for performance issues. 
+Option B is correct because the Elasticache service can be used to cache all the common queries. Hence if the same queries are causing the problem, the data sets will be fetched from Elasticache, instead of the database. This will reduce the load on the database server. 
+
+Option C is incorrect because Load Balance can’t be used on Single database server. 
+Option D is incorrect because Cloudfront is caching the data on a remote edge location which means that the request is not even going to the origin server. Refer:
 
 https://aws.amazon.com/elasticache/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##9
-Unattempted
-Domain : Other
-You are working in a Research and Development Department in IT Company where you as a Cloud Architect, trying to check the impact on real-time transactions. You created a multi-AZ RDS setup consisting of Primary instance and a Read-replica. What is the impact of the read-replica to the transactions in the primary instance?
+## You are working in a Research and Development Department in IT Company where you as a Cloud Architect, trying to check the impact on real-time transactions. You created a multi-AZ RDS setup consisting of Primary instance and a Read-replica. What is the impact of the read-replica to the transactions in the primary instance? [WL-RDS-09]
 
 A. Transaction are impacted only if you configured it for Synchronous Replication
 B. Transaction are impacted only if you configured it for Asynchronous Replication
@@ -162,18 +164,17 @@ C. Transactions are not impacted
 D. Transactions are impacted
 
 
-
 EXPLANATION:
 Answer: C
 
-Option C is correct because, for multi-AZ high availability, RDS uses synchronous replication between primary and standby systems. RDS Read Replica, on the other hand, uses asynchronous replication and any slowness in Read Replica instance would simply cause data lag only in the read - replica. Transactions in primary are not impacted. Refer:
+Option C is correct because, for multi-AZ high availability, RDS uses synchronous replication between primary and standby systems. 
+- RDS Read Replica, on the other hand, uses asynchronous replication and any slowness in Read Replica instance would simply cause data lag only in the read - replica. 
+- Transactions in primary are not impacted. 
 
+Refer:
 https://aws.amazon.com/rds/faqs/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##10
-Unattempted
-Domain : Other
-A company is planning to migrate their existing on premise application to the AWS Cloud. The application currently runs on .Net and uses Microsoft SQL Server as the backend database. Your Company has some limitations as they don’t have the developers currently to make recent changes to the code and also they don’t have the Infrastructure team currently to manage the infrastructure on AWS. Which of the following data service would your Company choose on AWS for the best use?
+## A company is planning to migrate their existing on premise application to the AWS Cloud. The application currently runs on .Net and uses Microsoft SQL Server as the backend database. Your Company has some limitations as they don’t have the developers currently to make recent changes to the code and also they don’t have the Infrastructure team currently to manage the infrastructure on AWS. Which of the following data service would your Company choose on AWS for the best use? [WL-RDS-10]
 
 A. AWS RDS
 B. AWS DynamoDB
@@ -181,10 +182,10 @@ C. AWS Aurora
 D. AWS Redshift
 
 
-
 EXPLANATION:
 Answer: A
 
-Option A is correct because one can use the AWS RDS service and choose the Microsoft SQL Server platform. Since the company does not have the developers available to make large code changes, they can just migrate the data and change the connection strings in the code. Also with the absence of Infrastructure team, the AWS RDS service takes care of the Infrastructure. Option B, C, D are incorrect because managing code and Infrastructure can’t be done. Refer to Easy to administer Section:
+Option A is correct because one can use the AWS RDS service and choose the Microsoft SQL Server platform. Since the company does not have the developers available to make large code changes, they can just migrate the data and change the connection strings in the code. Also with the absence of Infrastructure team, the AWS RDS service takes care of the Infrastructure. 
 
+Option B, C, D are incorrect because managing code and Infrastructure can’t be done. Refer to Easy to administer Section:
 https://aws.amazon.com/rds/

@@ -5,13 +5,14 @@
 - Oracle 	 - upto 5 Replica
 - PostgreSQL - upto 5 Replica, Highly Reliable & stable
 - MariaDB	 - MySQL Compatible, can grow upto 64TB
-- AWS Aurora - upto 15 Replica, High Throughput, can grow upto 64TB, replica lag < 100ms, 
+- AWS Aurora - upto 15 Replica, High Throughput, can grow upto 64TB, replica lag < 100ms, support schema change
 - MySQL 	 - upto 5 Replica, can grow upto 64TB
 
 ## Amazon Aurora
 
 ## DynamoDB - No SQL 
 - maximum size of an item is 400KB
+- single-digit millisecond latency at any scale
 
 ## AWS Redshift 
 - It is used for Business Intelligence and data warehouse. 
@@ -330,10 +331,10 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 > When the required read I/O capacity is reached but still more I/O capacity is required for heavy/intensive read applications, read replicas can come in handy
 
 > READ REPLICA is a replica of the primary RDS DB instance, but they CAN ONLY BE USED FOR READ actions
-
 - Primary DB instance becomes the source of the replication to this read replica
 
-> The data is first written to the source/primary DB Instance, then using asynchronous replication, it gets replicated to the read replica i.e there is a TIME LAG BETWEEN when the data is written to the PRIMARY AND when it gets replicated to the READ REPLICA
+> The data is first written to the source/primary DB Instance, then USING ASYNCHRONOUS REPLICATION, it gets replicated to the read replica i.e there is a TIME LAG BETWEEN when the data is written to the PRIMARY AND when it gets replicated to the READ REPLICA
+- Transactions in primary are not impacted.
 
 > Multi-AZ with read replicas can be combined in one deployment
 - NOT POSSIBLE TO CREATE REPLICA of READ REPLICAS 
@@ -347,7 +348,7 @@ RDS -> DB instance -> modify DB instance -> set DB engine version
 - MariaDB
 - PostegreSQL
 
-> Each of these DB engines support up to 5 read replicas per source/primary DB instance
+> Each of these DB engines SUPPORT UPTO 5 READ REPLICAS per source/primary DB instance
 
 ## Read Replicas – Use cases
 > Shifting read intensive applications such as Business (or Sales) reporting, or Data Warehousing to read from read replicas as opposed to overload the primary DB
@@ -451,6 +452,7 @@ OR
 - up to 3 times the throughput of PostgreSQL 
 - at a price one-tenth of that Commercial databases while delivering similar performance and availability.
 
+> it support working with schema changes
 ##### Aurora Scaling #####
 > The underlying storage grows automatically as needed, up to 64 tebibytes (TiB)
 -  A tebibyte equals nearly 1.1 TB
@@ -600,6 +602,11 @@ content-type
 
 > So we have to take care of the Manual snapshots instead of Automated snapshots. 
 - Amazon Redshift never deletes Manual snaphots automatically, like how it does for Automatic Snapshots.
+
+
+> When you use AMAZON REDSHIFT ENHANCED VPC ROUTING, Amazon Redshift forces all COPY and UNLOAD traffic between your cluster and your data repositories through your Amazon VPC.
+- If Enhanced VPC Routing is not enabled, Amazon Redshift routes traffic through the Internet, including traffic to other services within the AWS network.
+- Redshift will not be able to access the S3 VPC endpoints without enabling Enhanced VPC routing
 
 #### REDSHIFT CONFIGURATION ####
 > Redshift consists of two types of nodes:

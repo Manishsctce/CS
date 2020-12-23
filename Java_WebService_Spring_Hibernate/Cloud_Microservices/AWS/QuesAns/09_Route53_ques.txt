@@ -19,6 +19,25 @@ EXPLANATION :
 - No web server could handle all the traffic, but if you create a dozen multivalue answer records, Amazon Route 53 responds to DNS queries with up to eight healthy records in response to each DNS query. 
 - Amazon Route53 gives different answers to different DNS resolvers. 
 - If a web server becomes unavailable after a resolver caches a response, client software can try another IP address in the response.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+## You are working as an AWS Architect for a start-up company. The company has web-servers deployed in all AZ’s in eu-central-1 (Frankfurt) region. These web servers serve German news & local web content for people accessing these websites within Germany. These web servers have multiple records created for a single domain. Company is looking for a random selection of web-servers that will increase the availability. What would be the most appropriate routing policy for this requirement? [WL235]
+
+A. Latency routing policy
+B. Weighted routing policy
+C. Multivalue answer routing policy
+D. Geolocation routing policy
+
+
+ANSWER : C
+
+EXPLANATION: Route53
+When Route 53 is configured with Multi-value answer routing, it returns multiple values for web-servers. Route 53 responds to DNS queries with up to eight healthy records and traffic is approximately load-balanced between these multiple web-servers.
+
+Option A is incorrect. Latency routing policy is used when multiple resources are mapped with single domain & resource with the best latency to the resource is provided. Since most of the times these servers will be accessing locally from the German region, latency to the web servers will be approximately the same. 
+
+Option B is incorrect. Weighted routing policy is used when multiple resources are mapped with a single domain & you need to route traffic in a weighted proportionate to each resource. As in this case, the requirement is to use all web servers randomly, the weighted routing policy will not be an ideal option.
+
+Option D is incorrect as Geolocation routing policy is used to choose resources based upon the user's location. In this case, all users will be Germany-based & so there would not be random selection on the resource.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company currently hosts its architecture in the US region. They now need to duplicate this architecture to the Europe region and extend the application hosted on this architecture to the new region. In order to ensure that users across the globe get the same seamless experience, what should be done? [WL321]
 

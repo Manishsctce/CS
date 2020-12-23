@@ -1,80 +1,187 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## 1. Question
+
+A new application is to be published in multiple regions around the world. The Architect needs to ensure only 2 IP addresses need to be whitelisted. The solution should intelligently route traffic for lowest latency and provide fast regional failover.
+How can this be achieved?
+
+A. Launch EC2 instances into multiple regions behind an NLB with a static IP address
+B. Launch EC2 instances into multiple regions behind an ALB and use a Route 53 failover routing policy
+C. Launch EC2 instances into multiple regions behind an NLB and use AWS Global Accelerator
+D. Launch EC2 instances into multiple regions behind an ALB and use Amazon CloudFront with a pair of static IP addresses
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : C
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Question
+
+A solutions architect is creating a system that will run analytics on financial data for 4 hours are night, 5 days a week. The analysis is expected to run for the same duration and cannot be interrupted once it is started. The system will be required for a minimum of 1 year
+
+Which type of Amazon EC2 instances should be used to reduce the cost of the system?
+
+A. Spot Instance
+B. On-Demand Instances
+C. Standard Reserved Instances
+D. Scheduled Reserved Instances
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An insurance company has a web application that serves users in the United Kingdom and Australia. The application includes a database tier using a MySQL database hosted In eu-west-2. The web tier runs from eu-west-2 and ap-southeast-2. Amazon Route 53 geoproximity routing is used to direct users to the closest web tier, It has been noted that Australian users receive slow response times to queries.
+
+Which changes should be made to the database tier to improve performance?
+
+A. Migrate the database to Amazon RDS for MySQL. Configure Multi-AZ in the Australian Region
+B. Migrate the database to Amazon DynamoDB, Use DynamoDB global tables to enable replication to additional Regions
+C. Deploy MySQL instances in each Region. Deploy an Application Load Balancer in front of MySQL to reduce the load on the primary instance
+D. Migrate the database to an Amazon Aurora global database in MySQL compatibility mode. Configure read replicas in ap-southeast-2
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Question
+
+A company stores important data in an Amazon S3 bucket. A solutions architect needs to ensure that data can be recovered in case of accidental deletion.
+
+Which action will accomplish this?
+
+A. Enable Amazon S3 versioning
+B. Enable Amazon 53 Intelligent-Tiering
+C. Enable an Amazon S3 lifecycle policy
+D. Enable Amazon S3 cross-Region replication
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : A
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Question
+
+A retail company with many stores and warehouses is implementing IoT sensors to gather monitoring data from devices in each location. The data will be sent to AWS in real time. A solutions architect must provide a solution for ensuring events are received in order for each device and ensure that data is saved for future processing.
+
+Which solution would be MOST efficient?
+
+A. Use Amazon Kinesis Data Streams for real-time events with a partition key for each device. Use Amazon Kinesis Data Firehose to save data to Amazon S3
+B. Use Amazon Kinesis Data Streams for real-time events with a shard for each device. Use Amazon Kinesis Data Firehose to save data to Amazon EBS
+C. Use an Amazon SQS FIFO queue for real-time events with one queue for each device. Trigger an AWS Lambda function for the SQS queue to save data to Amazon EFS
+D. Use an Amazon SQS standard queue for real-time events with one queue for each device. Trigger an AWS Lambda function from the SQS queue to save data to Amazon S3
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : A
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An Amazon VPC contains several Amazon EC2 instances. The instances need to make API calls to Amazon DynamoDB. A solutions architect needs to ensure that the API
+
+calls do not traverse the internet
+
+How can this be accomplished? (Select TWO.)
+
+A. Create a route table entry for the endpoint
+B. Create a gateway endpoint for DynamoDB
+C. Create a new DynamoDB table that uses the endpoint
+D. Create an ENI for the endpoint in each of the subnets of the VPC
+E. Create a VPC peering connection between the VPC and DynamoDB
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : A,B 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An organization has a large amount of data on Windows (SMB) file shares in their on-premises data center. The organization would like to move data into Amazon S3. They would like to automate the migration of data over their AWS Direct Connect link.
+
+Which AWS service can assist them?
+
+A. AWS Database Migration Service (DMS)
+B. AWS CloudFormation
+C. AWS Snowball
+D. AWS DataSync
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## A website runs on Amazon EC2 Instances in an Auto Scaling group behind an Application Load Balancer (ALB) which serves as an origin for an Amazon CloudFront distribution. An AWS WAF is being used to protect against SQL injection attacks. A review of security logs revealed an external malicious IP that needs to be blocked from accessing the website. What should a solutions architect do to protect the application?
+
+A. Modify the network ACL on the CloudFront distribution to add a deny rule for the malicious IP address
+B. Modify the configuration of AWS WAF to add an IP match condition to block the malicious IP address
+C. Modify the network ACL for the EC2 instances in the target groups behind the ALB to deny the malicious IP address
+D. Modity the security groups for the ECZ instances in the target groups behind the ALB to deny the malicious IP address
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Question
+
+An Amazon RDS Read Replica is being deployed in a separate region. The master database is not encrypted but all data in the new region must be encrypted. How can this be achieved?
+
+A. Enable encryption using Key Management Service (KMS) when creating the cross-region Read Replica
+B. Encrypt a snapshot from the master DB instance, create an encrypted cross-region Read Replica from the snapshot
+C. Enabled encryption on the master DB instance, then create an encrypted cross-region Read Replica
+D. Encrypt a snapshot from the master DB instance, create a new encrypted master DB Instance, and then create an encrypted cross-region Read Replica
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## 10. A solutions architect is designing an application on AWS. The compute layer will run in parallel across EC2 instances. The compute layer should scale based on the number of jobs to be processed. The compute layer is stateless. The solutions architect must ensure that the application is loosely coupled and the job items are durably stored.
+
+Which design should the solutions architect use?
+
+A. Create an Amazon SNS topic to send the jobs that need to be processed. Create an Amazon EC2 Auto Scaling group for the compute application. Set the scaling policy for the Auto Scaling group to add and remove nodes based on CPU usage
+
+B. Create an Amazon SQ5 queue to hold the jobs that need to be processed. Create an Amazon EC2 Auto Scaling group for the compute application. Set the scaling policy for the Auto Scaling group to add and remove nodes based on network usage
+
+C. Create an Amazon SQS queue to hold the jobs that needs to be processed. Create an Amazon EC2 Auto Scaling group for the compute application. Set the scaling policy for the Auto Scaling group to add and remove nodes based on the number of items in the SQS queue
+
+D. Create an Amazon SNS topic to send the jobs that need to be processed. Create an Amazon EC2 Auto Scaling group for the compute application Set the scaling policy for the Auto Scaling group to add and remove nodes based on the number of messages published to the SNS topic
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A solutions architect is creating a document submission application for a school. The application will use an Amazon S3 bucket for storage. The solution must prevent accidental deletion of the documents and ensure that all versions of the documents are available. Users must be able to upload and modify the documents.
+
+Which combination of actions should be taken to meet these requirements? (Select TWO.)
+
+A. Set read-only permissions on the bucket
+B. Enable versioning on the bucket
+C. Attach an IAM policy to the bucket
+D. Enable MFA Delete on the bucket
+E. Encrypt the bucket using AWS SSE-S3
+
+
+EXPLANATION :
+ANSWER : B, D
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A multi-tier application runs with eight front-end web servers in an Amazon EC2 Auto Scaling group in a single Availability Zone behind an Application Load Balancer. A solutions architect needs to modify the infrastructure to be highly available without modifying the application
+
+Which architecture should the solutions architect choose that provides high availability?
+
+A. Create an Auto Scaling group that uses four instances across each of two Regions
+B. Modify the Auto Scaling group to use four instances across each of two Availability Zones
+C. Create an Auto Scaling template that can be used to quickly create more instances in another Region
+D. Create an Auto Scaling group that uses four instances across each of two subnets
+
+
+EXPLANATION :
+ANSWER : B
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 13. A company ailows its developers to attach existing IAM policies to existing IAM roles to enable faster experimentation and agility. However, the security operations team is concerned that the developers could attach the existing administrator policy, which would allow the developers to circumvent any other security policies,
 How should a solutions architect address this issue?
 
-Create an Amazon SNS topic send an alert every time a developer creates a new policy
-Use service control policies to disable IAM activity across all accounts in the organizational unit
-Prevent the developers from attaching any policies and assign all IAM duties to the security operations team
-Set an IAM permissions boundary on the developer IAM role that explicitly denies attaching the administrator policy
+A. Create an Amazon SNS topic send an alert every time a developer creates a new policy
+B. Use service control policies to disable IAM activity across all accounts in the organizational unit
+C. Prevent the developers from attaching any policies and assign all IAM duties to the security operations team
+D. Set an IAM permissions boundary on the developer IAM role that explicitly denies attaching the administrator policy
 
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 14. A web application is deployed in multiple regions behind an ELB Application Load Balancer. You need deterministic routing to the dosest region and automatic failover.
-
 Traffic should traverse the AWS global network for consistent performance. How can this be achieved?
 
 A. Configure AWS Global Accelerator and configure the ALBs as targets
@@ -84,7 +191,7 @@ D. Use a CloudFront distribution with multiple custom origins in each region and
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : A
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 15. An application running video editing software is using significant memory on an Amazon EC2 instance. How can a user track memory usage on the Amazon EC2 instance?
 
@@ -95,38 +202,80 @@ Install the CloudWatch agent on the EC2 instance to push memory usage to an Amaz
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 16. A solutions architect is designing a high performance computing (HPC) application using Amazon EC2 Linux instances. All EC2 instances need to communicate to each other with low latency and high throughput network performance,
-
 Which EC2 solution BEST meets these requirements?
 
-Launch the EC2 instances in a cluster placement group in one Availability Zone
-
-Launch the EC2 instances in a spread placement group in one Availability Zone
-
-Launch the EC2 instances in an Auto Scaling group in two Regions. Place a Network Load Balancer in front of the instances
-
-Launch the EC2 instances in an Auto Scaling group spanning multiple Availability Zones
+A. Launch the EC2 instances in a cluster placement group in one Availability Zone
+B. Launch the EC2 instances in a spread placement group in one Availability Zone
+C. Launch the EC2 instances in an Auto Scaling group in two Regions. Place a Network Load Balancer in front of the instances
+D. Launch the EC2 instances in an Auto Scaling group spanning multiple Availability Zones
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : A
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## 17. An online store uses an Amazon Aurora database. The database is deployed as a Multi-AZ deployment. Recently, metrics have shown that database read requests are
+
+high and causing performance issues which result in latency for write requests.
+
+What should the solutions architect do to separate the read requests from the write requests?
+
+A. Enable read through caching on the Amazon Aurora database
+B. Update the application to read from the Mult:AZ standby instance
+C. Create a read replica and modify the application to use the appropriate endpoint
+D. Create a second Amazon Aurora database and link it to the primary database as a read replica
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : B
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+##18 A company has deployed an API in a VPC behind an internal Application Load Balancer (ALB). An application that consumes the API as a diet is
+
+account in private subnets
+
+Which architectural configurations will allow the API to be consumed without using the public Internet? (Select
+
+A. Configure a VPC peering connection between the two VPCS. Access the API using the private address
+B. Configure an AWS Direct Connect connection between the two VPCS. Access the API using the private address
+C. Configure a ClassicLink connection for the API into the client VPC Access the API using the Classic Link address
+D. Contigure a Privatelink connection for the API into the client VPC Access the API using the Privatelink address
+E. Configurt an AWS Resource Access Manager connection between the two accounts. Access the API using the private address
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : A,D 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## 19 A high-performance file system is required for a financial modelling application. The data set will be stored on Amazon S3 and the storage solution must have seamless
+
+integration so objects can be accessed as files.
+
+Which storage solution should be used?
+
+A. Amazon FSx for Windows File Server
+B. Amazon FSx for Lustre
+C. Amazon Elastic File System (EFS)
+D. Amazon Elastic Block Store (EBS)
 
 
 EXPLANATION :
-ANSWER : 
+ANSWER : B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 20 A solutions architect is designing a microservices architecture. AWS Lambda will store data in an Amazon DynamoDB table named Orders. The solutions architect needs to apply an IAM policy to the Lambda function's execution role to allow it to put update, and delete items in the Orders table. No other actions should be allowed.
+
+Which of the following code snippets should be included in the IAM policy to fulfill this requirement whilst providing the LEAST privileged access?
+
+A. "Sid": "PutupdateDeleteOnOrders", "Effect": "Allow", "Action": [ "dynamodb:Putitem", "dynamodb:Updateltem", "dynamodb:Deleteltem" 1. "Resource": "arn:aws:dynamodb:us-east-1:227392126428:table/Orders"
+
+B. "Sid": "PutUpdateDeleteOnOrders". "Effect": "Allow". "Action": [ "dynamodb:Putltem", "dynamodb:Updateltem", "dynamodb:Deleteltem" 1, "Resource": "arn:aws:dynamodb:us-east-1:227392126428:table/**
+
+C. "Sid": "PutUpdateDeleteOnorders", "Effect": "Allow", "Action": "dynamodb:* ". "Resource": "arn:aws:dynamodb:us-east-1:227392126428.table/Orders
+
+D. "Sid": "PutUpdateDeleteOnOrders", "Effect": "Deny". "Action": "dynamodb:*", "Resource": "arn:aws:dynamodb:us-east-1:227392126428:table/Orders"
+
+
+EXPLANATION :
+ANSWER : A

@@ -1,7 +1,7 @@
 =======================================
 ############# KINESIS #################
-
-
+############## Athena #################
+################ EMR ##################
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are deploying an application to track the GPS coordinates of delivery trucks in the United States. Coordinates are transmitted from each delivery truck once every three seconds. You need to design an architecture that will enable real-time processing of these coordinates from multiple consumers. Which service should you use to implement data ingestion? [WL328]
 
@@ -22,211 +22,220 @@ AWS documentation mentions the following:
 With Amazon Kinesis, you can ingest real-time data such as video, audio, application logs, website clickstreams, and IoT telemetry data for machine learning, analytics, and other applications. Amazon Kinesis enables you to process and analyze data as it arrives and responds instantly instead of waiting until all your data is collected before the processing can begin. 
 For more information on Amazon Kinesis, please visit the following URL:
 https://aws.amazon.com/kinesis/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### As a Solutions Architect for a multinational organization having more than 150000 employees, management has decided to implement a real-time analysis for their employees' time spent in offices across the globe. You are tasked to design an architecture that will receive the inputs from 10000+ sensors with swipe machine sending in and out data across the globe, each sending 20KB data every 5 Seconds in JSON format. The application will process and analyze the data and upload the results to dashboards in real-time. 
+Other application requirements will include the ability to apply real-time analytics on the captured data, processing of captured data will be parallel and durable, the application must be scalable as per the requirement as the load varies and new sensors are added or removed at various facilities. The analytic processing results are stored in a persistent data storage for data mining. 
+
+What combination of AWS services would be used for the above scenario? [WL214]
+                                         
+A. Use EMR to copy the data coming from Swipe machines into DynamoDB and make it available for analytics
+
+B. Use Amazon Kinesis Streams to ingest the Swipe data coming from sensors, Custom Kinesis Streams Applications to analyze the data and then move analytics outcomes to RedShift using AWS EMR 
+
+C. Use SQS to receive the data coming from sensors, Kinesis Firehose to analyze the data from SQS, then save the results to a Multi-AZ RDS instance
+
+D. Use Amazon Kinesis Streams to ingest the sensors’ data, custom Kinesis Streams applications to analyze the data, and move analytics outcomes to RDS using AWS EMR
+
+
+ANSWER : B
+
+EXPLANATION: Kinesis
+
+Option A is incorrect. EMR is not for receiving the real-time data from thousands of sources, EMR is mainly used for Hadoop ecosystem-based data used for Big data analysis.
+
+Option B is correct as the Amazon Kinesis streams are used to read the data from thousands of sources like social media, survey-based data, etc. 
+- The Kinesis streams can be used to analyze the data and can feed it using AWS EMR to the analytics-based database like RedShift which works on OLAP.
+ 
+Option C is incorrect, SQS cannot be used to read the real-time data from thousands of sources. 
+- Besides, the Kinesis Firehose is used to ship the data to other AWS service, not for the analysis. And finally, RDS is again an OLTP based database.
+ 
+Option D is incorrect as the AWS EMR can read large amounts of data, however, RDS is a transactional database that works based on the OLTP. Thus, it cannot store the analytical data.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
 ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
+EXPLANATION : 
 ANSWER : 
 
+=======================================
+############## Athena #################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
+EXPLANATION : 
 ANSWER : 
 
+
+=======================================
+################ EMR ##################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
+ANSWER : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
+EXPLANATION : 
 ANSWER : 
 
-EXPLANATION : 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+EXPLANATION : 
+ANSWER : 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+
+EXPLANATION : 
+ANSWER : 
 

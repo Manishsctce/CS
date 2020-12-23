@@ -456,48 +456,36 @@ Try Now
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 16
-Unattempted
-Domain :Design Resilient Architectures
-An organization has a requirement to store 10TB worth of scanned files across multiple availability zones. It plans to have a search application in place to search through the scanned files. 
+## An organization has a requirement to store 10TB worth of scanned files across multiple availability zones. It plans to have a search application in place to search through the scanned files. 
+Which of the following options is ideal for implementing the search facility? [WL516]
 
-Which of the following options is ideal for implementing the search facility? [WL5]
 A. Use S3 with reduced redundancy to store and serve the scanned files. Install a commercial search application on EC2 Instances and configure with Auto-Scaling and an ElasticLoad Balancer.
+
 B. Model the environment using CloudFormation. Use an EC2 instance running Apache webserver and an open-source search application, stripe multiple standard EBS volumes together to store the scanned files with a search index.
+
 C. Use S3 with standard redundancy to store and serve the scanned files. Use CloudSearch for query processing, and use Elastic Beanstalk to deploy the website across multiple Availability Zones.
+
 D. Use a single-AZ RDS MySQL instance to store the search index for the scanned files and use an EC2 instance with a custom application to search based on the index. 
 
 
 EXPLANATION: 
 Correct Answer – C
 
-With Amazon CloudSearch, you can quickly add rich search capabilities to your website or application. You don't need to become a search expert or worry about hardware provisioning, setup, and maintenance. With a few clicks in the AWS Management Console, you can create a search domain and upload the data that you want to make searchable, and Amazon CloudSearch will automatically provision the required resources and deploy a highly tuned search index. 
-You can easily change your search parameters, fine-tune search relevance, and apply new settings at any time. As your volume of data and traffic fluctuates, Amazon CloudSearch seamlessly scales to meet your needs. 
+With Amazon CloudSearch, you can quickly add rich search capabilities to your website or application. 
+- You don't need to become a search expert or worry about hardware provisioning, setup, and maintenance. 
+- With a few clicks in the AWS Management Console, you can create a search domain and upload the data that you want to make searchable, and Amazon CloudSearch will automatically provision the required resources and deploy a highly tuned search index. 
+- You can easily change your search parameters, fine-tune search relevance, and apply new settings at any time. 
+- As your volume of data and traffic fluctuates, Amazon CloudSearch seamlessly scales to meet your needs. 
  
-
 For more information on AWS CloudSearch, please visit the link below:
-
 https://aws.amazon.com/cloudsearch/
 
-
-
 For more information, please check the URL below:
-
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/awseb-dg.pdf
-Try now labs related to this 
-Introduction to AWS Elastic Beanstalk
-This lab walks you through to AWS Elastic Beanstalk. In this lab, you will quickly deploy and manage a Java application in the AWS Cloud without worrying about the infrastructure that runs those applications. 
-Credit Needed10
-Time 0 : 45
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 17
-Unattempted
-Domain :Design Resilient Architectures
-You are working for a global financial company. Company locations spread across various countries upload transaction data to S3 bucket in the US-West region. You will be using AWS Glue & Amazon Athena to further analyze this data. You are using Crawler that will scan all data from S3 buckets & populate Glue Data Catalog, to which Amazon Athena will query. 
-A large amount of CSV data is uploaded on a daily basis from all the global locations simultaneously. To decrease scanning time while scanning data in S3 buckets, you need to ensure only changes in datasets are scanned. Which of the following configurations would meet this requirement? [WL5]
+## You are working for a global financial company. Company locations spread across various countries upload transaction data to S3 bucket in the US-West region. You will be using AWS Glue & Amazon Athena to further analyze this data. You are using Crawler that will scan all data from S3 buckets & populate Glue Data Catalog, to which Amazon Athena will query. 
+A large amount of CSV data is uploaded on a daily basis from all the global locations simultaneously. To decrease scanning time while scanning data in S3 buckets, you need to ensure only changes in datasets are scanned. Which of the following configurations would meet this requirement? [WL517]
+
 A. Reset Job Bookmark in AWS Glue.
 B. Disable Job Bookmark in AWS Glue.
 C. Pause Job Bookmark in AWS Glue. 

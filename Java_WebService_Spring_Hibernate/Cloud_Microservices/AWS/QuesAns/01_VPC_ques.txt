@@ -130,6 +130,26 @@ Options A and D are invalid answers.
 Network ACLs are stateless. So we need to set rules for both inbound and outbound traffic for Network ACLs.  
 Option E is also invalid because, in order to communicate with the MySQL servers, we need to allow traffic to flow through port 3306.
 Note: The above correct options are the combination of steps required to secure your web and database servers. In addition, the company may implement additional security measures from their end
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+### A company hosts a popular web application that connects to an Amazon RDS MySQL DB instance, running in a private VPC subnet created with default ACL settings. The web servers must be accessible only to customers on an SSL connection and the database should only be accessible to web servers in a public subnet. As an architect, what would you not recommend for such an architecture? [WL232]
+
+A. Create a separate web server and database server security group.
+B. Ensure that the web server security group allows HTTPS port 443 inbound traffic from anywhere (0.0.0.0/0)
+C. Ensure that the web server security group allows MySQL port 3306 inbound traffic from anywhere (0.0.0.0/0)
+D. Ensure that the DB server Security Group allows MySQL port 3306 inbound traffic from Web Server Security Group
+
+ANSWER : C
+
+EXPLANATION: SG
+You have been asked which one of the following is not a recommended architecture based on the scenario.
+
+Option C is correct as it allows all the incoming traffic from the internet to the database port which is not acceptable as per the architecture.
+
+A similar setup is given in AWS Documentation:
+
+1) To ensure that traffic can flow into your Web server from anywhere on secure traffic, you need to allow inbound traffic on port  443 (HTTPS).
+
+2) You need to then ensure that traffic can flow from the database server to the web server via the database security group.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your organization already had a VPC(10.10.0.0/16) setup with one public(10.10.1.0/24) and two private subnets – private subnet 1 (10.10.2.0/24) and private subnet 2 (10.10.3.0/24). The public subnet has the main route table and two private subnets have two different route tables respectively. AWS sysops team reports a problem starting the EC2 instance in private subnet 1 cannot communicate to the RDS MySQL database which is on private subnet 2. What are the possible reasons? (choose 2 options) [WL-VPC-2]
 
@@ -525,7 +545,18 @@ Option D is invalid because a virtual private gateway is the Amazon VPC side of 
 - VPN Connections can be configured in minutes and are a good solution if you have an immediate need, have low to modest bandwidth requirements, and can tolerate the inherent variability in Internet-based connectivity. 
 - AWS Direct Connect does not involve the Internet; instead, it uses dedicated, private network connections between your intranet and Amazon VPC. 
  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 19: Your organization would need to expose certain services to its customer. You have created and deployed REST API for your organization using AWS API Gateway over public internet. However, you noticed requests from hosts other than your customer. How would you control access in this scenario? (choose 2 options)
 
+A. Establish DirectConnect to each of your customer's network and enable API Gateway's VPC Link through a private VPC
+B. Enable CORS and add required host names under Access Control- Allow-Origin.
+C. Configure your customer's IP address ranges in resource policy
+D. Create IAM users for your customers and enable user authentication
+E. Generate and distribute Client Certificate to customer Ask them to use the certificate while sending requests
+
+
+EXPLANATION : API GATEWAY
+ANSWER : B,C
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

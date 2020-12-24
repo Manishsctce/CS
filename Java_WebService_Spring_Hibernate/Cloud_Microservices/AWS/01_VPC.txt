@@ -537,21 +537,20 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - An Internet routable IP address is required on Customer gateway
 
 > Two tunnels are configured for each VPN connection for redundancy
-> We can NOT use the NAT gateway in VPC through the VPN connection
+>> We can NOT use the NAT gateway in VPC through the VPN connection
 
 ## Enabling Dynamic Route Propagation
 > You need to update your vpn-only subnets' route table(s) to point at the VGW for subnets that are on the other side of the VPN connection
 
-## AWS VPN CLOUDHUB
-> You can have up to 10 IPSec connections per VGW (soft limit can be increased by contacting AWS)
+> A VPC VPN Connection utilizes IPSec to establish encrypted network connectivity between your intranet and Amazon VPC over the Internet. 
+- VPN Connections can be configured in minutes and are a good solution if you have an immediate need, have low to modest bandwidth requirements, and can tolerate the inherent variability in Internet-based connectivity. 
+- You can have up to 10 IPSec connections per VGW (soft limit can be increased by contacting AWS)
 
-> VPN based Hub and Spoke connectivity to a common VGW
+>> Can mix DX connections with VPN connections
 
-> Can mix DX connections with VPN connections
-
+#### USE CASE ####
 > VPN cloud hub can also be used to allow the branches to communicate with one another
-> This can be a redundant connectivity for the branch offices to the main office or data center too
-> IPSec VPN tunnels + BGP need to be used
+- IPSec VPN tunnels + BGP need to be used
 > You are charged hourly VPN rates plus data transfer rate for data sent to your spokes
 
 ## VPN – Allowed IP Prefixes
@@ -696,57 +695,20 @@ o If any propagated routes from a Site-to-Site VPN connection or AWS Direct Conn
 ### AWS Hybrid Connectivity– Routing Use Cases ### v26
 
 
-##Q: Your client hired you as the AWS SME. The client previously configured a heavily used, dynamically routed VPN connection between their on-premises data center and AWS. They recently provisioned a Direct Connect connection and would like to start
-using the new connection. After configuring Direct Connect settings in the AWS Console, which of the following options will provide the most seamless transition for the users?
-
-A. Delete the existing VPN connection to avoid routing loops configure the Direct Connect router with the appropriate settings
-(and verity network traffic is leveraging Direct Connect.
-
-B. Configure the DirectConnect router with a higher BGP priority than the VPN routes, verify network traffic is leveraging
-Directconnect and then delete the existing VPN connection.
-
-C. Update the VPC route tables to point to the Direct Connect connection. Configure the Direet Conneet-router with the
-appropriate settings verify network traffic is leveraging Direct Connect and then delete the VPN connection
-
-D. Configure the Direct Connect router, update the VPC route tables to point to the Direct Connect connection, configure the
-VRN connection with a higher BGP priority. And verify network traffic is leveraging the Direct Connect connection.
--------------------------------
-##Q: You are implementing AWS Direct Connect. You intend to use AWS public service end points such as Amazon S3, across the AWS Direct Connect link. You want other Internet traffic to use your existing link to an Internet Service Provider. What is the correct way to configure AWS Direct connect for access to services such as Amazon S3?
-
-A. Configure a public Interface on your AWS Direct Connect link Configure a static route via your AWS Direct Connect link that points to Amazon S3 Advertise a default route to AWS using BGP.
-
-B. Create a private interface on your AWS Direct Connect link. Configure a static route via your AWS Direct connect link that points to Amazon S3 Configure specific routes to your network in your VPC.
-
-C. Create a public interface on your AWS Direct Connect link Redistribute BGP routes into your existing routing infrastructure
-advertise specific routes for your network to AWS.
-
-D. Create a private interface on your AWS Direct connect link. Redistribute BGP routes into your existing routing infrastructure
-and advertise a default route to ÁWS
-
--------------------------------
-Q: A customer has established an AWS Direct Connect connection to AWS. The link is up and routes are being advertised from the customer's end, however the customer is unable to connect from EC2 instances inside its VPC to servers residing in its datacenter.
-Which of the following options provide a viable solution to remedy this situation? (Choose 2 answers)
-
-A. Add a route to the route table with an iPsec VPN connection as the target.
-B. Enable route propagation to the virtual pinnate gateway (VGW).
-C. Enable route propagation to the customer gateway (CGW).
-D. Modify the route table of all Instances using the 'route' command.
-E. Modify the Instances VPC subnet route table by adding a route back to the customer's on-premises environment.
 =======================================
 ########### VPC EndPoints ############# v29 
 
 > A VPC ENDPOINT ENABLES US TO PRIVATELY CONNECT OUR VPC TO SUPPORTED AWS SERVICES AND VPC ENDPOINT SERVICES powered by PrivateLink 
 - WITHOUT IGW, NAT device, VPN connection, or AWS Direct Connect connection.
-
-> Instances in VPC do not require public IP to communicate with resources in the service.
-
-> Traffic between VPC and the other AWS service does not leave the Amazon network.
+- Instances in VPC do not require public IP to communicate with resources in the service.
+- Traffic between VPC and the other AWS service does not leave the Amazon network.
 
 > Endpoints are virtual devices. They are HORIZONTALLY SCALED, REDUNDANT, AND HIGHLY AVAILABLE VPC components that allow communication between instances in VPC and services without imposing availability risks or bandwidth constraints on network traffic.
 
 > There are two types of VPC endpoints: 
 1. VPC Interface Endpoints and 
 2. VPC Gateway Endpoints. 
+
 Create the type of VPC endpoint required by the supported service.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### VPC INTERFACE ENDPOINT ####
@@ -775,13 +737,10 @@ Create the type of VPC endpoint required by the supported service.
 - use flow logs as a security tool to monitor traffic that is reaching our instance.
 
 > WE CAN CREATE A FLOWLOG FOR VPC, SUBNET, OR NETWORK INTERFACE 
-- If we create a flowlog for a subnet or VPC, each network interface in the VPC or subnet is monitored.
 - cannot capture logs for EC2 instance
 
-> Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow.
-
+> flow log records are log events consisting of fields that describe the traffic flow.
 > Flow log data can be published to CloudWatch Logs and S3.
-- After you've created a flow log, you can retrieve and view its data in the chosen destination.
 
 > To create a flow log,
 - You specify the resource for which to create the flow log,
@@ -811,6 +770,11 @@ Create the type of VPC endpoint required by the supported service.
 - If you delete a VPC, the DHCP options set associated with the VPC are also deleted.
 
 > After you associate a new set of DHCP options with a VPC, any existing instances and all new instances that you launch in the VPC use these options
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## SUMMARY ############
+
+
 =======================================
 ############# API GATEWAY ############# 
 > Amazon API Gateway is an AWS service for creating, publishing, maintaining, monitoring, and securing REST and WebSocket APIs at any scale.
@@ -841,6 +805,10 @@ Create the type of VPC endpoint required by the supported service.
 > In computing, the same-origin policy is an important concept in the web application security model. 
 - Under the policy, a web browser permits scripts contained in a first web page to access data in a second web page, but only if both web pages have the same origin.
 - This is done to prevent Cross-Site Scripting (XSS) attacks.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## SUMMARY ############
+
+
 =======================================
 ############## CLOUDFRONT ############# v3
 
@@ -862,9 +830,8 @@ Create the type of VPC endpoint required by the supported service.
 -----------------------------
 > Amazon Cloudfront is a web service that speeds up distribution of static and dynamic web content, such as html, .css, .js, and image files, to users.
 
-> Cloudfront delivers content through a network of data centers called edge locations.
-
-> When a user requests content that you're serving with Cloudfront, the user is routed (via DNS resolution) to the edge location that provides the lowest latency, so that content is delivered with the best possible performance.
+> Cloudfront delivers content through a network of data centers called EDGE LOCATIONS.
+- When a user requests content that you're serving with Cloudfront, the user is routed (via DNS resolution) to the edge location that provides the lowest latency, so that content is delivered with the best possible performance.
 
 ## Cloudfront – Faster Response to Client requests
 > If the content is already in the edge location with the lowest latency, CloudFront delivers it immediately.
@@ -1000,17 +967,12 @@ Using Amazon S3 Buckets for Your Origin
 > You can create a hierarchy in your bucket to store the objects, just as you would with any other Amazon S3 bucket.
 
 > Using an existing Amazon S3 bucket as your CloudFront origin server doesn't change the bucket in any way;
-- You can still use it as you normally would to store and access Amazon S3 objects at the standard Amazon S3 price.
-
-## Using S3 bucket as a CloudFront Origin
-Using Amazon S3 Buckets for Your Origin
-> You incur regular Amazon S3 charges for storing the objects in the bucket.
 
 > Upload your content to your origin servers. If you don't want to restrict access to your content using CloudFront signed URLS, make the objects publicly readable.
 
 Important
 > You are responsible for ensuring the security of your origin server.
-> You must ensure that CloudFront has permission.to access the server and that the security settings are appropriate to safeguard your content.
+> You must ensure that CloudFront has permission to access the server and that the security settings are appropriate to safeguard your content.
 
 ## Using EC2 Webserver or Private Webserver as a CloudFront Custom Origin Server
 
@@ -1028,10 +990,7 @@ If you use Amazon Elastic Compute Cloud for your custom origins, AWS recommends 
 
 > When you create your CloudFront distribution, specify the URL of the load balancer for the domain name of your origin server.
 
-## Using S3 bucket' static website as CloudFront Custom Origin Server
-> You can set up an Amazon S3 bucket that is configured as a website endpoint as custom origin with CloudFront.
-> When you configure your CloudFront distribution, for the origin, enter the Amazon S3 static website hosting endpoint for your bucket.
-- This value appears in the Amazon S3 console, on the Properties page under Static Website Hosting. Example:
-• http://bucket-name.s3-website-us-west-2.amazonaws.com
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## SUMMARY ############
 
-> When you specify the bucket name in this format as your origin, you can use Amazon S3 redirects and Amazon S3 custom error documents.
+=======================================

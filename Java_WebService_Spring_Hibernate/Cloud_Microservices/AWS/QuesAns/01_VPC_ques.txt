@@ -2,7 +2,8 @@
 ################ VPC ##################
 ########### SG #### NACL ##############
 ########### NAT ###### IGW ############
-### DX ### VPC PEERING ### GATEWAY ####
+########### DX ### VPC PEERING ######## 
+############ API GATEWAY ##############
 ############# CloudFront ##############
 
 
@@ -491,7 +492,7 @@ ANSWER :
 EXPLANATION : 
 
 =======================================
-### DX ### VPC PEERING ### GATEWAY ####
+########### DX ### VPC PEERING ######## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## How many tunnels for network traffic are involved when a customer gateway connects to an AWS VPC via an AWS-managed VPN connection?
 
@@ -516,7 +517,7 @@ Answer - A and B
 
 When defining a VPN connection between the on-premises network and the VPC, you need to have a customer gateway defined. Since this is accessed over the internet, it needs to have a static internet-routable IP Address.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## A company has an on-premises infrastructure which they want to extend to the AWS Cloud. There is a need to ensure that communication across both environments is possible over the Internet when initiated from on-premises. What should be set up on the on-premise side? [WL326]
+### A company has an on-premises infrastructure which they want to extend to the AWS Cloud. There is a need to ensure that communication across both environments is possible over the Internet when initiated from on-premises. What should be set up on the on-premise side? [WL326]
 
 A. Create a VPC peering connection between the on-premises and the AWS Environment.
 B. Create an AWS Direct connection between the on-premises and the AWS Environment.
@@ -524,14 +525,14 @@ C. Create a VPN connection between the on-premises and the AWS Environment.
 D. Create a Virtual private gateway connection between the on-premises and the AWS Environment. 
 
 
-EXPLANATION:
+EXPLANATION: VPN
 Correct Answer - C
 
 AWS Documentation mentions the following:
 
-One can create a Virtual private connection to establish communication across both environments over the Internet. 
-For more information on Virtual private connection, please visit the following URL:
+> One can create a Virtual private connection to establish communication across both environments over the Internet. 
 
+For more information on Virtual private connection, please visit the following URL:
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html
 
 Option A is invalid because a VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them using private IPv4 addresses or IPv6 addresses. It is not used for connection between on-premises environment and AWS. 
@@ -559,7 +560,20 @@ EXPLANATION : API GATEWAY
 ANSWER : B,C
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Your client hired you as the AWS SME. The client previously configured a heavily used, dynamically routed VPN connection between their on-premises data center and AWS. They recently provisioned a Direct Connect connection and would like to start
+using the new connection. After configuring Direct Connect settings in the AWS Console, which of the following options will provide the most seamless transition for the users?
+
+A. Delete the existing VPN connection to avoid routing loops configure the Direct Connect router with the appropriate settings
+(and verity network traffic is leveraging Direct Connect.
+
+B. Configure the DirectConnect router with a higher BGP priority than the VPN routes, verify network traffic is leveraging
+Directconnect and then delete the existing VPN connection.
+
+C. Update the VPC route tables to point to the Direct Connect connection. Configure the Direet Conneet-router with the
+appropriate settings verify network traffic is leveraging Direct Connect and then delete the VPN connection
+
+D. Configure the Direct Connect router, update the VPC route tables to point to the Direct Connect connection, configure the
+VRN connection with a higher BGP priority. And verify network traffic is leveraging the Direct Connect connection.
 
 
 ANSWER : 
@@ -568,7 +582,18 @@ EXPLANATION :
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## You are implementing AWS Direct Connect. You intend to use AWS public service end points such as Amazon S3, across the AWS Direct Connect link. You want other Internet traffic to use your existing link to an Internet Service Provider. What is the correct way to configure AWS Direct connect for access to services such as Amazon S3?
+
+A. Configure a public Interface on your AWS Direct Connect link Configure a static route via your AWS Direct Connect link that points to Amazon S3 Advertise a default route to AWS using BGP.
+
+B. Create a private interface on your AWS Direct Connect link. Configure a static route via your AWS Direct connect link that points to Amazon S3 Configure specific routes to your network in your VPC.
+
+C. Create a public interface on your AWS Direct Connect link Redistribute BGP routes into your existing routing infrastructure
+advertise specific routes for your network to AWS.
+
+D. Create a private interface on your AWS Direct connect link. Redistribute BGP routes into your existing routing infrastructure
+and advertise a default route to ÁWS
+
 
 
 ANSWER : 
@@ -577,7 +602,15 @@ EXPLANATION :
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+##  customer has established an AWS Direct Connect connection to AWS. The link is up and routes are being advertised from the customer's end, however the customer is unable to connect from EC2 instances inside its VPC to servers residing in its datacenter.
+Which of the following options provide a viable solution to remedy this situation? (Choose 2 answers)
+
+A. Add a route to the route table with an iPsec VPN connection as the target.
+B. Enable route propagation to the virtual pinnate gateway (VGW).
+C. Enable route propagation to the customer gateway (CGW).
+D. Modify the route table of all Instances using the 'route' command.
+E. Modify the Instances VPC subnet route table by adding a route back to the customer's on-premises environment.
+
 
 
 ANSWER : 

@@ -6,6 +6,7 @@
 ## AWS DIRECT CONNECT(DX)
 ## API GATEWAY
 ## CLOUDFRONT  
+#### AWS Global Accelerator
 
 =======================================
 ###### AWS GLOBAL INFRASTRUCTURE ######
@@ -420,7 +421,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 
 > VPC created by VPC Wizard, by default creates NAT Gateway/instance 
 
-> VPC WITH NAT INSTANCE CANNOT BE DELETED UNLESS THE USER MANUALLY TERMINATE THOSE NAT INSTANCE 
+>> VPC WITH NAT INSTANCE CANNOT BE DELETED UNLESS THE USER MANUALLY TERMINATE THOSE NAT INSTANCE 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## VPC with public and VPN-only subnet created by a VPC WIZARD
@@ -451,14 +452,13 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 ############ VPC PEERING ############## v18
 
 > VPC peering connection is a networking connection between 2 VPC that enable us to route traffic between them USING PRIVATE IPv4/IPv6 address
-
-> Instance in another VPC can communicate with each other as if they are within same network
+- Instance in another VPC can communicate with each other as if they are within same network
 
 >> We can create a VPC peering connection between own VPCs or with another acct VPC.
-- connection can be within a single or between regions(also known as inter-region VPC peering connection).
+- CONNECTION CAN BE WITHIN A SINGLE OR BETWEEN REGIONS(also known as inter-region VPC peering connection).
 
 > AWS use the existing infrastructure of a VPC to create a VPC peering connection
-- it is neither a gateway nor a VPN and connection and does not rely on a separate piece of physical hardware
+- it is neither a gateway nor a VPN connection and does not rely on a separate piece of physical hardware
 
 > There is no single point of failure for communication or a bandwidth bottleneck
 
@@ -476,15 +476,16 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - if require update the SG rules to ensure that traffic to and from the peer VPC is not restricted 
 
 
-> VPC peering connection is a one to one relationship between two VPC 
+> VPC peering connection is a 1-1 relationship bet two VPC 
 - you can create multiple VPC peering connection for each VPC that you own
 
 > TRANSITIVE PEERING RELATIONSHIP ARE NOT SUPPORTED:
-- you do not have any peering relationship with VPC that your VPC is not correctly peered with.
+- Ex VPC-A peer with VPC-B and VPC-B peer with VPC-C, it doesn't mean VPC-A and VPC-C can communicate with each other. This is transitive peering.
 
 > VPC peering does not support edge-to-EDGE routing
 
 > You have a limit on the number of active(50) and pending VPC peering(25) connection that you can have per VPC
+- COMPLEX TO SCALE 
 
 > we cannot have more than 1 VPC peering connection betw the same 2 VPCs at the same time. 
 
@@ -497,26 +498,33 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - n(n-1)/2 VPC peering i.e 6 peering connection are required 
 - what if there we have 20 or 30 VPC
 
-=======================================
-############ Transit Gateway ########## v19
+> Pricing - pay only for data transfer
 
-> Transit gateway is a network transit hub that we can USE TO INTERCONNECT VPC AND ON-PREMISE NETWORKS 
+=======================================
+######### Transit Gateway(TG) ######### v19
+
+> It is use for VPC to VPC connection, it can connects 1000's of VPCs
+- IT CAN BE USE TO CONNECT VPC AND ON-PREMISE NETWORKS 
+- VPC are allowed to communicate with one another and with on-premise CIDR block by default 
+- A VPC, DX gateway, or VPN connection can be attached to a TG
+
+> It is based on HUB AND SPOKE DESIGN for connecting VPC together.
+- that's why it allow transitive peering.
 
 > IT IS A REGIONAL RESOURCE 
-> VPC are allowed to communicate with one another and with on-premise CIDR block by default 
+- only same region VPC can be connected not inter-region VPC like VPC peering allow
 
 > this can be changed by creating multiple route table, associated different VPC with different routing table to limit/control who talk to whom 
 
-> transitive gateway can be associated across accounts
+> TG can be associated across accounts with help of RAM (Resource Access Manager)
 
-> A VPC, AWS direct connect gateway, or VPN connection can be attached to a transit gateway
 
-## Transit gateway route table
-> Transit gateway has a default route table and can optionally have additional route table
-> Route table includes dynamic and static routes that decide the next hop based on destination IP address of the packet
+## TRANSIT GATEWAY ROUTE TABLE
+> TG has a default route table and can optionally have additional route table
+- Route table includes dynamic and static routes that decide the next hop based on destination IP address of the packet
 
 > The target of these rounds can be a VPC or a VPN connection
-> by default the VPC and VPN connection that are attached to a transitwy are associated with the default transit gateway route table.
+> by default the VPC and VPN connection that are attached to TG are associated with the default TG route table.
 
 # Association
 > Each attachment is associated with exactly one route table
@@ -526,11 +534,33 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > A VPC or VPN connection can dynamically propagate route to a transit gateway route table
 > With a VPC, you can create static route to send traffic to the transit gateway
 > With the VPN connection, route are propagated with the transit gateway on your on-premise router using border gateway protocol(BGP)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference between Transit Gateway and VPC peering
+
+> VPC peering - it allow inter-region VPC communication
+- Transit Gateway - it doesn't allow inter-region VPC communication
+
+> VPC peering - it allow to connect VPCs in different AWS account
+- Transit Gateway - allow cross accounts connection with help of RAM (Resource Access Manager)
+
+> VPC peering - Complex to scale and management
+- Transit Gateway - Simplify management of VPC connection
+
+> VPC peering - No transitive routing
+- Transit Gateway - supports 1000's of connections.
+
+> VPC peering - lowest cost, pay only for data transfer
+- Transit Gateway - Hourly charged per attachment in additional to data fees.
+
+> VPC peering - 
+- Transit Gateway - Max bandwidth burst to 50 Gbps
 =======================================
 ############### VPN ################### v21
 
 > VPN - Virtual Private Networks
-> VPN CONNECTIONS ARE QUICK, EASY TO DEPLOY, AND COST EFFECTIVE
+
+> VPN CONNECTION IS USED TO CONNECT INTRANET/ON-PREMISE NETWORK WITH AMAZON VPC OVER THE INTERNET
+- It is QUICK, EASY TO DEPLOY, AND COST EFFECTIVE
 
 > A VGW(Virtual Gateway) is required on VPC side, and 
 - Customer gateway on the client's data center (locations) side 
@@ -565,12 +595,13 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 > It is a direct connection(not internet based) and provides higher speed bandwidth, low latency and jitter and higher performance.
 > Consistent performance and dedicated bandwidth
 
-> Broader gateway routing protocol must be used to draw route between the two end of DX connection
+> BGP must be used to draw route between the two end of DX connection
 > Customer router must be capable of 802.IQ and BGP
 > Virtual Interface(VIF) is basically 802.1Q VLAN mapped from the customer router to the DX router. 
 > we can use the connection to establish private VIF to connect to VPC in the region(via the VPC's VGW)
 > we can establish multiple private VIFs to private subnet with multiple VPCs in a region
 > we can establish public VIF to connect to any public AWS endpoints in any region
+
 > Support both IPv4 and IPv6 (requires public VIFs)
 > AWS charges data rate on direct connect lower than on VPC
 > Suitable when transferring high volume of data between AWS and on premise 
@@ -600,20 +631,18 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 =======================================
 #### Link Aggregation Groups - LAG ### v23
 
-> A link aggregation group (LAG) is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple connections at a single AWS Direct Connect endpoint, allowing you to treat them as a single, managed connection.
+> A link aggregation group (LAG) is a logical interface that use to aggregate multiple connections(DX) at a single AWS Direct Connect endpoint, allowing you to treat them as a single, managed connection.
 - All connections in a LAG operate in active/active mode.
 
 > You can create a LAG from existing connections, or you can provision new connections. After you've created the LAG, you can associate existing connections (whether standalone or part of another LAG) with the LAG.
 
 > The following rules apply:
-- All connections in the LAG must use the same bandwidth.
+- All connections in the LAG must use the SAME bandwidth.
 - You can have a maximum of 4 connections in a LAG.
 - All connections in the LAG must terminate at the same AWS Direct Connect endpoint.
 
 > All LAGS have an attribute that determines the minimum number of connections in the LAG that must be operational for the LAG itself to be operational.
 - By default, new LAGS have this attribute set to 0.
-- You can update your LAG to specify a different value-doing so means thatyour entire LAG becomes nonoperational if the number of operational connections falls below this threshold.
-- This attribute can be used to prevent over-utilization of the remaining connections.
 
 
 ## BGP and Hybrid Connectivity
@@ -992,5 +1021,11 @@ If you use Amazon Elastic Compute Cloud for your custom origins, AWS recommends 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########## SUMMARY ############
+
+=======================================
+####### AWS Global Accelerator ########
+
+> it is a service that improves the availability and performance of app with local or global users. 
+- It provides static IP addresses that act as a fixed entry point to your app endpoints in a single or multiple AWS Regions, and uses the AWS global network to optimize the path from your users to your applications.
 
 =======================================

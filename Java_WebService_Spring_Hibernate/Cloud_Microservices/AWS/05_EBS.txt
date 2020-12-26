@@ -368,23 +368,26 @@
 ##### AWS Elastic File System(EFS) ####
 
 > It provides simple, scalable, elastic file storage for use with AWS Cloud services and on-premises resources.
-> It is easy to use and offers a simple interface that allows you to create and configure file systems quickly and easily.
+- It is easy to use and offers a simple interface that allows you to create and configure file systems quickly and easily.
+
 > It is built to ELASTICALLY SCALE ON DEMAND without disrupting app, GROWING AND SHRINKING AUTOMATICALLY as you add and remove files
 
 > As a regional service, Amazon EFS is designed for high availability and durability storing data redundantly across multiple AZ.
 
-## FEATURE 
+#### FEATURE 
 > Highly Available & Durable
 > Secure (Can be encrypted, Security Groups)
-> Pricing is $0.30/GB per month and 5GB under free tier account
 
-##### EFS - BENEFITS ####
-> Simple web services interface that allows you to create and configure file systems quickly and easily.
-> MULTIPLE EC2 INSTANCES AND ON-PREMISES SERVERS CAN SIMULTANEOUSLY ACCESS AN EFS.
-> EFS provides the capacity that we need, without having to provision storage in advance. 
+> Pricing is $0.30/GB per month and 5GB under free tier account
 - we pay for what we use, with no minimum commitments or up-front fees.
 
-> EFS provides a simple and secure way to move data from existing on-premises or in-cloud file systems, with the ability to copy files and directories at speeds up to 5x faster than standard Linux copy tools.
+##### EFS - USE CASE ####
+> multithreaded apps and apps that concurrently access data from multiple EC2 instances can use it
+
+> MULTIPLE EC2 INSTANCES AND ON-PREMISES SERVERS CAN SIMULTANEOUSLY ACCESS AN EFS.
+
+> EFS provides a simple and secure way TO MOVE DATA FROM EXISTING ON-PREMISES OR IN-CLOUD FILE SYSTEMS, 
+- with the ability to copy files and directories at speeds up to 5x faster than standard Linux copy tools.
 
 ### IMPORTANT
 > Can be mount to N no. of Instances
@@ -400,6 +403,8 @@
 > You can mount an Amazon EFS file system on instances in only one VPC at a time. 
 - Both the file system and VPC must be in the same AWS Region.  
 - However using VPC peering we can use EFS in another peer VPC
+
+>> use 'DataSync' to transfer files between two EFS file systems.
 
 > Open port 22(SSH) on EC2 SG and port 2049(NFS) on EFS SG for SSH communication between EC2 instance and EFS
 
@@ -421,6 +426,18 @@
 2. Max I/O Performance Mode
 - It is recommended to be used when tens, hundreds or thousands of EC2 instances sharing same EFS, it can slightly increase the latency.
 - It is recommended to be used when Highly parallelized apps and workloads, such as big data analysis, media processing, and genomics analysis
+
+
+> Check 'PercentIOLimit' cloudWatch metric before opting Max I/O performance mode.
+
+> There are two throughput modes 
+1. Bursting Throughput 
+- throughput on EFS scales as the size of your file system
+
+2. Provisioned Throughput. 
+- you can instantly provision the throughput of your file system (in MiB/s) independent of the amount of data stored.
+- we can decrease file system throughput in every 24hr.
+- we can change between Provisioned Throughput mode and the default Bursting Throughput mode in every 24hr.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## CHARACTERISTICS OF EFS VS EBS
 
@@ -437,3 +454,4 @@
 - In EBS-Prov IOPS, boot vol, txn and NoSQL DB, data warehousing and ETL 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======================================

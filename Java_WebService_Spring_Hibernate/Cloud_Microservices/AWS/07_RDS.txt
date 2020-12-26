@@ -488,11 +488,6 @@ X-amz-date
 host
 content-type
 
-> DynamoDB Auto Scaling uses AWS app AS to dynamically adjust provisioned throughput capacity in response of actual traffic 
-- This help to automate capacity management of tables and global secondary indexes. 
-- we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
-- will be on by default for all new tables and indexes
-
 > A DynamoDB stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. 
 - When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -509,10 +504,11 @@ content-type
 2. On-demand mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 1. PROVISIONED MODE ######
-> It defines the maximum amount of capacity that an application can use from a specified table.
+> Arora is provision mode is non-Serverless DB cluster
+> It defines the maximum amount of capacity that an app can use from a specified table.
 
 > In a provisioned mode, we need to specify the number of reads and writes per second required by the app.
-- If the limit of Provisioned mode throughput capacity is exceeded, then this leads to the request throttling.
+- If the limit of Provisioned mode throughput capacity is exceeded then define, then this leads to the request throttling.
 
 > A provisioned mode is GOOD FOR APP THAT HAVE PREDICTABLE AND CONSISTENT TRAFFIC.
 
@@ -545,12 +541,19 @@ content-type
 - For example, if you create a table with 20 write capacity units, then you can perform 20 writes per second for an item up to 1KB in size.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### 2. ON-DEMAND MODE ########
+> AWS AURORA IN ON-DEMAND MODE IS SERVERLESS.
+- it provides a relatively simple, cost-effective option for infrequent, intermittent, sporadic or unpredictable workloads. 
+
 > DynamoDB on-demand mode has a flexible new billing option which is capable of serving thousands of requests per second without any capacity planning.
 
 > On-Demand mode offers 'pay-per-request' pricing for read and write requests 
 - so that you need to pay only for what you use, thus, making it easy to balance costs and performance.
 
 > In On-Demand mode, DynamoDb accommodates the customer's workload instantly as the traffic level increases or decreases.
+- An Aurora Serverless DB cluster, automatically starts up, shuts down, and scales up or down its compute capacity based on app's needs. 
+
+> it doesn't require to specify the DB instance class size. 
+- but WE CAN SET THE MIN AND MAX CAPACITY. 
 
 > On-Demand mode supports all the DynamoDB features such as encryption, point-in-time recovery, etc 
 - IT DOESN'T SUPPORT AUTO-SCALING
@@ -565,6 +568,14 @@ content-type
 > we can scale provisioned capacity of DynamoDB table anytime 
 > we can scale down provisioned capacity only 4 time during day. 
 
+> DynamoDB Auto Scaling uses AWS app AS to dynamically adjust provisioned throughput capacity in response of actual traffic 
+- This help to automate capacity management of tables and global secondary indexes. 
+- we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
+- will be on by default for all new tables and indexes
+
+- Storage and processing are separate, so you can scale down to zero processing and pay only for storage.
+
+- Aurora Serverless clusters and provisioned clusters both have the same kind of high-capacity, distributed, and highly available storage volume.
 
 =======================================
 ############ AWS Redshift #############
@@ -673,6 +684,7 @@ C) Cloudwatch
 D) AWS Trusted advisor
 
 ## Q : A company needs to have a columnar structured database storage suitable to perform complex analytics queries against petabyte of structured data, Which of the following can meet this requirement? Please select:
+
 A) Amazon RDS
 B) Redshift
 C) Elasticache
@@ -690,22 +702,41 @@ D) Can't transfer huge amount of data to AWS
 > Amazon ElastiCache makes it easy to set up, manage, and scale distributed in-memory cache environments
 
 > It is AWS FULLY MANAGED WEB SERVICE.
-- It is an in-memory key-value data store engine in the cloud and provide ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
+- It is an IN-MEMORY KEY-VALUE DATA STORE ENGINE in the cloud and provide ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
 
 > Improves response times for user transactions and queries
 - Can enhance response time for read-intensive And/or compute- intensive workloads.
 - It offloads the read workload from the main DB instances
 - It does this by storing the results of frequently accessed pieces of data in-memory
 
+##### USE CASE #####
 > ELASTICACHE IS USED IN BETWEEN WEBSERVER AND DATABASE TO STORE CACHE. WebServer might response through cache if the request match.
 
-- It is ONLY ACCESSIBLE TO RESOURCE OPERATING WITH THE SAME VPC to ensure low latency. 
+> it can be used for storing session state.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### DESIGN & ARCHITECT 
+> ElastiCache shard - A collection of multiple nodes that make up a cluster
+> CLUSTER - it is a collection of one or more nodes using the same caching engine
+
+> Each node runs an instance of the Memcached or Redis protocol-compliant service and has its own DNS name and port.
+
+> Failed nodes are automatically replaced.
+
+> Elasticache EC2 nodes cannot be accessed from the Internet, nor can they be accessed by EC2 instances in other VPCs.
+- It is ONLY ACCESSIBLE TO RESOURCE OPERATING WITH THE SAME VPC to ensure low latency.
+- It can use 'on-demand' or 'reserved' instances (but not Spot instances). 
+
+> 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## FEATURE ##
+
+> Push-button scalability for memory, writes and reads.
 
 > Automatic detection of and recovery from cache node failures.
 > Flexible AZ placement of nodes and clusters.
 > Integration with other AWS services such as EC2, CloudWatch, CloudTrail, and SNS to provide a secure, high-performance, managed in-memory caching solution.
+
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > ElastiCache Supports 2 Caching engines:
@@ -716,6 +747,7 @@ D) Can't transfer huge amount of data to AWS
 > it is preferred for caching HTML fragments. 
 - It is simple K-V store
 > Ideal front-end for data stores (RDS, DynamoDB)
+
 > Use Cases:
 - cache contents of a DB
 - cache data from dynamically generated webpages
@@ -735,6 +767,3 @@ D) Can't transfer huge amount of data to AWS
 - Ad-tech
 - IoT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Elasticache Exam Tip
-• Typically you will be given a scenario where a particular database is under a lot of stress/load. You may be asked which service you should use to alleviate this.
->>> Elasticache is a good choice if your database is particularly read heavy and not prone to frequent changing,

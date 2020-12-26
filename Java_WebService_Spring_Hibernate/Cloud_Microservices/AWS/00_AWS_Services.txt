@@ -53,8 +53,64 @@ Basic, Developer, Business and Enterprise.
 
 5. COST OPTIMIZATION : 
 - The ability to run systems to deliver business value at the lowest price point.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## What defines Serverless ?
+
+> No server to provision or manage
+> Automatic scale with usage 
+> Never pay for idle 
+> Availablility and fault tolerance built-in 
+
+SERVERLESS EXAMPLE - 
+Compute - Lambda, Fargate, 
+Storage - Aurora, DynamoDB, S3 
+Integration - API Gateway, SQS, Glue, SNS, StepFunctions, AppSync
+
+Not Serverless - Kinesis, EC2
 =======================================
-######## AWS COMPUTE SERVICES #########
+### NETWORKING AND CONTENT DELIVERY ### 01
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Virtual Private Cloud (VPC)
+- Logically isolates networks. 
+- Allows us to define IP range selection, subnet creation, configuring routes, and network gateways.
+
+#### VPC LIMITATION 
+- create upto 5 VPC per region
+- 200 subnets per VPC 
+- 5 IP Addr AWS reserve first 4 and last
+- 200 route tables per VPC
+- 50 routes entries per route table.
+- 5 SG per EC2 instance
+- only 50 active and 25 pending VPC peering connection are allowed
+- only 1 IGW per VPC 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### CloudFront ############ 01
+- Using edge locations, contents are distributed to provide low-latency and high data transfer speeds across the globe.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### Direct Connect ######## 01
+- It provides alternatives to bypass the internet and uses dedicated networks to connect private data centers and the AWS cloud.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### Route 53 ############ 09
+- Highly available and scalable global DNS service.
+
+## Virtual Private Network (VPN)
+
+## Elastic Load Balancer 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### AWS API Gateway ####### 01
+> use for creating, publishing, maintaining, monitoring, and securing REST and WebSocket APIs at any scale.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### AWS Global Accelerator ### 01
+> it is a service that improves the availability and performance of app with local or global users. 
+- It provides static IP addresses that act as a fixed entry point to your app endpoints in a single or multiple AWS Regions, and uses the AWS global network to optimize the path from your users to your applications.
+=======================================
+######## AWS COMPUTE SERVICES ######### 02
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### AWS EC2 ###########
@@ -71,7 +127,7 @@ Basic, Developer, Business and Enterprise.
 - It makes it possible to quickly launch virtual machines from templates rather than selecting individual components in EC2.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### AWS Lambda ##########
+######### AWS Lambda ########## 02
 - It is advance version of EC2
 - It is used for serverless computing 
 - It is a compute service that lets u run code without provisioning or managing servers.
@@ -106,14 +162,14 @@ Basic, Developer, Business and Enterprise.
 - Run AWS infrastructure and services on premises for a truly consistent hybrid experience
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### Elastic Beanstalk ###### (02_EC2)
+###### Elastic Beanstalk ###### 02
 - It is a web app server
 - It is example of PaaS
 - It used for cost and capacity management.
 - Developers can quickly deploy and manage applications in the AWS cloud. Developers just have to upload their application and the rest is taken care of by Elastic Beanstalk.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-########### AWS ELB ###########
+########### AWS ELB ########### 03
 > It stand for Elastic LoadBalancer 
 - It used for cost and capacity management.
 - It distributes incoming app or network traffic across multiple targets, such as Amazon EC2 instance, container and IP addr. 
@@ -130,7 +186,8 @@ Basic, Developer, Business and Enterprise.
 =======================================
 ######### AWS STORAGE SERVICE #########
 
-## AWS S3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## AWS S3 #############
 - It is Simple Storage service 
 - It is a scalable, high-speed, low-cost web-based service designed for online backup and archiving of data and application programs. 
 - It allows to upload, store, and download any type of files up to 5 TB in size
@@ -142,7 +199,7 @@ Basic, Developer, Business and Enterprise.
 - FULLY MANAGED, scalable, and sharable storage among thousands of EC2 instances.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Glacier
+######## AWS Glacier ##########
 - Secure, durable, and extremely low-cost solutions for backup and archiving.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -182,42 +239,6 @@ Basic, Developer, Business and Enterprise.
 - It is a fast, scalable DATA WAREHOUSE that makes it simple and cost-effective TO ANALYSE ALL OUR DATA across data warehouse and data lake. 
 - Also provides ODBC and JDBC connectivity and SQL-based retrieval.
 
-=======================================
-### NETWORKING AND CONTENT DELIVERY ###
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### Virtual Private Cloud (VPC)
-- Logically isolates networks. 
-- Allows us to define IP range selection, subnet creation, configuring routes, and network gateways.
-
-#### VPC LIMITATION 
-- create upto 5 VPC per region
-- 200 subnets per VPC 
-- 5 IP Addr AWS reserve first 4 and last
-- 200 route tables per VPC
-- 50 routes entries per route table.
-- 5 SG per EC2 instance
-- only 50 active and 25 pending VPC peering connection are allowed
-- only 1 IGW per VPC 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### CloudFront ############ 01
-- Using edge locations, contents are distributed to provide low-latency and high data transfer speeds across the globe.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### Direct Connect ######## 01
-- It provides alternatives to bypass the internet and uses dedicated networks to connect private data centers and the AWS cloud.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### Route 53 ############ 09
-- Highly available and scalable global DNS service.
-
-## Virtual Private Network (VPN)
-
-## Elastic Load Balancer 
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### AWS API Gateway ####### 01
-> use for creating, publishing, maintaining, monitoring, and securing REST and WebSocket APIs at any scale.
 =======================================
 ####### AWS MIGRATION SERVICES ########
 
@@ -283,11 +304,11 @@ Basic, Developer, Business and Enterprise.
 ######### AWS SHIELD ##########
 - Managed service to protect web applications against DDoS attacks running on AWS.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### AWS Single-Sign-on (SSO) ##
 
-## AWS Single-Sign-on (SSO)
-
-
-#### AWS COGNITO ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## AWS COGNITO ##########
 > It provides authentication, authorization, and user management for web and mobile apps. 
 - Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.
 
@@ -296,41 +317,44 @@ Basic, Developer, Business and Enterprise.
 2. Identity pools enable you to grant your users access to other AWS services. 
 - You can use identity pools and user pools separately or together.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## KMS (Key Management Service)
 =======================================
 ##### ASW MANAGEMENT & GOVERNANCE ##### 10
 
-#### CloudWatch ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### CloudWatch ##########
 - it is a monitoring service for AWS Cloud resources and the apps running on AWS. 
 - It allows organizations to collect and track metrics, collect and monitor log files, and set alarms.
 
-#### CloudFormation ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### CloudFormation ########
 > AUTOMATES AND SIMPLIFIES REPEATED INFRASTRUCTURE TASKS such as repeatedly creating the same infrastructure in the same or different AZ or region.
 
-
-#### CloudTrail ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### CloudTrail ##########
 > RECORDS EACH AWS API CALL AND STORES LOG FILES INTO AN S3 BUCKET.
 
-
-#### AWS Config ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### AWS Config ##########
 > Provides AWS resource inventory, configuration history, and change notifications to enable security and governance.
 
-
-#### AWS OpsWorks ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### AWS OpsWorks ##########
 > It is a configuration management service that uses Chef, an automation platform that treats server configurations as code. 
 - OpsWorks uses Chef to automate how servers are configured, deployed, and managed across your Amazon EC2 instances or on-premise compute environments.
 
-
-#### AWS Service Catalog ####
-> It allows organizations to centrally manage commonly deployed IT services, and helps organizations achieve consistent governance and meet compliance requirements, 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### AWS Service Catalog #####
+> It allows organizations to centrally manage commonly deployed IT services, and helps organizations achieve consistent governance and m	eet compliance requirements, 
 - while enabling users to quickly deploy only the approved IT services they need with the constraints your organization sets.
 
-
-#### AWS Trusted advisor ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### AWS Trusted advisor #####
 > It helps to reduce monthly billing, and increase performance and security.
 
-
-#### AWS Organizations ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### AWS Organizations ######
 > It is an account management service that lets you consolidate multiple AWS accounts into an organization. 
 - you can create member accounts and invite existing accounts to join organization. 
 - You can organize those accounts into groups and attach policy-based controls.
@@ -344,6 +368,15 @@ Basic, Developer, Business and Enterprise.
 > It helps to easily and securely share AWS resources with any AWS account or within your AWS Organization. 
 - we can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### AWS Control Tower ######
+- it offers the easiest way to set up and govern a new, secure, multi-account AWS environment. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### AWS Systems Manager(SM) ###
+
+- It allows you to centralize operational data from multiple AWS services and automate tasks across your AWS resources.
+- basically we can administer our instances like run commands/ upload patches etc using SM
 =======================================
 ####### AWS INTEGRATION SERVICES ###### 11
 
@@ -394,6 +427,21 @@ https://www.javatpoint.com/aws-kinesis
 ## AWS SMS(Server Migration Service)
 - It is an agentless service which makes it easier and faster for you to migrate thousands of on-premises workloads to AWS. 
 - AWS SMS allows you to automate, schedule, and track incremental replications of live server volumes, making it easier for you to coordinate large-scale server migrations.
+
+
+=======================================
+######### ENDUSER COMPUTING ###########
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## AWS WorkSpaces #######
+- It is managed desktop computing service running on AWS cloud
+- Support major of client-side device through which user can connect like windows/MAC/iPad/Android 
+- WorkSpace is backed up every 12 hours.
+- You do not need an AWS account to login to workspaces.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### AWS WorkDocs ##########
+
 =======================================
 ############ SHORT FORM ###############
 CMK 	- Customer Master Key
@@ -425,3 +473,8 @@ LB 		- Load Balance
 CZLB 	- Cross-Zone Load Balancing
 ECS 	- Elastic Container Service
 DHCP 	- Dynamic Host Configuration Protocol
+HPC 	- High-Performance Computing
+RAM 	- Resource Access Manager
+TG 		- Transit Gateway
+CDN		- Content Delivery Network
+ECR 	- Elastic Container Registry

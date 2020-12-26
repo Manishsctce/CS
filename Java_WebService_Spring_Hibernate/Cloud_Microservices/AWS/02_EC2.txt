@@ -20,7 +20,7 @@
 - It is Elastic Container Registry
 - It is fully-managed docker container registry that make it easy for developer to 
 
-## ECS(Elastic Container SERVICE)
+## ECS(ELASTIC CONTAINER SERVICE)
 - It is a highly scalable, high performance container orchestration service that supports Docker container and allow easily run and scale containerized app on AWS.
 
 ## AWS Fargate 
@@ -846,31 +846,68 @@ b. Worker Environment: Processes background tasks which are resource consuming a
 #### ECS(ELASTIC CONTAINER SERVICE) ###
 
 > It is HA, fast and container management service 
+- it supports Docker containers and allows you to easily run apps on a managed cluster of EC2 instances.
 
-> it let us launch and stop container-based app with simple API call.
+> we can launch and stop container-based app, query the complete state of clusters with simple API call.
 
-> It eliminate the need to operate own cluster management and configuration management systems or to worry about scaling management infra.
+> It is a regional service.
+> There is no additional charge for Amazon ECS. 
+- You pay for AWS resources (e.g. EC2 instances or EBS volumes) 
 
-> It is a regional service that simplifies running app container in a HA manner across multi-AZ in a region.
 > we can create ECS cluster within a new or existing VPC.
 - After cluster is up and running, we can define task definition and services that specify which docker container image to run across cluster.
 
 > container image are stored in and pull from container registries, which may exist within or outside AWS infra.
-
-> EC2 Container Registry (ECR) is managed AWS docker registry service that is secure, scalable and reliable.
+- ECR is managed AWS docker registry service that is secure, scalable and reliable.
 
 > ECR supports private docker repositories with resource-based permission using IAM so that specific users or EC2 instance can access repositories amd image
 
 > Developers can use docker CLI to push, pull and manage images.
-> ECS service can optionally be configured to use AS to adjust its desired count up or down in response to CloudWatch alarms. 
-- AS is available in all regions that support Amazon ECS.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## CONTAINER MANAGEMENT SERVICE includes
+- Deployment of Containers
+- Redundancy and availability of Containers
+- Scaling up or down of Containers
+- Load Balancing
+- Health Monitoring of Containers and Hosts
+- Service Discovery
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### COMPONENTS ##########
+
+> Containers are created from a read-only file called image.
+> Image are build from a DockerFile (plain text file that specify all the components that are included in the container)
+
+> Docker Volumes can be a local Instance store / EBS / EFS 
+- connect docker container to these volume using docker drivers and plugin
 
 
-> Some of the parameters task definition include:
-- Docker image to use with each container in your task
-- How much CPU and memory to use with each task or each container within a task
-- LAUNCH TYPE to use, which determines the infra on which tasks are hosted
-- docker networking mode to use for the container in task.
+## Task Components
+> Task definitions specify various parameters for your application. 
+- It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
+
+> Task definitions are split into separate parts:
+
+1. Task family 
+- the name of the task, and each family can have multiple revisions.
+
+2. IAM task role 
+- specifies the permissions that containers in the task should have.
+
+3. Network mode 
+- determines how the networking is configured for your containers.
+
+4. Container definitions 
+- specify which image to use, how much CPU and memory the container are allocated, and many more options.
+
+5. Volumes 
+- allow you to share data between containers and even persist the data on the container instance when the containers are no longer running.
+
+6. Task placement constraints 
+- lets you customize how your tasks are placed within the infrastructure.
+
+7. Launch type 
+- determines which infrastructure your tasks use.
 
 Example:
 {
@@ -886,3 +923,59 @@ Example:
   "memory":"512",
   "cpu":"256"
 }
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Tasks and Scheduling
+
+> A task is the instantiation of a task definition within a cluster. 
+- After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
+
+- Each task that uses the Fargate launch type has its own isolation boundary and does not share the underlying kernel, CPU resources, memory resources, or elastic network interface with another task.
+
+> The task scheduler is responsible for placing tasks within your cluster. There are several different scheduling options available.
+
+- REPLICA - places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
+
+- DAEMON - deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When using this strategy, there is no need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.
+
+> You can upload a new version of app task definition, and the ECS scheduler automatically starts new containers using the updated image and stop containers running the previous version.
+
+> ECS tasks running on both Amazon EC2 and AWS Fargate can mount EFS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## USE-CASE ###########
+
+> ECS service can optionally be configured to use AS to adjust its desired count up or down in response to CloudWatch alarms. 
+- AS is available in all regions that support Amazon ECS.
+
+> It is possible to use Elastic Beanstalk to handle the provisioning of ECS cluster, balancing load, auto-scaling, monitoring, and placing your containers across your cluster.
+
+> It is possible to associate a service on Amazon ECS to an Application Load Balancer (ALB) for the Elastic Load Balancing (ELB) service.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+=======================================
+############ AWS Fargate ##############
+
+> we can use Fargate with ECS to run container without having to manage server or cluster of EC2 instance
+- doesn't require to provision, configure or scale cluster of VM to run container 
+
+>> It only supports container images hosted on ECR or Docker Hub.
+> currently it is not available on all regions.
+
+#### FARGATE TASK DEFINITION REQUIRE
+
+> NETWORK MODE = "awsvpc".
+- it provide each task its own ENI.
+
+> specify CPU and memory at the task level.
+> it only support "awslogs" log driver for the log configuration.
+- so that tasks can send log to cloudWatch logs.
+
+> Task storage is ephemeral. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### ECS vs FARGATE ########
+
+> ECS - Need to mantain our own infrastructure like EC2, AS, ELB etc
+- FARGATE - AWS manage infrastructure
+

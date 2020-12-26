@@ -12,6 +12,20 @@
 ################ VPC ##################
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are the AWS Solutions Architect at YCDIT2, Inc. You have been assigned a task to design a VPC for a web-application consisting of an internet-facing Elastic Load Balancer (ELB), a fleet of web/application servers, and an RDS database. The entire Infrastructure must be highly available using two Availability zones. The database should not be accessible from the Internet. Which of the below configurations would work?
+
+a. One public subnet for the web-servers, One public subnet for ELB ,and one private subnet for the database
+
+b. Two private subnets for the web-servers, One public subnet for ELB, Two private subnets for database
+
+c. Two private subnets for the web-servers, Two public subnets for ELB, and two private subnets for database
+
+d. Two public subnets for the web-servers, Two public subnets for ELB, and two public subnets for database	
+
+
+EXPLANATION : VPC design
+Answer - C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A new VPC with CIDR range 10.10.0.0/16 has been setup with a public and a private subnet. Internet Gateway and a custom route table have been created and a route has been added with the 'Destination' as '0.0.0.0/0' and the 'Target' with Internet Gateway ( igw-id ). A new Linux EC2 instance has been launched on the public subnet with the auto-assign public IP option enabled, but when trying to SSH into the machine, the connection is getting failed. What could be the reason? [WL-VPC-3]
 
 A. Elastic IP is not assigned.
@@ -41,9 +55,21 @@ C. Attach an NAT Gateway to the VPC and add a route for 0.0.0.0/32 to the Route 
 D. Attach an Internet Gateway to the VPC and add a route for 0.0.0.0/32 to the Route table. 
 
 
-EXPLANATION:
+EXPLANATION: IGW
+Correct Answer - A
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are the AWS Architect at YCDIT2, Inc. Using the VPC Wizard, the administrator created a VPC of CIDR 10.0.0.0/16. The VPC created is the public subnet (CIDR 10.0.0.0/24) and the VPN Only subnet (10.0.1.0/24), with hardware VPN access. The wizard created, among the other Components, the virtual private gateway (vgw-12345) to connect to the corporate's data center Which has a CIDR of 172.28.0.0/12. Manually, the administrator also created a NAT instance (i 12345) to allow traffic to the Internet from the VPN subnet. Which of the below mentioned options is not a valid entry for the main route table in this scenario? [Dol-14]
+
+a. Destination: 10.0.1.0/24, Target: i-12345
+b. Destination: 0.0.0.0/0, Target: i-12345
+C. Destination: 172.28.0.0/12, Target: vgw-12345
+d. Destination: 10.0.0.0/16, Target: local
+
+
+EXPLANATION: Route Table
 Correct Answer - A
 
+> Private subnet (10.0.1.0/24) is point its own destination and routing through Nat instance target which doesn't make sense.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your organization has an existing VPC with an AWS S3 VPC endpoint created and serving certain S3 buckets. You were asked to create a new S3 bucket and reuse the existing VPC endpoint to route requests to the new S3 bucket. However, after creating a new S3 bucket and sending requests from an EC2 instance via VPC endpoint, you found the requests are failing with the “Access Denied” error. What could be the issue? (select 2 options)
 
@@ -60,6 +86,17 @@ Option A is correct, VPC endpoint has a policy which by default allows all actio
 Option B is correct, AWS IAM role/user which is used to access S3 bucket needs to have access granted via IAM policy before accessing. So if the IAM role/user is not an administrator or not having full S3 access, a newly created S3 bucket must be added to the IAM policy.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your AWS administrator created a VPC with public and private subnets using the VPC wizard, and choose the NAT instance during VPC creation. She did not launch any instance as yet, and is trying to delete the VPC.
+What will happen when she tries to delete the VPC? [Dol-14]
+
+a. She can't delete the VPC because it has subnets with route tables b. She can't delete the VPC because it has a running route instance
+C. The VPC along with all the instances launched by the wizard will be terminated
+d. She can't delete the VPC since it has a running NAT instance
+
+
+EXPLANATION : VPC Wizard
+Answer: D. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Choose the correct order in which traffic flows from an on-premises site to a VPC within AWS when a VPN connection is used.
 
 A. Customer gateway to Amazon VPC to virtual private gateway
@@ -67,7 +104,8 @@ B. Virtual private gateway to customer gateway to Amazon VPC
 C. Amazon VPC to customer gateway to virtual private gateway
 D. Customer gateway to virtual private gateway to Amazon VPC
 
-
+	
+EXPLANATION : Virtual private Gateway
 Answer: D. 
 Traffic begins at the on-premises site, which means starting at a customer gateway. Traffic then flows through the Internet and to the virtual private gateway at AWS. Then, from the gateway, traffic can flow into an Amazon VPC.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,6 +117,7 @@ C. Set up a public IP address for the virtual private gateway.
 D. Set up a public IP address for the VPN tunnels.
 
 
+EXPLANATION : Virtual private Gateway
 Answer: A, C. 
 
 Traffic across the Internet can only flow between public IP addresses in most cases. 
@@ -117,7 +156,7 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-ins
 A. Create a network ACL on the Web Server's subnets, allow HTTPS port 443 inbound and specify the source as 0.0.0.0/0
 B. Create a Web Server security group that allows HTTPS port 443 inbound traffic from anywhere (0.0.0.0/0) and apply it to the Web Servers.
 C. Create a DB Server security group that allows MySQL port 3306 inbound and specify the source as the Web Server security group.
-D. Create a network ACL on the DB subnet, allow MySQL port 3306 inbound for Web Servers and deny all outbound traffic.
+D. Create a network ACL on the DB subnet, allow MySQL port 3306 inbound for Web Servers and deny all 	outbound traffic.
 E. Create a DB Server security group that allows HTTPS port 443 inbound and specify the source as a Web Server security group.
 
 
@@ -182,6 +221,7 @@ D. Ensure that the database security group allows incoming traffic from 0.0.0.0/
 ANSWER : B, C
 
 EXPLANATION: 
+
 
 =======================================
 ########### NAT ###### IGW ############
@@ -285,211 +325,6 @@ ANSWER :
 EXPLANATION : 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
 
 =======================================
 ########### DX ### VPC PEERING ######## 
@@ -545,7 +380,23 @@ Option D is invalid because a virtual private gateway is the Amazon VPC side of 
 - A VPC VPN Connection utilizes IPSec to establish encrypted network connectivity between your intranet and Amazon VPC over the Internet. 
 - VPN Connections can be configured in minutes and are a good solution if you have an immediate need, have low to modest bandwidth requirements, and can tolerate the inherent variability in Internet-based connectivity. 
 - AWS Direct Connect does not involve the Internet; instead, it uses dedicated, private network connections between your intranet and Amazon VPC. 
- 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company just established a Direct Connect connection back from the HQ infrastructure to your company's AWS VPC. The connection will have two VIFs, one private to access the company's private VPC subnets, and one public to access AWS services (on Public IP addresses). The requirement is that, traffic destined to AWS public services will go over the direct connect link, and any other Internet traffic will flow over the HQ infrastructure Internet connection.
+How could you achieve this? [Dol-13]
+
+a. Move your HQ internet connection to the Customer router, and use policy routing to send traffic for AWS over the DX connection
+
+b. You can not control this, send all traffic through the DX connection, and have AWS route Internet traffic out of AWS internet infrastructure 
+
+c. Over the public VIF, Advertise AWS services public IP address ranges through the DX connection, have your on-premise router redistribute these routes into your HQ network,
+
+d. Over the private VIF, Advertise AWS services public IP ranges through the DX connection, have your customer route redistribute these routes into your HQ network
+
+
+Explanation : DX
+Answer : C
+=======================================
+############ API GATEWAY ############## 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### 19: Your organization would need to expose certain services to its customer. You have created and deployed REST API for your organization using AWS API Gateway over public internet. However, you noticed requests from hosts other than your customer. How would you control access in this scenario? (choose 2 options)
 
@@ -560,8 +411,55 @@ EXPLANATION : API GATEWAY
 ANSWER : B,C
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##1: You are a Solutions Architect of a multi-national gaming company which develops video games for PS4, Xbox One and Nintendo Switch consoles, plus a number of mobile games for Android and iOS. Due to the wide range of their products and services, you proposed that they use API Gateway.   
+
+What are the key features of API Gateway that you can tell your client? (Select TWO.) [UD201]
+
+A. Enables you to build RESTful APIs and WebSocket APIs that are optimized for serverless workloads.
+
+B. You pay only for the API calls you receive and the amount of data transferred out.
+
+C. It automatically provides a query language for your APIs similar to GraphQL.
+
+D. Provides you with static anycast IP addresses that serve as a fixed entry point to your applications hosted in one or more AWS Regions.
+
+E. Enables you to run applications requiring high levels of inter-node communications at scale on AWS through its custom-built operating system (OS) bypass hardware interface.
+
+
+EXPLANATION : API Gateway
+ANSWER : A,B
+
+> Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. 
+- With a few clicks in the AWS Management Console, you can create an API that acts as a “front door” for applications to access data, business logic, or functionality from your back-end services, such as workloads running on Amazon Elastic Compute Cloud (Amazon EC2), code running on AWS Lambda, or any web application. Since it can use AWS Lambda, you can run your APIs without servers.
+
+> Amazon API Gateway handles all the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, authorization and access control, monitoring, and API version management. 
+- Amazon API Gateway has no minimum fees or startup costs. You pay only for the API calls you receive and the amount of data transferred out.
+
+Hence, the correct answers are:
+
+- Enables you to build RESTful APIs and WebSocket APIs that are optimized for serverless workloads
+
+- You pay only for the API calls you receive and the amount of data transferred out.
+
+The option that says: It automatically provides a query language for your APIs similar to GraphQL is incorrect because this is not provided by API Gateway.
+
+The option that says: Provides you with static anycast IP addresses that serve as a fixed entry point to your applications hosted in one or more AWS Regions is incorrect because this is a capability of AWS Global Accelerator and not API Gateway.
+
+The option that says: Enables you to run applications requiring high levels of inter-node communications at scale on AWS through its custom-built operating system (OS) bypass hardware interface is incorrect because this is a capability of Elastic Fabric Adapter and not API Gateway.
+
+References:
+https://aws.amazon.com/api-gateway/
+https://aws.amazon.com/api-gateway/features/
+
+
+Check out this Amazon API Gateway Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-api-gateway/
+
+=======================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your client hired you as the AWS SME. The client previously configured a heavily used, dynamically routed VPN connection between their on-premises data center and AWS. They recently provisioned a Direct Connect connection and would like to start
-using the new connection. After configuring Direct Connect settings in the AWS Console, which of the following options will provide the most seamless transition for the users?
+using the new connection. After configuring Direct Connect settings in the AWS Console, which of the following options will provide the most seamless transition for the users? [Dol-26]
 
 A. Delete the existing VPN connection to avoid routing loops configure the Direct Connect router with the appropriate settings
 (and verity network traffic is leveraging Direct Connect.
@@ -576,13 +474,12 @@ D. Configure the Direct Connect router, update the VPC route tables to point to 
 VRN connection with a higher BGP priority. And verify network traffic is leveraging the Direct Connect connection.
 
 
-ANSWER : 
-
-EXPLANATION : 
+EXPLANATION : Hybrid Connectivity
+ANSWER : B
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are implementing AWS Direct Connect. You intend to use AWS public service end points such as Amazon S3, across the AWS Direct Connect link. You want other Internet traffic to use your existing link to an Internet Service Provider. What is the correct way to configure AWS Direct connect for access to services such as Amazon S3?
+## You are implementing AWS Direct Connect. You intend to use AWS public service end points such as Amazon S3, across the AWS Direct Connect link. You want other Internet traffic to use your existing link to an Internet Service Provider. What is the correct way to configure AWS Direct connect for access to services such as Amazon S3? [Dol-26]
 
 A. Configure a public Interface on your AWS Direct Connect link Configure a static route via your AWS Direct Connect link that points to Amazon S3 Advertise a default route to AWS using BGP.
 
@@ -595,15 +492,15 @@ D. Create a private interface on your AWS Direct connect link. Redistribute BGP 
 and advertise a default route to ÁWS
 
 
-
-ANSWER : 
+EXPLANATION : Hybrid Connectivity
+ANSWER : C
 
 EXPLANATION : 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  customer has established an AWS Direct Connect connection to AWS. The link is up and routes are being advertised from the customer's end, however the customer is unable to connect from EC2 instances inside its VPC to servers residing in its datacenter.
-Which of the following options provide a viable solution to remedy this situation? (Choose 2 answers)
+Which of the following options provide a viable solution to remedy this situation? (Choose 2 answers) [Dol-26]
 
 A. Add a route to the route table with an iPsec VPN connection as the target.
 B. Enable route propagation to the virtual pinnate gateway (VGW).
@@ -612,11 +509,8 @@ D. Modify the route table of all Instances using the 'route' command.
 E. Modify the Instances VPC subnet route table by adding a route back to the customer's on-premises environment.
 
 
-
+EXPLANATION : Hybrid Connectivity
 ANSWER : 
-
-EXPLANATION : 
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

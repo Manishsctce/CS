@@ -8,6 +8,7 @@
 ############ AWS Config ###############
 ############ AWS OpsWorks #############
 ########### AWS Service Catalog #######
+############## AWS RAM ################
 =======================================
 ############# Cloudwatch ##############
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -44,6 +45,32 @@ Option A is correct. Using Cloudwatch logs collect, store, view, and search logs
 Option B is correct. CloudWatch alarms are used to trigger notifications for any metric. Alarms can go to auto-scaling, EC2 actions(stop, terminate, recover, or reboot) and SNS notifications.
 Option C is incorrect as SQS cannot be used for monitoring.
 Option D is incorrect as AWS Lambda cannot be used for monitoring.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 9: An application is hosted in an AWS Fargate cluster that runs a batch job whenever an object is loaded on an Amazon S3 bucket. The minimum number of ECS Tasks is initially set to 1 to save on costs, and it will only increase the task count based on the new objects uploaded on the S3 bucket. Once processing is done, the bucket becomes empty and the ECS Task count should be back to 1.
+Which is the most suitable option to implement with the LEAST amount of effort? [UD109]
+
+A. Set up an alarm in CloudWatch to monitor CloudTrail since this S3 object-level operations are recorded on CloudTrail. Set two alarm actions to update ECS task count to scale-out/scale-in depending on the S3 event.
+
+B. Set up a CloudWatch Event rule to detect S3 object PUT operations and set the target to a Lambda function that will run Amazon ECS API command to increase the number of tasks on ECS. Create another rule to detect S3 DELETE operations and run the Lambda function to reduce the number of ECS tasks.
+
+
+C. Set up an alarm in CloudWatch to monitor CloudTrail since the S3 object-level operations are recorded on CloudTrail. Create two Lambda functions for increasing/decreasing the ECS task count. Set these as respective targets for the CloudWatch Alarm depending on the S3 event.
+
+D. Set up a CloudWatch Event rule to detect S3 object PUT operations and set the target to the ECS cluster with the increased number of tasks. Create another rule to detect S3 DELETE operations and set the target to the ECS Cluster with 1 as the Task count.
+
+
+EXPLANATION: 
+ANSWER : D
+
+> You can use CloudWatch Events to run Amazon ECS tasks when certain AWS events occur. 
+- You can set up a CloudWatch Events rule that runs an Amazon ECS task whenever a file is uploaded to a certain Amazon S3 bucket using the Amazon S3 PUT operation. 
+- You can also declare a reduced number of ECS tasks whenever a file is deleted on the S3 bucket using the DELETE operation.
+
+> First, you must create a CloudWatch Events rule for the S3 service that will watch for object-level operations – PUT and DELETE objects.
+- For object-level operations, it is required to create a CloudTrail trail first. 
+- On the Targets section, select the “ECS task” and input the needed values such as the cluster name, task definition and the task count.
+- You need two rules – one for the scale-up and another for the scale-down of the ECS task count.
 
 =======================================
 ########### CloudFormation ############
@@ -764,3 +791,5 @@ ANSWER :
 
 EXPLANATION : 
 
+=======================================
+############## AWS RAM ################

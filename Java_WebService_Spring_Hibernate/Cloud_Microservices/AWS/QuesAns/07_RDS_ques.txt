@@ -1,7 +1,9 @@
 ################ RDS ##################
+############# AWS AURORA ##############
 ############ ElastiCache ##############
 ############## DynamoDB ###############
 ############## Redshift ###############
+
 =======================================
 ################ RDS ##################
 
@@ -77,9 +79,6 @@ D. All of the above
 ANSWER : 
 
 EXPLANATION : 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which of the following is true about a read replica? (Choose two.)
 
@@ -109,12 +108,15 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 The data in DynamoDB is stored in JSON format, and hence it is the perfect data storage to meet the requirement mentioned in the question.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### You are working as an AWS Consultant for an E-Commerce organization. The organization is planning to migrate to a managed database service using Amazon RDS. To avoid any business loss due to any deletion in the database, the management team is looking for a backup process which will restore Database at any specific time during the last month. Which action should be performed as a part of Amazon RDS Automated backup process? [WL212]
-
                                          
 A. AWS performs storage volume snapshot of database instance during the backup window once a day, captures transactions logs every 5 minutes, and store in S3 buckets
+
 B. AWS performs a full snapshot of the database every 12 hours during the backup window, captures transactions logs throughout the day, and store in S3 buckets
+
 C. AWS performs a full daily snapshot of the database during the backup window, captures transactions logs every 5 minutes, and store in S3 buckets
+
 D. AWS performs storage volume snapshot of the database instance every 12 hours during the backup window, captures transactions logs throughout the day, store in S3 buckets. 
+
 
 
 ANSWER : A
@@ -191,7 +193,28 @@ ANSWER :
 
 EXPLANATION : 
 
+=======================================
+############# AWS AURORA ##############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A company is migrating an on-premises 10TB MySQL database to AWS. There's a business requirement that the replica lag should be kept under 100 milliseconds. In addition to this requirement, the company expects this database to quadruple in size. 
+Which Amazon RDS engine meets the above requirements? [WL104]
 
+A. MySQL
+B. Microsoft SQL Server
+C. Oracle
+D. Amazon Aurora
+
+
+ANSWER : D
+
+EXPLANATION : Aurora
+Amazon Aurora (Aurora) is a fully managed, MySQL and PostgreSQL compatible, relational database engine. It combines the speed and reliability of high-end commercial databases with the simplicity and cost-effectiveness of open-source databases. It delivers up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL without requiring any changes in most of your existing applications.
+
+All Aurora Replicas return the same data for query results with minimal replica lag—usually, much less than 100 milliseconds after the primary instance has written an update.
+
+The company expects the database to quadruple in size and the business requirement is that replica lag must be kept under 100 milliseconds.
+
+Aurora Cluster can grow up to 64 TB in size and replica lag—is less than 100 milliseconds after the primary instance has written an update.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -245,7 +268,7 @@ ANSWER :
 
 EXPLANATION : 
 
-
+=======================================
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -823,28 +846,104 @@ D. A single node in a cluster
 ANSWER : A
 
 EXPLANATION : 
-ElastiCache uses shards as a grouping mechanism for individual redis nodes. So a single node is part of a shard, which in turn is part of a cluster (option A).
-
+> ElastiCache uses shards as a grouping mechanism for individual redis nodes. 
+- So a single node is part of a shard, which in turn is part of a cluster (option A).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## A company is migrating an on-premises 10TB MySQL database to AWS. There's a business requirement that the replica lag should be kept under 100 milliseconds. In addition to this requirement, the company expects this database to quadruple in size. 
-Which Amazon RDS engine meets the above requirements? [WL104]
+## 15: You are designing a banking portal which uses Amazon ElastiCache for Redis as its distributed session management component. Since the other Cloud Engineers in your department have access to your ElastiCache cluster, you have to secure the session data in the portal by requiring them to enter a password before they are granted permission to execute Redis commands.   
+As the Solutions Architect, which of the following should you do to meet the above requirement? [UD115]
 
-A. MySQL
-B. Microsoft SQL Server
-C. Oracle
-D. Amazon Aurora
+A. Authenticate the users using Redis AUTH by creating a new Redis Cluster with both the --transit-encryption-enabled and --auth-token parameters enabled.
+
+B. Set up a Redis replication group and enable the AtRestEncryptionEnabled parameter.
+
+C. Set up an IAM Policy and MFA which requires the Cloud Engineers to enter their IAM credentials and token before they can access the ElastiCache cluster.
+
+D. Enable the in-transit encryption for Redis replication groups.
 
 
-ANSWER : D
+EXPLANATION: ElastiCache
+ANSWER : A
+> Using Redis AUTH command can improve data security by requiring the user to enter a password before they are granted permission to execute Redis commands on a password-protected Redis server. 
+- Hence, the correct answer is: A
 
-EXPLANATION : 
-Amazon Aurora (Aurora) is a fully managed, MySQL and PostgreSQL compatible, relational database engine. It combines the speed and reliability of high-end commercial databases with the simplicity and cost-effectiveness of open-source databases. It delivers up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL without requiring any changes in most of your existing applications.
+To require that users enter a password on a password-protected Redis server, include the parameter --auth-token with the correct password when you create your replication group or cluster and on all subsequent commands to the replication group or cluster.
 
-All Aurora Replicas return the same data for query results with minimal replica lag—usually, much less than 100 milliseconds after the primary instance has written an update.
+Setting up an IAM Policy and MFA which requires the Cloud Engineers to enter their IAM credentials and token before they can access the ElastiCache cluster is incorrect because this is not possible in IAM. You have to use the Redis AUTH option instead.
 
-The company expects the database to quadruple in size and the business requirement is that replica lag must be kept under 100 milliseconds.
+Setting up a Redis replication group and enabling the AtRestEncryptionEnabled parameter is incorrect because the Redis At-Rest Encryption feature only secures the data inside the in-memory data store. You have to use Redis AUTH option instead.
 
-Aurora Cluster can grow up to 64 TB in size and replica lag—is less than 100 milliseconds after the primary instance has written an update.
+Enabling the in-transit encryption for Redis replication groups is incorrect because although in-transit encryption is part of the solution, it is missing the most important thing which is the Redis AUTH option.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 54: You are working for a large financial company as an IT consultant. Your role is to help their development team to build a highly available web application using stateless web servers. In this scenario, which AWS services are suitable for storing session state data? (Select TWO.) [UD154]
+
+A. Redshift Spectrum
+B. ElastiCache
+C. DynamoDB
+D. RDS
+E. Glacier
+
+
+EXPLANATION: ElastiCache & DynamoDB
+ANSWER : B, C
+DynamoDB and ElastiCache are the correct answers. 
+
+> You can store session state data on both DynamoDB and ElastiCache. 
+- These AWS services provide high-performance storage of key-value pairs which can be used to build a highly available web application.
+
+> Redshift Spectrum is incorrect since this is a data warehousing solution where you can directly query data from your data warehouse. 
+- Redshift is not suitable for storing session state, but more on analytics and OLAP processes.
+
+> RDS is incorrect as well since this is a relational database solution of AWS. 
+- This relational storage type might not be the best fit for session states, and it might not provide the performance you need compared to DynamoDB for the same cost.
+
+> S3 Glacier is incorrect as well since this is a low-cost cloud storage service for data archiving and long-term backup.
+- The archival and retrieval speeds of Glacier is too slow for handling session states.
+References:
+https://aws.amazon.com/caching/database-caching/
+https://aws.amazon.com/caching/session-management/
+
+Check out this Amazon Elasticache Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-elasticache/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are performing a Load Testing exercise on your application hosted on AWS. While testing your Amazon RDS MySQL DB Instance, you notice that your application becomes non responsive when you reach 100% CPU utilization. Your application is read-heavy. What methods will help scale your data-tier to meet the application’s needs? [WL8] Choose three answers from the options given below. [WL861]
+
+A. Add Amazon RDS DB Read Replicas, and have your application direct read queries tothem. 
+
+B. Add your Amazon RDS DB Instance to an Auto Scaling group and configure yourCloudWatch metric based on CPU utilization. 
+
+C. Use an Amazon SQS queue to throttle data going to the Amazon RDS DB Instance. 
+
+D. Use ElastiCache to cache common queries of your Amazon RDS DB. 
+
+E. Shard your data set among multiple Amazon RDS DB Instances. 
+
+F. Enable Multi-AZ for your Amazon RDS DB Instance. 
+
+
+EXPLANATION: READ Replica, ElastiCache, 
+Answer – A, D and E
+
+Amazon RDS Read Replicas provide enhanced performance and durability for database (DB) instances. This replication feature makes it easy to elastically scale out beyond the capacity constraints of a single DB Instance for read-heavy database workloads. You can create one or more replicas of a given source DB Instance and serve high-volume application read traffic from multiple copies of your data, thereby increasing aggregate read throughput. 
+For more information on Read Replicas, please refer to the link below. 
+https://aws.amazon.com/rds/details/read-replicas/
+
+Sharding is a common concept to split data across multiple tables in a database. 
+Let us look at an example. 
+Application Shards
+
+In this example, we assume our application currently doesn't have enough load to need an application shard for each category, but we want to plan ahead with growth in mind. To make future growth easier we make use of application shards. So our application code will act as if it has seven shards, but Hibernate will map those seven shards onto a smaller number of application shards. Each application shard will map to a MySQL database instance. By using this mapping we can distribute the load to best suit our needs. For our application assume that sports and entertainment generate as much load as the other five categories combined. These two categories will map to one application shard and the other five categories will map to the other application shard. The two application shards will be mapped as follows. 
+
+
+For more information on sharding, please refer to the link below. https://forums.aws.amazon.com/thread.jspa? [WL8]messageID=203052
+Amazon ElastiCache is a web service that makes it easy to deploy, operate, and scale an in-memory data store or cache in the cloud. The service improves the performance of web applications by allowing you to retrieve information from fast, managed, in-memory data stores, instead of relying entirely on slower disk-based databases. 
+For more information on ElastiCache, please refer to the link below. https://aws.amazon.com/elasticache/
+ 
+
+Option B is not an ideal way to scale a database. Because You can't use autoscaling with RDS. You can create read replicas and then distribute your queries to the different replica.  
+
+Option C is not an ideal choice. Because our application is read-heavy and this is the cause of the problem that we are facing with the RDS. So for this issue Creating Read replicas, Elastic cache implementation, and Sharding the dataset are the ways through which we can tackle this issue. But if we have too may PUT requests for your DB, that is causing the issue then we can create an SQS queue and store these PUT requests in the message queue and then process it accordingly.  
+
+Option F is invalid because the Multi-AZ feature is only a failover option. 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

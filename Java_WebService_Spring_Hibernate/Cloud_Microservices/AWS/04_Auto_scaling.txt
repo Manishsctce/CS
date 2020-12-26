@@ -32,7 +32,8 @@ Auto Scaling components:
 
 - EC2 instance tags, and any additional block store volumes created after the instance launch will not be taken into account
 
-> If you want to change launch configurations, you have to create a ñew one, make the required changes, and use that with your ASG
+> launch configurations CANNOT MODIFY
+- you have to create a ñew one, make the required changes, and use that with your ASG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### 2. AS GROUP #############
 
@@ -65,8 +66,8 @@ Auto Scaling components:
 
 > Auto Scaling service ALWAYS TRIES TO DISTRIBUTE EC2 INSTANCES EVENLY ACROSS AZs where it is enabled
 - If Auto Scaling fails to launch instances in an AZ (for AZ failure or capacity unavailability..etc), it will try in the other AZs defined for this AS Group until it succeeds
-=======================================
-########### AS - AZ Rebalance ######### v4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### AS - AZ Rebalance ####### v4
 
 > If AS finds that the number of EC2 instances launched by an ASG into subject AZ IS NOT BALANCED (EC2 instances are not evenly distributed across AZs), AS WILL INITIATE A RE-BALANCING ACTIVITY
 
@@ -81,8 +82,8 @@ Auto Scaling components:
 > An AZ that did not have enough EC2 capacity, now has enough capacity and it is one of your ASG Azs
 
 > An AZ with Spot instances market price meeting your bid price
-=======================================
-### AS Group - Attaching a Running EC2 instance ## v5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Attaching a Running EC2 instance ## v5
 
 > Using AWS console or CLI, we can attach running EC2 instance to ASG, if the below conditions are met
 
@@ -92,32 +93,19 @@ Auto Scaling components:
 - Instance is in the same AZ of the ASG
 
 > If the existing EC2 instances under the ASG, plus the one to be added, exceed the maximum capacity of the ASG, then request will fail, EC2 instance won't be added
-=======================================
-###### ###### v6
-
-## Adding an ELB to the ASG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Adding an ELB to the ASG ## v6
 > You can attach one or more (classic) ELB to existing AS Group
 - The ELB must be in the same region as the ASG
 
-> Once we add ELB to ASG, any EC2 instance existing or added by the AS Group will be AUTOMATICALLY REGISTERED with those ELB(s)
-- You do not need to register those instances manually on the ASG defined ELB
-- The ELB(s) will then become the focal point for any inbound traffic destined to the ASG EC2 instances
-
 > Instance and the ELB must be in the same VPC
 
-## AS Group – Registering/De-Registering EC2 instances to ELBS
-> If an ELB is attached to the AS Group, then the ELB and Instance must be in the same VPC, and are in the same Region as the AS Group
+> Once we add ELB to ASG, any EC2 instance existing or added or deleted by the AS Group will be AUTOMATICALLY REGISTERED/DEREGISTER with those ELB
 
-> Auto Scaling adds the Attached EC2 instances to the ELB(s) defined to the AS Group
-- Once the EC2 instance is added to the AS Group, it will be automatically registered with the ELB(s) defined under the AS Group
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### ASG – Health Checks(HC) ### v7
 
-> If the AS Group had an ELB defined, detaching the instance will also de-register it from the ELB
-- If connection draining was enabled under the ELB, Auto Scaling will honor it
-=======================================
-###### ASG – Health Checks(HC) ###### v7
-
-> Auto Scaling classifies its EC2 instances health status as either Healthy or Unhealthy
-> By default, AS uses EC2 Status Checks only to determine the health status of an Instance
+> BY DEFAULT, AS USES EC2 STATUS CHECKS ONLY TO DETERMINE THE HEALTH STATUS OF AN EC2 INSTANCE
 
 > When we have one or more ELB defined with AS Group, we can configure AS to use "both" the EC2 HC and ELB HC to determine the Instances health status
 
@@ -147,19 +135,17 @@ Auto Scaling components:
 > Unlike AZ Rebalancing, termination of unhealthy instances happens first, then Auto Scaling attempts to launch new instances to replace the ones terminated
 
 > Elastic IP and EBS volumes gets detached from the terminated instances, you need to manually attach them to the new instances
-=======================================
-###### ###### v8
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### AS with Spot-Instance #### v8
 
-## AS with Spot-Instance
-> We can choose to use Spot-instances in our launch configuration and specify our bid price
+>> We can choose to use Spot-instances in our launch configuration and specify our bid price
 - If we want to change the bid price, we have to create a new launch configuration
-
-> AS treats spot-instance same way as it treats on-demand instances
-> We CAN NOT MIX AND MATCH ON-DEMAND WITH SPOT INSTANCES IN AS LAUNCH CONFIGURATION
+- We CAN NOT MIX AND MATCH ON-DEMAND WITH SPOT INSTANCES IN AS LAUNCH CONFIGURATION
 
 > If AS tries to launch spot-instances in AZ unsuccessfully because of the market price, it will try in another AZ, if its market price drops below bid price
 - If the original AZ spot market price drops below the bid price, then the Auto scaling process will try to rebalance between the two AZs
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###### AS and SNS Notifications ####
 > we can configure AS to send SNS email notification whenever:
 - Instance is launched or fails to launch
@@ -185,6 +171,19 @@ Auto Scaling components:
 - It is the process in which EC2 instances are terminated by the scaling policy
 
 > It is always recommended to create a scale-in event for each scale-out event you create
+
+#############################
+
+With the default termination policy, the behavior of the Auto Scaling group is as follows:
+
+1. If there are instances in multiple Availability Zones, choose the Availability Zone with the most instances and at least one instance that is not protected from scale in. 
+- If there is more than one Availability Zone with this number of instances, choose the Availability Zone with the instances that use the oldest launch configuration.
+
+2. Determine which unprotected instances in the selected Availability Zone use the oldest launch configuration. If there is one such instance, terminate it.
+3. If there are multiple instances to terminate based on the above criteria, determine which unprotected instances are closest to the next billing hour. (This helps you maximize the use of your EC2 instances and manage your Amazon EC2 usage costs.) If there is one such instance, terminate it.
+
+4. If there is more than one unprotected instance closest to the next billing hour, choose one of these instances at random.
+The following flow diagram illustrates how the default termination policy works:
 =======================================
 ######## ASG - SCALING POLICIES ####### v11
 

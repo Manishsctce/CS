@@ -2,13 +2,13 @@
 ## AWS EC2
 - It is Elastic Compute CloudFront
 
-## ELASTIC BEANSTALK
-## AWS LAMBDA
-
-## AWS ECR (Elastic Container Registry)
-## AWS ECS (Elastic Container Service)
+######### Elastic BeanStalk ###########
+############### LAMBDA ################
 ## AWS Lightsail
-
+################ ECR ##################
+################ ECS ##################
+############## Docker #################
+############## FARGATE ################
 =======================================
 ################ EC2 ##################
 
@@ -364,7 +364,7 @@ EXPLANATION :
 
 
 =======================================
-######### Elastic BeanStalk ##########
+######### Elastic BeanStalk ###########
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## For which of the following scenarios should a Solutions Architect consider using ElasticBeanStalk? (Choose Two) [WL105]
@@ -377,8 +377,7 @@ E. A management task run once on nightly basis
 
 
 ANSWER : A & D
-
-EXPLANATION : 
+EXPLANATION : Elastic BeanStalk
 
 Option C is incorrect. Beanstalk does not make sense to use for long-running processes. EC2 instances would be a better fit.
 
@@ -453,7 +452,7 @@ NGINX can be hosted on an EC2 instance through a series of clear steps- Launch a
 It can also be installed with an Elastic Beanstalk service. To enable the NGINX proxy server with your Tomcat application, you must add a configuration file to .ebextensions in the application source bundle that you upload to Elastic Beanstalk. 
 
 =======================================
-############# LAMBDA ##################
+############### LAMBDA ################
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company wants to build a brand new application on the AWS Cloud. They want to ensure that this application follows the Microservices architecture. Which of the following services can be used to build this type of architecture? [WL327] (SELECT THREE)
@@ -464,7 +463,7 @@ C. AWS API Gateway
 D. AWS Config
 
 
-EXPLANATION:
+EXPLANATION: Lambda
 Correct Answers – A, B, and C
 
 AWS Lambda is a serverless compute service that allows you to build independent services. 
@@ -482,7 +481,7 @@ C. Use the AWS Config service to monitor the errors
 D. Use the AWS Inspector service to monitor the errors
 
 
-EXPLANATION:
+EXPLANATION: Lambda
 Correct Answer – A
 
 AWS Documentation mentions the following:
@@ -497,7 +496,7 @@ https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions-logs.html
 ################ ECR ##################
 ################ ECS ##################
 ############## Docker #################
-
+############## FARGATE ################
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company is planning to use Docker containers and necessary container orchestration tools for its batch processing requirements. There is a requirement of batch processing for both critical and non-critical data. Which of the following is the best implementation step for this requirement to ensure that cost is effectively managed?  [WL162]
 
@@ -772,3 +771,28 @@ AWS Documentation mentions the following:
 
 For more information on the Elastic Container Service, please visit the following URL:
 https://aws.amazon.com/ecr/?nc2=h_m1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##1: Skipped
+A new online banking platform has been re-designed to have a microservices architecture in which complex applications are decomposed into smaller, independent services. The new platform is using Docker considering that application containers are optimal for running small, decoupled services. The new solution should remove the need to provision and manage servers, let you specify and pay for resources per application, and improve security through application isolation by design. 
+
+Which of the following is the MOST suitable service to use to migrate this new platform to AWS? [UD301]
+
+A. Amazon EFS
+B. Amazon EBS
+C. AWS Fargate(Correct)
+D. Amazon EKS
+
+
+EXPLANATION : Fargate
+ANSWER : C
+
+> AWS Fargate is a serverless compute engine for containers that works with both Amazon Elastic Container Service (ECS) and Amazon Elastic Kubernetes Service (EKS). 
+- Fargate makes it easy for you to focus on building your applications. 
+- Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.
+
+> Fargate allocates the right amount of compute, eliminating the need to choose instances and scale cluster capacity. 
+- You only pay for the resources required to run your containers, so there is no over-provisioning and paying for additional servers. 
+- Fargate runs each task or pod in its own kernel providing the tasks and pods their own isolated compute environment. 
+- This enables your application to have workload isolation and improved security by design. 
+- This is why customers such as Vanguard, Accenture, Foursquare, and Ancestry have chosen to run their mission critical applications on Fargate.

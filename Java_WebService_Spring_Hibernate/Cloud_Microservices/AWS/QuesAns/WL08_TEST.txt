@@ -680,10 +680,8 @@ https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Internet_Gateway.html
  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 23
-Incorrect
-Domain :Define Performant Architectures
-A company has a lot of data hosted on their On-premises infrastructure. Running out of storage space, the company wants a quick win solution using AWS. Which of the following would allow easy extension of their data infrastructure to AWS? [WL8]
+## A company has a lot of data hosted on their On-premises infrastructure. Running out of storage space, the company wants a quick win solution using AWS. Which of the following would allow easy extension of their data infrastructure to AWS? [WL823]
+
 A. The company could start using Gateway Cached Volumes.
 B. The company could start using Gateway Stored Volumes.
 C. The company could start using the Simple Storage Service.
@@ -1750,14 +1748,11 @@ https://docs.aws.amazon.com/efs/latest/ug/manage-fs-access-change-vpc.html#manag
 
 For options A and C, you can use an Amazon EFS file system in one VPC at a time. That is, you create mount targets in a VPC for your file system, and use those mount targets to provide access to the file system from EC2 instances in that VPC.  
 
-For option D, although the statement is correct, launching EC2 instances within same VPC is not a solution when you were asked to do in a new VPC. Correct answer from given options would be to peer the VPC and use appropriate instance types. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 60
-Correct
-Domain :Design Resilient Architectures
-Your organization is using Amazon SQS as an enterprise message queuing platform. 100s of applications reading the queues every few seconds to process the messages and delete them as soon as they are being written into the queues. Looking at the number of requests being sent to Amazon SQS APIs, your management is concerned on the pricing that will be incurred. As an architect, how would you reduce pricing without compromising on time in this scenario? [WL8] Please select 2 correct answers. 
+For option D, although the statement is correct, launching EC2 instances within same VPC is not a solution when you were asked to do in a new VPC. Correct answer from given options would be to peer the VPC and use appropriate instance types. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your organization is using Amazon SQS as an enterprise message queuing platform. 100s of applications reading the queues every few seconds to process the messages and delete them as soon as they are being written into the queues. Looking at the number of requests being sent to Amazon SQS APIs, your management is concerned on the pricing that will be incurred. As an architect, how would you reduce pricing without compromising on time in this scenario? [WL860] Please select 2 correct answers. 
 
 A. Once successfully written, Amazon SQS messages are only available after 1 minute. Ask applications to increase the delay between calls to 1 minute. This reduces the number of API calls made
-
 
 B. Use Amazon SQS Long Polling. 
 
@@ -1779,10 +1774,7 @@ Short polling does not guarantee a return of the message and you have to repeat 
 
 https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ReceiveMessage.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 61
-Incorrect
-Domain :Define Performant Architectures
-You are performing a Load Testing exercise on your application hosted on AWS. While testing your Amazon RDS MySQL DB Instance, you notice that your application becomes non responsive when you reach 100% CPU utilization. Your application is read-heavy. What methods will help scale your data-tier to meet the application’s needs? [WL8] Choose three answers from the options given below. 
+## You are performing a Load Testing exercise on your application hosted on AWS. While testing your Amazon RDS MySQL DB Instance, you notice that your application becomes non responsive when you reach 100% CPU utilization. Your application is read-heavy. What methods will help scale your data-tier to meet the application’s needs? [WL8] Choose three answers from the options given below. [WL861]
 
 A. Add Amazon RDS DB Read Replicas, and have your application direct read queries tothem. 
 
@@ -1797,7 +1789,7 @@ E. Shard your data set among multiple Amazon RDS DB Instances.
 F. Enable Multi-AZ for your Amazon RDS DB Instance. 
 
 
-EXPLANATION:
+EXPLANATION: READ Replica, ElastiCache, 
 Answer – A, D and E
 
 Amazon RDS Read Replicas provide enhanced performance and durability for database (DB) instances. This replication feature makes it easy to elastically scale out beyond the capacity constraints of a single DB Instance for read-heavy database workloads. You can create one or more replicas of a given source DB Instance and serve high-volume application read traffic from multiple copies of your data, thereby increasing aggregate read throughput. 
@@ -1820,19 +1812,18 @@ Option B is not an ideal way to scale a database. Because You can't use autoscal
 
 Option C is not an ideal choice. Because our application is read-heavy and this is the cause of the problem that we are facing with the RDS. So for this issue Creating Read replicas, Elastic cache implementation, and Sharding the dataset are the ways through which we can tackle this issue. But if we have too may PUT requests for your DB, that is causing the issue then we can create an SQS queue and store these PUT requests in the message queue and then process it accordingly.  
 
-Option F is invalid because the Multi-AZ feature is only a failover option. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 62
-Correct
-Domain :Define Performant Architectures
-Your Operations department is using an incident based application hosted on a set of EC2 Instances. These instances are placed behind an Auto Scaling Group to ensure the right number of instances are in place to support the application. The Operations department has expressed dissatisfaction with regard to poor application performance at 9:00 AM each day. However, it is also noted that the system performance returns to optimal at 9:45 AM. 
-What can be done to ensure that this issue gets fixed? [WL8]
+Option F is invalid because the Multi-AZ feature is only a failover option. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your Operations department is using an incident based application hosted on a set of EC2 Instances. These instances are placed behind an Auto Scaling Group to ensure the right number of instances are in place to support the application. The Operations department has expressed dissatisfaction with regard to poor application performance at 9:00 AM each day. However, it is also noted that the system performance returns to optimal at 9:45 AM. 
+What can be done to ensure that this issue gets fixed? [WL862]
+
 A. Create another Dynamic Scaling Policy to ensure that the scaling happens at 9:00 AM.
 B. Add another Auto Scaling group to support the current one.
 C. Change the Cool Down Timers for the existing Auto Scaling Group.
 D. Add a Scheduled Scaling Policy at 8:30 AM. 
 
 
-EXPLANATION:
+EXPLANATION: AS
  
 
 Answer - D
@@ -1847,11 +1838,7 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html
  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 63
-Correct
-Domain :Define Performant Architectures
-Your organization had built a video sharing website on EC2 within US for which S3 bucket in us- east-1 is used to store the video files. The website has been receiving very good feedback and your organization decided to expand the website all over the world. However, customers in Europe and Asia started to complain that website access, upload and download of videos files are slow. How can you resolve the issue? [WL8] (choose 2 options)
-
+## Your organization had built a video sharing website on EC2 within US for which S3 bucket in us- east-1 is used to store the video files. The website has been receiving very good feedback and your organization decided to expand the website all over the world. However, customers in Europe and Asia started to complain that website access, upload and download of videos files are slow. How can you resolve the issue? [WL863] (choose 2 options)
 
 A. Use CloudFront for improving the performance on website by caching static files. 
 
@@ -1862,7 +1849,7 @@ C. Enable Transfer Acceleration feature on S3 bucket which uses AWS edge locatio
 D. Change your application design to provision higher-memory configuration EC2 instances and process S3 requests through EC2. 
 
 
-EXPLANATION:
+EXPLANATION: S3
 Answer: A, C
 
 Option A is correct. AWS CloudFront can be used to improve the performance of your website where network latency is an issue. https://docs.aws.amazon.com/AmazonS3/latest/dev/website-hosting-cloudfront- walkthrough.html
@@ -1874,17 +1861,15 @@ For more information on transfer acceleration, refer documentation here. https:/
 Option D is not a good design. It increases cost on EC2 usage and does not solve the problem with slower upload and download speeds to S3.  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 64
-Marked as review Incorrect
-Domain :Define Performant Architectures
-You are building a content serving web application with 20 EC2 instances load balanced. For all the instances, content storage remains the same. You have chosen AWS EFS to act as common storage repository. Your application need to have as low latency as possible when serving content to the web users. Which of the following option would you choose and why? [WL8]
+## You are building a content serving web application with 20 EC2 instances load balanced. For all the instances, content storage remains the same. You have chosen AWS EFS to act as common storage repository. Your application need to have as low latency as possible when serving content to the web users. Which of the following option would you choose and why? [WL864]
+
 A. Performance mode = General Purpose, AWS can handle performance with general purpose mode till 10s of EC2 instances.
 B. Performance mode = General Purpose, provides low-latency access to EFS.
 C. Performande mode = Max I/O, provides better performance when sharing EFS across more than 10 EC2 instances.
-D.  Performance mode = Max I/O, provides low-latency access to EFS. 
+D. Performance mode = Max I/O, provides low-latency access to EFS. 
 
 
-EXPLANATION:
+EXPLANATION: EFS
 Answer: B
 
  Although Max I/O is recommended to be used when tens, hundreds or thousands of EC2 instances sharing same EFS, it can slightly increase the latency. In this case, the question states the latency need to be as low as possible. 
@@ -1906,33 +1891,28 @@ https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes
  From above explanation, only option B is a correct statement
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 65
-Incorrect
-Domain :Define Performant Architectures
-You are building a content serving web application on 5 EC2 instances load balanced. Total content size stored may not exceed 25 GB. You have chosen EFS for content storage. The content is accessed frequently by large number of users. Which throughput mode would you choose inorder to make sure that application on EC2 instances to EFS data transfer will not have performance bottleneck? [WL8]
+## You are building a content serving web application on 5 EC2 instances load balanced. Total content size stored may not exceed 25 GB. You have chosen EFS for content storage. The content is accessed frequently by large number of users. Which throughput mode would you choose inorder to make sure that application on EC2 instances to EFS data transfer will not have performance bottleneck? [WL865]
+
 A. Throughput mode = Bursting, provides a consistent high throughput for smaller data sizes.
 B. Throughput mode = Bursting, automatically bursts throughput based on the requests irrespective of EFS data size
 C. Throughput mode = Provisioned, you can configure specific throughput irrespective of EFS data size.
 D. Throughput mode = Provisioned, AWS provisions high throughput for smaller data sizes and vice versa. 
 
 
-EXPLANATION:
- 
-
+EXPLANATION: EFS
 Answer: C
 
-With Bursting Throughput mode, throughput on Amazon EFS scales as a file system grows. 
+> With Bursting Throughput mode, throughput on Amazon EFS scales as a file system grows. 
 
-
-
-
-In this case, data size is 25 GB can burst through 100 MiB/s only for 18 mins/day. Rest of the day, it uses baseline aggregate throughput and gives 1.25 MiB/s throughput. The baseline rate is 50
+In this case, data size is 25 GB can burst through 100 MiB/s only for 18 mins/day. 
+- Rest of the day, it uses baseline aggregate throughput and gives 1.25 MiB/s throughput. The baseline rate is 50
 
 MiB/s per TiB of storage (equivalently, 50 KiB/s per GiB of storage). 
  
 
 Specifying Throughput with Provisioned Mode
-"Provisioned Throughput mode is available for applications with high throughput to storage (MiB/s per TiB) ratios, or with requirements greater than those allowed by the Bursting Throughput mode. For example, say you're using Amazon EFS for development tools, web serving, or content management applications where the amount of data in your file system is low relative to throughput demands. Your file system can now get the high levels of throughput your applications require without having to pad your file system".  
+"Provisioned Throughput mode is available for applications with high throughput to storage (MiB/s per TiB) ratios, or with requirements greater than those allowed by the Bursting Throughput mode. 
+- For example, say you're using Amazon EFS for development tools, web serving, or content management applications where the amount of data in your file system is low relative to throughput demands. Your file system can now get the high levels of throughput your applications require without having to pad your file system".  
 
 https://docs.aws.amazon.com/efs/latest/ug/performance.html#throughput-modes
  

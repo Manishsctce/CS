@@ -1,7 +1,7 @@
 ######### AWS STORAGE SERVICE #########
 
-## EBS 
-## EFS 
+############### EBS ###################
+############### EFS ###################
 
 =======================================
 ############### EBS ###################
@@ -434,6 +434,62 @@ ANSWER :
 EXPLANATION : 
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are building a content serving web application with 20 EC2 instances load balanced. For all the instances, content storage remains the same. You have chosen AWS EFS to act as common storage repository. Your application need to have as low latency as possible when serving content to the web users. Which of the following option would you choose and why? [WL864]
+
+A. Performance mode = General Purpose, AWS can handle performance with general purpose mode till 10s of EC2 instances.
+B. Performance mode = General Purpose, provides low-latency access to EFS.
+C. Performande mode = Max I/O, provides better performance when sharing EFS across more than 10 EC2 instances.
+D. Performance mode = Max I/O, provides low-latency access to EFS. 
+
+
+EXPLANATION: EFS
+Answer: B
+
+ Although Max I/O is recommended to be used when tens, hundreds or thousands of EC2 instances sharing same EFS, it can slightly increase the latency. In this case, the question states the latency need to be as low as possible. 
+
+Performance Modes
+To support a wide variety of cloud storage workloads, Amazon EFS offers two performance modes. You select a file system's performance mode when you create it. 
+The two performance modes have no additional costs, so your Amazon EFS file system is billed and metered the same, regardless of your performance mode. For information about file system limits, see Limits for Amazon EFS File Systems. 
+Note
+
+An Amazon EFS file system's performance mode can't be changed after the file system has been created. 
+General Purpose Performance Mode
+We recommend the General Purpose performance mode for the majority of your Amazon EFS file systems. General Purpose is ideal for latency-sensitive use cases, like web serving environments, content management systems, home directories, and general file serving. If you don't choose a performance mode when you create your file system, Amazon EFS selects the General Purpose mode for you by default. 
+Max I/O Performance Mode
+File systems in the Max I/O mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for file operations. Highly parallelized applications and workloads, such as big data analysis, media processing, and genomics analysis, can benefit from this mode.  
+
+https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes
+ 
+
+ From above explanation, only option B is a correct statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are building a content serving web application on 5 EC2 instances load balanced. Total content size stored may not exceed 25 GB. You have chosen EFS for content storage. The content is accessed frequently by large number of users. Which throughput mode would you choose inorder to make sure that application on EC2 instances to EFS data transfer will not have performance bottleneck? [WL865]
+
+A. Throughput mode = Bursting, provides a consistent high throughput for smaller data sizes.
+B. Throughput mode = Bursting, automatically bursts throughput based on the requests irrespective of EFS data size
+C. Throughput mode = Provisioned, you can configure specific throughput irrespective of EFS data size.
+D. Throughput mode = Provisioned, AWS provisions high throughput for smaller data sizes and vice versa. 
+
+
+EXPLANATION: EFS
+Answer: C
+
+> With Bursting Throughput mode, throughput on Amazon EFS scales as a file system grows. 
+
+In this case, data size is 25 GB can burst through 100 MiB/s only for 18 mins/day. 
+- Rest of the day, it uses baseline aggregate throughput and gives 1.25 MiB/s throughput. The baseline rate is 50
+
+MiB/s per TiB of storage (equivalently, 50 KiB/s per GiB of storage). 
+ 
+
+Specifying Throughput with Provisioned Mode
+"Provisioned Throughput mode is available for applications with high throughput to storage (MiB/s per TiB) ratios, or with requirements greater than those allowed by the Bursting Throughput mode. 
+- For example, say you're using Amazon EFS for development tools, web serving, or content management applications where the amount of data in your file system is low relative to throughput demands. Your file system can now get the high levels of throughput your applications require without having to pad your file system".  
+
+https://docs.aws.amazon.com/efs/latest/ug/performance.html#throughput-modes
+ 
+For this case, since the data is low compared to the throughput demand, provisioned mode is the right choice for throughput mode.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

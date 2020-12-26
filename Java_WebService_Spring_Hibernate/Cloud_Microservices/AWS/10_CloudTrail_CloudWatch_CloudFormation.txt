@@ -10,6 +10,8 @@
 ## AWS OpsWorks
 ## AWS Organizations
 ## AWS Service Catalog
+## AWS RESOURCE ACCESS MANAGER (RAM)
+## AWS Control Tower
 =======================================
 ############## CLOUDTRAIL #############
 > It is an AWS service that HELPS TO ENABLE GOVERNANCE, compliance, and operational and risk auditing of AWS account. 
@@ -84,6 +86,38 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 > Using Cloudwatch logs collect, store, view, and search logs from AWS and non-AWS resources.
 > CloudWatch alarms are used to trigger notifications for any metric. 
 - Alarms can go to auto-scaling, EC2 actions(stop, terminate, recover, or reboot) and SNS notifications.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Difference bet CloudWatch and CloudTrail
+
+> CloudWatch - used for performance monitoring
+- CloudTrail - used for Auditing
+
+> CloudWatch - log events across AWS services - think operation
+- CloudTrail - log API activity across AWS services - think activity
+
+> CloudWatch - higher level monitoring and eventing
+- CloudTrail - granular level
+
+> CloudWatch - log from multiple accounts
+- CloudTrail - log from multiple accounts
+
+> CloudWatch - keeps logs indefinitely by default.
+- CloudTrail - logs stored to S3 or cloudWatch indefinitely
+
+> CloudTrail logs can be sent to CloudWatch Logs for real-time monitoring
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+> If there is need to monitor data on multi-platform then 
+- there is a multi-platform CloudWatch agent which can be installed on both Linux and Windows-based instances. 
+- You can use a single agent to collect both system metrics and log files from Amazon EC2 instances and on-premises servers. 
+- This agent supports both Windows Server and Linux and enables you to select the metrics to be collected, including sub-resource metrics such as per-CPU core.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### USE CASE ############
+> set up a CloudWatch Events rule that runs an Amazon ECS task whenever a file is uploaded to a certain Amazon S3 bucket using the Amazon S3 PUT operation. 
+
+
 =======================================
 ########### CLOUDFORMATION ############
 
@@ -163,4 +197,13 @@ Service limit
 
 
 =======================================
-######### AWS ORGANIZATIONS ###########
+##### AWS RESOURCE ACCESS MANAGER (RAM)
+
+> It is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. 
+- You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
+- Many organizations use multiple accounts to create administrative or billing isolation, and limit the impact of errors. 
+- RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. 
+- You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts. 
+- RAM is available to you at no additional charge.
+- You can procure AWS resources centrally, and use RAM to share resources such as subnets or License Manager configurations with other accounts. 
+- This eliminates the need to provision duplicate resources in every account in a multi-account environment, reducing the operational overhead of managing those resources in every account.

@@ -12,21 +12,54 @@
 ## AWS Glue
 - It is fully managed ETL service (Extract, Transform and Load) that makes it easy for customer to prepare 	and load their data for analytics
 
-## Elasticsearch 
-## EMR
+## ElasticSearch 
+## AWS EMR (Elastic MapReduce)
 =======================================
 ############ AWS KINESIS ##############
 
 > we can use Amazon Kinesis Data Streams to collect and PROCESS LARGE STREAMS OF DATA RECORDS IN REAL TIME. 
-- we can create data-processing app, known as Kinesis Data Streams app. 
-- A typical Kinesis Data Streams app reads data from a data stream as data records. 
-- These app can use the Kinesis Client Library, and they can run on Amazon EC2 instances. 
-- You can send the processed records to dashboards, use them to generate alerts, dynamically change pricing and advertising strategies, or send data to a variety of other AWS services
-- we can continuously add various types of data such as clickstreams, application logs, and social media to an Amazon Kinesis data stream from hundreds of thousands of sources. 
-- Within seconds, the data will be available for Amazon Kinesis App to read and process from the stream.
+- it is a collection of services for processing streams of various data.
+
+> Data is processed in “shards” – with each shard able to ingest 1000 records per second.
+- There is a default limit of 500 shards, but you can request an increase to unlimited shards.
+
+> A record consists of a partition key, sequence number, and data blob (up to 1 MB).
+
+> Transient data store – default retention of 24 hours, but can be configured for up to 7 days.
+
+> There are 4 types of Kinesis service 
+1. Kinesis Video Streams 
+- securely process video stream for analytics, ML etc
+- support encryption at rest with KMS
+
+2. Kinesis Data Streams
+- It can process stream of big data
+- we can create data-processing app using this service
+- it can stores data for later processing (key diff with Firehose)
+- Kinesis Data Streams replicates synchronously across three AZs.
+
+3. Kinesis Data Firehose
+- it Captures, transforms, and loads streaming data.
+- Kinesis Data Streams can be used as the source(s) to Kinesis Data Firehose.
+- it can batch, compress, and encrypt data before loading it.
+- NO SHARDS, TOTALLY AUTOMATED.
+
+4. Kinesis Data Analytics
+- it is the easiest way to process and analyze real-time, streaming data.
+- Can use standard SQL queries to process Kinesis data streams.
+- Can ingest data from Kinesis Streams and Kinesis Firehose.
 
 
 > Kinesis streams can be used to analyze the data and can feed it using AWS EMR to the analytics-based database like RedShift which works on OLAP.
+
 > Kinesis Firehose is used to ship the data to other AWS service, not for the analysis
 =======================================
-############ AWS EMR ##############
+############## AWS EMR ################
+
+> It is a web service that enables businesses, researchers, data analysts, and developers to easily and cost-effectively process vast amounts of data.
+- it utilizes a hosted Hadoop framework running on Amazon EC2 and Amazon S3.
+- it also support Apache Spark, HBase, Presto and Flink
+
+> Most commonly used for log analysis, financial analysis, or extract, translate and loading (ETL) activities.
+
+> With EMR, you have ACCESS TO THE UNDERLYING OS

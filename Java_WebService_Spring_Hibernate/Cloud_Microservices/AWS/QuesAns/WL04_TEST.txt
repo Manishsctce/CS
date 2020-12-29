@@ -756,7 +756,7 @@ For Option D, please go through the link below:
 https://aws.amazon.com/about-aws/whats-new/2016/03/aws-trusted-advisor-adds-checks-for-amazon-s3-amazon-redshift-reserved-instances-security-and-service-limits/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are working as an AWS Architect for a global insurance firm. For the web application, you are using S3 buckets and have configured CloudFront to cache image files. For audit purposes, you have created a CloudTrail trail in each region and the events logs files are logged in S3 bucket in the us-west-1 region. 
+### You are working as an AWS Architect for a global insurance firm. For the web application, you are using S3 buckets and have configured CloudFront to cache image files. For audit purposes, you have created a CloudTrail trail in each region and the events logs files are logged in S3 bucket in the us-west-1 region. 
 There have been changes in CloudFront which have caused all traffic being routed to the origin, resulting in increased latency for users in other continents. After scrutinizing CloudTrail logs, you found that there are duplicate CloudFront events being logged. What configuration changes would you perform to eliminate duplicate CloudFront logs? [WL438] 
 
 A. Using AWS CLI, update CloudTrail trail to disable global service events that are delivered in all regions except US-West.
@@ -765,7 +765,7 @@ C. Using AWS console, update CloudTrail trail to disable global service events t
 D. Using the AWS console, change the configuration of a trail to logging a single region instead of logging all regions. 
 
 
-EXPLANATION: 
+EXPLANATION: cloudTrail , cloudFront
 Correct Answer – A
 
 Amazon CloudFront is a global service for which events are delivered to CloudTrail trails which include global services. To avoid duplicate Amazon CloudFront events, you can disable these events from delivering to CloudTrail trails in all regions & enable in only one region. 
@@ -796,10 +796,7 @@ Option A is incorrect as CloudFront Query String Forwarding does not support RTM
 For more information on Query String forwarding, refer to the following URL:
  https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/QueryStringParameters.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 40
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-IoT sensors monitor the number of bags that are handled at an airport. The data is sent back to a Kinesis stream with default settings. Every alternate day, the data from the stream is sent to S3 for processing. But it is noticed that S3 is not receiving all of the data that is being sent to the Kinesis stream. What could be the reason for this? [WL440]
+## IoT sensors monitor the number of bags that are handled at an airport. The data is sent back to a Kinesis stream with default settings. Every alternate day, the data from the stream is sent to S3 for processing. But it is noticed that S3 is not receiving all of the data that is being sent to the Kinesis stream. What could be the reason for this? [WL440]
 
 A. The sensors probably stopped working on somedays, hence data is not sent to the stream.
 B. S3 can only store data for a day.
@@ -815,10 +812,7 @@ Option A is incorrect, even though a possibility, cannot be considered as the ri
 
 http://docs.aws.amazon.com/streams/latest/dev/kinesis-extended-retention.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 41
-Unattempted
-Domain :Define Performant Architectures
-A company needs to have columnar structured database storage to perform complex analytic queries against petabytes of structured data. Which of the following options would meet this requirement? [WL441]
+## A company needs to have columnar structured database storage to perform complex analytic queries against petabytes of structured data. Which of the following options would meet this requirement? [WL441]
 
 A. Amazon Redshift
 B. Amazon RDS
@@ -837,11 +831,8 @@ For more information on the columnar database in AWS, please refer to the URL be
 https://aws.amazon.com/nosql/columnar/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 42
-Unattempted
-Domain :Define Performant Architectures
-There is a requirement to host a database on an EC2 Instance. The EBS Volume is required to support a high rate of IOPS since a large number of read and write requests are expected on the database. 
-Which Amazon EBS Volume type could meet the performance requirements of this database? [WL4]
+## There is a requirement to host a database on an EC2 Instance. The EBS Volume is required to support a high rate of IOPS since a large number of read and write requests are expected on the database. 
+Which Amazon EBS Volume type could meet the performance requirements of this database? [WL442]
  
 A. EBS Provisioned IOPS SSD
 B. EBS Throughput Optimized HDD
@@ -855,9 +846,6 @@ Correct Answer – A
 
 Since this is a high-performance requirement with high IOPS needed, one should opt for EBS Provisioned IOPS SSD. 
 The below snapshot from the AWS Documentation mentions the need for using Provisioned IOPS for better IOPS performance in database-based applications. 
-
-
- 
 
 For more information on AWS EBS Volume types, please visit the following URL: 
 
@@ -875,10 +863,7 @@ Try Now
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 43
-Unattempted
-Domain :Define Performant Architectures
-A company requires to deploy an existing Java-based application to AWS. Which of the following should be used to fulfill this requirement in the quickest way possible? [WL443]
+## A company requires to deploy an existing Java-based application to AWS. Which of the following should be used to fulfill this requirement in the quickest way possible? [WL443]
 
 A. Deploy to an S3 bucket and enable website hosting.
 B. Use the Elastic Beanstalk service to provision the environment.
@@ -898,10 +883,7 @@ For more information on the Elastic Beanstalk service, please visit the followin
 https://aws.amazon.com/elasticbeanstalk/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 44
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are working as an AWS Administrator for a software firm that has a popular Web application hosted on EC2 instance in various regions. You are using AWS CloudHSM for offloading SSL/TLS processing from Web servers. Since this is a critical application for the firm, you need to ensure that proper backups are performed for data in AWS CloudHSM on a daily basis. What does the AWS CloudHSM use to perform a secure & durable backup? [WL4]
+## You are working as an AWS Administrator for a software firm that has a popular Web application hosted on EC2 instance in various regions. You are using AWS CloudHSM for offloading SSL/TLS processing from Web servers. Since this is a critical application for the firm, you need to ensure that proper backups are performed for data in AWS CloudHSM on a daily basis. What does the AWS CloudHSM use to perform a secure & durable backup? [WL444]
 
 A. Ephemeral backup key (EBK) is used to encrypt data & Persistent backup key (PBK) is used to encrypt EBK before saving data to the Amazon S3 bucket in the same region as that of AWS CloudHSM cluster.
 B. Data Key is used to encrypt data & Customer Managed Key (CMK) is used to encrypt Data Key before saving data to the Amazon S3 bucket in the same region as that of AWS CloudHSM cluster.
@@ -922,19 +904,15 @@ https://docs.aws.amazon.com/cloudhsm/latest/userguide/backups.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 45
-Unattempted
-Domain :Design Resilient Architectures
-You want to build a decoupled, highly available and fault tolerant architecture for your application in AWS. You decide to use EC2, the Classic Load Balancer, Auto Scaling and Route 53. Which one of the following additional services should you involve in this architecture? [WL4]
+## You want to build a decoupled, highly available and fault tolerant architecture for your application in AWS. You decide to use EC2, the Classic Load Balancer, Auto Scaling and Route 53. Which one of the following additional services should you involve in this architecture? [WL445]
+
 A. AWS SNS
 B. AWS SQS
 C. AWS API Gateway
 D. AWS Config
 
 
-
 EXPLANATION: 
- 
 
 Answer – B
 
@@ -950,10 +928,8 @@ https://aws.amazon.com/sqs/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 46
-Unattempted
-Domain :Design Resilient Architectures
-You have been assigned the task of architecting an application in AWS. The architecture would consist of EC2, the Classic Load Balancer, Auto Scaling, and Route 53. You need to ensure that Blue-Green deployments are possible in this architecture. Which routing policy should you ideally use in Route 53 in order to achieve Blue-Green deployments? [WL4]
+## You have been assigned the task of architecting an application in AWS. The architecture would consist of EC2, the Classic Load Balancer, Auto Scaling, and Route 53. You need to ensure that Blue-Green deployments are possible in this architecture. Which routing policy should you ideally use in Route 53 in order to achieve Blue-Green deployments? [WL446]
+
 A. Simple
 B. Multivalue Answer
 C. Latency
@@ -1312,26 +1288,17 @@ http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 59
-Unattempted
-Domain :Define Performant Architectures
-You are performing a Load Testing exercise on your application that is hosted on AWS. While testing your Amazon RDS MySQL DB Instance, you notice that your application becomes non-responsive when you reach 100% CPU utilization. Your application is read-heavy. Which methods would help scale your data-tier to meet the application’s needs? [WL4] (Select Three)
-
+## You are performing a Load Testing exercise on your application that is hosted on AWS. While testing your Amazon RDS MySQL DB Instance, you notice that your application becomes non-responsive when you reach 100% CPU utilization. Your application is read-heavy. Which methods would help scale your data-tier to meet the application’s needs? [WL459] (Select Three)
 
 A. Add Amazon RDS DB Read Replicas, and have your application direct read queries to them. 
-
 B. Add your Amazon RDS DB instance to Storage Auto Scaling, and set your desired maximum storage limit. 
-
 C. Use an Amazon SQS queue to throttle data going to the Amazon RDS DB Instance. 
-
 D. Use ElastiCache to cache common queries of your Amazon RDS DB. 
-
 E. Shard your data set among multiple Amazon RDS DB Instances. 
-
 F. Enable Multi-AZ for your Amazon RDS DB Instance. 
 
 
-EXPLANATION: 
+EXPLANATION: RDS
 Correct Answers - A, D, and E
 
 Amazon RDS Read Replicas provide enhanced performance and durability for database (DB) instances. This replication feature makes it easy to elastically scale out beyond the capacity constraints of a single DB Instance for read-heavy database workloads. You can create one or more replicas of a given source DB Instance and serve high-volume application read traffic from multiple copies of your data, thereby increasing aggregate read throughput. 
@@ -1368,6 +1335,7 @@ Try Now
 Unattempted
 Domain :Design Cost-Optimized Architectures
 You are designing a system which needs at minimum, 8 m4.large instances operating to service traffic. While designing a system for high availability in the us-east-1 region having 6 Availability Zones, your company needs to be able to handle the death of a full availability zone. How should you distribute the servers to save as much cost as possible, assuming all of the EC2 nodes are properly linked to an ELB? [WL4] Your VPC account can utilize us-east-1’s AZs a through f, inclusive.
+
 A. 3 servers in each of AZs a through d, inclusive.
 B. 8 servers in each of AZs a and b.
 C. 2 servers in each of AZs a through e, inclusive.
@@ -1402,6 +1370,7 @@ So, Option C is the correct and more suitable here.
 Unattempted
 Domain :Design Cost-Optimized Architectures
 You have been given a business requirement to retain log files for your application for 10 years. You need to regularly retrieve the most recent logs for troubleshooting. Your logging system must be cost-effective, given the large volume of logs. Which technique would you use to meet these requirements? [WL4]
+
 A. Store your log in Amazon CloudWatch Logs.
 B. Store your logs in Amazon Glacier.
 C. Store your logs in Amazon S3, and use Lifecycle Policies to archive to AmazonGlacier.
@@ -1448,31 +1417,23 @@ For more information on copying AMIs, please refer to the URL below. http://docs
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 64
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are architecting an application environment on AWS. It is required to ensure that auditing the environment for compliance is easy and follows strict security compliance requirements. Which service or service feature would you enable to take the advantage of monitoring? [WL4]
+## You are architecting an application environment on AWS. It is required to ensure that auditing the environment for compliance is easy and follows strict security compliance requirements. Which service or service feature would you enable to take the advantage of monitoring? [WL464]
+
 A. CloudTrail for security logs
 B. SSL Logging
 C. Encrypted Data Storage
 D. Multi Factor Authentication
 
 
-
-EXPLANATION: 
+EXPLANATION: cloudTrail
 Correct Answer – A
 
 AWS CloudTrail is a de facto service provided by AWS for monitoring all the API calls to AWS and is used for logging and monitoring for compliance purposes. Amazon CloudTrail detects every call made to AWS and creates a log which can then be used for analysis. 
 For more information on Amazon CloudTrail, please visit the link below. 
 https://aws.amazon.com/cloudtrail/
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 65
-Unattempted
-Domain :Design Resilient Architectures
-As a part of your application architecture requirements, the company has requested the ability to run analytics against all the combined log files from the Elastic Load Balancer. Which services would you use together to collect logs and process log file analysis in an AWS environment? [WL4] 
+## As a part of your application architecture requirements, the company has requested the ability to run analytics against all the combined log files from the Elastic Load Balancer. Which services would you use together to collect logs and process log file analysis in an AWS environment? [WL465] 
 
 A. Amazon DynamoDB to store the logs and EC2 to run custom log analysis scripts
 B. Amazon EC2 for storing and processing the log files
@@ -1480,8 +1441,7 @@ C. Amazon S3 for storing the ELB log files and EC2 for processing the log files 
 D. Amazon S3 for storing ELB log files and Amazon EMR for processing the log files analysis
 
 
-
-EXPLANATION: 
+EXPLANATION: EMR
 Correct Answer – D
 
 This question is not that complicated, even if you don't understand the options. If you see “collection of logs and processing of logs”, directly think of AWS EMR. 

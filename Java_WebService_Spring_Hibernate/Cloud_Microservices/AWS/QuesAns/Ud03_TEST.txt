@@ -41,9 +41,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-container-service-amazo
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##2: You are working for a large financial firm in the country. They have an AWS environment which contains several Reserved EC2 instances hosted in a web application that has been decommissioned last week. To save cost, you need to stop incurring charges for the Reserved instances as soon as possible.
-
 What cost-effective steps will you take in this circumstance? (Select TWO.)
-
 
 A. Go to the Amazon.com online shopping website and sell the Reserved instances.
 B. Go to the AWS Reserved Instance Marketplace and sell the Reserved instances.
@@ -76,7 +74,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##3: You are a Solutions Architect working for an aerospace engineering company which recently adopted a hybrid cloud infrastructure with AWS. One of your tasks is to launch a VPC with both public and private subnets for their EC2 instances as well as their database instances respectively.   
-
 Which of the following statements are true regarding Amazon VPC subnets? (Select TWO.)
 
 A. Each subnet spans to 2 Availability Zones.
@@ -202,9 +199,7 @@ https://tutorialsdojo.com/comparison-of-aws-services-for-udemy-students/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##6: You are setting up the cloud architecture for an international money transfer service to be deployed in AWS which will have thousands of users around the globe. The service should be available 24/7 to avoid any business disruption and should be resilient enough to handle the outage of an entire AWS region. To meet this requirement, you have deployed your AWS resources to multiple AWS Regions. You need to use Route 53 and configure it to set all of your resources to be available all the time as much as possible. When a resource becomes unavailable, your Route 53 should detect that it's unhealthy and stop including it when responding to queries.   
-
 Which of the following is the most fault tolerant routing configuration that you should use in this scenario? 
-
 
 A. Configure an Active-Active Failover with One Primary and One Secondary Resource. 
 B. Configure an Active-Passive Failover with Multiple Primary and Secondary Resources. 
@@ -212,24 +207,32 @@ C. Configure an Active-Passive Failover with Weighted Records.
 D. Configure an Active-Active Failover with Weighted routing policy. 
 
 
-EXPLANATION : 
+EXPLANATION : Route53
 ANSWER : D
 
-You can use Route 53 health checking to configure active-active and active-passive failover configurations. You configure active-active failover using any routing policy (or combination of routing policies) other than failover, and you configure active-passive failover using the failover routing policy.
+> You can use Route 53 health checking to configure active-active and active-passive failover configurations. 
+- You configure active-active failover using any routing policy (or combination of routing policies) other than failover, and 
+- you configure active-passive failover using the failover routing policy.
 
-Active-Active Failover
+#Active-Active Failover
+> Use this failover configuration when you want all of your resources to be available the majority of the time. 
+- When a resource becomes unavailable, Route 53 can detect that it's unhealthy and stop including it when responding to queries.
 
-Use this failover configuration when you want all of your resources to be available the majority of the time. When a resource becomes unavailable, Route 53 can detect that it's unhealthy and stop including it when responding to queries.
+> In active-active failover, all the records that have the same name, the same type (such as A or AAAA), and the same routing policy (such as weighted or latency) are active unless Route 53 considers them unhealthy. 
+- Route 53 can respond to a DNS query using any healthy record.
 
-In active-active failover, all the records that have the same name, the same type (such as A or AAAA), and the same routing policy (such as weighted or latency) are active unless Route 53 considers them unhealthy. Route 53 can respond to a DNS query using any healthy record.
+#Active-Passive Failover
+> Use an active-passive failover configuration when you want a primary resource or group of resources to be available the majority of the time and you want a secondary resource or group of resources to be on standby in case all the primary resources become unavailable. 
+- When responding to queries, Route 53 includes only the healthy primary resources. 
+- If all the primary resources are unhealthy, Route 53 begins to include only the healthy secondary resources in response to DNS queries.
 
-Active-Passive Failover
+> Option-B, C are incorrect because an 
+- Active-Passive Failover is mainly used when you want a primary resource or group of resources to be available most of the time and you want a secondary resource or group of resources to be on standby in case all the primary resources become unavailable. 
+- In this scenario, all of your resources should be available all the time as much as possible which is why you have to use an Active-Active Failover instead.
 
-Use an active-passive failover configuration when you want a primary resource or group of resources to be available the majority of the time and you want a secondary resource or group of resources to be on standby in case all the primary resources become unavailable. When responding to queries, Route 53 includes only the healthy primary resources. If all the primary resources are unhealthy, Route 53 begins to include only the healthy secondary resources in response to DNS queries.
-
-Configuring an Active-Passive Failover with Weighted Records and configuring an Active-Passive Failover with Multiple Primary and Secondary Resources are incorrect because an Active-Passive Failover is mainly used when you want a primary resource or group of resources to be available most of the time and you want a secondary resource or group of resources to be on standby in case all the primary resources become unavailable. In this scenario, all of your resources should be available all the time as much as possible which is why you have to use an Active-Active Failover instead.
-
-Configuring an Active-Active Failover with One Primary and One Secondary Resource is incorrect because you cannot set up an Active-Active Failover with One Primary and One Secondary Resource. Remember that an Active-Active Failover uses all available resources all the time without a primary nor a secondary resource.
+> Option-A is incorrect because 
+- you cannot set up an Active-Active Failover with One Primary and One Secondary Resource. 
+- Remember that an Active-Active Failover uses all available resources all the time without a primary nor a secondary resource.
 
 References:
 https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-types.html
@@ -241,9 +244,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-route-53/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##7: You are unable to connect to your new EC2 instance via SSH from your home computer, which you have recently deployed. However, you were able to successfully access other existing instances in your VPC without any issues.   
-
 Which of the following should you check and possibly correct to restore connectivity?
-
 
 A. Use Amazon Data Lifecycle Manager.
 B. Configure the Network Access Control List of your VPC to permit ingress traffic over port 22 from your IP.
@@ -251,7 +252,7 @@ C. Configure the Security Group of the EC2 instance to permit ingress traffic ov
 D. Configure the Security Group of the EC2 instance to permit ingress traffic over port 22 from your IP.
 
 
-EXPLANATION : 
+EXPLANATION : SG
 ANSWER : D
 
 When connecting to your EC2 instance via SSH, you need to ensure that port 22 is allowed on the security group of your EC2 instance.
@@ -266,20 +267,19 @@ Configuring the Network Access Control List of your VPC to permit ingress traffi
 Configure the Security Group of the EC2 instance to permit ingress traffic over port 3389 from your IP is incorrect because this is relevant to RDP and not SSH.
 
 Reference:
-
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##8: You have an On-Demand EC2 instance located in a subnet in AWS which hosts a web application. The security group attached to this EC2 instance has the following Inbound Rules:
 
-Larger image
-
-​
+Type - Protocol - PortRange - Source 
+SSH		TCP			22		0.0.0.0/0
 
 The Route table attached to the VPC is shown below. You can establish an SSH connection into the EC2 instance from the internet. However, you are not able to connect to the web server using your Chrome browser.
-Larger image
 
-​
+Destination 	Target		Status		Propagated
+10.0.0.0/27		local		Active		No
+0.0.0.0/0		igw-b516	Active		No
 
 Which of the below steps would resolve the issue?
 
@@ -289,9 +289,8 @@ C. In the Security Group, remove the SSH rule.
 D. In the Security Group, add an Inbound HTTP rule.
 
 
-
-EXPLANATION : 
-ANSWER : 
+EXPLANATION : SG
+ANSWER : D
 
 The scenario is that you can already connect to the EC2 instance via SSH. This means that there is no problem in the Route Table of your VPC. To fix this issue, you simply need to update your Security Group and add an Inbound rule to allow HTTP traffic.
 
@@ -308,14 +307,11 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-vpc/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##9: A company is deploying a Microsoft SharePoint Server environment on AWS using CloudFormation. The Solutions Architect needs to install and configure the architecture that is composed of Microsoft Active Directory (AD) domain controllers, Microsoft SQL Server 2012, multiple Amazon EC2 instances to host the Microsoft SharePoint Server and many other dependencies. The Architect needs to ensure that the required components are properly running before the stack creation proceeds.
-
 Which of the following should the Architect do to meet this requirement?
-
 
 A. Configure the DependsOn attribute in the CloudFormation template. Send a success signal after the applications are installed and configured using the cfn-init helper script.
 
 B. Configure a UpdatePolicy attribute to the instance in the CloudFormation template. Send a success signal after the applications are installed and configured using the cfn-signal helper script.
-
 
 C. Configure a CreationPolicy attribute to the instance in the CloudFormation template. Send a success signal after the applications are installed and configured using the cfn-signal helper script.
 
@@ -323,7 +319,7 @@ D. Configure the UpdateReplacePolicy attribute in the CloudFormation template. S
 
 
 
-EXPLANATION : 
+EXPLANATION : cloudformation
 ANSWER : C
 
 You can associate the CreationPolicy attribute with a resource to prevent its status from reaching create complete until AWS CloudFormation receives a specified number of success signals or the timeout period is exceeded. To signal a resource, you can use the cfn-signal helper script or SignalResource API. AWS CloudFormation publishes valid signals to the stack events so that you track the number of signals sent.
@@ -351,15 +347,16 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-cloudformation/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##10: A Solutions Architect working for a startup is designing a High Performance Computing (HPC) application which is publicly accessible for their customers. The startup founders want to mitigate distributed denial-of-service (DDoS) attacks on their application.
-
 Which of the following options are not suitable to be implemented in this scenario? (Select TWO.)
-
 
 A. Use AWS Shield and AWS WAF.
 B. Add multiple Elastic Fabric Adapters (EFA) to each EC2 instance to increase the network bandwidth.
 C. Use an Amazon CloudFront service for distributing both static and dynamic content.
+
 D. Use Dedicated EC2 instances to ensure that each instance has the maximum performance possible.
+
 E. Use an Application Load Balancer with Auto Scaling groups for your EC2 instances then restrict direct Internet traffic to your Amazon RDS database by deploying to a private subnet.
+
 
 
 EXPLANATION : 
@@ -370,11 +367,8 @@ Take note that the question asks about the viable mitigation techniques that are
 A Denial of Service (DoS) attack is an attack that can make your website or application unavailable to end users. To achieve this, attackers use a variety of techniques that consume network or other resources, disrupting access for legitimate end users.
 
 To protect your system from DDoS attack, you can do the following:
-
 - Use an Amazon CloudFront service for distributing both static and dynamic content.
-
 - Use an Application Load Balancer with Auto Scaling groups for your EC2 instances then restrict direct Internet traffic to your Amazon RDS database by deploying to a private subnet.
-
 - Set up alerts in Amazon CloudWatch to look for high Network In and CPU utilization metrics.
 
 Services that are available within AWS Regions, like Elastic Load Balancing and Amazon Elastic Compute Cloud (EC2), allow you to build Distributed Denial of Service resiliency and scale to handle unexpected volumes of traffic within a given region. Services that are available in AWS edge locations, like Amazon CloudFront, AWS WAF, Amazon Route53, and Amazon API Gateway, allow you to take advantage of a global network of edge locations that can provide your application with greater fault tolerance and increased scale for managing larger volumes of traffic.
@@ -405,9 +399,7 @@ https://youtu.be/HnoZS5jj7pk/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##11: A VPC has a non-default subnet which has four On-Demand EC2 instances that can be accessed over the Internet. Using the AWS CLI, you launched a fifth instance that uses the same subnet, Amazon Machine Image (AMI), and security group which are being used by the other instances. Upon testing, you are not able to access the new instance.
-
 Which of the following is the most suitable solution to solve this problem?
-
 
 A. Include the fifth EC2 instance to the Placement Group of the other four EC2 instances and enable Enhanced Networking.
 B. Set up a NAT gateway to allow access to the fifth EC2 instance.
@@ -415,10 +407,10 @@ C. Enable AWS Transfer for SFTP to allow the incoming traffic to the fifth EC2 I
 D. Associate an Elastic IP address to the fifth EC2 instance.
  
 
-EXPLANATION : 
-ANSWER : 
+EXPLANATION : VPC
+ANSWER : D
 
-By default, a "default subnet" of your VPC is actually a public subnet, because the main route table sends the subnet's traffic that is destined for the internet to the internet gateway. You can make a default subnet into a private subnet by removing the route from the destination 0.0.0.0/0 to the internet gateway. However, if you do this, any EC2 instance running in that subnet can't access the internet.
+> By default, a "default subnet" of your VPC is actually a public subnet, because the main route table sends the subnet's traffic that is destined for the internet to the internet gateway. You can make a default subnet into a private subnet by removing the route from the destination 0.0.0.0/0 to the internet gateway. However, if you do this, any EC2 instance running in that subnet can't access the internet.
 
 Instances that you launch into a default subnet receive both a public IPv4 address and a private IPv4 address, and both public and private DNS hostnames. Instances that you launch into a nondefault subnet in a default VPC don't receive a public IPv4 address or a DNS hostname. You can change your subnet's default public IP addressing behavior
 
@@ -445,7 +437,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-vpc/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##12: A global online sports betting company has its popular web application hosted in AWS. They are planning to develop a new online portal for their new business venture and they hired you to implement the cloud architecture for a new online portal that will accept bets globally for world sports. You started to design the system with a relational database that runs on a single EC2 instance, which requires a single EBS volume that can support up to 30,000 IOPS.   
-
 In this scenario, which Amazon EBS volume type can you use that will meet the performance requirements of this new online portal?
 
 A. EBS Provisioned IOPS SSD (io1)
@@ -454,9 +445,8 @@ C. EBS Cold HDD (sc1)
 D. EBS General Purpose SSD (gp2)
 
 
-
 EXPLANATION : 
-ANSWER : 
+ANSWER : A
 
 The scenario requires a storage type for a relational database with a high IOPS performance. For these scenarios, SSD volumes are more suitable to use instead of HDD volumes. Remember that the dominant performance attribute of SSD is IOPS while HDD is Throughput.
 
@@ -477,9 +467,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-ebs/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##13: In your VPC, you have a Classic Load Balancer distributing traffic to 2 running EC2 instances in ap-southeast-1a AZ and 8 EC2 instances in ap-southeast-1b AZ. However, you noticed that half of your incoming traffic goes to ap-southeast-1a AZ which over-utilize its 2 instances but underutilize the other 8 instances in the other AZ. 
-
 What could be the most likely cause of this problem?
-
 
 A. The security group of the EC2 instances does not allow HTTP traffic.
 B. The Classic Load Balancer listener is not set to port 22.
@@ -512,7 +500,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-elastic-load-balancing-elb/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##14: You are a new Solutions Architect in your department and you have created 7 CloudFormation templates. Each template has been defined for a specific purpose.
-
 What determines the cost of using these new CloudFormation templates?
 
 A. It depends on the region where you will deploy.
@@ -521,7 +508,7 @@ C. The length of time it takes to build the architecture with CloudFormation
 D. CloudFormation templates are free but you are charged for the underlying resources it builds.
 
 
-EXPLANATION : 
+EXPLANATION : CloudFormation
 ANSWER : D
 
 There is no additional charge for AWS CloudFormation. You pay for AWS resources (such as Amazon EC2 instances, Elastic Load Balancing load balancers, etc.) created using AWS CloudFormation in the same manner as if you created them manually. You only pay for what you use, as you use it; there are no minimum fees and no required upfront commitments.
@@ -541,9 +528,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-cloudformation/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##15: You are working as an IT Consultant for a large investment bank that generates large financial datasets with millions of rows. The data must be stored in a columnar fashion to reduce the number of disk I/O requests and reduce the amount of data needed to load from the disk. The bank has an existing third-party business intelligence application which will connect to the storage service and then generate daily and monthly financial reports for its clients around the globe. 
-
 In this scenario, which is the best storage service to use to meet the requirement?
-
 
 A. DynamoDB
 B. Amazon RDS
@@ -551,7 +536,7 @@ C. Amazon Aurora
 D. Amazon Redshift
 
 
-EXPLANATION : 
+EXPLANATION : Redshift
 ANSWER : D
 
 Amazon Redshift is a fast, scalable data warehouse that makes it simple and cost-effective to analyze all your data across your data warehouse and data lake. Redshift delivers ten times faster performance than other data warehouses by using machine learning, massively parallel query execution, and columnar storage on high-performance disk.
@@ -570,9 +555,7 @@ https://youtu.be/wEOm6aiN4ww
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##16: Your IT Manager instructed you to set up a bastion host in the cheapest, most secure way, and that you should be the only person that can access it via SSH.   
-
 Which of the following steps would satisfy your IT Manager's request?
-
 
 A. Set up a small EC2 instance and a security group which only allows access on port 22
 B. Set up a large EC2 instance and a security group which only allows access on port 22
@@ -581,7 +564,7 @@ D. Set up a large EC2 instance and a security group which only allows access on 
 
 
 
-EXPLANATION : 
+EXPLANATION : bastion host
 ANSWER : C
 
 A bastion host is a server whose purpose is to provide access to a private network from an external network, such as the Internet. Because of its exposure to potential attack, a bastion host must minimize the chances of penetration.
@@ -602,9 +585,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##17: Your customer has clients all across the globe that access product files stored in several S3 buckets, which are behind each of their own CloudFront web distributions. They currently want to deliver their content to a specific client, and they need to make sure that only that client can access the data. Currently, all of their clients can access their S3 buckets directly using an S3 URL or through their CloudFront distribution. The Solutions Architect must serve the private content via CloudFront only, to secure the distribution of files.
-
 Which combination of actions should you implement to meet the above requirements? (Select TWO.)
-
 
 A. Use AWS App Mesh to ensure that only their client can access the files.
 B. Use S3 pre-signed URLs to ensure that only their client can access the files. Remove permission to use Amazon S3 URLs to read the files for anyone else.
@@ -613,14 +594,15 @@ D. Require the users to access the private content by using special CloudFront s
 E. Restrict access to files in the origin by creating an origin access identity (OAI) and give it permission to read the files in the bucket.
 
 
-EXPLANATION : 
+EXPLANATION : cloudfront
 ANSWER : D,E
 
-Many companies that distribute content over the Internet want to restrict access to documents, business data, media streams, or content that is intended for selected users, for example, users who have paid a fee. To securely serve this private content by using CloudFront, you can do the following:
-
+Many companies that distribute content over the Internet want to restrict access to documents, business data, media streams, or content that is intended for selected users, for example, users who have paid a fee. 
+To securely serve this private content by using CloudFront, you can do the following:
 - Require that your users access your private content by using special CloudFront signed URLs or signed cookies.
-
-- Require that your users access your Amazon S3 content by using CloudFront URLs, not Amazon S3 URLs. Requiring CloudFront URLs isn't necessary, but it is recommended to prevent users from bypassing the restrictions that you specify in signed URLs or signed cookies. You can do this by setting up an origin access identity (OAI) for your Amazon S3 bucket. You can also configure the custom headers for a private HTTP server or an Amazon S3 bucket configured as a website endpoint.
+- Require that your users access your Amazon S3 content by using CloudFront URLs, not Amazon S3 URLs. 
+- Requiring CloudFront URLs isn't necessary, but it is recommended to prevent users from bypassing the restrictions that you specify in signed URLs or signed cookies. You can do this by setting up an origin access identity (OAI) for your Amazon S3 bucket. 
+- You can also configure the custom headers for a private HTTP server or an Amazon S3 bucket configured as a website endpoint.
 
 All objects and buckets by default are private. The pre-signed URLs are useful if you want your user/customer to be able to upload a specific object to your bucket, but you don't require them to have AWS security credentials or permissions. You can generate a pre-signed URL programmatically using the AWS SDK for Java or the AWS SDK for .NET. If you are using Microsoft Visual Studio, you can also use AWS Explorer to generate a pre-signed object URL without writing any code. Anyone who receives a valid pre-signed URL can then programmatically upload an object.
 
@@ -651,16 +633,18 @@ https://tutorialsdojo.com/comparison-of-aws-services-for-udemy-students/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##18: You are automating the creation of EC2 instances in your VPC. Hence, you wrote a python script to trigger the Amazon EC2 API to request 50 EC2 instances in a single Availability Zone. However, you noticed that after 20 successful requests, subsequent requests failed.
-
 What could be a reason for this issue and how would you resolve it?
 
 A. There is a vCPU-based On-Demand Instance limit per region which is why subsequent requests failed. Just submit the limit increase form to AWS and retry the failed requests once approved.
+
 B. By default, AWS allows you to provision a maximum of 20 instances per Availability Zone. Select a different Availability Zone and retry the failed request.
+
 C. By default, AWS allows you to provision a maximum of 20 instances per region. Select a different region and retry the failed request.
+
 D. There was an issue with the Amazon EC2 API. Just resend the requests and these will be provisioned successfully.
 
 
-EXPLANATION : 
+EXPLANATION : EC2
 ANSWER : A
 
 You are limited to running On-Demand Instances per your vCPU-based On-Demand Instance limit, purchasing 20 Reserved Instances, and requesting Spot Instances per your dynamic Spot limit per region. New AWS accounts may start with limits that are lower than the limits described here.
@@ -682,16 +666,16 @@ https://aws.amazon.com/ec2/faqs/#How_many_instances_can_I_run_in_Amazon_EC2
 
 Check out this Amazon EC2 Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec2/
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##19: You are working for a large telecommunications company where you need to run analytics against all combined log files from your Application Load Balancer as part of the regulatory requirements.
-
 Which AWS services can be used together to collect logs and then easily perform log analysis?
 
 A. Amazon EC2 with EBS volumes for storing and analyzing the log files.
 B. Amazon S3 for storing the ELB log files and an EC2 instance for analyzing the log files using a custom-built application.
+
 C. Amazon S3 for storing ELB log files and Amazon EMR for analyzing the log files.
 D. Amazon DynamoDB for storing and EC2 for analyzing the logs. 
+
 
 EXPLANATION : 
 ANSWER : C
@@ -724,10 +708,8 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-emr/
 
 Check out this AWS Elastic Load Balancing (ELB) Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-aws-elastic-load-balancing-elb/
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##20: You are working as a Solutions Architect for a multinational financial firm. They have a global online trading platform in which the users from all over the world regularly upload terabytes of transactional data to a centralized S3 bucket.  What AWS feature should you use in your present system to improve throughput and ensure consistently fast data transfer to the Amazon S3 bucket, regardless of your user's location?
-
 
 A. Amazon S3 Transfer Acceleration
 B. AWS Direct Connect
@@ -738,7 +720,9 @@ D. FTP
 EXPLANATION : 
 ANSWER : A
 
-Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and your Amazon S3 bucket. Transfer Acceleration leverages Amazon CloudFront’s globally distributed AWS Edge Locations. As data arrives at an AWS Edge Location, data is routed to your Amazon S3 bucket over an optimized network path.
+Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and your Amazon S3 bucket. 
+- Transfer Acceleration leverages Amazon CloudFront’s globally distributed AWS Edge Locations. 
+- As data arrives at an AWS Edge Location, data is routed to your Amazon S3 bucket over an optimized network path.
 
 
 FTP is incorrect because the File Transfer Protocol does not guarantee fast throughput and consistent, fast data transfer.
@@ -762,7 +746,6 @@ https://tutorialsdojo.com/comparison-of-aws-services-for-udemy-students/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##21: You are working as a Solutions Architect for a tech company where you are instructed to build a web architecture using On-Demand EC2 instances and a database in AWS. However, due to budget constraints, the company instructed you to choose a database service in which they no longer need to worry about database management tasks such as hardware or software provisioning, setup, configuration, scaling and backups.
-
 Which database service in AWS is best to use in this scenario?
 
 A. RDS
@@ -794,9 +777,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-dynamodb/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##22: The media company that you are working for has a video transcoding application running on Amazon EC2. Each EC2 instance polls a queue to find out which video should be transcoded, and then runs a transcoding process. If this process is interrupted, the video will be transcoded by another instance based on the queuing system. This application has a large backlog of videos which need to be transcoded. Your manager would like to reduce this backlog by adding more EC2 instances, however, these instances are only needed until the backlog is reduced.
-
 In this scenario, which type of Amazon EC2 instance is the most cost-effective type to use?
-
 
 A. Reserved instances
 B. On-demand instances
@@ -804,7 +785,7 @@ C. Dedicated instances
 D. Spot instances
 
 
-EXPLANATION : 
+EXPLANATION : EC2 
 ANSWER : D
 
 You require an instance that will be used not as a primary server but as a spare compute resource to augment the transcoding process of your application. These instances should also be terminated once the backlog has been significantly reduced. In addition, the scenario mentions that if the current process is interrupted, the video can be transcoded by another instance based on the queuing system. This means that the application can gracefully handle an unexpected termination of an EC2 instance, like in the event of a Spot instance termination when the Spot price is greater than your set maximum price. Hence, an Amazon EC2 Spot instance is the best and cost-effective option for this scenario.
@@ -833,7 +814,10 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##23: You are a new Solutions Architect in your company. Upon checking the existing Inbound Rules of your Network ACL, you saw this configuration:
 
-Larger image
+Rule #	Type			Protocol	Port Range Source             Allow / Deny
+100		ALL Traffic		ALL			ALL        0.0.0.0/0			ALLOW
+101		Custom TCP Rule	TCP (6)		4000       110.238.109.37/32	DENY
+*		ALL Traffic		ALL			ALL        0.0.0.0/0			DENY
 
 If a computer with an IP address of 110.238.109.37 sends a request to your VPC, what will happen?
 
@@ -867,13 +851,14 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-vpc/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##24: A travel company has a suite of web applications hosted in an Auto Scaling group of On-Demand EC2 instances behind an Application Load Balancer that handles traffic from various web domains such as i-love-manila.com, i-love-boracay.com, i-love-cebu.com and many others. To improve security and lessen the overall cost, you are instructed to secure the system by allowing multiple domains to serve SSL traffic without the need to reauthenticate and reprovision your certificate everytime you add a new domain. This migration from HTTP to HTTPS will help improve their SEO and Google search ranking.
-
 Which of the following is the most cost-effective solution to meet the above requirement?
 
-
 A. Use a wildcard certificate to handle multiple sub-domains and different domains.
+
 B. Add a Subject Alternative Name (SAN) for each additional domain to your certificate.
+
 C. Create a new CloudFront web distribution and configure it to serve HTTPS requests using dedicated IP addresses in order to associate your alternate domain names with a dedicated IP address in each CloudFront edge location.
+
 D. Upload all SSL certificates of the domains in the ALB using the console and bind multiple certificates to the same secure listener on your load balancer. ALB will automatically choose the optimal TLS certificate for each client using Server Name Indication (SNI).
 
 
@@ -911,9 +896,7 @@ https://tutorialsdojo.com/comparison-of-aws-services-for-udemy-students/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##25: You are working for a Social Media Analytics company as its head data analyst. You want to collect gigabytes of data per second from websites and social media feeds to gain insights from data generated by its offerings and continuously improve the user experience. To meet this design requirement, you have developed an application hosted on an Auto Scaling group of Spot EC2 instances which processes the data and stores the results to DynamoDB and Redshift.   
-
 Which AWS service can you use to collect and process large streams of data records in real time? 
-
 
 A. Amazon Kinesis Data Streams
 B. Amazon SWF
@@ -943,9 +926,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-kinesis/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##26: An online job site is using NGINX for its application servers hosted in EC2 instances and MongoDB Atlas for its database-tier. MongoDB Atlas is a fully automated third-party cloud service which is not provided by AWS, but supports VPC peering to connect to your VPC. 
-
 Which of the following items are invalid VPC peering configurations? (Select TWO.)
-
 
 A. Edge to Edge routing via a gateway
 B. One VPC Peered with two VPCs using longest prefix match
@@ -954,7 +935,7 @@ D. Two VPCs peered to a specific CIDR block in one VPC
 E. Transitive Peering
 
 
-EXPLANATION : 
+EXPLANATION : vpc-peering
 ANSWER : A,E
 
 Transitive Peering and Edge to Edge routing via a gateway are invalid VPC Peering configurations, while the other options are valid ones.
@@ -1013,9 +994,7 @@ https://youtu.be/i1A1eH8vLtk
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##27: You are working as a Solutions Architect for an aerospace manufacturer which heavily uses AWS. They are running a prototype high performance computing (HPC) cluster that spans multiple EC2 instances across multiple Availability Zones, which processes various wind simulation models. Currently, you are experiencing a slowdown in your applications and upon further investigation, it was discovered that it was due to latency issues.
-
 Which is the MOST suitable solution that you should implement to provide low-latency network performance necessary for tightly-coupled node-to-node communication of your HPC cluster?
-
 
 A. Set up AWS Direct Connect connections across multiple Availability Zones for increased bandwidth throughput and more consistent network experience.
 B. Use EC2 Dedicated Instances.
@@ -1058,20 +1037,19 @@ https://aws.amazon.com/hpc/
 
 Check out this Amazon EC2 Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec2/
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##28: Your web application is relying entirely on slower disk-based databases, causing it to perform slowly. To improve its performance, you integrated an in-memory data store to your web application using ElastiCache. How does Amazon ElastiCache improve database performance?
 
-
 A. It securely delivers data to customers globally with low latency and high transfer speeds.
+
 B. It provides an in-memory cache that delivers up to 10x performance improvement from milliseconds to microseconds or even at millions of requests per second.
+
 C. It reduces the load on your database by routing read queries from your applications to the Read Replica.
 D. By caching database query results.
 
 
 
-
-EXPLANATION : 
+EXPLANATION : DynamoDB
 ANSWER : D
 
 ElastiCache improves the performance of your database through caching query results.
@@ -1083,7 +1061,7 @@ By caching such query results, you pay the price of the query once and then are 
 
 The option that says: It securely delivers data to customers globally with low latency and high transfer speeds is incorrect because this option describes what CloudFront does and not ElastiCache.
 
-The option that says: It provides an in-memory cache that delivers up to 10x performance improvement from milliseconds to microseconds or even at millions of requests per second is incorrect because this option describes what Amazon DynamoDB Accelerator (DAX) does and not ElastiCache. Amazon DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache for DynamoDB. Amazon ElastiCache cannot provide a performance improvement from milliseconds to microseconds, let alone millions of requests per second like DAX can.
+The option-B is incorrect because this option describes what Amazon DynamoDB Accelerator (DAX) does and not ElastiCache. Amazon DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache for DynamoDB. Amazon ElastiCache cannot provide a performance improvement from milliseconds to microseconds, let alone millions of requests per second like DAX can.
 
 The option that says: It reduces the load on your database by routing read queries from your applications to the Read Replica is incorrect because this option describes what an RDS Read Replica does and not ElastiCache. Amazon RDS Read Replicas enable you to create one or more read-only copies of your database instance within the same AWS Region or in a different AWS Region.
 
@@ -1096,9 +1074,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elasticache/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##29: A music company is generating confidential data that is saved on their on-premises data center. As a backup solution, the company wants to upload their data on Amazon S3. The company has a policy that any data stored outside its own data center must be encrypted. This way, even if the data is hacked, nobody will be able to read it without the encryption keys.
-
 Which of the following methods can achieve this? (Select TWO.)
-
 
 A. Use Amazon S3 server-side encryption with customer-provided keys.
 B. Use Amazon S3 server-side encryption with EC2 key pair.
@@ -1107,7 +1083,7 @@ D. Use Amazon S3 bucket policies to restrict access to the data at rest.
 E. Encrypt the data on the client-side using your own master key then upload the data to Amazon S3.
 
 
-EXPLANATION : 
+EXPLANATION : S3 SSE
 ANSWER : A,E 
 
 Data protection refers to protecting data while in-transit (as it travels to and from Amazon S3) and at rest (while it is stored on disks in Amazon S3 data centers). You can protect data in transit by using SSL or by using client-side encryption. You have the following options for protecting data at rest in Amazon S3:
@@ -1136,31 +1112,39 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##30: You currently have an Augment Reality (AR) mobile game which has a serverless backend. It is using a DynamoDB table which was launched using the AWS CLI to store all the user data and information gathered from the players and a Lambda function to pull the data from DynamoDB. The game is being used by millions of users each day to read and store data.
-
 How would you design the application to improve its overall performance and make it more scalable while keeping the costs low? (Select TWO.)
 
-
 A. Use AWS SSO and Cognito to authenticate users and have them directly access DynamoDB using single-sign on. Manually set the provisioned read and write capacity to a higher RCU and WCU.
+
 B. Since Auto Scaling is enabled by default, the provisioned read and write capacity will adjust automatically. Also enable DynamoDB Accelerator (DAX) to improve the performance from milliseconds to microseconds.
+
 C. Configure CloudFront with DynamoDB as the origin; cache frequently accessed data on client device using ElastiCache.
+
 D. Use API Gateway in conjunction with Lambda and turn on the caching on frequently accessed data and enable DynamoDB global replication.
+
 E. Enable DynamoDB Accelerator (DAX) and ensure that the Auto Scaling is enabled and increase the maximum provisioned read and write capacity.
 
 
 EXPLANATION : 
 ANSWER : D,E
 
-Amazon DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache for DynamoDB that delivers up to a 10x performance improvement – from milliseconds to microseconds – even at millions of requests per second. DAX does all the heavy lifting required to add in-memory acceleration to your DynamoDB tables, without requiring developers to manage cache invalidation, data population, or cluster management.
+Amazon DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache for DynamoDB that delivers up to a 10x performance improvement – from milliseconds to microseconds – even at millions of requests per second. 
+- DAX does all the heavy lifting required to add in-memory acceleration to your DynamoDB tables, without requiring developers to manage cache invalidation, data population, or cluster management.
 
-Amazon API Gateway lets you create an API that acts as a "front door" for applications to access data, business logic, or functionality from your back-end services, such as code running on AWS Lambda. Amazon API Gateway handles all of the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, authorization and access control, monitoring, and API version management. Amazon API Gateway has no minimum fees or startup costs.
+Amazon API Gateway lets you create an API that acts as a "front door" for applications to access data, business logic, or functionality from your back-end services, such as code running on AWS Lambda. 
+- Amazon API Gateway handles all of the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, authorization and access control, monitoring, and API version management. 
+- Amazon API Gateway has no minimum fees or startup costs.
 
-AWS Lambda scales your functions automatically on your behalf. Every time an event notification is received for your function, AWS Lambda quickly locates free capacity within its compute fleet and runs your code. Since your code is stateless, AWS Lambda can start as many copies of your function as needed without lengthy deployment and configuration delays.
+AWS Lambda scales your functions automatically on your behalf. 
+- Every time an event notification is received for your function, AWS Lambda quickly locates free capacity within its compute fleet and runs your code. 
+- Since your code is stateless, AWS Lambda can start as many copies of your function as needed without lengthy deployment and configuration delays.
 
 The option that says: Configure CloudFront with DynamoDB as the origin; cache frequently accessed data on client device using ElastiCache is incorrect because although CloudFront delivers content faster to your users using edge locations, you still cannot integrate DynamoDB table with CloudFront as these two are incompatible.
 
 The option that says: Use AWS SSO and Cognito to authenticate users and have them directly access DynamoDB using single-sign on. Manually set the provisioned read and write capacity to a higher RCU and WCU is incorrect because AWS Single Sign-On (SSO) is a cloud SSO service that just makes it easy to centrally manage SSO access to multiple AWS accounts and business applications. This will not be of much help on the scalability and performance of the application. It is costly to manually set the provisioned read and write capacity to a higher RCU and WCU because this capacity will run round the clock and will still be the same even if the incoming traffic is stable and there is no need to scale.
 
-The option that says: Since Auto Scaling is enabled by default, the provisioned read and write capacity will adjust automatically. Also enable DynamoDB Accelerator (DAX) to improve the performance from milliseconds to microseconds is incorrect because, by default, Auto Scaling is not enabled in a DynamoDB table which is created using the AWS CLI.
+The option that says: Since Auto Scaling is enabled by default, the provisioned read and write capacity will adjust automatically. Also enable DynamoDB Accelerator (DAX) to improve the performance from milliseconds to microseconds is incorrect because, 
+- by default, Auto Scaling is not enabled in a DynamoDB table which is created using the AWS CLI.
 
 References:
 https://aws.amazon.com/lambda/faqs/
@@ -1172,21 +1156,27 @@ https://aws.amazon.com/dynamodb/dax/
 
 Which of the following is the MOST suitable configuration that the Architect should implement to load balance all of the incoming read requests equally to the two Read Replicas?
 
-
 A. Enable Amazon Aurora Parallel Query.
 B. Create a new Network Load Balancer to evenly distribute the read queries to the Read Replicas of the Amazon Aurora database.
 C. Use the built-in Cluster endpoint of the Amazon Aurora database.
 D. Use the built-in Reader endpoint of the Amazon Aurora database.
 
 
-EXPLANATION : 
+EXPLANATION : Aurora
 ANSWER : D
 
-Amazon Aurora typically involves a cluster of DB instances instead of a single instance. Each connection is handled by a specific DB instance. When you connect to an Aurora cluster, the hostname and port that you specify point to an intermediate handler called an endpoint. Aurora uses the endpoint mechanism to abstract these connections. Thus, you don't have to hardcode all the hostnames or write your own logic for load-balancing and rerouting connections when some DB instances aren't available.
+Amazon Aurora typically involves a cluster of DB instances instead of a single instance. Each connection is handled by a specific DB instance. 
+- When you connect to an Aurora cluster, the hostname and port that you specify point to an intermediate handler called an endpoint. 
+- Aurora uses the endpoint mechanism to abstract these connections. 
+- Thus, you don't have to hardcode all the hostnames or write your own logic for load-balancing and rerouting connections when some DB instances aren't available.
 
-For certain Aurora tasks, different instances or groups of instances perform different roles. For example, the primary instance handles all data definition language (DDL) and data manipulation language (DML) statements. Up to 15 Aurora Replicas handle read-only query traffic.
+> For certain Aurora tasks, different instances or groups of instances perform different roles. For example, the primary instance handles all data definition language (DDL) and data manipulation language (DML) statements. Up to 15 Aurora Replicas handle read-only query traffic.
 
-Using endpoints, you can map each connection to the appropriate instance or group of instances based on your use case. For example, to perform DDL statements you can connect to whichever instance is the primary instance. To perform queries, you can connect to the reader endpoint, with Aurora automatically performing load-balancing among all the Aurora Replicas. For clusters with DB instances of different capacities or configurations, you can connect to custom endpoints associated with different subsets of DB instances. For diagnosis or tuning, you can connect to a specific instance endpoint to examine details about a specific DB instance.
+> Using endpoints, you can map each connection to the appropriate instance or group of instances based on your use case. 
+- For example, to perform DDL statements you can connect to whichever instance is the primary instance. 
+- To perform queries, you can connect to the reader endpoint, with Aurora automatically performing load-balancing among all the Aurora Replicas. 
+- For clusters with DB instances of different capacities or configurations, you can connect to custom endpoints associated with different subsets of DB instances. 
+- For diagnosis or tuning, you can connect to a specific instance endpoint to examine details about a specific DB instance.
 
 
 A reader endpoint for an Aurora DB cluster provides load-balancing support for read-only connections to the DB cluster. Use the reader endpoint for read operations, such as queries. By processing those statements on the read-only Aurora Replicas, this endpoint reduces the overhead on the primary instance. It also helps the cluster to scale the capacity to handle simultaneous SELECT queries, proportional to the number of Aurora Replicas in the cluster. Each Aurora DB cluster has one reader endpoint.
@@ -1214,15 +1204,13 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-aurora/
 
 In this scenario, what is the best way for the application to upload the large files in S3?
 
-
 A. Use Multipart Upload
 B. Use AWS Import/Export
 C. Use a single PUT request to upload the large file
 D. Use AWS Snowball
 
 
-
-EXPLANATION : 
+EXPLANATION : S3
 ANSWER : A
 
 The total volume of data and number of objects you can store are unlimited. Individual Amazon S3 objects can range in size from a minimum of 0 bytes to a maximum of 5 terabytes. The largest object that can be uploaded in a single PUT is 5 gigabytes. For objects larger than 100 megabytes, customers should consider using the Multipart Upload capability.
@@ -1244,7 +1232,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##33: You are a Solutions Architect in your company where you are tasked to set up a cloud infrastructure. In the planning, it was discussed that you will need two EC2 instances which should continuously run for three years. The CPU utilization of the EC2 instances is also expected to be stable and predictable.
-
 Which is the most cost-efficient Amazon EC2 Pricing type that is most appropriate for this scenario?
 
 A. Spot instances
@@ -1284,7 +1271,7 @@ C. Create a new IAM policy for the Amazon S3 bucket that automatically deletes t
 D. Enable CORS on the Amazon S3 bucket which will enable the automatic monthly deletion of data
 
 
-EXPLANATION : 
+EXPLANATION : s3
 ANSWER : A
 
 In this scenario, the best way to accomplish the requirement is to simply configure the lifecycle configuration rules on the Amazon S3 bucket to purge the transaction logs after a month.
@@ -1312,9 +1299,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-certified-solutions-architect-asso
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##35: You are working for a FinTech startup as their AWS Solutions Architect. You deployed an application on different EC2 instances with Elastic IP addresses attached for easy DNS resolution and configuration. These servers are only accessed from 8 AM to 6 PM and can be stopped from 6 PM to 8 AM for cost efficiency using Lambda with the script that automates this based on tags.
-
 Which of the following will occur when an EC2 instance with an associated Elastic IP is stopped and started? (Select TWO.)
-
 
 A. All data on the attached instance-store devices will be lost.
 B. There will be no changes.
@@ -1323,14 +1308,23 @@ D. The Elastic IP address is disassociated with the instance.
 E. The ENI (Elastic Network Interface) is detached.
 
 
-EXPLANATION : 
+EXPLANATION : EC2
 ANSWER : A,C
 
-This question did not mention the specific type of EC2 instance however, it says that it will be stopped and started. Since only EBS-backed instances can be stopped and restarted, it is implied that the instance is EBS-backed. Remember that an instance store-backed instance can only be rebooted or terminated and its data will be erased if the EC2 instance is either stopped or terminated.
+This question did not mention the specific type of EC2 instance however, it says that it will be stopped and started. 
+- Since only EBS-backed instances can be stopped and restarted, it is implied that the instance is EBS-backed. 
+- Remember that an instance store-backed instance can only be rebooted or terminated and its data will be erased if the EC2 instance is either stopped or terminated.
 
-If you stopped an EBS-backed EC2 instance, the volume is preserved but the data in any attached Instance store volumes will be erased. Keep in mind that an EC2 instance has an underlying physical host computer. If the instance is stopped, AWS usually moves the instance to a new host computer. Your instance may stay on the same host computer if there are no problems with the host computer. In addition, its Elastic IP address is disassociated from the instance if it is an EC2-Classic instance. Otherwise, if it is an EC2-VPC instance, the Elastic IP address remains associated.
+If you stopped an EBS-backed EC2 instance, the volume is preserved but the data in any attached Instance store volumes will be erased. 
+- Keep in mind that an EC2 instance has an underlying physical host computer. 
+- If the instance is stopped, AWS usually moves the instance to a new host computer. 
+- Your instance may stay on the same host computer if there are no problems with the host computer. 
+- In addition, its Elastic IP address is disassociated from the instance if it is an EC2-Classic instance. 
+- Otherwise, if it is an EC2-VPC instance, the Elastic IP address remains associated.
 
-Take note that an EBS-backed EC2 instance can have attached Instance Store volumes. This is the reason why there is an option that mentions the Instance Store volume, which is placed to test your understanding of this specific storage type. You can launch an EBS-backed EC2 instance and attach several Instance Store volumes but remember that there are some EC2 Instance types that don't support this kind of set up:
+Take note that an EBS-backed EC2 instance can have attached Instance Store volumes. 
+- This is the reason why there is an option that mentions the Instance Store volume, which is placed to test your understanding of this specific storage type. 
+- You can launch an EBS-backed EC2 instance and attach several Instance Store volumes but remember that there are some EC2 Instance types that don't support this kind of set up:
 References:
 
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html
@@ -1344,9 +1338,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-certified-solutions-architect-asso
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##36: A leading media company has an application hosted in an EBS-backed EC2 instance which uses Simple Workflow Service (SWF) to handle its sequential background jobs. The application works well in production and your manager asked you to also implement the same solution to other areas of their business.   
-
 In which other scenarios can you use both Simple Workflow Service (SWF) and Amazon EC2 as a solution? (Select TWO.)
-
 
 A. For a distributed session management for your mobile application.
 B. For web applications that require content delivery networks.
@@ -1355,16 +1347,17 @@ D. Orchestrating the execution of distributed business processes.
 E. For applications that require a message queue.
 
 
-EXPLANATION : 
+EXPLANATION : SWF
 ANSWER : C,D
 
 You can use a combination of EC2 and SWF for the following scenarios:
 
 Managing a multi-step and multi-decision checkout process of an e-commerce mobile app.
-
 Orchestrating the execution of distributed business processes
 
-Amazon Simple Workflow Service (SWF) is a web service that makes it easy to coordinate work across distributed application components. Amazon SWF enables applications for a range of use cases, including media processing, web application back-ends, business process workflows, and analytics pipelines, to be designed as a coordination of tasks. Tasks represent invocations of various processing steps in an application which can be performed by executable code, web service calls, human actions, and scripts.
+Amazon Simple Workflow Service (SWF) is a web service that makes it easy to coordinate work across distributed application components. 
+- Amazon SWF enables applications for a range of use cases, including media processing, web application back-ends, business process workflows, and analytics pipelines, to be designed as a coordination of tasks.
+- Tasks represent invocations of various processing steps in an application which can be performed by executable code, web service calls, human actions, and scripts.
 
 
 The option that says: For a distributed session management for your mobile application is incorrect as Elasticache is the best option for distributed session management.
@@ -1394,14 +1387,19 @@ E. Specify a range, or portion, of the financial data archive to retrieve.
 
 
 
-EXPLANATION : 
+EXPLANATION : s3 glacier 
 ANSWER : A,B
 
-Expedited retrievals allow you to quickly access your data when occasional urgent requests for a subset of archives are required. For all but the largest archives (250 MB+), data accessed using Expedited retrievals are typically made available within 1–5 minutes. Provisioned Capacity ensures that retrieval capacity for Expedited retrievals is available when you need it.
+Expedited retrievals allow you to quickly access your data when occasional urgent requests for a subset of archives are required. 
+- For all but the largest archives (250 MB+), data accessed using Expedited retrievals are typically made available within 1–5 minutes. 
+- Provisioned Capacity ensures that retrieval capacity for Expedited retrievals is available when you need it.
 
-To make an Expedited, Standard, or Bulk retrieval, set the Tier parameter in the Initiate Job (POST jobs) REST API request to the option you want, or the equivalent in the AWS CLI or AWS SDKs. If you have purchased provisioned capacity, then all expedited retrievals are automatically served through your provisioned capacity.
+To make an Expedited, Standard, or Bulk retrieval, set the Tier parameter in the Initiate Job (POST jobs) REST API request to the option you want, or the equivalent in the AWS CLI or AWS SDKs. 
+- If you have purchased provisioned capacity, then all expedited retrievals are automatically served through your provisioned capacity.
 
-Provisioned capacity ensures that your retrieval capacity for expedited retrievals is available when you need it. Each unit of capacity provides that at least three expedited retrievals can be performed every five minutes and provides up to 150 MB/s of retrieval throughput. You should purchase provisioned retrieval capacity if your workload requires highly reliable and predictable access to a subset of your data in minutes. Without provisioned capacity Expedited retrievals are accepted, except for rare situations of unusually high demand. However, if you require access to Expedited retrievals under all circumstances, you must purchase provisioned retrieval capacity.
+Provisioned capacity ensures that your retrieval capacity for expedited retrievals is available when you need it. 
+- Each unit of capacity provides that at least three expedited retrievals can be performed every five minutes and provides up to 150 MB/s of retrieval throughput. 
+- You should purchase provisioned retrieval capacity if your workload requires highly reliable and predictable access to a subset of your data in minutes. Without provisioned capacity Expedited retrievals are accepted, except for rare situations of unusually high demand. However, if you require access to Expedited retrievals under all circumstances, you must purchase provisioned retrieval capacity.
 
 
 Retrieving the data using Amazon Glacier Select is incorrect because this is not an archive retrieval option and is primarily used to perform filtering operations using simple Structured Query Language (SQL) statements directly on your data archive in Glacier.
@@ -1422,14 +1420,13 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-glacier/
 
 In the shell script, what does the revoke-security-group-ingress command do?
 
-
 A. Removes one or more security groups from an Amazon EC2 instance.
 B. Removes one or more ingress rules from a security group.
 C. Removes one or more security groups from a rule.
 D. Removes one or more egress rules from a security group.
 
 
-EXPLANATION : 
+EXPLANATION : SG
 ANSWER : B
 
 The revoke-security-group-ingress command removes one or more ingress rules from a security group.
@@ -1452,19 +1449,19 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##39: You have a VPC that has a CIDR block of 10.31.0.0/27 which is connected to your on-premises data center. There was a requirement to create a Lambda function that will process massive amounts of cryptocurrency transactions every minute and then store the results to EFS. After you set up the serverless architecture and connected Lambda function to your VPC, you noticed that there is an increase in invocation errors with EC2 error types such as EC2ThrottledException on certain times of the day.
-
 Which of the following are the possible causes of this issue? (Select TWO.)
 
-
 A. You only specified one subnet in your Lambda function configuration. That single subnet runs out of available IP addresses and there is no other subnet or Availability Zone which can handle the peak load.
+
 B. The attached IAM execution role of your function does not have the necessary permissions to access the resources of your VPC.
+
 C. Your VPC does not have a NAT gateway.
 D. Your VPC does not have sufficient subnet ENIs or subnet IPs.
 E. The associated security group of your function does not allow outbound connections.
 
 
 
-EXPLANATION : 
+EXPLANATION : VPC ENI
 ANSWER : A,D
 
 You can configure a function to connect to a virtual private cloud (VPC) in your account. Use Amazon Virtual Private Cloud (Amazon VPC) to create a private network for resources such as databases, cache instances, or internal services. Connect your function to the VPC to access private resources during execution.
@@ -1498,10 +1495,9 @@ Check out this AWS Lambda Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-aws-lambda/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##40: An application needs to retrieve a subset of data from a large CSV file stored in an Amazon S3 bucket by using simple SQL expressions. The queries are made within Amazon S3 and must only return the needed data. 
+###40: An application needs to retrieve a subset of data from a large CSV file stored in an Amazon S3 bucket by using simple SQL expressions. The queries are made within Amazon S3 and must only return the needed data. 
 
 Which of the following actions should be taken?
-
 
 A. Perform an S3 Select operation based on the bucket's name and object's key.
 B. Perform an S3 Select operation based on the bucket's name and object's metadata.
@@ -1510,19 +1506,17 @@ D. Perform an S3 Select operation based on the bucket's name and object tags.
 
 
 
-EXPLANATION : 
+EXPLANATION : s3
 ANSWER : A
 
-S3 Select enables applications to retrieve only a subset of data from an object by using simple SQL expressions. By using S3 Select to retrieve only the data needed by your application, you can achieve drastic performance increases.
+> S3 Select enables applications to retrieve only a subset of data from an object by using simple SQL expressions. 
+- By using S3 Select to retrieve only the data needed by your application, you can achieve drastic performance increases.
 
 Amazon S3 is composed of buckets, object keys, object metadata, object tags, and many other components as shown below:
 
 An Amazon S3 bucket name is globally unique, and the namespace is shared by all AWS accounts.
-
 An Amazon S3 object key refers to the key name, which uniquely identifies the object in the bucket.
-
 An Amazon S3 object metadata is a name-value pair that provides information about the object.
-
 An Amazon S3 object tag is a key-pair value used for object tagging to categorize storage.
 
 You can perform S3 Select to query only the necessary data inside the CSV files based on the bucket's name and the object's key.
@@ -1561,7 +1555,7 @@ C. Create a new policy and apply it to multiple IAM users using a shell script.
 D. Create a new IAM role and add each user to the IAM role.
 
 
-EXPLANATION : 
+EXPLANATION : IAM
 ANSWER : A
 
 In this scenario, the best option is to group the set of users in an IAM Group and then apply a policy with the required access to the Amazon S3 bucket. This will enable you to easily add, remove, and manage the users instead of manually adding a policy to each and every 100 IAM users.
@@ -1585,15 +1579,12 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-certified-solutions-architect-asso
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##42: A data analytics company is setting up an innovative checkout-free grocery store. Their Solutions Architect developed a real-time monitoring application that uses smart sensors to collect the items that the customers are getting from the grocery’s refrigerators and shelves then automatically deduct it from their accounts. The company wants to analyze the items that are frequently being bought and store the results in S3 for durable storage to determine the purchase behavior of its customers.
-
 What service must be used to easily capture, transform, and load streaming data into Amazon S3, Amazon Elasticsearch Service, and Splunk?
-
 
 A. Amazon Kinesis
 B. Amazon Kinesis Data Firehose
 C. Amazon Redshift
 D. Amazon SQS
-
 
 
 EXPLANATION : 
@@ -1622,10 +1613,9 @@ https://aws.amazon.com/kinesis/data-firehose/
 https://aws.amazon.com/kinesis/data-streams/faqs/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##43: A company is using multiple AWS accounts that are consolidated using AWS Organizations. They want to copy several S3 objects to another S3 bucket that belonged to a different AWS account which they also own. The Solutions Architect was instructed to set up the necessary permissions for this task and to ensure that the destination account owns the copied objects and not the account it was sent from.
+###43: A company is using multiple AWS accounts that are consolidated using AWS Organizations. They want to copy several S3 objects to another S3 bucket that belonged to a different AWS account which they also own. The Solutions Architect was instructed to set up the necessary permissions for this task and to ensure that the destination account owns the copied objects and not the account it was sent from.
 
 How can the Architect accomplish this requirement?
-
 
 A. Configure cross-account permissions in S3 by creating an IAM customer managed policy that allows an IAM user or role to copy objects from the source bucket in one account to the destination bucket in the other account. Then attach the policy to the IAM user or role that you want to use to copy objects between accounts.
 
@@ -1637,18 +1627,23 @@ D. Enable the Requester Pays feature in the source S3 bucket. The fees would be 
 
 
 
-EXPLANATION : 
+EXPLANATION : s3
 ANSWER : B
 
-By default, an S3 object is owned by the account that uploaded the object. That's why granting the destination account the permissions to perform the cross-account copy makes sure that the destination owns the copied objects. You can also change the ownership of an object by changing its access control list (ACL) to bucket-owner-full-control.
+> By default, an S3 object is owned by the account that uploaded the object. 
+- That's why granting the destination account the permissions to perform the cross-account copy makes sure that the destination owns the copied objects. 
+- You can also change the ownership of an object by changing its access control list (ACL) to bucket-owner-full-control.
 
-However, object ACLs can be difficult to manage for multiple objects, so it's a best practice to grant programmatic cross-account permissions to the destination account. Object ownership is important for managing permissions using a bucket policy. For a bucket policy to apply to an object in the bucket, the object must be owned by the account that owns the bucket. You can also manage object permissions using the object's ACL. However, object ACLs can be difficult to manage for multiple objects, so it's a best practice to use the bucket policy as a centralized method for setting permissions.
+> However, object ACLs can be difficult to manage for multiple objects, so it's a best practice to grant programmatic cross-account permissions to the destination account. 
+- Object ownership is important for managing permissions using a bucket policy. 
+- For a bucket policy to apply to an object in the bucket, the object must be owned by the account that owns the bucket. 
+- You can also manage object permissions using the object's ACL. 
+- However, object ACLs can be difficult to manage for multiple objects, so it's a best practice to use the bucket policy as a centralized method for setting permissions.
+
 To be sure that a destination account owns an S3 object copied from another account, grant the destination account the permissions to perform the cross-account copy. Follow these steps to configure cross-account permissions to copy objects from a source bucket in Account A to a destination bucket in Account B:
 
 - Attach a bucket policy to the source bucket in Account A.
-
 - Attach an AWS Identity and Access Management (IAM) policy to a user or role in Account B.
-
 - Use the IAM user or role in Account B to perform the cross-account copy.
 
 Hence, the correct answer is: Configure cross-account permissions in S3 by creating an IAM customer managed policy that allows an IAM user or role to copy objects from the source bucket in one account to the destination bucket in the other account. Then attach the policy to the IAM user or role that you want to use to copy objects between accounts.
@@ -1666,18 +1661,17 @@ https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##44: You are a Solutions Architect for a major TV network. They have a web application running on eight Amazon T3 EC2 instances, consuming about 55% of resources on each instance. You are using Auto Scaling to make sure that eight instances are running at all times. The number of requests that this application processes are consistent and do not experience spikes. Your manager instructed you to ensure high availability of this web application at all times to avoid any loss of revenue. You want the load to be distributed evenly between all instances. You also want to use the same Amazon Machine Image (AMI) for all EC2 instances.
-
 How will you be able to achieve this?
 
-
 A. Deploy four EC2 instances with Auto Scaling in one Availability Zone and four in another availability zone in the same region behind an Amazon Elastic Load Balancer.
+
 B. Deploy eight EC2 instances with Auto Scaling in one Availability Zone behind an Amazon Elastic Load Balancer.
 C. Deploy four EC2 instances with Auto Scaling in one region and four in another region behind an Amazon Elastic Load Balancer.
 D. Deploy two EC2 instances with Auto Scaling in four regions behind an Amazon Elastic Load Balancer.
 
 
 
-EXPLANATION : 
+EXPLANATION : ELB
 ANSWER : A
 
 The best option to take is to deploy four EC2 instances in one Availability Zone and four in another availability zone in the same region behind an Amazon Elastic Load Balancer. In this way, if one availability zone goes down, there is still another available zone that can accommodate traffic.
@@ -1691,9 +1685,10 @@ T3 instances also have a Burstable Performance capability to burst or go beyond 
 
 Take note that Auto Scaling will launch additional EC2 instances to the remaining Availability Zone/s in the event of an Availability Zone outage in the region. Hence, the correct answer is the option that says: Deploy four EC2 instances with Auto Scaling in one Availability Zone and four in another availability zone in the same region behind an Amazon Elastic Load Balancer.
 
-The option that says: Deploy eight EC2 instances with Auto Scaling in one Availability Zone behind an Amazon Elastic Load Balancer is incorrect because this architecture is not highly available. If that Availability Zone goes down then your web application will be unreachable.
+The option-B is incorrect because this architecture is not highly available. If that Availability Zone goes down then your web application will be unreachable.
 
-The options that say: Deploy four EC2 instances with Auto Scaling in one region and four in another region behind an Amazon Elastic Load Balancer and Deploy two EC2 instances with Auto Scaling in four regions behind an Amazon Elastic Load Balancer are incorrect because the ELB is designed to only run in one region and not across multiple regions.
+The options-C and D are incorrect because
+- ELB IS DESIGNED TO ONLY RUN IN ONE REGION AND NOT ACROSS MULTIPLE REGIONS.
 
 References:
 https://aws.amazon.com/elasticloadbalancing/
@@ -1705,7 +1700,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-elastic-load-balancing-elb/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##45: In Amazon EC2, you can manage your instances from the moment you launch them up to their termination. You can flexibly control your computing costs by changing the EC2 instance state. Which of the following statements is true regarding EC2 billing? (Select TWO.)
 
-
 A. You will be billed when your Spot instance is preparing to stop with a stopping state.
 B. You will be billed when your Reserved instance is in terminated state.
 C. You will not be billed for any instance usage while an instance is not in the running state.
@@ -1713,8 +1707,7 @@ D. You will be billed when your On-Demand instance is preparing to hibernate wit
 E. You will be billed when your On-Demand instance is in pending state.
 
 
-
-EXPLANATION : 
+EXPLANATION : EC2
 ANSWER : B,D
 
 By working with Amazon EC2 to manage your instances from the moment you launch them through their termination, you ensure that your customers have the best possible experience with the applications or sites that you host on your instances. The following illustration represents the transitions between instance states. Notice that you can't stop and start an instance store-backed instance:
@@ -1726,7 +1719,8 @@ pending - The instance is preparing to enter the running state. An instance ente
 
 running - The instance is running and ready for use.
 
-stopping - The instance is preparing to be stopped. Take note that you will not billed if it is preparing to stop however, you will still be billed if it is just preparing to hibernate.
+stopping - The instance is preparing to be stopped. 
+Take note that - you will not billed if it is preparing to stop however, you will still be billed if it is just preparing to hibernate.
 
 stopped - The instance is shut down and cannot be used. The instance can be restarted at any time.
 
@@ -1754,9 +1748,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##46: Your company has recently deployed a new web application which uses a serverless-based architecture in AWS. Your manager instructed you to implement CloudWatch metrics to monitor your systems more effectively. You know that Lambda automatically monitors functions on your behalf and reports metrics through Amazon CloudWatch.   
-
 In this scenario, what types of data do these metrics monitor? (Select TWO.)
-
 
 A. IteratorSize
 B. Async Delivery Failures
@@ -1765,8 +1757,7 @@ D. ApproximateAgeOfOldestMessage
 E. ReservedConcurrentExecutions
 
 
-
-EXPLANATION : 
+EXPLANATION : Lambda
 ANSWER : B,C
 
 AWS Lambda automatically monitors functions on your behalf, reporting metrics through Amazon CloudWatch. These metrics include total invocation requests, latency, and error rates. The throttles, Dead Letter Queues errors, and Iterator age for stream-based invocations are also monitored.
@@ -1789,7 +1780,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-lambda/
 
 Which of the following is the MOST suitable solution that the Architect should implement?
 
-
 A. Create a new Amazon SNS topic and Amazon MQ. Add an S3 event notification configuration on the bucket to publish s3:ObjectAdded:* and s3:ObjectRemoved:* event types to SQS and SNS.
 
 B. Create a new Amazon SNS topic and Amazon SQS queue. Add an S3 event notification configuration on the bucket to publish s3:ObjectCreated:* and s3:ObjectRemoved:Delete event types to SQS and SNS.
@@ -1799,37 +1789,35 @@ C. Create a new Amazon SNS topic and Amazon SQS queue. Add an S3 event notificat
 D. Create a new Amazon SNS topic and Amazon MQ. Add an S3 event notification configuration on the bucket to publish s3:ObjectCreated:* and ObjectRemoved:DeleteMarkerCreated event types to SQS and SNS.
 
 
-
-EXPLANATION : 
+EXPLANATION : S3 notification
 ANSWER : B
 
-The Amazon S3 notification feature enables you to receive notifications when certain events happen in your bucket. To enable notifications, you must first add a notification configuration that identifies the events you want Amazon S3 to publish and the destinations where you want Amazon S3 to send the notifications. You store this configuration in the notification subresource that is associated with a bucket. Amazon S3 provides an API for you to manage this subresource.
+> The Amazon S3 notification feature enables you to receive notifications when certain events happen in your bucket. 
+- To enable notifications, you must first add a notification configuration that identifies the events you want Amazon S3 to publish and the destinations where you want Amazon S3 to send the notifications. 
+- You store this configuration in the notification subresource that is associated with a bucket. 
+- Amazon S3 provides an API for you to manage this subresource.
 
-Amazon S3 event notifications typically deliver events in seconds but can sometimes take a minute or longer. If two writes are made to a single non-versioned object at the same time, it is possible that only a single event notification will be sent. If you want to ensure that an event notification is sent for every successful write, you can enable versioning on your bucket. With versioning, every successful write will create a new version of your object and will also send an event notification.
+Amazon S3 event notifications typically deliver events in seconds but can sometimes take a minute or longer. If two writes are made to a single non-versioned object at the same time, it is possible that only a single event notification will be sent. 
+- If you want to ensure that an event notification is sent for every successful write, you can enable versioning on your bucket. 
+- With versioning, every successful write will create a new version of your object and will also send an event notification.
 
 
 Amazon S3 can publish notifications for the following events:
-
 1. New object created events
-
 2. Object removal events
-
 3. Restore object events
-
 4. Reduced Redundancy Storage (RRS) object lost events
-
 5. Replication events
 
 
 Amazon S3 supports the following destinations where it can publish events:
-
 1. Amazon Simple Notification Service (Amazon SNS) topic
-
 2. Amazon Simple Queue Service (Amazon SQS) queue
-
 3. AWS Lambda
 
-If your notification ends up writing to the bucket that triggers the notification, this could cause an execution loop. For example, if the bucket triggers a Lambda function each time an object is uploaded and the function uploads an object to the bucket, then the function indirectly triggers itself. To avoid this, use two buckets, or configure the trigger to only apply to a prefix used for incoming objects.
+> If your notification ends up writing to the bucket that triggers the notification, this could cause an execution loop. 
+- For example, if the bucket triggers a Lambda function each time an object is uploaded and the function uploads an object to the bucket, then the function indirectly triggers itself. 
+- To avoid this, use two buckets, or configure the trigger to only apply to a prefix used for incoming objects.
 
 Hence, the correct answers is: Create a new Amazon SNS topic and Amazon SQS queue. Add an S3 event notification configuration on the bucket to publish s3:ObjectCreated:* and s3:ObjectRemoved:Delete event types to SQS and SNS.
 
@@ -1848,23 +1836,23 @@ Check out this Amazon S3 Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##48: You are working as a Cloud Engineer for a top aerospace engineering firm. One of your tasks is to set up a document storage system using S3 for all of the engineering files. In Amazon S3, which of the following statements are true? (Select TWO.)
-
+###48: You are working as a Cloud Engineer for a top aerospace engineering firm. One of your tasks is to set up a document storage system using S3 for all of the engineering files. In Amazon S3, which of the following statements are true? (Select TWO.) 
 
 A. The largest object that can be uploaded in a single PUT is 5 GB.
+
 B. S3 is an object storage service that provides file system access semantics (such as strong consistency and file locking), and concurrently-accessible storage.
+
 C. The largest object that can be uploaded in a single PUT is 5 TB.
 D. You can only store ZIP or TAR files in S3.
 E. The total volume of data and number of objects you can store are unlimited.
 
 
-EXPLANATION : 
+EXPLANATION : s3
 ANSWER : A,E
 
 The correct answers are:
 
 - The total volume of data and number of objects you can store are unlimited.
-
 - The largest object that can be uploaded in a single PUT is 5 GB.
 
 The option that says: The largest object that can be uploaded in a single PUT is 5 TB is incorrect as the largest object that can be uploaded in a single PUT is 5 GB and not 5 TB. Remember that the upload limit depends on whether you upload an object using a single PUT operation or via Multipart Upload. The largest object that can be uploaded in a single PUT is 5 GB. Please take note the phrase "... in a single PUT". If you are using the multipart upload API, then the limit is 5 TB.
@@ -1882,9 +1870,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##49: You are working for a large IT consultancy company as a Solutions Architect. One of your clients is launching a file sharing web application in AWS which requires a durable storage service for hosting their static contents such as PDFs, Word Documents, high resolution images and many others.
-
 Which type of storage service should you use to meet this requirement?
-
 
 A. Amazon EC2 instance store
 B. Amazon RDS instance
@@ -1898,9 +1884,6 @@ ANSWER : C
 Amazon S3 is storage for the Internet. It’s a simple storage service that offers software developers a durable, highly-scalable, reliable, and low-latency data storage infrastructure at very low costs. Amazon S3 provides customers with a highly durable storage infrastructure. Versioning offers an additional level of protection by providing a means of recovery when customers accidentally overwrite or delete objects. Remember that the scenario requires a durable storage for static content. These two keywords are actually referring to S3, since it is highly durable and suitable for storing static content.
 
 Hence, Amazon S3 is the correct answer.
-
- 
-
  
 
 Amazon EBS volume is incorrect because this is not as durable compared with S3. In addition, it is best to store the static contents in S3 rather than EBS.
@@ -1909,7 +1892,6 @@ Amazon EC2 instance store is incorrect because it is definitely not suitable - t
 
 Amazon RDS instance is incorrect because an RDS instance is just a database and not suitable for storing static content. By default, RDS is not durable, unless you launch it to be in Multi-AZ deployments configuration.
 
- 
 
 Reference: 
 https://aws.amazon.com/s3/faqs/ 
@@ -1922,9 +1904,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##50: You installed sensors to track the number of visitors that goes to the park. The data is sent everyday to an Amazon Kinesis stream with default settings for processing, in which a consumer is configured to process the data every other day. You noticed that your S3 bucket is not receiving all of the data that is being sent to the Kinesis stream. You checked the sensors if they are properly sending the data to Amazon Kinesis and verified that the data is indeed sent everyday.
-
 What could be the reason for this?
-
 
 A. By default, Amazon S3 stores the data for 1 day and moves it to Amazon Glacier.
 B. Your AWS account was hacked and someone has deleted some data in your Kinesis stream.
@@ -1932,13 +1912,15 @@ C. By default, the data records are only accessible for 24 hours from the time t
 D. There is a problem in the sensors. They probably had some intermittent connection hence, the data is not sent to the stream.
 
 
-EXPLANATION : 
+EXPLANATION : Kinesis
 ANSWER : C
 
-Kinesis Data Streams supports changes to the data record retention period of your stream. A Kinesis data stream is an ordered sequence of data records meant to be written to and read from in real-time. Data records are therefore stored in shards in your stream temporarily.
+> Kinesis Data Streams supports changes to the data record retention period of your stream. 
+- It is an ordered sequence of data records meant to be written-to and read-from in real-time. 
+- Data records are therefore stored in shards in your stream temporarily.
 
-
-The time period from when a record is added to when it is no longer accessible is called the retention period. A Kinesis data stream stores records from 24 hours by default to a maximum of 168 hours.
+The time period from when a record is added to when it is no longer accessible is called the retention period. 
+- It stores records from 24hrs(by default) to 168hrs(max).
 
 This is the reason why there are missing data in your S3 bucket. To fix this, you can either configure your sensors to send the data everyday instead of every other day or alternatively, you can increase the retention period of your Kinesis data stream.
 
@@ -1960,20 +1942,20 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-kinesis/
 
 Which of the following combination of services should you use to meet this requirement?
 
-
 A. Amazon DynamoDB and AWS AppSync
 B. Amazon Aurora and Amazon Cognito
 C. Amazon Relational Database Service (RDS) and Amazon MQ
 D. Amazon Redshift and AWS Mobile Hub
 
 
-
-EXPLANATION : 
+EXPLANATION : DynamoDB
 ANSWER : A
 
 When the word durability pops out, the first service that should come to your mind is Amazon S3. Since this service is not available in the answer options, we can look at the other data store available which is Amazon DynamoDB.
 
-DynamoDB is durable, scalable, and highly available data store which can be used for real-time tabulation. You can also use AppSync with DynamoDB to make it easy for you to build collaborative apps that keep shared data updated in real time. You just specify the data for your app with simple code statements and AWS AppSync manages everything needed to keep the app data updated in real time. This will allow your app to access data in Amazon DynamoDB, trigger AWS Lambda functions, or run Amazon Elasticsearch queries and combine data from these services to provide the exact data you need for your app.
+DynamoDB is durable, scalable, and highly available data store which can be used for real-time tabulation. 
+- You can also use AppSync with DynamoDB to make it easy for you to build collaborative apps that keep shared data updated in real time. 
+- You just specify the data for your app with simple code statements and AWS AppSync manages everything needed to keep the app data updated in real time. This will allow your app to access data in Amazon DynamoDB, trigger AWS Lambda functions, or run Amazon Elasticsearch queries and combine data from these services to provide the exact data you need for your app.
 
 Amazon Redshift and AWS Mobile Hub are incorrect as Amazon Redshift is mainly used as a data warehouse and for online analytic processing (OLAP). Although this service can be used for this scenario, DynamoDB is still the top choice given its better durability and scalability.
 
@@ -1991,9 +1973,7 @@ https://youtu.be/HaEPXoXVf2k
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##52: You are working for an investment bank as their IT Consultant. You are working with their IT team to handle the launch of their digital wallet system. The applications will run on multiple EBS-backed EC2 instances which will store the logs, transactions, and billing statements of the user in an S3 bucket. Due to tight security and compliance requirements, you are exploring options on how to safely store sensitive data on the EBS volumes and S3.
-
 Which of the below options should be carried out when storing sensitive data on AWS? (Select TWO.)
-
 
 A. Enable EBS Encryption
 B. Use AWS Shield and WAF
@@ -2002,7 +1982,7 @@ D. Create an EBS Snapshot
 E. Enable Amazon S3 Server-Side or use Client-Side Encryption
 
 
-EXPLANATION : 
+EXPLANATION : ebs s3
 ANSWER : A,E
 
 Enabling EBS Encryption and enabling Amazon S3 Server-Side or use Client-Side Encryption are correct. Amazon EBS encryption offers a simple encryption solution for your EBS volumes without the need to build, maintain, and secure your own key management infrastructure.
@@ -2031,9 +2011,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-ebs/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##53: You were recently promoted to a technical lead role in your DevOps team. Your company has an existing VPC which is quite unutilized for the past few months. The business manager instructed you to integrate your on-premises data center and your VPC. You explained the list of tasks that you'll be doing and mentioned about a Virtual Private Network (VPN) connection. The business manager is not tech-savvy but he is interested to know what a VPN is and its benefits.
-
 What is one of the major advantages of having a VPN in AWS?
-
 
 A. It enables you to establish a private and dedicated network connection between your network and your VPC
 B. It provides a cost-effective, hybrid connection from your VPC to your on-premises data centers which bypasses the public Internet.
@@ -2041,14 +2019,19 @@ C. It provides a networking connection between two VPCs which enables you to rou
 D. It allows you to connect your AWS cloud resources to your on-premises data center using secure and private sessions with IP Security (IPSec) or Transport Layer Security (TLS) tunnels.
 
 
-EXPLANATION : 
+EXPLANATION : VPN
 ANSWER : D
 
-Amazon VPC offers you the flexibility to fully manage both sides of your Amazon VPC connectivity by creating a VPN connection between your remote network and a software VPN appliance running in your Amazon VPC network. This option is recommended if you must manage both ends of the VPN connection either for compliance purposes or for leveraging gateway devices that are not currently supported by Amazon VPC’s VPN solution.
+Amazon VPC offers you the flexibility to fully manage both sides of your Amazon VPC connectivity by creating a VPN connection between your remote network and a software VPN appliance running in your Amazon VPC network. 
+This option is recommended if you must manage both ends of the VPN connection either for compliance purposes or for leveraging gateway devices that are not currently supported by Amazon VPC’s VPN solution.
 
-You can create an IPsec VPN connection between your VPC and your remote network. On the AWS side of the VPN connection, a virtual private gateway provides two VPN endpoints (tunnels) for automatic failover. You configure your customer gateway on the remote side of the VPN connection. If you have more than one remote network (for example, multiple branch offices), you can create multiple AWS managed VPN connections via your virtual private gateway to enable communication between these networks.
+> You can create an IPsec VPN connection between your VPC and your remote network. 
+- On the AWS side of the VPN connection, a virtual private gateway provides two VPN endpoints (tunnels) for automatic failover. 
+- You configure your customer gateway on the remote side of the VPN connection. 
+- If you have more than one remote network (for example, multiple branch offices), you can create multiple AWS managed VPN connections via your virtual private gateway to enable communication between these networks.
 
-With AWS Site-to-Site VPN, you can connect to an Amazon VPC in the cloud the same way you connect to your branches. AWS Site-to-Site VPN establishes secure and private sessions with IP Security (IPSec) and Transport Layer Security (TLS) tunnels.
+> With AWS Site-to-Site VPN, you can connect to an Amazon VPC in the cloud the same way you connect to your branches. 
+- AWS Site-to-Site VPN establishes secure and private sessions with IP Security (IPSec) and Transport Layer Security (TLS) tunnels.
 
 Hence, the correct answer is the option that says: It allows you to connect your AWS cloud resources to your on-premises data center using secure and private sessions with IP Security (IPSec) or Transport Layer Security (TLS) tunnels since one of the main advantages of having a VPN connection is that you will be able to connect your Amazon VPC to other remote networks securely.
 
@@ -2068,7 +2051,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-vpc/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##54: A tech company is currently using Auto Scaling for their web application. A new AMI now needs to be used for launching a fleet of EC2 instances.
-
 Which of the following changes needs to be done?
 
 A. Create a new target group.
@@ -2077,7 +2059,7 @@ C. Do nothing. You can start directly launching EC2 instances in the Auto Scalin
 D. Create a new target group and launch configuration.
 
 
-EXPLANATION : 
+EXPLANATION : AS
 ANSWER : B
 
 A launch configuration is a template that an Auto Scaling group uses to launch EC2 instances. When you create a launch configuration, you specify information for the instances such as the ID of the Amazon Machine Image (AMI), the instance type, a key pair, one or more security groups, and a block device mapping. If you've launched an EC2 instance before, you specified the same information in order to launch the instance.
@@ -2102,7 +2084,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-auto-scaling/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##55: A large insurance company has an AWS account that contains three VPCs (DEV, UAT and PROD) in the same region. UAT is peered to both PROD and DEV using a VPC peering connection. All VPCs have non-overlapping CIDR blocks. The company wants to push minor code releases from Dev to Prod to speed up time to market.
-
 Which of the following options helps the company accomplish this?
 
 A. Do nothing. Since these two VPCs are already connected via UAT, they already have a connection to each other.
@@ -2111,7 +2092,7 @@ C. Create a new VPC peering connection between PROD and DEV with the appropriate
 D. Create a new entry to PROD in the DEV route table using the VPC peering connection as the target.
 
 
-EXPLANATION : 
+EXPLANATION : VPC peering
 ANSWER : C
 
 A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them privately. Instances in either VPC can communicate with each other as if they are within the same network. You can create a VPC peering connection between your own VPCs, with a VPC in another AWS account, or with a VPC in a different AWS Region.
@@ -2137,7 +2118,6 @@ https://youtu.be/i1A1eH8vLtk
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##56: You are a new Solutions Architect working for a financial company. Your manager wants to have the ability to automatically transfer obsolete data from their S3 bucket to a low cost storage system in AWS.
-
 What is the best solution you can provide to them?
 
 A. Use Amazon SQS.
@@ -2146,7 +2126,7 @@ C. Use Amazon SWF.
 D. Use Lifecycle Policies in S3 to move obsolete data to Glacier.
 
 
-EXPLANATION : 
+EXPLANATION : s3
 ANSWER : D
 
 In this scenario, you can use lifecycle policies in S3 to automatically move obsolete data to Glacier.
@@ -2171,9 +2151,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##57: You are working for a startup company that has resources deployed on the AWS Cloud. Your company is now going through a set of scheduled audits by an external auditing firm for compliance.   
-
 Which of the following services available in AWS can be utilized to help ensure the right information are present for auditing purposes?
-
 
 A. Amazon EC2
 B. Amazon VPC
@@ -2181,8 +2159,7 @@ C. AWS CloudTrail
 D. Amazon CloudWatch
 
 
-
-EXPLANATION : 
+EXPLANATION : cloudTrail
 ANSWER : C
 
 AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting.
@@ -2203,9 +2180,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-cloudtrail/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##58: You are working as a Solutions Architect for a leading airline company where you are building a decoupled application in AWS using EC2, Auto Scaling group, S3 and SQS. You designed the architecture in such a way that the EC2 instances will consume the message from the SQS queue and will automatically scale up or down based on the number of messages in the queue.   
-
 In this scenario, which of the following statements is false about SQS?
-
 
 A. Standard queues preserve the order of messages.
 B. FIFO queues provide exactly-once processing.
@@ -2213,7 +2188,7 @@ C. Amazon SQS can help you build a distributed application with decoupled compon
 D. Standard queues provide at-least-once delivery, which means that each message is delivered at least once.
 
 
-EXPLANATION : 
+EXPLANATION : sqs
 ANSWER : A
 
 All of the answers are correct except for the option that says: Standard queues preserve the order of messages. Only FIFO queues can preserve the order of messages and not standard queues.
@@ -2226,16 +2201,13 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-sqs/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##59: You are a Solutions Architect for a global news company. You are configuring a fleet of EC2 instances in a subnet which currently is in a VPC with an Internet gateway attached. All of these EC2 instances can be accessed from the Internet. You then launch another subnet and launch an EC2 instance in it, however you are not able to access the EC2 instance from the Internet.   
-
 What could be the possible reasons for this issue? (Select TWO.)
-
 
 A. The Amazon EC2 instance does not have a public IP address associated with it.
 B. The Amazon EC2 instance is not a member of the same Auto Scaling group.
 C. The Amazon EC2 instance does not have an attached Elastic Fabric Adapter (EFA).
 D. The route table is not configured properly to send traffic from the EC2 instance to the Internet through the Internet gateway.
 E. The route table is not configured properly to send traffic from the EC2 instance to the Internet through the customer gateway (CGW).
-
 
 
 EXPLANATION : 
@@ -2252,7 +2224,6 @@ In cases where your EC2 instance cannot be accessed from the Internet (or vice v
 - Does it have an EIP or public IP address?
 
 - Is the route table properly configured?
-
 
 Below are the correct answers:
 
@@ -2273,10 +2244,8 @@ https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html
 
 Check out this Amazon VPC Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-amazon-vpc/
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##60: You are a new Solutions Architect in a large insurance firm. To maintain compliance with HIPAA laws, all data being backed up or stored on Amazon S3 needs to be encrypted at rest. In this scenario, what is the best method of encryption for your data, assuming S3 is being used for storing financial-related data? (Select TWO.)
-
 
 A. Encrypt the data using your own encryption keys then copy the data to Amazon S3 over HTTPS endpoints.
 B. Store the data on EBS volumes with encryption enabled instead of using Amazon S3
@@ -2285,7 +2254,7 @@ D. Use AWS Shield to protect your data at rest
 E. Store the data in encrypted EBS snapshots
 
 
-EXPLANATION : 
+EXPLANATION : s3 encyrption
 ANSWER : A,C
 
 Data protection refers to protecting data while in-transit (as it travels to and from Amazon S3) and at rest (while it is stored on disks in Amazon S3 data centers). You can protect data in transit by using SSL or by using client-side encryption. You have the following options for protecting data at rest in Amazon S3.
@@ -2312,9 +2281,7 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##61: A company is hosting EC2 instances that are on non-production environment and processing non-priority batch loads, which can be interrupted at any time.   
-
 What is the best instance purchasing option which can be applied to your EC2 instances in this case? 
-
 
 A. Reserved Instances
 B. On-Demand Instances
@@ -2322,7 +2289,7 @@ C. Scheduled Reserved Instances
 D. Spot Instances
 
 
-EXPLANATION : 
+EXPLANATION : ec2
 ANSWER : D
 
 Amazon EC2 Spot instances are spare compute capacity in the AWS cloud available to you at steep discounts compared to On-Demand prices. It can be interrupted by AWS EC2 with two minutes of notification when the EC2 needs the capacity back.
@@ -2340,7 +2307,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##62: You are working for a large financial firm and you are instructed to set up a Linux bastion host. It will allow access to the Amazon EC2 instances running in their VPC. For security purposes, only the clients connecting from the corporate external public IP address 175.45.116.100 should have SSH access to the host.
-
 Which is the best option that can meet the customer's requirement?
 
 A. Security Group Inbound Rule: Protocol – TCP. Port Range – 22, Source 175.45.116.100/32
@@ -2370,10 +2336,8 @@ Check out this Amazon EC2 Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec2/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##63: An Architect is managing a data analytics application which exclusively uses Amazon S3 as its data storage. For the past few weeks, the application works as expected until a new change was implemented to increase the rate at which the application updates its data. There have been reports that outdated data intermittently appears when the application accesses objects from S3 bucket. The development team investigated the application logic and didn’t find any issues.
-
+###63: An Architect is managing a data analytics application which exclusively uses Amazon S3 as its data storage. For the past few weeks, the application works as expected until a new change was implemented to increase the rate at which the application updates its data. There have been reports that outdated data intermittently appears when the application accesses objects from S3 bucket. The development team investigated the application logic and didn’t find any issues.
 Which of the following is the MOST likely cause of this issue?
-
 
 A. The data analytics application is designed to use atomic updates across object keys.
 B. The data analytics application is designed to fetch parts of objects from the S3 bucket using a range header.
@@ -2381,8 +2345,7 @@ C. The data analytics application is designed to fetch objects from the S3 bucke
 D. The data analytics application is designed to update its data with an object-locking mechanism.
 
 
-
-EXPLANATION : 
+EXPLANATION : s3
 ANSWER : C
 
 Amazon S3 provides read-after-write consistency for PUTS of new objects in your S3 bucket in all regions with one caveat: if you make a HEAD or GET request to the key name (to find if the object exists) before creating the object, Amazon S3 provides eventual consistency for read-after-write. Amazon S3 offers eventual consistency for overwrite PUTS and DELETES in all regions.
@@ -2421,15 +2384,12 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##64: A manufacturing company has EC2 instances running in AWS. The EC2 instances are configured with Auto Scaling. There are a lot of requests being lost because of too much load on the servers. The Auto Scaling is launching new EC2 instances to take the load accordingly yet, there are still some requests that are being lost.
-
 Which of the following is the MOST suitable solution that you should implement to avoid losing recently submitted requests?
-
 
 A. Use larger instances for your application with an attached Elastic Fabric Adapter (EFA).
 B. Use an Amazon SQS queue to decouple the application components and scale-out the EC2 instances based upon the ApproximateNumberOfMessages metric in Amazon CloudWatch.
 C. Set up Amazon Aurora Serverless for on-demand, auto-scaling configuration of your EC2 Instances and also enable Amazon Aurora Parallel Query feature for faster analytical queries over your current data.
 D. Replace the Auto Scaling group with a cluster placement group to achieve a low-latency network performance necessary for tightly-coupled node-to-node communication.
-
 
 
 EXPLANATION : 
@@ -2477,7 +2437,7 @@ D. Only with Microsoft SQL Server-based RDS
 
 
 
-EXPLANATION  
+EXPLANATION : RDS
 ANSWER : B
 
 The answer is No. The standby instance will not perform any read and write operations while the primary instance is running.

@@ -77,7 +77,7 @@
 > Subnet is AZ specific, it mean a Subnet cannot be in 2 AZ
 
 > Once VPC is created, we cannot change its CIDR block 
-
+> there are no additional charges for creating and using the VPC itself.
 ####### Architecture of VPC ######
  
  +---------------------------+
@@ -151,6 +151,10 @@ $ - Security Group
 > Every route table in a VPC comes with a default rule that allows all VPC subnets to communicate with one another
 - we CANNOT modify or delete this rule.
 - this entry contain 'CIDR block IP addr of VPC' in destination and target is local  
+
+Destination 	Target		Status		Propagated
+10.0.0.0/27		local		Active		No
+0.0.0.0/0		igw-b516	Active		No
 =======================================
 ######### VPC IP Addressing ########### v3
 
@@ -317,7 +321,8 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 > NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
 - SG cannot block a certain range of IP from internet 
 
-
+> SG usually control the list of ports that are allowed to be used by EC2 instances and 
+- NACLs control which network or list of IP addresses can connect to whole VPC.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Ques 
 ## If an instance in a VPC is unable to communicate over a certain protocol/ports with anothe instance in the same VPC, then the problem is the security setting of :
@@ -575,6 +580,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > A VPC VPN Connection utilizes IPSec to establish encrypted network connectivity between your intranet and Amazon VPC over the Internet. 
 - VPN Connections can be configured in minutes and are a good solution if you have an immediate need, have low to modest bandwidth requirements, and can tolerate the inherent variability in Internet-based connectivity. 
 - You can have up to 10 IPSec connections per VGW (soft limit can be increased by contacting AWS)
+- AWS Site-to-Site VPN establishes secure and private sessions with IP Security (IPSec) and Transport Layer Security (TLS) tunnels.
 
 >> Can mix DX connections with VPN connections
 
@@ -652,30 +658,29 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 > Each side builds its own route table based on these updates and BGP communities configured, if any.
 
 > BGP is the only routing option on Direct connect links
-=======================================
-### BGP - Communities and Attributes ## v24
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### BGP - Communities and Attributes  v24
 
-> AWS Direct Connect applies inbound and outbound routing policies for a public AWS Direct Connect connection.
+> AWS DX applies inbound and outbound routing policies for a public AWS DX connection.
 
-• INBOUND POLICIES:
+> INBOUND POLICIES:
 - Client must own the public prefixes and they must be registered as such.
 - Traffic must be destined to Amazon public prefixes.
 - Transitive routing between connections is not supported.
-- AWS Direct Connect performs inbound packet filtering to validate that the source of the traffic originated from your advertised prefix.
+- AWS DX performs inbound packet filtering to validate that the source of the traffic originated from your advertised prefix.
 
-## AWS DX - BGP Communities in Outbound policies
-
-> AWS Direct Connect advertises all local and remote AWS Region prefixes where available and includes on-net prefixes from other AWS non-Region points of presence (PoP) where available; for example, CloudFront and Route 53.
+## DX OUTBOUND POLICIES
+- AWS DX advertises all local and remote AWS Region prefixes where available and includes on-net prefixes from other AWS non-Region points of presence (PoP) where available; for example, CloudFront and Route 53.
 -  No access to non-Amazon prefixes (i.e no access to the global internet over the direct links).
 
-> AS_PATH is used to determine the routing path, and AWS Direct Connect is the preferred path for traffic sourced from Amazon (Preference over HA VPN links)
+> AS_PATH is used to determine the routing path, and AWS DX is the preferred path for traffic sourced from Amazon (Preference over HA VPN links)
 
-> Only public ASNS are used internally for route selection.
-> AWS Direct Connect advertises prefixes with a minimum path length of 3.
+> Only public AS Numbers are used internally for route selection.
+> AWS DX advertises prefixes with a minimum path length of 3.
 
 > When multiple AWS Direct Connect connections are there, the load-sharing of inbound traffic can be adjusted_by advertising prefixes with similar path attributes. 
 
-> AWS Direct Connect advertises all public prefixes with the well-known NO EXPORT BGP community.
+> AWS Direct Connect advertises all public prefixes with the well-known NO_EXPORT BGP community.
 - The prefixes advertised by AWS Direct Connect must not be advertised beyond the network bo undaries of your connection.
 
 ## AWS DX - BGP Communities - On Premise side 
@@ -697,10 +702,10 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 ## Route Tables and Route Priority - From AWS to on Premise
 
 > Route tables determine where network traffic is directed.
-> A route(s) must be added in the VPC route table (for the CIDRS on premise that will be reached from the VPC), the VGW will be the Target (next hop)
-- This is true for both VPN and Direct Connect VPC connectivity
+> A route(s) must be added in the VPC route table, the VGW will be the Target (next hop)
+- This is true for both VPN and DX VPC connectivity
 
-> Alternatively, route propagation can be enabled for the route table to automatically propagate the on premise CIDRS (received via BGP or configured by Static routes on the VGW (VPN case) to the table.
+> Alternatively, route propagation can be enabled for the route table to automatically propagate the on premise CIDRs (received via BGP or configured by Static routes on the VGW (VPN case) to the table.
 
 > If overlapping routes within a Site-to-Site VPN connection and longest prefix match cannot be applied, then AWS prioritize the routes as follows, from most preferred to least preferred:
 - BGP propagated routes from an AWS Direct Connect connection
@@ -708,12 +713,11 @@ Which IP prefixes can receive/send traffic through the VPN connection?
 - BGP propagated routes from a Site-to-Site VPN connection
 
 
-> When a virtual private gateway (VGW) receives routing information, it uses path
-selection to determine how to route traffic to your remote network.
+> When a virtual private gateway (VGW) receives routing information, it uses path selection to determine how to route traffic to your remote network.
 
 > First it applies Longest prefix match applies;
 If all routes are of equal length (subnet mask) then, the following rules apply:
-o If any propagated routes from a Site-to-Site VPN connection or AWS Direct Connect connection overlap with the local route for your VPC,
+- If any propagated routes from a Site-to-Site VPN connection or AWS Direct Connect connection overlap with the local route for your VPC,
 - Forwarding will use the local route is most preferred even if the propagated routes are more specific.
 
 o If any propagated routes from a Site-to-Site VPN connection or AWS Direct Connect connection have the same destination CIDR block as other existing static routes, AwS prioritizes the static routes whose targets are an Internet gateway, a virtual private gateway, a network interface, an instance ID, a VPC peering connection, a NAT gateway, or a VPCendpoint.
@@ -756,8 +760,8 @@ Create the type of VPC endpoint required by the supported service.
 
 > You need endpoint policy to control who can access what 
 > ENDPOINTS ARE SUPPORTED WITHIN THE SAME REGION ONLY.
-=======================================
-########### VPC Flow Logs ############# v30
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### VPC Flow Logs ######### v30
  
 > It is a feature that enables us to capture information about IP traffic going to and from network interfaces in VPC.
 
@@ -884,6 +888,12 @@ Create the type of VPC endpoint required by the supported service.
 Customer use cases
 - Stream live and on-demand media
 - Secure content
+
+> To securely serve this private content by using CloudFront, you can do the following:
+- Require that your users access your private content by using special CloudFront signed URLs or signed cookies.
+- Require that your users access your Amazon S3 content by using CloudFront URLs, not Amazon S3 URLs. 
+- Requiring CloudFront URLs isn't necessary, but it is recommended to prevent users from bypassing the restrictions that you specify in signed URLs or signed cookies. You can do this by setting up an origin access identity (OAI) for your Amazon S3 bucket. 
+- You can also configure the custom headers for a private HTTP server or an Amazon S3 bucket configured as a website endpoint.
 
 ## Accessing Cloudfront - Configuration
 
@@ -1026,6 +1036,12 @@ If you use Amazon Elastic Compute Cloud for your custom origins, AWS recommends 
 ####### AWS Global Accelerator ########
 
 > it is a service that improves the availability and performance of app with local or global users. 
-- It provides static IP addresses that act as a fixed entry point to your app endpoints in a single or multiple AWS Regions, and uses the AWS global network to optimize the path from your users to your applications.
+- It provides STATIC IP ADDRESSES THAT ACT AS A FIXED ENTRY POINT to your app endpoints in a single or multiple AWS Regions, and uses the AWS global network to optimize the path from your users to your applications.
 
+- it continually monitors the health of your application endpoints and will detect an unhealthy endpoint and redirect traffic to healthy endpoints in less than 1 minute.
+- It routes the traffic to the closest edge location via Anycast, then by routing it to the closest regional endpoint over the AWS global network.
+
+> Global Accelerator is a good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP, as well as for HTTP use cases that specifically require static IP addresses or deterministic, fast regional failover. 
+
+> CloudWatch and Global Accelerator both service integrate with AWS Shield for DDoS protection.
 =======================================

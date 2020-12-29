@@ -1,7 +1,8 @@
 ######### AWS STORAGE SERVICE #########
 
-## EBS 
-##### AWS Elastic File System(EFS) 
+############### EBS #######
+##### AWS Elastic File System(EFS) ####
+############ Amazon FSx ###############
 =======================================
 ############# EBS TYPES ###############
 
@@ -33,7 +34,10 @@
 > Max 500 IOPS/Volume
 
 #### 4. Cold HDD (sc1) Volumes ####
-> Throughput-oriented storage for large volumes of data that is infrequently accessed
+> It provide low-cost magnetic storage that defines performance in terms of throughput rather than IOPS. 
+- With a lower throughput limit than Throughput Optimized HDD, this is a good fit ideal for large, SEQUENTIAL cold-data workloads. 
+- If you require INFREQUENT ACCESS to your data and are looking to save costs, Cold HDD provides inexpensive block storage. 
+- Take note that bootable Cold HDD volumes are not supported.
 
 > Volume size : 500GB-16TB 
 > Max Throughput/Vol : 250 MB/sec
@@ -56,20 +60,27 @@
 - using it, EC2 instance cannot be stopped, it can rebooted or terminated - reboot will not erase the instance store data
 - Terminate will erase the data
 - Instance store-backed EC2 instances boot from an AMI stored on S3
-
-### EBS Device Volumes 
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### IMPORTANT POINT OF EBS Volumes 
 > EBS volume behave like raw, unformatted, external block storage device that can be attach(Mount) to EC2 instances
-> EBS volume are block storage device suitable for database style data that requires frequent read and write
+- EBS volume are block storage device SUITABLE FOR DATABASE STYLE DATA THAT REQUIRES FREQUENT READ AND WRITE
 
-> EBS volume attached to instance through the AWS network like virtual hard drive
+> EBS volume ATTACHED TO INSTANCE THROUGH AWS NETWORK like virtual hard drive
 > An EBS volume can attach to a single EC2 instance only at a time
 
 > Both EBS volume and EC2 instance must be in the same AZ 
 - you cannot attach a volume in one AZ to an EC2 instance in a different AZ
+- An EBS volume can only be attached to one EC2 instance at a time.
 
-> An EBS volume data is replicated by AWS across multiple servers in the same AZ to prevent data loss resulting from any single AWS component failure 
-=======================================
+> An EBS volume data is REPLICATED BY AWS across multiple servers in the same AZ to prevent data loss resulting from any single AWS component failure 
+
+> An EBS volume is off-instance storage that can persist independently from the life of an instance. You can specify not to terminate the EBS volume when you terminate the EC2 instance during instance creation.
+
+> EBS volumes support live configuration changes while in production which means that you can modify the volume type, volume size, and IOPS capacity without service interruptions.
+
+> Amazon EBS encryption uses 256-bit Advanced Encryption Standard algorithms (AES-256)
+> EBS Volumes offer 99.999% SLA.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference between Instance Store Vs EBS? v2
 
 > IOPS Performance 
@@ -77,31 +88,30 @@
 - Instance store although cannot provide for data persistence, but it can provide for much higher IOPS compared to network attached storage EBS storage
 - remember that instance store is a virtual hard disk space allocated to the instance on the localhost 
 - it is worth noting that not all newer EC2 instance support instance store volume
-=======================================
-############ EBS Snapshots ############ v3 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## EBS Snapshots ######## v3 
 
-> EBS snapshot are point-in-time image/copies of EBS volume
+> EBS snapshot are POINT-IN-TIME image/copies of EBS volume
+- any data written to the volume after the snapshot process is initiated will not be included in the resulting snapshot (but will be included in future incremental updates)
 
-> any data written to the volume after the snapshot process is initiated will not be included in the resulting snapshot (but will be included in future incremental updates)
-
-> Per account up to 5,000 EBS volumes can be created
-> Per account up to 10,000 EBS snapshot can be created
+> Per account upto 5,000 EBS volumes can be created
+> Per account upto 10,000 EBS snapshot can be created
 > EBS snapshot are stored on S3, we can only access them through EC2 API not directly
 - This is unlikely instance-store in AMI( where we can specify a S3 bucket of your own)
 
 #### CHARACTERISTICS ####
 > EBS volume are AZ specific 
-- but snapshot are region specific
+- but SNAPSHOT ARE REGION SPECIFIC
 - To migrate and EBS from one AZ to another create a snapshot (region specific) and create an EBS volume from the snapshot in the intended AZ
 
 > we can create/restore a snapshot of an EBS volume of the same or large size than the original volume size
 - but we cannot restore it to a smaller size
 
-## during snapshot process #
+## DURING SNAPSHOT PROCESS #
 > We can take a snapshot of a non-root EBS volume while the volume is in use on a running EC2 instance
-
 - This mean we can still access it while the snapshot is being processed
-- however snapshot will only include data that is already written to your volume. Any data cached by the OS or in memory will not be included which mean the snapshot cannot be 100% consistent
+- however snapshot will only include data that is already written to your volume. 
+- Any data cached by the OS or in memory will not be included which mean the snapshot cannot be 100% consistent
 
 > This snapshot is created immediately but it may stay in pending status until the full snapshot is complete
 - we can still access the volume but I/O might be slower 
@@ -135,8 +145,19 @@
 > You are charged for: 
 - data transfer to S3 from EBS volume while taking snapshot 
 - storage on S3
-=======================================
-####### EBS encrypted support ######### v6
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### For EBS Backup #########
+> AWS Data Lifecycle Manager (DLM) to automate the creation, retention, and deletion of snapshots taken to back up your EBS volumes. 
+> Automating snapshot management helps you to:
+- Protect valuable data by enforcing a regular backup schedule.
+- Retain backups as required by auditors or internal compliance.
+- Reduce storage costs by deleting outdated backups.
+
+> Combined with the monitoring features of CloudWatch Events and AWS CloudTrail, 
+- Amazon DLM provides a complete backup solution for EBS volumes at no additional cost.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### EBS encrypted support #### v6
 
 > EBS encryption is supported on all EBS volume type and all EC2 instance families
 > Snapshots of encrypted volume are also encrypted
@@ -455,3 +476,26 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
+############ Amazon FSx ###############
+
+> Amazon FSx provides fully managed third-party file systems.
+
+> it provides you with the native compatibility of third-party file systems with feature sets for workloads such as 
+- Windows-based storage, 
+- high-performance computing (HPC), 
+- machine learning, and 
+- electronic design automation (EDA).
+
+> You don’t have to worry about managing file servers and storage, as Amazon FSx automates the time-consuming administration tasks such as hardware provisioning, software configuration, patching, and backups.
+
+> it integrates the file systems with cloud-native AWS services, making them even more useful for a broader set of workloads.
+
+> uses SSD storage to provide fast performance with low latency
+
+> Amazon FSx provides you with two file systems to choose from:
+
+Amazon FSx for Windows File Server for Windows-based applications
+Amazon FSx for Lustre for compute-intensive workloads.
+
+
+> it automatically replicates your data within an Availability Zone (AZ) 

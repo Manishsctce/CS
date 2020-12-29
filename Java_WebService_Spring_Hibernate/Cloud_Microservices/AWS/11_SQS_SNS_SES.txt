@@ -9,12 +9,14 @@
 ############## AWS SQS ################
 
 > SQS is a fast, reliable, fully managed message queue service
-> It is a web service that gives you access to message queues that store messages waiting to be processed
-> It offers a reliable, highly scalable, hosted queue for storing messages between computers
+- It is a web service that gives you access to message queues that store messages waiting to be processed
+
 > It ALLOWS DECOUPLING OF APP COMPONENTS such that a failure in one components does not cause a bigger problem to app functionality (like in coupled app)
 > Using SQS, we no longer need a highly available message cluster or the burden of building/running it
 > SQS enable to decouple and scale microservice, distributed system and serverless application. SQS move data between distributed application component and helps you to decouple these components.
 
+> SQS uses pull based (polling) not push based.
+> Messages are 256KB in size
 > we can delete all messages in an SQS queue without deleting the SQS queue itself
 > we can use app on EC2 instances to read and process the SQS queue messages
 > we can USE AUTO SCALING TO SCALE THE EC2 FLEET PROCESSING THE SQS MESSAGES, AS THE QUEUE SIZE INCREASES
@@ -26,6 +28,29 @@
 - THE DEFAULT MESSAGE RETENTION PERIOD IS 4 DAYS
 - We can set the message retention period to value from 60 second to 1,209,600 seconds (14 days) using the SetQueueAttributes action
 
+> If a job is not processed within the visibility timeout the message will become visible again (could be delivered twice).
+- The maximum visibility timeout for SQS message is 12 hours.
+
+> SQS message can contain up to 10 metadata attributes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Short polling:
+
+Does not wait for messages to appear in the queue.
+It queries only a subset of the available servers for messages (based on weighted random execution).
+Short polling is the default.
+ReceiveMessageWaitTime is set to 0.
+More requests are used, which implies higher cost.
+
+
+Long polling:
+Uses fewer requests and reduces cost.
+Eliminates false empty responses by querying all servers.
+SQS waits until a message is available in the queue before sending a response.
+Requests contain at least one of the available messages up to the maximum number of messages specified in the ReceiveMessage action.
+Shouldn’t be used if your application expects an immediate response to receive message calls.
+ReceiveMessageWaitTime is set to a non-zero value (up to 20 seconds).
+Same charge per million requests as short polling.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What Are the Main Benefits of Amazon SQS?
 
@@ -76,7 +101,7 @@ Reliability – Amazon SQS locks your messages during processing, so that multip
 > High Throughput 
 – By default, with batching, FIFO queues support upto 3,000 MPS, per API action (SendMessage, ReceiveMessage, or DeleteMessage). 
 - To request a quota increase, submit a support request. 
-- Without batching, FIFO queues support up to 300 MPS, per API action (SendMessage, ReceiveMessage, or DeleteMessage).
+- Without batching, FIFO queues support upto 300 MPS, per API action (SendMessage, ReceiveMessage, or DeleteMessage).
 
 > EXACTLY-ONCE PROCESSING 
 – A message is delivered once and remains available until a consumer processes and deletes it. DUPLICATES AREN'T INTRODUCED INTO THE QUEUE.
@@ -259,11 +284,11 @@ publisher are also know as producer that produce and send the message to the SNS
 > Subscriber - subscriber such as webservcer email addr, SQS queues, Lambda, recieve the message or notification from the SNS over 1 of the suppoerted protocols (SQS/email/lambda/https/sms) 
 
 =======================================
-############## AWS SWF ################
+## AWS SWF (SIMPLE WORKFLOW SERVICE) ##
 
-> Amazon Simple Workflow Service (Amazon SWF) is a web service that makes it easy to coordinate work across distributed application components. 
-- SWF enables applications for a range of use cases, including media processing, web application back ends, business process workflows, and analytics pipelines, to be designed as a coordination of tasks.
-- Tasks represent invocations of various processing steps in an application which can be performed by executable code, web service calls, human actions, and scripts.
+> It is a web service that makes it easy to coordinate work across distributed application components. 
+- it enables apps for a range of use cases, including media processing, web app back ends, business process workflows, and analytics pipelines, to be designed as a coordination of tasks.
+- Tasks represent invocations of various processing steps in an app which can be performed by executable code, web service calls, human actions, and scripts.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## SWF vs SQS ###########

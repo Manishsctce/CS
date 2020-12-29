@@ -151,9 +151,9 @@ Auto Scaling components:
 - Instance is launched or fails to launch
 - Instance is Terminated or fails to terminate
 
-## Merging Auto Scaling Groups
+## Merging of ASGs
 > Can only be done from the CLI (not AWS Console)
-> You can merge multiple, single AZ, Auto Scaling Groups into a single, one Multi-Az, Auto Scaling group
+> You can merge multiple, single AZ, ASGs into a single, one Multi-AZ ASG
 
 > To do this:
 - Re-zone one of the groups to cover/span the other AZs for the other ASGs
@@ -174,12 +174,13 @@ Auto Scaling components:
 
 #############################
 
-With the default termination policy, the behavior of the Auto Scaling group is as follows:
+> With the DEFAULT TERMINATION POLICY, the behavior of the ASG is as follows:
 
-1. If there are instances in multiple Availability Zones, choose the Availability Zone with the most instances and at least one instance that is not protected from scale in. 
-- If there is more than one Availability Zone with this number of instances, choose the Availability Zone with the instances that use the oldest launch configuration.
+1. If there are instances in multi-AZ, choose the AZ with the most instances and at least one instance that is not protected from scale in. 
+- If there is more than one AZ with this number of instances, choose the AZ with the instances that use the OLDEST launch configuration.
 
-2. Determine which unprotected instances in the selected Availability Zone use the oldest launch configuration. If there is one such instance, terminate it.
+2. Determine which unprotected instances in the selected AZ use the oldest launch configuration. If there is one such instance, terminate it.
+
 3. If there are multiple instances to terminate based on the above criteria, determine which unprotected instances are closest to the next billing hour. (This helps you maximize the use of your EC2 instances and manage your Amazon EC2 usage costs.) If there is one such instance, terminate it.
 
 4. If there is more than one unprotected instance closest to the next billing hour, choose one of these instances at random.
@@ -226,6 +227,7 @@ The following flow diagram illustrates how the default termination policy works:
 
 ##COOL DOWN PERIOD:
 > It is the period of time AS waits after a scaling activity (launching a new instance or terminating one instance) until the effect of the scaling activity becomes visible
+- It ensures that the ASG does not launch or terminate additional EC2 instances before the previous scaling activity takes effect.
 - Default is 300 seconds, the time during which ASG will not respond to any additional alarms
 - It is not supported for scheduled scaling or step on-demand scaling
 ---------------------------------
@@ -252,10 +254,10 @@ lab
 ## Monitoring Auto Scaling Groups
 
 > AWS EC2 service sends EC2 metrics to cloud watch about the ASG instances
--Basic Monitoring (Every 5 minutes enabled by default – free of charge)
+- Basic Monitoring (Every 5 minutes enabled by default – free of charge)
 - You can enable detailed (every 1 minute – chargeable)
 
-> When the launch configuration is done by AWS CEI, detailed monitoring for EC2 instances in enabled by default
+> When the launch configuration is done by AWS CLI, detailed monitoring for EC2 instances in enabled by default
 
 > When enabled, Auto Scaling service sends to Cloud watch aggregate metries AS Group itself
 - Every minute by default (once enabled),

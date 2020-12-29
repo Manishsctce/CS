@@ -8,20 +8,23 @@
 - AWS Aurora - upto 15 Replica, High Throughput, can grow upto 64TB, replica lag < 100ms, support schema change
 - MySQL 	 - upto 5 Replica, can grow upto 64TB
 
-## Amazon Aurora
+## AWS Aurora
+- It is fully managed by AWS
 
-## DynamoDB - No SQL 
+## AWS DynamoDB - No SQL 
 - maximum size of an item is 400KB
 - single-digit millisecond latency at any scale
+- It is fully managed by AWS
 
 ## AWS Redshift 
+- It is fully managed by AWS
 - It is used for Business Intelligence and data warehouse. 
 - it can store petabyte of data
 - it organizes the data by column
 - Online Analytics processing (OLAP)
 
 ## Amazon ElastiCache  - to speed up performance
-
+- It is fully managed by AWS
 =======================================
 ############## AWS RDS ################ v4
 
@@ -100,8 +103,7 @@
 > You can select the multi-AZ option during RDS DB instance launch
 
 > RDS service CREATE A STANDBY INSTANCE IN A DIFFERENT AZ IN THE SAME REGION and configure SYNCHRONOUS replication between the primary and standby
-
-> we/app cannot read and write to the standby RDS DB instance
+- we/app cannot read and write to the standby RDS DB instance
 
 > you cannot dictate/select which AZ in the region will be chosen to create the standby DB instance 
 - we can view which AZ is selected after the standby is created
@@ -112,7 +114,7 @@
 
 > AWS RECOMMENDATION TO USE PROVISIONED IOPS INSTANCES FOR MULTI-AZ RDS INSTANCES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### FAILOVER TRIGGER ######
+###### FAILOVER TRIGGER #######
 
 > Failover may be triggered when
 - Loss of primary AZ or primary DB instance failure
@@ -453,11 +455,12 @@ OR
 - at a price one-tenth of that Commercial databases while delivering similar performance and availability.
 
 > it support working with schema changes
+
 ##### Aurora Scaling #####
-> The underlying storage grows automatically as needed, up to 64 tebibytes (TiB)
+> The underlying storage grows automatically as needed, upto 64 tebibytes (TiB)
 -  A tebibyte equals nearly 1.1 TB
 
-> Compute resources can scale up to 64 vCPUs and 488 GB of memory.
+> Compute resources can scale upto 64 vCPUs and 488 GB of memory.
 
 > It maintains 2 copies of data in each AZ, with a minimum of three AZ. 
 - Therefore, we can say that it maintains 6 copies of your data.
@@ -466,6 +469,15 @@ OR
 > There are 2 types of Replicas:
 1. Aurora Replicas(up to 15 Aurora Replicas across AZs).
 2. MySQL Read Replicas (up to 5 Read Replicas across Azs)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### Global Database #######
+> For globally distributed applications you can use Global Database, where a single Aurora database can span multiple AWS regions to enable fast local reads and quick disaster recovery.
+
+> Global Database uses storage-based replication to replicate a database across multiple AWS Regions, with typical latency of less than 1 second.
+- You can use a secondary region as a backup option in case you need to recover quickly from a regional degradation or outage.
+- A database in a secondary region can be promoted to full read/write capabilities in less than 1 minute.
 =======================================
 ############ AWS DynamoDB #############
 
@@ -473,6 +485,7 @@ OR
 > It is a FULLY MANAGED DB that supports both document and key-value data models.
 
 > Its flexible data model and performance makes it a great fit for mobile, web, gaming, ad-tech, IOT, and many other applications.
+- It is durable, scalable, and HA data store which CAN BE USED FOR REAL-TIME TABULATION. 
 
 > It is stored in SSD storage.
 > It is normally used in conjuction with S3. 
@@ -488,8 +501,47 @@ X-amz-date
 host
 content-type
 
-> A DynamoDB stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. 
+> The primary key is the only required attribute for items in a table and it uniquely identifies each item.
+- A primary key can either be one of the following types:
+1. Partition key: 
+- A simple primary key, composed of one attribute known as the partition key.
+
+2. Partition key and sort key: 
+- Referred to as a composite primary key.
+- Composed of two attributes: partition key and sort key.
+
+> A secondary index lets you query the data in the table using an alternate key, in addition to queries against the primary key.
+
+> DynamoDB supports 2 KINDS OF SECONDARY INDEXES:
+1. Global secondary index(GSI) 
+– An index with a partition key and sort key that can be different from those on the table.
+
+2. Local secondary index (LSI) 
+– An index that has the same partition key as the table, but a different sort key.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### DynamoDB stream ########
+> A DynamoDB stream is an ordered flow of information. It help you to keep a list of item level changes in DynamoDB table in last 24hr.
 - When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
+
+> If you enable DynamoDB Streams on a table, you can associate the stream ARN with a Lambda function
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### DynamoDB Accelerator (DAX) 
+> It is a fully managed, highly available, in-memory cache for DynamoDB.
+- It provides an in-memory cache that delivers up to 10x performance improvement from milliseconds to microseconds or even at millions of requests per second.
+
+> You do not need to modify application logic, since DAX is compatible with existing DynamoDB API calls.
+> You can enable DAX with just a few clicks in the AWS Management Console or using the AWS SDK.
+
+
+DynamoDB <---- DAX(with IAM role to access DynamoDB, within VPC) <-----EC2 Instance(with IAM role to access DynamoDB+DAX, within VPC)
+
+- You can apply an IAM role to the the DAX nodes
+- You can apply Security Groups to the DAX nodes
+- DynamoDB DAX sits within your VPC
+
+> ElastiCache can also be used in front of DynamoDB for performance of reads on infrequently changed data.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Because of its availability in 3 geographically DC, It consists of 2 different types of consistency models:
 
@@ -565,29 +617,40 @@ content-type
 ########## SCALABILITY ##########
 > It provides push button scaling where we can increase the read/write throughput without downtime or performance degradations
 
+>> If we use Console to create a table or a Global secondary index, DynamoDB auto scaling is enabled by default.
+
 > we can scale provisioned capacity of DynamoDB table anytime 
 > we can scale down provisioned capacity only 4 time during day. 
 
 > DynamoDB Auto Scaling uses AWS app AS to dynamically adjust provisioned throughput capacity in response of actual traffic 
 - This help to automate capacity management of tables and global secondary indexes. 
 - we simply specify the desired target utilization and provide upper and lower bounds for read and write capacity.
-- will be on by default for all new tables and indexes
+- will be ON by default for all new tables and indexes
 
 - Storage and processing are separate, so you can scale down to zero processing and pay only for storage.
 
 - Aurora Serverless clusters and provisioned clusters both have the same kind of high-capacity, distributed, and highly available storage volume.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### BEST PRACTICES ########
+> Keep item sizes small.
+> If you are storing serial data in DynamoDB that will require actions based on date/time use separate tables for days, weeks, months.
+> Store more frequently and less frequently accessed data in separate tables.
+> If possible compress larger attribute values.
+> Store objects larger than 400KB in S3 and use pointers (S3 Object ID) in DynamoDB.
 =======================================
 ############ AWS Redshift #############
 
-> Redshift is a fast and powerful, fully managed, petabyte-scale data warehouse service
+> Redshift is a fast and powerful, fully managed, petabyte-scale DATA WAREHOUSE SERVICE
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### BENEFITS ###
 
 > Query our Data Lake:
-- can directly query open data formats stored in S3 with Redshift spectrum(a feature of Redshift without need for unnecessary data movement)
-
+-- can directly query open data formats stored in S3 with Redshift spectrum(a feature of Redshift without need for unnecessary data movement)
+- Redshift Spectrum is similar in-query functionality like S3 Select 
+- The Redshift queries are run on cluster resources against local disk.
+ 
 > Secure
 - It can be encrypted with AWS KMS or HSM
 
@@ -607,16 +670,16 @@ content-type
 > Regardless of whether we enable automated snapshots, we can take a manual snapshot whenever we want at any time. 
 - By default, manual snapshots are retained indefinitely, even after we delete cluster. 
 - we can specify the retention period when we create manual snapshot or we can change the retention period by modifying the snapshot. 
-- If you create a snapshot using Redshift console, it defaults the snapshot retention period to 365 days.
+-- If you create a snapshot using Redshift console, it defaults the snapshot retention period to 365 days.
 
-> Automated snapshots are automatically deleted within the period of 1(Least) to 35(Max) days (Based on the retention period settings). 
+>> Automated snapshots are automatically deleted within the period of 1(Least) to 35(Max) days (Based on the retention period settings). 
 
 > So we have to take care of the Manual snapshots instead of Automated snapshots. 
-- Amazon Redshift never deletes Manual snaphots automatically, like how it does for Automatic Snapshots.
+- Redshift never deletes Manual snaphots automatically, like how it does for Automatic Snapshots.
 
 
-> When you use AMAZON REDSHIFT ENHANCED VPC ROUTING, Amazon Redshift forces all COPY and UNLOAD traffic between your cluster and your data repositories through your Amazon VPC.
-- If Enhanced VPC Routing is not enabled, Amazon Redshift routes traffic through the Internet, including traffic to other services within the AWS network.
+> When you use REDSHIFT ENHANCED VPC ROUTING, Redshift forces all COPY and UNLOAD traffic between your cluster and your data repositories through your Amazon VPC.
+- If Enhanced VPC Routing is not enabled, Redshift routes traffic through the Internet, including traffic to other services within the AWS network.
 - Redshift will not be able to access the S3 VPC endpoints without enabling Enhanced VPC routing
 
 #### REDSHIFT CONFIGURATION ####
@@ -639,18 +702,19 @@ content-type
 - It can have up to 128 compute nodes in a cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### REDSHIFT – PERFORMANCE ####
+
 1. Columnar Data Storage:
-- Instead of storing data as series of rows, Amazon Redshift organizes the data by column.
+- Instead of storing data as series of rows, Redshift organizes the data by column.
 - Unlike Row-based systems, which are ideal for transaction processing's, column-based systems are ideal for data warehousing and analytics, where queries often involve aggregates performed over large data sets.
 - Since only the columns involved in the queries are processed and columnar data is stored sequentially on the storage media, column-based systems require far few I/Os, greatly improving query performance.
 
 ## Advanced Compression:
-- Columnar data stores can be compressed much more than row-based data stores.
-- Amazon Redshift employs multiple compression techniques and can often achieve significant compression relative to traditional relational data stores.
-- When loading data into an empty table, Amazon Redshift automatically samples your data and selects the most appropriate compression technique.
+> Columnar data stores can be compressed much more than row-based data stores.
+- Redshift employs multiple compression techniques and can often achieve significant compression relative to traditional relational data stores.
+- When loading data into an empty table, Redshift automatically samples your data and selects the most appropriate compression technique.
 
 > Massively Parallel processing (MPP):
-- Amazon Redshift automatically distributes data and query load across all nodes.
+- Redshift automatically distributes data and query load across all nodes.
 - Redshift makes it easy to add nodes to data warehouse and enables you to maintain fast query performance as data warehouse grows.
 
 ## Redshift – Security
@@ -661,19 +725,19 @@ content-type
 > AWS Key Management Service
 
 ## Redshift – Backup Retention
-> Amazon Redshift automaticallly patches and backup (snapshots) your data warehouse, storing the backups for a user-defined Retention period in AWS S3.
-> It keeps the backup by default for 1 day (24 hours) but you can configure it from 0-35 days.
-> Automatic backups are stopped if you choose retention period of 0
-> You have access to these automatic snapshots during the retention period.
-> If you delete the cluster, your automatic snapshots are deleted as well.
-> Manual backups are not deleted automatically, if you not delete them manually, you will be charged standard S3 storage rates.
+> Redshift automaticallly patches and backup (snapshots) your data warehouse, storing the backups for a user-defined Retention period in S3.
+- It keeps the backup by default for 1 day (24 hours) but you can configure it from 0-35 days.
+- Automatic backups are stopped if you choose retention period of 0
+- You have access to these automatic snapshots during the retention period.
+- If you delete the cluster, your automatic snapshots are deleted as well.
+- Manual backups are not deleted automatically, if you not delete them manually, you will be charged standard S3 storage rates.
 
 ##Redshift – Restore
-Amazon Redshift currently supports only one AZ (no Multi-AZ option)
+- Redshift currently supports only one AZ (no Multi-AZ option)
 - You can restore from your backup to a new Redshift cluster in the same or different AZ
 
 ## Redshift – Monitoring
-> Metrics for compute utilization, storage utilization and read/write traffic to your Amazon Redshift data warehouse cluster, are available free of charge via AWS Cloudwatch.
+> Metrics for compute utilization, storage utilization and read/write traffic to your Redshift data warehouse cluster, are available free of charge via AWS Cloudwatch.
 > You can also add additional user-defined, metrics via AWS Cloudwatch custom metric functionality.
 
 ## Q: An organization is managing a Redshift cluster in AWS. They need to monitor the performance of this Redshift cluster to ensure that it is performing as efficiently as possible. Which of the following services can be used for achieving this requirement? Please select:

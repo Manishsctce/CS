@@ -11,6 +11,7 @@
 ## AWS Organizations
 ## AWS Service Catalog
 ## AWS RESOURCE ACCESS MANAGER (RAM)
+###### AWS Systems Manager(SM) ########
 ## AWS Control Tower
 =======================================
 ############## CLOUDTRAIL #############
@@ -87,6 +88,8 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 > CloudWatch alarms are used to trigger notifications for any metric. 
 - Alarms can go to auto-scaling, EC2 actions(stop, terminate, recover, or reboot) and SNS notifications.
 
+> Memory Usage is a metric not available by default in CloudWatch. 
+- You need to add a custom metric for it to work.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Difference bet CloudWatch and CloudTrail
 
@@ -169,7 +172,8 @@ Service limit
 - using it we can review changes in configurations and relationships between AWS resources, dive into detailed resource configuration histories, and determine overall compliance against the configurations specified in internal guidelines.
 - This enables you to simplify compliance auditing, security analysis, change management, and operational troubleshooting
 
-
+> we can utilize AWS Config to check for compliance on the password policy by configuring the Config rule to check the IAM_PASSWORD_POLICY on an account. 
+- Additionally, because Config integrates with AWS Organizations, we can improve the set up to aggregate compliance information across accounts to a central dashboard.
 =======================================
 ########### AWS OpsWorks ##############
 > It is a configuration management service that uses Chef, an automation platform that treats server configurations as code. 
@@ -193,9 +197,8 @@ Service limit
 - it enables us to centrally manage policies across multiple accounts, without requiring custom scripts and manual processes.
 - It is available to all AWS customers at no additional charge.
 
-> Use Consolidated billing feature in AWS organization to get volume discounts on Amazon EC2
-
-
+> Use Consolidated billing feature in AWS organization TO GET VOLUME DISCOUNTS on Amazon EC2
+- it is available to all AWS customers at no additional charge
 =======================================
 ##### AWS RESOURCE ACCESS MANAGER (RAM)
 
@@ -207,3 +210,18 @@ Service limit
 - RAM is available to you at no additional charge.
 - You can procure AWS resources centrally, and use RAM to share resources such as subnets or License Manager configurations with other accounts. 
 - This eliminates the need to provision duplicate resources in every account in a multi-account environment, reducing the operational overhead of managing those resources in every account.
+
+=======================================
+###### AWS Systems Manager(SM) ########  
+- It allows you to centralize operational data from multiple AWS services and automate tasks across your AWS resources.
+- basically we can administer our instances like run commands/ upload patches etc using SM
+
+> AWS Secrets Manager is an AWS service that makes it easier for you to manage secrets. 
+- Secrets can be database credentials, passwords, third-party API keys, and even arbitrary text. 
+- You can store and control access to these secrets centrally by using SM console, SM CLI, or SM API and SDKs.
+
+> SM enables you to replace hardcoded credentials in your code (including passwords), with an API call to SM to retrieve the secret programmatically.
+- This helps ensure that the secret can't be compromised by someone examining your code, because the secret simply isn't there. 
+- Also, you can configure SM to automatically rotate the secret for you according to a schedule that you specify. 
+- This enables you to replace long-term secrets with short-term ones, which helps to significantly reduce the risk of compromise.
+=======================================

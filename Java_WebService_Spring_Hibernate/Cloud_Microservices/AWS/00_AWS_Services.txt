@@ -68,6 +68,67 @@ Storage - Aurora, DynamoDB, S3
 Integration - API Gateway, SQS, Glue, SNS, StepFunctions, AppSync
 
 Not Serverless - Kinesis, EC2
+
+=======================================
+##### Disaster Recovery with AWS ######
+
+## DISASTER RECOVER(DR)
+- it is the process of designing an architecture that is able to recover from any disaster situation within a stipulated time. 
+- The cost of DR planning is inversely proportional to the time required to recover the infrastructure. 
+
+## 2 critical aspects DR plan
+1. Recovery Time Objective (RTO): 
+- This defines the time within which business processes should be recovered from downtime.
+
+2. Recovery Point Objective (RPO): 
+- This defines the acceptable amount of data loss, measured in time
+
+> DR approach can be broadly categorized in 4 models:
+- based on the spectrum of complexity and time 
+1. Backup and restore (most economical but time-taking)
+2. Pilot light
+3. Warm standby
+4. Multi-site (expensive but fast)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### Backup and restore ######
+> it require periodically backing up critical data on tape drive and keeping it in a safe and secured place for later use. 
+- In the event of disaster, the backed-up data can be restored as needed.
+- RPO/RTO is in hours
+- Use for : Lower priority use cases
+- Lowest cost
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## Pilot Light ##########
+>> the minimal DR version with the most critical components of the env is always kept running in parallel with the production env. 
+
+- RPO/RTO is in 10s of minutes
+- Use for : Core services
+- Cost is higher than 'Backup & Restore'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## Warm Standby #########
+> It extends the pilot light DR model. 
+> In the case of the pilot light model, you need to create additional instances or resources to match the size of the primary environment. 
+- warm standby keeps a fully functional DR setup with a minimum fleet of instances with the minimum possible size of instances.
+
+> In the event of any disaster, DR setup is scaled up to match the primary site and traffic is failed over to the DR setup
+
+- RPO/RTO is in minutes
+- Use for : Business critical services
+- Cost is higher than 'pilot light'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### MULTI-SITE ##########
+> It is also called Hot Standby
+> infrastructure of the same size is always in sync and running at multiple locations. 
+- These multiple locations can be between a physical data center and AWS or between various AWS regions. 
+- In some practices, the secondary site keeps handling partial traffic in parallel to the production environment
+
+- RPO/RTO is in real time (Automatic failover)
+- Use for : Most critical services
+- Cost is higher than 'warm standby'
+=======================================
 =======================================
 ### NETWORKING AND CONTENT DELIVERY ### 01
 
@@ -109,6 +170,8 @@ Not Serverless - Kinesis, EC2
 #### AWS Global Accelerator ### 01
 > it is a service that improves the availability and performance of app with local or global users. 
 - It provides static IP addresses that act as a fixed entry point to your app endpoints in a single or multiple AWS Regions, and uses the AWS global network to optimize the path from your users to your applications.
+- It continually monitors the health of your application endpoints and will detect an unhealthy endpoint and redirect traffic to healthy endpoints in less than 1 minute.
+- It routes the traffic to the closest edge location via Anycast, then by routing it to the closest regional endpoint over the AWS global network.
 =======================================
 ######## AWS COMPUTE SERVICES ######### 02
 
@@ -119,9 +182,9 @@ Not Serverless - Kinesis, EC2
 - It enables on-demand, scalable computing capacity in the AWS cloud
 
 #### EC2 LIMITATION 
-
+> By default, we can create max 20 EC2 instance per region per account.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### AWS Lightsail #########
+####### AWS Lightsail ######### 02
 - provides template-based computing. 
 - It is also called Virtual Private Servers (VPS). 
 - It makes it possible to quickly launch virtual machines from templates rather than selecting individual components in EC2.
@@ -133,23 +196,23 @@ Not Serverless - Kinesis, EC2
 - It is a compute service that lets u run code without provisioning or managing servers.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### AWS Fargate #########
-> Serverless compute for containers
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### AWS ECR ###########
 - It is Elastic Container Registry
 - It is fully-managed docker container registry that make it easy for developer to 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-########### AWS ECS ###########
+########### AWS ECS ########### 02
 - It is Elastic Container Service
 - It is a highly scalable, high performance container orchestration service that supports Docker container and allow easily run and scale containerized app on AWS.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ########### AWS EKS ###########
 - Fully managed Kubernetes service
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### AWS Fargate ######### 02
+> Serverless compute for containers
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## AWS WAVELENGTH #######
@@ -193,7 +256,8 @@ Not Serverless - Kinesis, EC2
 - It allows to upload, store, and download any type of files up to 5 TB in size
 
 #### S3 LIMITATION 
-
+> an object cannot exceed 5TB
+- largest object that can be uploaded in a single PUT is 5GB
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## AWS Elastic File System(EFS)
 - FULLY MANAGED, scalable, and sharable storage among thousands of EC2 instances.
@@ -239,22 +303,28 @@ Not Serverless - Kinesis, EC2
 - It is a fast, scalable DATA WAREHOUSE that makes it simple and cost-effective TO ANALYSE ALL OUR DATA across data warehouse and data lake. 
 - Also provides ODBC and JDBC connectivity and SQL-based retrieval.
 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### Amazon Neptune ########
+> It is a fast, scalable graph database service. 
+- Neptune efficiently stores and navigates highly connected data. 
+- Its query processing engine is optimized for leading graph query languages
 =======================================
-####### AWS MIGRATION SERVICES ########
+####### AWS MIGRATION SERVICES ######## 13
 
 ## Database Migration Service (DMS)
 - Cross schema conversion tools such as Oracle PL/SQL to SQL Server.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Server Migration
+##### AWS Server Migration ####
 - Enables VMware VM migration to AWS EC2.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######## AWS Snowball #########
+######## AWS Snowball ######### 06
 - Accelerates TBs of data transportation bet data centers and AWS securely. Available in two sizes, 50 TB and 80 TB.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### AWS Snowmobile ########
+####### AWS Snowmobile ######## 06
 - Makes possible exabytes of data transfer. Possible to transfer up to 100 PB per Snowmobile. 
 - Comes in a 45-foot long rugged shipping container.
 
@@ -336,25 +406,25 @@ Not Serverless - Kinesis, EC2
 > RECORDS EACH AWS API CALL AND STORES LOG FILES INTO AN S3 BUCKET.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-######### AWS Config ##########
+######### AWS Config ########## 10
 > Provides AWS resource inventory, configuration history, and change notifications to enable security and governance.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-####### AWS OpsWorks ##########
+####### AWS OpsWorks ########## 10
 > It is a configuration management service that uses Chef, an automation platform that treats server configurations as code. 
 - OpsWorks uses Chef to automate how servers are configured, deployed, and managed across your Amazon EC2 instances or on-premise compute environments.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### AWS Service Catalog #####
+##### AWS Service Catalog ##### 10
 > It allows organizations to centrally manage commonly deployed IT services, and helps organizations achieve consistent governance and m	eet compliance requirements, 
 - while enabling users to quickly deploy only the approved IT services they need with the constraints your organization sets.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### AWS Trusted advisor #####
+##### AWS Trusted advisor ##### 10
 > It helps to reduce monthly billing, and increase performance and security.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### AWS Organizations ######
+###### AWS Organizations ###### 10
 > It is an account management service that lets you consolidate multiple AWS accounts into an organization. 
 - you can create member accounts and invite existing accounts to join organization. 
 - You can organize those accounts into groups and attach policy-based controls.
@@ -369,18 +439,19 @@ Not Serverless - Kinesis, EC2
 - we can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-###### AWS Control Tower ######
+###### AWS Control Tower ###### 10
 - it offers the easiest way to set up and govern a new, secure, multi-account AWS environment. 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### AWS Systems Manager(SM) ###
+### AWS Systems Manager(SM) ### 10
 
 - It allows you to centralize operational data from multiple AWS services and automate tasks across your AWS resources.
 - basically we can administer our instances like run commands/ upload patches etc using SM
 =======================================
 ####### AWS INTEGRATION SERVICES ###### 11
 
-## AWS SQS (SIMPLE QUEUE SERVICE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## AWS SQS(SIMPLE QUEUE SERVICE)
 - Provides a robust and secured message queue mechanism to store and schedule process messages.
 
 #### SQS LIMITATION 
@@ -388,49 +459,75 @@ Not Serverless - Kinesis, EC2
 - Standard Queue support unlimited TPS per API action 
 - FIFO Queue support upto 3000 MPS per API action 
 
-
-## AWS SNS (SIMPLE NOTIFICATION SERVICE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## AWS SNS(SIMPLE NOTIFICATION SERVICE) 11
 - Notifies real-time events (that is, publishes messages) to the intended recipients. It can also provide events to trigger other AWS services.
 
-
-## AWS SES (SIMPLE EMAIL SERVICE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## AWS SES (SIMPLE EMAIL SERVICE) 11
 - Cost-effective and scalable solutions for email campaigning.
 
-
-## AWS SWF (Simple Workflow Service)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## AWS SWF (Simple Workflow Service) 11
 - it is a workflow service for building scalable, resilient applications. 
 - With Amazon SWF, you can build many kinds of applications as workflows. 
 - it maintains the execution state of the workflow consistently and reliably so that you can focus on building and running your application.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### AWS Step Functions #####
+> AWS Step Functions provides serverless orchestration for modern applications. 
+- Orchestration centrally manages a workflow by breaking it into multiple steps, adding flow logic, and tracking the inputs and outputs between the steps. 
+- As your applications execute, Step Functions maintains application state, tracking exactly which workflow step your application is in, and stores an event log of data that is passed between application components. 
+- That means that if networks fail or components hang, your application can pick up right where it left off.
+
+Application development is faster and more intuitive with Step Functions, because you can define and manage the workflow of your application independently from its business logic. 
+- Making changes to one does not affect the other. 
+- You can easily update and modify workflows in one place, without having to struggle with managing, monitoring and maintaining multiple point-to-point integrations. 
+- Step Functions frees your functions and containers from excess code, so your applications are faster to write, more resilient, and easier to maintain.
+
 =======================================
 ######### AWS ANALYTICS SERVICES ###### 12
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### AWS KINESIS
 > It is a platform on AWS that sends your streaming data. 
 - It makes it easy to analyze load streaming data and also provides the ability to build custom apps based on business needs.
 
 https://www.javatpoint.com/aws-kinesis
 
-## AWS Athena
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### AWS Athena ##########
 > It is a SERVERLESS PLATFORM which can be USED TO ANALYZE COST & USAGE REPORTS uploaded in Amazon S3 buckets. 
 - Using Athena, a customized query can be requested using standard SQL.
+- it can analyse CloudTrail/CloudFront/VPC/ELB logs
 
-## AWS Glue
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## AWS GLUE ###########
 - It is fully managed ETL service (Extract, Transform and Load) that makes it easy for customer to prepare 	and load their data for analytics
+- it has crawler which crawl through data and find out metadata.
 
-## AWS CloudSearch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### AWS CloudSearch #######
 - it make simple and cost-effective to set up, manage, and scale a search solution for your website or application.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### AWS Data Pipeline ######
+
+> it helps you process and move data between different AWS services and on-premises data sources.
 =======================================
 ######## MIGRATION & TRANSFER ######### 13
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## AWS SMS(Server Migration Service)
 - It is an agentless service which makes it easier and faster for you to migrate thousands of on-premises workloads to AWS. 
 - AWS SMS allows you to automate, schedule, and track incremental replications of live server volumes, making it easier for you to coordinate large-scale server migrations.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## AWS DataSync #########
+> It is an online data transfer service that simplifies, automates, and accelerates moving data between on-premises storage systems and AWS Storage services, as well as between AWS Storage services.
 
 =======================================
-######### ENDUSER COMPUTING ###########
+######### ENDUSER COMPUTING ########### 14
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## AWS WorkSpaces #######
@@ -441,9 +538,19 @@ https://www.javatpoint.com/aws-kinesis
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ####### AWS WorkDocs ##########
-
+- it is a fully managed, secure enterprise storage and sharing service with strong administrative controls and feedback capabilities.
+- Files are stored in the cloud, safely and securely. Your user's files are only visible to them.
+- Other members of your organization do not have access to other user's files unless they are specifically granted access.
 =======================================
 ############ SHORT FORM ###############
+DR		- Disaster Recovery
+AZ 		- Availablility Zone 
+SG		- Security Group 
+PG 		- Placement Group
+DX 		- Direct Connect 
+LB 		- Load Balance
+TG 		- Transit Gateway
+
 CMK 	- Customer Master Key
 KMS 	- Key Management Service
 SSL 	- Secure Sockets Layer
@@ -454,10 +561,6 @@ RRS		- Reduced Redundancy Storage
 EC2		- Elastic Cloud Compute 
 AS		- Auto Scaling 
 ASG 	- Auto Scaling Group
-AZ 		- Availablility Zone 
-SG		- Security Group 
-NACL	- Network Access Control List 
-PG 		- Placement Group
 RPS 	- Request Per Second 
 PPS 	- Packet Per Second
 HVM		- Hardware Virtual Machine
@@ -465,16 +568,21 @@ AMI		- Amazon Machine Image
 IGW 	- Internet Gateway
 CPG 	- CLUSTER Placement Group
 VPC 	- Virtual Private Cloud
-DX 		- Direct Connect 
 VIF  	- Virtual Interface
+VNI 	- Virtual Network Interface
 BGP 	- Border Gateway Protocol
-IAAC    - infrastructure as a Code 
-LB 		- Load Balance
-CZLB 	- Cross-Zone Load Balancing
 ECS 	- Elastic Container Service
-DHCP 	- Dynamic Host Configuration Protocol
 HPC 	- High-Performance Computing
 RAM 	- Resource Access Manager
-TG 		- Transit Gateway
 CDN		- Content Delivery Network
 ECR 	- Elastic Container Registry
+SNI		- Server Name Indication
+TTL 	- Time to Live
+DAX		- DynamoDB Accelerator
+
+NACL	- Network Access Control List 
+IAAC    - infrastructure as a Code 
+CZLB 	- Cross-Zone Load Balancing
+DHCP 	- Dynamic Host Configuration Protocol
+
+IPsec	- Internet Protocol security 

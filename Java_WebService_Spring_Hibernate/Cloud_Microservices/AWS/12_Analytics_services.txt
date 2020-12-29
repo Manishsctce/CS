@@ -6,7 +6,7 @@
 - It makes it easy to analyze load streaming data and also provides the ability for you to build custom applications based on your business needs.
 
 ## AWS Athena
-> It is a SERVERLESS PLATFORM which can be USED TO ANALYZE COST & USAGE REPORTS uploaded in Amazon S3 buckets. 
+> It is a SERVERLESS PLATFORM which can be USED TO ANALYZE COST & USAGE REPORTS uploaded in S3 buckets. 
 - Using Athena, a customized query can be requested using standard SQL.
 
 ## AWS Glue
@@ -25,7 +25,7 @@
 
 > A record consists of a partition key, sequence number, and data blob (up to 1 MB).
 
-> Transient data store – default retention of 24 hours, but can be configured for up to 7 days.
+> Transient data store – default retention of 24 hours, but can be configured for upto 7days.
 
 > There are 4 types of Kinesis service 
 1. Kinesis Video Streams 
@@ -38,7 +38,16 @@
 - it can stores data for later processing (key diff with Firehose)
 - Kinesis Data Streams replicates synchronously across three AZs.
 
-3. Kinesis Data Firehose
+- it has set of shards that has a SEQUENCE OF DATA RECORDS, and each data record has a sequence number that is assigned by Kinesis Data Streams. 
+- Kinesis can also easily handle the high volume of messages being sent to the service.
+- it enables real-time processing of streaming big data
+- It provides ordering of records, as well as the ability to read and/or replay records in the same order to multiple Kinesis Apps. 
+- Kinesis Client Library (KCL) delivers all records for a given partition key to the same record processor, making it easier to build multiple apps reading from the same Kinesis data stream (for example, to perform counting, aggregation, and filtering).
+
+- Data records are therefore STORED IN SHARDS in your stream temporarily.
+- It stores records from 24hrs(by default) to 168hrs(max).
+
+3. Kinesis Data Firehose(ETL)
 - it Captures, transforms, and loads streaming data.
 - Kinesis Data Streams can be used as the source(s) to Kinesis Data Firehose.
 - it can batch, compress, and encrypt data before loading it.

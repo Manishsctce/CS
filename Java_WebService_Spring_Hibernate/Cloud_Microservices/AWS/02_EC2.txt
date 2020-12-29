@@ -48,6 +48,8 @@
 > By default, we can create max 20 EC2 instance per region per account.
 - we can submit request to AWS to increase it
 
+> There is some limit of vCPC, if we want to use vCPU beyond this then we need to submit request to increase it with our usecase.
+
 > we have root access to each EC2 instance 
 > we can stop, restart, reboot or terminate our EC2 instance
 > EC2 availability SLA is 99.95% for each region during a month
@@ -174,9 +176,12 @@ Storage		: NVMe SSD
 
 > A placement group, determines how instance are placed on underlying hardware. 
 
-> 2 strategies to create placement group :
+> 3 strategies to create placement group :
 1. CLUSTERS INSTANCES into a low-latency group in a single AZ. 
 2. SPREAD INSTANCES across underlying hardware in multiple AZs 
+3. PARTITION PG 
+- spead instances across many different partition(which rely on different sets of racks) within AZ. scales to  100 EC2 instance per group
+
 
 > Use SR-I/OV(Single Root I/O Virtualization) based enhanced networking instance for PG
 
@@ -201,6 +206,7 @@ Storage		: NVMe SSD
 ## CLUSTER PLACEMENT GROUP(CPG) 
 
 > It is within a single AZ and cannot span multiple AZ
+- all EC2 instance are in same rack and same AZ
 
 > It is recommended when app require low network latency, high network throughput or both, and 
 - if the majority of the network traffic is between the instance in the group 
@@ -218,13 +224,14 @@ Storage		: NVMe SSD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## SPREAD PLACEMENT GROUPS(SPG) 
 > It is a group of instances that are each placed on distinct underlying hardware
+- diff AZ and distinct hardware
 
 > SPG are recommended for app that have small number of critical instances that should be kept separated from each other
 - Launching instances in a SPG reduces the risk of simultaneous failure that might occur when instance share the same underlying hardware
 - spread placement group provide access to distinct hardware and are therefore suitable for mixing instance type or launching instances over time
 
 > SPG CAN SPAN MULTIPLE AZ
-- we can have a MAX OF 7 RUNNING INSTANCES PER AZ PER GROUP
+-- we can have a MAX OF 7 RUNNING INSTANCES PER AZ PER GROUP
 
 > if you start on launch and instance in a SPG and there is insufficient unique hardware to fulfill the request request fails 
 - you can try your request again later
@@ -232,6 +239,16 @@ Storage		: NVMe SSD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > If you receive a capacity error when launching an instance in a placement group that already has running instances, stop and start all of the instances in the placement group, and try the launch again. Restarting the instances may migrate them to hardware that has capacity for all the requested instances.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## PARTITION PLACEMENT GROUPS 
+
+> upto 7 partition per AZ
+- upto 100 EC2 instances 
+
+> instances in a partition donot share racks with the instances in the other partitions.
+- a partition failure can affect many EC2 but won't affect other partition
+- EC2 instance get access to the partition information as metadata. 
+- Use-case : HDFS, HBase, Cassandra, Kafka.
 =======================================
 ########## EC2 STATUS CHECKS ########## V12 
 
@@ -267,8 +284,8 @@ Storage		: NVMe SSD
 - we can use stop or terminate actions to save cost 
 - we can use the reboot and recover to move EC2 instance to another host
 
-=======================================
-############# EC2 States ############## v13
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### EC2 States ########## v13
 > When we launch instance, it goes through pending then running state 
 - moving to running state mean, instance has started booting 
 - then the instance receive a private DNS hostname, and possibly a public DNS hostname (depends on whether it is configured to receive a public IP) 
@@ -280,7 +297,7 @@ Storage		: NVMe SSD
 > When you stop an instance AWS shuts it down.
 > Stopped instance maintain its instance ID and root volume
 
-> INSTANCE-STORE BACKED INSTANCE CANNOT BE STOPPED they can only be reboot and terminate
+>> INSTANCE-STORE BACKED INSTANCE CANNOT BE STOPPED they can only be reboot and terminate
 
 > We are not charged for EC2 instance if they are stopped, however attached EBS vol incur charges
 
@@ -297,7 +314,7 @@ Storage		: NVMe SSD
 - state change from running->stopping->stopped 
 - EBS volume remain attached to the instance 
 - any data cache in RAM or instance store volume is gone 
-- most probably when restarted again it will restart on a new physical host 
+- most probably when restarted again it will RESTART ON A NEW PHYSICAL HOST 
 - instance retain its private IPv4 address, any IPv6 address
 - INSTANCE RELEASE ITS PUBLIC IPv4 address back to AWS pool
 - instance retain its elastic IP address
@@ -320,6 +337,7 @@ Storage		: NVMe SSD
 > When you terminate a running instance the instance states changes as follows
 Running -> Shutting down -> Terminated
 - During the Shutting down and Terminated states you do not incur charges
+- you will not billed if it is preparing to stop however, you will still be billed if it is just preparing to hibernate.
 
 > By default, EBS root vol. (created automatically when the instance is launched) are deleted automatically when the EC2 instance is terminated
 
@@ -334,12 +352,10 @@ Running -> Shutting down -> Terminated
 ### EC2 TERMINATION PROTECTION ##
 
 > This is a feature we can enable such that an EC2 instance is protected against accidental termination through API, Console, or CLI) SDK
+- This can be enabled for both Instance-backed and EBS-Backed Instances
+- CloudWatch can ONLY terminate EC2 instances if they do not have the termination protection
 
-> This can be enabled for both Instance-backed and EBS-Backed Instances
-
-> CloudWatch can ONLY terminate EC2 instances if they do not have the termination protection
-
-> If you want to terminate an instance that has termination protection turned on, you can do so by choosing oS shutdown, and configure AWS to treat OS shutdown as instance termination.
+> If you want to terminate an instance that has termination protection turned on, you can do so by choosing OS shutdown, and configure AWS to treat OS shutdown as instance termination.
 
 > This can be configured during launch, when the instance is running or stopped (if EBS backed instance)	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -348,7 +364,7 @@ Running -> Shutting down -> Terminated
 > AWS recommends that after you launch an EC2 instance, you check its status to confirm that it moved from pending to running, and not to a terminated state.
 
 > Possible reasons that a launched instance immediately terminates are:
-- The instance store-backed ÁMI you used to launch the instance is missing a required part.
+- The instance store-backed AMI you used to launch the instance is missing a required part.
 - You've reached your EBS volume limit.
 - An EBS snapshot is corrupt.
 
@@ -356,8 +372,8 @@ Running -> Shutting down -> Terminated
 - From AWS Console : Go to Instances (select the instance) -> Description tab -> State Transition reason
 - From CLI use the "describe-instance" command
 
-=======================================
-####### EC2 - Instance Meta Data ###### v15
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### EC2 - Instance Meta Data ## v15
 
 > Instance metadata can be use to configure or manage the instance
 Example: IPv4 addr, IPv6 addr, DNS Hostnames, AMI-ID, Instance-ID, Instance-Type, Local-hostname, Public Keys, Security groups
@@ -373,8 +389,8 @@ Curl http://169.254.169.254/latest/meta-data/
 > To view specific metadata parameter, example to view local hostname
 GET http://169.254.169.254/latest/meta-data/host-name/
 
-=======================================
-####### EC2 - Instance Userdata ####### v15
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### EC2 - Instance Userdata ### v15
 
 > It is data supplied by the user at instance launch in the form of a script to be executed during the instance boot
 
@@ -387,8 +403,8 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 > User data is not protected by encryption, do not include passwords or sensitive data in your user data (scripts)
 
 > You are not charged for requests to read user data or metadata
-=======================================
-####### EC2 - VM Import/Export ######## v16 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### EC2 - VM Import/Export ### v16 
 
 > It can be used to migrate Vmware, Microsoft, XEN VMs to the cloud (Import)
 
@@ -418,12 +434,16 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 
 > It is an EC2 instance, whose interfaces will have SG allowing inbound SSH/RDP
 - Using SG, we can limit which IP CIDR can access the Bastion Host.
+- It is recommended to use a small instance because this host will only act as a jump server
 
 > IT IS USED TO MANAGE AND ADMINISTER PUBLIC/PRIVATE EC2 INSTANCES
 - It make secure connectivity to VPC
 
 > It CAN HAVE AUTO-ASSIGNED PUBLIC IP/ELASTIC IP 
 - Elastic IPs are better for security reasons and to fix the IP address bcz it get re-associated with the new instances(if launch by ASG) 
+
+> It is possible to use SSH with an ordinary user ID and a pre-configured password as credentials but 
+- it is more secure to use public key pairs for SSH authentication for better security.
 
 > Once logged to the Bastion host, we can connect via RDP/SSH to the EC2 instance(s) we desire to manage
 
@@ -476,7 +496,7 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### 2a. DEDICATED INSTANCE ###
 > It run in a VPC on hardware that is dedicated to a single customer.
-> 
+
 > it may share hardware with other instances from the same acct that are not dedicated instance.
 
 > Pay for dedicated instances on-demand save upto 70% by purchasing reserve instances, or save upto 90% by purchasing spot instances. 
@@ -540,38 +560,35 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 #### Elastic Network Interface(ENI) ### v19
 
 ## How multiple IP addresses work with Network Interfaces
+
 > Eth0 is the Primary network interface, 
 - You can't move/detach the primary (eth0) interface from an instance
 
-> By default, Eth is the only ENI created with an EC2 instance when launched
+> By default, Eth0 is the only ENI created with an EC2 instance when launched
 
-> You can add more interfaces to your EC2 instance (number of additional interfaces is determined by the instance family/type)
-
-> An ENÌ is bound to an Availability Zone
-
-> You can specify which subnet/AZ you want the additional ENI be added in
-
-> You can specify exactly which IP address in the subnet to be configured on instances, or leave AWS assign one automatically from the available subnet IPs
+> An ENI is bound to an Availability Zone
+- You can specify which subnet/AZ you want the additional ENI be added in
+- You can specify exactly which IP address in the subnet to be configured on instances, or leave AWS assign one automatically from the available subnet IPs
 
 > SG apply to network interfaces not to individual IPs on the interface, hence, IP addresses are also subject to the interface security group
 
 ## Default EC2 virtual network interface (eth0)
 
-> You can create (optional) only one additional Ethernet interface (eth1) when launching an EC2 instance, but you can create and attach more ENIS to the EC2 instance (the number of which depends on the Instance family/type)
+> You can create (optional) only one additional Ethernet interface (eth1) when launching an EC2 instance, 
+- but you can create and attach more ENIs to the EC2 instance (the number of which depends on the Instance family/type)
+
 > Attaching ENI when the instance is running is called "hot attach"
-
 > Attaching ENI when the instance is stopped is called "warm attach"
-
 > Attaching ENI when the instances is launched is called “cold attach"
 
 ## How to Add additional Network Interfaces at Instance Launch
 > When launching an EC2 instance, after selecting your VPC and subnet, you will be able to "add a device", this is how you can add one more (eth1) interface
 
 > CAUTION:
-- you do this, AWS will no longer assigna public IPV4 address to your eth0 (primary network interface), and you will have to use an Elastic IP address mapped to your eth0 (manually) in order to be able to connect from the internet to your instance
+- you do this, AWS will no longer assign a public IPV4 address to your eth0 (primary network interface), and you will have to use an Elastic IP address mapped to your eth0 (manually) in order to be able to connect from the internet to your instance
 
 ## Elastic Network Interfaces (ENI)
-> By default, network interfaces created "automatically" during EC2 instance launch by AWS console, are terminated when the instance is terminated,
+> By default, network interfaces created "automatically" during EC2 instance launch by AWS console, and terminated when the instance is terminated,
 - Does not include eth1 that you can add during launch (manually added)
 > Network interfaces created by CLI are "NOT" terminated automatically when the Ec2 instance terminates.
 
@@ -586,52 +603,41 @@ Instances -> Net Interfaces -> Change termination behavior
 - One Primary IPV4 addresses
 - One or more secondary IPV4 addresses
 - One Elastic IP address corresponding to each IPV4 address (via NAT)
-- One Public-IPV4 address (automatically assigned)
-- One of more IPV6 addresses DOLFIN
-- Up to 5 Security groups
+- One Public-IPv4 address (automatically assigned)
+- One of more IPv6 addresses 
+- Upto 5 Security groups
 - A MAC address
-- A source/destination check flag o
+- A source/destination check flag 
 
 ## Secondary IP addresses - Benefits
-> You can configure secondary IPv4 addresses to your EC2 instance's Interfaces and ENIS
-> It can be useful to assign multiple IP addresses to an EC2 instance in your VPC to do the following:
+> You can configure secondary IPv4 addresses to your EC2 instance's Interfaces and ENIs
+
+> Benefit of assigning multiple IP addresses to an EC2 instance in your VPC:
 - Hosting multiple websites on a single server (multiple SSL certificates each associated with one IP address)
 
-- Security and network appliances use in your VPC
-- Redirecting internal traffic to a standby EC2 instance in case your primapy EC2 instance fails,
-- This can be achieved by moving (reassigning) the secondary IPV4-adatess from the failed instance to the standby one
+- Security and network appliances use in VPC
+- Redirecting internal traffic to a standby EC2 instance in case primary EC2 instance fails,
+- This can be achieved by moving (reassigning) the secondary IPv4-address from the failed instance to the standby 
 
 ## Secondary IPV4 address Re-Assignment
-> When you configure secondary IPV4 addresses, and if you allow re-assignment, they can be reassigned to another network interface (moved, transitioned)
-
-> You can reassign etho's secondary private IPV4 address to another network interface
-- Comes in handy in failure scenarios if your traffic was directed to the secondary IPV4 address, and the instance fails, move it (reassign it) to a standby instance if you have one, and the traffic will continue (The Elastic IP to secondary IPV4 association remains as the secondary is moved)
+>> When you configure secondary IPV4 addresses, and if you allow re-assignment, they can be reassigned to another network interface (moved, transitioned)
+- comes in handy in failure scenarios if your traffic was directed to the secondary IPV4 address
 
 ## Elastic IP and Secondary IPV4 address Re-Assignment
-> Each private IPV4 address can be associated with a single Elastic IP address, and vice versa.
+> Each private IPv4 address can be associated with a single Elastic IP address, and vice versa.
 
-> When a secondary private IPV4 address is reassigned to another interface, the secondary private IPV4 address retains its association with an Elastic IP address.
-
-> When a secondary private IPV4 address is unassigned from an interface, an associated Elastic IP address is automatically disassociated from the secondary private IPV4 address.
 
 ## Virtual Elastic Network Interfaces (ENIs)
-> Any network interface can be assigned a secondary IPV4 address from the same subnet of the network interface or EC2 instance
+> Any network interface can be assigned a secondary IPv4 address from the same subnet of the network interface or EC2 instance
 
-> You can assign/remove IP addresses from EC2 instances while they are running or stopped
+> You can assign/remove IP addresses from EC2 instances ENI while they are running or stopped
 
 > Detaching an ENI
-- Except for Etho, any interface can be detached and áttached to other instances
-- Primary private IPV4, Secondary private IPV4, IPV6, and Elastic IP addresses they continue to be with the same network interface even when it is detached, or attached to another instance
+- Except for Eth0, any interface can be attached/dettached to other instances
+- Primary private IPv4, Secondary private IPv4, IPV6, and Elastic IP addresses they continue to be with the same network interface even when it is detached/attached to another instance
 
-## Example Scenario
-> You have two instances, EC2-A, is the primary instance with a secondary IPV4 address, and an Elastic IP address associated with the Instance's secondary IPV4 address
-
-> The second instance, EC2-B, will be a standby instance with no Elastic IP address, and no Secondary IPV4 address
-
-> You can use the secondary IPV4 re-assignment feature to move the Secondary IPV4 address and the associated elastic IP, to instance EC2-B, in case of a problem or failure of EC2-A happens
-
-## 
-> To attach a network interface in a subnet to EC2 instance in another subnet, they both "MUST" be in the same AWS Region and same AZ
+ 
+>> To attach a network interface in a subnet to EC2 instance in another subnet, they both "MUST" be in the same AWS Region and same AZ
 
 > Network NIC teaming is not achievable by adding ENIS to an EC2 instance 
 
@@ -667,7 +673,7 @@ There are two parts of the error message.
 > SR-I/OV mean Single Root I/O Virtualization
 
 > SR-I/OV is a network interface (host interface) virtualization 
-- whereby, a guest machine (EC2 instance) has direct access to virtual network interface without hypervisor being in the middle (emulating a vNIC) 
+- whereby, a guest machine (EC2 instance) has direct access to VNI without hypervisor being in the middle (emulating a vNIC) 
 - basically, virtualizing the network adaptor on the physical host 
 
 > SR-I/OV

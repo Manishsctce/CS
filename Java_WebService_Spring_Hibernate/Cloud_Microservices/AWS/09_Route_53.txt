@@ -49,11 +49,10 @@ EXAMPLE: .com, .net, .org, .biz, .edu, .mil
 > Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service.
 
 > It provides 3 main functions: 
-1. DOMAIN REGISTRATION
-> allows you to register domain names
+1. DOMAIN REGISTRATION - allows you to register domain names
 
 2. DOMAIN NAME SYSTEM (DNS) SERVICE
-> translates friendly domains names like www.example.com into IP addresses like 192.0.2.1
+- translates friendly domains names like www.example.com into IP addresses like 192.0.2.1
 
 > responds to DNS queries using a global network of authoritative DNS servers, which reduces latency
 
@@ -67,9 +66,28 @@ EXAMPLE: .com, .net, .org, .biz, .edu, .mil
 
 > CloudWatch alarms can be configured for the health checks to send notification when a resource becomes unavailable.
 > can be configured to route Internet traffic away from resources that are unavailable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### TERMINOLOGY #########
 
-=======================================
-############ Record type ##############
+Alias record - a type of record that you can create to route traffic to AWS resources.
+
+Name Server - servers in the DNS that help to translate domain names into the IP addr that computer use to communicate.
+
+Record (DNS Record) - an object in a hosted zone that you use to define how you want to route traffic for the domain or sub-domain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### HOSTED ZONE #########
+> It is a collection of records for a specified domain.
+
+> 2 types of hosted zones:
+1. Public host zone – determines how traffic is routed on the Internet.
+2. Private hosted zone for VPC – determines how traffic is routed within VPC (resources are not accessible outside the VPC).
+
+> Route53 automatically creates the Name Server (NS) and Start of Authority (SOA) records for the hosted zones.
+- Route 53 creates a set of 4 unique name servers (a delegation set) within each hosted zone.
+
+> we can create multiple hosted zones with the SAME NAME AND DIFFERENT RECORDS(i.e. NS).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### RECORD TYPE #########
 
 # A (Address) 
 - is an IPv4 address in dotted decimal notation for e.g. 192.0.2.1
@@ -97,7 +115,7 @@ EXAMPLE: .com, .net, .org, .biz, .edu, .mil
 > A PTR record Value element is the same format as a domain name.
 
 ## SOA (Start of Authority) Format
-SOA record provides information about a domain and the corresponding Amazon Route 53 hosted zone
+- SOA record provides information about a domain and the corresponding Route53 hosted zone
 
 ## SPF (Sender Policy Framework) Format
 > SPF records were formerly used to verify the identity of the sender of email messages, however is not recommended
@@ -169,15 +187,18 @@ is allowed in TXT strings
 > Use to route traffic to multiple resources in proportions that we specify.
 
 6. Geoproximity routing policy (Requires Route Flow) –
-- Use when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
+- Use when you want to route traffic based on the geographic location of your users and your resources. 
+- You can also optionally choose to route more traffic or less to a given resource by specifying a value, known as a bias. 
+- A bias expands or shrinks the size of the geographic region from which traffic is routed to a resource.
 
 7. Multivalue answer routing policy -
 > Use when you want Route 53 to respond to DNS queries with up to 8 healthy records selected at random.
 =======================================
 #### FAILOVER ROUTING POLICY ####
 > it lets us route traffic to a resource when the resource is healthy
-- If the main resource is not healthy, then route traffic to a different resource
-- The primary and secondary records can route traffic to anything from an Amazon S3 bucket that is configured as a website to a complex tree of records.
+- If the main resource is not healthy, then route traffic to secondary resource
+- The primary and secondary records can route traffic to anything from S3 bucket that is configured as a website to a complex tree of records.
+
 =======================================
 ###### GEOLOCATION ROUTING POLICY #####
 > It allow us to choose resources that SERVE TRAFFIC BASED ON GEOGRAPHIC LOCATION of users, i.e the location that DNS queries originate from.
@@ -225,14 +246,12 @@ EXAMPLE:
 ####### WEIGHTED ROUTING POLICY #######
 
 > Weighted routing lets you associate multiple resources with a single domain name , or subdomain name, and choose how much traffic is routed to each resource.
-
-> This can be useful for a variety of purposes, including load balancing and testing new versions of software.
+- This can be useful for a variety of purposes, including load balancing and testing new versions of software.
 
 > To configure weighted routing, you create records that have the same name and type for each of your resources.
+- You assign each record a relative weight that corresponds with how much traffic you want to send to each resource.
 
-> You assign each record a relative weight that corresponds with how much traffic you want to send to each resource.
-
-> Amazon Route 53 sends traffic to a resource based on the eight that you assign to the record as a proportion of the total weight for all records in the group:
+> Route53 sends traffic to a resource based on the eight that you assign to the record as a proportion of the total weight for all records in the group:
 - Weight of the specified Record / Sum of the weight of all records
 
 Example,
@@ -243,3 +262,21 @@ Example,
 The other resource gets 255/256ths (255/1+255).
 
 > You can gradually change the balance by changing the weights. If you want to stop sending traffic to a resource, you can change the weight for that record to 0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### FAILOVER CONFIGURATION ###
+
+> You can use Route53 health checking to configure active-active and active-passive failover configurations. 
+- You configure active-active failover using any routing policy (or combination of routing policies) other than failover, and 
+- you configure active-passive failover using the failover routing policy.
+
+#Active-Active Failover
+> Use this failover configuration when you want all of your resources TO BE AVAILABLE THE MAJORITY OF THE TIME. 
+- When a resource becomes unavailable, Route 53 can detect that it's unhealthy and stop including it when responding to queries.
+- In active-active failover, all the records that have the same name, same type (such as A or AAAA), and same routing policy (such as weighted or latency) are active unless Route 53 considers them unhealthy. 
+- Route53 can respond to a DNS query using any healthy record.
+
+#Active-Passive Failover
+> Use an active-passive failover configuration when you want a primary resource or group of resources TO BE AVAILABLE THE MAJORITY OF THE TIME and you want a secondary resource or group of resources to be on standby in case all the primary resources become unavailable. 
+- When responding to queries, Route 53 includes only the healthy primary resources. 
+- If all the primary resources are unhealthy, Route 53 begins to include only the healthy secondary resources in response to DNS queries.

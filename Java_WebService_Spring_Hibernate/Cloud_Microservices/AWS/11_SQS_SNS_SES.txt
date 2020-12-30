@@ -5,6 +5,8 @@
 ## AWS SNS (Simple Notification Service)
 ## AWS SES (Simple Email Service) 
 ## AWS SWF (Simple Workflow Service)
+## AWS Step Functions 
+## AWS MQ 
 =======================================
 ############## AWS SQS ################
 
@@ -103,6 +105,8 @@ Reliability – Amazon SQS locks your messages during processing, so that multip
 - To request a quota increase, submit a support request. 
 - Without batching, FIFO queues support upto 300 MPS, per API action (SendMessage, ReceiveMessage, or DeleteMessage).
 
+> To create a FIFO queu, its queue name must end with ".fifo"
+
 > EXACTLY-ONCE PROCESSING 
 – A message is delivered once and remains available until a consumer processes and deletes it. DUPLICATES AREN'T INTRODUCED INTO THE QUEUE.
 
@@ -123,20 +127,30 @@ Reliability – Amazon SQS locks your messages during processing, so that multip
 
 ## Visibility Timeout 
 > The length of time (in seconds) that a message received from a queue will be invisible to other receiving components.
+- default is 30sec
+- value must be bet 0sec - 12hrs.
 
 ## Message Retention Period
 - The amount of time that SQS will retain a message if it does not get deleted.
+- default is 4days
+- must be bet 1min - 14days
 
 ## Maximum Message Size
 > Maximum message size (in bytes) accepted by Amazon SQS
+- default 256KB
+- value must be bet 1 - 256KB
 
 ## Delivery Delay
 - The amount of time to delay the first delivery of all messages added to this queue.
+- default is 0sec
 - Value must be between 0 seconds and 15 minutes
 
 ## Receive Message Wait Time
 - The maximum amount of time that a long polling receive call will wait for a message to become available before returning an empty response.
 - Value must be between 0(default) and 20 seconds.
+
+## Content-based Deduplication
+- use a SHA-256 hash of the body of the msg(but not the attributes of the msg) to generate the content-based message deduplication ID.
 =======================================
 ## To calculate the number of API requests (R) per queue
 
@@ -256,8 +270,7 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 - Encrypting messages doesn't affect the normal functioning of Amazon SQS:
 
 > A message is encrypted only if it is sent after the encryption of a queue is enabled. Amazon SQS doesn't encrypt backlogged messages.
-
-> Any encrypted message remains encrypted even if the encryption of its queue is disabled.
+- Any encrypted message remains encrypted even if the encryption of its queue is disabled.
 
 =======================================
 ############## AWS SNS ################
@@ -265,23 +278,19 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 > It is a fast, flexible, fully managed PUSH NOTIFICATION SERVICE
 
 > It is a webservice that co-ordinates and manages the delivery or sending of messages to subscribing endpoints or clients.
+> It allows for sending individual messages or fan-out messages to a large no. fo recipients or to other distributed AWS services.
 
-> It allows for sending individual messages or fan-out messages to a large no. fo recipients or tto other distributed AWS services.
-
-- messages published to an SNS topocs will be delivereed to the subscriber immediately
-
+- messages published to an SNS topics will be delivered to the subscriber immediately
 - inexpensive pay-as-you-go model with no upfront cost.
+- Reliable - at least 3 copies of the data are store across multi-AZ in same region
 
-- Reliable - at least 3 copies of the data are store across multiAZ in same region
-
-> It is a way of sending messages when u are using Autoscaling, it triggers an SNS service which will email you that your EC2 insatnce is growing. 
+> It is a way of sending messages when u are using AS, it triggers an SNS service which will email you that your EC2 insatnce is growing. 
 
 > SNS Topic - Lambda/SQS/HTTPS/email/SMS 
 
-> Publisher - 
-publisher are also know as producer that produce and send the message to the SNS which is a logical access pointer
+> Publisher - also know as producer that produce and send the message to SNS which is a logical access pointer
 
-> Subscriber - subscriber such as webservcer email addr, SQS queues, Lambda, recieve the message or notification from the SNS over 1 of the suppoerted protocols (SQS/email/lambda/https/sms) 
+> Subscriber - subscriber such as webservice email addr, SQS queues, Lambda, recieve the message or notification from the SNS over 1 of the supported protocols (SQS/email/lambda/https/SMS) 
 
 =======================================
 ## AWS SWF (SIMPLE WORKFLOW SERVICE) ##
@@ -319,4 +328,30 @@ publisher are also know as producer that produce and send the message to the SNS
 > Activity Workers 
 - Carry out the activity tasks.
 
+=======================================
+######### AWS Step Functions ##########
+
+> It provides SERVERLESS ORCHESTRATION for modern applications. 
+- it's easy to coordinate the components of distributed apps as a series of steps in a VISUAL WORKFLOW.
+- Orchestration centrally manages a workflow by breaking it into multiple steps, adding flow logic, and TRACKING THE INPUTS AND OUTPUTS BETWEEN THE STEPS. 
+- As your apps execute, Step Functions MAINTAINS APP STATE, tracking exactly which workflow step your app is in, and stores an event log of data that is passed between app components. 
+- That means that if networks fail or components hang, your app can pick up right where it left off.
+
+> App development is faster and more intuitive with Step Functions, because you can define and manage the workflow of your app independently from its business logic. 
+- Making changes to one does not affect the other. 
+- You can easily update and modify workflows in one place, without having to struggle with managing, monitoring and maintaining multiple point-to-point integrations. 
+- Step Functions frees your functions and containers from excess code, so your applications are faster to write, more resilient, and easier to maintain.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### SWF vs Step Functions ####
+
+> Step Functions - used for Order processing workflow 
+> SWF - used for human enabled workflow like an order fulfilment system or for procedural request 
+=======================================
+############## AWS MQ #################
+
+> Amazon MQ is a managed message broker service for Apache ActiveMQ that makes it easy to set up and operate message brokers in the cloud. 
+- Connecting your current apps to Amazon MQ is easy because it uses industry-standard APIs and protocols for messaging, including JMS, NMS, AMQP, STOMP, MQTT, and WebSocket. 
+- Using standards means that in most cases, there’s no need to rewrite any messaging code when you migrate to AWS.
 =======================================

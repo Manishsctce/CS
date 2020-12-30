@@ -49,6 +49,8 @@
 
 > RDS is NOT SERVERLESS
 > AURORA SERVERLESS IS SERVERLESS
+
+>> DB parameter groups act as a container for engine configuration values that are applied to one or more DB instances.
 =======================================
 ## AWS is not responsible for
 - Managing DB setting 
@@ -676,8 +678,11 @@ DynamoDB <---- DAX(with IAM role to access DynamoDB, within VPC) <-----EC2 Insta
 
 > So we have to take care of the Manual snapshots instead of Automated snapshots. 
 - Redshift never deletes Manual snaphots automatically, like how it does for Automatic Snapshots.
-
-
+-------------------------
+> For DR plan, we can configure Redshift to copy snapshots for a cluster to another region. 
+- To configure cross-region snapshot copy, you need to enable this copy feature for each cluster and configure where to copy snapshots and how long to keep copied automated snapshots in the destination region. 
+- When cross-region copy is enabled for a cluster, all new manual and automatic snapshots are copied to the specified region.
+-------------------------
 > When you use REDSHIFT ENHANCED VPC ROUTING, Redshift forces all COPY and UNLOAD traffic between your cluster and your data repositories through your Amazon VPC.
 - If Enhanced VPC Routing is not enabled, Redshift routes traffic through the Internet, including traffic to other services within the AWS network.
 - Redshift will not be able to access the S3 VPC endpoints without enabling Enhanced VPC routing
@@ -740,19 +745,7 @@ DynamoDB <---- DAX(with IAM role to access DynamoDB, within VPC) <-----EC2 Insta
 > Metrics for compute utilization, storage utilization and read/write traffic to your Redshift data warehouse cluster, are available free of charge via AWS Cloudwatch.
 > You can also add additional user-defined, metrics via AWS Cloudwatch custom metric functionality.
 
-## Q: An organization is managing a Redshift cluster in AWS. They need to monitor the performance of this Redshift cluster to ensure that it is performing as efficiently as possible. Which of the following services can be used for achieving this requirement? Please select:
 
-A) Cloudtrail
-B) VPC Flowlogs
-C) Cloudwatch
-D) AWS Trusted advisor
-
-## Q : A company needs to have a columnar structured database storage suitable to perform complex analytics queries against petabyte of structured data, Which of the following can meet this requirement? Please select:
-
-A) Amazon RDS
-B) Redshift
-C) Elasticache
-D) DynamoDB
 
 ## Q: There is a requirement to load a lot of data from your on-premises network to AWS Redshift. Which of the below options can be used for data transfer? Please select two possible answers
 

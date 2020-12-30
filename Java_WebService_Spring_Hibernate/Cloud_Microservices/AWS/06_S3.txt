@@ -865,6 +865,9 @@ S3-RRS (deprecating) (Reduced Redundancy Storage)
 "s3:x-amz-server-side-encryption":"aws:kms"
 
 > Creating your own CMK gives you more flexibility, including the ability to create, rotate, disable, and define access controls, and to audit the encryption keys used to protect your data.
+
+- SSE-KMS also provides you with an audit trail that shows when your CMK was used and by whom. 
+- Additionally, you can create and manage customer-managed CMKs or use AWS managed CMKs that are unique to you, your service, and your Region.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##### 3. SSE-C
 > It use Client provided keys
@@ -934,8 +937,9 @@ x-amz-server-side​-encryption​-customer-key-MD5
 > Can generate pre-signed URLs using SDK or CLI
 - used for downloading or uploading S3 object(s)
 
-> Origin Access Identity 
+> Origin Access Identity (OAI)
 - It is used to maintain secure access to the file in S3 that you serve through cloudFront
+- When you create or update a distribution in CloudFront, you can add an OAI and automatically update the bucket policy to give the OAI permission to access your bucket. 
 
 > by default, object access valid for 3600sec (1hr) 
 - we can change it using "--expires-in" arg to CLI (time should be in sec) 

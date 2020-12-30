@@ -250,6 +250,15 @@ Internet-Facing ELB – NACL settings
 ###### ###### v16
 16_ELB & Sticky Sessions (Session Affinity)
 
+
+> Use connection draining
+- This enables the load balancer to complete in-flight requests made to instances that are de-registering or unhealthy. 
+- When you enable it, you can specify a maximum time for the LB to keep connections alive before reporting the instance as de-registered. 
+- The maximum timeout value can be set between 1 and 3,600 seconds (the default is 300 seconds). 
+- When the maximum time limit is reached, the LB forcibly closes connections to the de-registering instance.
+
+
+> STICKY SESSIONS feature is mainly used to ensure that all requests from the user during the session are sent to the same instance.
 =======================================
 ###### ###### v
 17_ELB Security policy for SSLHTTPS sessions

@@ -11,27 +11,13 @@
 - Manages SSL/TLS certificates. 
 - Also makes it easy to deploy them across various AWS services.
 
+
 #### AWS DIRECTORY SERVICE ####
-It is an AWS Directory service for Microsoft Active Directory. Makes it easy to deploy directory-aware workloads on AWS resources to use and manage AD in the AWS cloud.
-
 #### AWS Web Application Firewall (WAF)
-By configuring rules to allow, block, or just monitor web requests, protects web applications from external attack.
-
-#### Shield
-Managed service to protect web applications against DDoS attacks running on AWS.
-
+#### AWS Shield
 #### AWS Single-Sign-on (SSO)
-
 #### AWS Cognito 
-> It provides authentication, authorization, and user management for web and mobile apps. 
-- Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.
-
-> The 2 main components of Amazon Cognito are user pools and identity pools. 
-1. User pools are user directories that provide sign-up and sign-in options for your app users. 
-2. Identity pools enable you to grant your users access to other AWS services. 
-- You can use identity pools and user pools separately or together.
-
-## KMS (Key Management Service)
+#### KMS (Key Management Service)
 =======================================
 ###### AWS Account Identifiers ########
 
@@ -541,17 +527,19 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 > If the application gets temporary security credentials from the instance metadata and has cached them, it should get a refreshed set of credentials every hour, or at least 15 minutes before the current set expires.
 =======================================
 ####### AWS DIRECTORY SERVICE #########
-
+> It is an AWS Directory service for Microsoft Active Directory. 
+- Makes it easy to deploy directory-aware workloads on AWS resources to use and manage AD in the AWS cloud.
 
 =======================================
 #### AWS Web Application Firewall (WAF)
 
-> AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to an Amazon API Gateway, CloudFront or an Application Load Balancer. 
+> AWS WAF is a webapp firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to an Amazon API Gateway, CloudFront or ALB. 
+- By configuring rules to allow, block, or just monitor web requests, protects web apps from external attack.
 
 > AWS WAF also lets you control access to your content. Based on conditions that you specify, such as 
 - the IP addresses that requests originate from or 
 - the values of query strings, API Gateway, CloudFront or 
-- an Application Load Balancer responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). 
+- an ALB responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). 
 
 > You also can configure CloudFront to return a custom error page when a request is blocked.
 
@@ -566,9 +554,26 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 – When you want to allow or block requests based on new properties in web requests, you first can configure AWS WAF to count the requests that match those properties without allowing or blocking those requests. 
 - This lets you confirm that you didn't accidentally configure AWS WAF to block all the traffic to your website.
 -  When you're confident that you specified the correct properties, you can change the behavior to allow or block requests.
+
+=======================================
+############ AWS Shield ###############
+
+> It is a managed DDoS protection service that safeguards webapps running on AWS. 
+- It provides always-on detection and automatic inline mitigations that minimize app downtime and latency, 
+- so there is no need to engage AWS Support to benefit from DDoS protection. 
+
+> There are two tiers of AWS Shield - Standard and Advanced.
+
+> All AWS customers benefit from the automatic protections of AWS Shield Standard, at no additional charge. 
+- AWS Shield Standard defends against most common, frequently occurring network and transport layer DDoS attacks that target your web site or applications. 
+- When you use AWS Shield Standard with Amazon CloudFront and Amazon Route 53, you receive comprehensive availability protection against all known infrastructure (Layer 3 and 4) attacks.
+
+> Shield is more useful and strong for DDoS compare to WAF.
+- WAF helps to protect webapps from common exploits that could affect app availability, compromise security, or consume excessive resources.
 =======================================
 ##### AWS Single Sign on (AWS SSO) ####
-> For additional security, AWS sso with two-step verification can be enabled.
+
+> For additional security, AWS SSO with 2-step verification can be enabled.
 - After two-step verification is enabled, post login with authorized email password, users are prompted for additional verification code which they receive on their registered email address.
 
 > WITH CONTEXT-AWARE 2-step verification, AWS SSO analyzes user sign-in context such as browser, location, and devices.
@@ -581,6 +586,13 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 =======================================
 ############ AWS Cognito ##############
 
+> It provides authentication, authorization, and user management for web and mobile apps. 
+- Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.
+
+> The 2 main components of Amazon Cognito are user pools and identity pools. 
+1. User pools are user directories that provide sign-up and sign-in options for your app users. 
+2. Identity pools enable you to grant your users access to other AWS services. 
+- You can use identity pools and user pools separately or together.
 
 ## Feature 
 > Enhanced Security

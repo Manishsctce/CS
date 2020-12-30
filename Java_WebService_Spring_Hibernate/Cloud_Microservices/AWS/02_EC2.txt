@@ -290,6 +290,15 @@ Storage		: NVMe SSD
 - moving to running state mean, instance has started booting 
 - then the instance receive a private DNS hostname, and possibly a public DNS hostname (depends on whether it is configured to receive a public IP) 
 
+> When you launch an EC2 instance into a default VPC, AWS provides it with public and private DNS hostnames that correspond to the public IPv4 and private IPv4 addresses for the instance.
+- However, when you launch an instance into a non-default VPC, AWS provides the instance with a private DNS hostname only. 
+- New instances will only be provided with public DNS hostname depending on these two DNS attributes: 
+1. the DNS resolution and 
+2. DNS hostnames, 
+- that you have specified for your VPC, and if your instance has a public IPv4 address.
+
+> new EC2 instance does not automatically get a DNS hostname because the DNS resolution and DNS hostnames attributes are disabled in the newly created VPC.
+
 > if you reboot EC2 instance, it is considered as running and does not add additional hour for bill 
 - stopping and restarting an instance adds an hour to bill
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -696,6 +705,19 @@ There are two parts of the error message.
 
 > Using enhanced networking does not cost extra 
 
+
+> An Elastic Fabric Adapter (EFA) is a network device that you can attach to EC2 instance to accelerate HPC and ML apps. 
+- it enables you to achieve the app performance of an on-premises HPC cluster, with the scalability, flexibility, and elasticity provided by the AWS Cloud.
+- it provides lower and more consistent latency and higher throughput than the TCP transport traditionally used in cloud-based HPC systems. 
+- It enhances the performance of inter-instance communication that is critical for scaling HPC and ML apps. 
+- It is optimized to work on the existing AWS network infrastructure and it can scale depending on app requirements.
+
+> Elastic Network Adapters (ENAs) provide traditional IP networking features that are required to support VPC networking. 
+- EFAs provide all of the same traditional IP networking features as ENAs, and they also support OS-bypass capabilities. 
+
+> OS-bypass enables HPC and ML apps to bypass the OS kernel and to communicate directly with the EFA device.
+- The OS-bypass capabilities of EFAs are not supported on Windows instances. 
+- If you attach an EFA to a Windows instance, the instance functions as an ENA, without the added EFA capabilities.
 =======================================
 ############# AWS LAMBDA ##############
 
@@ -985,3 +1007,21 @@ Example:
 > ECS - Need to mantain our own infrastructure like EC2, AS, ELB etc
 - FARGATE - AWS manage infrastructure
 
+
+=======================================
+########### AWS Lightsail #############
+
+> It is an easy way for developers to get started with a simple virtual private server (VPS) solution.
+
+> It provides compute, storage, and networking capacity and capabilities to deploy and manage websites and webapps in the cloud. 
+
+> Lightsail includes everything you need to launch your project quickly - a virtual machine, SSD-based storage, data transfer, DNS management, and a static IP.
+
+> Lightsail is best suited to projects that require a few VPS and users who prefer a simple management interface.
+
+> Common use cases for Lightsail include running websites, webapp, blogs, e commerce sites, simple software, and more.
+
+> A Lightsail plan includes a virtual server with a fixed amount of memory (RAM) and compute (vCPUs), SSD based storage (disks), and a free data transfer allowance. 
+- Lightsail plans also offer static IP addresses (5 per account) and DNS management (3 domain zones per account). 
+- Lightsail plans are charged on an hourly, on-demand basis, so you only pay for a plan when you're using it.
+=======================================

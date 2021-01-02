@@ -222,6 +222,32 @@ ANSWER : B, C
 
 EXPLANATION: 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####51:UD5: An On-Demand EC2 instance is launched into a VPC subnet with the Network ACL configured to allow all inbound traffic and deny all outbound traffic. The instance’s security group has an inbound rule to allow SSH from any IP address and does not have any outbound rules. 
+In this scenario, what are the changes needed to allow SSH connection to the instance?
+
+A. Both the outbound security group and outbound network ACL need to be modified to allow outbound traffic.
+B. No action needed. It can already be accessed from any IP address using SSH.
+C. The outbound security group needs to be modified to allow outbound traffic.
+D. The outbound network ACL needs to be modified to allow outbound traffic.
+
+
+EXPLANATION : SG and NACL
+ANSWER : D
+
+In order for you to establish an SSH connection from your home computer to your EC2 instance, you need to do the following:
+
+- On the Security Group, add an Inbound Rule to allow SSH traffic to your EC2 instance.
+- On the NACL, add both an Inbound and Outbound Rule to allow SSH traffic to your EC2 instance.
+
+The reason why you have to add both Inbound and Outbound SSH rule is due to the fact that Network ACLs are stateless which means that responses to allow inbound traffic are subject to the rules for outbound traffic (and vice versa). In other words, if you only enabled an Inbound rule in NACL, the traffic can only go in but the SSH response will not go out since there is no Outbound rule.
+
+Security groups are stateful which means that if an incoming request is granted, then the outgoing traffic will be automatically granted as well, regardless of the outbound rules.
+
+References:
+https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html
+
 
 =======================================
 ########### NAT ###### IGW ############

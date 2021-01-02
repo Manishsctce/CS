@@ -76,7 +76,35 @@ Note:
 Route 53 uses "Alias Name" to connect to the CloudFront as Alias Record is a Route 53 extension to DNS.  Also, Alias record is similar to a CNAME record, but the main difference is - you can create Alias record for both root domain & subdomain, whereas CNAME record can be created only to subdomain. Check the below link to get more information:
 
 https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html
- 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####60:UD5: A client is hosting their company website on a cluster of web servers that are behind a public-facing load balancer. The client also uses Amazon Route 53 to manage their public DNS.   
+How should the client configure the DNS zone apex record to point to the load balancer?
+
+A. Create an alias for CNAME record to the load balancer DNS name.
+B. Create an A record pointing to the IP address of the load balancer.
+C. Create an A record aliased to the load balancer DNS name.
+D. Create a CNAME record pointing to the load balancer DNS name.
+
+
+EXPLANATION : Route53
+ANSWER : C
+
+Route 53's DNS implementation connects user requests to infrastructure running inside (and outside) of Amazon Web Services (AWS). 
+For example, if you have multiple web servers running on EC2 instances behind an Elastic Load Balancing load balancer, Route 53 will route all traffic addressed to your website (e.g. www.tutorialsdojo.com) to the load balancer DNS name (e.g. elbtutorialsdojo123.elb.amazonaws.com).
+Additionally, Route 53 supports the alias resource record set, which lets you map your zone apex (e.g. tutorialsdojo.com) DNS name to your load balancer DNS name. IP addresses associated with Elastic Load Balancing can change at any time due to scaling or software updates. Route 53 responds to each request for an Alias resource record set with one IP address for the load balancer.
+
+Creating an A record pointing to the IP address of the load balancer is incorrect. You should be using an Alias record pointing to the DNS name of the load balancer since the IP address of the load balancer can change at any time.
+
+Creating a CNAME record pointing to the load balancer DNS name and creating an alias for CNAME record to the load balancer DNS name are incorrect because CNAME records cannot be created for your zone apex. You should create an alias record at the top node of a DNS namespace which is also known as the zone apex. For example, if you register the DNS name tutorialsdojo.com, the zone apex is tutorialsdojo.com. You can't create a CNAME record directly for tutorialsdojo.com, but you can create an alias record for tutorialsdojo.com that routes traffic to www.tutorialsdojo.com.
+
+References:
+
+http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/setting-up-route53-zoneapex-elb.html
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html
+
+Check out this Amazon Route 53 Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-route-53/ 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

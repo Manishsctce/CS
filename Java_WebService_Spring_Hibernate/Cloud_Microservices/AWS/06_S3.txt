@@ -400,6 +400,12 @@ The permissions can be granted as follows:
 
 > BUCKET VERSIONING is a S3 bucket sub-resource, USED TO PROTECT AGAINST ACCIDENTAL OBJECT DELETION OR OVERWRITES
 
+> Versioning enables you to control which file a request returns even when the user has a version cached either locally or behind a corporate caching proxy. 
+- CloudFront access logs include the names of your files, so versioning makes it easier to analyze the results of file changes.
+- Versioning provides a way to serve different versions of files to different users.
+- Versioning simplifies rolling forward and back between file revisions.
+- Versioning is less expensive. You still have to pay for CloudFront to transfer new versions of your files to edge locations, but you don't have to pay for invalidating files.
+
 > Versioning can also be used for data retention and archive
 > once enabled Bucket versioning on a bucket, it CAN NOT BE DISABLED, HOWEVER, IT CAN BE SUSPENDED
 
@@ -1113,6 +1119,8 @@ https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
 > Uses multipart upload from your browser to multiple AWS, regions, and demonstrates speed enhancements
 =======================================
 ##### S3 Performance Consideration #### v26
+
+> Amazon S3 now provides increased performance to support at least 3,500 requests per second to add data and 5,500 requests per second to retrieve data, which can save significant processing time for no additional charge.
 
 ## S3 Intensive GET/ PUT
 > S3 maintains an index of object key names in each region

@@ -221,7 +221,7 @@ The following flow diagram illustrates how the default termination policy works:
 > You NEED TO HAVE SCALE-OUT AND SCALE-IN POLICY CONFIGURED, which will instruct Auto Scaling what to do (Scale out/in) in response to Alarms 
 > You can use Cloud Watch to monitor and generate the Alarms
 
-## 3a. DYNAMIC/ON-DEMAND – SIMPLE SCALING
+## 3a. DYNAMIC/ON-DEMAND – SIMPLE SCALING Policy
 > Single adjustment (up or down) in response to an alarm
 > Waits for a cool down timer to expire before responding to more alarms
 
@@ -231,14 +231,18 @@ The following flow diagram illustrates how the default termination policy works:
 - Default is 300 seconds, the time during which ASG will not respond to any additional alarms
 - It is not supported for scheduled scaling or step on-demand scaling
 ---------------------------------
-## 3b. DYNAMIC/ON-DEMAND - STEP SCALING ## v13 
+## 3b. DYNAMIC/ON-DEMAND - STEP SCALING Policy ## v13 
 
 > Multiple steps/adjustments
 > Does not support/wait for a cool down timer,
 - Can respond to multiple alarms and initiate multiple scaling activities
+- After a scaling activity is started, the policy continues to respond to additional alarms, even while a scaling activity is in progress. 
 
 > Supports a warm-up timer
 - The time it will take a newly launched instance to be ready and contribute to the watched metric
+
+> We can define how scalable target should be scaled when a threshold is in breach for a specified no. of evaluation periods. 
+- Step scaling policies increase or decrease the current capacity of a scalable target based on a set of scaling adjustments, known as step adjustments. 
 
 ## WARM-UP PERIOD:
 > The period of time before which a newly created EC2 instance by ASG, using step scaling, is not considered/counted toward the ASG metrics

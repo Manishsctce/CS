@@ -79,6 +79,46 @@ D. All of the above
 ANSWER : 
 
 EXPLANATION : 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####33:UD5: A leading media company has recently adopted a hybrid cloud architecture which requires them to migrate their application servers and databases in AWS. One of their applications requires a heterogeneous database migration in which you need to transform your on-premises Oracle database to PostgreSQL in AWS. This entails a schema and code transformation before the proper data migration starts.   
+Which of the following options is the most suitable approach to migrate the database in AWS? 
+
+A. Use Amazon Neptune to convert the source schema and code to match that of the target database in RDS. Use the AWS Batch to effectively migrate the data from the source database to the target database in a batch process. 
+
+B. First, use the AWS Schema Conversion Tool to convert the source schema and application code to match that of the target database, and then use the AWS Database Migration Service to migrate data from the source database to the target database.
+
+C. Heterogeneous database migration is not supported in AWS. You have to transform your database first to PostgreSQL and then migrate it to RDS. 
+
+D. Configure a Launch Template that automatically converts the source schema and code to match that of the target database. Then, use the AWS Database Migration Service to migrate data from the source database to the target database. 
+
+
+EXPLANATION : RDS
+ANSWER : B
+
+AWS Database Migration Service helps you migrate databases to AWS quickly and securely. The source database remains fully operational during the migration, minimizing downtime to applications that rely on the database. The AWS Database Migration Service can migrate your data to and from most widely used commercial and open-source databases.
+
+AWS Database Migration Service can migrate your data to and from most of the widely used commercial and open source databases. It supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle to Amazon Aurora. Migrations can be from on-premises databases to Amazon RDS or Amazon EC2, databases running on EC2 to RDS, or vice versa, as well as from one RDS database to another RDS database. It can also move data between SQL, NoSQL, and text based targets.
+
+In heterogeneous database migrations the source and target databases engines are different, like in the case of Oracle to Amazon Aurora, Oracle to PostgreSQL, or Microsoft SQL Server to MySQL migrations. In this case, the schema structure, data types, and database code of source and target databases can be quite different, requiring a schema and code transformation before the data migration starts. That makes heterogeneous migrations a two step process. First use the AWS Schema Conversion Tool to convert the source schema and code to match that of the target database, and then use the AWS Database Migration Service to migrate data from the source database to the target database. All the required data type conversions will automatically be done by the AWS Database Migration Service during the migration. The source database can be located in your own premises outside of AWS, running on an Amazon EC2 instance, or it can be an Amazon RDS database. The target can be a database in Amazon EC2 or Amazon RDS.
+
+The option that says: Configure a Launch Template that automatically converts the source schema and code to match that of the target database. Then, use the AWS Database Migration Service to migrate data from the source database to the target database is incorrect because Launch templates are primarily used in EC2 to enable you to store launch parameters so that you do not have to specify them every time you launch an instance.
+
+The option that says: Use Amazon Neptune to convert the source schema and code to match that of the target database in RDS. Use the AWS Batch to effectively migrate the data from the source database to the target database in a batch process is incorrect because Amazon Neptune is a fully-managed graph database service and not a suitable service to use to convert the source schema. AWS Batch is not a database migration service and hence, it is not suitable to be used in this scenario. You should use the AWS Schema Conversion Tool and AWS Database Migration Service instead.
+
+The option that says: Heterogeneous database migration is not supported in AWS. You have to transform your database first to PostgreSQL and then migrate it to RDS is incorrect because heterogeneous database migration is supported in AWS using the Database Migration Service.
+
+References:
+https://aws.amazon.com/dms/
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html
+https://aws.amazon.com/batch/
+
+Check out this AWS Database Migration Service Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-aws-database-migration-service/
+
+Here is a case study on AWS Database Migration Service:
+https://youtu.be/11IHvxjy4hw
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Which of the following is true about a read replica? (Choose two.)
 
@@ -215,6 +255,44 @@ All Aurora Replicas return the same data for query results with minimal replica 
 The company expects the database to quadruple in size and the business requirement is that replica lag must be kept under 100 milliseconds.
 
 Aurora Cluster can grow up to 64 TB in size and replica lag—is less than 100 milliseconds after the primary instance has written an update.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###37:UD5: You are an IT Consultant for a top investment bank which is in the process of building its new Forex trading platform. To ensure high availability and scalability, you designed the trading platform to use an Elastic Load Balancer in front of an Auto Scaling group of On-Demand EC2 instances across multiple Availability Zones. For its database tier, you chose to use a single Amazon Aurora instance to take advantage of its distributed, fault-tolerant and self-healing storage system. 
+In the event of system failure on the primary database instance, what happens to Amazon Aurora during the failover?
+
+A. Amazon Aurora flips the canonical name record (CNAME) for your DB Instance to point at the healthy replica, which in turn is promoted to become the new primary.
+
+B. Amazon Aurora flips the A record of your DB Instance to point at the healthy replica, which in turn is promoted to become the new primary.
+
+C. Aurora will attempt to create a new DB Instance in the same Availability Zone as the original instance and is done on a best-effort basis.
+
+D. Aurora will first attempt to create a new DB Instance in a different Availability Zone of the original instance. If unable to do so, Aurora will attempt to create a new DB Instance in the original Availability Zone in which the instance was first launched.
+
+
+EXPLANATION : Aurora
+ANSWER : C
+
+> Failover is automatically handled by Amazon Aurora so that your applications can resume database operations as quickly as possible without manual administrative intervention.
+
+> If you have an Amazon Aurora Replica in the same or a different Availability Zone, when failing over, Amazon Aurora flips the canonical name record (CNAME) for your DB Instance to point at the healthy replica, which in turn is promoted to become the new primary. Start-to-finish, failover typically completes within 30 seconds.
+
+If you are running Aurora Serverless and the DB instance or AZ become unavailable, Aurora will automatically recreate the DB instance in a different AZ.
+
+If you do not have an Amazon Aurora Replica (i.e. single instance) and are not running Aurora Serverless, Aurora will attempt to create a new DB Instance in the same Availability Zone as the original instance. This replacement of the original instance is done on a best-effort basis and may not succeed, for example, if there is an issue that is broadly affecting the Availability Zone.
+
+Hence, the correct answer is the option that says: Aurora will attempt to create a new DB Instance in the same Availability Zone as the original instance and is done on a best-effort basis.
+
+The options that say: Amazon Aurora flips the canonical name record (CNAME) for your DB Instance to point at the healthy replica, which in turn is promoted to become the new primary and Amazon Aurora flips the A record of your DB Instance to point at the healthy replica, which in turn is promoted to become the new primary are incorrect because this will only happen if you are using an Amazon Aurora Replica. In addition, Amazon Aurora flips the canonical name record (CNAME) and not the A record (IP address) of the instance.
+
+The option that says: Aurora will first attempt to create a new DB Instance in a different Availability Zone of the original instance. If unable to do so, Aurora will attempt to create a new DB Instance in the original Availability Zone in which the instance was first launched is incorrect because Aurora will first attempt to create a new DB Instance in the same Availability Zone as the original instance. If unable to do so, Aurora will attempt to create a new DB Instance in a different Availability Zone and not the other way around.
+
+References:
+https://aws.amazon.com/rds/aurora/faqs/
+https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html
+
+Check out this Amazon Aurora Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-aurora/
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

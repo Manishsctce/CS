@@ -3,17 +3,18 @@
 ############### EBS #######
 ##### AWS Elastic File System(EFS) ####
 ############ Amazon FSx ###############
+
 =======================================
 ############# EBS TYPES ###############
 
-1. General purpose SSD(gp2)  
+1. GENERAL PURPOSE SSD(gp2)  
 > SSD backed (Solid state drives)
 > Are better for transactional workloads such as small databases & boot volumes, Dev/Test environment, Low Latency interactive apps where performance is highly dependent on IOPS 
 
 > Volume Sizes 1GB-16TB 
 > Max Throughput/Vol : 250 MB/sec
 > Max 16,000 IOPS/Volume
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### 2. PROVISIONED IOPS SSD(io1)
 > used for mission-critical low-latency or high-throughput workloads
 - upto 64,000 IOPS or 250 MiB/s of throughput per volume
@@ -24,8 +25,8 @@
 > Volume size : 4GB-16TB
 > Max Throughput/Vol : 1000 MB/sec
 > Max 64,000 IOPS/Volume
-
-#### 3. THROUGHPUT OPTIMIZED HDD(st1) ##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 3. THROUGHPUT OPTIMIZED HDD(st1) 
 > Low-cost HDD volume 
 - designed FOR FREQUENTLY ACCESSED, throughput-intensive workloads
 - defines performance in terms of throughput rather than IOPS 
@@ -35,8 +36,8 @@
 > Volume size : 500GB-16TB 
 > Max Throughput/Vol : 500 MB/sec
 > Max 500 IOPS/Volume
-
-#### 4. Cold HDD (sc1) Volumes ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### 4. Cold HDD (sc1) Volumes 
 > It provide low-cost magnetic storage that defines performance in terms of throughput rather than IOPS. 
 - With a lower throughput limit than Throughput Optimized HDD, this is a good fit ideal for large, SEQUENTIAL cold-data workloads. 
 - If you require INFREQUENT ACCESS to your data and are looking to save costs, Cold HDD provides inexpensive block storage. 
@@ -45,7 +46,7 @@
 > Volume size : 500GB-16TB 
 > Max Throughput/Vol : 250 MB/sec
 > Max 250 IOPS/Vol
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 5. Magnetic (standard)
 =======================================
 ########## EBS BLOCK STORAGE ########## v1 
@@ -119,6 +120,9 @@
 > This snapshot is created immediately but it may stay in pending status until the full snapshot is complete
 - we can still access the volume but I/O might be slower 
 
+> we can perform both read and write operations in the root/non-root vol while the snapshot is in progress
+> A non-root EBS volume can be detached or attached to a new EC2 instance while the snapshot is in progress.
+
 > While in pending state, an in progress snapshot will not include data from ongoing read and write to the volume 
 - this is why for a complete snapshot you need to stop I/O or unmount the volume if possible(or stop the instance for root volumes)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,18 +167,24 @@
 #### EBS encrypted support #### v6
 
 > EBS encryption is supported on all EBS volume type and all EC2 instance families
-> Snapshots of encrypted volume are also encrypted
-> Creating EBS volume from an encrypted snapshot will result an encrypted volume.
+
+> With encrypted EBS volume, the following types of data are encrypted:
+- Data at rest inside the volume
+- All data moving between the volume and the instance
+- Snapshots of encrypted volume are also encrypted
+- Creating EBS volume from an encrypted snapshot will result an encrypted volume.
+
 
 ## EBS DATA ENCRYPTION AT REST ##
 
 > Data encryption at rest mean encrypting data while it is stored on the data storage device
-> There are many ways you can encrypt data on EBS volume at rest, while the volume is attached to an EC2 instance
+> There are many WAYS TO ENCRYPT DATA ON EBS VOLUME AT REST, while the volume is attached to an EC2 instance
 - Use 3rd party EBS volume(SSD or HDD) encryption tool
 - Use encrypted EBS volume
 - Use encryption at the OS level (using data encryption plugin/driver)
 - Encrypt data at the app level before storing it to the volume
 - Use encrypted file system on top of the EBS volume
+- use KMS to encrypt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## EBS DATA ENCRYPTION IN-TRANSIT
 

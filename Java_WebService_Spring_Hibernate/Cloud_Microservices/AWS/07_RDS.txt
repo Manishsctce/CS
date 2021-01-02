@@ -41,8 +41,6 @@
 - if you do not specify one at the time you created the DB instance 
 - it will choose one randomly for you that is 30 minute long
 
-
-
 > RDS runs on virtual machines
 - we cannot log into those OS 
 - Patching of the RDS OS and DB is Amazon responsible
@@ -51,6 +49,8 @@
 > AURORA SERVERLESS IS SERVERLESS
 
 >> DB parameter groups act as a container for engine configuration values that are applied to one or more DB instances.
+
+> You can authenticate to your DB instance using AWS Identity and Access Management (IAM) database authentication. IAM database authentication works with MySQL and PostgreSQL. With this authentication method, you don't need to use a password when you connect to a DB instance. Instead, you use an authentication token.
 =======================================
 ## AWS is not responsible for
 - Managing DB setting 
@@ -458,7 +458,8 @@ OR
 
 > it support working with schema changes
 
-##### Aurora Scaling #####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### Aurora Scaling ########
 > The underlying storage grows automatically as needed, upto 64 tebibytes (TiB)
 -  A tebibyte equals nearly 1.1 TB
 
@@ -467,7 +468,8 @@ OR
 > It maintains 2 copies of data in each AZ, with a minimum of three AZ. 
 - Therefore, we can say that it maintains 6 copies of your data.
 
-##### Replicas #######
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########## Replicas ###########
 > There are 2 types of Replicas:
 1. Aurora Replicas(up to 15 Aurora Replicas across AZs).
 2. MySQL Read Replicas (up to 5 Read Replicas across Azs)
@@ -480,6 +482,19 @@ OR
 > Global Database uses storage-based replication to replicate a database across multiple AWS Regions, with typical latency of less than 1 second.
 - You can use a secondary region as a backup option in case you need to recover quickly from a regional degradation or outage.
 - A database in a secondary region can be promoted to full read/write capabilities in less than 1 minute.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### Automatic Failover ######
+
+> Failover is automatically handled by Aurora so that your apps can resume database operations as quickly as possible without manual administrative intervention.
+
+> If you have Aurora Replica in the same or different AZ, when failing over, Aurora flips the CNAME for your DB Instance to point at the healthy replica, which in turn is promoted to become the new primary. Start-to-finish, failover typically completes within 30 seconds.
+
+> If you are running Aurora Serverless and the DB instance or AZ become unavailable, Aurora will automatically recreate the DB instance in a different AZ.
+
+> If you do not have an Aurora Replica (i.e. single instance) and are not running Aurora Serverless, Aurora will attempt to create a new DB Instance in the same AZ as the original instance. 
+- This replacement of the original instance is done on a best-effort basis and may not succeed, 
+- for example, if there is an issue that is broadly affecting the Availability Zone.
 =======================================
 ############ AWS DynamoDB #############
 
@@ -756,7 +771,7 @@ D) Can't transfer huge amount of data to AWS
 =======================================
 ########## Amazon ElastiCache #########
 
-> Amazon ElastiCache makes it easy to set up, manage, and scale distributed in-memory cache environments
+> Amazon ElastiCache makes it easy to set up, manage, and scale DISTRIBUTED in-memory cache environments
 
 > It is AWS FULLY MANAGED WEB SERVICE.
 - It is an IN-MEMORY KEY-VALUE DATA STORE ENGINE in the cloud and provide ultra-fast (sub-millisecond latency) and inexpensive access to copies of data.
@@ -769,7 +784,8 @@ D) Can't transfer huge amount of data to AWS
 ##### USE CASE #####
 > ELASTICACHE IS USED IN BETWEEN WEBSERVER AND DATABASE TO STORE CACHE. WebServer might response through cache if the request match.
 
-> it can be used for storing session state.
+> it can be used for storing session data for webapp.
+- It is used for distributed session data management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### DESIGN & ARCHITECT 
 > ElastiCache shard - A collection of multiple nodes that make up a cluster

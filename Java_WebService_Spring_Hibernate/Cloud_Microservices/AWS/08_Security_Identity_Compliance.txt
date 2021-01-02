@@ -7,17 +7,15 @@
 #### Inspector
 - Automated security assessment service to test the security state of applications hosted on EC2.
 
-#### Certificate Manager
-- Manages SSL/TLS certificates. 
-- Also makes it easy to deploy them across various AWS services.
-
-
+#### AWS Certificate Manager
 #### AWS DIRECTORY SERVICE ####
 #### AWS Web Application Firewall (WAF)
 #### AWS Shield
-#### AWS Single-Sign-on (SSO)
+#### AWS Single Sign on (SSO)
 #### AWS Cognito 
 #### KMS (Key Management Service)
+## AWS Security Token Service (STS)
+## AWS CloudHSM
 =======================================
 ###### AWS Account Identifiers ########
 
@@ -525,6 +523,14 @@ via
 curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 
 > If the application gets temporary security credentials from the instance metadata and has cached them, it should get a refreshed set of credentials every hour, or at least 15 minutes before the current set expires.
+
+
+=======================================
+###### AWS Certificate Manager ########
+- Manages SSL/TLS certificates. 
+- Also makes it easy to deploy them across various AWS services.
+
+
 =======================================
 ####### AWS DIRECTORY SERVICE #########
 > It is an AWS Directory service for Microsoft Active Directory. 
@@ -555,6 +561,8 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 - This lets you confirm that you didn't accidentally configure AWS WAF to block all the traffic to your website.
 -  When you're confident that you specified the correct properties, you can change the behavior to allow or block requests.
 
+
+>> Using WAF, we can create a web ACL, where we specify which IP Addr to ALLOW OR BLOCK requests based on countries.
 =======================================
 ############ AWS Shield ###############
 
@@ -571,10 +579,10 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 > Shield is more useful and strong for DDoS compare to WAF.
 - WAF helps to protect webapps from common exploits that could affect app availability, compromise security, or consume excessive resources.
 =======================================
-##### AWS Single Sign on (AWS SSO) ####
+###### AWS Single Sign on (SSO) #######
 
 > For additional security, AWS SSO with 2-step verification can be enabled.
-- After two-step verification is enabled, post login with authorized email password, users are prompted for additional verification code which they receive on their registered email address.
+- After 2-step verification is enabled, post login with authorized email password, users are prompted for additional verification code which they receive on their registered email address.
 
 > WITH CONTEXT-AWARE 2-step verification, AWS SSO analyzes user sign-in context such as browser, location, and devices.
 - If any deviation is observed, only then it asks for the additional second level of verification code.
@@ -614,4 +622,44 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 > Cognitio supports more than just social identity providers, including OIDC, SAML, and its own identity pools
 
 =======================================
-################ KMS ##################
+##### KMS (Key Management Service) ####
+
+
+=======================================
+### AWS Security Token Service (STS) ##
+
+> it is a webservice that enable you to request temporary, limited-privilege credentials for IAM users or for federated users.
+ 
+> It is a global service
+- all STS requests go to a single endpoint at 
+https://sts.amazonaws.com
+
+> STS return AccessKeyID, SecretAccessKey, SessionToken, Expiration
+
+> We can use following API action to obtain STS:
+- AssumeRole
+- AssumeRoleWithSAML
+- AssumeRoleWithWebIdentity
+
+=======================================
+########### AWS CloudHSM ##############
+
+> it helps you meet corporate, contractual and regulatory compliance requirements for data security by using dedicated Hardware Security Module (HSM) instances within the AWS cloud
+- it help us to PROTECT ENCRYPTION KEYS within HSM
+- it securely generate, store and manage cryptographic keys used for data encryption
+
+
+> When you use the AWS CloudHSM service you create a CloudHSM Cluster.
+- Clusters can contain multiple HSM instances, spread across multiple AZ in a region. 
+- HSM instances in a cluster are automatically synchronized and load-balanced.
+- You receive dedicated, single-tenant access to each HSM instance in your cluster. 
+- Each HSM instance appears as a network resource in AWS VPC.
+- Adding and removing HSMs from your Cluster is a single call to the AWS CloudHSM API (or on the command line using the AWS CLI).
+
+Attempting to log in as the administrator more than twice with the wrong password zeroizes your HSM appliance. 
+- When an HSM is zeroized, all keys, certificates, and other data on the HSM is destroyed. 
+- You can use your cluster's security group to prevent an unauthenticated user from zeroizing your HSM.
+
+> Amazon does not have access to your keys nor to the credentials of your Hardware Security Module (HSM) and therefore has no way to recover your keys if you lose your credentials. 
+- Amazon strongly recommends that you use two or more HSMs in separate Availability Zones in any production CloudHSM Cluster to avoid loss of cryptographic keys.
+=======================================

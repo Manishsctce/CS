@@ -1,38 +1,13 @@
 =======================================
 ######## AWS COMPUTE SERVICES #########
 
-## AWS EC2
-- It is Elastic Compute CloudFront
-- It is a raw server
-- It enables on-demand, scalable computing capacity in the AWS cloud
-
-## AWS LAMBDA
-- It is ADVANCE VERSION OF EC2
-- It is a compute service that lets u run code without provisioning or managing servers.
-
-## ELASTIC BEANSTALK
-- It is a web app server
-- It is example of PaaS
-- Developers can QUICKLY DEPLOY AND MANAGE APP in the AWS cloud. Developers just have to upload their application and the rest is taken care of by Elastic Beanstalk.
-> Beanstalk doesn't use for long-running processes. 
-
-## AWS ECR
-- It is Elastic Container Registry
-- It is fully-managed docker container registry that make it easy for developer to 
-
-## ECS(ELASTIC CONTAINER SERVICE)
-- It is a highly scalable, high performance container orchestration service that supports Docker container and allow easily run and scale containerized app on AWS.
-
-## AWS Fargate 
-> Serverless compute for containers
-
-## AWS Lightsail
-- provides template-based computing. 
-- It is also called Virtual Private Servers (VPS). 
-- It makes it possible to quickly launch virtual machines from templates rather than selecting individual components in EC2.
-
-## AWS ELASTIC LOAD BALANCER 
-- It distributes incoming app or network traffic across multiple targets, such as Amazon EC2 instance, container and IP addr. 
+#### Elastic Compute Cloud(EC2)
+#### AWS LAMBDA
+#### ELASTIC BEANSTALK
+#### AWS ECR
+#### AWS ECS
+#### AWS Fargate
+#### AWS Lightsail
 =======================================
 ##### Elastic Compute Cloud(EC2) ######  
 
@@ -66,6 +41,13 @@
 - we can download the private key only once 
 - the public key is saved by AWS to match it with key-pair name and private key when we login to EC2 instance 
 - if we launch instance without a key pair, we will not be able to acess it(via RDP/SSH) 
+-------------------------------
+> In order to access EC2 instance from the Internet, you need to have:
+
+- An Internet Gateway (IGW) attached to the VPC.
+- A route entry to the Internet gateway in the Route table of the VPC.
+- A Public IP address attached to the EC2 instance.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### EC2 - ROOT/BOOT VOLUME ###
 
@@ -466,11 +448,17 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 =======================================
 ######## EC2 PURCHASE OPTIONS ######### v18
  
-1. On-Demand Instances 
+1. ON-DEMAND INSTANCES 
 – Pay-by-second, for the instances that we launch.
 
-2. Reserved Instances 
+2. RESERVED INSTANCES 
 – Reduce EC2 costs by making a commitment to a consistent instance configuration, including instance type and Region, for a term of 1 or 3 years.
+- It has 2 offering 
+  1. Standard RI - we can only modify AZ, Instance size(for Linux), Networking type and can sold in RI marketplace. 
+  2. Convertible RI - we can modify most of the EC2 detail but cannot sold in RI marketplace
+
+2B. Scheduled Reserved Instances (Scheduled Instances) 
+- it enable us to purchase capacity reservations that recur on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term. 
 
 3. Spot Instances 
 – Request unused EC2 instances, which can reduce your Amazon EC2 costs significantly.
@@ -484,9 +472,7 @@ GET http://169.254.169.254/latest/meta-data/host-name/
 
 Savings Plans – Reduce your Amazon EC2 costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years.
 
-SCHEDULED INSTANCES – Purchase instances that are always available on the specified recurring schedule, for a one-year term.
 
-> Scheduled Reserved Instances (Scheduled Instances) enable you to purchase capacity reservations that recur on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term. You reserve the capacity in advance, so that you know it is available when you need it. You pay for the time that the instances are scheduled, even if you do not use them.
 
 Capacity Reservations – Reserve capacity for your EC2 instances in a specific Availability Zone for any duration.
 
@@ -520,7 +506,7 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 64GB RAM - can create 4 * 16GB RAM instances
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-##### 1. RESERVED INSTANCE ###
+##### 1. RESERVED INSTANCE(RI)
 > we do not actually buy Instances, rather, we reserve long term capacity and pay for it for instance family/configuration, anytime we run (in that AZ or region) an on-demand instance that matches the reserved one, reserve pricing will apply to the on-demand instance
 
 - You can purchase it at a significant discount
@@ -541,14 +527,18 @@ Capacity Reservations – Reserve capacity for your EC2 instances in a specific 
 
 > Reserved Instance benefits can only apply to on-demand instances (not Spot or Dedicated)
 
-> By default, a Reserved Instance scope is Region, however, it can bé AZ pr Region
-- If AZ, you get guaranteed reserved capacity in the AZ You can also sell the reservations with AZ scope on AWS reserved instance market place
+> By default, a Reserved Instance scope is Region, however, it can be AZ per Region
+- If AZ, you get guaranteed reserved capacity in the AZ You can also sell the reservations with AZ scope on AWS RI market place
 - If the scope Region, you do not get reserved capacity guarantees You can change from Scope AZ to Scope Region
+
+> It has 2 offering 
+  1. Standard RI - we can only modify AZ, Instance size(for Linux), Networking type and can sold in RI marketplace. 
+  2. Convertible RI - we can modify most of the EC2 detail but cannot sold in RI marketplace
 
 #### Modifying EC2 Reserved Instances ####
 > What you can change is:
 - Change AZ within the same Region (keep its scope as(AZ but for a different AZ)
-- This also means you can migrate Reserved instances befween AZs in the same region
+- This also means you can migrate RI bet AZs in the same region
 - Change the scope from AZ to a Region or the other way around
 
 - Change instance size within the same instance family
@@ -723,19 +713,20 @@ There are two parts of the error message.
 
 ## What is AWS Lambda?
 
+- It is ADVANCE VERSION OF EC2
+- It is a compute service that lets u run code without provisioning or managing servers.
 > it is a compute service where we can upload our code and create the Lambda function.
 - it takes care of provisioning and managing the servers used to run the code.
 - While using Lambda, we don't have to worry about scaling, patching, OS etc.
 - it runs code on a HA compute infrastructure.
-
 
 > While working with Lambda function, if there is a need to access other resources, ensure that IAM role is in place. 
 
 > it executes code only when needed and scales automatically, from a few requests per day to thousands of RPS.
 > pay only for the compute time - No charge when code is not running.
 
-
 > use the API gateway and integrate with AWS Lambda func which will call on HTTPS
+
 
 ##### IMPORTANT POINTS
 > It support Node.js, Java, Python, C#, Go, Powershell, Ruby
@@ -744,9 +735,6 @@ There are two parts of the error message.
 > Architectures can get extremely complicated, AWS X-ray allows you to debug what is happening
 
 - Lambda can do things globally, you can use it to back up S3 buckets to other S3 buckets etc
-
-> Serverless - Lambda, Aurora, DynamoDB, S3, API Gateway
-- NOT SERVERLESS - EC2, RDS
 
 
 > Trigger Lambda - API Gateway, CloudWatch Event/logs, DynamoDB, Kinesis, S3, SNS, SQS, App Load Balancer, CodeCommit
@@ -836,18 +824,21 @@ In AWS Lambda, Lambda Functions and event sources are the core components in AWS
 ########## ELASTIC BEANSTALK ##########
 
 > With Elastic Beanstalk, we can QUICKLY DEPLOY AND MANAGE APP in the AWS Cloud WITHOUT HAVING TO LEARN ABOUT THE INFRASTRUCTURE that runs those appl. 
+- It is a web app server
+- It is example of PaaS
 
-> Elastic Beanstalk REDUCES MANAGEMENT COMPLEXITY without restricting choice or control. 
-- we simply upload our app, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring.
+> It REDUCES MANAGEMENT COMPLEXITY without restricting choice or control. 
+- we simply upload our app, and it automatically handles the details of capacity provisioning, load balancing, scaling, and app health monitoring.
 
 > It supports app developed in Go, Java, .NET, Node.js, PHP, Python, Ruby, Go and Docker
-- When we deploy app, Elastic Beanstalk builds the selected supported platform version and provisions one or more AWS resources, such as EC2 instances, to run app.
-- it automatically handles the deployment, from capacity provisioning, load balancing, auto-scaling to application health monitoring.
+- When we deploy app, it builds the selected supported platform version and provisions one or more AWS resources, such as EC2 instances, to run app.
 
 > we can interact with Elastic Beanstalk by using the Elastic Beanstalk console, AWS CLI
 
 > It is recommended for test or development apps Not for production.
+> it doesn't use for long-running processes. 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Elastic Beanstalk Components
 
 1. Application:
@@ -870,9 +861,21 @@ b. Worker Environment: Processes background tasks which are resource consuming a
 
 ##
 > It need ".ebextensions/*.config" file to run the app 
-=======================================
-#### ECS(ELASTIC CONTAINER SERVICE) ###
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##### Logging & Monitoring ####
+> Elastic Beanstalk stores application files and optionally, server log files in S3. 
+- If we are using the AWS Management Console, AWS Toolkit for Visual Studio, or AWS Toolkit for Eclipse, an S3 bucket will be created in account and the files will be automatically copied from local client to S3. 
+- Optionally, you may configure Elastic Beanstalk to copy server log files every hour to S3.
+- You do this by editing the environment configuration settings.
 
+> With CloudWatch Logs, you can monitor and archive Elastic Beanstalk app, system, and custom log files from EC2 instances of your env. 
+=======================================
+############# AWS ECR #################
+
+> Elastic Container Registory
+=======================================
+############## AWS ECS ################
+> It is Elastic Container Service
 > It is HA, fast and container management service 
 - it supports Docker containers and allows you to easily run apps on a managed cluster of EC2 instances.
 
@@ -881,6 +884,9 @@ b. Worker Environment: Processes background tasks which are resource consuming a
 > It is a regional service.
 > There is no additional charge for Amazon ECS. 
 - You pay for AWS resources (e.g. EC2 instances or EBS volumes) 
+
+> ECS lets you run batch workloads with managed or custom schedulers on EC2 On-Demand Instances, Reserved Instances, or Spot Instances.
+- You can launch a combination of EC2 instances to set up a cost-effective architecture depending on workload. 
 
 > we can create ECS cluster within a new or existing VPC.
 - After cluster is up and running, we can define task definition and services that specify which docker container image to run across cluster.

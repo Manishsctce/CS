@@ -24,6 +24,8 @@ EXAMPLE: .com, .net, .org, .biz, .edu, .mil
 
 ## www.amazon.com 
 - This is called sub-domain 
+
+> /32 denotes one IP address and the /0 refers to the entire network
 =======================================
 ########## NAMESPACE ########
 > A Namespce map each address to a unique name 
@@ -53,16 +55,13 @@ EXAMPLE: .com, .net, .org, .biz, .edu, .mil
 
 2. DOMAIN NAME SYSTEM (DNS) SERVICE
 - translates friendly domains names like www.example.com into IP addresses like 192.0.2.1
-
-> responds to DNS queries using a global network of authoritative DNS servers, which reduces latency
-
-> can route Internet traffic to CloudFront, Elastic Beanstalk, ELB, or S3. 
+- responds to DNS queries using a global network of authoritative DNS servers, which reduces latency
+- can route Internet traffic to CloudFront, Elastic Beanstalk, ELB, or S3. 
 - There’s no charge for DNS queries to these resources
 
 3. HEALTH CHECKING
 > can monitor the health of resources such as web and email servers.
-
-> sends automated requests over the Internet to the application to verify that it’s reachable, available, and functional
+- sends automated requests over the Internet to the app to verify that it’s reachable, available, and functional
 
 > CloudWatch alarms can be configured for the health checks to send notification when a resource becomes unavailable.
 > can be configured to route Internet traffic away from resources that are unavailable
@@ -89,24 +88,25 @@ Record (DNS Record) - an object in a hosted zone that you use to define how you 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######### RECORD TYPE #########
 
-# A (Address) 
+# A (Address) - 32bit
 - is an IPv4 address in dotted decimal notation for e.g. 192.0.2.1
 
 ## AAAA Format
 - is an IPv6 address in colon-separated hexadecimal format
+- 4 A's bcz of 128 bit
 
 ## CNAME (Canonical Name) 
 - is the same format as a domain name
 
-> DNS protocol does not allow creation of a CNAME record for the top node of a DNS namespace, also known as the zone apex 
+>> DNS protocol does not allow creation of a CNAME record for the top node of a DNS namespace, also known as the zone apex 
 - EXAMPLE: the DNS name example.com registration, the zone apex is example.com, a CNAME record for example.com cannot be created, but CNAME records can be created for www.example.com, newproduct.example.com etc.
 
-> If a CNAME record is created for a subdomain, any other resource record sets for that subdomain cannot be created 
+>> IF A CNAME RECORD IS CREATED FOR A SUB-DOMAIN, WE CANNOT CREATE ANY OTHER RECORDS FOR THAT SUB-DOMAIN
 - EXAMPLE: if a CNAME created for www.example.com, not other resource record sets for which the value of the Name field is www.example.com can be created
 
 
 ## MX (Mail Xchange) Format
-> contains a decimal number that represents the priority of the MX record, and the domain name of an email server
+- contains a decimal number that represents the priority of the MX record, and the domain name of an email server
 
 ## NS (Name Server) Format
 > An NS record identifies the name servers for the hosted zone. The value for an NS record is the domain name of a name server.
@@ -116,6 +116,11 @@ Record (DNS Record) - an object in a hosted zone that you use to define how you 
 
 ## SOA (Start of Authority) Format
 - SOA record provides information about a domain and the corresponding Route53 hosted zone
+> It includes the following information:
+- Who the owner is (email for the admin),
+- The authoritative server,
+- The serial number which is incremented with changes to the zone data,
+- The refreshing time/cycle info, and the TTL
 
 ## SPF (Sender Policy Framework) Format
 > SPF records were formerly used to verify the identity of the sender of email messages, however is not recommended
@@ -133,38 +138,36 @@ is allowed in TXT strings
 
 @ - mean domain name itself
 
+## Alias Record 
+- It is AWS specific record
+- we cannot set TTL of any AWS service but it help to fetch TTL of that service.
 =======================================
 ############ Record type ##############
 
+## Difference bet CNAME and Alias Record ?
 
-## Difference bet CNAME and Alias Record 
+> Route53 charges for CNAME queries
+- Route53 doesn't charges for alias queries for AWS resources 
 
-> CNAME record can redirect DNS queries to any DNS record.
+> We can't create CNAME record for hosted zone Apex  
+- we can create Alias record for the hosted zone Apex 
+
+> CNAME record can redirect DNS queries to any DNS record(inside/outside AWS)
 - EXAMPLE: we can create a CNAME record that redirect queries from "acme.example.com" to "zenith.example.com" or to "acme.example.org"
 - you don't need to use Route53 as the DNS service for the domain that you are redirect queries to.
 
 > ALIAS RECORD CAN ONLY REDIRECT QUERIES TO SELECTED AWS RESOURCES such as the following 
-- S3 bucket 
+- S3 bucket for static website
 - CloudFront distribution 
 - Elastic Beanstalk
-- ELB
+- ELB/ALB/CLB
 - another Route53 record in the same hosted zone
 - EXAMPLE: you can create an alias record named "acne.example.com" that redirect queries to S3 bucket that is also named "acme.example.com" 
 - we can also create and an "acme.example.com" alias record that redirect queries to a record named "zenith.example.com" in the "example.com" hosted zone. 
 
-> We can't create a CNAME record that has the same name as the hosted zone Apex  
-- this is true both for hosted zone for domain name and for hosted zone for subdomain
-
-> In most configuration We can create an alias record that has the same name as the hosted zone give an exception is when you want to redirect queries from John Apex to record in the same hosted zone that has a type of c name deadliest record must have the same type as the record you are rooting to and creating a c name record for the zone Apex isn't supported even for an alias record
-
-> Route53 charges for CNAME queries
-> Route53 doesn't charges for alias queries for AWS resources 
-
-> Aisi name record redirect DNS queries for a record name regardless of record type such as a for
-> route 53 respond to a DNS queries only when the name of the earliest recorded and the type of the earliest record match the same name and datatype in the DNS query
-> Aisi name record appear as AC name record in response to dig or NS lookup queries
-> An alias record appear as the record type that you are specified when you create the records such as a a for ah ah ah property is visible only in the route 53 console or in the response to a program Attic request such as an e w s c l a list resource record set command
-
+ 
+> CNAME record is followed by a recursive resolver(either inside/outside aws service).
+- Alias record is followed inside Route53. This mean that both the alias record and its target must exist in Route53.
 =======================================
 ####### ROUTE 53 ROUTING POLICY #######
 
@@ -188,13 +191,13 @@ is allowed in TXT strings
 
 6. Geoproximity routing policy (Requires Route Flow) –
 - Use when you want to route traffic based on the geographic location of your users and your resources. 
-- You can also optionally choose to route more traffic or less to a given resource by specifying a value, known as a bias. 
+- You can also OPTIONALLY CHOOSE TO ROUTE MORE TRAFFIC OR LESS to a given resource by specifying a value, known as a bias. 
 - A bias expands or shrinks the size of the geographic region from which traffic is routed to a resource.
 
 7. Multivalue answer routing policy -
-> Use when you want Route 53 to respond to DNS queries with up to 8 healthy records selected at random.
-=======================================
-#### FAILOVER ROUTING POLICY ####
+> Use when you want Route53 to RESPOND TO DNS QUERIES WITH UPTO 8 HEALTHY RECORDS selected at random.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### FAILOVER ROUTING POLICY ###
 > it lets us route traffic to a resource when the resource is healthy
 - If the main resource is not healthy, then route traffic to secondary resource
 - The primary and secondary records can route traffic to anything from S3 bucket that is configured as a website to a complex tree of records.

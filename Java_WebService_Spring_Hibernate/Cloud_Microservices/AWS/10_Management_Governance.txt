@@ -21,7 +21,7 @@
 
 > we can use CloudTrail to view, search, download, archive, analyze, and respond to account activity across your AWS infrastructure
 
-> we can identify who is taking what action. 
+>> we can IDENTIFY WHO IS TAKING WHAT ACTION. 
 
 > we can easily VIEW EVENTS IN THE CLOUDTRAIL CONSOLE BY GOING TO EVENT HISTORY.
 - Event history allows you to view, search, and download the PAST 90 DAYS OF ACTIVITY 
@@ -39,7 +39,8 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 --> do troubleshooting
 --> configure CloudWatch for monitor/alarm/react.
 
-#### 2 TYPES OF TRAILS ####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###### 2 TYPES OF TRAILS ######
 
 1. A trail that applies to all regions(recommended)
 2. A trail that applies to one region
@@ -50,7 +51,7 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 > create a trail that applies to all regions
 > CloudTrail records events in each region and delivers the CloudTrail event log files to an S3 bucket that we specify. 
 
-> If a region is added after creating trail then new region will automatically included
+>> If a region is added after creating trail then new region will automatically included
 
 ### 2. TRAIL THAT APPLIES TO ONE REGION
 >> If you create additional single trails, we can have those trails deliver CloudTrail event log files to the same S3 bucket or to separate buckets.
@@ -61,7 +62,7 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 - we can define S3 lifecycle rules to archive or delete log files automatically.
 
 ## CloudTrail log file integrity validation
-> To determine whether a log file was modified, deleted, or unchanged after CloudTrail delivered it, we can use CloudTrail log file integrity validation. 
+>> To determine whether a log file was modified, deleted, or unchanged after CloudTrail delivered it, we can use CloudTrail log file integrity validation. 
 - This feature is built using industry standard algorithms: SHA-256 for hashing and SHA-256 with RSA for digital signing.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,9 +74,15 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 =======================================
 ############# CLOUDWATCH ##############
 
-> It is a service used to monitor your AWS resources and app in real time. 
+> It is a service USED TO MONITOR AWS resources and app IN REAL TIME. 
 > we can choose to create dashboard to display the metrics of app.
 > CLOUDWATCH SERVICE IS REGION WISE. 
+
+> CloudWatch Logs agent provides an automated way to send log data to CloudWatch Logs from Amazon EC2 instances
+> CloudWatch Logs agent is comprised of the following components:
+- A plug-in to the AWS CLI that pushes log data to CloudWatch Logs.
+- A script (daemon) that initiates the process to push data to CloudWatch Logs.
+- A cron job that ensures that the daemon is always running.
 
 ##### FEATURE
 > Alarm - use to set alarm that notify when thresholds are hit. 
@@ -85,6 +92,7 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 > Billing Alarm : setup billing alerts if require
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > Using Cloudwatch logs collect, store, view, and search logs from AWS and non-AWS resources.
+
 > CloudWatch alarms are used to trigger notifications for any metric. 
 - Alarms can go to auto-scaling, EC2 actions(stop, terminate, recover, or reboot) and SNS notifications.
 
@@ -126,7 +134,7 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 =======================================
 ########### CLOUDFORMATION ############
 
-> AWS CloudFormation provides users with a simple way to create and manage a collection of AWS resources by provisioning and updating them in a predictable way
+> It provides users with a simple way to create and manage a collection of AWS resources by provisioning and updating them in a predictable way
 
 > It is a service that allows us to manage, configure and provision AWS infrastructure as a Code (IAAC)
 
@@ -151,14 +159,14 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 
 9. Output 
 
-> AWS CloudFormation Drift Detection can be used to detect changes made to AWS resources outside the CloudFormation Templates.
+>> AWS CloudFormation DRIFT DETECTION can be used to detect changes made to AWS resources outside the CloudFormation Templates.
 - It only checks property values that are explicitly set by stack templates or by specifying template parameters. 
 - It does not determine drift for property values that are set by default. 
 - To determine drift for these resources, you can explicitly set property values which can be the same as that of the default value.
 =======================================
 ########## Trusted Advisor ############
 
-> It is an online tool that PROVIDES REAL TIME GUIDANCE to help provision resources following 5 category for AWS best practices.
+> It is an online tool that PROVIDES REAL TIME GUIDANCE to help provision resources for AWS best practices in below 5 category:
 
 cost optimization
 Performance
@@ -206,20 +214,29 @@ Service limit
 ##### AWS RESOURCE ACCESS MANAGER (RAM)
 
 > It is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. 
-- You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
+- You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Route53 Resolver rules resources with RAM.
 - Many organizations use multiple accounts to create administrative or billing isolation, and limit the impact of errors. 
 - RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. 
-- You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts. 
-- RAM is available to you at no additional charge.
+- You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts.
+ 
+> RAM is available to you at no additional charge.
 - You can procure AWS resources centrally, and use RAM to share resources such as subnets or License Manager configurations with other accounts. 
 - This eliminates the need to provision duplicate resources in every account in a multi-account environment, reducing the operational overhead of managing those resources in every account.
 
 =======================================
-###### AWS Systems Manager(SM) ########  
+###### AWS Systems Manager(SM) ########
 - It allows you to centralize operational data from multiple AWS services and automate tasks across your AWS resources.
 - basically we can administer our instances like run commands/ upload patches etc using SM
 
-> AWS Secrets Manager is an AWS service that makes it easier for you to manage secrets. 
+> AWS Systems Manager Run Command lets you remotely and securely manage the configuration of your managed instances. 
+- A managed instance is any EC2 instance or on-premises machine in your hybrid environment that has been configured for Systems Manager. 
+
+> Run Command enables you to automate common administrative tasks and perform ad-hoc configuration changes at scale. 
+- You can use Run Command from the AWS console, the AWS CLI, AWS Tools for Windows PowerShell, or the AWS SDKs. 
+- Run Command is offered at no additional cost.
+=======================================
+######## AWS Secrets Manager ##########
+> It is an AWS service that makes it easier for you to manage secrets. 
 - Secrets can be database credentials, passwords, third-party API keys, and even arbitrary text. 
 - You can store and control access to these secrets centrally by using SM console, SM CLI, or SM API and SDKs.
 

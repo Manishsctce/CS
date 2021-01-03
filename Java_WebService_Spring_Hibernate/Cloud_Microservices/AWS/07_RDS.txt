@@ -661,22 +661,23 @@ DynamoDB <---- DAX(with IAM role to access DynamoDB, within VPC) <-----EC2 Insta
 > Redshift is a fast and powerful, fully managed, petabyte-scale DATA WAREHOUSE SERVICE
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### BENEFITS ###
+######### BENEFITS ############
 
 > Query our Data Lake:
--- can directly query open data formats stored in S3 with Redshift spectrum(a feature of Redshift without need for unnecessary data movement)
+-- can directly query open data formats stored in S3 with REDSHIFT SPECTRUM(a feature of Redshift without need for unnecessary data movement)
 - Redshift Spectrum is similar in-query functionality like S3 Select 
 - The Redshift queries are run on cluster resources against local disk.
  
-> Secure
+> SECURE
 - It can be encrypted with AWS KMS or HSM
 
+> For DR, automatically copy snaphots in another region when Cross-Region snaphots enable.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### USE CASES ####
 > Accelerated analytics workload 
 > Unified data warehouse and data lake 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> AWS Documentation mentions the following on monitoring Redshift Clusters:
+> AWS Documentation mentions the following on MONITORING REDSHIFT CLUSTERS:
 
 > Amazon CloudWatch metrics help to monitor the physical aspects of cluster, such as CPU utilization, latency, and throughput. 
 - Metric data is displayed directly in the Redshift console. 
@@ -684,6 +685,7 @@ DynamoDB <---- DAX(with IAM role to access DynamoDB, within VPC) <-----EC2 Insta
 - we can consume it in any other way such as with CloudWatch CLI OR SDKs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+> We can configure CROSS-REGIONAL SNAPHOTS to automatically copy snapshots(automated or manual) to another region for backup purpose.
 > Regardless of whether we enable automated snapshots, we can take a manual snapshot whenever we want at any time. 
 - By default, manual snapshots are retained indefinitely, even after we delete cluster. 
 - we can specify the retention period when we create manual snapshot or we can change the retention period by modifying the snapshot. 
@@ -737,16 +739,16 @@ DynamoDB <---- DAX(with IAM role to access DynamoDB, within VPC) <-----EC2 Insta
 - Redshift automatically distributes data and query load across all nodes.
 - Redshift makes it easy to add nodes to data warehouse and enables you to maintain fast query performance as data warehouse grows.
 
-## Redshift – Security
+## REDSHIFT – SECURITY
 > Encrypted in transit using SSL
 > Encrypted at rest using AES-256 encryption
-> By Default, Redshift takes care of key management.
-> Manage your own keys through HSM
-> AWS Key Management Service
+> It uses a hierarchy of encryption keys to encrypt the database. 
+- You can use either AWS KMS or HSM to manage the top-level encryption keys in this hierarchy.
+- By Default, Redshift takes care of key management.
 
 ## Redshift – Backup Retention
 > Redshift automaticallly patches and backup (snapshots) your data warehouse, storing the backups for a user-defined Retention period in S3.
-- It keeps the backup by default for 1 day (24 hours) but you can configure it from 0-35 days.
+- It keeps the backup by default for 1day (24hrs) but you can configure it from 0-35 days.
 - Automatic backups are stopped if you choose retention period of 0
 - You have access to these automatic snapshots during the retention period.
 - If you delete the cluster, your automatic snapshots are deleted as well.

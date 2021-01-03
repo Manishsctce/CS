@@ -11,7 +11,56 @@
 ############## AWS RAM ################
 ###### AWS Systems Manager(SM) ########
 =======================================
-############# Cloudwatch ##############
+############## CloudTrail #############
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 21: A Solutions Architect is working for a company which has multiple VPCs in various AWS regions. The Architect is assigned to set up a logging system which will track all of the changes made to their AWS resources in all regions, including the configurations made in IAM, CloudFront, AWS WAF, and Route 53. In order to pass the compliance requirements, the solution must ensure the security, integrity, and durability of the log data. It should also provide an event history of all API calls made in AWS Management Console and AWS CLI.
+Which of the following solutions is the best fit for this scenario? [UD121]
+
+A. Set up a new CloudWatch trail in a new S3 bucket using the CloudTrail console and also pass the --is-multi-region-trail parameter then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies.
+
+B. Set up a new CloudTrail trail in a new S3 bucket using the AWS CLI and also pass both the --is-multi-region-trail and --include-global-service-events parameters then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies.
+
+
+C. Set up a new CloudWatch trail in a new S3 bucket using the AWS CLI and also pass both the --is-multi-region-trail and --include-global-service-events parameters then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies.
+
+
+D. Set up a new CloudTrail trail in a new S3 bucket using the AWS CLI and also pass both the --is-multi-region-trail and --no-include-global-service-events parameters then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies.
+
+
+EXPLANATION: 
+ANSWER : B
+An event in CloudTrail is the record of an activity in an AWS account. This activity can be an action taken by a user, role, or service that is monitorable by CloudTrail. CloudTrail events provide a history of both API and non-API account activity made through the AWS Management Console, AWS SDKs, command line tools, and other AWS services. There are two types of events that can be logged in CloudTrail: management events and data events. By default, trails log management events, but not data events.
+
+A trail can be applied to all regions or a single region. As a best practice, create a trail that applies to all regions in the AWS partition in which you are working. This is the default setting when you create a trail in the CloudTrail console.
+For most services, events are recorded in the region where the action occurred. For global services such as AWS Identity and Access Management (IAM), AWS STS, Amazon CloudFront, and Route 53, events are delivered to any trail that includes global services, and are logged as occurring in US East (N. Virginia) Region.
+In this scenario, the company requires a secure and durable logging solution that will track all of the activities of all AWS resources on all regions. CloudTrail can be used for this case with multi-region trail enabled, however, it will only cover the activities of the regional services (EC2, S3, RDS etc.) and not for global services such as IAM, CloudFront, AWS WAF, and Route 53. In order to satisfy the requirement, you have to add the --include-global-service-events parameter in your AWS CLI command.
+The option that says: Set up a new CloudTrail trail in a new S3 bucket using the AWS CLI and also pass both the --is-multi-region-trail and --include-global-service-events parameters then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies is correct because it provides security, integrity, and durability to your log data and in addition, it has the -include-global-service-events parameter enabled which will also include activity from global services such as IAM, Route 53, AWS WAF, and CloudFront.
+The option that says: Set up a new CloudWatch trail in a new S3 bucket using the AWS CLI and also pass both the --is-multi-region-trail and --include-global-service-events parameters then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies is incorrect because you need to use CloudTrail instead of CloudWatch.
+The option that says: Set up a new CloudWatch trail in a new S3 bucket using the CloudTrail console and also pass the --is-multi-region-trail parameter then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies is incorrect because you need to use CloudTrail instead of CloudWatch. In addition, the --include-global-service-events parameter is also missing in this setup.
+The option that says: Set up a new CloudTrail trail in a new S3 bucket using the AWS CLI and also pass both the --is-multi-region-trail and --no-include-global-service-events parameters then encrypt log files using KMS encryption. Apply Multi Factor Authentication (MFA) Delete on the S3 bucket and ensure that only authorized users can access the logs by configuring the bucket policies is incorrect because the --is-multi-region-trail is not enough as you also need to add the --include-global-service-events parameter and not --no-include-global-service-events. Plus, you cannot enable the Global Service Events using the CloudTrail console but by using AWS CLI.
+
+References:
+https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events
+http://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail-by-using-the-aws-cli.html
+
+Check out this AWS CloudTrail Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-aws-cloudtrail/
+=======================================
+############## CloudWatch #############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 15. An application running video editing software is using significant memory on an Amazon EC2 instance. How can a user track memory usage on the Amazon EC2 instance? [DC15]
+
+A. Call Amazon CloudWatch to retrieve the memory usage metric data that exists for the EC2 instance
+B. Assign an TAM role to the EC2 instance with an TAM policy granting access to the desired metric
+C. Use an instance type that supports memory usage reporting to a metric by default
+D. Install the CloudWatch agent on the EC2 instance to push memory usage to an Amazon CloudWatch custom metric
+
+
+EXPLANATION :
+ANSWER : D
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## Your company currently has a set of EC2 Instances hosted in AWS. The states of these instances need to be monitored and each state change needs to be recorded. Which step could be helpful to fulfill this requirement? (SELECT TWO) [WL204]
 
@@ -22,7 +71,7 @@ D. Use AWS Lambda to store a change record in a DynamoDB table.
 
 
 
-ANSWER : B, C
+ANSWER : A, B
 
 EXPLANATION: 
 Create Alarms That Stop, Terminate, Reboot, or Recover an Instance 
@@ -35,10 +84,11 @@ The AWSServiceRoleForCloudWatchEvents service-linked role enables AWS to perform
 - The first time you create an alarm in the AWS Management Console, the IAM CLI, or the IAM API, CloudWatch creates the service-linked role for you.
 
 > There are a number of scenarios in which you might want to automatically stop or terminate your instance. 
-- For example, you might have instances dedicated to batch payroll processing jobs or scientific computing tasks that run for a period of time and then complete their work. Rather than letting those instances sit idle (and accrue charges), you can stop or terminate them, which could help you to save money. 
+- For example, you might have instances dedicated to batch payroll processing jobs or scientific computing tasks that run for a period of time and then complete their work. 
+- Rather than letting those instances sit idle (and accrue charges), you can stop or terminate them, which could help you to save money. 
 - The main difference between using the stop and the terminate alarm actions is that you can easily restart a stopped instance if you need to run it again later, and you can keep the same instance ID and root volume. However, you cannot restart a terminated instance instead, you must launch a new instance.
 
-You can add the stop, terminate, reboot or recover actions to any alarm that is set on an Amazon EC2 per-instance metric, including basic and detailed monitoring metrics provided by Amazon CloudWatch (in the AWS/EC2 namespace), as well as any custom metrics that include the InstanceId dimension, as long as its value refers to a valid running Amazon EC2 instance.
+- You can add the stop, terminate, reboot or recover actions to any alarm that is set on an Amazon EC2 per-instance metric, including basic and detailed monitoring metrics provided by Amazon CloudWatch (in the AWS/EC2 namespace), as well as any custom metrics that include the InstanceId dimension, as long as its value refers to a valid running Amazon EC2 instance.
 
 For more information on Amazon EC2, please visit the following URL: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ug.pdf
 
@@ -46,7 +96,57 @@ Option A is correct. Using Cloudwatch logs collect, store, view, and search logs
 Option B is correct. CloudWatch alarms are used to trigger notifications for any metric. Alarms can go to auto-scaling, EC2 actions(stop, terminate, recover, or reboot) and SNS notifications.
 Option C is incorrect as SQS cannot be used for monitoring.
 Option D is incorrect as AWS Lambda cannot be used for monitoring.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 4: Your cloud architecture is composed of Linux and Windows EC2 instances which process high volumes of financial data 24 hours a day, 7 days a week. To ensure high availability of your systems, you are required to monitor the memory and disk utilization of all of your instances.   
+Which of the following is the most suitable monitoring solution to implement? [UD104]
 
+A. Enable the Enhanced Monitoring option in EC2 and install CloudWatch agent to all of your EC2 instances to be able to view the memory and disk utilization in the CloudWatch dashboard.
+
+B. Use the default CloudWatch configuration to your EC2 instances where the memory and disk utilization metrics are already available. Install the AWS Systems Manager (SSM) Agent to all of your EC2 instances.
+
+C. Install the CloudWatch agent to all of your EC2 instances which gathers the memory and disk utilization data. View the custom metrics in the Amazon CloudWatch console.
+
+D. Use Amazon Inspector and install the Inspector agent to all of your EC2 instances.
+
+
+EXPLANATION: CloudWatch
+Answer: C
+
+CloudWatch has available Amazon EC2 Metrics for you to use for monitoring CPU utilization, Network utilization, Disk performance, and Disk Reads/Writes. In case that you need to monitor the below items, you need to prepare a custom metric using a Perl or other shell script, as there are no ready to use metrics for these:
+Memory utilization
+disk swap utilization
+disk space utilization
+page file utilization
+log collection
+
+Take note that there is a multi-platform CloudWatch agent which can be installed on both Linux and Windows-based instances. 
+- You can use a single agent to collect both system metrics and log files from Amazon EC2 instances and on-premises servers. 
+- This agent supports both Windows Server and Linux and enables you to select the metrics to be collected, including sub-resource metrics such as per-CPU core. 
+- It is recommended that you use the new agent instead of the older monitoring scripts to collect metrics and logs.
+
+The option that says: Use the default CloudWatch configuration to your EC2 instances where the memory and disk utilization metrics are already available. Install the AWS Systems Manager (SSM) Agent to all of your EC2 instances is incorrect 
+- because, by default, CloudWatch does not automatically provide memory and disk utilization metrics of your instances. 
+- You have to set up custom CloudWatch metrics to monitor the memory, disk swap, disk space and page file utilization of your instances.
+
+The option that says: Enable the Enhanced Monitoring option in EC2 and install CloudWatch agent to all of your EC2 instances to be able to view the memory and disk utilization in the CloudWatch dashboard is incorrect because 
+- Enhanced Monitoring is a feature of RDS and not of CloudWatch.
+
+Using Amazon Inspector and installing the Inspector agent to all of your EC2 instances is incorrect because 
+- Amazon Inspector is an automated security assessment service that helps you test the network accessibility of your Amazon EC2 instances and the security state of your applications running on the instances.
+- It does not provide a custom metric to track the memory and disk utilization of each and every EC2 instance in your VPC.
+
+References:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring_ec2.html
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html#using_put_script
+
+Check out this Amazon CloudWatch Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-cloudwatch/
+
+CloudWatch Agent vs SSM Agent vs Custom Daemon Scripts:
+https://tutorialsdojo.com/aws-cheat-sheet-cloudwatch-agent-vs-ssm-agent-vs-custom-daemon-scripts/
+
+Comparison of AWS Services Cheat Sheets:
+https://tutorialsdojo.com/comparison-of-aws-services-for-udemy-students/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### 9: An application is hosted in an AWS Fargate cluster that runs a batch job whenever an object is loaded on an Amazon S3 bucket. The minimum number of ECS Tasks is initially set to 1 to save on costs, and it will only increase the task count based on the new objects uploaded on the S3 bucket. Once processing is done, the bucket becomes empty and the ECS Task count should be back to 1.
 Which is the most suitable option to implement with the LEAST amount of effort? [UD109]
@@ -54,7 +154,6 @@ Which is the most suitable option to implement with the LEAST amount of effort? 
 A. Set up an alarm in CloudWatch to monitor CloudTrail since this S3 object-level operations are recorded on CloudTrail. Set two alarm actions to update ECS task count to scale-out/scale-in depending on the S3 event.
 
 B. Set up a CloudWatch Event rule to detect S3 object PUT operations and set the target to a Lambda function that will run Amazon ECS API command to increase the number of tasks on ECS. Create another rule to detect S3 DELETE operations and run the Lambda function to reduce the number of ECS tasks.
-
 
 C. Set up an alarm in CloudWatch to monitor CloudTrail since the S3 object-level operations are recorded on CloudTrail. Create two Lambda functions for increasing/decreasing the ECS task count. Set these as respective targets for the CloudWatch Alarm depending on the S3 event.
 

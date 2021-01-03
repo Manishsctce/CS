@@ -192,6 +192,168 @@ Here you can handle only 66% and the remaining 34% of load, not handling.
 But when you select option C, when you create 3 AZs with minimum 50% load on each, If any failure occurs in one AZ then 50% + 50% =100% . 
 Here you can handle full load i.e 100%. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 9:WL8: An application hosted on EC2 Instances has its promotional campaign due to start in 2 weeks. There is a mandate from the management to ensure that no performance problems are encountered due to traffic growth during this time. Which of the following must be done to the Auto Scaling Group to ensure this requirement can be fulfilled? 
+
+A. Configure Step scaling for the Auto Scaling Group.
+B. Configure Dynamic Scaling and use Target tracking scaling Policy
+C. Configure Scheduled scaling for the Auto Scaling Group
+D. Configure Static scaling for the Auto Scaling Group
+
+
+EXPLANATION: AS
+Answer – B
+
+If you are scaling is based on a metric, which is an utilization metric that increases or decreases proportionally to the number of instances in the Auto Scaling group, we recommend that you use a target tracking scaling policy instead. 
+In Target tracking scaling policies you select a predefined metric or configure a customized metric, and set a target value.  EC2 Auto Scaling creates and manages the CloudWatch alarms that trigger the scaling policy and calculates the scaling adjustment based on the metric and the target value. The scaling policy adds or removes capacity as required to keep the metric at, or close to, the specified target value. 
+Scheduled scaling works better when you can predict the load changes and also when you know how long you need to run. Here in our scenario we just know that there will be a heavy traffic during the campaign period (period is not specified)  but not sure about the actual traffic. Don't have any history to predict it either. 
+
+For more information on Auto Scaling Scheduled Scaling, please visit the following URL:
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html 
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 64: A tech company has a CRM application hosted on an Auto Scaling group of On-Demand EC2 instances. The application is extensively used during office hours from 9 in the morning till 5 in the afternoon. Their users are complaining that the performance of the application is slow during the start of the day but then works normally after a couple of hours. 
+Which of the following can be done to ensure that the application works properly at the beginning of the day? [UD164]
+
+A. Set up an Application Load Balancer (ALB) to your architecture to ensure that the traffic is properly distributed on the instances.
+B. Configure a Scheduled scaling policy for the Auto Scaling group to launch new instances before the start of the day.
+C. Configure a Dynamic scaling policy for the Auto Scaling group to launch new instances based on the CPU utilization.
+D. Configure a Dynamic scaling policy for the Auto Scaling group to launch new instances based on the Memory utilization.
+
+
+EXPLANATION: AS
+ANSWER : B
+Scaling based on a schedule allows you to scale your application in response to predictable load changes. For example, every week the traffic to your web application starts to increase on Wednesday, remains high on Thursday, and starts to decrease on Friday. You can plan your scaling activities based on the predictable traffic patterns of your web application.
+
+To configure your Auto Scaling group to scale based on a schedule, you create a scheduled action. The scheduled action tells Amazon EC2 Auto Scaling to perform a scaling action at specified times. To create a scheduled scaling action, you specify the start time when the scaling action should take effect, and the new minimum, maximum, and desired sizes for the scaling action. At the specified time, Amazon EC2 Auto Scaling updates the group with the values for minimum, maximum, and desired size specified by the scaling action. You can create scheduled actions for scaling one time only or for scaling on a recurring schedule.
+Hence, configuring a Scheduled scaling policy for the Auto Scaling group to launch new instances before the start of the day is the correct answer. You need to configure a Scheduled scaling policy. This will ensure that the instances are already scaled up and ready before the start of the day since this is when the application is used the most.
+Configuring a Dynamic scaling policy for the Auto Scaling group to launch new instances based on the CPU utilization and configuring a Dynamic scaling policy for the Auto Scaling group to launch new instances based on the Memory utilization are both incorrect because although these are valid solutions, it is still better to configure a Scheduled scaling policy as you already know the exact peak hours of your application. By the time either the CPU or Memory hits a peak, the application already has performance issues, so you need to ensure the scaling is done beforehand using a Scheduled scaling policy.
+Setting up an Application Load Balancer (ALB) to your architecture to ensure that the traffic is properly distributed on the instances is incorrect. Although the Application load balancer can also balance the traffic, it cannot increase the instances based on demand.
+
+Reference:
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html
+
+Check out this AWS Auto Scaling Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-aws-auto-scaling/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##12:UD5: An application is hosted in an Auto Scaling group of EC2 instances. To improve the monitoring process, you have to configure the current capacity to increase or decrease based on a set of scaling adjustments. This should be done by specifying the scaling metrics and threshold values for the CloudWatch alarms that trigger the scaling process.
+Which of the following is the most suitable type of scaling policy that you should use?
+
+A. Target tracking scaling
+B. Simple scaling
+C. Scheduled Scaling
+D. Step scaling
+
+
+EXPLANATION : AS
+ANSWER : D
+
+> With step scaling, you choose scaling metrics and threshold values for the CloudWatch alarms that trigger the scaling process 
+- as well as define how your scalable target should be scaled when a threshold is in breach for a specified number of evaluation periods. 
+- Step scaling policies increase or decrease the current capacity of a scalable target based on a set of scaling adjustments, known as step adjustments. 
+- The adjustments vary based on the size of the alarm breach. 
+- After a scaling activity is started, the policy continues to respond to additional alarms, even while a scaling activity is in progress. 
+- Therefore, all alarms that are breached are evaluated by Application Auto Scaling as it receives the alarm messages.
+
+> When you configure dynamic scaling, you must define how to scale in response to changing demand. 
+- For example, you have a web application that currently runs on two instances and you want the CPU utilization of the Auto Scaling group to stay at around 50 percent when the load on the application changes. 
+- This gives you extra capacity to handle traffic spikes without maintaining an excessive amount of idle resources. You can configure your Auto Scaling group to scale automatically to meet this need. The policy type determines how the scaling action is performed.
+Amazon EC2 Auto Scaling supports the following types of scaling policies:
+
+Target tracking scaling - Increase or decrease the current capacity of the group based on a target value for a specific metric. This is similar to the way that your thermostat maintains the temperature of your home – you select a temperature and the thermostat does the rest.
+
+Step scaling - Increase or decrease the current capacity of the group based on a set of scaling adjustments, known as step adjustments, that vary based on the size of the alarm breach.
+
+Simple scaling - Increase or decrease the current capacity of the group based on a single scaling adjustment.
+
+If you are scaling based on a utilization metric that increases or decreases proportionally to the number of instances in an Auto Scaling group, then it is recommended that you use target tracking scaling policies. Otherwise, it is better to use step scaling policies instead.
+
+Hence, the correct answer in this scenario is Step Scaling.
+
+Target tracking scaling is incorrect because the target tracking scaling policy increases or decreases the current capacity of the group based on a target value for a specific metric, instead of a set of scaling adjustments.
+
+Simple scaling is incorrect because the simple scaling policy increases or decreases the current capacity of the group based on a single scaling adjustment, instead of a set of scaling adjustments.
+
+Scheduled Scaling is incorrect because the scheduled scaling policy is based on a schedule that allows you to set your own scaling schedule for predictable load changes. This is not considered as one of the types of dynamic scaling.
+
+References:
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scale-based-on-demand.html
+https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your Operations department is using an incident-based application hosted on a set of EC2 Instances. These instances are placed behind an Auto Scaling Group to ensure that the right number of instances are in place to support the application. The Operations department has expressed dissatisfaction with regard to poor application performance every day at 9:00 AM. However, it is also noted that the system performance returns to optimal at 9:45 AM. 
+What could be done to fix this issue? [WL303]
+
+A. Create another Dynamic Scaling Policy to ensure that the scaling happens at 9:00 AM.
+B. Add another Auto Scaling group to support the current one.
+C. Change the Cool Down Timers for the existing Auto Scaling Group.
+D. Add a Scheduled Scaling Policy at 8:30 AM. 
+
+
+EXPLANATION:
+Correct Answer - D
+Scheduled Scaling can be used to ensure that the capacity is peaked before 9:00 AM every day. 
+
+AWS Documentation further mentions the following on Scheduled Scaling:
+
+Scaling based on a schedule allows you to scale your application in response to predictable load changes. For example, every week the traffic to your web application starts to increase on Wednesday, remains high on Thursday, and starts to decrease on Friday. You can plan your scaling activities based on the predictable traffic patterns of your web application. 
+ 
+
+Option A is incorrect because a scheduled scaling should be used as per the requirements of the instead of dynamic scaling
+Option B is incorrect because adding another autoscaling group will not solve the problem. 
+Option C is incorrect because changing the cooldown timers of the existing autoscaling group will not meet the requirements of the
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 31:WL7: Your company currently has the following architecture for their ecommerce application
+
+· EC2 Instances hosting the application
+· An Autoscaling group for the EC2 Instances
+
+The users who use the application keep on complaining that the application is slow in the morning from 9:00 – 9:30, after which there are no issues which occur. Which of the following can be done to ensure the issue is not encountered during the morning times? 
+ 
+A. Ensure that a dynamic scaling policy is added to the Autoscaling Group
+B. Ensure that a step scaling policy is added to the Autoscaling Group
+C. Ensure that a scheduled scaling policy is added to the Autoscaling Group
+D. Ensure that a static scaling policy is added to the Autoscaling Group
+
+
+
+EXPLANATION:
+Answer – C
+
+The AWS Documentation mentions the following
+
+Scaling based on a schedule allows you to scale your application in response to predictable load changes. For example, every week the traffic to your web application starts to increase on Wednesday, remains high on Thursday, and starts to decrease on Friday. You can plan your scaling activities based on the predictable traffic patterns of your web application. 
+The other options will not work because the main issue is that the high-performance issues are because of the high number of users early in the morning. The option is to add a scheduled scaling policy to increase the number of servers before 9:00 itself to handle the high load. 
+For more information on scaling policies for Autoscaling, please refer to the below URL's
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scale-based-on-demand.html#as-scaling-types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## While reviewing the Auto Scaling events for your application, you notice that your application is scaling up and down multiple times in the same hour. What design choice could you make to optimize costs while preserving elasticity? [WL803]
+Choose 2 answers from the options given below.  
+
+A. Modify the Auto Scaling group termination policy to terminate the older instance first. 
+B. Modify the Auto Scaling group termination policy to terminate the newest instance first. 
+C. Modify the Auto Scaling group cool down timers. 
+D. Modify the Auto Scaling group to use Scheduled Scaling actions. 
+E. Modify the CloudWatch alarm period that triggers your Auto Scaling scale down policy
+
+
+EXPLANATION:
+Answer – C and E
+
+Here, not enough time is being given for the scaling activity to take effect and for the entire infrastructure to stabilize after the scaling activity. This can be taken care of by increasing the Auto Scaling group CoolDown timers. 
+For more information on Auto Scaling CoolDown, please visit the following URL:
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html
+You will also have to define the right threshold for the CloudWatch alarm for triggering the scale down policy. 
+For more information on Auto Scaling Dynamic Scaling, please visit the following URL:
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scale-based-on-demand.html
+ 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 

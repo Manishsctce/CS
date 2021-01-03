@@ -1,7 +1,6 @@
 =======================================
 ###### Management & Governance ########
 
-## Auto Scaling
 ## CloudTrail
 ## CloudWatch
 ## CloudFormation
@@ -15,11 +14,11 @@
 ## AWS Control Tower
 =======================================
 ############## CLOUDTRAIL #############
-> It is an AWS service that HELPS TO ENABLE GOVERNANCE, compliance, and operational and risk auditing of AWS account. 
+> It is an AWS service that HELPS TO ENABLE GOVERNANCE, compliance, and operational and risk AUDITING of AWS account. 
 > Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. 
 - Events include actions taken in the Console, AWS CLI, SDKs and APIs.
 
-> we can use CloudTrail to view, search, download, archive, analyze, and respond to account activity across your AWS infrastructure
+> we can use CloudTrail to view, search, download, archive, analyze, and respond to account activity across AWS infrastructure
 
 >> we can IDENTIFY WHO IS TAKING WHAT ACTION. 
 
@@ -78,7 +77,10 @@ Console/CLI/SDK --> AWS resources --> AWS CloudTrail
 > we can choose to create dashboard to display the metrics of app.
 > CLOUDWATCH SERVICE IS REGION WISE. 
 
-> CloudWatch Logs agent provides an automated way to send log data to CloudWatch Logs from Amazon EC2 instances
+> By Default, no logs from EC2 instance will go to CloudWatch, for that we need cloudWatch Logs Agent.
+- CloudWatch Logs agent provides an automated way to send log data to CloudWatch from EC2 instances
+- CloudWatch Logs agent can be setup on-premise too.
+
 > CloudWatch Logs agent is comprised of the following components:
 - A plug-in to the AWS CLI that pushes log data to CloudWatch Logs.
 - A script (daemon) that initiates the process to push data to CloudWatch Logs.
@@ -201,7 +203,7 @@ Service limit
 =======================================
 ######### AWS ORGANIZATIONS ###########
 
-> It is an account management service that lets you consolidate multiple AWS accounts into an organization. 
+> It is an account management service that lets you CONSOLIDATE MULTIPLE AWS ACCOUNTS INTO AN ORGANIZATION. 
 - you can create member accounts and invite existing accounts to join organization. 
 - You can organize those accounts into groups and attach policy-based controls.
 - It helps to CENTRALLY MANAGE BILLING; CONTROL ACCESS, COMPLIANCE, AND SECURITY; AND SHARE RESOURCES across the AWS accounts.
@@ -210,22 +212,42 @@ Service limit
 
 > Use Consolidated billing feature in AWS organization TO GET VOLUME DISCOUNTS on Amazon EC2
 - it is available to all AWS customers at no additional charge
+
+### Core Concept 
+
+> AWS Organization 
+– An organization is a collection of AWS accounts that you can ORGANIZE INTO A HIERARCHY AND MANAGE CENTRALLY.
+
+> AWS Account – It is a container for your AWS resources.
+
+> Master Account – It is the AWS account you use to create your organization.
+
+> Member Account 
+– It is an AWS account, other than the master account, that is part of an organization.
+
+> Administrative Root 
+– An administrative root is the starting point for organizing your AWS accounts. The administrative root is the top-most container in your organization’s hierarchy.
+
+Organizational Unit (OU) – An organizational unit (OU) is a group of AWS accounts within an organization. An OU can also contain other OUs enabling you to create a hierarchy.
 =======================================
 ##### AWS RESOURCE ACCESS MANAGER (RAM)
 
-> It is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. 
+> It is a service that enables you to EASILY AND SECURELY SHARE AWS RESOURCES WITH ANY AWS ACCOUNT or within your AWS Organization. 
 - You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Route53 Resolver rules resources with RAM.
 - Many organizations use multiple accounts to create administrative or billing isolation, and limit the impact of errors. 
 - RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. 
 - You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts.
  
-> RAM is available to you at no additional charge.
+> RAM is available to you at NO ADDITIONAL CHARGE.
 - You can procure AWS resources centrally, and use RAM to share resources such as subnets or License Manager configurations with other accounts. 
 - This eliminates the need to provision duplicate resources in every account in a multi-account environment, reducing the operational overhead of managing those resources in every account.
 
 =======================================
 ###### AWS Systems Manager(SM) ########
-- It allows you to centralize operational data from multiple AWS services and automate tasks across your AWS resources.
+> It is also know as Simple Systems Manager(SSM)
+
+> it provides a CENTRAL PLACE TO VIEW AND MANAGE AWS RESOURCES, so you can have complete visibility and control over your operations.
+- It allows you to centralize operational data from multiple AWS services and automate tasks across AWS resources.
 - basically we can administer our instances like run commands/ upload patches etc using SM
 
 > AWS Systems Manager Run Command lets you remotely and securely manage the configuration of your managed instances. 
@@ -234,6 +256,13 @@ Service limit
 > Run Command enables you to automate common administrative tasks and perform ad-hoc configuration changes at scale. 
 - You can use Run Command from the AWS console, the AWS CLI, AWS Tools for Windows PowerShell, or the AWS SDKs. 
 - Run Command is offered at no additional cost.
+
+> For managing instance using Systems Manager 
+1. Need IAM role - AmazonEC2RoleforSSM
+2. Install SSM agent on EC2 instance
+
+> To Run command, we can manually select no. of instances or filter based on tag
+- we can write/store the output in S3 bucket
 =======================================
 ######## AWS Secrets Manager ##########
 > It is an AWS service that makes it easier for you to manage secrets. 

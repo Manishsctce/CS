@@ -106,13 +106,16 @@ https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-c
 Check out this Amazon Route 53 Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-amazon-route-53/ 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Why does it take between 24 to 48 hours for changes made to a hosted zone in Amazon Route53 to reflect globally?
 
+A. AWS Name Servers need between 24 to 48 hours to create record sets, update their respective values and process changes.
+B. DNS resolvers around the world can only reflect the changes in their cache after the Time To Live (TTL) has expired. it is 24 hours by default.
+C. AWS Name Servers around the world update their cache in tandem, it takes between 24 hours to 48 hours for the process to complete. 
+D. If changes to the hosted zone are made in the same AWS Region as the DNS resolver, it can take between 6 to 12 hours.
 
-ANSWER : 
 
 EXPLANATION : 
-
+ANSWER : B
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

@@ -1,6 +1,6 @@
 ######### AWS STORAGE SERVICE #########
 
-############### EBS #######
+############### EBS ###################
 ##### AWS Elastic File System(EFS) ####
 ############ Amazon FSx ###############
 
@@ -491,7 +491,7 @@
 =======================================
 ############ Amazon FSx ###############
 
-> Amazon FSx provides fully managed third-party file systems.
+> Amazon FSx provides fully managed, high-performance, third-party file systems for fast processing of workloads.
 
 > it provides you with the native compatibility of third-party file systems with feature sets for workloads such as 
 - Windows-based storage, 
@@ -499,16 +499,24 @@
 - machine learning, and 
 - electronic design automation (EDA).
 
-> You don’t have to worry about managing file servers and storage, as Amazon FSx automates the time-consuming administration tasks such as hardware provisioning, software configuration, patching, and backups.
+>> You don’t have to worry about managing file servers and storage, as Amazon FSx automates the time-consuming administration tasks such as hardware provisioning, software configuration, patching, and backups.
+- it automatically replicates your data within an Availability Zone (AZ) 
+- uses SSD storage to provide fast performance with low latency
 
 > it integrates the file systems with cloud-native AWS services, making them even more useful for a broader set of workloads.
 
-> uses SSD storage to provide fast performance with low latency
-
 > Amazon FSx provides you with two file systems to choose from:
 
-Amazon FSx for Windows File Server for Windows-based applications
-Amazon FSx for Lustre for compute-intensive workloads.
+1. Amazon FSx for Windows File Server for Windows-based applications
+- It is a fully managed Microsoft Windows file system with full support for the SMB protocol, Windows NTFS, Microsoft Active Directory ( AD ) Integration.
+
+2. Amazon FSx for Lustre for compute-intensive workloads.
+- Lustre is a popular open-source parallel file system which stores data across multiple network file servers to maximize performance and reduce bottlenecks.
 
 
-> it automatically replicates your data within an Availability Zone (AZ) 
+> AMAZON FSX FOR LUSTRE WORKS NATIVELY WITH S3, making it easy for you to process cloud data sets with high-performance file systems. 
+- When linked to an S3 bucket, an FSx for Lustre file system transparently presents S3 objects as files and allows you to write results back to S3.
+- You can also use FSx for Lustre as a standalone high-performance file system to burst your workloads from on-premises to the cloud. 
+- By copying on-premises data to an FSx for Lustre file system, you can make that data available for fast processing by compute instances running on AWS. 
+- With Amazon FSx, you pay for only the resources you use. 
+- There are no minimum commitments, upfront hardware or software costs, or additional fees.

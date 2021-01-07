@@ -1,4 +1,4 @@
-You are working in a Global Pharma firm, having its Head Office in Washington & Branch offices in Chicago & Paris. The Firm has a two-tier Intranet website deployed in US-East-1 Region & database servers deployed on-premise at Head office. It has a Direct Connect link to VPC and it is connected to Chicago & Paris via WAN links while each of these offices has separate internet links from the local ISP. Recently they faced link outage issues with WAN links that resulted in the isolation of Branch office from the head office. They are looking for a cost-effective backup solution that could be set-up quickly without any additional devices and links. What would be the most suitable connectivity option in this scenario? [WL5]
+## You are working in a Global Pharma firm, having its Head Office in Washington & Branch offices in Chicago & Paris. The Firm has a two-tier Intranet website deployed in US-East-1 Region & database servers deployed on-premise at Head office. It has a Direct Connect link to VPC and it is connected to Chicago & Paris via WAN links while each of these offices has separate internet links from the local ISP. Recently they faced link outage issues with WAN links that resulted in the isolation of Branch office from the head office. They are looking for a cost-effective backup solution that could be set-up quickly without any additional devices and links. What would be the most suitable connectivity option in this scenario? 
 
 A. Using existing Internet connection at Washington, Chicago, and Paris, set up a VPN connection with us-east-1 VGW advertising prefixes via BGP. BGP ASN should be unique at these locations. VGW at us-east-1 will re-advertise these prefixes to the Washington office.
 
@@ -20,10 +20,7 @@ https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 2
-Unattempted
-Domain :Design Resilient Architectures
-An application currently consists of an EC2 Instance hosting a Web application. The Web application connects to an AWS RDS database. What should be used to ensure that the database layer is highly available? [WL5]
+## 2:WL5: An application currently consists of an EC2 Instance hosting a Web application. The Web application connects to an AWS RDS database. What should be used to ensure that the database layer is highly available? 
 
 A. Create another EC2 Instance in another Availability Zone and host a replica of the database.
 B. Create another EC2 Instance in another Availability Zone and host a replica of the Webserver.
@@ -41,29 +38,12 @@ For more information on AWS RDS Multi-AZ, please visit the following URL:
 
 https://aws.amazon.com/rds/details/multi-az/
 
- 
-
-Try now labs related to this 
-Introduction to AWS Relational Database Service
-This lab walks you through to the creation and testing of an Amazon Relational Database Service (Amazon RDS) database. We will create an RDS MySql Database and test the connection using MySQL Workbench. 
-Credit Needed10
-Time 0 : 50
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 3
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-An application currently allows users to upload files to an S3 bucket. You want to ensure that the file name for each uploaded file is stored in a DynamoDB table. How could this be achieved? [WL5] (SELECT TWO)
-
+## 3:WL5: An application currently allows users to upload files to an S3 bucket. You want to ensure that the file name for each uploaded file is stored in a DynamoDB table. How could this be achieved?  (SELECT TWO)
 
 A. Create an AWS Lambda function to insert the required entry for each uploaded file. 
-
 B. Use AWS CloudWatch to probe for any S3 event. 
-
 C. Add an event in S3 with notification send to Lambda. 
-
 D. Add the CloudWatch event to the DynamoDB table streams section. 
 
 
@@ -74,40 +54,22 @@ You can create a Lambda function containing the code to process the file, and ad
 You can then use an Event Notification from the S3 bucket to invoke the Lambda function whenever the file is uploaded. 
 
 
- 
-
 For more information on Amazon S3 Event Notifications, please visit the following URL:
-
 https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html
-Try now labs related to this 
-Introduction to Amazon Lambda
-This lab walks you through creation and usage of AWS Serverless service called AWS Lambda. In this lab, we will create a sample lambda function which is triggered on S3 Object upload event and makes a copy of that object on another S3 Bucket. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 4
-Unattempted
-Domain :Define Performant Architectures
-A company is migrating an on-premises MySQL database to AWS. 
+## 4:WL5: A company is migrating an on-premises MySQL database to AWS. 
 Following are the key requirements:
 
 a) Ability to support an initial size of 5TB
-
 b) Ability to allow the database to double in size
+c) Replication Lag to be kept under 100 milliseconds
 
-c)  Replication Lag to be kept under 100 milliseconds
+Which Amazon RDS engine would meet these requirements? 
 
-Which Amazon RDS engine would meet these requirements? [WL5]
-
- 
 A. MySQL
 B. Microsoft SQL Server
 C. Oracle
 D. Amazon Aurora
-
 
 
 EXPLANATION: 
@@ -120,55 +82,40 @@ All Aurora Replicas return the same data for query results with minimal replica 
 For more information on AWS Aurora, please visit the following URL:
 
 http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Overview.html
-
- 
-
-Try now labs related to this 
-Introduction to Amazon Aurora
-This lab walks you through the creation and testing of an Amazon Aurora database. We will create an Aurora MySQL Database and and test the connection. 
-Credit Needed10
-Time 1 : 0
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 5
-Unattempted
-Domain :Design Resilient Architectures
-You are working for a global software firm having offices in various continents. The pre-sales team needs to provide a new application demo to a prospective customer. For this, they are looking urgently for a separate temporary connection between 3 regional offices at Sydney, London, and Tokyo & Demo VPC at the us-west-1 region. Also, there should be connectivity between these offices for data synchronization of the new applications. 
-You are planning to set up a VPN connection from these offices to VGW at us-west-1. You have arranged Internet links along with routers at each regional offices and VPN parameter list. What are the other factors required to meet this connectivity solution? [WL5] (SELECT TWO)
+### 5:WL5: You are working for a global software firm having offices in various continents. The pre-sales team needs to provide a new application demo to a prospective customer. For this, they are looking urgently for a separate temporary connection between 3 regional offices at Sydney, London, and Tokyo & Demo VPC at the us-west-1 region. Also, there should be connectivity between these offices for data synchronization of the new applications. 
+You are planning to set up a VPN connection from these offices to VGW at us-west-1. You have arranged Internet links along with routers at each regional offices and VPN parameter list. What are the other factors required to meet this connectivity solution?  (SELECT TWO)
 
 
 A. VGW at us-west-1 should be enabled to advertise  IP prefixes of each regional office to other regional offices. 
-
 B. Non-overlapping IP address pool should be configured at each of the regional offices. 
-
 C. Each router should have a BGP peering with other routers at each regional office over VPN connection. 
-
 D. BGP ASN should be unique at these regional offices. 
-
 E. Each of these offices should set up VPN connection to VGW only in that specific region instead of to VGW at us-west-1. 
 
 
-EXPLANATION: 
+EXPLANATION: VPN
 Correct Answers – B, D
 
-AWS VPN CloudHub provides connectivity between spoke location over VPN connection. In this case, VGW acts as a Hub & re-advertise prefixes received from one regional office to another regional office. For this connectivity to establish, each regional site should have non-overlapping IP prefixes & BGP ASN should be unique at each site. If BGP ASN is not unique, additional ALLOWS-IN will be required. 
-Option A is incorrect as VGW by default acts as a Hub and spoke & no additional configuration needs to be done at VGW end. Option C is incorrect as the router needs to have BGP peering only with VGW & not with routers in other locations. Option E is incorrect as regional office can set up VPN connection to VGW of the different regions as well. For more information on using AWS VPN CloudHub, refer to the following URL:
+> AWS VPN CloudHub provides connectivity between spoke location over VPN connection. 
+- In this case, VGW acts as a Hub & re-advertise prefixes received from one regional office to another regional office. 
+- For this connectivity to establish, each regional site should have non-overlapping IP prefixes & BGP ASN should be unique at each site. 
+- If BGP ASN is not unique, additional ALLOWS-IN will be required. 
+
+Option A is incorrect as VGW by default acts as a Hub and spoke & no additional configuration needs to be done at VGW end. 
+Option C is incorrect as the router needs to have BGP peering only with VGW & not with routers in other locations. 
+Option E is incorrect as regional office can set up VPN connection to VGW of the different regions as well. For more information on using AWS VPN CloudHub, refer to the following URL:
 
 https://docs.aws.amazon.com/aws-technical-content/latest/aws-vpc-connectivity-options/aws-vpn-cloudhub-network-to-amazon.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 6
-Unattempted
-Domain :Design Cost-Optimized Architectures
-An application needs to have a database hosted in AWS. The database will be hosted on an EC2 Instance. The application's expected performance is 2 IOPS/GiB, with the ability to burst to 2,000 IOPS for extended periods of time. What is the MOST suitable storage type that could be used by the underlying EC2 instance hosting the database? [WL5]
+## 6:WL5: An application needs to have a database hosted in AWS. The database will be hosted on an EC2 Instance. The application's expected performance is 2 IOPS/GiB, with the ability to burst to 2,000 IOPS for extended periods of time. What is the MOST suitable storage type that could be used by the underlying EC2 instance hosting the database? 
+
 A. Amazon EBS provisioned IOPS SSD
 B. Amazon EBS Throughput Optimized HDD
 C. Amazon EBS General Purpose SSD
 D. Amazon EFS
-
 
 
 EXPLANATION: 
@@ -192,41 +139,38 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 7
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-You are working for an electrical appliance company that has web-application hosted in AWS. This is a two-tier web application with web-servers hosted in VPC’s & on-premise data-center.  You are using a Network Load balancer in the front end to distribute traffic between these servers. You are using instance Id for configuring targets for Network Load Balancer. Some clients are complaining about the delay in accessing this website. 
-To troubleshoot this issue, you are looking for a list of Client IP address having longer TLS handshake time. You have enabled access logging on Network Load balancing with logs saved in Amazon S3 buckets. Which tool could be used to quickly analyze a large amount of log files without any visualization in a cost-effective way? [WL5]
+## 7:WL5: You are working for an electrical appliance company that has web-application hosted in AWS. This is a two-tier web application with web-servers hosted in VPC’s & on-premise data-center.  You are using a Network Load balancer in the front end to distribute traffic between these servers. You are using instance Id for configuring targets for Network Load Balancer. Some clients are complaining about the delay in accessing this website. 
+To troubleshoot this issue, you are looking for a list of Client IP address having longer TLS handshake time. You have enabled access logging on Network Load balancing with logs saved in Amazon S3 buckets. Which tool could be used to quickly analyze a large amount of log files without any visualization in a cost-effective way? 
+
 A. Use Amazon Athena to query logs saved in Amazon S3 buckets.
 B. Use Amazon S3 console to process logs.
 C. Export Network Load Balancer access logs to third-party application.
 D. Use Amazon Athena along with Amazon QuickSight to query logs saved in Amazon S3 buckets. 
 
 
-EXPLANATION: 
+EXPLANATION: Athena
 Correct Answer – A
 
-Amazon Athena is a suitable tool for querying Network Load Balancers logs. In the above case since a large amount of logs are saved in S3 buckets from Network load balancer, Amazon Athena can be used to query logs and generate required details of client IP address and TLS handshake time. 
-Option B is incorrect as processing a large number of logs directly from the S3 console will be a time-consuming process. Option C is incorrect as using a third-party tool will not be a cost-effective solution. Option D is incorrect as in the above case, we require only details of Client IP details along with TLS handshake time for troubleshooting purposes. Amazon QuickSight will be useful in case you need data visualization. For more information on using Amazon Athena to query Network Load Balancer logs, refer to the following URL:
+> Amazon Athena is a suitable tool for querying Network Load Balancers logs. 
+- In the above case since a large amount of logs are saved in S3 buckets from Network load balancer, Amazon Athena can be used to query logs and generate required details of client IP address and TLS handshake time. 
 
+Option B is incorrect as processing a large number of logs directly from the S3 console will be a time-consuming process. 
+Option C is incorrect as using a third-party tool will not be a cost-effective solution. 
+
+Option D is incorrect as in the above case, we require only details of Client IP details along with TLS handshake time for troubleshooting purposes. 
+- Amazon QuickSight will be useful in case you need data visualization. 
+
+For more information on using Amazon Athena to query Network Load Balancer logs, refer to the following URL:
  https://docs.aws.amazon.com/athena/latest/ug/networkloadbalancer-classic-logs.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 8
-Unattempted
-Domain :Design Cost-Optimized Architectures
-An application allows users to upload images to an S3 bucket. Initially, these images will be downloaded quite frequently, but after some time, the images might only be accessed once a week and the retrieval time should be as minimal as possible. 
-
-What could be done to ensure a cost-effective solution? [WL5] (SELECT TWO)
-
+## 8:WL5: An application allows users to upload images to an S3 bucket. Initially, these images will be downloaded quite frequently, but after some time, the images might only be accessed once a week and the retrieval time should be as minimal as possible. 
+What could be done to ensure a cost-effective solution?  (SELECT TWO)
 
 A. Store the objects in Amazon Glacier. 
-
 B. Store the objects in S3 – Standard storage. 
-
 C. Create a Lifecycle Policy to transfer the objects to S3 – Standard storage after a certain duration of time. 
-
 D. Create a Lifecycle Policy to transfer the objects to S3 – Infrequent Access storage after a certain duration of time. 
 
 
@@ -236,27 +180,15 @@ Correct Answers – B and D
 Store the images initially in Standard storage since they are accessed frequently. Define Lifecycle Policies to move the images to Infrequent Access storage to save the costs. Amazon S3 Infrequent access is perfect if you want to store data that is not frequently accessed and is much more cost-effective than Option C i.e. Amazon S3 Standard. Also, if you choose Amazon Glacier with expedited retrievals, you defeat the whole purpose of the requirement, because this option would result in increased costs. For more information on AWS Storage classes, please visit the following URL:
 
 https://aws.amazon.com/s3/storage-classes/
-Try now labs related to this 
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 9
-Unattempted
-Domain :Design Resilient Architectures
-A company needs a solution to store and archive corporate documents and has determined Amazon Glacier as the right solution. It is required that data is delivered within 5 minutes of a retrieval request. 
-Which feature of Amazon Glacier could help to meet this requirement? [WL5]
-
+## 9:WL5: A company needs a solution to store and archive corporate documents and has determined Amazon Glacier as the right solution. It is required that data is delivered within 5 minutes of a retrieval request. 
+Which feature of Amazon Glacier could help to meet this requirement? 
  
 A. Defining a Vault Lock
 B. Using Expedited retrieval
 C. Using Bulk retrieval
 D. Using Standard retrieval
-
 
 
 EXPLANATION: 
@@ -269,23 +201,14 @@ For more information on AWS Glacier Retrieval, please visit the following URL:
 
 https://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive-two-steps.html
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 10
-Unattempted
-Domain :Design Cost-Optimized Architectures
-You are working for a global financial company. Company locations spread across various countries upload transaction details data to S3 bucket in the US-West region. A large amount of data is uploaded on a daily basis from each of these locations simultaneously. You are using Amazon Athena to query this data & create reports using Amazon QuickSight to create a daily dashboard to the management team. In some cases, while running queries, you are observing Amazon S3 exception errors. 
-Also, in the monthly bills, a high percentage of cost is associated with Amazon Athena. Which of the following could be helpful in eliminating S3 errors while querying data and reducing the cost associated with queries? [WL5] (SELECT TWO)
+## 10:WL5: You are working for a global financial company. Company locations spread across various countries upload transaction details data to S3 bucket in the US-West region. A large amount of data is uploaded on a daily basis from each of these locations simultaneously. You are using Amazon Athena to query this data & create reports using Amazon QuickSight to create a daily dashboard to the management team. In some cases, while running queries, you are observing Amazon S3 exception errors. 
+Also, in the monthly bills, a high percentage of cost is associated with Amazon Athena. Which of the following could be helpful in eliminating S3 errors while querying data and reducing the cost associated with queries?  (SELECT TWO)
 
 
 A. Partition data based upon user credentials
-
-
 B. Partition data based upon date & location. 
-
 C. Create a separate Workgroups based upon user groups. 
-
 D. Create a single Workgroup for all users. 
 
 
@@ -301,10 +224,8 @@ https://docs.aws.amazon.com/athena/latest/ug/manage-queries-control-costs-with-w
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 11
-Unattempted
-Domain :Define Performant Architectures
-You are planning to use Auto Scaling groups to maintain the performance of your web application. How would you ensure that the scaling activity has sufficient time to stabilize without executing another scaling action? [WL5]
+## 11:WL5: You are planning to use Auto Scaling groups to maintain the performance of your web application. How would you ensure that the scaling activity has sufficient time to stabilize without executing another scaling action? 
+
 A. Modify the Instance User Data property with a timeout interval.
 B. Increase the Auto Scaling Cooldown timer value.
 C. Enable the Auto Scaling cross zone balancing feature.
@@ -320,20 +241,9 @@ The Cooldown period is a configurable setting for your Auto Scaling group which 
 For more information on Auto Scaling Cooldown, please visit the following URL:
 
 https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html
-
-Try now labs related to this 
-Introduction to Amazon Auto Scaling
-AWS Auto Scaling will automatically scale resources as needed to align to your selected scaling strategy, This lab walks you through to use Auto Scaling to automatically launch or terminate EC2’s instances based on user defined policies, schedules and health checks. 
-Credit Needed10
-Time 0 : 55
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 12
-Unattempted
-Domain :Specify Secure Applications and Architectures
-A company hosts a popular web application that connects to an Amazon RDS MySQL DB instance running in a private VPC subnet created with default ACL settings. The IT Security department has identified a DoS attack from a suspecting IP. How would you protect the subnets from this attack? [WL5]
+## 12:WL5: A company hosts a popular web application that connects to an Amazon RDS MySQL DB instance running in a private VPC subnet created with default ACL settings. The IT Security department has identified a DoS attack from a suspecting IP. How would you protect the subnets from this attack? 
+
 A. Change the Inbound Security Groups to deny access from the suspecting IP.
 B. Change the Outbound Security Groups to deny access from the suspecting IP.
 C. Change the Inbound NACL to deny access from the suspecting IP.
@@ -352,22 +262,9 @@ A Network Access Control List (ACL) is an optional layer of security for your VP
 For more information on Network Access Control Lists, please visit the following URL:
 
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html
-
-Try now labs related to this 
-Build Amazon VPC with Public and Private Subnets from Scratch
-Learn how to build Public and Private subnets from scratch. 
-VPC wizard will not be used. So every component required to build public and private subnets will be created and configured manually. 
-This will give an in-depth understanding of internal components of VPC and subnets. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 13
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-A company is planning to allow its users to upload and read objects from an S3 bucket. Due to a large number of users, the read/write traffic will be very high. How would the architect maximize Amazon S3 performance? [WL5]
+## 13:WL5: A company is planning to allow its users to upload and read objects from an S3 bucket. Due to a large number of users, the read/write traffic will be very high. How would the architect maximize Amazon S3 performance? 
+
 A. Prefix each object name with a random string.
 B. Use the STANDARD_IA storage class.
 C. Prefix each object name with the current date.
@@ -382,19 +279,9 @@ For more information on how to ensure performance in S3, please visit the follow
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-dg.pdf
 
-Try now labs related to this 
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 14
-Unattempted
-Domain :Define Performant Architectures
-An EC2 Instance setup in AWS will host an application that will make API calls to the Simple Storage Service. What would be an ideal way for the application to access the Simple Storage Service? [WL5]
+## 14:WL5: An EC2 Instance setup in AWS will host an application that will make API calls to the Simple Storage Service. What would be an ideal way for the application to access the Simple Storage Service? 
+
 A. Pass API credentials to the instance using instance user data.
 B. Store API credentials as an object in a separate Amazon S3 bucket.
 C. Embed the API credentials into your application.
@@ -410,16 +297,9 @@ You can use roles to delegate access to users, applications or services that nor
 For more information on IAM Roles, please visit the following URL:
 
 https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
-
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 15
-Unattempted
-Domain :Define Performant Architectures
-Videos are uploaded to an S3 bucket, and you need to provide access to users to view the same. What is the best way to do so, while maintaining a good user experience for all users regardless of the region in which they are located? [WL5]
+## 15:WL5: Videos are uploaded to an S3 bucket, and you need to provide access to users to view the same. What is the best way to do so, while maintaining a good user experience for all users regardless of the region in which they are located? 
+
 A. Enable Cross-Region Replication for the S3 bucket to all regions.
 B. Use CloudFront with the S3 bucket as the source.
 C. Use API Gateway with S3 bucket as the source.
@@ -441,20 +321,6 @@ Option A is incorrect. S3 Cross-region replication is a feature that enables an 
 For more information on Amazon CloudFront, please visit the following URL:
 
 https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html
- 
-
- 
-
- 
-
-Try now labs related to this 
-Introduction to Amazon CloudFront
-This lab walks you through to Amazon CloudFront creation and working. In this lab you will create an Amazon CloudFront distribution. It will distribute a publicly accessible image file stored in an Amazon S3 bucket. 
-Credit Needed10
-Time 1 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## An organization has a requirement to store 10TB worth of scanned files across multiple availability zones. It plans to have a search application in place to search through the scanned files. 
 Which of the following options is ideal for implementing the search facility? [WL516]
@@ -492,7 +358,6 @@ C. Pause Job Bookmark in AWS Glue.
 D. Enable Job Bookmark in AWS Glue. 
 
 
-
 EXPLANATION: 
 Correct Answer – D
 
@@ -505,11 +370,7 @@ https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 18
-Unattempted
-Domain :Design Resilient Architectures
-A concern raised in your company is that developers could potentially delete production-based EC2 resources. As a Cloud Admin, what would you do to help alleviate this concern? [WL5] (SELECT TWO)
-
+## 18:WL5: A concern raised in your company is that developers could potentially delete production-based EC2 resources. As a Cloud Admin, what would you do to help alleviate this concern?  (SELECT TWO)
 
 A. Tag the production instances with production-identifying tag and add resource-level permissions to the developers with an explicit deny on the terminate API call to instances with the production tag. 
 
@@ -532,16 +393,16 @@ While there is no one-size-fits-all answer for how many AWS accounts a particula
 
  
 
-Does the business require administrative isolation between workloads? [WL5]
+Does the business require administrative isolation between workloads? 
 Administrative isolation by account provides the most straightforward approach for granting independent administrative groups different levels of administrative control over AWS resources based on the workload, development lifecycle, business unit (BU) or data sensitivity.  
 
-Does the business require limited visibility and discoverability of workloads? [WL5]
+Does the business require limited visibility and discoverability of workloads? 
 Accounts provide a natural boundary for visibility and discoverability. Workloads cannot be accessed or viewed unless an administrator of the account enables access to users managed in another account.  
 
-Does the business require isolation to minimize the blast radius? [WL5]
+Does the business require isolation to minimize the blast radius? 
 Blast-radius isolation by account provides a mechanism for limiting the impact of a critical event such as a security breach in case of the unavailability of AWS Region or Availability Zone, account suspensions, etc. Separate accounts help define boundaries and provide natural blast-radius isolation.  
 
-Does the business require strong isolation of recovery and/or auditing data? [WL5]
+Does the business require strong isolation of recovery and/or auditing data? 
 Businesses that are required to control access and visibility to auditing data due to regulatory requirements can isolate their recovery data and/or auditing data in an account separate from where they run their workloads (e.g., writing CloudTrail logs to a different account).  
 
 For more information, please check the URL below:
@@ -562,24 +423,12 @@ Organizations have good control over newly created accounts rather than old AWS 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 19
-Unattempted
-Domain :Design Resilient Architectures
-A company needs to monitor the read and write IOPS metrics for its AWS MySQL RDS instance and send real-time alerts to its Operations team. Which AWS services could help to accomplish this? [WL5] (SELECT TWO)
-
+## 19:WL5: A company needs to monitor the read and write IOPS metrics for its AWS MySQL RDS instance and send real-time alerts to its Operations team. Which AWS services could help to accomplish this?  (SELECT TWO)
 
 A. Amazon Simple Email Service
-
-
 B. Amazon CloudWatch
-
-
 C. Amazon Simple Queue Service
-
-
 D. Amazon Route 53
-
-
 E. Amazon Simple Notification Service
 
 
@@ -590,22 +439,9 @@ Correct Answers – B and E
 Amazon CloudWatch may be used to monitor IOPS metrics from the RDS instance and Amazon Simple Notification Service, to send the notification if an alarm is triggered. 
 For more information on CloudWatch metrics, please refer to the link below. 
 http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html
- 
-
-Try now labs related to this 
-Creating Events in CloudWatch
-This lab walks you through the Creating Rules in the Events Section of Cloudwatch and adding a SNS target. It will tested using EC2 Instance state events
-
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 20
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-You run an ad-supported photo-sharing website using S3 to serve photos to visitors of your site. At some point, you find out that other sites have been linking to photos on your site, causing loss to your business. What would be an effective method to mitigate this? [WL5] 
+## 20:WL5: You run an ad-supported photo-sharing website using S3 to serve photos to visitors of your site. At some point, you find out that other sites have been linking to photos on your site, causing loss to your business. What would be an effective method to mitigate this?  
+
 A. Use CloudFront distributions for static content.
 B. Store photos on an EBS volume of the web server.
 C. Remove public read access and use signed URLs with expiry dates.
@@ -621,21 +457,10 @@ For more information on Signed URLs, please visit the link below:
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html
  
-
-Try now labs related to this 
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 21
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-You are working with a global IT firm that has web-application hosted in AWS. This is a two-tier web application with web-servers behind Application load balancers. A new application is developed for which you need to analyze performance at each node. 
-These parameters will be used as a reference before making this application into commercial services & henceforth for any operational challenges. You are using AWS X-Ray for this purpose. Which of the following would help to get traces while ensuring cost is within limits? [WL5]
+## 21:WL5: You are working with a global IT firm that has web-application hosted in AWS. This is a two-tier web application with web-servers behind Application load balancers. A new application is developed for which you need to analyze performance at each node. 
+These parameters will be used as a reference before making this application into commercial services & henceforth for any operational challenges. You are using AWS X-Ray for this purpose. Which of the following would help to get traces while ensuring cost is within limits? 
+
 A. Sampling at default rate.
 B. Sampling at higher rate.
 C. Filter expression
@@ -652,15 +477,12 @@ https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 22
-Unattempted
-Domain :Specify Secure Applications and Architectures
-Your IT Security department has mandated that all data on EBS volumes created for underlying EC2 Instances needs to be encrypted. What should be used to achieve this? [WL5]
+## 22:WL5: Your IT Security department has mandated that all data on EBS volumes created for underlying EC2 Instances needs to be encrypted. What should be used to achieve this? 
+
 A. AWS KMS
 B. AWS Certificate Manager
 C. API Gateway with STS
 D. IAM Access Key
-
 
 
 EXPLANATION: 
@@ -676,13 +498,9 @@ For more information on AWS KMS, please visit the following URL:
 
 https://docs.aws.amazon.com/kms/latest/developerguide/overview.html
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 23
-Unattempted
-Domain :Design Cost-Optimized Architectures
-A company wants to achieve redundancy for its EBS volumes hosted in AWS in the most cost-effective manner. How could this be achieved? [WL5]
+## 23:WL5: A company wants to achieve redundancy for its EBS volumes hosted in AWS in the most cost-effective manner. How could this be achieved? 
+
 A. Nothing, since by default, EBS Volumes are replicated within their Availability Zones.
 B. Copy data to the S3 bucket for data redundancy.
 C. Create EBS Snapshots in another Availability Zone for data redundancy.
@@ -713,15 +531,12 @@ In the exam, if they mentioned specifically about the replication based on the m
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 24
-Unattempted
-Domain :Define Performant Architectures
-A mobile application hosted on AWS needs to access a Data Store in AWS. With each item measuring around 10 KB in size, the latency of data access must remain consistent despite very high application traffic. What would be an ideal Data Store for the application? [WL5]
+## 24:WL5: A mobile application hosted on AWS needs to access a Data Store in AWS. With each item measuring around 10 KB in size, the latency of data access must remain consistent despite very high application traffic. What would be an ideal Data Store for the application? 
+
 A. AWS DynamoDB
 B. AWS EBS Volumes
 C. AWS Glacier
 D. AWS Redshift
-
 
 
 EXPLANATION: 
@@ -733,32 +548,13 @@ Amazon DynamoDB is a fast and flexible NoSQL database service for all applicatio
 For more information on AWS DynamoDB, please visit the following URL:
 
 https://aws.amazon.com/dynamodb/
-Try now labs related to this 
-Introduction to AWS DynamoDB
-This lab walks you through to Amazon DynamoDB features. In this lab, we will create a table in Amazon DynamoDB to store information and then query that information from the DynamoDB table. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 25
-Unattempted
-Domain :Design Resilient Architectures
-A company is planning to design a Microservices architectured application that will be hosted in AWS. This entire architecture needs to be decoupled whenever possible. Which of the following services could help to achieve this? [WL5] (SELECT TWO)
-
+## 25:WL5: A company is planning to design a Microservices architectured application that will be hosted in AWS. This entire architecture needs to be decoupled whenever possible. Which of the following services could help to achieve this?  (SELECT TWO)
 
 A. AWS SNS
-
-
 B. AWS ELB
-
-
 C. AWS Auto Scaling
-
-
 D. AWS SQS
-
 
 
 EXPLANATION: 
@@ -777,7 +573,7 @@ https://aws.amazon.com/blogs/compute/implementing-enterprise-integration-pattern
 
 Note:
 
-The  asks - which services can be used to work on decoupling of microservices whenever required? [WL5]
+The  asks - which services can be used to work on decoupling of microservices whenever required? 
 
 Now we can use both services to work with microservices.  Please find the links for your reference:
 
@@ -786,26 +582,18 @@ Now we can use both services to work with microservices.  Please find the links 
 
  The below point is from AWS SNS FAQs:
 
- Q: How is Amazon SNS different from Amazon MQ? [WL5]
+ Q: How is Amazon SNS different from Amazon MQ? 
 
 Amazon MQ, Amazon SQS, and Amazon SNS are messaging services that are suitable for anyone from startups to well-established enterprises. If you're using messaging with existing applications and want to move your message to the cloud quickly and easily, we recommend you consider Amazon MQ. It supports industry-standard APIs and protocols so you can switch from any standards-based message broker to Amazon MQ without rewriting the messaging code in your applications. If you are building brand new applications in the cloud, we recommend you consider Amazon SQS and Amazon SNS. Amazon SQS and SNS are lightweight, fully managed message queue and topic services that scale almost infinitely and provide simple, easy-to-use APIs. You can use Amazon SQS and SNS to decouple and scale microservices, distributed systems, serverless applications, and improve reliability. 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 26
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are working for a construction firm that is using Amazon WorkDocs for sharing project planning document with third-party external contract teams. Last week there was an incident where a sensitive document was shared by a user that leaked financial information to external third-party users. 
-Security team revoked access for all users and only nominated users should be allowed to grant access to use WorkDocs or share links with third-party users. How could this be achieved? [WL5] (SELECT TWO)
-
+## 26:WL5: You are working for a construction firm that is using Amazon WorkDocs for sharing project planning document with third-party external contract teams. Last week there was an incident where a sensitive document was shared by a user that leaked financial information to external third-party users. 
+Security team revoked access for all users and only nominated users should be allowed to grant access to use WorkDocs or share links with third-party users. How could this be achieved?  (SELECT TWO)
 
 A. For external users to use the WorkDocs site, allow permission only to Power users to invite new externals users. 
-
 B. For external users to use WorkDocs site, allow permission only to Managed users to invite new externals users
-
-
 C. For sending publicly shareable links, grant permission only to Power users to share publicly. 
-
 D. For sending publicly shareable links, grant permission only to Managed users to share publicly. 
 
 
@@ -819,10 +607,8 @@ https://docs.aws.amazon.com/workdocs/latest/adminguide/security-settings.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 27
-Unattempted
-Domain :Define Performant Architectures
-Your architecture for an application currently consists of EC2 Instances sitting behind a classic ELB. The EC2 Instances are used to serve an application and are accessible through the internet. What could be done to improve this architecture in the event that the number of users accessing the application increases regularly? [WL5]
+## 27:WL5: Your architecture for an application currently consists of EC2 Instances sitting behind a classic ELB. The EC2 Instances are used to serve an application and are accessible through the internet. What could be done to improve this architecture in the event that the number of users accessing the application increases regularly? 
+
 A. Add another ELB to the architecture.
 B. Use Auto Scaling Groups.
 C. Use an Application Load Balancer instead.
@@ -838,21 +624,9 @@ AWS Auto Scaling monitors your applications and automatically adjusts the capaci
 For more information on AWS Auto Scaling, please visit the following URL:
 
 https://aws.amazon.com/autoscaling/
-
-Try now labs related to this 
-Introduction to Amazon Auto Scaling
-AWS Auto Scaling will automatically scale resources as needed to align to your selected scaling strategy, This lab walks you through to use Auto Scaling to automatically launch or terminate EC2’s instances based on user defined policies, schedules and health checks. 
-Credit Needed10
-Time 0 : 55
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 28
-Unattempted
-Domain :Define Performant Architectures
-You are working as an AWS Architect for a retail website having an application deployed on EC2 instance. You are using the SQS queue for storing messages between Web server & database servers. Due to heavy load on the website, there are some cases where clients are getting price details before logging to the website. 
-To resolve this issue, you are planning to migrate to the SQS FIFO queue that will preserve the order of messages. You have created a new FIFO queue with message delay time per queue instead of per message, deleting an existing standard queue. What are the prerequisites to have a smooth migration to the SQS FIFO queue? [WL5] (SELECT TWO)
+## 28:WL5: You are working as an AWS Architect for a retail website having an application deployed on EC2 instance. You are using the SQS queue for storing messages between Web server & database servers. Due to heavy load on the website, there are some cases where clients are getting price details before logging to the website. 
+To resolve this issue, you are planning to migrate to the SQS FIFO queue that will preserve the order of messages. You have created a new FIFO queue with message delay time per queue instead of per message, deleting an existing standard queue. What are the prerequisites to have a smooth migration to the SQS FIFO queue?  (SELECT TWO)
 
 
 A. Each FIFO queue should have Message group ID only when multiple ordered message groups are required. 
@@ -876,11 +650,9 @@ https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 29
-Unattempted
-Domain :Define Performant Architectures
-You are the architect for a business intelligence application that reads data from a MySQL database hosted on an EC2 Instance. The application experiences a high number of read and write requests. 
-Which Amazon EBS Volume type can meet the performance requirements of this database? [WL5]
+## 29:WL5: You are the architect for a business intelligence application that reads data from a MySQL database hosted on an EC2 Instance. The application experiences a high number of read and write requests. 
+Which Amazon EBS Volume type can meet the performance requirements of this database?
+ 
 A. EBS Provisioned IOPS SSD
 B. EBS Throughput Optimized HDD
 C. EBS General Purpose SSD
@@ -894,50 +666,16 @@ Correct Answer – A
 Since there is a high-performance requirement with the high IOPS needed, one needs to opt for EBS Provisioned IOPS SSD. 
 The below snapshot from AWS Documentation mentions the need for using Provisioned IOPS for better IOPS performance for database-based applications. 
 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
 For more information on AWS EBS Volume types, please visit the URL below:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 30
-Unattempted
-Domain :Design Resilient Architectures
-An organization is planning to use AWS for its production roll-out. The organization wants to implement automation for deployment such that it will automatically create a LAMP stack, download the latest PHP installable from S3, and set up the ELB. Which AWS service would meet these requirements for making an orderly deployment of the software? [WL5]
+## 30:WL5: An organization is planning to use AWS for its production roll-out. The organization wants to implement automation for deployment such that it will automatically create a LAMP stack, download the latest PHP installable from S3, and set up the ELB. Which AWS service would meet these requirements for making an orderly deployment of the software? 
+
 A. AWS Elastic Beanstalk
 B. AWS CloudFront
 C. AWS CloudFormation
 D. AWS DevOps
-
 
 
 EXPLANATION: 
@@ -954,9 +692,7 @@ For more information on launching a LAMP stack with Elastic Beanstalk, please re
 
 https://aws.amazon.com/getting-started/projects/launch-lamp-web-app/
 
- 
-
-How is AWS CloudFormation different from AWS Elastic Beanstalk? [WL5]
+How is AWS CloudFormation different from AWS Elastic Beanstalk? 
 
 AWS CloudFormation and AWS Elastic Beanstalk services are designed to complement each other. 
 
@@ -964,29 +700,19 @@ AWS Elastic Beanstalk provides an environment to easily deploy and run applicati
 AWS CloudFormation is a convenient provisioning mechanism for a broad range of AWS resources. It supports the infrastructure needs of many different types of applications such as existing enterprise applications, legacy applications, applications built using a variety of AWS resources and container-based solutions (including those built using AWS Elastic Beanstalk). 
 Elastic Beanstalk is a Platform where you deploy an application. Cloudformation is where you define a stack of resources. 
 Elastic BeanStalk is good for the relatively narrow use case of PaaS applications and Cloudformation is good for the relatively broad use of defining Infrastructure as Code. 
-The  is "Which WS service would meet the requirements for making an orderly deployment of the software? [WL5] 
+The  is "Which WS service would meet the requirements for making an orderly deployment of the software?  
 
 We are not provisioning a broad range of AWS resources here. So, Elastic Beanstalk will be a suitable answer. 
-Try now labs related to this 
-Introduction to AWS Elastic Beanstalk
-This lab walks you through to AWS Elastic Beanstalk. In this lab, you will quickly deploy and manage a Java application in the AWS Cloud without worrying about the infrastructure that runs those applications. 
-Credit Needed10
-Time 0 : 45
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 31
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-Your company is planning to use the API Gateway service to manage APIs for developers and users. There is a requirement to segregate access rights for both developers and users. How could this be accomplished? [WL5]
+## 31:WL5: Your company is planning to use the API Gateway service to manage APIs for developers and users. There is a requirement to segregate access rights for both developers and users. How could this be accomplished? 
+
 A. Use IAM permissions to control the access.
 B. Use AWS Access keys to manage the access.
 C. Use AWS KMS service to manage the access.
 D. Use AWS Config Service to control the access. 
 
 
-EXPLANATION: 
+EXPLANATION: IAM
 Correct Answer - A
 
 AWS Documentation mentions the following:
@@ -996,21 +722,9 @@ You can control access to Amazon API Gateway with IAM permissions by controlling
 To create, deploy, and manage an API in API Gateway, you must grant the API developer permissions to perform the required actions supported by the API management component of API Gateway. To call a deployed API or to refresh the API caching, you must grant the API caller permissions to perform required IAM actions supported by the API execution component of API Gateway. For more information on permissions for the API gateway, please visit the following URL:
 
 https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
-
-Try now labs related to this 
-Introduction to AWS Identity Access Management(IAM)
-This lab walks you through the steps on how to create IAM Users, IAM Groups and adding IAM User to the IAM Group in AWS IAM service
-
-Credit Needed10
-Time 0 : 20
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 32
-Unattempted
-Domain :Design Resilient Architectures
-You have 2 development environments hosted in 2 different VPCs in an AWS account in the same region. There is now a requirement to access the resources of one VPC from another. How could this be accomplished? [WL5]
+## 32:WL5: You have 2 development environments hosted in 2 different VPCs in an AWS account in the same region. There is now a requirement to access the resources of one VPC from another. How could this be accomplished? 
+
 A. Establish a Direct Connect connection.
 B. Establish a VPN connection.
 C. Establish VPC Peering.
@@ -1026,20 +740,9 @@ A VPC peering connection is a networking connection between two VPCs that enable
 For more information on VPC peering, please visit the URL below:
 
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-peering.html
-
- 
-
- 
-
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 33
-Unattempted
-Domain :Design Cost-Optimized Architectures
-Your company is planning to use the EMR service available in AWS to run its big data framework and wants to minimize the cost of running the EMR service. How would you achieve this? [WL5]
+## 33:WL5: Your company is planning to use the EMR service available in AWS to run its big data framework and wants to minimize the cost of running the EMR service. How would you achieve this? 
+
 A. Running the EMR cluster in a dedicated VPC
 B. Choosing Spot Instances for the underlying nodes
 C. Choosing On-Demand Instances for the underlying nodes
@@ -1060,10 +763,7 @@ https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-instances-guidel
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 34
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-You have an S3 bucket hosted in AWS that is used to store the promotional videos you upload. You need to provide users access to S3 bucket for a limited duration of time. How could this be achieved? [WL5]
+## 34:WL5: You have an S3 bucket hosted in AWS that is used to store the promotional videos you upload. You need to provide users access to S3 bucket for a limited duration of time. How could this be achieved? 
 A. Use versioning and enable a timestamp for each version.
 B. Use Pre-signed URLs with session duration.
 C. Use IAM Roles with a timestamp to limit the access.
@@ -1080,19 +780,8 @@ All objects by default are private. Only the object owner has permission to acce
 
 For more information on pre-signed URLs, please visit the URL below. 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html
-Try now labs related to this 
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 35
-Unattempted
-Domain :Design Resilient Architectures
-An application currently writes a large number of records to a DynamoDB table in one region. There is a requirement for a secondary application to retrieve new records written to the DynamoDB table every 2 hours and process the updates accordingly. What would be an ideal method to ensure that the secondary application gets the relevant changes from the DynamoDB table? [WL5]
+## 35:WL5: An application currently writes a large number of records to a DynamoDB table in one region. There is a requirement for a secondary application to retrieve new records written to the DynamoDB table every 2 hours and process the updates accordingly. What would be an ideal method to ensure that the secondary application gets the relevant changes from the DynamoDB table? 
 A. Insert a timestamp for each record and then, scan the entire table for the timestamp as per the last 2 hours.
 B. Create another DynamoDB table with the records modified in the last 2 hours.
 C. Use DynamoDB Streams to monitor the changes in the DynamoDB table.
@@ -1110,19 +799,8 @@ For more information on DynamoDB Streams, please visit the URL below:
 
 http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
 
-Try now labs related to this 
-Introduction to AWS DynamoDB
-This lab walks you through to Amazon DynamoDB features. In this lab, we will create a table in Amazon DynamoDB to store information and then query that information from the DynamoDB table. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 36
-Unattempted
-Domain :Define Performant Architectures
-You are working as an AWS Architect for an IT firm that is developing a new application for traders in the Capital market. There would be multiple trading orders initiated by clients. You have multiple EC2 instance with Auto-Scaling groups to process these trades parallelly. Also, each trade should be stateful and processed independently. What could be used to meet this requirement? [WL5]
+## 36:WL5: You are working as an AWS Architect for an IT firm that is developing a new application for traders in the Capital market. There would be multiple trading orders initiated by clients. You have multiple EC2 instance with Auto-Scaling groups to process these trades parallelly. Also, each trade should be stateful and processed independently. What could be used to meet this requirement? 
 A. Use SQS FIFO queue with Receive Request Attempt ID.
 B. Use SQS FIFO queue with Sequence number.
 C. Use SQS FIFO queue with Message Group ID.
@@ -1140,10 +818,7 @@ https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 37
-Unattempted
-Domain :Specify Secure Applications and Architectures
-Your IT Security department has mandated that all the traffic flowing in and out of EC2 instances needs to be monitored. The EC2 instances in  are launched in a VPC. Which services would you use to achieve this? [WL5]
+## 37:WL5: Your IT Security department has mandated that all the traffic flowing in and out of EC2 instances needs to be monitored. The EC2 instances in  are launched in a VPC. Which services would you use to achieve this? 
 A. Trusted Advisor
 B. VPC Flow Logs
 C. Use CloudWatch metrics
@@ -1166,18 +841,18 @@ Note:
 
 The  asks to monitor all traffic flowing in and out of EC2 instances. Now you have to launch EC2 instance inside the VPC. As there is no other Option available, to monitor the navigation of IP traffic, we use VPC Flow Logs. 
 
-Now coming to the  - why not CloudTrail? [WL5] 
+Now coming to the  - why not CloudTrail?  
 
 Before venturing into it, let's look into the types of log categories we have in AWS. 1. AWS Infrastructure Logs - AWS CloudTrail, Amazon VPC Flow Logs
 2. AWS Service Logs - Amazon S3, AWS Elastic Load Balancing, Amazon CloudFront, AWS Lambda, AWS Elastic Beanstalk, etc.,
 3. Host Based Logs - Messages, Security, NGINX/Apache/IIS, Windows Event Logs, Windows Performance Counters, etc.,
 
 AWS CloudTrail: it is used to record AWS API calls for your account like,
-- who made the API call? [WL5]
-- when was the API call made? [WL5]
-- what was the API call? [WL5]
-- which resources were acted upon in the API call? [WL5]
-- where was the API calls made form and made to? [WL5]
+- who made the API call? 
+- when was the API call made? 
+- what was the API call? 
+- which resources were acted upon in the API call? 
+- where was the API calls made form and made to? 
 
  
 
@@ -1189,10 +864,7 @@ https://aws.amazon.com/blogs/aws/new-vpc-traffic-mirroring/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 38
-Unattempted
-Domain :Design Resilient Architectures
-A company is currently utilizing Redshift cluster as their production warehouse. As a cloud architect, you are tasked to ensure that the disaster recovery is in place. Which would be the best option in addressing this issue? [WL5]
+## 38:WL5: A company is currently utilizing Redshift cluster as their production warehouse. As a cloud architect, you are tasked to ensure that the disaster recovery is in place. Which would be the best option in addressing this issue? 
 
  
 A. Take a copy of the underlying EBS volumes to S3 and then do Cross-Region Replication.
@@ -1217,10 +889,7 @@ https://docs.aws.amazon.com/redshift/latest/mgmt/managing-snapshots-console.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 39
-Unattempted
-Domain :Design Resilient Architectures
-You have an AWS RDS PostgreSQL database hosted in the Singapore region. You need to ensure that a copy of the database exists and that the data is asynchronously copied. What would be helpful to fulfill this requirement? [WL5]
+## 39:WL5: You have an AWS RDS PostgreSQL database hosted in the Singapore region. You need to ensure that a copy of the database exists and that the data is asynchronously copied. What would be helpful to fulfill this requirement? 
 A. Enable Multi-AZ for the database
 B. Enable Read Replicas for the database
 C. Enable Asynchronous replication for the database
@@ -1250,19 +919,8 @@ For more information, please click the link given below:
 
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html
 
-Try now labs related to this 
-Introduction to AWS Relational Database Service
-This lab walks you through to the creation and testing of an Amazon Relational Database Service (Amazon RDS) database. We will create an RDS MySql Database and test the connection using MySQL Workbench. 
-Credit Needed10
-Time 0 : 50
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 40
-Unattempted
-Domain :Design Cost-Optimized Architectures
-Your current log analysis application takes more than four hours to generate a report of the top 10 users of your web application. You have been asked to implement a system that can report this information in real time, ensure that the report is always up to date, and handle increases in the number of requests to your web application. Which of the following is a cost-effective option to fulfill these requirements? [WL5]
+## 40:WL5: Your current log analysis application takes more than four hours to generate a report of the top 10 users of your web application. You have been asked to implement a system that can report this information in real time, ensure that the report is always up to date, and handle increases in the number of requests to your web application. Which of the following is a cost-effective option to fulfill these requirements? 
 A. Publish your data to CloudWatch Logs, and configure your application to Auto Scale to handle the load on demand.
 B. Publish your log data to an Amazon S3 bucket. Use AWS CloudFormation to create an Auto Scaling group to scale your post-processing application which is configured to pull down your log files stored in Amazon S3.
 C. Post your log data to an Amazon Kinesis data stream, and subscribe your log-processing application so that it is configured to process your logging data.
@@ -1304,10 +962,7 @@ https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#job_stuc
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 42
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-There is a requirement to load a lot of data from your on-premises network to AWS S3. What can be used for this data transfer? [WL5] (SELECT TWO)
+## 42:WL5: There is a requirement to load a lot of data from your on-premises network to AWS S3. What can be used for this data transfer?  (SELECT TWO)
 
 
 A. Data Pipeline
@@ -1343,10 +998,7 @@ http://docs.aws.amazon.com/snowball/latest/ug/whatissnowball.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 43
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-With a Redshift cluster in AWS, you are trying to use SQL Client tools from an EC2 Instance, but aren't able to connect to the Redshift Cluster. What must you do to ensure that you are able to connect to the Redshift Cluster from the EC2 Instance? [WL5]
+## 43:WL5: With a Redshift cluster in AWS, you are trying to use SQL Client tools from an EC2 Instance, but aren't able to connect to the Redshift Cluster. What must you do to ensure that you are able to connect to the Redshift Cluster from the EC2 Instance? 
 A. Install Redshift client tools on the EC2 Instance first.
 B. Modify the VPC Security Groups.
 C. Use the AWS CLI instead of the Redshift client tools.
@@ -1368,10 +1020,7 @@ http://docs.aws.amazon.com/redshift/latest/mgmt/overview.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 44
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-You currently work for a company that is specialized in baggage management. GPS devices installed on all the baggages deliver the coordinates of the unit every 10 seconds. You need to process these coordinates in real-time from multiple sources. Which tool should you use to process the data? [WL5]
+## 44:WL5: You currently work for a company that is specialized in baggage management. GPS devices installed on all the baggages deliver the coordinates of the unit every 10 seconds. You need to process these coordinates in real-time from multiple sources. Which tool should you use to process the data? 
 A. Amazon EMR
 B. Amazon SQS
 C. AWS Data Pipeline
@@ -1392,10 +1041,7 @@ https://aws.amazon.com/kinesis/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 45
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are planning to host a web and MySQL database application in an AWS VPC. The database should only be accessible by the web server. What would you change to fulfill this requirement? [WL5]
+## 45:WL5: You are planning to host a web and MySQL database application in an AWS VPC. The database should only be accessible by the web server. What would you change to fulfill this requirement? 
 A. Network Access Control Lists
 B. AWS RDS Parameter Groups
 C. Route Tables
@@ -1415,10 +1061,7 @@ https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 46
-Unattempted
-Domain :Specify Secure Applications and Architectures
-A company has a requirement for block level storage that should be able to store 800GB of data. Also, encryption of the data is required. What can be used in this case? [WL5]
+## 46:WL5: A company has a requirement for block level storage that should be able to store 800GB of data. Also, encryption of the data is required. What can be used in this case? 
 A. AWS EBS Volumes
 B. AWS S3
 C. AWS Glacier
@@ -1439,11 +1082,8 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 47
-Unattempted
-Domain :Design Resilient Architectures
-You are working as an AWS Architect for a media firm. The firm has large text files which needs to be converted into Audio files. They are using S3 buckets to store this text files. 
-AWS Batch is used to process these files along with Amazon Polly. For compute environment you have a mix of EC2 On Demand & Spot instance. Critical Jobs are required to be completed quickly while non-critical Jobs can be scheduled during non-peak hours. While using AWS Batch, management wants a cost-effective solution with no performance impact. Which of the following Job Queue can be selected to meet this requirement? [WL5]
+## 47:WL5: You are working as an AWS Architect for a media firm. The firm has large text files which needs to be converted into Audio files. They are using S3 buckets to store this text files. 
+AWS Batch is used to process these files along with Amazon Polly. For compute environment you have a mix of EC2 On Demand & Spot instance. Critical Jobs are required to be completed quickly while non-critical Jobs can be scheduled during non-peak hours. While using AWS Batch, management wants a cost-effective solution with no performance impact. Which of the following Job Queue can be selected to meet this requirement? 
 A. Create single Job Queue with EC2 On Demand instance having higher priority & Spot Instance having lower priority.
 B. Create multiple Job Queues with one Queue having EC2 On Demand instance & having higher priority while another queue having Spot Instance & lower priority.
 C. Create multiple Job Queues with one Queue having EC2 On Demand instance & having lower priority while another queue having Spot Instance & higher priority.
@@ -1461,10 +1101,7 @@ https://docs.aws.amazon.com/batch/latest/userguide/job_queue_parameters.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 48
-Unattempted
-Domain :Define Performant Architectures
-As the cloud administrator of company, you notice that one of the EC2 instances is restarting frequently. There is a need to troubleshoot and analyze the system logs. What can be used in AWS to store and analyze the log files from the EC2 Instance? [WL5] 
+## 48:WL5: As the cloud administrator of company, you notice that one of the EC2 instances is restarting frequently. There is a need to troubleshoot and analyze the system logs. What can be used in AWS to store and analyze the log files from the EC2 Instance?  
 A. AWS SQS
 B. AWS S3
 C. AWS CloudTrail
@@ -1489,10 +1126,7 @@ In this  we need cloudwatch logs to store and analyze logs from EC2 to find why 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 49
-Unattempted
-Domain :Design Cost-Optimized Architectures
-Your company has migrated their production environment into AWS VPC 6 months ago. As a cloud architect, you are required to revise the infrastructure and ensure that it is cost-effective in the long term. There are more than 50 EC2 instances that are up and running all the time to support the business operation. What can you do to lower the cost? [WL5]
+## 49:WL5: Your company has migrated their production environment into AWS VPC 6 months ago. As a cloud architect, you are required to revise the infrastructure and ensure that it is cost-effective in the long term. There are more than 50 EC2 instances that are up and running all the time to support the business operation. What can you do to lower the cost? 
 A. Reserved instances
 B. On-demand instances
 C. Spot instances
@@ -1513,10 +1147,7 @@ https://aws.amazon.com/ec2/pricing/reserved-instances/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 50
-Unattempted
-Domain :Design Resilient Architectures
-Your organization is building a collaboration platform for which they chose AWS EC2 for web and application servers and MySQL RDS instance as the database. Due to the nature of the traffic to the application, they would like to increase the number of connections to RDS instance. How could this be achieved? [WL5]
+## 50:WL5: Your organization is building a collaboration platform for which they chose AWS EC2 for web and application servers and MySQL RDS instance as the database. Due to the nature of the traffic to the application, they would like to increase the number of connections to RDS instance. How could this be achieved? 
 A. Login to RDS instance and modify database config file under /etc/mysql/my.cnf
 B. Create a new parameter group, attach it to DB instance and change the setting.
 C. Create a new option group, attach it to DB instance and change the setting.
@@ -1534,19 +1165,8 @@ If you want to use your own DB parameter group, you simply create a new DB param
 For more information, please visit the URL below:
 
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html
-Try now labs related to this 
-Introduction to AWS Relational Database Service
-This lab walks you through to the creation and testing of an Amazon Relational Database Service (Amazon RDS) database. We will create an RDS MySql Database and test the connection using MySQL Workbench. 
-Credit Needed10
-Time 0 : 50
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 51
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are working for a Pharma firm. You are using S3 buckets to save a large amount of sensitive project document for new medicine research. You need to ensure all data at rest in these buckets is encrypted. All the keys need to be managed by the inhouse Security team. Which of the following can be used as a best practice to encrypt all data securely? [WL5]
+## 51:WL5: You are working for a Pharma firm. You are using S3 buckets to save a large amount of sensitive project document for new medicine research. You need to ensure all data at rest in these buckets is encrypted. All the keys need to be managed by the inhouse Security team. Which of the following can be used as a best practice to encrypt all data securely? 
 A. Generate a data key using Customer managed CMK’s. Encrypt data with data key & delete data keys. Store encrypted data keys & data in S3 buckets. For decryption, use CMK to decrypt data key into plain text & then decrypt data using plain text data key.
 B. Generate a data key using AWS managed CMK’s. Encrypt data with data key & delete data keys. Store encrypted data & data keys in S3 buckets. For decryption, use CMK to decrypt data key into plain text & then decrypt data using plain text data key.
 C. Generate a data key using Customer managed CMK’s. Encrypt data with data key & do not delete data keys. Store encrypted data & plain text data keys in S3 buckets. For decryption, use plain text data key to decrypt data.
@@ -1565,10 +1185,7 @@ Option B is incorrect, since all keys needs to manage by inhouse customer Securi
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 52
-Unattempted
-Domain :Design Resilient Architectures
-A company is building a service using Amazon EC2 as a worker instance that will process an uploaded audio file and generate a text file. You must store both of these files in the same durable storage until the text file is retrieved. You do not know what the storage capacity requirements are. Which storage option is both cost-efficient and scalable? [WL5]
+## 52:WL5: A company is building a service using Amazon EC2 as a worker instance that will process an uploaded audio file and generate a text file. You must store both of these files in the same durable storage until the text file is retrieved. You do not know what the storage capacity requirements are. Which storage option is both cost-efficient and scalable? 
 A. Multiple Amazon EBS Volume with snapshots
 B. A single Amazon Glacier vault
 C. A single Amazon S3 bucket
@@ -1584,20 +1201,9 @@ For more information on Amazon S3, please refer to the below URL:
 
 https://aws.amazon.com/s3/
 
-Try now labs related to this 
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 53
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are working as an AWS developer for an online multiplayer game developing start-up company. Elasticache with Redis is used for gaming leaderboards along with application servers, to provide low latency and avoid stale data for these highly popular online games. Redis clusters are deployed within a dedicated VPC in the us-east-1 region. 
-Last week, due to configuration changes in Redis Clusters, the gaming application was impacted for two hours. To avoid such incidents, you have been requested to plan for secure access to all the new clusters. What would you prefer to use for secure access to Redis Clusters while accessing from EC2 instance, initialized in different VPC in the us-east-1 region? [WL5] (SELECT TWO)
+## 53:WL5: You are working as an AWS developer for an online multiplayer game developing start-up company. Elasticache with Redis is used for gaming leaderboards along with application servers, to provide low latency and avoid stale data for these highly popular online games. Redis clusters are deployed within a dedicated VPC in the us-east-1 region. 
+Last week, due to configuration changes in Redis Clusters, the gaming application was impacted for two hours. To avoid such incidents, you have been requested to plan for secure access to all the new clusters. What would you prefer to use for secure access to Redis Clusters while accessing from EC2 instance, initialized in different VPC in the us-east-1 region?  (SELECT TWO)
 
 
 A. Use Redis AUTH with in-transit encryption disabled for clusters. 
@@ -1624,10 +1230,7 @@ https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-vpc-acce
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 54
-Unattempted
-Domain :Define Performant Architectures
-Your company is utilizing CloudFront to distribute its media content to multiple regions. The content is frequently accessed by users. As a cloud architect, which of the following options would help you improve the performance of the system? [WL5]
+## 54:WL5: Your company is utilizing CloudFront to distribute its media content to multiple regions. The content is frequently accessed by users. As a cloud architect, which of the following options would help you improve the performance of the system? 
 A. Change the origin location from an S3 bucket to an ELB.
 B. Use a faster Internet connection.
 C. Increase the cache expiration time.
@@ -1642,19 +1245,8 @@ For more information on CloudFront cache expiration, please refer to the followi
 
 http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html
 
-Try now labs related to this 
-Introduction to Amazon CloudFront
-This lab walks you through to Amazon CloudFront creation and working. In this lab you will create an Amazon CloudFront distribution. It will distribute a publicly accessible image file stored in an Amazon S3 bucket. 
-Credit Needed10
-Time 1 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 55
-Unattempted
-Domain :Design Resilient Architectures
-You have been instructed by your supervisor to devise a disaster recovery model for the resources in the AWS account. The key requirement while devising the solution is to ensure that the cost is at a minimum. Which disaster recovery mechanism would you employ in such a scenario? [WL5]
+## 55:WL5: You have been instructed by your supervisor to devise a disaster recovery model for the resources in the AWS account. The key requirement while devising the solution is to ensure that the cost is at a minimum. Which disaster recovery mechanism would you employ in such a scenario? 
 A. Backup and Restore
 B. Pilot Light
 C. Warm standby
@@ -1675,15 +1267,12 @@ https://aws.amazon.com/disaster-recovery/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 56
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-An application consists of the following architecture:
+## 56:WL5: An application consists of the following architecture:
 
 a. EC2 Instances are in multiple AZ’s behind an ELB. 
 b. The EC2 Instances are launched via an Auto Scaling Group. 
 c. There is a NAT instance used so that instances can download updates from the internet. 
-Due to the high bandwidth being consumed by the NAT instance, it has been decided to use a NAT Gateway. How could this be implemented? [WL5]
+Due to the high bandwidth being consumed by the NAT instance, it has been decided to use a NAT Gateway. How could this be implemented? 
 A. Use NAT Instances along with the NAT Gateway.
 B. Host the NAT instance in the private subnet.
 C. Migrate the NAT Instance to NAT Gateway and host the NAT Gateway in the public subnet.
@@ -1700,14 +1289,11 @@ https://aws.amazon.com/premiumsupport/knowledge-center/migrate-nat-instance-gate
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 57
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-A company has an application hosted in AWS. This application consists of EC2 Instances that sit behind an ELB. The following are the requirements from an administrative perspective:
+## 57:WL5: A company has an application hosted in AWS. This application consists of EC2 Instances that sit behind an ELB. The following are the requirements from an administrative perspective:
 
 a) Must be able to collect and analyze logs with regard to ELB’s performance. 
 b) Ensure that notifications are sent when the latency goes beyond 10 seconds. 
-What should be used to achieve this requirement? [WL5] (SELECT TWO)
+What should be used to achieve this requirement?  (SELECT TWO)
 
  
 
@@ -1741,10 +1327,7 @@ https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-colle
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 58
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-Your company would like to leverage the AWS storage option and integrate it with the current on-premises infrastructure. Additionally, due to business requirements, low latency access to all the data is a must. Which of the following options would be best suited for this scenario? [WL5]
+## 58:WL5: Your company would like to leverage the AWS storage option and integrate it with the current on-premises infrastructure. Additionally, due to business requirements, low latency access to all the data is a must. Which of the following options would be best suited for this scenario? 
 A. Configure the Simple Storage Service.
 B. Configure Storage Gateway Cached Volume.
 C. Configure Storage Gateway Stored Volume.
@@ -1774,10 +1357,7 @@ https://docs.aws.amazon.com/storagegateway/latest/userguide/WhatIsStorageGateway
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 59
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-An IT company has a set of EC2 Instances hosted in a VPC. They are hosted in a private subnet. These instances now need to access resources stored in an S3 bucket. The traffic should not traverse the internet. The addition of which of the following would help to fulfill this requirement? [WL5]
+## 59:WL5: An IT company has a set of EC2 Instances hosted in a VPC. They are hosted in a private subnet. These instances now need to access resources stored in an S3 bucket. The traffic should not traverse the internet. The addition of which of the following would help to fulfill this requirement? 
 A. VPC Endpoint
 B. NAT Instance
 C. NAT Gateway
@@ -1796,10 +1376,7 @@ https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-endpoints.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 60
-Unattempted
-Domain :Design Resilient Architectures
-You need to host a set of web servers and database servers in an AWS VPC. What would be a best practice in designing a multi-tier infrastructure? [WL5]
+## 60:WL5: You need to host a set of web servers and database servers in an AWS VPC. What would be a best practice in designing a multi-tier infrastructure? 
 A. Use a public subnet for the web tier and a public subnet for the database layer.
 B. Use a public subnet for the web tier and a private subnet for the database layer.
 C. Use a private subnet for the web tier and a private subnet for the database layer.
@@ -1820,21 +1397,8 @@ For more information on public and private subnets in AWS, please visit the foll
 
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario2.html
 
-Try now labs related to this 
-Build Amazon VPC with Public and Private Subnets from Scratch
-Learn how to build Public and Private subnets from scratch. 
-VPC wizard will not be used. So every component required to build public and private subnets will be created and configured manually. 
-This will give an in-depth understanding of internal components of VPC and subnets. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 61
-Unattempted
-Domain :Specify Secure Applications and Architectures
-An IT company wants to secure their resources in their AWS Account. Which of the following options would secure data at rest and in transit in AWS? [WL5] (SELECT THREE)
+## 61:WL5: An IT company wants to secure their resources in their AWS Account. Which of the following options would secure data at rest and in transit in AWS?  (SELECT THREE)
 
 
 A. Encrypt all EBS volumes attached to EC2 Instances. 
@@ -1869,19 +1433,8 @@ For more information on securing data at rest, please refer to the below link:
 
 https://d0.awsstatic.com/whitepapers/aws-securing-data-at-rest-with-encryption.pdf
 
-Try now labs related to this 
-Introduction to AWS Elastic Load Balancing
-This lab walks you through AWS Elastic Load Balancing. Elastic Load Balancing automatically distributes incoming application traffic across multiple Amazon EC2 instances in the cloud. In this lab, we will demonstrate elastic load balancing with 2 EC2 Instances. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 62
-Unattempted
-Domain :Design Cost-Optimized Architectures
-Your company currently has a set of EC2 Instances running a web application which sits behind an Elastic Load Balancer. You also have an Amazon RDS instance which is accessible from the web application. You have been asked to ensure that this architecture is self-healing in nature. What would fulfill this requirement? [WL5] (SELECT TWO)
+## 62:WL5: Your company currently has a set of EC2 Instances running a web application which sits behind an Elastic Load Balancer. You also have an Amazon RDS instance which is accessible from the web application. You have been asked to ensure that this architecture is self-healing in nature. What would fulfill this requirement?  (SELECT TWO)
 
 
 A. Use CloudWatch metrics to check the utilization of the web layer. Use Auto Scaling Group to scale the web instances accordingly based on the CloudWatch metrics. 
@@ -1907,25 +1460,14 @@ Amazon RDS Multi-AZ deployments provide enhanced availability and durability for
 In case of an infrastructure failure, Amazon RDS performs an automatic failover to the standby (or to a read replica in the case of Amazon Aurora), so that you can resume database operations as soon as the failover is complete. Since the endpoint for your DB Instance remains the same after a failover, your application can resume database operation without the need for manual administrative intervention. 
 For more information on Multi-AZ RDS, please refer to the below link:
 https://aws.amazon.com/rds/details/multi-az/
-Try now labs related to this 
-Introduction to AWS Relational Database Service
-This lab walks you through to the creation and testing of an Amazon Relational Database Service (Amazon RDS) database. We will create an RDS MySql Database and test the connection using MySQL Workbench. 
-Credit Needed10
-Time 0 : 50
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 63
-Unattempted
-Domain :Specify Secure Applications and Architectures
-Your company has a set of EC2 Instances that access data objects stored in an S3 bucket. Your IT Security department is concerned about the security of this architecture and wants you to implement the following:
+## 63:WL5: Your company has a set of EC2 Instances that access data objects stored in an S3 bucket. Your IT Security department is concerned about the security of this architecture and wants you to implement the following:
 
 1) Ensure that the EC2 Instance securely accesses the data objects stored in the S3 bucket
 
 2) Prevent accidental deletion of objects
 
-What would be helpful to fulfill the requirements of the IT Security department? [WL5] (SELECT TWO)
+What would be helpful to fulfill the requirements of the IT Security department?  (SELECT TWO)
 
 
 A. Create an IAM user and ensure the EC2 Instances use the IAM user credentials to access the data in the bucket. 
@@ -1953,19 +1495,9 @@ For more information on MFA Delete, please refer to the link below:
 
 https://aws.amazon.com/blogs/security/securing-access-to-aws-using-mfa-part-3/
 
-Try now labs related to this 
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 64
-Unattempted
-Domain :Define Operationally-Excellent Architectures
-You have a requirement to get a snapshot of the current configuration of resources in your AWS Account. Which service can be used for this purpose? [WL5]
+## 64:WL5: You have a requirement to get a snapshot of the current configuration of resources in your AWS Account. Which service can be used for this purpose? 
+
 A. AWS CodeDeploy
 B. AWS Trusted Advisor
 C. AWS Config
@@ -1987,10 +1519,7 @@ http://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 65
-Unattempted
-Domain :Define Performant Architectures
-Your company is hosting an application in AWS. The application is read intensive and consists of a set of web servers and AWS RDS. It has been noticed that the response time of the application increases due to the load on the AWS RDS instance. Which of the following measures can be taken to scale the data tier? [WL5] (SELECT TWO)
+## 65:WL5: Your company is hosting an application in AWS. The application is read intensive and consists of a set of web servers and AWS RDS. It has been noticed that the response time of the application increases due to the load on the AWS RDS instance. Which of the following measures can be taken to scale the data tier?  (SELECT TWO)
 
 
 A. Create Amazon DB Read Replicas. Configure the application layer to query the Read Replicas for query needs. 

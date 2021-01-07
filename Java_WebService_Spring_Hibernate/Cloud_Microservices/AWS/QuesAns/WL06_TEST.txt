@@ -70,7 +70,7 @@ C. AWS EC2 with Kubernetes installed
 D. AWS Elastic beanstalk
 
 
-EXPLANATION: 
+EXPLANATION: Fargate
 Answer – B
 
 "Amazon ECS has two modes: Fargate launch type and EC2 launch type. With Fargate launch type, all you have to do is package your application in containers, specify the CPU and memory requirements, define networking and IAM policies, and launch the application."
@@ -108,17 +108,20 @@ For more information on AMI’s, please visit the below URL:
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 7:WL6: You are working as an AWS Administrator for a global IT company. The development team has developed a new intranet application for project delivery using AWS serverless infrastructure in the US-West-2 region. Coding for this application is done using Python with code size less than 5 MB & changes in code is done on a quarterly basis. This new application will be set up on new redundant infrastructure and company would like to automate this process. For deploying new features, AWS Codepipeline will be used for an automated release cycle. What would you recommend as source stage and deploy stage integration along with AWS CodePipeline? [WL6]
+### 7:WL6: You are working as an AWS Administrator for a global IT company. The development team has developed a new intranet application for project delivery using AWS serverless infrastructure in the US-West-2 region. Coding for this application is done using Python with code size less than 5 MB & changes in code is done on a quarterly basis. This new application will be set up on new redundant infrastructure and company would like to automate this process. For deploying new features, AWS Codepipeline will be used for an automated release cycle. What would you recommend as source stage and deploy stage integration along with AWS CodePipeline? 
 
 A. Use CodePipeline with source stage as CodeCommit and deploy stage using AWS CodeDeploy.
 B. Use CodePipeline with source stage as CodeCommit and deploy stage using AWS Elastic Beanstalk.
 C. Use CodePipeline with source stage as S3 bucket having versioning enable and deploy stage using AWS Elastic Beanstalk.
 D. Use CodePipeline with source stage as S3 bucket having versioning enable and deploy stage using AWS Code Deploy. 
 
+
 EXPLANATION: 
 Correct Answer – B
 
-As code size is less than 5MB with a smaller number of changes to the code, AWS CodeCommit can be used as source stage integration with AWS CodePipeline. Also, new infrastructure needs to be built for this new application deployment, AWS Elastic Beanstalk can be used to build & manage redundant resources. 
+> As code size is less than 5MB with a smaller number of changes to the code, AWS CodeCommit can be used as source stage integration with AWS CodePipeline. 
+- Also, new infrastructure needs to be built for this new application deployment, AWS Elastic Beanstalk can be used to build & manage redundant resources. 
+
 Option A is incorrect. There is no existing infrastructure. As a new resource needs to be deployed, AWS Code Deploy is not a correct option. Option C is incorrect. Code size is less than 5 MB with a smaller number of changes, so S3 would not be a correct option. Option D is incorrect. There is no existing infrastructure. As a new resource needs to be deployed, AWS Code Deploy is not a correct option. Also, code size is less than 5 MB with a smaller number of changes, S3 would not be a correct option. For more information on AWS CodePipeline Integration type, refer to the following URL:
 
  https://docs.aws.amazon.com/codepipeline/latest/userguide/integrations-action-type.html
@@ -145,7 +148,6 @@ Option C is incorrect since this is used as a notification service
 
 For more information on S3, please visit the below URL:
 
- 
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html
  
@@ -154,7 +156,7 @@ For more information on SQS, please visit the below URL:
 
 https://aws.amazon.com/sqs/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 9:WL6: Your development team has created a web application that needs to be tested on VPC. You need to advise the IT admin team on how they should implement the VPC to ensure the application can be accessed from the Internet. Which of the following components would be part of the design. Choose 3 answers from the options given below
+### 9:WL6: Your development team has created a web application that needs to be tested on VPC. You need to advise the IT admin team on how they should implement the VPC to ensure the application can be accessed from the Internet. Which of the following components would be part of the design. Choose 3 answers from the options given below
 
 A. An Internet gateway attached to the VPC. 
 B. A NAT gateway attached to the VPC. 
@@ -249,11 +251,19 @@ B. Disable periodic checks, create an Amazon CloudWatch Events rule & AWS CloudT
 C. Enable periodic checks, create an Amazon CloudWatch Events rule & AWS CloudTrail trail.
 D. Disable periodic checks and create a Webhook which triggers pipeline once S3 bucket is updated. 
 
-EXPLANATION: 
+
+EXPLANATION: CodePipeline
 Correct Answer – B
 
-To automatically trigger pipeline with changes in the source S3 bucket, Amazon CloudWatch Events rule & AWS CloudTrail trail must be applied. When there is a change in S3 bucket, events are filtered using AWS CloudTrail & then Amazon CloudWatch events are used to trigger the start of pipeline. This default method is faster & periodic checks should be disabled to have events-based triggering of CodePipeline. 
-Option A is incorrect as Webhooks are used to trigger pipeline when the source is GitHub repository. Also, the periodic check will be a slower process to trigger CodePipeline. Option C is incorrect as Periodic checks are not a faster way to trigger CodePipeline. Option D is incorrect as Webhooks are used to trigger pipeline when the source is GitHub repository. For more information on Automatically Triggering Pipeline, refer to the following URL:
+> To automatically trigger pipeline with changes in the source S3 bucket, Amazon CloudWatch Events rule & AWS CloudTrail trail must be applied. 
+- When there is a change in S3 bucket, events are filtered using AWS CloudTrail & then Amazon CloudWatch events are used to trigger the start of pipeline. 
+- This default method is faster & periodic checks should be disabled to have events-based triggering of CodePipeline. 
+
+Option A is incorrect as Webhooks are used to trigger pipeline when the source is GitHub repository. Also, the periodic check will be a slower process to trigger CodePipeline. 
+
+Option C is incorrect as Periodic checks are not a faster way to trigger CodePipeline. 
+
+Option D is incorrect as Webhooks are used to trigger pipeline when the source is GitHub repository. For more information on Automatically Triggering Pipeline, refer to the following URL:
 
 https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-about-starting.html
 
@@ -281,7 +291,7 @@ For more information on an example to use the Load balancer , please visit the b
 https://aws.amazon.com/premiumsupport/knowledge-center/public-load-balancer-private-ec2/
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 15:WL6: You are working as an AWS Architect for a retail company using AWS EC2 instance for a web application. Company is using Provisioned IOPS SSD EBS volumes to store all product database. 
+### 15:WL6: You are working as an AWS Architect for a retail company using AWS EC2 instance for a web application. Company is using Provisioned IOPS SSD EBS volumes to store all product database. 
 This is a critical database & you need to ensure appropriate backups are accomplished every 12 hours. Also, you need to ensure that storage space is optimally used for storing all these snapshots removing all older files. Which of the following can help to meet this requirement with least management overhead? [WL615]
 
 A. Manually create snapshots & delete old snapshots for EBS volumes as this is a critical data.
@@ -289,16 +299,19 @@ B. Use Amazon CloudWatch events to initiate AWS Lambda which will create snapsho
 C. Use Amazon Data Lifecycle Manager to schedule EBS snapshots and delete old snapshots as per retention policy.
 D. Use Third party tool to create snapshot of EBS volumes along with deletion of old snapshots. 
 
+
 EXPLANATION: 
 Correct Answer – C
 
-Amazon Data Lifecycle Manager can be used for creation, retention & deletion of EBS snapshots. It protects critical data by initiating backup of Amazon EBS volumes at selected intervals , along with storing & deletion of old snapshots to save storage space & cost. 
-Option A is incorrect as this will result in additional admin work & there can be risk of losing critical data due to manual errors. Option B is incorrect as for this we will need to additional config changes in CloudWatch & AWS Lambda. Option D is incorrect as this will result in additional cost to maintain a third-party software. For more information on Automating Amazon EBS Snapshot Lifecycle, refer to following URL,
+> Amazon Data Lifecycle Manager can be used for creation, retention & deletion of EBS snapshots. 
+- It protects critical data by initiating backup of Amazon EBS volumes at selected intervals , along with storing & deletion of old snapshots to save storage space & cost. 
 
+Option A is incorrect as this will result in additional admin work & there can be risk of losing critical data due to manual errors. 
+Option B is incorrect as for this we will need to additional config changes in CloudWatch & AWS Lambda. 
+Option D is incorrect as this will result in additional cost to maintain a third-party software. 
+
+For more information on Automating Amazon EBS Snapshot Lifecycle, refer to following URL,
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-lifecycle.html
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 16:WL6: You work as an architect for a consulting company. The consulting company normally creates the same set of resources for their clients. They want some way of building templates, which can then be used to deploy the resources to the AWS accounts for the various clients. Which of the following service can help fulfil this requirement? [WL616]
 
@@ -492,7 +505,7 @@ For more information on the different EBS volume types , please visit the below 
 
 https://aws.amazon.com/ebs/details/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## A customer needs corporate IT governance and cost oversight of all AWS resources consumed by its divisions. Each division has their own AWS account and there is a need to ensure that the security policies are kept in place at the Organizational Level. How can you achieve this? Choose 2 answers from the options given below
+### A customer needs corporate IT governance and cost oversight of all AWS resources consumed by its divisions. Each division has their own AWS account and there is a need to ensure that the security policies are kept in place at the Organizational Level. How can you achieve this? Choose 2 answers from the options given below
 [WL623]
 
 A. Use AWS organizations
@@ -504,19 +517,24 @@ D. Use Service control policies
 EXPLANATION: 
 Answer - A and D
 
-With AWS Organizations, you can centrally manage policies across multiple AWS accounts without having to use custom scripts and manual processes. For example, you can apply service control policies (SCPs) across multiple AWS accounts that are members of an organization. SCPs allow you to define which AWS service APIs can and cannot be executed by AWS Identity and Access Management (IAM) entities (such as IAM users and roles) in your organization’s member AWS accounts. SCPs are created and applied from the master account, which is the AWS account that you used when you created your organization. 
+With AWS Organizations, you can centrally manage policies across multiple AWS accounts without having to use custom scripts and manual processes. 
+For example, you can apply service control policies (SCPs) across multiple AWS accounts that are members of an organization. 
+SCPs allow you to define which AWS service APIs can and cannot be executed by AWS Identity and Access Management (IAM) entities (such as IAM users and roles) in your organization’s member AWS accounts. 
+SCPs are created and applied from the master account, which is the AWS account that you used when you created your organization. 
+
 Option B is incorrect since the question mentions that you need to use separate AWS accounts
 Option C is incorrect since you need to use service control policies."AWS IAM doesn't provide the facility to define access permissions to that minute level i.e., which AWS service APIs can and cannot be executed by IAM entities."
 For more information on how to use service control policies, please visit the below URL
 
 https://aws.amazon.com/blogs/security/how-to-use-service-control-policies-in-aws-organizations/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 24:WL6: Your company has a set of EC2 Instances hosted on the AWS Cloud. As an architect you have been told to ensure that if the status of any of instances is related to a failure, then the instances are automatically restarted. How can you achieve this in the MOST efficient way possible? [WL6]
+## 24:WL6: Your company has a set of EC2 Instances hosted on the AWS Cloud. As an architect you have been told to ensure that if the status of any of instances is related to a failure, then the instances are automatically restarted. How can you achieve this in the MOST efficient way possible? 
 
 A. Create CloudWatch alarms that stop and start the instance based off of status check alarms
 B. Write a script that queries the EC2 API for each instance status check
 C. Write a script that periodically shuts down and starts instances based on certain stats.
 D. Implement a third-party monitoring tool. 
+
 
 EXPLANATION: 
 Answer – A
@@ -529,22 +547,24 @@ For more information on using alarm actions, please refer to the below link
 http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingAlarmActions.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 25:WL6: You are working for a financial institute using AWS cloud infrastructure. All project related data is uploaded to Amazon EFS. This data is retrieved from on-premises data centre connecting to VPC via AWS Direct Connect. You need to ensure that all client access to EFS is encrypted using TLS 1.2 to adhere to latest security guidelines issued by security team. Which of the following is cost effective recommended practice for securing data in transit while accessing data from Amazon EFS? [WL6]
+### 25:WL6: You are working for a financial institute using AWS cloud infrastructure. All project related data is uploaded to Amazon EFS. This data is retrieved from on-premises data centre connecting to VPC via AWS Direct Connect. You need to ensure that all client access to EFS is encrypted using TLS 1.2 to adhere to latest security guidelines issued by security team. Which of the following is cost effective recommended practice for securing data in transit while accessing data from Amazon EFS? 
 
 A. Use EFS mount helper to encrypt data in transit.
 B. Use stunnel to connect to Amazon EFS & encrypt traffic in transit.
 C. Use third-party tool to encrypt data in transit.
 D. Use NFS client to encrypt data in transit. 
 
-EXPLANATION: 
+
+EXPLANATION: EFS
 Correct Answer – A
 
-While mounting Amazon EFS, if encryption of data in transit is enabled, EFS Mount helper initialise client Stunnel process to encrypt data in transit. EFS Mount helper uses TLS 1.2 to encrypts data in transit. 
+> While mounting Amazon EFS, if encryption of data in transit is enabled, EFS Mount helper initialise client Stunnel process to encrypt data in transit. EFS Mount helper uses TLS 1.2 to encrypts data in transit. 
+
 Option B is incorrect as using stunnel for encryption of data in transit will work fine, but there would be additional admin work to download & install stunnel for each mount. Option C is incorrect as using third-party tool will be a costly option. Option D is incorrect as NFS client can’t be used to encrypt data in transit. The amazon-efs-utils package can be used which consist of EFS mount helper. For more information on encrypting of data in transit for EFS, refer to following URL,
 
 https://docs.aws.amazon.com/efs/latest/ug/encryption.html#encryption-in-transit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 26:WL6: Your company has a set of resources defined in AWS. These resources consist of applications hosted on EC2 Instances. Data is stored on EBS volumes and S3. The company mandates that all data should be encrypted at rest. How can you achieve this? [WL6] Choose 2 answers from the options below
+## 26:WL6: Your company has a set of resources defined in AWS. These resources consist of applications hosted on EC2 Instances. Data is stored on EBS volumes and S3. The company mandates that all data should be encrypted at rest. How can you achieve this? Choose 2 answers from the options below
 
 A. Enable SSL with the underlying EBS volumes
 B. Enable EBS Encryption
@@ -655,7 +675,6 @@ Note: AWS now supports VPC Peering across different regions.  Please check below
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You have been instructed to establish a successful site-to-site VPN connection from your on-premises network to the VPC (Virtual Private Cloud). As an architect , which of the following pre-requisites should you ensure are in place for establishing the site-to-site VPN connection. Choose 2 answers from the options given below [WL630]
 
-
 A. The main route table to route traffic through a NAT instance
 B. A public IP address on the customer gateway for the on-premises network
 C. A virtual private gateway attached to the VPC
@@ -667,21 +686,14 @@ Answer - B and C
 
 This is mentioned in the AWS Documentation
 
-
-
- 
-
 Option A is incorrect since NAT instance is not required to route traffic via the VPN connection
-
- 
-
 Option D is incorrect the Virtual Private Gateway is managed by AWS
 
 For more information on VPN connections, please refer to the below link
 
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Your company wants to enable encryption of services such as S3 and EBS volumes so that the data it maintains is encrypted at rest. They want to have complete control over the keys ( including hardware ) and the entire lifecycle around the keys. How can you accomplish this? [WL631]
+### Your company wants to enable encryption of services such as S3 and EBS volumes so that the data it maintains is encrypted at rest. They want to have complete control over the keys ( including hardware ) and the entire lifecycle around the keys. How can you accomplish this? [WL631]
 
 A. Use the AWS CloudHSM
 B. Use the KMS service
@@ -689,7 +701,7 @@ C. Enable S3 server-side encryption
 D. Enable EBS Encryption with the default KMS keys
 
 
-EXPLANATION: 
+EXPLANATION: CloudHSM
 Answer – A
 
 This is mentioned in the AWS Documentation
@@ -698,11 +710,8 @@ AWS CloudHSM is a cloud-based hardware security module (HSM) that enables you to
 
 Options B,C and D are incorrect since here the keys are maintained by AWS
  
-
 For more information on cloud HSM, please refer to the below link
 https://aws.amazon.com/cloudhsm/
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company wants to implement a data store in AWS. The data store needs to have the following requirements
 
@@ -759,12 +768,13 @@ For more information on exposing VPC resources to the Internet please refer to t
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Internet_Gateway.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Your company has a set of EBS volumes and a set of adjoining EBS snapshots. They want to minimize the costs for the underlying EBS snapshots. Which of the following approaches provides the lowest cost for Amazon Elastic Block Store snapshots while giving you the ability to fully restore data? [WL634]
+### Your company has a set of EBS volumes and a set of adjoining EBS snapshots. They want to minimize the costs for the underlying EBS snapshots. Which of the following approaches provides the lowest cost for Amazon Elastic Block Store snapshots while giving you the ability to fully restore data? [WL634]
 
 A. Maintain two snapshots: the original snapshot and the latest incremental snapshot.
 B. Maintain a volume snapshot; subsequent snapshots will overwrite one another
 C. Maintain a single snapshot: the latest snapshot is both Incremental and complete.
 D. Maintain the most current snapshot, archive the original and incremental to Amazon Glacier. 
+
 
 EXPLANATION: 
 Answer – C
@@ -783,6 +793,7 @@ A. Use a larger EC2 Instance
 B. Enable Multi-AZ feature for the database. 
 C. Consider using Provisioned IOPS Volumes. 
 D. Put the database behind an Elastic Load Balancer. 
+
 
 EXPLANATION:
 Answer - A and C
@@ -846,14 +857,15 @@ https://aws.amazon.com/cloudfront/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## A customer is hosting their company website on a cluster of web servers that are behind a public-facing load balancer. The customer also uses Amazon Route 53 to manage their public DNS. How should Route 53 be configured to ensure the custom domain is made to point to the load balancer? Choose 2 answers from the options below. [WL638]
+### A customer is hosting their company website on a cluster of web servers that are behind a public-facing load balancer. The customer also uses Amazon Route 53 to manage their public DNS. How should Route 53 be configured to ensure the custom domain is made to point to the load balancer? Choose 2 answers from the options below. [WL638]
 
 A. Create an A record pointing to the IP address of the load balancer
 B. Create a CNAME record pointing to the load balancer DNS name. 
 C. Create an alias record for a CNAME record to the load balancer DNS name. 
 D. Ensure that a hosted zone is in place
 
-EXPLANATION: 
+
+EXPLANATION: Route53
 Answer - C and D
 
 The AWS Documentation mentions the following
@@ -872,7 +884,6 @@ Private Hosted Zone - contain records that specify how you want to route traffic
 Options A and B are incorrect since you need to use ALIAS names for this. For more information on ALIAS records, please visit
 
 https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A customer is hosting their company website on a cluster of web servers that are behind a public-facing load balancer. The web application interfaces with a AWS RDS database. It has been noticed that a set of similar types of queries is causing a performance bottleneck at the database layer. Which of the following architecture additions can help alleviate this issue? [WL639]
@@ -925,7 +936,7 @@ For more information on Multi-AZ, please visit
 https://aws.amazon.com/rds/details/multi-az/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 41:WL6: Your company is planning on launching a set of EC2 Instances for hosting their production-based web application. As an architect you have to instruct the operations department on which service they can use for the monitoring purposes. Which of the following would you recommend? [WL6]
+## 41:WL6: Your company is planning on launching a set of EC2 Instances for hosting their production-based web application. As an architect you have to instruct the operations department on which service they can use for the monitoring purposes. Which of the following would you recommend? 
 
 A. AWS Cloudtrail
 B. AWS Cloudwatch
@@ -1059,8 +1070,8 @@ For more information on AWS Opswork, please visit the url
 https://aws.amazon.com/opsworks/
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 47:WL6: You are working as an AWS consultant for a banking institute. They have deployed a digital wallet platform for clients using  multiple EC2 instances in us-east-1 region. Application establishes a secure encrypted connection between clients & EC2 instance for each transaction using custom TCP port 5810. 
-Due to increasing popularity of this digital wallet, they are observing load on backend servers resulting in delay in transaction. For security purpose, all client IP address accessing this application should be preserved & logged. Technical team of banking institute is looking for a solution which will address this delay & also proposed solution should be compatible with millions of transactions done simultaneously. Which of the following is a recommended option to meet this requirement? [WL6]
+### 47:WL6: You are working as an AWS consultant for a banking institute. They have deployed a digital wallet platform for clients using  multiple EC2 instances in us-east-1 region. Application establishes a secure encrypted connection between clients & EC2 instance for each transaction using custom TCP port 5810. 
+Due to increasing popularity of this digital wallet, they are observing load on backend servers resulting in delay in transaction. For security purpose, all client IP address accessing this application should be preserved & logged. Technical team of banking institute is looking for a solution which will address this delay & also proposed solution should be compatible with millions of transactions done simultaneously. Which of the following is a recommended option to meet this requirement? 
 
 A. Use Network Load Balancers with SSL certificate. Configure TLS Listeners on this NLB with custom security policy consisting of protocols & ciphers.
 B. Use Network Load Balancers with SSL certificate. Configure TLS Listeners on this NLB with default security policy consisting of protocols & ciphers.
@@ -1100,7 +1111,7 @@ For more information on AWS placement groups, please visit the url
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Your company stores a large set of files in Amazon S3. They need to ensure that if any new files are added to an S3 bucket, an event notification would be sent to the IT admin staff. Which of the following could be used to fulfil this requirement? Choose 2 answers from the options given below. [WL649]
+### Your company stores a large set of files in Amazon S3. They need to ensure that if any new files are added to an S3 bucket, an event notification would be sent to the IT admin staff. Which of the following could be used to fulfil this requirement? Choose 2 answers from the options given below. [WL649]
 
 A. Create an SNS topic
 B. Create an SQS queue
@@ -1108,7 +1119,7 @@ C. Add an event notification to the S3 bucket
 D. Add an event notification to the S3 object
 
 
-EXPLANATION: 
+EXPLANATION: SNS
 Answer - A and C
 
 The AWS Documentation mentions the following
@@ -1161,7 +1172,8 @@ B. Create a separate VPC peering connection from Development to Production and f
 C. Create a VPN connection between the Development, Test VPC to the Production VPC
 D. Create a VPC peering connection between the Development to the Production VPC and from Development to the Test VPC. 
 
-EXPLANATION:
+
+EXPLANATION: VPC Peering
 Answer – B
 
 Options A and C are incorrect since this is only required for a short duration of time , hence you need to choose VPC peering
@@ -1177,7 +1189,6 @@ https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/Welcome.html
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are designing the application architecture for a company. The architecture is going to consist of a web tier that will be hosted on EC2 Instances placed behind an Elastic Load Balancer. Which of the following would be considered important .And what is the specification for the components of the application architecture? [WL652] Select 2 options:
-
 
 A. Determine the required I/O operations
 B. Determining the minimum memory requirements for an application
@@ -1219,7 +1230,7 @@ For more information on DynamoDB, please visit the url
 https://aws.amazon.com/dynamodb/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are working as an AWS consultant for an online grocery store. They are using two-tier web application with web-servers hosted in VPC’s at us-east-1 region & on-premise data-centre. Network Load balancer is configured in front end to distribute traffic between these servers. All traffic between clients & servers is encrypted. To reduce load on back-end servers , they  are looking for an alternate solution to terminate TLS connection on this Network Load balancer. 
+### You are working as an AWS consultant for an online grocery store. They are using two-tier web application with web-servers hosted in VPC’s at us-east-1 region & on-premise data-centre. Network Load balancer is configured in front end to distribute traffic between these servers. All traffic between clients & servers is encrypted. To reduce load on back-end servers , they  are looking for an alternate solution to terminate TLS connection on this Network Load balancer. 
 Management team of this store has engaged you for suggesting a solution for certificate management used in case of TLS termination. Which of the following is preferred secure option to provision & store certificates to be used along with Network Load Balancer for terminating TLS? [WL654]
 
 A. Use multiple certificates per TLS listener & If a hostname provided by a client matches multiple certificates in the certificate list, the load balancer selects all of the certificates
@@ -1227,7 +1238,8 @@ B. Use TLS tools to generate a new certificate & upload in AWS Certificate Manag
 C. Use a single certificate per TLS listener provided by AWS Certificate Manager.
 D. Use a single certificate with 4096 bits RSA keys for higher security. 
 
-EXPLANATION: 
+
+EXPLANATION: NLB
 Correct Answer – C
 
 Network Load Balancer requires one certificate per TLS connection to encrypt traffic between client & NLB , & forward decrypted traffic to target servers. Using  AWS Certificate Manager is a preferred option, as these certificates are automatically renewed on expiry. 
@@ -1241,7 +1253,6 @@ https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-liste
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your company is planning on moving to the AWS Cloud. One of the applications will be launched on a set of EC2 Instances. You need to ensure that the architecture is fault tolerant and highly available. Which of the following would be considered during the design process. Choose 2 answers from the options given below [WL655]
 
-
 A. Enable Multi-AZ for the databases
 B. Use a load balancer in front of the EC2 Instances
 C. Ensure that the EC2 Instances are spread across multiple availability zones
@@ -1253,7 +1264,7 @@ Answer - B and C
 
 This is clearly mentioned in the AWS Documentation
 
-What Is Elastic Load Balancing? [WL6]
+What Is Elastic Load Balancing? 
 
 Elastic Load Balancing distributes incoming application or network traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses, in multiple Availability Zones. Elastic Load Balancing scales your load balancer as traffic to your application changes over time, and can scale to the vast majority of workloads automatically. 
 Load Balancer Benefits
@@ -1403,7 +1414,7 @@ For more information on Read Replica’s , please visit the below URL:
 
 https://aws.amazon.com/rds/details/read-replicas/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are working as an AWS Architect for a software company. You are working on a new project which involves an application, deployed on twenty C5 EC2 instances using Amazon Linux1 platform. During peak hours when you are initiating new instances, a considerable delay is observed. You perform a pilot test for an option of initiating these Instances and hibernating so that during peak hours, these instances could be quickly launched. 
+### You are working as an AWS Architect for a software company. You are working on a new project which involves an application, deployed on twenty C5 EC2 instances using Amazon Linux1 platform. During peak hours when you are initiating new instances, a considerable delay is observed. You perform a pilot test for an option of initiating these Instances and hibernating so that during peak hours, these instances could be quickly launched. 
 It works fine during a pilot phase and you are recommending this option to be implemented in production. The management team is concerned about the pricing of a large number of EC2 instances in the Hibernate state. What is considered to calculate the pricing for an EC2 instance in Hibernate state? [WL662]
 
 A. Elastic IP address attached to EC2 Instance and Storage space in EBS volumes
@@ -1412,7 +1423,7 @@ C. Total Compute capacity per hour and Storage space in EBS volumes
 D. Total Compute capacity per hour & Elastic IP address attached to EC2 Instance
 
 
-EXPLANATION: 
+EXPLANATION: EC2 pricing
 Correct Answer –  A
 
 When an EC2 instance is in Hibernate state, you pay only for the EBS volumes and Elastic IP Addresses attached to it. 
@@ -1430,7 +1441,7 @@ D. Amazon Route 53
 E. Amazon Simple Notification Service (SNS)
 
 
-EXPLANATION: 
+EXPLANATION: SNS
 Answer - B and E
 
 The AWS Documentation mentions the following
@@ -1446,13 +1457,6 @@ Option D is invalid since this is a domain name service
 For more information on monitoring databases, please visit the below URL
 
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Monitoring.html
-Try now labs related to this question
-Creating and Subscribing to SNS Topics, Adding SNS event for S3 bucket
-This lab walks you through the creation and subscription of an Amazon SNS Topic. Using AWS S3 bucket you will test the subscription. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your company has started hosting their data store on AWS by using the Simple Storage service. They are storing files which are downloaded by users on a frequent basis. After a duration of 3 months, the files need to transferred to archive storage since they are not used beyond this point. Which of the following could be used to effectively manage this requirement? [WL664]
@@ -1463,7 +1467,7 @@ C. Use Lifecycle policies to transfer the files onto Cold HDD after a period of 
 D. Createa snapshot of the files in S3 after a period of 3 months
 
 
-EXPLANATION:
+EXPLANATION: Cold HDD
 Answer - B
 
 The AWS Documentation mentions the following
@@ -1488,7 +1492,7 @@ C. NAT Gateway
 D. VPN
 
 
-EXPLANATION: 
+EXPLANATION: NGW
 Answer – C
 
 The AWS Documentation mentions the following

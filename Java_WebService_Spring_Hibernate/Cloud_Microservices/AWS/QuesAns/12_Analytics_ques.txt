@@ -1,7 +1,13 @@
 =======================================
-############# KINESIS #################
-############## Athena #################
-################ EMR ##################
+############ AWS KINESIS ##############
+############ AWS Athena ###############
+############## AWS Glue ###############
+############## AWS EMR ################
+
+
+=======================================
+############ AWS KINESIS ##############
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are deploying an application to track the GPS coordinates of delivery trucks in the United States. Coordinates are transmitted from each delivery truck once every three seconds. You need to design an architecture that will enable real-time processing of these coordinates from multiple consumers. Which service should you use to implement data ingestion? [WL328]
 
@@ -25,9 +31,9 @@ https://aws.amazon.com/kinesis/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### As a Solutions Architect for a multinational organization having more than 150000 employees, management has decided to implement a real-time analysis for their employees' time spent in offices across the globe. You are tasked to design an architecture that will receive the inputs from 10000+ sensors with swipe machine sending in and out data across the globe, each sending 20KB data every 5 Seconds in JSON format. The application will process and analyze the data and upload the results to dashboards in real-time. 
 Other application requirements will include the ability to apply real-time analytics on the captured data, processing of captured data will be parallel and durable, the application must be scalable as per the requirement as the load varies and new sensors are added or removed at various facilities. The analytic processing results are stored in a persistent data storage for data mining. 
-
 What combination of AWS services would be used for the above scenario? [WL214]
-                                         
+
+
 A. Use EMR to copy the data coming from Swipe machines into DynamoDB and make it available for analytics
 
 B. Use Amazon Kinesis Streams to ingest the Swipe data coming from sensors, Custom Kinesis Streams Applications to analyze the data and then move analytics outcomes to RedShift using AWS EMR 
@@ -37,9 +43,9 @@ C. Use SQS to receive the data coming from sensors, Kinesis Firehose to analyze 
 D. Use Amazon Kinesis Streams to ingest the sensors’ data, custom Kinesis Streams applications to analyze the data, and move analytics outcomes to RDS using AWS EMR
 
 
-ANSWER : B
 
 EXPLANATION: Kinesis
+ANSWER : B
 
 Option A is incorrect. EMR is not for receiving the real-time data from thousands of sources, EMR is mainly used for Hadoop ecosystem-based data used for Big data analysis.
 
@@ -50,7 +56,32 @@ Option C is incorrect, SQS cannot be used to read the real-time data from thousa
 - Besides, the Kinesis Firehose is used to ship the data to other AWS service, not for the analysis. And finally, RDS is again an OLTP based database.
  
 Option D is incorrect as the AWS EMR can read large amounts of data, however, RDS is a transactional database that works based on the OLTP. Thus, it cannot store the analytical data.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 55:WL7: You are working as an AWS architect for a global financial company which offers real-time stock trading quotes to customers. You are using Kinesis Data Streams to process stock market feeds from stock exchanges & provide a real-time dashboard to the customers. During stock market hours, there are a large number of users accessing these dashboards while after market hours, there are very few users accessing these dashboards.  The management team is looking for an optimum number of Kinesis Shards within Kinesis Data Streams. What would be a cost-effective solution with no performance impact and no additional management overload? [WL755]
 
+A. Use CloudWatch alarms to monitor Amazon Kinesis Streams Metrics and send a notification to Application Auto Scaling. This will call API Gateway to initiate a Lambda function modifying the number of Shards in Kinesis Data Streams.
+
+B. Use Amazon Kinesis Scaling Utility to modify the number of Shards in Kinesis Data Streams.
+
+C. Use Amazon Kinesis Scaling Utility along with AWS Elastic Beanstalk to automatically modify the number of Shards in Kinesis Data Streams.
+
+D. Use UpdateShardCount to scale Shard count as per requirement. 
+
+
+EXPLANATION: Kinesis
+Correct Answer – A
+
+> AWS Application Auto scaling can be used to automatically scale Kinesis Streams. 
+- For this, CloudWatch can be used to monitor Kinesis Data Stream shard metrics. 
+- Based on the changes in these metrics, CloudWatch can initiate a notification to Application Auto Scaling. 
+- This will trigger an API Gateway to call Lambda Functions to increase/decrease the number of Kinesis Data Stream Shards based upon metric values.
+ 
+Option B is incorrect because Amazon Kinesis Scaling Utility is not a cost-effective solution. 
+Option C is incorrect as Using Elastic Beanstalk along with Amazon Kinesis Scaling Utility will be more complex than using AWS Application Auto Scaling. 
+Option D is incorrect as using UpdateShardCount will be a manual process which will incur additional admin work. 
+
+For more information on Scaling Kinesis Data Streams using Application Auto Scaling, refer to the following URL:
+https://aws.amazon.com/blogs/big-data/scaling-amazon-kinesis-data-streams-with-aws-application-auto-scaling/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -99,7 +130,53 @@ EXPLANATION :
 ANSWER : 
 
 =======================================
-############## Athena #################
+############ AWS Athena ###############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 39:WL7: You are working as an AWS Administrator for a media company. They are using AWS resources in various regions for broadcasting live sports matches. Multiple EC2 On-Demand, Spot & Reserved Instances are launched as per user traffic on a daily basis resulting in huge monthly charges. Top management is looking for customized analysis for these charges based upon various factors like month-wise, instance-wise to deep dive into the incurred cost. To meet this requirement, the accounts team is looking for a simpler way to analyze these charges and query this report. Suggest a cost-effective solution that can be set up with the least efforts.
+
+A. Upload the AWS Cost and Usage Reports to S3. Integrate these reports with Amazon Athena to analyze billing data
+B. Upload AWS Cost & Usage Reports to Amazon QuickSight & analyze billing data
+C. Download CSV report from Amazon S3 & analyze cost & usage using a third-party tool.
+D. Upload AWS Cost & Usage Reports to Amazon Redshift & analyze billing data
+
+
+EXPLANATION:
+Correct Answer – A
+
+> Amazon Athena is a serverless platform which can be used to analyze Cost & Usage Reports uploaded in Amazon S3 buckets. 
+- Using Athena, a customized query can be requested using standard SQL. 
+
+Option B is incorrect as this will result in additional admin work for Managing Amazon QuickSight. 
+Option C is incorrect as using a third-party tool to analyze cost & usage reports will be costly. 
+Option D is incorrect as this will incur additional admin work for Managing Amazon Redshift. 
+For more information on Analyzing Cost & Usage Reports using Amazon Athena, refer to the following URL,
+
+https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/setting-up-athena.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 7:WL5: You are working for an electrical appliance company that has web-application hosted in AWS. This is a two-tier web application with web-servers hosted in VPC’s & on-premise data-center.  You are using a Network Load balancer in the front end to distribute traffic between these servers. You are using instance Id for configuring targets for Network Load Balancer. Some clients are complaining about the delay in accessing this website. 
+To troubleshoot this issue, you are looking for a list of Client IP address having longer TLS handshake time. You have enabled access logging on Network Load balancing with logs saved in Amazon S3 buckets. Which tool could be used to quickly analyze a large amount of log files without any visualization in a cost-effective way? 
+
+A. Use Amazon Athena to query logs saved in Amazon S3 buckets.
+B. Use Amazon S3 console to process logs.
+C. Export Network Load Balancer access logs to third-party application.
+D. Use Amazon Athena along with Amazon QuickSight to query logs saved in Amazon S3 buckets. 
+
+
+EXPLANATION: Athena
+Correct Answer – A
+
+> Amazon Athena is a suitable tool for querying Network Load Balancers logs. 
+- In the above case since a large amount of logs are saved in S3 buckets from Network load balancer, Amazon Athena can be used to query logs and generate required details of client IP address and TLS handshake time. 
+
+Option B is incorrect as processing a large number of logs directly from the S3 console will be a time-consuming process. 
+Option C is incorrect as using a third-party tool will not be a cost-effective solution. 
+
+Option D is incorrect as in the above case, we require only details of Client IP details along with TLS handshake time for troubleshooting purposes. 
+- Amazon QuickSight will be useful in case you need data visualization. 
+
+For more information on using Amazon Athena to query Network Load Balancer logs, refer to the following URL:
+ https://docs.aws.amazon.com/athena/latest/ug/networkloadbalancer-classic-logs.html
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
@@ -124,6 +201,9 @@ ANSWER :
 EXPLANATION : 
 ANSWER : 
 
+
+=======================================
+############## AWS Glue ###############
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
@@ -182,7 +262,7 @@ ANSWER :
 
 
 =======================================
-################ EMR ##################
+############## AWS EMR ################
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 

@@ -1,0 +1,101 @@
+=======================================
+######### AWS DEVELOPER TOOLS #########
+
+####### AWS CodeCommit ########
+####### AWS CodeBuild #########
+####### AWS CodeDeploy ########
+####### AWS CodePipeline ######
+
+=======================================
+########### AWS CodeCommit ############
+
+
+=======================================
+########### AWS CodeBuild #############
+
+
+=======================================
+########### AWS CodeDeploy ############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are working as an AWS Architect for a global IT company that is using AWS EC2 instance for hosting their sessionless application. The development team has come up with a new version of this application which needs to be deployed in all EC2 instance across various regions. Which service can be used for an in-place upgrade? [WL733]
+
+A. AWS CodePipeline.
+B. AWS Elastic Beanstalk.
+C. AWS CodeDeploy.
+D. AWS CloudFormation. 
+
+EXPLANATION:
+Correct Answer – C
+
+The in-place upgrade involves an application update on a live Amazon EC2 instance. For performing application updates on these instances, deployment content should be developed & saved in any repository like Amazon S3 buckets. AWS CodeDeploy can be used to automate application deployment using new versions from S3 buckets.              
+
+Option A is incorrect as AWS CodePipeline is used to automate the release process for building, testing & deploying code based on the release process model. Option B is incorrect as these are live EC2 instance, AWS Elastic Beanstalk is not a correct option for performing application updates. Option D is incorrect as AWS CloudFormation is used to create templates that are used for creating resources required for the application deployment. For more information on choosing deployment service for the in-place upgrade, refer to the following URL:
+
+https://d0.awsstatic.com/whitepapers/overview-of-deployment-options-on-aws.pdf
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##30:UD6: A web application is hosted on a fleet of EC2 instances inside an Auto Scaling Group with a couple of Lambda functions for ad hoc processing. Whenever you release updates to your application every week, there are inconsistencies where some resources are not updated properly. You need a way to group the resources together and deploy the new version of your code consistently among the groups with minimal downtime. 
+Which among these options should you do to satisfy the given requirement with the least effort?
+
+A. Create OpsWorks recipes that will automatically launch resources containing the latest version of the code.
+B. Create CloudFormation templates that have the latest configurations and code in them.
+C. Use deployment groups in CodeDeploy to automate code deployments in a consistent manner.
+D. Use CodeCommit to publish your code quickly in a private repository and push them to your resources for fast updates.
+
+
+EXPLANATION : CodeDeploy
+ANSWER : C
+
+> CodeDeploy is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, or serverless Lambda functions. 
+- It allows you to rapidly release new features, update Lambda function versions, avoid downtime during application deployment, and handle the complexity of updating your applications, without many of the risks associated with error-prone manual deployments.
+
+Option-D is incorrect as you mainly use CodeCommit for managing a source-control service that hosts private Git repositories. 
+- You can store anything from code to binaries and work seamlessly with your existing Git-based tools. 
+- CodeCommit integrates with CodePipeline and CodeDeploy to streamline your development and release process.
+
+Option-B is incorrect since 
+- CloudFormation is used for provisioning and managing stacks of AWS resources based on templates you create to model your infrastructure architecture. 
+- CloudFormation is recommended if you want a tool for granular control over the provisioning and management of your own infrastructure.
+
+Option-A is still incorrect because you don't need to launch new resources containing your new code when you can just update the ones that are already running.
+
+References:
+https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-groups.html
+https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html
+
+Overview of Deployment Options on AWS whitepaper
+https://d0.awsstatic.com/whitepapers/overview-of-deployment-options-on-aws.pdf
+
+Check out this AWS CodeDeploy Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-aws-codedeploy/
+
+Elastic Beanstalk vs CloudFormation vs OpsWorks vs CodeDeploy:
+https://tutorialsdojo.com/aws-cheat-sheet-elastic-beanstalk-vs-cloudformation-vs-opsworks-vs-codedeploy/
+
+=======================================
+########## AWS CodePipeline ###########
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 13:WL6: A global media firm is using AWS CodePipeline as an automation service for releasing new features to customers. All the codes are uploaded in the Amazon S3 bucket. Changes in files stored in  Amazon S3 bucket should trigger AWS Codepipeline that will further initiate AWS Elastic Beanstalk for deploying additional resources. What is the additional requirement that should be configured to trigger CodePipeline in a faster way? [WL613]
+
+A. Enable periodic checks and create a Webhook which triggers pipeline once S3 bucket is updated.
+B. Disable periodic checks, create an Amazon CloudWatch Events rule & AWS CloudTrail trail.
+C. Enable periodic checks, create an Amazon CloudWatch Events rule & AWS CloudTrail trail.
+D. Disable periodic checks and create a Webhook which triggers pipeline once S3 bucket is updated. 
+
+
+EXPLANATION: CodePipeline
+Correct Answer – B
+
+> To automatically trigger pipeline with changes in the source S3 bucket, Amazon CloudWatch Events rule & AWS CloudTrail trail must be applied. 
+- When there is a change in S3 bucket, events are filtered using AWS CloudTrail & then Amazon CloudWatch events are used to trigger the start of pipeline. 
+- This default method is faster & periodic checks should be disabled to have events-based triggering of CodePipeline. 
+
+Option A is incorrect as Webhooks are used to trigger pipeline when the source is GitHub repository. Also, the periodic check will be a slower process to trigger CodePipeline. 
+
+Option C is incorrect as Periodic checks are not a faster way to trigger CodePipeline. 
+
+Option D is incorrect as Webhooks are used to trigger pipeline when the source is GitHub repository. For more information on Automatically Triggering Pipeline, refer to the following URL:
+
+https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-about-starting.html
+

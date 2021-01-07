@@ -388,6 +388,37 @@ Further, when you create an environment, Elastic Beanstalk provisions the resour
 
 So, these resources are required to run the application 24/7, not for only at night or day.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 27:WL8: Your company has a set of applications that make use of Docker containers used by the Development team. There is a need to move these containers to AWS. Which of the following methods could be used to set up these Docker containers in a separate environment in AWS? 
+
+A. Create EC2 Instances, install Docker and then upload the containers.
+B. Create EC2 Container registries, install Docker and then upload the containers.
+C. Create an Elastic Beanstalk environment with the necessary Docker containers.
+D. Create EBS Optimized EC2 Instances, install Docker and then upload the containers. 
+
+
+EXPLANATION : Elastic Beanstalk
+Answer - C
+
+The Elastic Beanstalk service can be used to host Docker containers. 
+AWS Documentation further mentions the following:
+
+> Elastic Beanstalk supports the deployment of web applications from Docker containers. 
+- With Docker containers, you can define your own runtime environment. 
+- You can choose your own platform, programming language, and any application dependencies (such as package managers or tools), that aren't supported by other platforms. 
+- Docker containers are self-contained and include all the configuration information and software your web application requires to run. 
+For more information on using Elastic Beanstalk for Docker containers, please visit the following URL:
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html
+Note:
+
+Option A could be partly correct as we need to install docker on EC2 instance. In addition to this, you need to create an ECS Task definition which details the docker image that we need to use for containers and how many containers to be used as well as the resource allocation for each container. 
+But with Option C, we have the added advantage that, If a Docker container running in an Elastic Beanstalk environment crashes or is killed for any reason, Elastic Beanstalk restarts it automatically. 
+In the question we have been asked about the best method to set up docker containers, hence Option C seems o be more appropriate. 
+More information is available at:
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html
+https://aws.amazon.com/getting-started/tutorials/deploy-docker-containers/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
@@ -490,6 +521,29 @@ AWS Lambda automatically monitors Lambda functions on your behalf, reporting met
 For more information on Monitoring Lambda functions, please visit the following URL:
 
 https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions-logs.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 23:WL7: Your team is developing Lambda functions. These functions would need to interact with databases belonging to different environments. Which of the following is the ideal approach to ensuring that the Lambda functions are designed in the right way to interact with Databases in multiple environments? 
+
+A. Create a lambda function for each environment
+B. Create a lambda function for each environment and ensure each has a different programming language
+C. Make use of environment variables to store the database connecting strings
+D. Make use of AWS Lambda tags to store the database connecting strings
+
+
+EXPLANATION: Lambda
+Answer – C
+
+The AWS Documentation mentions the following
+
+> Environment variables for Lambda functions enable you to dynamically pass settings to your function code and libraries, without making changes to your code. 
+- Environment variables are key-value pairs that you create and modify as part of your function configuration, 
+- using either the AWS Lambda Console, the AWS Lambda CLI or the AWS Lambda SDK. 
+- AWS Lambda then makes these key value pairs available to your Lambda function code using standard APIs supported by the language, like process.env for Node.js functions. 
+
+- You can use environment variables to help libraries know what directory to install files in, where to store outputs, store connection and logging settings, and more. 
+- By separating these settings from the application logic, you don't need to update your function code when you need to change the function behavior based on different settings. 
+For more information on AWS Lambda environment variables, please refer to the below URL
+https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
 
 =======================================
 ############## AWS ECR ################
@@ -621,6 +675,7 @@ But with Option C, we have this added advantage:
 ## You are planning to use Docker containers on a cluster of EC2 instances. These EC2 instances will be launched in a VPC and will require access to ECR and S3 to download Docker images and other images respectively. Additionally, the EC2 instances require secure connectivity to the ECS control plane. 
 You have created public and private subnets to launch the EC2 instances. What would be helpful to enable secure connectivity and ensure all container orchestration traffic stays within the VPC? [WL243] (SELECT TWO)
 
+
 A. Use AWS PrivateLink to connect to the Amazon S3 buckets for downloading images. 
 
 B. For the instances in the public subnets, use Internet Gateway to access Amazon ECS, ECR, and S3 buckets. 
@@ -645,7 +700,7 @@ Option A is incorrect as AWS PrivateLink does not support access to Amazon S3. A
 Options B and E are incorrect as with this, the Traffic from EC2 instance to ECS, ECR, and Amazon S3  will be flowing over the Internet.
 Option F is incorrect as Gateway VPC Endpoint does not support access to Amazon ECR; it supports private access only to Amazon S3 & Amazon DynamoDB.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-## A company plans to deploy a batch processing application in AWS. Which of the followings would ideally help to host this application? [WL256] (SELECT TWO)
+### A company plans to deploy a batch processing application in AWS. Which of the followings would ideally help to host this application? [WL256] (SELECT TWO)
 
 A. Copy the batch processing application to an ECS Container. 
 B. Create a docker image of your batch processing application. 
@@ -663,25 +718,6 @@ Docker containers are particularly suited for batch job workloads. Batch jobs ar
 For more information on the use cases for AWS ECS, please visit the following URL:
 
 https://docs.aws.amazon.com/AmazonECS/latest/developerguide/common_use_cases.html
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## A Solutions Architect is designing a shared service for hosting containers from several customers on Amazon ECS. These containers will use several AWS services. A container from one customer should not be able to access data from another customer. Which solution would help the architect to meet these requirements? [WL124]
- 
-A. IAM roles for tasks
-B. IAM roles for EC2 Instances
-C. IAM Instance profile for EC2 Instances
-D. Security Group rules
-
-
-Explanation:
-Correct Answer – A
-
-The AWS Documentation mentions the following:
-
-With IAM roles for Amazon ECS tasks, you can specify an IAM role to be used by the containers in a task. Applications are required to sign their AWS API requests with AWS credentials, and this feature provides a strategy to manage credentials for your application's use. This is similar to how Amazon EC2 instance profiles provide credentials to EC2 instances.
-
-For more information on configuring IAM Roles for tasks in ECS, please visit the following URL:
-
-https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company is planning to use the AWS ECS service to work with containers in "us-east-1" region. There is a need for the least amount of administrative overhead while launching containers. How could this be achieved? [WL361]
 

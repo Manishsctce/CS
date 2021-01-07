@@ -1,0 +1,68 @@
+=======================================
+######### AWS DEVELOPER TOOLS #########
+
+
+####### AWS CodeCommit ########
+####### AWS CodeBuild #########
+####### AWS CodeDeploy ########
+####### AWS CodePipeline ######
+
+=======================================
+########### AWS CodeCommit ############
+- Provides a scalable and managed private Git repository. Anything from code to binaries can be stored.
+
+=======================================
+########### AWS CodeBuild #############
+- Fully managed build service. Complies and tests source code and makes it ready to deploy.
+
+=======================================
+########### AWS CodeDeploy ############
+> Automated code deployment to any instance (that is EC2 or on-premise).
+- used to automate app deployment using new versions from S3 buckets
+
+
+> A fully-managed deploy pipeline to deploy to staging or prod envs
+
+> Can deploy to EC2, On-Premise, Lambda or ECS 
+> Can Perform In-Place or Blue/Green deployments
+
+> IN-PLACE - instances are breifly taken offline, updates are applied to existing servers 
+> BLUE/GREEN - Replaces instances with new instances. Swapping environments
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### CODEDEPLOY CORE COMPONENTS 
+
+Application 
+- encompasses all other components. 
+- Unique ID of the app being deployed
+
+> Deployment Groups 
+- A set of EC2 instances or Lambda Functions where the new revision is deployed to 
+
+> Deployments 
+- This is the process and components used to apply a new app revision
+
+> Deployment Configuration 
+- A set of deployment rules used during deployment - with success/failure conditions included
+
+> AppSpec File - Contains the deployment actions that CodeDeploy should execute during deployment 
+
+> Revision 
+- This is everything required to deploy a new version: AppSpec file, application files, config files, executables
+
+> The Appspec.yml describes the deploy instructions and must be part of the deploy artifact.
+
+> You need to install the CodeDeployAgent on the EC2 instances so it can communicate with CodeDeploy
+
+> You need to CodeDeployService Role to your EC2 instance so they have
+permission to communicate to CodeDeploy and so CodeDeploy has permissions to replicate servers or ASGs.
+
+=======================================
+########## AWS CodePipeline ###########
+> CodePipeline is an AWS product that automates the software deployment process, allowing a developer to quickly model, visualize, and deliver code for new features and updates. This method is called continuous delivery.
+- used to automate the release process for building, testing, deploying code based on the release process model.
+
+
+> To automatically trigger pipeline with changes in the source S3 bucket, Amazon CloudWatch Events rule & AWS CloudTrail trail must be applied. 
+- When there is a change in S3 bucket, events are filtered using AWS CloudTrail & then Amazon CloudWatch events are used to trigger the start of pipeline. 
+- This default method is faster & periodic checks should be disabled to have events-based triggering of CodePipeline.

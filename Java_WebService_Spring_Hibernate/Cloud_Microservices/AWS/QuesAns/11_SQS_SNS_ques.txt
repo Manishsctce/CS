@@ -1,5 +1,16 @@
-############# EC2 #############
+=======================================
+####### AWS INTEGRATION SERVICES ######
 
+## AWS SQS (Simple Queue Service)
+## AWS SNS (Simple Notification Service)
+## AWS SES (Simple Email Service) 
+## AWS SWF (Simple Workflow Service)
+## AWS Step Functions 
+## AWS MQ 
+
+
+=======================================
+############## AWS SQS ################
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## The company at which you have been hired as an architect is using Amazon SQS. The company’s applications process orders out of the queue as they are received, ensuring that earlier orders get any limited items that may run out of stock over time. However, some early orders are skipped, and later orders actually get the limited items. How would you correct this problem?
 
@@ -37,10 +48,6 @@ D. The answer is application dependent.
 
 
 ANSWER : B
-
-EXPLANATION : 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are using an SQS queue in your web application. You are able to confirm that messages in the queue are being picked up by application instances for processing, but then nothing happens for over 12 hours. Then, after that period of time, the message appears in the queue again and processing restarts. What could be occurring?
 
@@ -106,20 +113,6 @@ EXPLANATION :
 In the question, it is mentioned to select the wrong Option as the answer. Here Option A, B&nbsp;and C are correct statements but not the correct options.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Which of the following is not a feature of AWS Security Token Service?
-
-A. STS enables you to request temporary, limited-privilege credentials.
-B. STS enables users to assume role.
-C. STS generates Git Credentials for IAM users.
-D. STS generates Federated Credentials for IAM users.
-
-
-ANSWER : C
-
-EXPLANATION : 
-With Git credentials, you can generate a static user name and password in the Identity and Access Management (IAM) console that you can use to access AWS CodeCommit repositories from the command line, Git CLI, or any Git tool that supports HTTPS authentication.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your organization AWS Setup has an AWS S3 bucket which stores confidential documents which can be only downloaded by users authenticated and authorized via your application. You do not want to create IAM users for each of these users and as a best practice you have decided to generate AWS STS Federated User temporary credentials each time when a download request is made and then use the credentials to generate presigned URL and redirect user for download. However, when user is trying to access the presigned URL, they are getting Access Denied Error. What could be the reason?
 
 A. AWS STS service must be given access in S3 bucket ACL.
@@ -169,6 +162,24 @@ ANSWER : A, B, C
 
 EXPLANATION : 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 28:WL8: A company has a workflow that sends video files from their on-premises system to AWS for transcoding. They use EC2 worker instances to pull transcoding jobs from SQS. Why is SQS an appropriate service for this scenario? 
+
+A. SQS guarantees the order of the messages.
+B. SQS synchronously provides transcoding output.
+C. SQS checks the health of the worker instances.
+D. SQS helps to facilitate horizontal scaling of encoding tasks. 
+
+
+EXPLANATION: SQS
+Answer - D
+
+Even though SQS guarantees the order of messages for FIFO queues, the main reason for using it is because it helps in horizontal scaling of AWS resources and is used for decoupling systems. 
+
+SQS can neither be used for transcoding output nor for checking the health of worker instances. The health of worker instances can be checked via ELB or CloudWatch. 
+For more information on SQS, please visit the following URL: 
+
+https://aws.amazon.com/sqs/faqs/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are an architect in your company and you have configured an SNS topic to send emails to a group of users regarding the CloudWatch alarms on the resource usages and outages. You were requested by your head of department to exclude him from those alarms except for critical system outages. How efficiently can you achieve this?
@@ -258,507 +269,46 @@ ANSWER :
 EXPLANATION : 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
+=======================================
+############## AWS SNS ################
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+### Your company stores a large set of files in Amazon S3. They need to ensure that if any new files are added to an S3 bucket, an event notification would be sent to the IT admin staff. Which of the following could be used to fulfil this requirement? Choose 2 answers from the options given below. [WL649]
 
+A. Create an SNS topic
+B. Create an SQS queue
+C. Add an event notification to the S3 bucket
+D. Add an event notification to the S3 object
 
-ANSWER : 
 
-EXPLANATION : 
+EXPLANATION: SNS
+Answer - A and C
 
+The AWS Documentation mentions the following
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+The Amazon S3 notification feature enables you to receive notifications when certain events happen in your bucket. To enable notifications, you must first add a notification configuration identifying the events you want Amazon S3 to publish, and the destinations where you want Amazon S3 to send the event notifications. 
+Option B is incorrect since you need to create an SNS topic that could be used to send an email to multiple IT administrators
 
+Option D is incorrect since the event notification needs to be placed on the bucket and not the object
 
-ANSWER : 
+NOTE:
 
-EXPLANATION : 
+Options C and D are different. 
+Option C: Add an event notification to the S3 bucket
+Option D: Add an event notification to the S3 object
 
+For more information on AWS S3 notifications, please visit the url
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html
 
+=======================================
+############## AWS SES ################
 
-ANSWER : 
+=======================================
+############## AWS SWF ################
 
-EXPLANATION : 
+=======================================
+######### AWS Step Functions ##########
 
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
+=======================================
+############## AWS MQ #################

@@ -1330,20 +1330,30 @@ C. Use Amazon FSx For Lustre and Amazon S3 for hot and cold storage respectively
 D. Use Amazon Elastic File System and Amazon S3 for hot and cold storage respectively.
 
 
-EXPLANATION: 
-ANSWER : 
-Hot storage refers to the storage that keeps frequently accessed data ( hot data ). Warm storage refers to the storage that keeps less frequently accessed data ( warm data ). Cold storage refers to the storage that keeps rarely accessed data ( cold data ). In terms of pricing, the colder the data, the cheaper it is to store, and the costlier it is to access when needed.
+EXPLANATION: FSx
+ANSWER : C
 
-Amazon FSx For Lustre is a high-performance file system for fast processing of workloads. Lustre is a popular open-source parallel file system which stores data across multiple network file servers to maximize performance and reduce bottlenecks.
-Amazon FSx for Windows File Server is a fully managed Microsoft Windows file system with full support for the SMB protocol, Windows NTFS, Microsoft Active Directory ( AD ) Integration.
-Amazon Elastic File System is a fully-managed file storage service that makes it easy to set up and scale file storage in the Amazon Cloud.
-Amazon S3 is an object storage service that offers industry-leading scalability, data availability, security, and performance. S3 offers different storage tiers for different use cases ( frequently accessed data, infrequently accessed data, and rarely accessed data ).
-The ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## has two requirements:
+> Hot storage refers to the storage that keeps frequently accessed data ( hot data ). 
+- Warm storage refers to the storage that keeps less frequently accessed data ( warm data ). 
+- Cold storage refers to the storage that keeps rarely accessed data ( cold data ). 
+
+In terms of pricing, the colder the data, the cheaper it is to store, and the costlier it is to access when needed.
+
+> Amazon FSx For Lustre is a high-performance file system for fast processing of workloads. 
+- Lustre is a popular open-source parallel file system which stores data across multiple network file servers to maximize performance and reduce bottlenecks.
+- Amazon FSx for Windows File Server is a fully managed Microsoft Windows file system with full support for the SMB protocol, Windows NTFS, Microsoft Active Directory ( AD ) Integration.
+
+- Amazon Elastic File System is a fully-managed file storage service that makes it easy to set up and scale file storage in the Amazon Cloud.
+- Amazon S3 is an object storage service that offers industry-leading scalability, data availability, security, and performance. S3 offers different storage tiers for different use cases ( frequently accessed data, infrequently accessed data, and rarely accessed data ).
+
+The  has two requirements:
 High-performance, parallel hot storage to process the training datasets concurrently.
 Cost-effective cold storage to keep the archived datasets that are accessed infrequently
-In this case, we can use Amazon FSx For Lustre for the first requirement, as it provides a high-performance, parallel file system for hot data. On the second requirement, we can use Amazon S3 for storing the cold data. Amazon S3 supports a cold storage system via Amazon S3 Glacier / Glacier Deep Archive.
+
+In this case, we can use Amazon FSx For Lustre for the first requirement, as it provides a high-performance, parallel file system for hot data. 
+- On the second requirement, we can use Amazon S3 for storing the cold data. Amazon S3 supports a cold storage system via Amazon S3 Glacier / Glacier Deep Archive.
 Hence, the correct answer is Use Amazon FSx For Lustre and Amazon S3 for hot and cold storage respectively.
+
 Using Amazon FSx For Lustre and Amazon EBS Provisioned IOPS SSD (io1) volumes for hot and cold storage respectively is incorrect because the Provisioned IOPS SSD ( io1 ) volumes are designed as a hot storage to meet the needs of I/O-intensive workloads. EBS has a storage option called Cold HDD but it is not used for storing cold data. In addition, EBS Cold HDD is a lot more expensive than using Amazon S3 Glacier / Glacier Deep Archive.
 Using Amazon Elastic File System and Amazon S3 for hot and cold storage respectively is incorrect because although EFS supports concurrent access to data, it does not have the high-performance ability that is required for machine learning workloads.
 Using Amazon FSx For Windows File Server and Amazon S3 for hot and cold storage respectively is incorrect because Amazon FSx For Windows File Server does not have a parallel file system, unlike Lustre.

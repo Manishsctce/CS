@@ -17,17 +17,17 @@
 > Using SQS, we no longer need a highly available message cluster or the burden of building/running it
 > SQS enable to decouple and scale microservice, distributed system and serverless application. SQS move data between distributed application component and helps you to decouple these components.
 
-> SQS uses pull based (polling) not push based.
+>> SQS uses PULL BASED (polling) not push based.
 > Messages are 256KB in size
 > we can delete all messages in an SQS queue without deleting the SQS queue itself
 > we can use app on EC2 instances to read and process the SQS queue messages
-> we can USE AUTO SCALING TO SCALE THE EC2 FLEET PROCESSING THE SQS MESSAGES, AS THE QUEUE SIZE INCREASES
+>> we can USE AUTO SCALING TO SCALE THE EC2 FLEET PROCESSING THE SQS MESSAGES, AS THE QUEUE SIZE INCREASES
 > These apps on EC2 instances can process the SQS messages/jobs then post the results to other SQS queues or other AWS services
 
 > SQS support both standard and FIFO queue
 
 > Amazon SQS automatically delete messages that have been in queue for more than maximum messages retention period 
-- THE DEFAULT MESSAGE RETENTION PERIOD IS 4 DAYS
+- DEFAULT MESSAGE RETENTION PERIOD IS 4 DAYS
 - We can set the message retention period to value from 60 second to 1,209,600 seconds (14 days) using the SetQueueAttributes action
 
 > If a job is not processed within the visibility timeout the message will become visible again (could be delivered twice).
@@ -35,24 +35,6 @@
 
 > SQS message can contain up to 10 metadata attributes.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Short polling:
-
-Does not wait for messages to appear in the queue.
-It queries only a subset of the available servers for messages (based on weighted random execution).
-Short polling is the default.
-ReceiveMessageWaitTime is set to 0.
-More requests are used, which implies higher cost.
-
-
-Long polling:
-Uses fewer requests and reduces cost.
-Eliminates false empty responses by querying all servers.
-SQS waits until a message is available in the queue before sending a response.
-Requests contain at least one of the available messages up to the maximum number of messages specified in the ReceiveMessage action.
-Shouldn’t be used if your application expects an immediate response to receive message calls.
-ReceiveMessageWaitTime is set to a non-zero value (up to 20 seconds).
-Same charge per million requests as short polling.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## What Are the Main Benefits of Amazon SQS?
 
@@ -125,25 +107,30 @@ Reliability – Amazon SQS locks your messages during processing, so that multip
 =======================================
 ########## QUEUE ATTRIBUTES ###########
 
-## Visibility Timeout 
-> The length of time (in seconds) that a message received from a queue will be invisible to other receiving components.
-- default is 30sec
-- value must be bet 0sec - 12hrs.
+## VISIBILITY TIMEOUT 
+> It is the duration of time (length) a message is locked for read by other consumers ( after it has been read by a consumer to process it) so they can not be read again (by another consumer)
+- default is 30sec , value can vary bet 0sec - 12hrs.
 
-## Message Retention Period
+> A consumer that read a message to process it, can change the message visibility timeout if it needs more time to process the message
+
+> After a message is read, there are the following possibilities:
+- An ACK is received that a message is processed, so it must be deleted from the queue to avoid duplicates
+- If a FAIL is received or the visibility timeout expires, the message will then be unlocked for read , such that it can be read and processed by another consumer
+
+## MESSAGE RETENTION PERIOD
 - The amount of time that SQS will retain a message if it does not get deleted.
 - default is 4days
 - must be bet 1min - 14days
 
-## Maximum Message Size
+## MAXIMUM MESSAGE SIZE
 > Maximum message size (in bytes) accepted by Amazon SQS
 - default 256KB
 - value must be bet 1 - 256KB
 
-## Delivery Delay
-- The amount of time to delay the first delivery of all messages added to this queue.
-- default is 0sec
-- Value must be between 0 seconds and 15 minutes
+## DELIVERY DELAY
+> SQS provides delivery delay options to postpone the delivery of new messages to a queue, if delivery delay is defined for a queue, any new messages will not be visible to the server for the duration of delay.
+- The default delay for a queue is 0sec. Max is 15min.
+
 
 ## Receive Message Wait Time
 - The maximum amount of time that a long polling receive call will wait for a message to become available before returning an empty response.
@@ -151,6 +138,15 @@ Reliability – Amazon SQS locks your messages during processing, so that multip
 
 ## Content-based Deduplication
 - use a SHA-256 hash of the body of the msg(but not the attributes of the msg) to generate the content-based message deduplication ID.
+
+## DEAD LETTER QUEUE (DLQ)
+> The main task of a DLQ is handling message failure.
+- it lets you set aside and isolate message that can't be processed correctly to determine why their processing didn't succeed.
+
+> DLQ must be of the same type as the source queue (Standand / FIFO)
+> Don't use DLQ with a FIFO Queue. 
+- If you don't want to break the exact order of messages or operation.
+
 =======================================
 ## To calculate the number of API requests (R) per queue
 
@@ -177,9 +173,8 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 > If you use S3 to store queue messages, S3 charges will apply
 > DATA TRANSFERRED BETWEEN SQS AND EC2 IN THE SAME REGION IS FREE
 
-
-===============================
-## AWS SQS – Short/Regular Polling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Short/Regular Polling ####
 
 > A request is returned immediately even if the queue is empty.
 - It does not wait for messages to appear in the queue
@@ -187,8 +182,9 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 - Default of SQS
 - ReceiveMessageWaitTime is set to 0, if changed to >0 then it will be Long polling
 - More requests are used, which implies higher cost
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##### AWS SQS – Long Polling ####
+######## Long Polling #########
 > It is preferred to regular/short polling, it uses fewer requests and reduces cost by:
 - Eliminating false empty responses by querying all the servers
 - Reduces the number of empty responses, by allowing Amazon SQS to wait until a message available in the queue before sending a response. Unless the connection times out, the response to the ReceiveMessage
@@ -198,11 +194,6 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 > ReceiveMessageWaitTime is set to a non zero value (up to 20 seconds)
 > Same charge per million requests as the regular/short polling
 
-## SQS – Retention Period
-> SQS messages can remain in the queue for up to 14 days (SQS retention period)
-> Range is 1 min to 14 days (default is 4 days)
-> Once the maximum retention period of a message is reached, it will be deleted automatically from the queue
-
 > Messages can be sent to the queue and read from the queue simultaneously
 > SQS can be used with :
 - Redshift, DynamoDB, EC2, ECS, RDS, s3, Lambda to make distributed/decoupled applications
@@ -211,28 +202,6 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 
 > You can scale up the send/receive messages by creating more queues for different processes/actions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## SQS Visibility Timeout
-> It is the duration of time (length) a message is locked for read by other consumers ( after it has been read by a consumer to process it) so they can not be read again (by another consumer)
-- Max is 12 hours
-- Consumer is an application processing the SQS queue messages
-> A consumer that read a message to process it, can change the message visibility timeout if it needs more time to process the message
-
-> After a message is read, there are the following possibilities:
-- An ACK is received that a message is processed, so it must be deleted from the queue to avoid duplicates
-- If a FAIL is received or the visibility timeout expires, the message will then be unlocked for read , such that it can be read and processed by another consumer
-
-## Delivery Delay
-> SQS provides delivery delay options to postpone the delivery of new messages to a queue, if delivery delay is defined for a queue, any  new messages will not be visible to the server for the duration of delay.
-- The default delay for a queue is 0sec. Max is 15min.
-
-## Dead Letter Queue (DLQ)
-> The main task of a DLQ is handling message failure.
-- it lets you set aside and isolate message that can't be processed correctly to determine why their processing didn't succeed.
-
-> Don't use DLQ with a FIFO Queue. 
-- If you don't want to break the exact order of messages or operation.
-
-> DLQ must be of the same type as the source queue (Standand / FIFO)
 
 ## AWS SQS - Reliability
 > SQS stores all message queues and messages within a single, highly-available AWS region with multiple redundant AZs,
@@ -319,7 +288,7 @@ C is the number of consuming principals that receive from the Amazon SQS queue.
 
 > Workflow Starters
 - An application that can initiate (start) a workflow. 
-- Could | be your e-commerce website following the placement of an order, or a mobile app searching for bus times.
+- Could be your e-commerce website following the placement of an order, or a mobile app searching for bus times.
 
 > Deciders 
 — Control the flow of activity tasks in a workflow execution. 

@@ -2,7 +2,7 @@
 
 ############### EBS ###################
 ############### EFS ###################
-
+############ Amazon FSx ###############
 =======================================
 ############### EBS ###################
 
@@ -284,104 +284,27 @@ For more information on Amazon S3, please visit the following URL:
 
 https://aws.amazon.com/s3/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+### 15:WL6: You are working as an AWS Architect for a retail company using AWS EC2 instance for a web application. Company is using Provisioned IOPS SSD EBS volumes to store all product database. 
+This is a critical database & you need to ensure appropriate backups are accomplished every 12 hours. Also, you need to ensure that storage space is optimally used for storing all these snapshots removing all older files. Which of the following can help to meet this requirement with least management overhead? [WL615]
+
+A. Manually create snapshots & delete old snapshots for EBS volumes as this is a critical data.
+B. Use Amazon CloudWatch events to initiate AWS Lambda which will create snapshot of EBS volumes along with deletion of old snapshots.
+C. Use Amazon Data Lifecycle Manager to schedule EBS snapshots and delete old snapshots as per retention policy.
+D. Use Third party tool to create snapshot of EBS volumes along with deletion of old snapshots. 
 
 
-ANSWER : 
+EXPLANATION: EBS
+Correct Answer – C
 
-EXPLANATION : 
+> Amazon Data Lifecycle Manager can be used for creation, retention & deletion of EBS snapshots. 
+- It protects critical data by initiating backup of Amazon EBS volumes at selected intervals , along with storing & deletion of old snapshots to save storage space & cost. 
 
+Option A is incorrect as this will result in additional admin work & there can be risk of losing critical data due to manual errors. 
+Option B is incorrect as for this we will need to additional config changes in CloudWatch & AWS Lambda. 
+Option D is incorrect as this will result in additional cost to maintain a third-party software. 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
+For more information on Automating Amazon EBS Snapshot Lifecycle, refer to following URL,
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-lifecycle.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -545,115 +468,94 @@ For this case, since the data is low compared to the throughput demand, provisio
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
-
+ANSWER : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
-
+ANSWER : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
-ANSWER : 
-
 EXPLANATION : 
-
+ANSWER : 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
+EXPLANATION : 
 ANSWER : 
 
+=======================================
+############ Amazon FSx ###############
+
+## A solutions architect needs to design a managed storage solution for a company"™s application that includes high-performance machine learning. This application runs on AWS Fargate, and the connected storage needs to have concurrent access to files and deliver high performance.
+Which storage option should the solutions architect recommend?
+
+A. Create an Amazon S3 bucket for the application and establish an IAM role for Fargate to communicate with Amazon S3.
+B. Create an Amazon FSx for Lustre file share and establish an IAM role that allows Fargate to communicate with FSx for Lustre.
+C. Create an Amazon Elastic File System (Amazon EFS) file share and establish an IAM role that allows Fargate to communicate with Amazon EFS.
+D. Create an Amazon Elastic Block Store (Amazon EBS) volume for the application and establish an IAM role that allows Fargate to communicate with Amazon EBS.
+
+
 EXPLANATION : 
-
-
+ANSWER : B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## 19 A high-performance file system is required for a financial modelling application. The data set will be stored on Amazon S3 and the storage solution must have seamless integration so objects can be accessed as files.
+Which storage solution should be used? [DC19]
+
+A. Amazon FSx for Windows File Server
+B. Amazon FSx for Lustre
+C. Amazon Elastic File System (EFS)
+D. Amazon Elastic Block Store (EBS)
 
 
-ANSWER : 
-
-EXPLANATION : 
-
-
+EXPLANATION :
+ANSWER : B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+##52:UD6: A company is planning to deploy a High Performance Computing (HPC) cluster in its VPC that requires a scalable, high-performance file system. The storage service must be optimized for efficient workload processing, and the data must be accessible via a fast and scalable file system interface. It should also work natively with Amazon S3 that enables you to easily process your S3 data with a high-performance POSIX interface.
+Which of the following is the MOST suitable service that you should use for this scenario?
 
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
+A. Amazon Elastic File System (EFS)
+B. Amazon FSx for Windows File Server
+C. Amazon FSx for Lustre
+D. Amazon Elastic Block Storage (EBS)
 
 EXPLANATION : 
+ANSWER : C
 
+Amazon FSx for Lustre provides a high-performance file system optimized for fast processing of workloads such as machine learning, high performance computing (HPC), video processing, financial modeling, and electronic design automation (EDA). These workloads commonly require data to be presented via a fast and scalable file system interface, and typically have data sets stored on long-term data stores like Amazon S3.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+Operating high-performance file systems typically require specialized expertise and administrative overhead, requiring you to provision storage servers and tune complex performance parameters. With Amazon FSx, you can launch and run a file system that provides sub-millisecond access to your data and allows you to read and write data at speeds of up to hundreds of gigabytes per second of throughput and millions of IOPS.
 
+> Amazon FSx for Lustre works natively with Amazon S3, making it easy for you to process cloud data sets with high-performance file systems. 
+- When linked to an S3 bucket, an FSx for Lustre file system transparently presents S3 objects as files and allows you to write results back to S3.
+- You can also use FSx for Lustre as a standalone high-performance file system to burst your workloads from on-premises to the cloud. 
+- By copying on-premises data to an FSx for Lustre file system, you can make that data available for fast processing by compute instances running on AWS. 
+- With Amazon FSx, you pay for only the resources you use. 
+- There are no minimum commitments, upfront hardware or software costs, or additional fees.
 
-ANSWER : 
+For Windows-based applications, Amazon FSx provides fully managed Windows file servers with features and performance optimized for "lift-and-shift" business-critical application workloads including home directories (user shares), media workflows, and ERP applications. It is accessible from Windows and Linux instances via the SMB protocol. If you have Linux-based applications, Amazon EFS is a cloud-native fully managed file system that provides simple, scalable, elastic file storage accessible from Linux instances via the NFS protocol.
 
-EXPLANATION : 
+For compute-intensive and fast processing workloads, like high-performance computing (HPC), machine learning, EDA, and media processing, Amazon FSx for Lustre, provides a file system that’s optimized for performance, with input and output stored on Amazon S3.
 
+Hence, the correct answer is: Amazon FSx for Lustre.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+Amazon Elastic File System (EFS) is incorrect because although the EFS service can be used for HPC applications, it doesn't natively work with Amazon S3. It doesn't have the capability to easily process your S3 data with a high-performance POSIX interface, unlike Amazon FSx for Lustre.
 
+Amazon FSx for Windows File Server is incorrect because although this service is a type of Amazon FSx, it does not work natively with Amazon S3. This service is a fully managed native Microsoft Windows file system that is primarily used for your Windows-based applications that require shared file storage to AWS.
 
-ANSWER : 
+Amazon Elastic Block Storage (EBS) is incorrect because this service is not a scalable, high-performance file system.
 
-EXPLANATION : 
+References:
+https://aws.amazon.com/fsx/lustre/
+https://aws.amazon.com/getting-started/use-cases/hpc/3/
 
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-ANSWER : 
-
-EXPLANATION : 
-
+Check out this Amazon FSx Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-fsx/

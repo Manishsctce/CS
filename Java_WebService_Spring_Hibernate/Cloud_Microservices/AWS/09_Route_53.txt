@@ -165,7 +165,6 @@ is allowed in TXT strings
 - EXAMPLE: you can create an alias record named "acne.example.com" that redirect queries to S3 bucket that is also named "acme.example.com" 
 - we can also create and an "acme.example.com" alias record that redirect queries to a record named "zenith.example.com" in the "example.com" hosted zone. 
 
- 
 > CNAME record is followed by a recursive resolver(either inside/outside aws service).
 - Alias record is followed inside Route53. This mean that both the alias record and its target must exist in Route53.
 =======================================
@@ -269,17 +268,19 @@ The other resource gets 255/256ths (255/1+255).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #### FAILOVER CONFIGURATION ###
 
+> Route53 HC can be used for any endpoint that can be accessed via the Internet(either it can on-premise/VPC).
+
 > You can use Route53 health checking to configure active-active and active-passive failover configurations. 
 - You configure active-active failover using any routing policy (or combination of routing policies) other than failover, and 
 - you configure active-passive failover using the failover routing policy.
 
-#Active-Active Failover
+# ACTIVE-ACTIVE FAILOVER
 > Use this failover configuration when you want all of your resources TO BE AVAILABLE THE MAJORITY OF THE TIME. 
 - When a resource becomes unavailable, Route 53 can detect that it's unhealthy and stop including it when responding to queries.
 - In active-active failover, all the records that have the same name, same type (such as A or AAAA), and same routing policy (such as weighted or latency) are active unless Route 53 considers them unhealthy. 
 - Route53 can respond to a DNS query using any healthy record.
 
-#Active-Passive Failover
+# ACTIVE-PASSIVE FAILOVER
 > Use an active-passive failover configuration when you want a primary resource or group of resources TO BE AVAILABLE THE MAJORITY OF THE TIME and you want a secondary resource or group of resources to be on standby in case all the primary resources become unavailable. 
 - When responding to queries, Route 53 includes only the healthy primary resources. 
 - If all the primary resources are unhealthy, Route 53 begins to include only the healthy secondary resources in response to DNS queries.

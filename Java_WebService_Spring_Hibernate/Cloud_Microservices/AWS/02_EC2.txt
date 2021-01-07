@@ -837,8 +837,12 @@ In AWS Lambda, Lambda Functions and event sources are the core components in AWS
 > we can interact with Elastic Beanstalk by using the Elastic Beanstalk console, AWS CLI
 
 > It is recommended for test or development apps Not for production.
-> it doesn't use for long-running processes. 
+> it use for long-running processes as worker process
 
+> AWS Elastic Beanstalk provisions and configures all the AWS resources required to run and support your application. 
+- For Amazon RDS database instance to be launched in the production environment, BEST PRACTICE IS TO LAUNCH DB OUTSIDE AWS ELASTIC BEANSTALK ENVIRONMENT. 
+- It helps in having multiple environments connecting to a single database, using database types not supported with the integrated database, performing blue/green deployments. 
+- Also, the database instance remains up & running when AWS Elastic Beanstalk environment is terminated. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Elastic Beanstalk Components
 

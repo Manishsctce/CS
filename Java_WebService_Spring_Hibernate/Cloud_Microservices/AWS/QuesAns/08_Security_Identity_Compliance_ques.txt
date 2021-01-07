@@ -1,12 +1,13 @@
 ## Identity Access and Management (IAM)
-## Inspector
-## Certificate Manager
-## Directory Service (DS)
-## Web Application Firewall (WAF)
-## Shield
+## AWS Inspector
+## AWS Certificate Manager
+## AWS Directory Service (DS)
+## AWS Web Application Firewall (WAF)
+## AWS Shield
 ## AWS Single-Sign-on (SSO)
-## AWS Cognito 
+## AWS Cognito
 ## KMS 
+## AWS CloudHSM 
 =======================================
 ############### IAM ###################
 
@@ -19,13 +20,14 @@ B. Store API credentials as an object in Amazon S3.
 C. Embed the API credentials into your application.
 D. Assign IAM roles to the EC2 Instances.
 
+
 ANSWER : D
 
 EXPLANATION : 
 You can use roles to delegate access to users, applications, or services that don't normally have access to your AWS resources. It is not a good practice to use IAM credentials for a production-based application. However, it is a good practice to use IAM Roles.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## AWS best practices recommends that you do not use the root account user to do the day to day stuff. Instead you create other user and give it full administrative access, except for account information, which can be done by assigning the user one of the prebuilt AWS access policies.
+### AWS best practices recommends that you do not use the root account user to do the day to day stuff. Instead you create other user and give it full administrative access, except for account information, which can be done by assigning the user one of the prebuilt AWS access policies.
 What is the name of the access policy referenced above?
 
 A. Read Only Access
@@ -65,12 +67,13 @@ C. Delete all IAM users and establish a federation Infrastructure and use the co
 D. Use the IAM role and implement access at the role level
 
 
-Answer : a
+Answer : A
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Your organization is establishing an IAM access policy to create IAM users for those employees that require access to the newly deployed AWS VPC-based environment. Part of the access security policy for these users requires some of them to have the right to change their access password and access keys, while the others can not change either one, and they need to request admin help to do that.
 How can you achieve this?
 
 A. Under the IAM password policy screen, disable the option for all users to change their own passwords, and use an IAM policy to grant permissions to only some users to change their own passwords and their own access keys,
+
 B. You can choose this as you create each user
 C. By default each IAM user can modify their passwords
 D. Root account owner can set the policy from the IAM console under the password policy screen
@@ -84,6 +87,7 @@ A. Using the root account credentials, set the password policy option for the us
 B. Create an IAM policy to grant theusers permissions to change their passwords, and attach to the users
 C. This can not be done in IAM, administrator role or account root only can change the passwords
 D. Once set, passwords can not change in IAM, you must delete the users and create them again with the new passwords
+
 
 Answer : a 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,8 +184,64 @@ Using IAM roles to rotate the IAM credentials whenever LDAP credentials are upda
 References:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_federated-users.html
 https://aws.amazon.com/blogs/aws/aws-identity-and-access-management-now-with-identity-federation/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A Solutions Architect is designing a shared service for hosting containers from several customers on Amazon ECS. These containers will use several AWS services. A container from one customer should not be able to access data from another customer. Which solution would help the architect to meet these requirements? [WL124]
+ 
+A. IAM roles for tasks
+B. IAM roles for EC2 Instances
+C. IAM Instance profile for EC2 Instances
+D. Security Group rules
 
 
+Explanation: IAM
+Correct Answer – A
+
+The AWS Documentation mentions the following:
+
+With IAM roles for Amazon ECS tasks, you can specify an IAM role to be used by the containers in a task. Applications are required to sign their AWS API requests with AWS credentials, and this feature provides a strategy to manage credentials for your application's use. This is similar to how Amazon EC2 instance profiles provide credentials to EC2 instances.
+
+For more information on configuring IAM Roles for tasks in ECS, please visit the following URL:
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## A concern raised in your company is that developers could potentially delete production-based EC2 resources. As a Cloud Admin, which of the below options would you choose to help alleviate this concern? [WL838] Choose 2 options. 
+
+A. Tag the production instances with production-identifying tag and add resource-level permissions to the developers with an explicit deny on the terminate API call to instances with the production tag. 
+
+B. Create a separate AWS account and move the developers to that account. 
+
+C. Modify the IAM policy on the production users to require MFA before deleting EC2 instances, and disable MFA access to the employee. 
+
+D. Modify the IAM policy on the developers to require MFA before deleting EC2 instances. 
+
+
+EXPLANATION:
+Answer – A and B
+
+> Creating separate AWS account for developers will help the organization to facilitate the highest level of resource and security isolation. 
+
+The following documentation from AWS gives us a clear picture of the scenarios when we need to consider creating multiple accounts. 
+When to Create Multiple Accounts
+While there is no one-size-fits-all answer for how many AWS accounts a particular customer should have, most companies will want to create more than one AWS account because multiple accounts provide the highest level of resource and security isolation. Answering “yes” to any of the following questions is a good indication that you should consider creating additional AWS accounts:
+
+Does the business require administrative isolation between workloads? 
+> Administrative isolation by account provides the most straightforward approach for granting independent administrative groups different levels of administrative control over AWS resources based on the workload, development lifecycle, business unit (BU), or data sensitivity. Does the business require limited visibility and discoverability of workloads? 
+Accounts provide a natural boundary for visibility and discoverability. Workloads cannot be accessed or viewed unless an administrator of the account enables access to users managed in another account. Does the business require isolation to minimize the blast radius? 
+Blast-radius isolation by account provides a mechanism for limiting the impact of a critical event such as a security breach, if an AWS Region or Availability Zone becomes unavailable, account suspensions, etc. Separate accounts help define boundaries and provide natural blast-radius isolation. Does the business require strong isolation of recovery and/or auditing data? 
+Businesses that are required to control access and visibility to auditing data due to regulatory requirements can isolate their recovery data and/or auditing data in an account separate from where they run their workloads (e.g., writing CloudTrail logs to a different account).  
+
+For more information:
+https://d0.awsstatic.com/aws-answers/AWS_Multi_Account_Security_Strategy.pdf
+Tags enable you to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. This is useful when you have many resources of the same type — you can quickly identify a specific resource based on the tags you've assigned to it. Each tag consists of a key and an optional value, both of which you define. 
+For more information on tagging AWS resources, please refer to the below URL:
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html
+
+The question says that the developers should not have the option to delete production based resources. So, option A and B completely keep the developers away from production resources. 
+
+You wish to use MFA, which means developers can delete the production-based resources if they know MFA code which is not recommended. 
+
+AWS Multi-Factor Authentication (MFA) is a simple best practice that adds an extra layer of protection on top of your user name and password. With MFA enabled, when a user signs in to an AWS website, they will be prompted for their user name and password (the first factor—what they know), as well as for an authentication code from their AWS MFA device (the second factor—what they have). Taken together, these multiple factors provide increased security for your AWS account settings and resources. 
+Organizations have good control on newly created accounts rather than old aws accounts. Because they can easily monitor and maintain(few) assigned permissions on accounts and they delete those accounts once the required task will be done. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -191,88 +251,9 @@ EXPLANATION :
 ANSWER : 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
 
 =======================================
-############### DS ####################
+##### AWS Directory Service (DS) ######
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You manage the IT users for a large organization that is moving many services to AWS. You want a seamless way for your employees to log in and use cloud services. You also want to use AWS Managed Microsoft AD and have been asked if users will be able to access services in the on-premises environment. What would you respond? [WL310]
@@ -286,8 +267,9 @@ C. AWS Managed Microsoft AD can be used as the Active Directory over VPN or Dire
 D. AWS Managed Microsoft AD is 100% the same as Active Directory running on separate EC2 instance
 
 
-Correct Answer: C
+
 EXPLANATION:
+Correct Answer: C
 
 Option C is correct. Because you want to use AWS Managed Microsoft AD, you want to be certain that your users can use the AWS cloud resources as well as services in your on-premise environment. 
 In order to make your company have connectivity for AWS services, once you implement VPN or Direct Connect, your AWS Managed Microsoft AD can be used for both cloud services and on-premises services. 
@@ -379,12 +361,64 @@ ANSWER :
 EXPLANATION : 
 ANSWER : 
 
+=======================================
+## AWS WEB APPLICATION FIREWALL (WAF) #
 
 =======================================
-############### SSO ###################
+############# AWS Shield ##############
 
 =======================================
-############# Cognito #################
+###### AWS Single-Sign-on (SSO) #######
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 7:WL7: You are working as an AWS Architect for a financial company having intranet application hosted on AWS. They are using AWS SSO for granting access to users to AWS resources. During the annual security audit, Auditors have concerns on users sign-in process & prompted non-compliance for the security process when sign-in is observed from users using unknown locations or devices. Auditors are looking for enhancing security controls to be in place for such users. What would you use to improve the security process during user sign-in? 
+
+A. Enable Context-aware two-step verification with verification code sent as SMS to the user's mobile device.
+B. Enable Always-On two-step verification with verification code sent as SMS to the user's mobile device.
+C. Enable Always-On two-step verification with verification code sent to the user's email address.
+D. Enable Context-aware two-step verification with verification code sent to the user's email address. 
+
+
+EXPLANATION: AWS SSO
+Correct Answer –  D
+
+> For additional security, AWS SSO with two-step verification can be enabled. 
+- After two-step verification is enabled, post login with authorized email & password, users are prompted for additional verification code which they receive on their registered email address. 
+- With Context-aware two-step verification, AWS SSO analyzes user sign-in context such as browser, location, and devices. If any deviation is observed, only then it asks for the additional second level of verification code. With this, a user does not have to perform two-step verification repeatedly from the same device. 
+
+Option A is incorrect as Verification code is sent over the registered email address, not as an SMS on the mobile device. 
+Option B is incorrect as Verification code is sent over the registered email address, not as an SMS on the mobile device. Also, with Always-on Two-step verification, each time the user logs in to any cloud application, it would prompt for two-step verification code. This is true even if the user logs in from the same device. 
+
+Option C is incorrect. With Always-on Two-step verification, each time the user logs in to any cloud application, it would prompt for two-step verification code. This is true even if the user logs in from the same device. For more information on enabling two-step verification on AWS SSO, refer to the following URL:
+https://docs.aws.amazon.com/singlesignon/latest/userguide/enable-two-step-verification.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 25:WL7: You are working as an AWS Architect for an enterprise customer. Users access Amazon S3 buckets to save all project-related documents and also use business applications like Office 365 for daily work activities. These applications need to be accessible from any device for a limited number of hours in the day. 
+They are using AWS SSO to centrally manage and control access to AWS resources. Users are complaining that after each hour, they are getting logout from console & need to re-login. You need to ensure that the User session is optimum based upon the time required to complete the activity. Which of the following can be set to meet this requirement? 
+
+A. Create a custom Permission Set with session duration as 24 hours
+B. Use an existing Job Function policy to set session duration as 24 hours
+C. Create a custom Permission Set with session duration as 6 hours
+D. Use an existing Job Function policy to set session duration as 6 hours
+
+
+EXPLANATION: SSO
+Correct Answer –  C
+
+> Permission sets can control time duration for user login to the AWS Console by setting session duration. 
+- Default Session duration is 1 hour while the maximum can be set to 12 hours. 
+- Post this session duration, the user is automatically logout. 
+
+Option A is incorrect as maximum Session duration that can be set is 12 hours. 
+Option B is incorrect. This will use predefined AWS managed policies since the requirement is for customized permission policy for session duration. Also, maximum Session duration that can be set is 12 hours. 
+
+Option D is incorrect. This will use predefined AWS managed policies since the requirement is for customized permission policy for session duration. 
+
+For more information on Permission Set properties in AWS SSO, refer to the following URL:
+https://docs.aws.amazon.com/singlesignon/latest/userguide/howtosessionduration.html
+
+=======================================
+############ AWS Cognito ##############
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### You have designed an application that uses AWS resources, such as S3 to operate and store users’ documents. You currently use Cognito identity pools and user pools. To increase usage and ease of signing up, you decide that adding social identity federation is the best path forward. 
 How would you differentiate the Cognito identity pool and the federated identity providers (e.g. Google)? [WL216]
@@ -468,142 +502,6 @@ EXPLANATION :
 ANSWER : 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-
 
 =======================================
 ################ KMS ##################
@@ -617,9 +515,8 @@ C. KMS allows all users and roles to use the keys by default
 D. Data is decrypted in transit
 
 
-ANSWER : B
-
 EXPLANATION: KMS
+ANSWER : B
 
 Option B is correct. Data is encrypted at rest; data is encrypted once uploaded to S3. Encryption while in transit is handled by SSL or by using client-side encryption.
 
@@ -637,83 +534,41 @@ Option D is incorrect. Data is not decrypted in transit (while moving to and fro
 EXPLANATION : 
 ANSWER : 
 
-
+=======================================
+### AWS SECURITY TOKEN SERVICE (STS) ##
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Which of the following is not a feature of AWS Security Token Service?
+
+A. STS enables you to request temporary, limited-privilege credentials.
+B. STS enables users to assume role.
+C. STS generates Git Credentials for IAM users.
+D. STS generates Federated Credentials for IAM users.
 
 
+ANSWER : C
 
 EXPLANATION : 
-ANSWER : 
+With Git credentials, you can generate a static user name and password in the Identity and Access Management (IAM) console that you can use to access AWS CodeCommit repositories from the command line, Git CLI, or any Git tool that supports HTTPS authentication.
 
-
+=======================================
+########### AWS CloudHSM ##############
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Your company wants to enable encryption of services such as S3 and EBS volumes so that the data it maintains is encrypted at rest. They want to have complete control over the keys ( including hardware ) and the entire lifecycle around the keys. How can you accomplish this? [WL631]
+
+A. Use the AWS CloudHSM
+B. Use the KMS service
+C. Enable S3 server-side encryption
+D. Enable EBS Encryption with the default KMS keys
 
 
+EXPLANATION: CloudHSM
+Answer – A
 
-EXPLANATION : 
-ANSWER : 
+This is mentioned in the AWS Documentation
 
+AWS CloudHSM is a cloud-based hardware security module (HSM) that enables you to easily generate and use your own encryption keys on the AWS Cloud. With CloudHSM, you can manage your own encryption keys using FIPS 140-2 Level 3 validated HSMs
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-
-EXPLANATION : 
-ANSWER : 
+Options B,C and D are incorrect since here the keys are maintained by AWS
+ 
+For more information on cloud HSM, please refer to the below link
+https://aws.amazon.com/cloudhsm/

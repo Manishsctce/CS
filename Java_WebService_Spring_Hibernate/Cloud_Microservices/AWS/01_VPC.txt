@@ -5,7 +5,7 @@
 ## VPN (Virtual Private Network)
 ## AWS DIRECT CONNECT(DX)
 ## API GATEWAY
-## CLOUDFRONT  
+## CLOUDFRONT
 #### AWS Global Accelerator
 
 =======================================
@@ -315,8 +315,9 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 > Inbound for security group means inbound from outside the instance destined to the instance. 
 - Outbound means going out of the instance ENI
 
-####### Security Group & NACL ######### v12
-> CHANGES MADE TO NACLS (OR SECURITY GROUP) TAKE EFFECT IMMEDIATELY, so they are both quick to activate/defend as needed. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######### SG vs NACL ########## v12
+> CHANGES MADE TO NACL (OR SG) TAKE EFFECT IMMEDIATELY, so they are both quick to activate/defend as needed. 
 
 > NACL help to block certain ranges of IP address from a large pool, becuase they do HAVE DENY RULES.
 - SG cannot block a certain range of IP from internet 
@@ -368,15 +369,15 @@ OUTBOUND - Type(DNS/HTTP/ICMP) - Protocol - PortRange - Dest
 DestIP - DestPort - SourceIP - SourcePort - payload
 - Here SourcePort could be ephemeral 
 
-=======================================
-############# NAT INSTANCE ############ V15 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+######## NAT INSTANCE ######### V15 
 
 > NAT instance place at public subnet
 - it is normal EC2 instance but it is loaded with AMI that has NAT functionality 
 
 >> NAT instance always configured in public subnet 
 
-> NAT instance need to be assigned a security group
+> NAT instance need to be assigned a SG
 
 > It is used to enable the private subnet EC2 instance to get to the internet
 - No traffic initiated from the internet can access the private subnet 
@@ -390,6 +391,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 - Traffic outbound to 0.0.0.0/0 (internet) on ports 80 and 443 
 - Traffic inbound from customer own network on port 22(ssh) to administer the NAT instance
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ######## NAT GATEWAY ##########
 
 > IT IS A AWS MANAGED SERVICE 
@@ -399,7 +401,7 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > WORKS ONLY WITH ELASTIC IP, can not use a public IP to do it function 
 
 > We can migrate the NAT instance to the NAT Gateway. NAT Gateway should be in public subnet
-> we can't share NAT gateways across VPCs.
+>> we can't share NAT gateways across VPCs.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ## What is difference between NAT Gateway and NAT Instance?
 
@@ -428,7 +430,6 @@ DestIP - DestPort - SourceIP - SourcePort - payload
 > NOTE : CREATING A VPC, CREATES ROUTE TABLE AND NOT ROUTING INSTANCE
 
 > VPC created by VPC Wizard, by default creates NAT Gateway/instance 
-
 >> VPC WITH NAT INSTANCE CANNOT BE DELETED UNLESS THE USER MANUALLY TERMINATE THOSE NAT INSTANCE 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -901,15 +902,15 @@ Create the type of VPC endpoint required by the supported service.
 - Just upload your code to AWS Lambda, which takes care of everything required to run and scale your code with high availability at an AWS location closest to your end user.
 
 
-
 Customer use cases
 - Stream live and on-demand media
 - Secure content
 
 > To securely serve this private content by using CloudFront, you can do the following:
-- Require that your users access your private content by using special CloudFront signed URLs or signed cookies.
-- Require that your users access your S3 content by using CloudFront URLs, not S3 URLs. 
-- Requiring CloudFront URLs isn't necessary, but it is recommended to prevent users from bypassing the restrictions that you specify in signed URLs or signed cookies. You can do this by setting up an origin access identity (OAI) for your S3 bucket. 
+- users can access private content by using special CloudFront signed URLs or signed cookies.
+- users can access S3 content by using CloudFront URLs, not S3 URLs. 
+- Requiring CloudFront URLs isn't necessary, but it is recommended to prevent users from bypassing the restrictions that you specify in signed URLs or signed cookies. 
+- You can do this by setting up an origin access identity (OAI) for S3 bucket. 
 - You can also configure the custom headers for a private HTTP server or an Amazon S3 bucket configured as a website endpoint.
 
 > When you create or update a distribution in CloudFront, you can add an OAI and automatically update the bucket policy to give the OAI permission to access your bucket. 
@@ -983,7 +984,7 @@ Customer use cases
 > For web distributions, origin can be either S3 bucket or HTTP server
 > A live event, such as a meeting, conference, or concert, in real time.
 > For live streaming, you create the distribution automatically by using an AWS CloudFormation stack.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## NEED TO SPECIFY,
 > Whether you want the files to be available to everyone or you want to restrict access to selected users.
 
@@ -994,7 +995,7 @@ Customer use cases
 > Whether you want CloudFront to prevent users in selected countries from accessing your content (Geo Resitrctions with Cloudfront distributions)
 
 > Whether you want CloudFront to create access logs.
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## CloudFront Distribution – RTMP Distribution
 > RTMP distributions stream media files using Adobe Media Server and the Adobe Real-Time Messaging Protocol (RTMP).
 

@@ -913,16 +913,22 @@ B. Create CloudFormation templates that have the latest configurations and code 
 C. Use deployment groups in CodeDeploy to automate code deployments in a consistent manner.
 D. Use CodeCommit to publish your code quickly in a private repository and push them to your resources for fast updates.
 
-EXPLANATION : 
+
+EXPLANATION : CodeDeploy
 ANSWER : C
 
-CodeDeploy is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, or serverless Lambda functions. It allows you to rapidly release new features, update Lambda function versions, avoid downtime during application deployment, and handle the complexity of updating your applications, without many of the risks associated with error-prone manual deployments.
+> CodeDeploy is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, or serverless Lambda functions. 
+- It allows you to rapidly release new features, update Lambda function versions, avoid downtime during application deployment, and handle the complexity of updating your applications, without many of the risks associated with error-prone manual deployments.
 
-Creating CloudFormation templates that have the latest configurations and code in them is incorrect since it is used for provisioning and managing stacks of AWS resources based on templates you create to model your infrastructure architecture. CloudFormation is recommended if you want a tool for granular control over the provisioning and management of your own infrastructure.
+Option-D is incorrect as you mainly use CodeCommit for managing a source-control service that hosts private Git repositories. 
+- You can store anything from code to binaries and work seamlessly with your existing Git-based tools. 
+- CodeCommit integrates with CodePipeline and CodeDeploy to streamline your development and release process.
 
-Using CodeCommit to publish your code quickly in a private repository and pushing them to your resources for fast updates is incorrect as you mainly use CodeCommit for managing a source-control service that hosts private Git repositories. You can store anything from code to binaries and work seamlessly with your existing Git-based tools. CodeCommit integrates with CodePipeline and CodeDeploy to streamline your development and release process.
+Option-B is incorrect since 
+- CloudFormation is used for provisioning and managing stacks of AWS resources based on templates you create to model your infrastructure architecture. 
+- CloudFormation is recommended if you want a tool for granular control over the provisioning and management of your own infrastructure.
 
-You could also use OpsWorks to deploy your code, however, creating OpsWorks recipes that will automatically launch resources containing the latest version of the code is still incorrect because you don't need to launch new resources containing your new code when you can just update the ones that are already running.
+Option-A is still incorrect because you don't need to launch new resources containing your new code when you can just update the ones that are already running.
 
 References:
 https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-groups.html
@@ -936,7 +942,6 @@ https://tutorialsdojo.com/aws-cheat-sheet-aws-codedeploy/
 
 Elastic Beanstalk vs CloudFormation vs OpsWorks vs CodeDeploy:
 https://tutorialsdojo.com/aws-cheat-sheet-elastic-beanstalk-vs-cloudformation-vs-opsworks-vs-codedeploy/
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ###31:UD6: An application is hosted in an Auto Scaling group of EC2 instances and a Microsoft SQL Server on Amazon RDS. There is a requirement that all in-flight data between your web servers and RDS should be secured.
 Which of the following options is the MOST suitable solution that you should implement? (Select TWO.)
@@ -1675,7 +1680,12 @@ Amazon FSx for Lustre provides a high-performance file system optimized for fast
 
 Operating high-performance file systems typically require specialized expertise and administrative overhead, requiring you to provision storage servers and tune complex performance parameters. With Amazon FSx, you can launch and run a file system that provides sub-millisecond access to your data and allows you to read and write data at speeds of up to hundreds of gigabytes per second of throughput and millions of IOPS.
 
-Amazon FSx for Lustre works natively with Amazon S3, making it easy for you to process cloud data sets with high-performance file systems. When linked to an S3 bucket, an FSx for Lustre file system transparently presents S3 objects as files and allows you to write results back to S3. You can also use FSx for Lustre as a standalone high-performance file system to burst your workloads from on-premises to the cloud. By copying on-premises data to an FSx for Lustre file system, you can make that data available for fast processing by compute instances running on AWS. With Amazon FSx, you pay for only the resources you use. There are no minimum commitments, upfront hardware or software costs, or additional fees.
+> Amazon FSx for Lustre works natively with Amazon S3, making it easy for you to process cloud data sets with high-performance file systems. 
+- When linked to an S3 bucket, an FSx for Lustre file system transparently presents S3 objects as files and allows you to write results back to S3.
+- You can also use FSx for Lustre as a standalone high-performance file system to burst your workloads from on-premises to the cloud. 
+- By copying on-premises data to an FSx for Lustre file system, you can make that data available for fast processing by compute instances running on AWS. 
+- With Amazon FSx, you pay for only the resources you use. 
+- There are no minimum commitments, upfront hardware or software costs, or additional fees.
 
 For Windows-based applications, Amazon FSx provides fully managed Windows file servers with features and performance optimized for "lift-and-shift" business-critical application workloads including home directories (user shares), media workflows, and ERP applications. It is accessible from Windows and Linux instances via the SMB protocol. If you have Linux-based applications, Amazon EFS is a cloud-native fully managed file system that provides simple, scalable, elastic file storage accessible from Linux instances via the NFS protocol.
 

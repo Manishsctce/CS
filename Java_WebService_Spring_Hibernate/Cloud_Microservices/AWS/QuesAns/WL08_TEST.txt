@@ -398,7 +398,6 @@ https://aws.amazon.com/about-aws/whats-new/2017/02/new-attach-an-iam-role-to-you
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 18:WL8: A company has setup an application in AWS that interacts with DynamoDB. It is required that when an item is modified in a DynamoDB table, an immediate entry is made to the associating application. How can this be accomplished?  Choose 2 answers from the choices below. 
 
-
 A. Setup CloudWatch to monitor the DynamoDB table for changes. Then trigger a Lambda function to send the changes to the application. 
 
 B. Setup CloudWatch logs to monitor the DynamoDB table for changes. Then trigger AWS SQS to send the changes to the application. 
@@ -439,7 +438,7 @@ C. Public subnets for the application tier and NAT Gateway, and private subnets 
 D. Public subnets for the application tier, and private subnets for the database cluster and NAT Gateway
 
 
-EXPLANATION:
+EXPLANATION : NAT Gateway
 Answer – C
 
 The following diagram from AWS Documentation shows the right setup for this scenario:
@@ -470,19 +469,18 @@ C. Move the solution to AWS and use an Application Load Balancer.
 D. Move the solution to AWS and use a Network Load Balancer. 
 
 
-EXPLANATION:
+EXPLANATION : Route53
 Answer - A
 
 Route 53 health checks can be used for any endpoint that can be accessed via the Internet. Hence, this would be an ideal option for monitoring endpoints. 
 AWS Documentation mentions the following:
 
-You can configure a health check that monitors an endpoint that you specify either by IP address or by the domain name. At regular intervals that you specify, Route 53 submits automated requests over the internet to your application, server, or other resources to verify that it's reachable, available and functional. 
+You can configure a health check that monitors an endpoint that you specify either by IP address or by the domain name. 
+- At regular intervals that you specify, Route 53 submits automated requests over the internet to your application, server, or other resources to verify that it's reachable, available and functional. 
 
 For more information on Route 53 Health checks, please refer to the URL below. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-simple-configs.html
 
-Note:
-
-As per AWS,
+Note: As per AWS,
 Once enabled, Route 53 automatically configures and manages health checks  for individual ELB nodes. Route 53 also takes advantage of the EC2 instance health checking that ELB performs. By combining the results of health checks of your EC2 instances and your ELBs, Route 53 DNS Failover is able to evaluate the health of the load balancer and the health of the application running on the EC2 instances behind it. In other words, if any part of the stack goes down, Route 53 detects the failure and routes traffic away from the failed endpoint. 
 For more information, please visit:
 https://aws.amazon.com/blogs/aws/amazon-route-53-elb-integration-dns-failover/
@@ -496,14 +494,17 @@ https://aws.amazon.com/route53/faqs/
 Note: 
 
 As per AWS,
-Route 53 has health checkers in locations around the world. When you create a health check that monitors an endpoint, health checkers start to send requests to the endpoint that you specify to determine whether the endpoint is healthy. You can choose which locations you want Route 53 to use, and you can specify the interval between checks: every 10 seconds or every 30 seconds. Note that Route 53 health checkers in different data centers don't coordinate with one another, so you'll sometimes see several requests per second regardless of the interval you chose, followed by a few seconds with no health checks at all. Each health checker evaluates the health of the endpoint based on two values:
-Response time
-Whether the endpoint responds to a number of consecutive health checks that you specify (the failure threshold)
-Route 53 aggregates the data from the health checkers and determines whether the endpoint is healthy:
-
-If more than 18% of health checkers report that an endpoint is healthy, Route 53 considers it healthy. If 18% of health checkers or fewer report that an endpoint is healthy, Route 53 considers it unhealthy. 
-The response time that an individual health checker uses to determine whether an endpoint is healthy depends on the type of health check:
-HTTP and HTTPS health checks,  TCP health checks or HTTP and HTTPS health checks with string matching. 
+> Route 53 has health checkers in locations around the world. 
+- When you create a health check that monitors an endpoint, health checkers start to send requests to the endpoint that you specify to determine whether the endpoint is healthy. 
+- You can choose which locations you want Route 53 to use, and you can specify the interval between checks: every 10 seconds or every 30 seconds. 
+- Note that Route 53 health checkers in different data centers don't coordinate with one another, so you'll sometimes see several requests per second regardless of the interval you chose, followed by a few seconds with no health checks at all. 
+- Each health checker evaluates the health of the endpoint based on two values:
+1. Response time - Whether the endpoint responds to a number of consecutive health checks that you specify (the failure threshold)
+- Route 53 aggregates the data from the health checkers and determines whether the endpoint is healthy:
+- If more than 18% of health checkers report that an endpoint is healthy, Route 53 considers it healthy. 
+- If 18% of health checkers or fewer report that an endpoint is healthy, Route 53 considers it unhealthy. 
+- The response time that an individual health checker uses to determine whether an endpoint is healthy depends on the type of health check:
+- HTTP and HTTPS health checks,  TCP health checks or HTTP and HTTPS health checks with string matching. 
 Regarding your specific query where we are having more than 2 servers for the website, AWS docs states that:
 
 When you have more than one resource performing the same function—for example, more than one HTTP server or mail server—you can configure Amazon Route 53 to check the health of your resources and respond to DNS queries using only the healthy resources. For example, suppose your website, example.com, is hosted on six servers, two each in three data centers around the world. You can configure Route 53 to check the health of those servers and to respond to DNS queries for example.com using only the servers that are currently healthy. The configuration details are provided in the second link. 
@@ -519,7 +520,7 @@ C. Upload the logs to CloudTrail and then analyze the logs accordingly.
 D. Upload the logs to Glacier and then analyze the logs accordingly. 
 
 
-EXPLANATION:
+EXPLANATION: kinesis
 Answer – B
 
 AWS Documentation provides the following information to support this requirement:
@@ -539,7 +540,7 @@ C. Attach an Internet Gateway and add routes for 0.0.0.0/0
 D. Deploy NAT Instances in a public subnet and add routes for 0.0.0.0/0
 
 
-EXPLANATION:
+EXPLANATION: IGW
 Answer – C
 
 AWS Documentation mentions the following:
@@ -559,7 +560,7 @@ C. The company could start using the Simple Storage Service.
 D. The company could start using Amazon Glacier. 
 
 
-EXPLANATION:
+EXPLANATION: Storage Gateway
 Answer - A
 
 Volume Gateways and Cached Volumes can be used to start storing data in S3. 
@@ -583,7 +584,7 @@ As described in the answer: The company wants a quick win solution to store data
 In the question, they mentioned that "A company has a lot of data hosted on their On-premises infrastructure." From On-premises to Cloud infrastructure, you can use AWS storage gateways. Option C is talking about the data store. But here the requirement is (How) to transfer or migrate your data from On-premises to Cloud infrastructure. So there is no clear process mentioned in Option C. 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 24:WL8: A company plans on deploying a batch processing application in AWS. Which of the following is an ideal way to host this application?  Choose 2 answers from the options below. Each answer forms a part of the solution. 
+### 24:WL8: A company plans on deploying a batch processing application in AWS. Which of the following is an ideal way to host this application?  Choose 2 answers from the options below. Each answer forms a part of the solution. 
 
 A. Copy the batch processing application to an ECS Container. 
 B. Create a docker image of your batch processing application. 
@@ -591,17 +592,18 @@ C. Deploy the image as an Amazon ECS task.
 D. Deploy the container behind the ELB. 
 
 
-EXPLANATION:
+EXPLANATION: ECS
 Answer – B and C
 
 AWS Documentation mentions the following:
 
-Docker containers are particularly suited for batch job workloads. Batch jobs are often short-lived and embarrassingly parallel. You can package your batch processing application into a Docker image so that you can deploy it anywhere, such as in an Amazon ECS task. 
+> Docker containers are particularly suited for batch job workloads. 
+- Batch jobs are often short-lived and embarrassingly parallel. 
+- You can package your batch processing application into a Docker image so that you can deploy it anywhere, such as in an Amazon ECS task. 
 For more information on the use cases for AWS ECS, please visit the following URL:
 
 https://docs.aws.amazon.com/AmazonECS/latest/developerguide/common_use_cases.html
  
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 25:WL8: A company is building a Two-Tier web application to serve dynamic transaction-based content. The Data Tier uses an Online Transactional Processing (OLTP) database. What services should you leverage to enable an elastic and scalable Web Tier? 
 
@@ -629,7 +631,7 @@ C. Create a CNAME record which points to the CloudFront distribution.
 D. Create a Non-Alias Record which points to the CloudFront distribution. 
 
 
-EXPLANATION:
+EXPLANATION : Route53
 Answer - A
 
 AWS Documentation mentions the following:
@@ -652,13 +654,16 @@ C. Create an Elastic Beanstalk environment with the necessary Docker containers.
 D. Create EBS Optimized EC2 Instances, install Docker and then upload the containers. 
 
 
-EXPLANATION:
+EXPLANATION : Elastic Beanstalk
 Answer - C
 
 The Elastic Beanstalk service can be used to host Docker containers. 
 AWS Documentation further mentions the following:
 
-Elastic Beanstalk supports the deployment of web applications from Docker containers. With Docker containers, you can define your own runtime environment. You can choose your own platform, programming language, and any application dependencies (such as package managers or tools), that aren't supported by other platforms. Docker containers are self-contained and include all the configuration information and software your web application requires to run. 
+> Elastic Beanstalk supports the deployment of web applications from Docker containers. 
+- With Docker containers, you can define your own runtime environment. 
+- You can choose your own platform, programming language, and any application dependencies (such as package managers or tools), that aren't supported by other platforms. 
+- Docker containers are self-contained and include all the configuration information and software your web application requires to run. 
 For more information on using Elastic Beanstalk for Docker containers, please visit the following URL:
 
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html
@@ -680,7 +685,7 @@ C. SQS checks the health of the worker instances.
 D. SQS helps to facilitate horizontal scaling of encoding tasks. 
 
 
-EXPLANATION:
+EXPLANATION: SQS
 Answer - D
 
 Even though SQS guarantees the order of messages for FIFO queues, the main reason for using it is because it helps in horizontal scaling of AWS resources and is used for decoupling systems. 
@@ -699,7 +704,7 @@ C. Deploy in 3 AZ with Auto Scaling minimum set to handle 50 percent peak load p
 D. Deploy in 2 regions using Weighted Round Robin with Auto Scaling minimums set at 100%peak load per region. 
 
 
-EXPLANATION:
+EXPLANATION: AZ
 Answer – C
 
 Since the requirement states that the application should never go down even if an AZ is not available, we need to maintain 100% availability. 
@@ -749,7 +754,7 @@ C. This is due to the replication lag.
 D. The Multi-AZ feature is not enabled. 
 
 
-EXPLANATION:
+EXPLANATION: RDS Read replica
 Answer – C
 
 An AWS Whitepaper on the caveat for Read Replicas is given below which must be taken into consideration by designers:
@@ -769,17 +774,18 @@ C. If you want OIDC identity providers, then you must include SAML and social ba
 D. It’s too much effort to add non-Cognito authenticated user information to a User Pool
 
 
-
-EXPLANATION:
+EXPLANATION: Cognito
 Answer: A
 
-A. OpenID Connect (OIDC) identity providers (IdPs) (like Salesforce or Ping Identity) are supported in Cognito, along with social and SAML based identity providers . You can add an OIDC IdP to your user pool in the AWS Management Console, with the AWS CLI, or by using the user pool API method CreateIdentityProvider. Incorrect:
+A. OpenID Connect (OIDC) identity providers (IdPs) (like Salesforce or Ping Identity) are supported in Cognito, along with social and SAML based identity providers . 
+You can add an OIDC IdP to your user pool in the AWS Management Console, with the AWS CLI, or by using the user pool API method CreateIdentityProvider. 
 
+Incorrect:
 B. Cognito supports more than just social identity providers, including OIDC, SAML, and its own identity pools
 C. You can add any combination of federated types, you don’t have to add them all
 D. While there is additional coding to develop this, the effort is most likely not too great to add the feature
-Reference:
 
+Reference:
 https://aws.amazon.com/cognito/
 https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-oidc-idp.html
 http://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html
@@ -806,26 +812,27 @@ If your Lambda function code accesses other AWS resources, such as to read an ob
 
 For more information on the Permission Role model for AWS Lambda, please refer to the URL below. 
 https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html
- 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 34:WL8: A company has a Redshift cluster for petabyte-scale data warehousing. The data within the cluster is easily reproducible from additional data stored on Amazon S3. The company wants to reduce the overall total cost of running this Redshift cluster. Which scenario would best meet the needs of the running cluster, while still reducing total overall ownership of the cluster?  Choose the correct answer from the options below.
 
 A. Instead of implementing automatic daily backups, write a CLI script that creates manualsnapshots every few days. Copy the manual snapshot to a secondary AWS regionfor disaster recovery situations.
+
 B. Enable automated snapshots but set the retention period to a lower number to reducestorage costs.
 C. Implement daily backups, but do not enable multi-region copy to save data transfer costs.
 D. Disable automated and manual snapshots on the cluster. 
 
 
-EXPLANATION:
+EXPLANATION: RedShift
 Answer – D
 
-Snapshots are point-in-time backups of a cluster. There are two types of snapshots: automated and manual. Amazon Redshift stores these snapshots internally in Amazon S3 by using an encrypted Secure Sockets Layer (SSL) connection. If you need to restore from a snapshot, Amazon Redshift creates a new cluster and imports data from the snapshot that you specify. 
-Since the question already mentions that the cluster is easily reproducible from additional data stored on Amazon S3, you do not need to maintain snapshots. 
-For more information on Redshift Snapshots, please visit the below URL:
+> Snapshots are point-in-time backups of a cluster. There are two types of snapshots: automated and manual. 
 
+- Amazon Redshift stores these snapshots internally in Amazon S3 by using an encrypted Secure Sockets Layer (SSL) connection. 
+- If you need to restore from a snapshot, Amazon Redshift creates a new cluster and imports data from the snapshot that you specify. 
+- Since the question already mentions that the cluster is easily reproducible from additional data stored on Amazon S3, you do not need to maintain snapshots. 
+
+For more information on Redshift Snapshots, please visit the below URL:
 http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html
- 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 35:WL8: You are designing a system which needs at minimum, 8 m4.large instances operating to service traffic. While designing a system for high availability in the us-east-1 region having 6 Availability Zones, your company needs to be able to handle the death of a full availability zone. How should you distribute the servers to save as much cost as possible, assuming all of the EC2 nodes are properly linked to an ELB?  Your VPC account can utilize us-east-1’s AZs a through f, inclusive.
@@ -929,7 +936,7 @@ When to Create Multiple Accounts
 While there is no one-size-fits-all answer for how many AWS accounts a particular customer should have, most companies will want to create more than one AWS account because multiple accounts provide the highest level of resource and security isolation. Answering “yes” to any of the following questions is a good indication that you should consider creating additional AWS accounts:
 
 Does the business require administrative isolation between workloads? 
-Administrative isolation by account provides the most straightforward approach for granting independent administrative groups different levels of administrative control over AWS resources based on the workload, development lifecycle, business unit (BU), or data sensitivity. Does the business require limited visibility and discoverability of workloads? 
+> Administrative isolation by account provides the most straightforward approach for granting independent administrative groups different levels of administrative control over AWS resources based on the workload, development lifecycle, business unit (BU), or data sensitivity. Does the business require limited visibility and discoverability of workloads? 
 Accounts provide a natural boundary for visibility and discoverability. Workloads cannot be accessed or viewed unless an administrator of the account enables access to users managed in another account. Does the business require isolation to minimize the blast radius? 
 Blast-radius isolation by account provides a mechanism for limiting the impact of a critical event such as a security breach, if an AWS Region or Availability Zone becomes unavailable, account suspensions, etc. Separate accounts help define boundaries and provide natural blast-radius isolation. Does the business require strong isolation of recovery and/or auditing data? 
 Businesses that are required to control access and visibility to auditing data due to regulatory requirements can isolate their recovery data and/or auditing data in an account separate from where they run their workloads (e.g., writing CloudTrail logs to a different account).  
@@ -955,7 +962,7 @@ C. Use DynamoDB Streams to monitor the changes in the DynamoDB table.
 D. Transfer records to S3 which were modified in the last 2 hours. 
 
 
-EXPLANATION:
+EXPLANATION: DynamoDB
 Answer – C
 
 AWS Documentation mentions the following:
@@ -1018,7 +1025,8 @@ D. Create an S3 bucket policy that lists the CloudFront distribution ID as the P
 EXPLANATION:
 Answer – B
 
-If you want to use CloudFront signed URLs or signed cookies to provide access to objects in your Amazon S3 bucket, you probably also want to prevent users from accessing your Amazon S3 objects using Amazon S3 URLs. If users access your objects directly in Amazon S3, they bypass the controls provided by CloudFront signed URLs or signed cookies, for example, control over the date and time that a user can no longer access your content and control over which IP addresses can be used to access content. In addition, if users access objects both through CloudFront and directly by using Amazon S3 URLs, CloudFront access logs are less useful because they're incomplete. 
+If you want to use CloudFront signed URLs or signed cookies to provide access to objects in your Amazon S3 bucket, you probably also want to prevent users from accessing your Amazon S3 objects using Amazon S3 URLs. 
+- If users access your objects directly in Amazon S3, they bypass the controls provided by CloudFront signed URLs or signed cookies, for example, control over the date and time that a user can no longer access your content and control over which IP addresses can be used to access content. In addition, if users access objects both through CloudFront and directly by using Amazon S3 URLs, CloudFront access logs are less useful because they're incomplete. 
 For more information on Origin Access Identity, please see the below link:
 
 http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html

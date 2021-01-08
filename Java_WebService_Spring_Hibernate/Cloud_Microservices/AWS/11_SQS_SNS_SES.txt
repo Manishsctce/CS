@@ -99,10 +99,12 @@ Reliability – Amazon SQS locks your messages during processing, so that multip
 > Send data between applications when the order of events is important, for example:
 
 > Ensure that user-entered commands are executed in the right order.
-
 > Display the correct product price by sending price modifications in the right order.
-
 > Prevent a student from enrolling in a course before registering for an account.
+
+> Each FIFO queue should have a Message group ID irrespective of multiple ordered message groups required. 
+- For application with identical message bodies, use unique deduplication ID, while 
+- for unique message bodies, use content-based deduplication ID. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 =======================================
 ########## QUEUE ATTRIBUTES ###########

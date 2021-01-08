@@ -190,10 +190,7 @@ Option C S3 standard is for frequently accessed data, and less economical than S
 https://aws.amazon.com/s3/storage-classes/
 https://aws.amazon.com/efs/when-to-choose-efs/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 11
-Unattempted
-Domain :Specify Secure Applications and Architectures
-
+## 11:WL4: 
 You are planning to host a web application consisting of a web server and a database server. These servers are going to be hosted on different EC2 Instances in different subnets in a VPC. What should be used to ensure that the database server only allows traffic from the webserver? [WL411]
 
 A. Make use of Security Groups.
@@ -631,11 +628,8 @@ Expiration actions – In which you specify when the objects expire. Then Amazon
  For more information on AWS S3 Lifecycle policies, please visit the following URL:
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are working as an AWS Architect for a global media firm. They have web servers deployed on EC2 instances across multiple regions. For audit purposes, you have created a CloudTrail trail to store all CloudTrail event log files to the S3 bucket. 
+### You are working as an AWS Architect for a global media firm. They have web servers deployed on EC2 instances across multiple regions. For audit purposes, you have created a CloudTrail trail to store all CloudTrail event log files to the S3 bucket. 
 This trail applies to all regions & is stored in S3 buckets at the EU-Central region. During last year’s audit, auditors have raised a query on the integrity of log files that are stored in S3 buckets and tendered as Non-Compliance. Which feature could help you to gain compliance from Auditors for this query? [WL433]
 
 A. Use Amazon SSE-S3 encryption for the CloudTrail log file while storing it to S3 buckets.
@@ -647,16 +641,20 @@ D. Enable the CloudTrail log file integrity validation feature.
 EXPLANATION: 
 Correct Answer: D
 
-After you enable CloudTrail log file integrity, it will create a hash file called digest file which refers to logs that are generated. This digest file is saved in different folder in S3 bucket where log files are saved. Each of these digest files has the private key of public & private key pair. The DIgest file can be validated using the public key. This feature ensures that all the modifications made to CloudTrail log files are recorded. 
+> After you enable CloudTrail log file integrity, it will create a hash file called digest file which refers to logs that are generated. 
+- This digest file is saved in different folder in S3 bucket where log files are saved. 
+- Each of these digest files has the private key of public & private key pair. 
+- The DIgest file can be validated using the public key. This feature ensures that all the modifications made to CloudTrail log files are recorded. 
 
-Option A is incorrect as by default all CloudTrail log files are delivered to S3 buckets using SSE-S3 encryption, this will not ensure the integrity of log files. Option B is incorrect as with Amazon SSE-KMS encryption for CloudTrail log file, there would be an additional layer of security for log files, but it won’t ensure the integrity of log files. Option C is incorrect as although this will restrict access to the bucket but won’t ensure that no modification has been done to log files post delivering in S3 buckets.  
+Option A is incorrect as by default all CloudTrail log files are delivered to S3 buckets using SSE-S3 encryption, this will not ensure the integrity of log files. 
+
+Option B is incorrect as with Amazon SSE-KMS encryption for CloudTrail log file, there would be an additional layer of security for log files, but it won’t ensure the integrity of log files. 
+
+Option C is incorrect as although this will restrict access to the bucket but won’t ensure that no modification has been done to log files post delivering in S3 buckets.  
 
 For more information on CloudTrail Log files Integrity, please refer to the following URLs:
-
 https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-validation-intro.html
 https://aws.amazon.com/blogs/aws/aws-cloudtrail-update-sse-kms-encryption-log-file-integrity-verification/
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You have an EC2 Instance in a particular region. This EC2 Instance has a preconfigured software running on it. You have been requested to create a disaster recovery solution in case the instance in the region fails. Which of the following is the best solution? [WL434]
 
@@ -667,8 +665,6 @@ D. Create an AMI of the EC2 Instance and copy it to another region.
 
 
 EXPLANATION: 
- 
-
 Answer - D
 
 You can copy an Amazon Machine Image (AMI) within or across an AWS region using the AWS Management Console, the AWS command line tools or SDKs, or the Amazon EC2 API, all of which support the CopyImage action. You can copy both Amazon EBS-backed AMIs and instance store-backed AMIs. You can copy AMIs with encrypted snapshots and encrypted AMIs. 
@@ -679,9 +675,6 @@ Option C is invalid, because this is a long and inefficient way to restore a fai
 For more information on Copying AMIs, please visit the below URL:
 
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You work in the media industry and have created a web application where users will be able to upload photos they create, to your website. This web application must be able to call the S3 API in order to function properly. Where would you store your API credentials while maintaining the maximum level of security? [WL435]
 
@@ -702,15 +695,6 @@ IAM roles are designed so that your applications can securely make API requests 
 For more information on IAM Roles, please visit the below URL:
 
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
-Try now labs related to this question
-Introduction to AWS Identity Access Management(IAM)
-This lab walks you through the steps on how to create IAM Users, IAM Groups and adding IAM User to the IAM Group in AWS IAM service
-
-Credit Needed10
-Time 0 : 20
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You need to ensure that data stored in S3 is encrypted but you don't want to manage the encryption keys. Which of the following encryption mechanisms should be used in this case? [WL436]
 
@@ -740,21 +724,20 @@ C. CloudWatch
 D. AWS Trusted Advisor
 
 
-
 EXPLANATION: 
 Correct Answers - C and D
 
 AWS Documentation mentions the following on monitoring Redshift Clusters:
 
-Amazon CloudWatch metrics help you monitor the physical aspects of your cluster, such as CPU utilization, latency, and throughput. Metric data is displayed directly in the Amazon Redshift console. You can also view it in the Amazon CloudWatch console, or you can consume it in any other way you work with metrics such as with the Amazon CloudWatch Command Line Interface (CLI) or one of the AWS Software Development Kits (SDKs). 
-For more information on monitoring Redshift, please visit the URL below:
+Amazon CloudWatch metrics help you monitor the physical aspects of your cluster, such as CPU utilization, latency, and throughput. 
+- Metric data is displayed directly in the Amazon Redshift console. 
+- You can also view it in the Amazon CloudWatch console, or you can consume it in any other way you work with metrics such as with the Amazon CloudWatch Command Line Interface (CLI) or one of the AWS Software Development Kits (SDKs). 
 
+For more information on monitoring Redshift, please visit the URL below:
 https://docs.aws.amazon.com/redshift/latest/mgmt/metrics.html
 
 For Option D, please go through the link below: 
-
 https://aws.amazon.com/about-aws/whats-new/2016/03/aws-trusted-advisor-adds-checks-for-amazon-s3-amazon-redshift-reserved-instances-security-and-service-limits/
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### You are working as an AWS Architect for a global insurance firm. For the web application, you are using S3 buckets and have configured CloudFront to cache image files. For audit purposes, you have created a CloudTrail trail in each region and the events logs files are logged in S3 bucket in the us-west-1 region. 
 There have been changes in CloudFront which have caused all traffic being routed to the origin, resulting in increased latency for users in other continents. After scrutinizing CloudTrail logs, you found that there are duplicate CloudFront events being logged. What configuration changes would you perform to eliminate duplicate CloudFront logs? [WL438] 
@@ -768,12 +751,15 @@ D. Using the AWS console, change the configuration of a trail to logging a singl
 EXPLANATION: cloudTrail , cloudFront
 Correct Answer – A
 
-Amazon CloudFront is a global service for which events are delivered to CloudTrail trails which include global services. To avoid duplicate Amazon CloudFront events, you can disable these events from delivering to CloudTrail trails in all regions & enable in only one region. 
-Options B & D is incorrect as if CloudTrail trail is changed to logging a single region, global service event logging is off automatically, this will disable CloudFront events being logged instead of avoiding duplicate logs. Option C is incorrect as Changes to Global service event logs can be done only via AWS CLI & not via AWS console. For more information on Global Service Events with CloudTrail, refer to the following URL:
+Amazon CloudFront is a global service for which events are delivered to CloudTrail trails which include global services. 
+To avoid duplicate Amazon CloudFront events, you can disable these events from delivering to CloudTrail trails in all regions & enable in only one region. 
 
+Options B & D is incorrect as if CloudTrail trail is changed to logging a single region, global service event logging is off automatically, this will disable CloudFront events being logged instead of avoiding duplicate logs. 
+
+Option C is incorrect as Changes to Global service event logs can be done only via AWS CLI & not via AWS console. 
+
+For more information on Global Service Events with CloudTrail, refer to the following URL:
 https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-regional-and-global-services
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are working for a start-up firm that developed a new multilingual website for sharing images and video files. You are using EC2 instance to host this web application. To deliver these web content with the lowest latency to end-users, you have configured Amazon CloudFront which forward query strings to origin servers based on selected parameter values and also cache web content based upon these parameter values. 
 During the trial, it was observed that caching is not happening based upon query strings resulting in these requests hitting origin servers. Which of the following need to be checked if CloudFront is caching properly based upon query strings? [WL439] (Select Three)
@@ -851,17 +837,6 @@ For more information on AWS EBS Volume types, please visit the following URL:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
 
- 
-
-Try now labs related to this question
-Introduction to Amazon Elastic Compute Cloud (EC2)
-This lab walks you through the steps to launch and configure a virtual machine in the Amazon cloud. 
-You will practice using Amazon Machine Images to launch Amazon EC2 Instances and use key pairs for SSH authentication to log into your instance. You will create a web page and publish it. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## A company requires to deploy an existing Java-based application to AWS. Which of the following should be used to fulfill this requirement in the quickest way possible? [WL443]
 
@@ -886,23 +861,27 @@ https://aws.amazon.com/elasticbeanstalk/
 ## You are working as an AWS Administrator for a software firm that has a popular Web application hosted on EC2 instance in various regions. You are using AWS CloudHSM for offloading SSL/TLS processing from Web servers. Since this is a critical application for the firm, you need to ensure that proper backups are performed for data in AWS CloudHSM on a daily basis. What does the AWS CloudHSM use to perform a secure & durable backup? [WL444]
 
 A. Ephemeral backup key (EBK) is used to encrypt data & Persistent backup key (PBK) is used to encrypt EBK before saving data to the Amazon S3 bucket in the same region as that of AWS CloudHSM cluster.
+
 B. Data Key is used to encrypt data & Customer Managed Key (CMK) is used to encrypt Data Key before saving data to the Amazon S3 bucket in the same region as that of AWS CloudHSM cluster.
+
 C. Ephemeral Backup Key (EBK) is used to encrypt data & Persistent backup Key (PBK) is used to encrypt EBK before saving data to the Amazon S3 bucket in a different region than the AWS CloudHSM cluster.
+
 D. Data Key is used to encrypt data & Customer Managed Key (CMK) is used to encrypt Data Key before saving data to Amazon S3 bucket in a different region than the AWS CloudHSM cluster. 
 
 
-EXPLANATION: 
+EXPLANATION: CloudHSM
 Correct Answer – A
 
 To backup the AWS CloudHSM data to Amazon S3 buckets in the same region, AWS CloudHSM generates a unique Ephemeral Backup Key (EBK) to encrypt all data using AES 256-bit encryption key. This Ephemeral Backup Key (EBK) is further encrypted using Persistent Backup Key (PBK) which is also AES 256-bit encryption key. 
-Option B is incorrect as Data Key & Customer Managed Key are not used by AWS CloudHSM for the encryption of data, instead of that EBK & PBK are used. Option C is incorrect. While taking the backup of data from different AWS CloudHSM clusters to the Amazon S3 bucket, the Amazon S3 bucket should be in the same region as that of the AWS CloudHSM cluster. Option D is incorrect as Data Key & Customer Managed Key are not used by AWS CloudHSM for the encryption of data, instead of that EBK & PBK are used for encrypting and saving data to the Amazon S3 bucket in the same region. For more information on backing data from AWS CloudHSM, refer to the following URL:
 
+Option B is incorrect as Data Key & Customer Managed Key are not used by AWS CloudHSM for the encryption of data, instead of that EBK & PBK are used. 
+
+Option C is incorrect. While taking the backup of data from different AWS CloudHSM clusters to the Amazon S3 bucket, the Amazon S3 bucket should be in the same region as that of the AWS CloudHSM cluster. 
+
+Option D is incorrect as Data Key & Customer Managed Key are not used by AWS CloudHSM for the encryption of data, instead of that EBK & PBK are used for encrypting and saving data to the Amazon S3 bucket in the same region. 
+
+For more information on backing data from AWS CloudHSM, refer to the following URL:
 https://docs.aws.amazon.com/cloudhsm/latest/userguide/backups.html
-
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You want to build a decoupled, highly available and fault tolerant architecture for your application in AWS. You decide to use EC2, the Classic Load Balancer, Auto Scaling and Route 53. Which one of the following additional services should you involve in this architecture? [WL445]
 
@@ -924,9 +903,6 @@ For more information on the Simple Queue Service, please visit the following URL
 
 https://aws.amazon.com/sqs/
  
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You have been assigned the task of architecting an application in AWS. The architecture would consist of EC2, the Classic Load Balancer, Auto Scaling, and Route 53. You need to ensure that Blue-Green deployments are possible in this architecture. Which routing policy should you ideally use in Route 53 in order to achieve Blue-Green deployments? [WL446]
 
@@ -934,7 +910,6 @@ A. Simple
 B. Multivalue Answer
 C. Latency
 D. Weighted
-
 
 
 EXPLANATION: 
@@ -957,10 +932,8 @@ For more information, please visit the link below:
 https://d1.awsstatic.com/whitepapers/AWS_Blue_Green_Deployments.pdf (11 of 35). AWS explained with the proper diagram. 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 47
-Unattempted
-Domain :Define Performant Architectures
-A company is planning to deploy an application in AWS. This application requires an EC2 Instance to continuously perform log processing activities requiring Max 500MiB/s of data throughput. Which of the following is the best storage option for this requirement? [WL4]
+## 47:WL4: A company is planning to deploy an application in AWS. This application requires an EC2 Instance to continuously perform log processing activities requiring Max 500MiB/s of data throughput. Which of the following is the best storage option for this requirement? 
+
 A. EBS IOPS
 B. EBS SSD
 C. EBS Throughput Optimized
@@ -982,24 +955,16 @@ AWS Documentation mentions this, as shown below:
 For more information on EBS Volume Types, please visit the following URL:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
-Try now labs related to this question
-Introduction to Amazon Elastic Compute Cloud (EC2)
-This lab walks you through the steps to launch and configure a virtual machine in the Amazon cloud. 
-You will practice using Amazon Machine Images to launch Amazon EC2 Instances and use key pairs for SSH authentication to log into your instance. You will create a web page and publish it. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 48
-Unattempted
-Domain :Define Performant Architectures
-You are working as an AWS Architect for a start-up company. You have developed an application that will read out AWS Blogs to AWS professionals using "Amazon Polly". You need to perform a trial with the "Amazon S3" blog, in which the first "S3" should be read as "Amazon Simple Storage Service" while all subsequent "S3" should be read as "S3". 
-This test needs to be done in 2 different regions, us-west-1 & us-east-1. What could be done to perform the test successfully? [WL4]
+### 48:WL4: You are working as an AWS Architect for a start-up company. You have developed an application that will read out AWS Blogs to AWS professionals using "Amazon Polly". You need to perform a trial with the "Amazon S3" blog, in which the first "S3" should be read as "Amazon Simple Storage Service" while all subsequent "S3" should be read as "S3". 
+This test needs to be done in 2 different regions, us-west-1 & us-east-1. What could be done to perform the test successfully? 
+
 A. Using multiple Lexicons, create different alias for the word “S3” & apply in different orders. Upload Lexicons in us-west-1 region & use for both regions.
+
 B. Using multiple Lexicons, create different alias for the word “S3” & apply in different orders. Upload Lexicons in us-west-1 region & us-east-1 region.
+
 C. Using a single Lexicon, create different alias for the word “S3” & apply in different orders. Upload Lexicons in us-west-1 region & us-east-1 region.
+
 D. Using a single Lexicon, create different alias for the word “S3” & apply in different orders. Upload Lexicons in us-east-1 region & use for both regions. 
 
 
@@ -1013,10 +978,8 @@ https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 49
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You need to ensure that instances in a private subnet can access the Internet. The solution should be highly available and ensure less maintenance overhead. Which of the following would ideally fit this requirement? [WL4]
+## 49:WL4: You need to ensure that instances in a private subnet can access the Internet. The solution should be highly available and ensure less maintenance overhead. Which of the following would ideally fit this requirement? 
+
 A. Host the NAT Instance in the private subnet.
 B. Host the NAT Instance in the public subnet.
 C. Host the NAT Gateway in the private subnet.
@@ -1035,38 +998,20 @@ https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
 https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-network-internet-manual.html
 Shown below is a comparison of the NAT Gateway and NAT Instances as per the AWS Documentation. The documentation states that the NAT Gateway is highly available and requires less management. 
 
-
- 
-
 For more information on the above comparison, please visit the following URL:
-
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-comparison.html 
-Try now labs related to this question
-Creating NAT Gateways in AWS
-This lab walks you through the steps to Create A NAT Gateway and allow internet access to Instance in Private Subnet. 
-Credit Needed10
-Time 0 : 45
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 50
-Unattempted
-Domain :Define Performant Architectures
-You need to have a Data storage layer in AWS. Following are the key requirements:
+## 50:WL4: You need to have a Data storage layer in AWS. Following are the key requirements:
 
 a) Storage of JSON documents
-
 b) Availability of Indexes
-
 c) Automatic scaling
+What would be an ideal storage layer for the above requirements? 
 
-What would be an ideal storage layer for the above requirements? [WL4]
 A. AWS DynamoDB
 B. AWS EBS Volumes
 C. AWS S3
 D. AWS Glacier
-
 
 
 EXPLANATION: 
@@ -1080,31 +1025,14 @@ Amazon DynamoDB is a fully managed NoSQL database service that provides fast and
 For more information on DynamoDB, please visit the following URL:
 
 https://aws.amazon.com/dynamodb/faqs/
-Try now labs related to this question
-Introduction to AWS DynamoDB
-This lab walks you through to Amazon DynamoDB features. In this lab, we will create a table in Amazon DynamoDB to store information and then query that information from the DynamoDB table. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 52
-Unattempted
-Domain :Define Performant Architectures
-You are working with an educational website that provides online content for professional exams using WordPress. You have recently added Amazon Polly plugins to the website to provide students audio recordings for exam contents. 
-You are getting customer feedback on the speech rate being too fast & continuous. What changes would you make in your content to resolve this? [WL4] (Select Three)
-
+## 52:WL4: You are working with an educational website that provides online content for professional exams using WordPress. You have recently added Amazon Polly plugins to the website to provide students audio recordings for exam contents. 
+You are getting customer feedback on the speech rate being too fast & continuous. What changes would you make in your content to resolve this?  (Select Three)
 
 A. Add a pause using SSML tag between appropriate words & paragraphs. 
-
 B. Convert commas in content into the period. 
-
 C. Convert period in content into commas. 
-
 D. Add a tag as “Reduced” for appropriate words & paragraphs. 
-
 E. Add a tag as “Strong” for appropriate words & paragraphs. 
 
 
@@ -1118,38 +1046,25 @@ For more information on SSML Tags supported by Amazon Polly, refer to the follow
 
  https://docs.aws.amazon.com/polly/latest/dg/supported-ssml.html
 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 53
-Unattempted
-Domain :Design Cost-Optimized Architectures
-You are developing a mobile application for your company with DynamoDB as the back end and JavaScript as the front end. During application usage, you notice that there are spikes in the application especially in the DynamoDB write throughput. What would be the most cost-effective and scalable architecture for this application? [WL4]
+### 53:WL4: You are developing a mobile application for your company with DynamoDB as the back end and JavaScript as the front end. During application usage, you notice that there are spikes in the application especially in the DynamoDB write throughput. What would be the most cost-effective and scalable architecture for this application? 
+
 A. Autoscale DynamoDB to meet the requirements.
 B. Increase write capacity of DynamoDB tables to meet the peak loads.
 C. Create a service that pulls SQS messages and writes them to DynamoDB to handle sudden spikes in DynamoDB.
 D. Launch DynamoDB in Multi-AZ configuration with a global index to balance writes. 
 
 
-EXPLANATION: 
+EXPLANATION: DynamoDB AS
 Correct Answer – A
 
 For more information on DynamoDB auto-scaling, please refer to the below URL:
 
 https://aws.amazon.com/blogs/aws/new-auto-scaling-for-amazon-dynamodb/
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html
-Try now labs related to this question
-Introduction to AWS DynamoDB
-This lab walks you through to Amazon DynamoDB features. In this lab, we will create a table in Amazon DynamoDB to store information and then query that information from the DynamoDB table. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 54
-Unattempted
-Domain :Specify Secure Applications and Architectures
-You are building a large-scale confidential documentation web server on AWS such that all of its documentation will be stored on S3. One of the requirements is that it should not be publicly accessible from S3 directly, and CloudFront would be needed to accomplish this. Which method would satisfy the outlined requirements? [WL4] 
+## 54:WL4: You are building a large-scale confidential documentation web server on AWS such that all of its documentation will be stored on S3. One of the requirements is that it should not be publicly accessible from S3 directly, and CloudFront would be needed to accomplish this. Which method would satisfy the outlined requirements?  
+
 A. Create an Identity and Access Management (IAM) User for CloudFront and grant access to the objects in your S3 bucket to that IAM User.
 B. Create an Origin Access Identity (OAI) for CloudFront and grant access to the objects in your S3 bucket to that OAI.
 C. Create individual policies for each bucket the documents are stored in, and grant access only to CloudFront in these policies.
@@ -1164,15 +1079,9 @@ For more information on Origin Access Identity, please visit the link below:
 
 http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html
 
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 55
-Unattempted
-Domain :Specify Secure Applications and Architectures
-Your company is planning on hosting its development, test and production applications on EC2 Instances in AWS. The team is worried about how access control would be given to relevant IT Admins for each of the above environments. As an architect, what would you suggest to manage the relevant accesses? [WL4]
+## 55:WL4: Your company is planning on hosting its development, test and production applications on EC2 Instances in AWS. The team is worried about how access control would be given to relevant IT Admins for each of the above environments. As an architect, what would you suggest to manage the relevant accesses? 
+
 A. Add tags to the instances marking each environment and then segregate access using IAM Policies.
 B. Add Userdata to the underlying instances to mark each environment.
 C. Add Metadata to the underlying instances to mark each environment.
@@ -1191,22 +1100,10 @@ For more information on using tags, please visit the link below:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html
 
-Try now labs related to this question
-Introduction to AWS Identity Access Management(IAM)
-This lab walks you through the steps on how to create IAM Users, IAM Groups and adding IAM User to the IAM Group in AWS IAM service
-
-Credit Needed10
-Time 0 : 20
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 56
-Unattempted
-Domain :Design Resilient Architectures
-You want to set up a public website on AWS. Your requirements are as follows:
-
- You want the database and the application server running on AWS VPC.  You want the database to be able to connect to the Internet, specifically for patch upgrades. You do not want to receive any incoming requests from the Internet to the database. Which of the following solutions would best satisfy all these requirements? [WL4] 
+## 56:WL4: You want to set up a public website on AWS. Your requirements are as follows:
+You want the database and the application server running on AWS VPC.  You want the database to be able to connect to the Internet, specifically for patch upgrades. You do not want to receive any incoming requests from the Internet to the database. Which of the following solutions would best satisfy all these requirements?  
+ 
 A. Setup the database in a private subnet with a security group that only allows outbound traffic.
 B. Setup the database in a public subnet with a security group that only allows inbound traffic.
 C. Setup the database in a local data center and use a private gateway to connect the application to the database.
@@ -1217,30 +1114,19 @@ EXPLANATION:
 Correct Answer – D
 
 The below diagram from AWS Documentation showcases this architecture:
-
-
-
  
 
 For more information on the VPC Scenario for public and private subnets, please visit the link below:
 
 http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario2.html
 
-Try now labs related to this question
-How to Create Virtual Private Cloud (VPC) with AWS CloudFormation
-This lab walks you through how to create a VPC using AWS CloudFormation Stack. In this lab we will launch a AWS CloudFormation template to create a four-subnet Amazon VPC that spans two Availability Zones and a NAT that allows servers in the private subnets to communicate with the Internet in order to download packages and updates. 
-Credit Needed10
-Time 0 : 55
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 57
-Unattempted
-Domain :Design Cost-Optimized Architectures
-A company has a Redshift cluster for petabyte-scale data warehousing. The data within the cluster is easily reproducible from additional data stored on Amazon S3. The company wants to reduce the overall cost of running this Redshift cluster. Which scenario would best meet the needs of the running cluster while reducing the overall ownership of the cluster? [WL4] 
+## 57:WL4: A company has a Redshift cluster for petabyte-scale data warehousing. The data within the cluster is easily reproducible from additional data stored on Amazon S3. The company wants to reduce the overall cost of running this Redshift cluster. Which scenario would best meet the needs of the running cluster while reducing the overall ownership of the cluster?  
+
 A. Instead of implementing automatic daily backups, write a CLI script that creates manual snapshots every few days. Copy the manual snapshot to a secondary AWS region for disaster recovery situations.
+
 B. Enable automated snapshots but set the retention period to a lower number to reduce storage costs.
+
 C. Implement daily backups, but do not enable multi-region copy to save data transfer costs.
 D. Disable automated and manual snapshots on the cluster. 
 
@@ -1254,23 +1140,15 @@ For more information on Redshift Snapshots, please visit the URL below:
 
 http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html
 
- 
-
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 58
-Unattempted
-Domain :Design Resilient Architectures
-You want to set up an application in AWS, and the followings are the requirements:
+## 58:WL4: You want to set up an application in AWS, and the followings are the requirements:
 
 a) A Web tier hosted on EC2 Instances
-
 b) Session data to be written to DynamoDB
-
 c) Log files to be written to Microsoft SQL Server
+How would you ensure that the application writes data to a DynamoDB table? 
 
-How would you ensure that the application writes data to a DynamoDB table? [WL4]
 A. Add an IAM user to a running EC2 instance.
 B. Add an IAM User that allows write access to the DynamoDB table.
 C. Create an IAM role that allows read access to the DynamoDB table.
@@ -1284,8 +1162,6 @@ IAM roles are designed so that your applications can securely make API requests 
 For more information on IAM roles, please refer to the link below:
 
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
-
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## You are performing a Load Testing exercise on your application that is hosted on AWS. While testing your Amazon RDS MySQL DB Instance, you notice that your application becomes non-responsive when you reach 100% CPU utilization. Your application is read-heavy. Which methods would help scale your data-tier to meet the application’s needs? [WL459] (Select Three)
@@ -1311,7 +1187,7 @@ Application Shards
 In this example, we assume that our application currently doesn't have enough load to need an application shard for each category, but we want to plan ahead with growth in mind. To make future growth easier we make use of application shards. So our application code will act as if it has seven shards, but Hibernate will map those seven shards onto a smaller number of application shards. Each application shard will map to a MySQL database instance. By using this mapping we can distribute the load to best suit our needs. For our application, assume that sports and entertainment generate as much load as the other five categories combined. These two categories will map to one application shard and the other five categories will map to the other application shard. The two application shards will be mapped as follows. 
 
 
-For more information on sharding, please refer to the link below. https://forums.aws.amazon.com/thread.jspa? [WL4]messageID=203052
+For more information on sharding, please refer to the link below. https://forums.aws.amazon.com/thread.jspa? messageID=203052
  
 
 Amazon ElastiCache is a web service that makes it easy to deploy, operate, and scale an in-memory data store or cache in the cloud. The service improves the performance of web applications by allowing you to retrieve information from fast, managed, in-memory data stores, instead of relying entirely on slower disk-based databases. 
@@ -1322,19 +1198,8 @@ Option B is incorrect because it is not an ideal way to scale a database. Amazon
 
 Option F is invalid because the Multi-AZ feature is only a failover option.  
 
-Try now labs related to this question
-Introduction to AWS Relational Database Service
-This lab walks you through to the creation and testing of an Amazon Relational Database Service (Amazon RDS) database. We will create an RDS MySql Database and test the connection using MySQL Workbench. 
-Credit Needed10
-Time 0 : 50
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 61
-Unattempted
-Domain :Design Cost-Optimized Architectures
-You are designing a system which needs at minimum, 8 m4.large instances operating to service traffic. While designing a system for high availability in the us-east-1 region having 6 Availability Zones, your company needs to be able to handle the death of a full availability zone. How should you distribute the servers to save as much cost as possible, assuming all of the EC2 nodes are properly linked to an ELB? [WL4] Your VPC account can utilize us-east-1’s AZs a through f, inclusive.
+## 61:WL4: You are designing a system which needs at minimum, 8 m4.large instances operating to service traffic. While designing a system for high availability in the us-east-1 region having 6 Availability Zones, your company needs to be able to handle the death of a full availability zone. How should you distribute the servers to save as much cost as possible, assuming all of the EC2 nodes are properly linked to an ELB?  Your VPC account can utilize us-east-1’s AZs a through f, inclusive.
 
 A. 3 servers in each of AZs a through d, inclusive.
 B. 8 servers in each of AZs a and b.
@@ -1359,17 +1224,14 @@ In option C, we need to distribute 2 servers in each AZ. so, A=2, B=2, C=2, D=2,
 In option D, we need to distribute 4 servers in each AZ. so, A=4, B=4, C=4. Total servers used=12. 
 In the question, it's clearly mentioned that "the company needs to be handle death of full AZ and save as much cost as possible". In option C, we are using fewer servers i.e 10 servers distributed in more AZ's. 
 
-The question says" You are designing a system which needs at minimum, 8 m4.large instances operating to service traffic". Now it is clear that the number of minimum instances required should be 8. The next part of the question is that "How should you distribute the servers to save as much cost as possible, assuming all the EC2 nodes are properly linked to an ELB? [WL4]"
+The question says" You are designing a system which needs at minimum, 8 m4.large instances operating to service traffic". Now it is clear that the number of minimum instances required should be 8. The next part of the question is that "How should you distribute the servers to save as much cost as possible, assuming all the EC2 nodes are properly linked to an ELB? "
 
 We have to select the solution that should be cost-effective and more available. Based on this, Option B is not that much available. Because here you are using only 2 availability zones with 8 instances in each i.e. 16 instances. 
 So, Option C is the correct and more suitable here. 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 62
-Unattempted
-Domain :Design Cost-Optimized Architectures
-You have been given a business requirement to retain log files for your application for 10 years. You need to regularly retrieve the most recent logs for troubleshooting. Your logging system must be cost-effective, given the large volume of logs. Which technique would you use to meet these requirements? [WL4]
+## 62:WL4: You have been given a business requirement to retain log files for your application for 10 years. You need to regularly retrieve the most recent logs for troubleshooting. Your logging system must be cost-effective, given the large volume of logs. Which technique would you use to meet these requirements? 
 
 A. Store your log in Amazon CloudWatch Logs.
 B. Store your logs in Amazon Glacier.
@@ -1387,19 +1249,8 @@ For more information on Lifecycle management, please refer to the link below:
 
 http://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html
 
-Try now labs related to this question
-Introduction to Amazon Simple Storage Service (S3)
-This lab walks you through to Amazon Simple Storage Service. Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. In this lab we will demonstrate AWS S3 by creating a sample S3 bucket, uploading an object to S3 bucket and setting up bucket permission and policy. 
-Credit Needed10
-Time 0 : 30
-Try Now
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 63
-Unattempted
-Domain :Design Resilient Architectures
-An application in AWS is currently running in the Singapore region. You have been asked to implement disaster recovery for the same such that if the application goes down in the Singapore region, it has to be started in the Asia region. To implement disaster recovery, you need a disaster recovery strategy. Which of the below options would you consider for that? [WL4]
+## 63:WL4: An application in AWS is currently running in the Singapore region. You have been asked to implement disaster recovery for the same such that if the application goes down in the Singapore region, it has to be started in the Asia region. To implement disaster recovery, you need a disaster recovery strategy. Which of the below options would you consider for that? 
 
  
 A. Nothing, because all AMIs, by default, are available in any region as long as they are created within the same account.

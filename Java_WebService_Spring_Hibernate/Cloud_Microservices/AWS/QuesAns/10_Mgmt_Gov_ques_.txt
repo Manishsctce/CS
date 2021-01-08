@@ -48,6 +48,29 @@ https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and
 
 Check out this AWS CloudTrail Cheat Sheet:
 https://tutorialsdojo.com/aws-cheat-sheet-aws-cloudtrail/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### You are working as an AWS Architect for a global insurance firm. For the web application, you are using S3 buckets and have configured CloudFront to cache image files. For audit purposes, you have created a CloudTrail trail in each region and the events logs files are logged in S3 bucket in the us-west-1 region. 
+There have been changes in CloudFront which have caused all traffic being routed to the origin, resulting in increased latency for users in other continents. After scrutinizing CloudTrail logs, you found that there are duplicate CloudFront events being logged. What configuration changes would you perform to eliminate duplicate CloudFront logs? [WL438] 
+
+A. Using AWS CLI, update CloudTrail trail to disable global service events that are delivered in all regions except US-West.
+B. Using AWS CLI, change the configuration of a trail to logging a single region instead of logging all regions.
+C. Using AWS console, update CloudTrail trail to disable global service events to be delivered in all regions except US-West.
+D. Using the AWS console, change the configuration of a trail to logging a single region instead of logging all regions. 
+
+
+EXPLANATION: cloudTrail , cloudFront
+Correct Answer – A
+
+Amazon CloudFront is a global service for which events are delivered to CloudTrail trails which include global services. 
+To avoid duplicate Amazon CloudFront events, you can disable these events from delivering to CloudTrail trails in all regions & enable in only one region. 
+
+Options B & D is incorrect as if CloudTrail trail is changed to logging a single region, global service event logging is off automatically, this will disable CloudFront events being logged instead of avoiding duplicate logs. 
+
+Option C is incorrect as Changes to Global service event logs can be done only via AWS CLI & not via AWS console. 
+
+For more information on Global Service Events with CloudTrail, refer to the following URL:
+https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-regional-and-global-services
+
 =======================================
 ############## CloudWatch #############
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -319,6 +342,31 @@ https://aws.amazon.com/config/
 
 Check out this AWS Config Cheat Sheet:
 https://tutorialsdojo.com/aws-config/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 64:WL5: You have a requirement to get a snapshot of the current configuration of resources in your AWS Account. Which service can be used for this purpose? 
+
+A. AWS CodeDeploy
+B. AWS Trusted Advisor
+C. AWS Config
+D. AWS IAM
+
+
+EXPLANATION: config
+Correct Answer - C
+
+AWS Documentation mentions the following:
+
+With AWS Config, you can do the following:
+> Evaluate your AWS resource configurations for desired settings. 
+- Get a snapshot of the current configurations of the supported resources that are associated with your AWS account. 
+- Retrieve configurations of one or more resources that exist in your account. 
+- Retrieve historical configurations of one or more resources. 
+- Receive a notification whenever a resource is created, modified or deleted. 
+- View relationships between resources. 
+- For example, you might want to find all resources that use a particular security group. 
+
+For more information on AWS Config, please visit the below URL:
+http://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html
 
 =======================================
 ############ AWS OpsWorks #############

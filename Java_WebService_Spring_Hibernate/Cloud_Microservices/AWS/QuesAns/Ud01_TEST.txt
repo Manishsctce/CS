@@ -1484,12 +1484,16 @@ D. CloudWatch
 
 
 EXPLANATION: 
-ANSWER : 
-AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure.
-CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, API calls, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting.
+ANSWER : C
+
+> AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. 
+- With CloudTrail, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure.
+- CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, API calls, and other AWS services. This event history simplifies security analysis, resource change tracking, and troubleshooting.
 
 CloudWatch is incorrect because although this is also a monitoring service, it cannot track the API calls to your AWS resources.
+
 AWS X-Ray is incorrect because this is not a suitable service to use to track each API call to your AWS resources. It just helps you debug and analyze your microservices applications with request tracing so you can find the root cause of issues and performance.
+
 Redshift Spectrum is incorrect because this is not a monitoring service but rather a feature of Amazon Redshift that enables you to query and analyze all of your data in Amazon S3 using the open data formats you already use, with no data loading or transformations needed.
 
 Reference:
@@ -1831,18 +1835,33 @@ D. Use 3rd party Single Sign-On solutions such as Atlassian Crowd, OKTA, OneLogi
 E. Configure an IAM role and an IAM Policy to access the bucket.
 
 
-EXPLANATION: 
-ANSWER : 
-The ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## refers to one of the common scenarios for temporary credentials in AWS. Temporary credentials are useful in scenarios that involve identity federation, delegation, cross-account access, and IAM roles. In this example, it is called enterprise identity federation considering that you also need to set up a single sign-on (SSO) capability.
+EXPLANATION: IAM, SSO
+ANSWER : A, E
+The refers to one of the common scenarios for temporary credentials in AWS. 
+> Temporary credentials are useful in scenarios that involve identity federation, delegation, cross-account access, and IAM roles. 
+- In this example, it is called enterprise identity federation considering that you also need to set up a single sign-on (SSO) capability.
+
 The correct answers are:
-- Setup a Federation proxy or an Identity provider
-- Setup an AWS Security Token Service to generate temporary tokens
+- Setup a Federation proxy or an Identity provider and Setup an AWS Security Token Service to generate temporary tokens
 - Configure an IAM role and an IAM Policy to access the bucket.
-In an enterprise identity federation, you can authenticate users in your organization's network, and then provide those users access to AWS without creating new AWS identities for them and requiring them to sign in with a separate user name and password. This is known as the single sign-on (SSO) approach to temporary access. AWS STS supports open standards like Security Assertion Markup Language (SAML) 2.0, with which you can use Microsoft AD FS to leverage your Microsoft Active Directory. You can also use SAML 2.0 to manage your own solution for federating user identities.
-Using 3rd party Single Sign-On solutions such as Atlassian Crowd, OKTA, OneLogin and many others is incorrect since you don't have to use 3rd party solutions to provide the access. AWS already provides the necessary tools that you can use in this situation.
-Mapping each individual user to a designated user folder in S3 using Amazon WorkDocs to access their personal documents is incorrect as there is no direct way of integrating Amazon S3 with Amazon WorkDocs for this particular scenario. Amazon WorkDocs is simply a fully managed, secure content creation, storage, and collaboration service. With Amazon WorkDocs, you can easily create, edit, and share content. And because it’s stored centrally on AWS, you can access it from anywhere on any device.
-Setting up a matching IAM user for each of the 1200 users in your corporate directory that needs access to a folder in the S3 bucket is incorrect since creating that many IAM users would be unnecessary. Also, you want the account to integrate with your AD or LDAP directory, hence, IAM Users does not fit these criteria.
+
+> In an enterprise identity federation, you can authenticate users in your organization's network, and 
+- then provide those users access to AWS without creating new AWS identities for them and 
+- requiring them to sign in with a separate user name and password. 
+- This is known as the single sign-on (SSO) approach to temporary access. 
+
+> AWS STS supports open standards like Security Assertion Markup Language (SAML) 2.0, with which you can use Microsoft AD FS to leverage your Microsoft Active Directory. 
+- You can also use SAML 2.0 to manage your own solution for federating user identities.
+
+- Option-D is incorrect since you don't have to use 3rd party solutions to provide the access. 
+- AWS already provides the necessary tools that you can use in this situation.
+
+Option-C is incorrect as there is no direct way of integrating Amazon S3 with Amazon WorkDocs for this particular scenario.
+-  Amazon WorkDocs is simply a fully managed, secure content creation, storage, and collaboration service. 
+- With Amazon WorkDocs, you can easily create, edit, and share content. 
+- And because it’s stored centrally on AWS, you can access it from anywhere on any device.
+
+Option-B is incorrect since creating that many IAM users would be unnecessary. Also, you want the account to integrate with your AD or LDAP directory, hence, IAM Users does not fit these criteria.
 
 References:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html

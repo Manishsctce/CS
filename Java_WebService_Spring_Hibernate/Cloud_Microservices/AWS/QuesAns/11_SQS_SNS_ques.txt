@@ -229,6 +229,57 @@ Options A & C are incorrect as Delay queues let you postpone the delivery of new
 
 Option D is incorrect as visibility timeout should be set to the maximum time it takes to process & delete the message from the queue. If visibility timeout is set to below 60 seconds, the message will be again visible to other consumers while the original consumer is already working on it.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 28:WL5: You are working as an AWS Architect for a retail website having an application deployed on EC2 instance. You are using the SQS queue for storing messages between Web server & database servers. Due to heavy load on the website, there are some cases where clients are getting price details before logging to the website. 
+To resolve this issue, you are planning to migrate to the SQS FIFO queue that will preserve the order of messages. You have created a new FIFO queue with message delay time per queue instead of per message, deleting an existing standard queue. What are the prerequisites to have a smooth migration to the SQS FIFO queue?  (SELECT TWO)
+
+
+A. Each FIFO queue should have Message group ID only when multiple ordered message groups are required. 
+
+B. For application with identical message bodies, use content-based deduplication ID while for unique message bodies, use unique deduplication ID. 
+
+C. Each FIFO queue should have a Message group ID irrespective of multiple ordered message groups required. 
+
+D. For application with identical message bodies, use unique deduplication ID, while for unique message bodies, use content-based deduplication ID. 
+
+
+EXPLANATION: SQS
+Correct Answers – C and D
+
+> FIFO queue uses Message Deduplication ID & Message Group ID per message. 
+
+> Message Deduplication ID is used as a token while sending messages. 
+- The message Group ID is used as a tag, based upon various groups so that messages in a group process in an orderly manner. 
+
+Option A is incorrect as Each FIFO queue requires a Message group ID. If there are no multiple ordered message groups, you can specify the same message group ID. 
+Option B is incorrect as if the application is using identical message bodies, a unique deduplication ID is required per message while for the application using unique message bodies, content-based deduplication ID should be used.  
+
+For more information on moving from an SQS Standard Queue to SQS FIFO queues, refer to the following URL:
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-moving
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 36:WL5: You are working as an AWS Architect for an IT firm that is developing a new application for traders in the Capital market. There would be multiple trading orders initiated by clients. You have multiple EC2 instance with Auto-Scaling groups to process these trades parallelly. Also, each trade should be stateful and processed independently. What could be used to meet this requirement? 
+
+A. Use SQS FIFO queue with Receive Request Attempt ID.
+B. Use SQS FIFO queue with Sequence number.
+C. Use SQS FIFO queue with Message Group ID.
+D. Use SQS FIFO queue with Deduplication ID. 
+
+
+EXPLANATION: SQS
+Correct Answer – C
+
+> Messages which are part of a specific message group will be processed in a strict orderly manner using Message group ID. 
+- This message group ID helps to process messages by multiples consumers in FIFO manner while keeping session data of each trade initiated by users. 
+
+Option A is incorrect as the purpose of Receive request Attempt ID is adding a deduplication token for receive message, this will not suffice requirement of processing multiple message from different trades independently. 
+
+Option B is incorrect as SQS FIFO sequence number is non-sequence number added to each message, it will not suffice requirement of processing multiple message from different trades independently. 
+
+Option D is incorrect as the SQS FIFO queue with Deduplication ID will not suffice requirement of multiple message being process parallelly by multiple consumers with separate session data for each.   
+For more information on managing SQS FIFO queues, refer to the following URL:
+
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ### A company has a workflow that sends video files from their on-premise system to AWS for transcoding. They use EC2 worker instances to pull transcoding jobs from SQS. Why is SQS an appropriate service for this scenario? [WL318]
 
 A. SQS guarantees the order of the messages.

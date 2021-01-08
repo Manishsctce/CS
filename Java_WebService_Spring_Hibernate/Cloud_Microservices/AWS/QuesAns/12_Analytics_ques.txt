@@ -2,8 +2,9 @@
 ############ AWS KINESIS ##############
 ############ AWS Athena ###############
 ############## AWS Glue ###############
+########## AWS CloudSearch ############
 ############## AWS EMR ################
-
+######### AWS Data Pipeline ###########
 
 =======================================
 ############ AWS KINESIS ##############
@@ -177,7 +178,31 @@ Option D is incorrect as in the above case, we require only details of Client IP
 For more information on using Amazon Athena to query Network Load Balancer logs, refer to the following URL:
  https://docs.aws.amazon.com/athena/latest/ug/networkloadbalancer-classic-logs.html
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 10:WL5: You are working for a global financial company. Company locations spread across various countries upload transaction details data to S3 bucket in the US-West region. A large amount of data is uploaded on a daily basis from each of these locations simultaneously. You are using Amazon Athena to query this data & create reports using Amazon QuickSight to create a daily dashboard to the management team. In some cases, while running queries, you are observing Amazon S3 exception errors. 
+Also, in the monthly bills, a high percentage of cost is associated with Amazon Athena. Which of the following could be helpful in eliminating S3 errors while querying data and reducing the cost associated with queries?  (SELECT TWO)
 
+
+A. Partition data based upon user credentials
+B. Partition data based upon date & location. 
+C. Create a separate Workgroups based upon user groups. 
+D. Create a single Workgroup for all users. 
+
+
+EXPLANATION: Athena
+Correct Answers – B and C
+
+> AWS Athena pricing is based upon per query and the amount of data scanned in each query. 
+- In the above case, each regional office is uploading a large amount of data simultaneously, this data needs to be partitioned based upon location & date. 
+- A separate Workgroup can be created based upon users, teams, application or workloads. 
+- This will lead to minimizing the amount of data scanned for each query, improving performance & reducing cost. 
+
+Option A is incorrect as partitioning the data on user credentials is irrelevant here. 
+Option D is incorrect as a single Workgroup will not decrease the amount of data scanned per query. 
+
+For more information on Partitioning data & using Workgroups, refer to the following URLs:
+https://docs.aws.amazon.com/athena/latest/ug/partitions.html
+https://docs.aws.amazon.com/athena/latest/ug/manage-queries-control-costs-with-workgroups.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -204,6 +229,28 @@ ANSWER :
 
 =======================================
 ############## AWS Glue ###############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are working for a global financial company. Company locations spread across various countries upload transaction data to S3 bucket in the US-West region. You will be using AWS Glue & Amazon Athena to further analyze this data. You are using Crawler that will scan all data from S3 buckets & populate Glue Data Catalog, to which Amazon Athena will query. 
+A large amount of CSV data is uploaded on a daily basis from all the global locations simultaneously. To decrease scanning time while scanning data in S3 buckets, you need to ensure only changes in datasets are scanned. Which of the following configurations would meet this requirement? [WL517]
+
+A. Reset Job Bookmark in AWS Glue.
+B. Disable Job Bookmark in AWS Glue.
+C. Pause Job Bookmark in AWS Glue. 
+D. Enable Job Bookmark in AWS Glue. 
+
+
+EXPLANATION: Glue
+Correct Answer – D
+
+> AWS Glue keeps a track of processed data using Job Bookmark. 
+- Enabling Job Bookmark will help to scan only changes since the last bookmark and prevent the processing of whole data again. 
+
+Option A is incorrect as resetting Job Bookmark in AWS Glue will reprocess all data & will not prevent the reprocessing of already scanned data. Option B is incorrect as disabling Job Bookmark will process all data each time. 
+Option C is incorrect as pausing Job Bookmark will process incremental data since the last data scan but will not update state information. So, for the succeeding process, it will start scanning all data since the last bookmark.  
+
+For more information on Job Bookmark in AWS Glue, please refer to the following URL,
+
+https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
@@ -229,6 +276,36 @@ EXPLANATION :
 ANSWER : 
 
 
+=======================================
+########## AWS CloudSearch ############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## An organization has a requirement to store 10TB worth of scanned files across multiple availability zones. It plans to have a search application in place to search through the scanned files. 
+Which of the following options is ideal for implementing the search facility? [WL516]
+
+A. Use S3 with reduced redundancy to store and serve the scanned files. Install a commercial search application on EC2 Instances and configure with Auto-Scaling and an ElasticLoad Balancer.
+
+B. Model the environment using CloudFormation. Use an EC2 instance running Apache webserver and an open-source search application, stripe multiple standard EBS volumes together to store the scanned files with a search index.
+
+C. Use S3 with standard redundancy to store and serve the scanned files. Use CloudSearch for query processing, and use Elastic Beanstalk to deploy the website across multiple Availability Zones.
+
+D. Use a single-AZ RDS MySQL instance to store the search index for the scanned files and use an EC2 instance with a custom application to search based on the index. 
+
+
+EXPLANATION: CloudSearch
+Correct Answer – C
+
+With Amazon CloudSearch, you can quickly add rich search capabilities to your website or application. 
+- You don't need to become a search expert or worry about hardware provisioning, setup, and maintenance. 
+- With a few clicks in the AWS Management Console, you can create a search domain and upload the data that you want to make searchable, and 
+- Amazon CloudSearch will automatically provision the required resources and deploy a highly tuned search index. 
+- You can easily change your search parameters, fine-tune search relevance, and apply new settings at any time. 
+- As your volume of data and traffic fluctuates, Amazon CloudSearch seamlessly scales to meet your needs. 
+ 
+For more information on AWS CloudSearch, please visit the link below:
+https://aws.amazon.com/cloudsearch/
+
+For more information, please check the URL below:
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/awseb-dg.pdf
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
@@ -280,30 +357,52 @@ EXPLANATION :
 ANSWER : 
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
-
-
-EXPLANATION : 
-ANSWER : 
-
+=======================================
+######### AWS Data Pipeline ###########
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## An International company has deployed a multi-tier web application that relies on DynamoDB in a single region. For regulatory reasons they need disaster recovery capability in a separate region with a Recovery Time Objective of 2 hours and a Recovery Point Objective of 24 hours. They should synchronize their data on a regular basis and be able to provision me web application rapidly using CloudFormation.
+The objective is to minimize changes to the existing web application, control the throughput of DynamoDB used for the synchronization of data and synchronize only the modified elements.
+Which design would you choose to meet these requirements?
 
 
-EXPLANATION : 
-ANSWER : 
+A. Use AWS data Pipeline to schedule a DynamoDB cross region copy once a day. create a Lastupdated' attribute in your DynamoDB table that would represent the timestamp of the last update and use it as a filter.
+
+B. Use EMR and write a custom script to retrieve data from DynamoDB in the current region using a SCAN operation and push it to QynamoDB in the second region.
+
+C. Use AWS data Pipeline to schedule an export of the DynamoDB table to S3 in the current region once a day then schedule another task immediately after it that will import data from S3 to DynamoDB in the other region.
+
+D. Send also each Ante into an SQS queue in me second region; use an auto-scaiing group behind the SQS queue to replay the write in the second region.
 
 
+
+EXPLANATION : Data pipeline
+ANSWER : C
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 
+## Your company is planning on setting up an application that will consist of a presentation layer and a datastore in DynamoDB. The data in DynamoDB will only used frequently within the week in which the data is inserted. After a week, the data would tend to become stale. But the stale data would need to be available on durable storage for future analysis on historical data. Which of the following would be the ideal implementation steps for this sort of architecture? [WL760] Choose 2 answers from the options given below
+
+A. Setup DynamoDB tables. Scan the tables for older data and transfer them to another DynamoDB table. 
+B. Setup DynamoDB tables on a weekly basis. Ensure the most recent week table has a higher throughput setup. 
+C. Use the AWS Data Pipeline service to transfer the older data to EBS volumes
+D. Use the AWS Data Pipeline service to transfer the older data to Amazon S3
 
 
-EXPLANATION : 
-ANSWER : 
+EXPLANATION: DynamoDB , Data Pipeline
+Answer – B and D
 
+The AWS Documentation mentions the following
 
+> AWS Data Pipeline is a web service that you can use to automate the movement and transformation of data. 
+- With AWS Data Pipeline, you can define data-driven workflows, so that tasks can be dependent on the successful completion of previous tasks. 
+- You define the parameters of your data transformations and AWS Data Pipeline enforces the logic that you've set up. 
+
+Option A is invalid because this would be an inefficient way to handle the data. You will be using too much throughput in the scan process. 
+Option C is invalid because EBS volumes is not durable storage
+
+For more information on DynamoDB best practises and AWS Data Pipeline, please refer to the below URL
+
+https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/what-is-datapipeline.html
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

@@ -243,6 +243,52 @@ You wish to use MFA, which means developers can delete the production-based reso
 AWS Multi-Factor Authentication (MFA) is a simple best practice that adds an extra layer of protection on top of your user name and password. With MFA enabled, when a user signs in to an AWS website, they will be prompted for their user name and password (the first factor—what they know), as well as for an authentication code from their AWS MFA device (the second factor—what they have). Taken together, these multiple factors provide increased security for your AWS account settings and resources. 
 Organizations have good control on newly created accounts rather than old aws accounts. Because they can easily monitor and maintain(few) assigned permissions on accounts and they delete those accounts once the required task will be done. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 60: A tech company that you are working for has undertaken a Total Cost Of Ownership (TCO) analysis evaluating the use of Amazon S3 versus acquiring more storage hardware. The result was that all 1200 employees would be granted access to use Amazon S3 for storage of their personal documents.
+Which of the following will you need to consider so you can set up a solution that incorporates single sign-on feature from your corporate AD or LDAP directory and also restricts access for each individual user to a designated user folder in an S3 bucket? (Select TWO.)
+
+A. Set up a Federation proxy or an Identity provider, and use AWS Security Token Service to generate temporary tokens.
+B. Set up a matching IAM user for each of the 1200 users in your corporate directory that needs access to a folder in the S3 bucket.
+C. Map each individual user to a designated user folder in S3 using Amazon WorkDocs to access their personal documents.
+D. Use 3rd party Single Sign-On solutions such as Atlassian Crowd, OKTA, OneLogin and many others.
+E. Configure an IAM role and an IAM Policy to access the bucket.
+
+
+EXPLANATION: IAM, SSO
+ANSWER : A, E
+The refers to one of the common scenarios for temporary credentials in AWS. 
+> Temporary credentials are useful in scenarios that involve identity federation, delegation, cross-account access, and IAM roles. 
+- In this example, it is called enterprise identity federation considering that you also need to set up a single sign-on (SSO) capability.
+
+The correct answers are:
+- Setup a Federation proxy or an Identity provider and Setup an AWS Security Token Service to generate temporary tokens
+- Configure an IAM role and an IAM Policy to access the bucket.
+
+> In an enterprise identity federation, you can authenticate users in your organization's network, and 
+- then provide those users access to AWS without creating new AWS identities for them and 
+- requiring them to sign in with a separate user name and password. 
+- This is known as the single sign-on (SSO) approach to temporary access. 
+
+> AWS STS supports open standards like Security Assertion Markup Language (SAML) 2.0, with which you can use Microsoft AD FS to leverage your Microsoft Active Directory. 
+- You can also use SAML 2.0 to manage your own solution for federating user identities.
+
+- Option-D is incorrect since you don't have to use 3rd party solutions to provide the access. 
+- AWS already provides the necessary tools that you can use in this situation.
+
+Option-C is incorrect as there is no direct way of integrating Amazon S3 with Amazon WorkDocs for this particular scenario.
+-  Amazon WorkDocs is simply a fully managed, secure content creation, storage, and collaboration service. 
+- With Amazon WorkDocs, you can easily create, edit, and share content. 
+- And because it’s stored centrally on AWS, you can access it from anywhere on any device.
+
+Option-B is incorrect since creating that many IAM users would be unnecessary. Also, you want the account to integrate with your AD or LDAP directory, hence, IAM Users does not fit these criteria.
+
+References:
+https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html
+https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html
+https://aws.amazon.com/blogs/security/writing-iam-policies-grant-access-to-user-specific-folders-in-an-amazon-s3-bucket/
+
+Check out this AWS IAM Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-aws-identity-and-access-management-iam/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
 
@@ -369,6 +415,53 @@ ANSWER :
 
 =======================================
 ###### AWS Single-Sign-on (SSO) #######
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 60: A tech company that you are working for has undertaken a Total Cost Of Ownership (TCO) analysis evaluating the use of Amazon S3 versus acquiring more storage hardware. The result was that all 1200 employees would be granted access to use Amazon S3 for storage of their personal documents.
+Which of the following will you need to consider so you can set up a solution that incorporates single sign-on feature from your corporate AD or LDAP directory and also restricts access for each individual user to a designated user folder in an S3 bucket? (Select TWO.)
+
+A. Set up a Federation proxy or an Identity provider, and use AWS Security Token Service to generate temporary tokens.
+B. Set up a matching IAM user for each of the 1200 users in your corporate directory that needs access to a folder in the S3 bucket.
+C. Map each individual user to a designated user folder in S3 using Amazon WorkDocs to access their personal documents.
+D. Use 3rd party Single Sign-On solutions such as Atlassian Crowd, OKTA, OneLogin and many others.
+E. Configure an IAM role and an IAM Policy to access the bucket.
+
+
+EXPLANATION: IAM, SSO
+ANSWER : A, E
+The refers to one of the common scenarios for temporary credentials in AWS. 
+> Temporary credentials are useful in scenarios that involve identity federation, delegation, cross-account access, and IAM roles. 
+- In this example, it is called enterprise identity federation considering that you also need to set up a single sign-on (SSO) capability.
+
+The correct answers are:
+- Setup a Federation proxy or an Identity provider and Setup an AWS Security Token Service to generate temporary tokens
+- Configure an IAM role and an IAM Policy to access the bucket.
+
+> In an enterprise identity federation, you can authenticate users in your organization's network, and 
+- then provide those users access to AWS without creating new AWS identities for them and 
+- requiring them to sign in with a separate user name and password. 
+- This is known as the single sign-on (SSO) approach to temporary access. 
+
+> AWS STS supports open standards like Security Assertion Markup Language (SAML) 2.0, with which you can use Microsoft AD FS to leverage your Microsoft Active Directory. 
+- You can also use SAML 2.0 to manage your own solution for federating user identities.
+
+- Option-D is incorrect since you don't have to use 3rd party solutions to provide the access. 
+- AWS already provides the necessary tools that you can use in this situation.
+
+Option-C is incorrect as there is no direct way of integrating Amazon S3 with Amazon WorkDocs for this particular scenario.
+-  Amazon WorkDocs is simply a fully managed, secure content creation, storage, and collaboration service. 
+- With Amazon WorkDocs, you can easily create, edit, and share content. 
+- And because it’s stored centrally on AWS, you can access it from anywhere on any device.
+
+Option-B is incorrect since creating that many IAM users would be unnecessary. Also, you want the account to integrate with your AD or LDAP directory, hence, IAM Users does not fit these criteria.
+
+References:
+https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html
+https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html
+https://aws.amazon.com/blogs/security/writing-iam-policies-grant-access-to-user-specific-folders-in-an-amazon-s3-bucket/
+
+Check out this AWS IAM Cheat Sheet:
+https://tutorialsdojo.com/aws-cheat-sheet-aws-identity-and-access-management-iam/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 7:WL7: You are working as an AWS Architect for a financial company having intranet application hosted on AWS. They are using AWS SSO for granting access to users to AWS resources. During the annual security audit, Auditors have concerns on users sign-in process & prompted non-compliance for the security process when sign-in is observed from users using unknown locations or devices. Auditors are looking for enhancing security controls to be in place for such users. What would you use to improve the security process during user sign-in? 
@@ -572,3 +665,28 @@ Options B,C and D are incorrect since here the keys are maintained by AWS
  
 For more information on cloud HSM, please refer to the below link
 https://aws.amazon.com/cloudhsm/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## You are working as an AWS Administrator for a software firm that has a popular Web application hosted on EC2 instance in various regions. You are using AWS CloudHSM for offloading SSL/TLS processing from Web servers. Since this is a critical application for the firm, you need to ensure that proper backups are performed for data in AWS CloudHSM on a daily basis. What does the AWS CloudHSM use to perform a secure & durable backup? [WL444]
+
+A. Ephemeral backup key (EBK) is used to encrypt data & Persistent backup key (PBK) is used to encrypt EBK before saving data to the Amazon S3 bucket in the same region as that of AWS CloudHSM cluster.
+
+B. Data Key is used to encrypt data & Customer Managed Key (CMK) is used to encrypt Data Key before saving data to the Amazon S3 bucket in the same region as that of AWS CloudHSM cluster.
+
+C. Ephemeral Backup Key (EBK) is used to encrypt data & Persistent backup Key (PBK) is used to encrypt EBK before saving data to the Amazon S3 bucket in a different region than the AWS CloudHSM cluster.
+
+D. Data Key is used to encrypt data & Customer Managed Key (CMK) is used to encrypt Data Key before saving data to Amazon S3 bucket in a different region than the AWS CloudHSM cluster. 
+
+
+EXPLANATION: CloudHSM
+Correct Answer – A
+
+To backup the AWS CloudHSM data to Amazon S3 buckets in the same region, AWS CloudHSM generates a unique Ephemeral Backup Key (EBK) to encrypt all data using AES 256-bit encryption key. This Ephemeral Backup Key (EBK) is further encrypted using Persistent Backup Key (PBK) which is also AES 256-bit encryption key. 
+
+Option B is incorrect as Data Key & Customer Managed Key are not used by AWS CloudHSM for the encryption of data, instead of that EBK & PBK are used. 
+
+Option C is incorrect. While taking the backup of data from different AWS CloudHSM clusters to the Amazon S3 bucket, the Amazon S3 bucket should be in the same region as that of the AWS CloudHSM cluster. 
+
+Option D is incorrect as Data Key & Customer Managed Key are not used by AWS CloudHSM for the encryption of data, instead of that EBK & PBK are used for encrypting and saving data to the Amazon S3 bucket in the same region. 
+
+For more information on backing data from AWS CloudHSM, refer to the following URL:
+https://docs.aws.amazon.com/cloudhsm/latest/userguide/backups.html

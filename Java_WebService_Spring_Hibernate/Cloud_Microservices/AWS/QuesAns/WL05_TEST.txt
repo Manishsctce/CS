@@ -215,14 +215,17 @@ D. Create a single Workgroup for all users.
 EXPLANATION: 
 Correct Answers – B and C
 
-AWS Athena pricing is based upon per query and the amount of data scanned in each query. In the above case, each regional office is uploading a large amount of data simultaneously, this data needs to be partitioned based upon location & date. A separate Workgroup can be created based upon users, teams, application or workloads. This will lead to minimizing the amount of data scanned for each query, improving performance & reducing cost. 
-Option A is incorrect as partitioning the data on user credentials is irrelevant here. Option D is incorrect as a single Workgroup will not decrease the amount of data scanned per query. 
-For more information on Partitioning data & using Workgroups, refer to the following URLs:
+> AWS Athena pricing is based upon per query and the amount of data scanned in each query. 
+- In the above case, each regional office is uploading a large amount of data simultaneously, this data needs to be partitioned based upon location & date. 
+- A separate Workgroup can be created based upon users, teams, application or workloads. 
+- This will lead to minimizing the amount of data scanned for each query, improving performance & reducing cost. 
 
+Option A is incorrect as partitioning the data on user credentials is irrelevant here. 
+Option D is incorrect as a single Workgroup will not decrease the amount of data scanned per query. 
+
+For more information on Partitioning data & using Workgroups, refer to the following URLs:
 https://docs.aws.amazon.com/athena/latest/ug/partitions.html
 https://docs.aws.amazon.com/athena/latest/ug/manage-queries-control-costs-with-workgroups.html
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 11:WL5: You are planning to use Auto Scaling groups to maintain the performance of your web application. How would you ensure that the scaling activity has sufficient time to stabilize without executing another scaling action? 
 
@@ -232,7 +235,7 @@ C. Enable the Auto Scaling cross zone balancing feature.
 D. Disable CloudWatch alarms till the application stabilizes. 
 
 
-EXPLANATION: 
+EXPLANATION: AS
 Correct Answer – B
 
 AWS Documentation mentions the following:
@@ -250,7 +253,7 @@ C. Change the Inbound NACL to deny access from the suspecting IP.
 D. Change the Outbound NACL to deny access from the suspecting IP. 
 
 
-EXPLANATION: 
+EXPLANATION: NACL
 Correct Answer – C
 
 Options A and B are invalid because the Security Groups block traffic by default. You can use NACLs as an additional security layer for the subnet to deny traffic. 
@@ -334,12 +337,13 @@ C. Use S3 with standard redundancy to store and serve the scanned files. Use Clo
 D. Use a single-AZ RDS MySQL instance to store the search index for the scanned files and use an EC2 instance with a custom application to search based on the index. 
 
 
-EXPLANATION: 
+EXPLANATION: CloudSearch
 Correct Answer – C
 
 With Amazon CloudSearch, you can quickly add rich search capabilities to your website or application. 
 - You don't need to become a search expert or worry about hardware provisioning, setup, and maintenance. 
-- With a few clicks in the AWS Management Console, you can create a search domain and upload the data that you want to make searchable, and Amazon CloudSearch will automatically provision the required resources and deploy a highly tuned search index. 
+- With a few clicks in the AWS Management Console, you can create a search domain and upload the data that you want to make searchable, and 
+- Amazon CloudSearch will automatically provision the required resources and deploy a highly tuned search index. 
 - You can easily change your search parameters, fine-tune search relevance, and apply new settings at any time. 
 - As your volume of data and traffic fluctuates, Amazon CloudSearch seamlessly scales to meet your needs. 
  
@@ -358,11 +362,14 @@ C. Pause Job Bookmark in AWS Glue.
 D. Enable Job Bookmark in AWS Glue. 
 
 
-EXPLANATION: 
+EXPLANATION: Glue
 Correct Answer – D
 
-AWS Glue keeps a track of processed data using Job Bookmark. Enabling Job Bookmark will help to scan only changes since the last bookmark and prevent the processing of whole data again. 
-Option A is incorrect as resetting Job Bookmark in AWS Glue will reprocess all data & will not prevent the reprocessing of already scanned data. Option B is incorrect as disabling Job Bookmark will process all data each time. Option C is incorrect as pausing Job Bookmark will process incremental data since the last data scan but will not update state information. So, for the succeeding process, it will start scanning all data since the last bookmark.  
+> AWS Glue keeps a track of processed data using Job Bookmark. 
+- Enabling Job Bookmark will help to scan only changes since the last bookmark and prevent the processing of whole data again. 
+
+Option A is incorrect as resetting Job Bookmark in AWS Glue will reprocess all data & will not prevent the reprocessing of already scanned data. Option B is incorrect as disabling Job Bookmark will process all data each time. 
+Option C is incorrect as pausing Job Bookmark will process incremental data since the last data scan but will not update state information. So, for the succeeding process, it will start scanning all data since the last bookmark.  
 
 For more information on Job Bookmark in AWS Glue, please refer to the following URL,
 
@@ -370,7 +377,7 @@ https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 18:WL5: A concern raised in your company is that developers could potentially delete production-based EC2 resources. As a Cloud Admin, what would you do to help alleviate this concern?  (SELECT TWO)
+### 18:WL5: A concern raised in your company is that developers could potentially delete production-based EC2 resources. As a Cloud Admin, what would you do to help alleviate this concern?  (SELECT TWO)
 
 A. Tag the production instances with production-identifying tag and add resource-level permissions to the developers with an explicit deny on the terminate API call to instances with the production tag. 
 
@@ -384,17 +391,16 @@ D. Modify the IAM policy on the developers to require MFA before deleting EC2 in
 EXPLANATION: 
 Correct Answers – A and B
 
-Creating a separate AWS account for developers will help the organization to facilitate the highest level of resource and security isolation. 
+> Creating a separate AWS account for developers will help the organization to facilitate the highest level of resource and security isolation. 
 The AWS documentation gives us a clear picture of the scenarios when we need to consider creating multiple accounts. 
 When to Create Multiple Accounts
 
 
 While there is no one-size-fits-all answer for how many AWS accounts a particular customer should have, most companies will want to create more than one AWS account because multiple accounts provide the highest level of resource and security isolation. Answering “yes” to any of the following s is a good indication that you should consider creating additional AWS accounts:
 
- 
 
 Does the business require administrative isolation between workloads? 
-Administrative isolation by account provides the most straightforward approach for granting independent administrative groups different levels of administrative control over AWS resources based on the workload, development lifecycle, business unit (BU) or data sensitivity.  
+> Administrative isolation by account provides the most straightforward approach for granting independent administrative groups different levels of administrative control over AWS resources based on the workload, development lifecycle, business unit (BU) or data sensitivity.  
 
 Does the business require limited visibility and discoverability of workloads? 
 Accounts provide a natural boundary for visibility and discoverability. Workloads cannot be accessed or viewed unless an administrator of the account enables access to users managed in another account.  
@@ -467,14 +473,18 @@ C. Filter expression
 D. Sampling at low rate. 
 
 
-EXPLANATION: 
+EXPLANATION: X-Ray
 Correct Answer – D
 
-The sampling rate can be lower to collect a significant number of requests statistically, to get optimum traces, and have a cost-effective solution. 
-Option A is incorrect as the Default Sampling rate is conservative but can be further customized to sample at a lower rate based upon your sampling requirements. Option B is incorrect as Sampling at a higher rate will not only collect a lot of data but also incur an additional cost. Option C is incorrect as Filter expression can be used to narrow down results from the number of traces scanned during a defined period. It will not affect the number of traces scanned. For more information on X-Ray parameters, refer to the following URL,
+> The sampling rate can be lower to collect a significant number of requests statistically, to get optimum traces, and have a cost-effective solution.
+ 
+Option A is incorrect as the Default Sampling rate is conservative but can be further customized to sample at a lower rate based upon your sampling requirements. 
+
+Option B is incorrect as Sampling at a higher rate will not only collect a lot of data but also incur an additional cost. 
+
+Option C is incorrect as Filter expression can be used to narrow down results from the number of traces scanned during a defined period. It will not affect the number of traces scanned. For more information on X-Ray parameters, refer to the following URL,
 
 https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 22:WL5: Your IT Security department has mandated that all data on EBS volumes created for underlying EC2 Instances needs to be encrypted. What should be used to achieve this? 
@@ -572,7 +582,6 @@ https://aws.amazon.com/blogs/compute/implementing-enterprise-integration-pattern
  
 
 Note:
-
 The  asks - which services can be used to work on decoupling of microservices whenever required? 
 
 Now we can use both services to work with microservices.  Please find the links for your reference:
@@ -585,8 +594,6 @@ Now we can use both services to work with microservices.  Please find the links 
  Q: How is Amazon SNS different from Amazon MQ? 
 
 Amazon MQ, Amazon SQS, and Amazon SNS are messaging services that are suitable for anyone from startups to well-established enterprises. If you're using messaging with existing applications and want to move your message to the cloud quickly and easily, we recommend you consider Amazon MQ. It supports industry-standard APIs and protocols so you can switch from any standards-based message broker to Amazon MQ without rewriting the messaging code in your applications. If you are building brand new applications in the cloud, we recommend you consider Amazon SQS and Amazon SNS. Amazon SQS and SNS are lightweight, fully managed message queue and topic services that scale almost infinitely and provide simple, easy-to-use APIs. You can use Amazon SQS and SNS to decouple and scale microservices, distributed systems, serverless applications, and improve reliability. 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 26:WL5: You are working for a construction firm that is using Amazon WorkDocs for sharing project planning document with third-party external contract teams. Last week there was an incident where a sensitive document was shared by a user that leaked financial information to external third-party users. 
 Security team revoked access for all users and only nominated users should be allowed to grant access to use WorkDocs or share links with third-party users. How could this be achieved?  (SELECT TWO)
@@ -597,15 +604,16 @@ C. For sending publicly shareable links, grant permission only to Power users to
 D. For sending publicly shareable links, grant permission only to Managed users to share publicly. 
 
 
-EXPLANATION: 
+EXPLANATION: Workdocs
 Correct Answers – A and C
 
-To restrict all users to invite external users and to share WorkDoc links publicly, you can create a Power user who will be responsible to perform this activity. 
-Option B is incorrect as in this case, all users will be able to invite external users. Option D is incorrect as in this case, all users will be able to share links with external users. For more information on managing access on Amazon WorkDocs, refer to the following URL:
+> To restrict all users to invite external users and to share WorkDoc links publicly, you can create a Power user who will be responsible to perform this activity. 
 
+Option B is incorrect as in this case, all users will be able to invite external users. 
+Option D is incorrect as in this case, all users will be able to share links with external users.
+
+For more information on managing access on Amazon WorkDocs, refer to the following URL:
 https://docs.aws.amazon.com/workdocs/latest/adminguide/security-settings.html
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 27:WL5: Your architecture for an application currently consists of EC2 Instances sitting behind a classic ELB. The EC2 Instances are used to serve an application and are accessible through the internet. What could be done to improve this architecture in the event that the number of users accessing the application increases regularly? 
 
@@ -625,7 +633,7 @@ For more information on AWS Auto Scaling, please visit the following URL:
 
 https://aws.amazon.com/autoscaling/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 28:WL5: You are working as an AWS Architect for a retail website having an application deployed on EC2 instance. You are using the SQS queue for storing messages between Web server & database servers. Due to heavy load on the website, there are some cases where clients are getting price details before logging to the website. 
+### 28:WL5: You are working as an AWS Architect for a retail website having an application deployed on EC2 instance. You are using the SQS queue for storing messages between Web server & database servers. Due to heavy load on the website, there are some cases where clients are getting price details before logging to the website. 
 To resolve this issue, you are planning to migrate to the SQS FIFO queue that will preserve the order of messages. You have created a new FIFO queue with message delay time per queue instead of per message, deleting an existing standard queue. What are the prerequisites to have a smooth migration to the SQS FIFO queue?  (SELECT TWO)
 
 
@@ -638,17 +646,20 @@ C. Each FIFO queue should have a Message group ID irrespective of multiple order
 D. For application with identical message bodies, use unique deduplication ID, while for unique message bodies, use content-based deduplication ID. 
 
 
-EXPLANATION: 
+EXPLANATION: SQS
 Correct Answers – C and D
 
-FIFO queue uses Message Deduplication ID & Message Group ID per message. Message Deduplication ID is used as a token while sending messages. The message Group ID is used as a tag, based upon various groups so that messages in a group process in an orderly manner. 
-Option A is incorrect as Each FIFO queue requires a Message group ID. If there are no multiple ordered message groups, you can specify the same message group ID. Option B is incorrect as if the application is using identical message bodies, a unique deduplication ID is required per message while for the application using unique message bodies, content-based deduplication ID should be used.  
+> FIFO queue uses Message Deduplication ID & Message Group ID per message. 
+
+> Message Deduplication ID is used as a token while sending messages. 
+- The message Group ID is used as a tag, based upon various groups so that messages in a group process in an orderly manner. 
+
+Option A is incorrect as Each FIFO queue requires a Message group ID. If there are no multiple ordered message groups, you can specify the same message group ID. 
+Option B is incorrect as if the application is using identical message bodies, a unique deduplication ID is required per message while for the application using unique message bodies, content-based deduplication ID should be used.  
 
 For more information on moving from an SQS Standard Queue to SQS FIFO queues, refer to the following URL:
 
 https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-moving
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 29:WL5: You are the architect for a business intelligence application that reads data from a MySQL database hosted on an EC2 Instance. The application experiences a high number of read and write requests. 
 Which Amazon EBS Volume type can meet the performance requirements of this database?
@@ -670,7 +681,7 @@ For more information on AWS EBS Volume types, please visit the URL below:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 30:WL5: An organization is planning to use AWS for its production roll-out. The organization wants to implement automation for deployment such that it will automatically create a LAMP stack, download the latest PHP installable from S3, and set up the ELB. Which AWS service would meet these requirements for making an orderly deployment of the software? 
+### 30:WL5: An organization is planning to use AWS for its production roll-out. The organization wants to implement automation for deployment such that it will automatically create a LAMP stack, download the latest PHP installable from S3, and set up the ELB. Which AWS service would meet these requirements for making an orderly deployment of the software? 
 
 A. AWS Elastic Beanstalk
 B. AWS CloudFront
@@ -678,28 +689,34 @@ C. AWS CloudFormation
 D. AWS DevOps
 
 
-EXPLANATION: 
+EXPLANATION: Elastic Beanstalk
 Correct Answer – A
 
-The Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services. 
-We can simply upload code and Elastic Beanstalk automatically handles the deployment, from capacity provisioning, load balancing, Auto-Scaling, to application health monitoring. Meanwhile, we can retain full control over the AWS resources used in the application and access the underlying resources at any time. 
+> The Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services. 
+- We can simply upload code and Elastic Beanstalk automatically handles the deployment, from capacity provisioning, load balancing, Auto-Scaling, to application health monitoring. 
+- Meanwhile, we can retain full control over the AWS resources used in the application and access the underlying resources at any time. 
  
-
 Hence, option A is the correct answer. 
  
-
 For more information on launching a LAMP stack with Elastic Beanstalk, please refer to the link below:
-
 https://aws.amazon.com/getting-started/projects/launch-lamp-web-app/
 
-How is AWS CloudFormation different from AWS Elastic Beanstalk? 
+# How is AWS CloudFormation different from AWS Elastic Beanstalk? 
 
 AWS CloudFormation and AWS Elastic Beanstalk services are designed to complement each other. 
 
-AWS Elastic Beanstalk provides an environment to easily deploy and run applications in the cloud. It is integrated with developer tools and provides a one-stop experience for you to manage the lifecycle of your applications. 
-AWS CloudFormation is a convenient provisioning mechanism for a broad range of AWS resources. It supports the infrastructure needs of many different types of applications such as existing enterprise applications, legacy applications, applications built using a variety of AWS resources and container-based solutions (including those built using AWS Elastic Beanstalk). 
-Elastic Beanstalk is a Platform where you deploy an application. Cloudformation is where you define a stack of resources. 
-Elastic BeanStalk is good for the relatively narrow use case of PaaS applications and Cloudformation is good for the relatively broad use of defining Infrastructure as Code. 
+> AWS Elastic Beanstalk provides an environment to easily deploy and run applications in the cloud. 
+- It is integrated with developer tools and provides a one-stop experience for you to manage the lifecycle of your applications. 
+
+> AWS CloudFormation is a convenient provisioning mechanism for a broad range of AWS resources. 
+- It supports the infrastructure needs of many different types of applications such as existing enterprise applications, legacy applications, applications built using a variety of AWS resources and container-based solutions (including those built using AWS Elastic Beanstalk). 
+
+> Elastic Beanstalk is a Platform where you deploy an application. 
+- Cloudformation is where you define a stack of resources. 
+
+> Elastic BeanStalk is good for the relatively narrow use case of PaaS applications and 
+- Cloudformation is good for the relatively broad use of defining Infrastructure as Code. 
+
 The  is "Which WS service would meet the requirements for making an orderly deployment of the software?  
 
 We are not provisioning a broad range of AWS resources here. So, Elastic Beanstalk will be a suitable answer. 
@@ -719,7 +736,8 @@ AWS Documentation mentions the following:
 
 You can control access to Amazon API Gateway with IAM permissions by controlling access to the following two API Gateway component processes:
 
-To create, deploy, and manage an API in API Gateway, you must grant the API developer permissions to perform the required actions supported by the API management component of API Gateway. To call a deployed API or to refresh the API caching, you must grant the API caller permissions to perform required IAM actions supported by the API execution component of API Gateway. For more information on permissions for the API gateway, please visit the following URL:
+> To create, deploy, and manage an API in API Gateway, you must grant the API developer permissions to perform the required actions supported by the API management component of API Gateway. 
+- To call a deployed API or to refresh the API caching, you must grant the API caller permissions to perform required IAM actions supported by the API execution component of API Gateway. For more information on permissions for the API gateway, please visit the following URL:
 
 https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -764,6 +782,7 @@ https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-instances-guidel
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 34:WL5: You have an S3 bucket hosted in AWS that is used to store the promotional videos you upload. You need to provide users access to S3 bucket for a limited duration of time. How could this be achieved? 
+
 A. Use versioning and enable a timestamp for each version.
 B. Use Pre-signed URLs with session duration.
 C. Use IAM Roles with a timestamp to limit the access.
@@ -782,13 +801,14 @@ For more information on pre-signed URLs, please visit the URL below.
 https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 35:WL5: An application currently writes a large number of records to a DynamoDB table in one region. There is a requirement for a secondary application to retrieve new records written to the DynamoDB table every 2 hours and process the updates accordingly. What would be an ideal method to ensure that the secondary application gets the relevant changes from the DynamoDB table? 
+
 A. Insert a timestamp for each record and then, scan the entire table for the timestamp as per the last 2 hours.
 B. Create another DynamoDB table with the records modified in the last 2 hours.
 C. Use DynamoDB Streams to monitor the changes in the DynamoDB table.
 D. Transfer records to S3 which were modified in the last 2 hours. 
 
 
-EXPLANATION: 
+EXPLANATION: DynamoDB
 Correct Answer – C
 
 AWS Documentation mentions the following:
@@ -801,29 +821,34 @@ http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 36:WL5: You are working as an AWS Architect for an IT firm that is developing a new application for traders in the Capital market. There would be multiple trading orders initiated by clients. You have multiple EC2 instance with Auto-Scaling groups to process these trades parallelly. Also, each trade should be stateful and processed independently. What could be used to meet this requirement? 
+
 A. Use SQS FIFO queue with Receive Request Attempt ID.
 B. Use SQS FIFO queue with Sequence number.
 C. Use SQS FIFO queue with Message Group ID.
 D. Use SQS FIFO queue with Deduplication ID. 
 
 
-EXPLANATION: 
+EXPLANATION: SQS
 Correct Answer – C
 
-Messages which are part of a specific message group will be processed in a strict orderly manner using Message group ID. This message group ID helps to process messages by multiples consumers in FIFO manner while keeping session data of each trade initiated by users. 
-Option A is incorrect as the purpose of Receive request Attempt ID is adding a deduplication token for receive message, this will not suffice requirement of processing multiple message from different trades independently. Option B is incorrect as SQS FIFO sequence number is non-sequence number added to each message, it will not suffice requirement of processing multiple message from different trades independently. Option D is incorrect as the SQS FIFO queue with Deduplication ID will not suffice requirement of multiple message being process parallelly by multiple consumers with separate session data for each.   
+> Messages which are part of a specific message group will be processed in a strict orderly manner using Message group ID. 
+- This message group ID helps to process messages by multiples consumers in FIFO manner while keeping session data of each trade initiated by users. 
+
+Option A is incorrect as the purpose of Receive request Attempt ID is adding a deduplication token for receive message, this will not suffice requirement of processing multiple message from different trades independently. 
+
+Option B is incorrect as SQS FIFO sequence number is non-sequence number added to each message, it will not suffice requirement of processing multiple message from different trades independently. 
+
+Option D is incorrect as the SQS FIFO queue with Deduplication ID will not suffice requirement of multiple message being process parallelly by multiple consumers with separate session data for each.   
 For more information on managing SQS FIFO queues, refer to the following URL:
 
 https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 37:WL5: Your IT Security department has mandated that all the traffic flowing in and out of EC2 instances needs to be monitored. The EC2 instances in  are launched in a VPC. Which services would you use to achieve this? 
+
 A. Trusted Advisor
 B. VPC Flow Logs
 C. Use CloudWatch metrics
 D. Use CloudTrail
-
 
 
 EXPLANATION: 
@@ -843,7 +868,8 @@ The  asks to monitor all traffic flowing in and out of EC2 instances. Now you ha
 
 Now coming to the  - why not CloudTrail?  
 
-Before venturing into it, let's look into the types of log categories we have in AWS. 1. AWS Infrastructure Logs - AWS CloudTrail, Amazon VPC Flow Logs
+Before venturing into it, let's look into the types of log categories we have in AWS. 
+1. AWS Infrastructure Logs - AWS CloudTrail, Amazon VPC Flow Logs
 2. AWS Service Logs - Amazon S3, AWS Elastic Load Balancing, Amazon CloudFront, AWS Lambda, AWS Elastic Beanstalk, etc.,
 3. Host Based Logs - Messages, Security, NGINX/Apache/IIS, Windows Event Logs, Windows Performance Counters, etc.,
 
@@ -854,19 +880,12 @@ AWS CloudTrail: it is used to record AWS API calls for your account like,
 - which resources were acted upon in the API call? 
 - where was the API calls made form and made to? 
 
- 
-
 NOTE:
-
-
 AWS has launched a new feature called VPC Traffic Mirroring, which is used to capture and inspect network traffic at scale.  To know more about this feature, please check the link below. 
 https://aws.amazon.com/blogs/aws/new-vpc-traffic-mirroring/
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 38:WL5: A company is currently utilizing Redshift cluster as their production warehouse. As a cloud architect, you are tasked to ensure that the disaster recovery is in place. Which would be the best option in addressing this issue? 
 
- 
 A. Take a copy of the underlying EBS volumes to S3 and then do Cross-Region Replication.
 B. Enable Cross-Region Snapshots for the Redshift Cluster.
 C. Create a CloudFormation template to restore the Cluster in another region.
@@ -878,18 +897,12 @@ Correct Answer – B
 
 The below diagram shows that snapshots are available for Redshift clusters enabling them to be available in different regions:
 
-
-
- 
-
 For more information on managing Redshift Snapshots, please visit the following URL:
-
 https://docs.aws.amazon.com/redshift/latest/mgmt/managing-snapshots-console.html
-
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 39:WL5: You have an AWS RDS PostgreSQL database hosted in the Singapore region. You need to ensure that a copy of the database exists and that the data is asynchronously copied. What would be helpful to fulfill this requirement? 
+
 A. Enable Multi-AZ for the database
 B. Enable Read Replicas for the database
 C. Enable Asynchronous replication for the database
@@ -921,9 +934,13 @@ https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 40:WL5: Your current log analysis application takes more than four hours to generate a report of the top 10 users of your web application. You have been asked to implement a system that can report this information in real time, ensure that the report is always up to date, and handle increases in the number of requests to your web application. Which of the following is a cost-effective option to fulfill these requirements? 
+
 A. Publish your data to CloudWatch Logs, and configure your application to Auto Scale to handle the load on demand.
+
 B. Publish your log data to an Amazon S3 bucket. Use AWS CloudFormation to create an Auto Scaling group to scale your post-processing application which is configured to pull down your log files stored in Amazon S3.
+
 C. Post your log data to an Amazon Kinesis data stream, and subscribe your log-processing application so that it is configured to process your logging data.
+
 D. Configure an Auto Scaling group to increase the size of your Amazon EMR cluster. 
 
 
@@ -937,12 +954,8 @@ For more information on AWS Kinesis, please see the below link:
 
 https://aws.amazon.com/kinesis/
 
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## You are working as an AWS Architect in a global financial firm. They provide daily consolidated reports to their clients for trades in stock markets. For large amount of data processing, they store daily trading transaction data in S3 buckets which triggers AWS Lambda function. This function submits a new AWS Batch job in Job queue. These queues use compute resources having EC2 On Demand instance with Amazon ECS-optimized AMI having enough resources to complete the job. Due to large volumes of data there has been requirement to increase storage size & create a customised AMI. 
+### You are working as an AWS Architect in a global financial firm. They provide daily consolidated reports to their clients for trades in stock markets. For large amount of data processing, they store daily trading transaction data in S3 buckets which triggers AWS Lambda function. This function submits a new AWS Batch job in Job queue. These queues use compute resources having EC2 On Demand instance with Amazon ECS-optimized AMI having enough resources to complete the job. Due to large volumes of data there has been requirement to increase storage size & create a customised AMI. 
 You have been working on new application on compute resources having a combination of EC2 On Demand instance & EC2 Spot Instance with this customised AMI. While you are performing a trial for this new application even though it has enough memory/CPU resources, your job is stuck in Runnable state. Which of the following can be used to get Job into starting state? [WL541]
 
 A. Ensure that awslogs log driver is configured on compute resources which will send log information to CloudWatch logs.
@@ -955,27 +968,22 @@ EXPLANATION:
 Correct Answer – A
 
 AWS Batch Job sends log information to CloudWatch logs which requires awslogs log driver to be configured on compute resources having customized AMI. In case of Amazon ECS-optimized AMI, these drivers are pre-configured. 
-Option B is incorrect as AWS Batch supports both customized AMI as well as Amazon ECS-optimized AMI, this is not a reason for Job stuck in Runnable state. Option C is incorrect as a Job moves into Runnable state only after all dependencies are processed. If there are any dependencies, Job stays in Pending state, not Runnable state. Option D is incorrect as Compute resource can be an On Demand Instance or a Spot Instance. If there are enough compute resource available to process the job, it will move into Starting state. For more information on AWS Batch Job state & troubleshooting, if a job stuck in Runnable state, refer to following URLs,
+
+Option B is incorrect as AWS Batch supports both customized AMI as well as Amazon ECS-optimized AMI, this is not a reason for Job stuck in Runnable state. 
+
+Option C is incorrect as a Job moves into Runnable state only after all dependencies are processed. If there are any dependencies, Job stays in Pending state, not Runnable state. 
+
+Option D is incorrect as Compute resource can be an On Demand Instance or a Spot Instance. If there are enough compute resource available to process the job, it will move into Starting state. For more information on AWS Batch Job state & troubleshooting, if a job stuck in Runnable state, refer to following URLs,
 
 https://docs.aws.amazon.com/batch/latest/userguide/job_states.html
 https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#job_stuck_in_runnable
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 42:WL5: There is a requirement to load a lot of data from your on-premises network to AWS S3. What can be used for this data transfer?  (SELECT TWO)
 
-
 A. Data Pipeline
-
-
 B. Direct Connect
-
-
 C. Snowball
-
-
 D. AWS VPN
-
 
 
 EXPLANATION: 
@@ -984,7 +992,8 @@ Correct Answers – B and C
 AWS documentation mentions the following about the above services:
 
 With a Snowball, you can transfer hundreds of terabytes or petabytes of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). AWS Snowball uses Snowball appliances and provides powerful interfaces that you can use to create jobs, transfer data, and track the status of your jobs to completion. By shipping your data in Snowballs, you can transfer large amounts of data at a significantly faster rate than if you were transferring that data over the Internet, saving you time and money. 
-AWS Direct Connect links your internal network to an AWS Direct Connect location over a standard 1-gigabit or 10-gigabit Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an AWS Direct Connect router. With this connection in place, you can create virtual interfaces directly to public AWS services (for example, to Amazon S3) or to Amazon VPC, bypassing Internet service providers in your network path. 
+
+> AWS Direct Connect links your internal network to an AWS Direct Connect location over a standard 1-gigabit or 10-gigabit Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an AWS Direct Connect router. With this connection in place, you can create virtual interfaces directly to public AWS services (for example, to Amazon S3) or to Amazon VPC, bypassing Internet service providers in your network path. 
  
 
 For more information on Direct Connect, please refer to the below URL:
@@ -992,13 +1001,17 @@ For more information on Direct Connect, please refer to the below URL:
 http://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html
  
 
-Option A is Incorrect because AWS Data Pipeline is a web service that you can use to automate the movement and transformation of data. Here, we are not transforming the data and we are just moving the data from on-premises to S3. Option D is Incorrect because AWS VPN is used just for connecting on-premises to S3 and not for moving the data. For more information on AWS Snowball, please refer to the below URL:
+Option A is Incorrect because AWS Data Pipeline is a web service that you can use to automate the movement and transformation of data. 
+- Here, we are not transforming the data and we are just moving the data from on-premises to S3. 
+
+Option D is Incorrect because AWS VPN is used just for connecting on-premises to S3 and not for moving the data. For more information on AWS Snowball, please refer to the below URL:
 
 http://docs.aws.amazon.com/snowball/latest/ug/whatissnowball.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 43:WL5: With a Redshift cluster in AWS, you are trying to use SQL Client tools from an EC2 Instance, but aren't able to connect to the Redshift Cluster. What must you do to ensure that you are able to connect to the Redshift Cluster from the EC2 Instance? 
+
 A. Install Redshift client tools on the EC2 Instance first.
 B. Modify the VPC Security Groups.
 C. Use the AWS CLI instead of the Redshift client tools.
@@ -1017,15 +1030,13 @@ For more information on Amazon Redshift, please refer to the URL below:
 
 http://docs.aws.amazon.com/redshift/latest/mgmt/overview.html
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 44:WL5: You currently work for a company that is specialized in baggage management. GPS devices installed on all the baggages deliver the coordinates of the unit every 10 seconds. You need to process these coordinates in real-time from multiple sources. Which tool should you use to process the data? 
+
 A. Amazon EMR
 B. Amazon SQS
 C. AWS Data Pipeline
 D. Amazon Kinesis
-
 
 
 EXPLANATION: 
@@ -1038,15 +1049,13 @@ With Amazon Kinesis, you can ingest real-time data such as video, audio, applica
 For more information on Amazon Kinesis, please visit the link below. 
 https://aws.amazon.com/kinesis/
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 45:WL5: You are planning to host a web and MySQL database application in an AWS VPC. The database should only be accessible by the web server. What would you change to fulfill this requirement? 
+
 A. Network Access Control Lists
 B. AWS RDS Parameter Groups
 C. Route Tables
 D. Security groups
-
 
 
 EXPLANATION: 
@@ -1058,15 +1067,13 @@ A security group acts as a virtual firewall for your instance to control inbound
 For more information on VPC Security Groups, please visit the link below. 
 https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 46:WL5: A company has a requirement for block level storage that should be able to store 800GB of data. Also, encryption of the data is required. What can be used in this case? 
+
 A. AWS EBS Volumes
 B. AWS S3
 C. AWS Glacier
 D. AWS EFS
-
 
 
 EXPLANATION: 
@@ -1078,15 +1085,17 @@ Option D is incorrect since this provides file level storage.
 For more information on EBS Volumes, please visit the following URL:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 47:WL5: You are working as an AWS Architect for a media firm. The firm has large text files which needs to be converted into Audio files. They are using S3 buckets to store this text files. 
 AWS Batch is used to process these files along with Amazon Polly. For compute environment you have a mix of EC2 On Demand & Spot instance. Critical Jobs are required to be completed quickly while non-critical Jobs can be scheduled during non-peak hours. While using AWS Batch, management wants a cost-effective solution with no performance impact. Which of the following Job Queue can be selected to meet this requirement? 
+
+
 A. Create single Job Queue with EC2 On Demand instance having higher priority & Spot Instance having lower priority.
+
 B. Create multiple Job Queues with one Queue having EC2 On Demand instance & having higher priority while another queue having Spot Instance & lower priority.
+
 C. Create multiple Job Queues with one Queue having EC2 On Demand instance & having lower priority while another queue having Spot Instance & higher priority.
+
 D. Create single Job Queue with EC2 On Demand instance having lower priority & Spot Instance having higher priority. 
 
 
@@ -1099,14 +1108,13 @@ Option C is incorrect as Priority for a Job queue is selected in descending orde
 
 https://docs.aws.amazon.com/batch/latest/userguide/job_queue_parameters.html
 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 48:WL5: As the cloud administrator of company, you notice that one of the EC2 instances is restarting frequently. There is a need to troubleshoot and analyze the system logs. What can be used in AWS to store and analyze the log files from the EC2 Instance?  
+
 A. AWS SQS
 B. AWS S3
 C. AWS CloudTrail
 D. AWS CloudWatch Logs
-
 
 
 EXPLANATION: 
@@ -1118,20 +1126,16 @@ For more information on CloudWatch Logs, please visit the following URL:
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html
 
  
-
 Note: The  is not about compliance or auditing or tracking any kind of malicious activity or to monitor API calls in your account. If that would have been the case we w'd have used cloudtrail as it provides info such as who made the request, when the request was made, what was the request, what was the response etc. 
 In this  we need cloudwatch logs to store and analyze logs from EC2 to find why the instance is restarting frequently. 
- 
-
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 49:WL5: Your company has migrated their production environment into AWS VPC 6 months ago. As a cloud architect, you are required to revise the infrastructure and ensure that it is cost-effective in the long term. There are more than 50 EC2 instances that are up and running all the time to support the business operation. What can you do to lower the cost? 
+
 A. Reserved instances
 B. On-demand instances
 C. Spot instances
 D. Regular instances
-
 
 
 EXPLANATION: 
@@ -1141,13 +1145,9 @@ When you have instances that will be used continuously and throughout the year, 
 To understand more on reserved instances, please visit the below URL:
 
 https://aws.amazon.com/ec2/pricing/reserved-instances/
-
- 
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 50:WL5: Your organization is building a collaboration platform for which they chose AWS EC2 for web and application servers and MySQL RDS instance as the database. Due to the nature of the traffic to the application, they would like to increase the number of connections to RDS instance. How could this be achieved? 
+### 50:WL5: Your organization is building a collaboration platform for which they chose AWS EC2 for web and application servers and MySQL RDS instance as the database. Due to the nature of the traffic to the application, they would like to increase the number of connections to RDS instance. How could this be achieved? 
+
 A. Login to RDS instance and modify database config file under /etc/mysql/my.cnf
 B. Create a new parameter group, attach it to DB instance and change the setting.
 C. Create a new option group, attach it to DB instance and change the setting.
@@ -1157,40 +1157,49 @@ D. Modify setting in default options group attached to DB instance.
 EXPLANATION: 
 Correct Answer – B
 
-You manage your DB engine configuration through the use of parameters in a DB parameter group . DB parameter groups act as a container for engine configuration values that are applied to one or more DB instances. 
-A default DB parameter group is created if you create a DB instance without specifying a customer-created DB parameter group. Each default DB parameter group contains database engine defaults and Amazon RDS system defaults based on the engine, compute class, and allocated storage of the instance. You cannot modify the parameter settings of a default DB parameter group; you must create your own DB parameter group to change parameter settings from their default value. Note that not all DB engine parameters can be changed in a customer-created DB parameter group. 
-If you want to use your own DB parameter group, you simply create a new DB parameter group, modify the desired parameters, and modify your DB instance to use the new DB parameter group. All DB instances that are associated with a particular DB parameter group get all parameter updates to that DB parameter group. 
+> You manage your DB engine configuration through the use of parameters in a DB parameter group . 
+- DB parameter groups act as a container for engine configuration values that are applied to one or more DB instances. 
+- A default DB parameter group is created if you create a DB instance without specifying a customer-created DB parameter group. 
+- Each default DB parameter group contains database engine defaults and Amazon RDS system defaults based on the engine, compute class, and allocated storage of the instance. 
+- You cannot modify the parameter settings of a default DB parameter group; you must create your own DB parameter group to change parameter settings from their default value. 
+- Note that not all DB engine parameters can be changed in a customer-created DB parameter group. 
+- If you want to use your own DB parameter group, you simply create a new DB parameter group, modify the desired parameters, and modify your DB instance to use the new DB parameter group. 
+- All DB instances that are associated with a particular DB parameter group get all parameter updates to that DB parameter group. 
 
 
 For more information, please visit the URL below:
-
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 51:WL5: You are working for a Pharma firm. You are using S3 buckets to save a large amount of sensitive project document for new medicine research. You need to ensure all data at rest in these buckets is encrypted. All the keys need to be managed by the inhouse Security team. Which of the following can be used as a best practice to encrypt all data securely? 
+### 51:WL5: You are working for a Pharma firm. You are using S3 buckets to save a large amount of sensitive project document for new medicine research. You need to ensure all data at rest in these buckets is encrypted. All the keys need to be managed by the inhouse Security team. Which of the following can be used as a best practice to encrypt all data securely? 
+
 A. Generate a data key using Customer managed CMK’s. Encrypt data with data key & delete data keys. Store encrypted data keys & data in S3 buckets. For decryption, use CMK to decrypt data key into plain text & then decrypt data using plain text data key.
+
 B. Generate a data key using AWS managed CMK’s. Encrypt data with data key & delete data keys. Store encrypted data & data keys in S3 buckets. For decryption, use CMK to decrypt data key into plain text & then decrypt data using plain text data key.
+
 C. Generate a data key using Customer managed CMK’s. Encrypt data with data key & do not delete data keys. Store encrypted data & plain text data keys in S3 buckets. For decryption, use plain text data key to decrypt data.
+
 D. Generate a data key using AWS managed CMK’s. Encrypt data with data key & do not delete data keys. Store encrypted data & plain text data keys in S3 buckets. For decryption, use plain text data key to decrypt data. 
 
 
-EXPLANATION: 
+EXPLANATION: S3 Encryption
 Correct Answer - A
 
 SInce Key Management will be done by Inhouse security team, Customer Managed CMK need to be used. Customer managed CMK will generate plain text Data Key & encrypted Data Keys. All project related sensitive documents will be encrypted using these plain text Data Keys. After encryption , plain text Data keys needs to be deleted to avoid any inappropriate use  & encrypted Data Keys along with encrypted Data is stored in S3 buckets. 
 While decryption, encrypted Data Key is decrypted using Customer CMK into plain text Key which is further used to decrypt documents. This Envelope Encryption ensures that Data is protected by Data key which is further protected by another key. 
-Option B is incorrect, since all keys needs to manage by inhouse customer Security team, AWS managed CMK’s cannot be used. Option C is incorrect as It's not a best practise to save data key file in plain text format. All plain text data keys should be deleted & only encrypted data keys need to be saved. Option D is incorrect since all keys needs to manage by inhouse customer Security team, AWS managed CMK’s cannot be used. Also, all plain text data keys should be deleted & only encrypted data keys need to be saved.  For more information on AWS KMS, refer to following URLs,
+
+Option B is incorrect, since all keys needs to manage by inhouse customer Security team, AWS managed CMK’s cannot be used. 
+
+Option C is incorrect as It's not a best practise to save data key file in plain text format. All plain text data keys should be deleted & only encrypted data keys need to be saved. Option D is incorrect since all keys needs to manage by inhouse customer Security team, AWS managed CMK’s cannot be used. Also, all plain text data keys should be deleted & only encrypted data keys need to be saved.  For more information on AWS KMS, refer to following URLs,
 
  https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html
  https://d0.awsstatic.com/whitepapers/aws-kms-best-practices.pdf
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 52:WL5: A company is building a service using Amazon EC2 as a worker instance that will process an uploaded audio file and generate a text file. You must store both of these files in the same durable storage until the text file is retrieved. You do not know what the storage capacity requirements are. Which storage option is both cost-efficient and scalable? 
+
 A. Multiple Amazon EBS Volume with snapshots
 B. A single Amazon Glacier vault
 C. A single Amazon S3 bucket
 D. Multiple instance stores
-
 
 
 EXPLANATION: 
@@ -1207,30 +1216,35 @@ Last week, due to configuration changes in Redis Clusters, the gaming applicatio
 
 
 A. Use Redis AUTH with in-transit encryption disabled for clusters. 
-
 B. Create a Transit VPC solution to have connectivity between 2 VPC’s. 
-
 C. Use Redis AUTH with in-transit encryption, enabled for clusters. 
-
-D. Create an Amazon VPN connection between 2 VPCs. 
-
+D. Create an Amazon VPN connection between 2 VPCs.
 E. Use Redis AUTH with At-Rest encryption, enabled for clusters. 
-
 F. Create an Amazon VPC Peering connection between 2 VPCs. 
 
 
-EXPLANATION: 
+EXPLANATION: ElastiCache
 Correct Answer – C and F
 
-To use Redis AUTH that will require users to provide a password before accessing Redis Cluster, in-transit encryption needs to be enabled on the cluster while creation of the cluster.  For accessing Redis Cluster from EC2 instance in different VPCs from the same region, a VPC peering can be established between 2 VPCs. 
-Option A is incorrect. For Redis AUTH, clusters must be enabled with in-transit encryption during initial deployment. Option B is incorrect. Transit VPC solution is suitable to access Redis Clusters from EC2 instance in VPC created in different regions. Since, in this requirement, both VPCs are in the same region, VPC peering is a correct option. Option D is incorrect as VPN Connections will be required to access the Redis Cluster from on-prem servers. Option E is incorrect. For Redis AUTH, clusters must be enabled with in-transit encryption during initial deployment, not At-Rest encryption. For more information on Authentication with Redis & Accessing Redis Clusters from a different VPC, refer to the following URLs:
+> To use Redis AUTH that will require users to provide a password before accessing Redis Cluster, in-transit encryption needs to be enabled on the cluster while creation of the cluster.  
+- For accessing Redis Cluster from EC2 instance in different VPCs from the same region, a VPC peering can be established between 2 VPCs. 
 
+Option A is incorrect. For Redis AUTH, clusters must be enabled with in-transit encryption during initial deployment. 
+
+Option B is incorrect. Transit VPC solution is suitable to access Redis Clusters from EC2 instance in VPC created in different regions. Since, in this requirement, both VPCs are in the same region, VPC peering is a correct option.
+
+Option D is incorrect as VPN Connections will be required to access the Redis Cluster from on-prem servers. 
+
+Option E is incorrect. For Redis AUTH, clusters must be enabled with in-transit encryption during initial deployment, not At-Rest encryption. 
+
+For more information on Authentication with Redis & Accessing Redis Clusters from a different VPC, refer to the following URLs:
 https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html
 https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-vpc-accessing.html
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 54:WL5: Your company is utilizing CloudFront to distribute its media content to multiple regions. The content is frequently accessed by users. As a cloud architect, which of the following options would help you improve the performance of the system? 
+
 A. Change the origin location from an S3 bucket to an ELB.
 B. Use a faster Internet connection.
 C. Increase the cache expiration time.
@@ -1247,11 +1261,11 @@ http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.htm
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 55:WL5: You have been instructed by your supervisor to devise a disaster recovery model for the resources in the AWS account. The key requirement while devising the solution is to ensure that the cost is at a minimum. Which disaster recovery mechanism would you employ in such a scenario? 
+
 A. Backup and Restore
 B. Pilot Light
 C. Warm standby
 D. Multi-Site
-
 
 
 EXPLANATION: 
@@ -1264,20 +1278,18 @@ For more information on disaster recovery, please refer to the below link:
 
 https://aws.amazon.com/blogs/aws/new-whitepaper-use-aws-for-disaster-recovery/
 https://aws.amazon.com/disaster-recovery/
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 56:WL5: An application consists of the following architecture:
-
 a. EC2 Instances are in multiple AZ’s behind an ELB. 
 b. The EC2 Instances are launched via an Auto Scaling Group. 
 c. There is a NAT instance used so that instances can download updates from the internet. 
 Due to the high bandwidth being consumed by the NAT instance, it has been decided to use a NAT Gateway. How could this be implemented? 
+
+
 A. Use NAT Instances along with the NAT Gateway.
 B. Host the NAT instance in the private subnet.
 C. Migrate the NAT Instance to NAT Gateway and host the NAT Gateway in the public subnet.
 D. Host the NAT gateway in the private subnet
-
 
 
 EXPLANATION: 
@@ -1287,31 +1299,19 @@ One can simply start using the NAT Gateway service and stop using the deployed N
 For more information on migrating to a NAT Gateway, please visit the following URL:
 https://aws.amazon.com/premiumsupport/knowledge-center/migrate-nat-instance-gateway/
 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## 57:WL5: A company has an application hosted in AWS. This application consists of EC2 Instances that sit behind an ELB. The following are the requirements from an administrative perspective:
-
+### 57:WL5: A company has an application hosted in AWS. This application consists of EC2 Instances that sit behind an ELB. The following are the requirements from an administrative perspective:
 a) Must be able to collect and analyze logs with regard to ELB’s performance. 
 b) Ensure that notifications are sent when the latency goes beyond 10 seconds. 
 What should be used to achieve this requirement?  (SELECT TWO)
 
- 
-
- 
-
- 
-
-
 A. Use CloudWatch for monitoring. 
-
 B. Enable CloudWatch logs and then investigate the logs whenever there is an issue. 
-
 C. Enable the logs on the ELB with Latency Alarm that sends an email and then investigate the logs whenever there is an issue. 
-
 D. Use CloudTrail to monitor whatever metrics need to be monitored. 
 
 
-EXPLANATION: 
+EXPLANATION: CloudWatch, ELB
 Correct Answer – A and C
 
 When you use CloudWatch metrics for an ELB, you can get the amount of read requests and latency out of the box. 
@@ -1319,15 +1319,16 @@ For more information on using CloudWatch with the ELB, please visit the followin
 
 https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-cloudwatch-metrics.html
 
-Elastic Load Balancing provides access logs that capture detailed information about requests sent to your load balancer. Each log contains information such as the time when the request was received, the client's IP address, latencies, request paths, and server responses. You can use these access logs to analyze traffic patterns and to troubleshoot issues. 
+> Elastic Load Balancing provides access logs that capture detailed information about requests sent to your load balancer. 
+- Each log contains information such as the time when the request was received, the client's IP address, latencies, request paths, and server responses. 
+- You can use these access logs to analyze traffic patterns and to troubleshoot issues. 
 For more information on using ELB logs, please visit the following URL:
 
 https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 58:WL5: Your company would like to leverage the AWS storage option and integrate it with the current on-premises infrastructure. Additionally, due to business requirements, low latency access to all the data is a must. Which of the following options would be best suited for this scenario? 
+
 A. Configure the Simple Storage Service.
 B. Configure Storage Gateway Cached Volume.
 C. Configure Storage Gateway Stored Volume.
@@ -1358,6 +1359,7 @@ https://docs.aws.amazon.com/storagegateway/latest/userguide/WhatIsStorageGateway
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 59:WL5: An IT company has a set of EC2 Instances hosted in a VPC. They are hosted in a private subnet. These instances now need to access resources stored in an S3 bucket. The traffic should not traverse the internet. The addition of which of the following would help to fulfill this requirement? 
+
 A. VPC Endpoint
 B. NAT Instance
 C. NAT Gateway
@@ -1377,6 +1379,7 @@ https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-endpoints.html
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 60:WL5: You need to host a set of web servers and database servers in an AWS VPC. What would be a best practice in designing a multi-tier infrastructure? 
+
 A. Use a public subnet for the web tier and a public subnet for the database layer.
 B. Use a public subnet for the web tier and a private subnet for the database layer.
 C. Use a private subnet for the web tier and a private subnet for the database layer.
@@ -1387,11 +1390,7 @@ EXPLANATION:
 Correct Answer – B
 
 The ideal setup is to ensure that the web server is hosted in the public subnet so that it can be accessed by users on the internet. The database server can be hosted in the private subnet. 
-The below diagram from AWS Documentation shows how this can be setup:
-
-
-
- 
+The below diagram from AWS Documentation shows how this can be setup: 
 
 For more information on public and private subnets in AWS, please visit the following URL:
 
@@ -1400,13 +1399,9 @@ https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario2.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 61:WL5: An IT company wants to secure their resources in their AWS Account. Which of the following options would secure data at rest and in transit in AWS?  (SELECT THREE)
 
-
 A. Encrypt all EBS volumes attached to EC2 Instances. 
-
 B. Use Server-Side Encryption for S3. 
-
 C. Use SSL/HTTPS when using the Elastic Load Balancer. 
-
 D. Use IOPS Volumes when working with EBS Volumes on EC2 Instances. 
 
 
@@ -1436,7 +1431,6 @@ https://d0.awsstatic.com/whitepapers/aws-securing-data-at-rest-with-encryption.p
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 62:WL5: Your company currently has a set of EC2 Instances running a web application which sits behind an Elastic Load Balancer. You also have an Amazon RDS instance which is accessible from the web application. You have been asked to ensure that this architecture is self-healing in nature. What would fulfill this requirement?  (SELECT TWO)
 
-
 A. Use CloudWatch metrics to check the utilization of the web layer. Use Auto Scaling Group to scale the web instances accordingly based on the CloudWatch metrics. 
 
 B. Use CloudWatch metrics to check the utilization of the database servers. Use Auto Scaling Group to scale the database instances accordingly based on the CloudWatch metrics. 
@@ -1452,21 +1446,18 @@ Correct Answers - A and D
 The following diagram from AWS showcases a self-healing architecture where you have a set of EC2 servers as Web server being launched by an Auto Scaling Group. 
 
 
- 
-
 AWS Documentation mentions the following:
 
-Amazon RDS Multi-AZ deployments provide enhanced availability and durability for Database (DB) Instances, making them a natural fit for production database workloads. When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB Instance and synchronously replicates the data to a standby instance in a different Availability Zone (AZ). Each AZ runs on its own physically distinct, independent infrastructure, and is engineered to be highly reliable. 
+Amazon RDS Multi-AZ deployments provide enhanced availability and durability for Database (DB) Instances, making them a natural fit for production database workloads. 
+When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB Instance and synchronously replicates the data to a standby instance in a different Availability Zone (AZ). 
+Each AZ runs on its own physically distinct, independent infrastructure, and is engineered to be highly reliable. 
 In case of an infrastructure failure, Amazon RDS performs an automatic failover to the standby (or to a read replica in the case of Amazon Aurora), so that you can resume database operations as soon as the failover is complete. Since the endpoint for your DB Instance remains the same after a failover, your application can resume database operation without the need for manual administrative intervention. 
 For more information on Multi-AZ RDS, please refer to the below link:
 https://aws.amazon.com/rds/details/multi-az/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 63:WL5: Your company has a set of EC2 Instances that access data objects stored in an S3 bucket. Your IT Security department is concerned about the security of this architecture and wants you to implement the following:
-
 1) Ensure that the EC2 Instance securely accesses the data objects stored in the S3 bucket
-
 2) Prevent accidental deletion of objects
-
 What would be helpful to fulfill the requirements of the IT Security department?  (SELECT TWO)
 
 
@@ -1504,16 +1495,21 @@ C. AWS Config
 D. AWS IAM
 
 
-
-EXPLANATION: 
+EXPLANATION: config
 Correct Answer - C
 
 AWS Documentation mentions the following:
 
 With AWS Config, you can do the following:
+> Evaluate your AWS resource configurations for desired settings. 
+- Get a snapshot of the current configurations of the supported resources that are associated with your AWS account. 
+- Retrieve configurations of one or more resources that exist in your account. 
+- Retrieve historical configurations of one or more resources. 
+- Receive a notification whenever a resource is created, modified or deleted. 
+- View relationships between resources. 
+- For example, you might want to find all resources that use a particular security group. 
 
-Evaluate your AWS resource configurations for desired settings. Get a snapshot of the current configurations of the supported resources that are associated with your AWS account. Retrieve configurations of one or more resources that exist in your account. Retrieve historical configurations of one or more resources. Receive a notification whenever a resource is created, modified or deleted. View relationships between resources. For example, you might want to find all resources that use a particular security group. For more information on AWS Config, please visit the below URL:
-
+For more information on AWS Config, please visit the below URL:
 http://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html
 
 
@@ -1521,13 +1517,9 @@ http://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 65:WL5: Your company is hosting an application in AWS. The application is read intensive and consists of a set of web servers and AWS RDS. It has been noticed that the response time of the application increases due to the load on the AWS RDS instance. Which of the following measures can be taken to scale the data tier?  (SELECT TWO)
 
-
 A. Create Amazon DB Read Replicas. Configure the application layer to query the Read Replicas for query needs. 
-
 B. Use Auto Scaling to scale out and scale in the database tier. 
-
 C. Use SQS to cache the database queries. 
-
 D. Use ElastiCache in front of your Amazon RDS DB to cache common queries. 
 
 

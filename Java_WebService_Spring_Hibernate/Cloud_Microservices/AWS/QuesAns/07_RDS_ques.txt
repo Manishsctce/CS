@@ -366,6 +366,38 @@ Option-B is incorrect because the Redis At-Rest Encryption feature only secures 
 
 Enabling the in-transit encryption for Redis replication groups is incorrect because although in-transit encryption is part of the solution, it is missing the most important thing which is the Redis AUTH option.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 53:WL5: You are working as an AWS developer for an online multiplayer game developing start-up company. Elasticache with Redis is used for gaming leaderboards along with application servers, to provide low latency and avoid stale data for these highly popular online games. Redis clusters are deployed within a dedicated VPC in the us-east-1 region. 
+Last week, due to configuration changes in Redis Clusters, the gaming application was impacted for two hours. To avoid such incidents, you have been requested to plan for secure access to all the new clusters. What would you prefer to use for secure access to Redis Clusters while accessing from EC2 instance, initialized in different VPC in the us-east-1 region?  (SELECT TWO)
+
+
+A. Use Redis AUTH with in-transit encryption disabled for clusters. 
+B. Create a Transit VPC solution to have connectivity between 2 VPC’s. 
+C. Use Redis AUTH with in-transit encryption, enabled for clusters. 
+D. Create an Amazon VPN connection between 2 VPCs.
+E. Use Redis AUTH with At-Rest encryption, enabled for clusters. 
+F. Create an Amazon VPC Peering connection between 2 VPCs. 
+
+
+EXPLANATION: ElastiCache
+Correct Answer – C and F
+
+> To use Redis AUTH that will require users to provide a password before accessing Redis Cluster, in-transit encryption needs to be enabled on the cluster while creation of the cluster.  
+- For accessing Redis Cluster from EC2 instance in different VPCs from the same region, a VPC peering can be established between 2 VPCs. 
+
+Option A is incorrect. For Redis AUTH, clusters must be enabled with in-transit encryption during initial deployment. 
+
+Option B is incorrect. Transit VPC solution is suitable to access Redis Clusters from EC2 instance in VPC created in different regions. Since, in this requirement, both VPCs are in the same region, VPC peering is a correct option.
+
+Option D is incorrect as VPN Connections will be required to access the Redis Cluster from on-prem servers. 
+
+Option E is incorrect. For Redis AUTH, clusters must be enabled with in-transit encryption during initial deployment, not At-Rest encryption. 
+
+For more information on Authentication with Redis & Accessing Redis Clusters from a different VPC, refer to the following URLs:
+https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html
+https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-vpc-accessing.html
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 54: You are working for a large financial company as an IT consultant. Your role is to help their development team to build a highly available web application using stateless web servers. In this scenario, which AWS services are suitable for storing session state data? (Select TWO.) [UD154]
 
 A. Redshift Spectrum
@@ -532,10 +564,13 @@ D. Enable global tables for DynamoDB
 
 Answer - D
 
-To illustrate one use case for a global table, suppose that you have a large customer base spread across three geographic areas—the US east coast, the US west coast, and western Europe. Customers would need to update their profile information while using your application. To address these requirements, you could create three identical DynamoDB tables named CustomerProfiles, in three different AWS regions. These three tables would be entirely separate from each other, and changes to the data in one table would not be reflected in the other tables. Without a managed replication solution, you could write code to replicate data changes among these tables; however, this would be a time-consuming and labor-intensive effort.
+> To illustrate one use case for a global table, suppose that you have a large customer base spread across three geographic areas—the US east coast, the US west coast, and western Europe. 
+- Customers would need to update their profile information while using your application. 
+- To address these requirements, you could create three identical DynamoDB tables named CustomerProfiles, in three different AWS regions. 
+- These three tables would be entirely separate from each other, and changes to the data in one table would not be reflected in the other tables.
+- Without a managed replication solution, you could write code to replicate data changes among these tables; however, this would be a time-consuming and labor-intensive effort.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 ### A company has set up an application in AWS that interacts with DynamoDB. It is required that when an item is modified in a DynamoDB table, immediate entry is made to the associating application. How can this be accomplished? (SELECT TWO) [WL211]
-
 
 A. Setup CloudWatch to monitor the DynamoDB table for changes. Then trigger a Lambda function to send the changes to the application. 
 B. Setup CloudWatch logs to monitor the DynamoDB table for changes. Then trigger AWS SQS to send the changes to the application. 
@@ -557,7 +592,66 @@ DynamoDB streams can be used to monitor the changes to a DynamoDB table.
 AWS Documentation mentions the following:
 
 A DynamoDB stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 35:WL5: An application currently writes a large number of records to a DynamoDB table in one region. There is a requirement for a secondary application to retrieve new records written to the DynamoDB table every 2 hours and process the updates accordingly. What would be an ideal method to ensure that the secondary application gets the relevant changes from the DynamoDB table? 
 
+A. Insert a timestamp for each record and then, scan the entire table for the timestamp as per the last 2 hours.
+B. Create another DynamoDB table with the records modified in the last 2 hours.
+C. Use DynamoDB Streams to monitor the changes in the DynamoDB table.
+D. Transfer records to S3 which were modified in the last 2 hours. 
+
+
+EXPLANATION: DynamoDB
+Correct Answer – C
+
+AWS Documentation mentions the following:
+
+A DynamoDB Stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table. 
+Whenever an application creates, updates or deletes items in the table, DynamoDB Streams write a stream record with the primary key attribute(s) of the items that were modified. A stream record contains information about a data modification to a single item in a DynamoDB table. You can configure the stream so that the stream records capture additional information, such as the "before" and "after" images of modified items. 
+For more information on DynamoDB Streams, please visit the URL below:
+
+http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Your company is planning on setting up an application that will consist of a presentation layer and a datastore in DynamoDB. The data in DynamoDB will only used frequently within the week in which the data is inserted. After a week, the data would tend to become stale. But the stale data would need to be available on durable storage for future analysis on historical data. Which of the following would be the ideal implementation steps for this sort of architecture? [WL760] Choose 2 answers from the options given below
+
+A. Setup DynamoDB tables. Scan the tables for older data and transfer them to another DynamoDB table. 
+B. Setup DynamoDB tables on a weekly basis. Ensure the most recent week table has a higher throughput setup. 
+C. Use the AWS Data Pipeline service to transfer the older data to EBS volumes
+D. Use the AWS Data Pipeline service to transfer the older data to Amazon S3
+
+
+EXPLANATION: DynamoDB , Data Pipeline
+Answer – B and D
+
+The AWS Documentation mentions the following
+
+> AWS Data Pipeline is a web service that you can use to automate the movement and transformation of data. 
+- With AWS Data Pipeline, you can define data-driven workflows, so that tasks can be dependent on the successful completion of previous tasks. 
+- You define the parameters of your data transformations and AWS Data Pipeline enforces the logic that you've set up. 
+
+Option A is invalid because this would be an inefficient way to handle the data. You will be using too much throughput in the scan process. 
+Option C is invalid because EBS volumes is not durable storage
+
+For more information on DynamoDB best practises and AWS Data Pipeline, please refer to the below URL
+
+https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/what-is-datapipeline.html
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 53:WL4: You are developing a mobile application for your company with DynamoDB as the back end and JavaScript as the front end. During application usage, you notice that there are spikes in the application especially in the DynamoDB write throughput. What would be the most cost-effective and scalable architecture for this application? 
+
+A. Autoscale DynamoDB to meet the requirements.
+B. Increase write capacity of DynamoDB tables to meet the peak loads.
+C. Create a service that pulls SQS messages and writes them to DynamoDB to handle sudden spikes in DynamoDB.
+D. Launch DynamoDB in Multi-AZ configuration with a global index to balance writes. 
+
+
+EXPLANATION: DynamoDB AS
+Correct Answer – A
+
+For more information on DynamoDB auto-scaling, please refer to the below URL:
+
+https://aws.amazon.com/blogs/aws/new-auto-scaling-for-amazon-dynamodb/
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 

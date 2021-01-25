@@ -1,21 +1,31 @@
 =====================================
 ########### LIST COMMAND ############
 
+# To List all running container 
+docker container ls
+
 # To see all running container 
 docker ps 
 docker ps -a
+
+
+=====================================
+##### STOP/REMOVE/DELETE COMMAND ####
 
 # To stop a running container
 docker stop <container_name/id>
 
 # To remove a container permanentaly 
 docker rm <container_name/id> 
+docker rm -f $(docker ps -aq)
 
 # To List images
 docker images
 
 # To remove images
 docker rmi <image_name>
+
+=====================================
 
 # To download the image 
 docker pull image_name
@@ -41,8 +51,9 @@ docker run -p docker_host_portnum:docker_container_port container_name
 
 - we cannot use same docker_host port more than once
 - we can use diff docker_host_portnum to map to same port number with multiple instance of container.
+EXAMPLE : docker run -d -p 3000:80 -p 8080:80 nginx:latest
 
-# To inspect a container 
+# TO INSPECT A CONTAINER 
 docker inspect container_name
 
 # To check logs of a container 

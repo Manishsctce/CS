@@ -176,14 +176,14 @@ Auto Scaling components:
 
 > With the DEFAULT TERMINATION POLICY, the behavior of the ASG is as follows:
 
-1. If there are instances in multi-AZ, choose the AZ with the most instances and at least one instance that is not protected from scale in. 
+1. If there are instances in multi-AZ, choose the AZ WITH MOST INSTANCES and at least one instance that is not protected from scale in. 
 - If there is more than one AZ with this number of instances, choose the AZ with the instances that use the OLDEST launch configuration.
 
-2. Determine which unprotected instances in the selected AZ use the oldest launch configuration. If there is one such instance, terminate it.
+2. Determine which unprotected instances in the selected AZ USE OLDEST launch configuration. If there is one such instance, terminate it.
 
-3. If there are multiple instances to terminate based on the above criteria, determine which unprotected instances are closest to the next billing hour. (This helps you maximize the use of your EC2 instances and manage your Amazon EC2 usage costs.) If there is one such instance, terminate it.
+3. If there are multiple instances to terminate based on the above criteria, determine which unprotected instances are CLOSEST TO NEXT BILLING HOUR. (This helps you maximize the use of your EC2 instances and manage your Amazon EC2 usage costs.) If there is one such instance, terminate it.
 
-4. If there is more than one unprotected instance closest to the next billing hour, choose one of these instances at random.
+4. If there is more than one unprotected instance closest to the next billing hour, choose one of these INSTANCES AT RANDOM.
 The following flow diagram illustrates how the default termination policy works:
 =======================================
 ######## ASG - SCALING POLICIES ####### v11

@@ -4,7 +4,7 @@
 ## Identity Access and Management (IAM)
 - Allows us to create and manage groups and users to grant them required permissions to perform day-to-day infra tasks.
 
-#### Inspector
+#### AWS Inspector
 - Automated security assessment service to test the security state of applications hosted on EC2.
 
 #### AWS Certificate Manager
@@ -16,6 +16,7 @@
 #### KMS (Key Management Service)
 ## AWS Security Token Service (STS)
 ## AWS CloudHSM
+#### AWS Secrets Manager
 =======================================
 ###### AWS Account Identifiers ########
 
@@ -215,11 +216,9 @@ Note
 > A group is not truly an "identity" in IAM because it cannot be identified as a Principal in a permission policy.
 
 >> GROUPS CAN'T BE NESTED; THEY CAN CONTAIN ONLY USERS, NOT OTHER GROUPS.
-
 > We have a limit of 300 Groups in an AWS account.
 
->> A USER CAN BE A MEMBER OF UP TO 10 IAM GROUPS 
-
+>> A USER CAN BE A MEMBER OF UPTO 10 IAM GROUPS 
 > 1000 MAX ROLES IS ALLOWED IN IAM
 > 5000 MAX USERS CAN BE CREATED IN A IAM ACCOUNT
 
@@ -230,7 +229,7 @@ Note
 
 > An IAM Role does not have any credentials (password or access keys) associated with it.
 
-> Instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it (and it authorized to use it).
+> Instead of being uniquely associated with one person, A ROLE IS INTENDED TO BE ASSUMABLE BY ANYONE WHO NEEDS IT (and it authorized to use it).
 - An IAM user can assume a role to temporarily take on different permissions for a specific task.
 - An IAM Role can be assigned to a Federated user who signs in by using an external identity provider instead of IAM.
 - AWS uses details passed by the identity provider to determine which role is mapped to the federated user.
@@ -243,7 +242,6 @@ Note
 
 > A benefit of temporary credentials is that they expire automatically after a set period of time.
 - You have control over the duration that the credentials are valid.
-
 
 =======================================
 ####### IAM – Access Management ####### v7
@@ -289,7 +287,7 @@ Note
 - In resource-based policy, you SPECIFY WHAT ACTIONS ARE PERMITTED AND WHAT RESOURCE IS AFFECTED.
 - You also EXPLICITLY LIST WHO IS ALLOWED ACCESS TO THE RESOURCE (a Principal)
 
->> Resource-based-policy include a principal element that specifies who is granted with the permission
+>> RESOURCE-BASED-POLICY INCLUDE A PRINCIPAL ELEMENT that specifies who is granted with the permission
 - It is not specified in User-Based-policy
 - In a user-based policy, the "who" is established by whomever the policy is attached to.
 
@@ -317,10 +315,8 @@ An S3 bucket policy that allows an IAM user named bob in AWS account 77778888999
 
 ## FEDERATED USERS AND ROLES
 > Federated users don't have permanent identities in your AWS account the way that IAM users do.
-
-> To assign permissions to federated users, you can create an entity referred to as a role and define permissions for the role.
-
-> When a federated user signs in to AWS, the user is associated with the role and is granted the permissions that are defined in the role.
+- To assign permissions to federated users, you can create an entity referred to as a role and define permissions for the role.
+- When a federated user signs in to AWS, the user is associated with the role and is granted the permissions that are defined in the role.
 =======================================
 #### IAM Policies –- Creating one ##### v4
 > We can create new IAM policy in console using following methods:
@@ -582,7 +578,7 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 ###### AWS Single Sign on (SSO) #######
 
 > For additional security, AWS SSO with 2-step verification can be enabled.
-- After 2-step verification is enabled, post login with authorized email password, users are prompted for additional verification code which they receive on their registered email address.
+- After 2-step verification is enabled, post login with authorized EMAIL PASSWORD, users are prompted for additional verification code which they receive on their registered email address.
 
 > WITH CONTEXT-AWARE 2-step verification, AWS SSO analyzes user sign-in context such as browser, location, and devices.
 - If any deviation is observed, only then it asks for the additional second level of verification code.
@@ -598,8 +594,8 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credêntias/ec2role
 - Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.
 
 > The 2 main components of Amazon Cognito are user pools and identity pools. 
-1. User pools are user directories that provide sign-up and sign-in options for your app users. 
-2. Identity pools enable you to grant your users access to other AWS services. 
+1. USER POOLS are user directories that provide sign-up and sign-in options for app users. 
+2. IDENTITY POOLS enable you to grant your users access to other AWS services. 
 - You can use identity pools and user pools separately or together.
 
 ## Feature 
